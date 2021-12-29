@@ -190,8 +190,12 @@ class MainController extends Controller
                           ->orderBy('name_'. app()->getLocale())
                           ->get();
 
+      //Added by Javed
+      $createdBy = User::select('id','email')->get();
+      //End
+
       return view('admin.home',
-      compact('miles','purpose','projects','campaigns','contacts','status','contactsCount','sellers','countries'));
+      compact('miles','purpose','projects','campaigns','contacts','status','contactsCount','sellers','countries','createdBy'));
     }
     // get only the attributes that i want
 
@@ -241,7 +245,8 @@ class MainController extends Controller
                       "lang" ,
                       "campaign",
                       "last_mile_conversion",
-                      "status_id"
+                      "status_id",
+                      "created_by" //Added by Javed
                     ];
                     
            
@@ -256,9 +261,31 @@ class MainController extends Controller
               }
               
             }
-            
-            
 
+            //Added by Javed
+            if(Request('from') && Request('to')){
+              $uri = Request()->fullUrl();
+              session()->put('start_filter_url',$uri);
+              $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
+              $to = date('Y-m-d 23:59:59', strtotime(Request('to')));
+              $q->whereBetween('created_at',[$from,$to]);
+            }else{   
+              if(Request('from')){
+                $uri = Request()->fullUrl();
+                session()->put('start_filter_url',$uri);
+                $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
+                $q->where('created_at','>=', $from);
+              }   
+              if(Request('to')){
+                $uri = Request()->fullUrl();
+                session()->put('start_filter_url',$uri);
+                $to = date('Y-m-d 23:59:59', strtotime(Request('to')));
+                $q->where('created_at','<=',$to);
+              }            
+            }
+            //End
+            
+            //dd($q);
             return $q->get();
           }
 

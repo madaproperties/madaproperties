@@ -130,6 +130,64 @@
       </select>
     </div>
 
+  <!-- Added by Javed -->
+    @if(userRole() != 'sales')
+      @if(isset($createdBy) && count($createdBy)>0)
+      <div class="form-group col-md-4 col-sm-12">
+        <label for="country">{{__('site.Created By')}}</label>
+        <select class="form-control" name="created_by"  data-select2-id="" tabindex="-1" aria-hidden="true">
+          <option value="">{{ __('site.choose') }}</option>
+            @foreach($createdBy as $choosedUser)
+              <option {{request('created_by') == $choosedUser->id ? 'selected' : ''}}
+                      value="{{$choosedUser->id}}">{{ explode('@',$choosedUser->email)[0]}}</option>
+            @endforeach
+        </select>
+      </div>
+      @endif
+    @endif
+
+
+    <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.Created')}} {{ __('site.from') }} </label>
+          <div class="">
+            <div class="input-group input-group-solid date"
+            id="from-date" data-target-input="nearest">
+              <input value="{{request('from')}}" type="text"
+              max="{{date('d-m-Y')}}"
+              class="form-control form-control-solid datetimepicker-input"
+              data-toggle="datetimepicker"
+              name="from" data-target="#from-date" autocomplete="off">
+              <div class="input-group-append" data-target="#from-date" data-toggle="datetimepicker">
+                <span class="input-group-text">
+                  <i class="ki ki-calendar"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.Created')}} {{ __('site.to') }}</label>
+          <div class="">
+            <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+              <input value="{{request('to')}}" type="text" class="form-control form-control-solid datetimepicker-input"
+              data-toggle="datetimepicker"
+              min="{{date('d-m-Y')}}"
+              name="to" data-target="#to-date" autocomplete="off">
+              <div class="input-group-append" data-target="#to-date" data-toggle="datetimepicker">
+                <span class="input-group-text">
+                  <i class="ki ki-calendar"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <!-- End by Javed -->
+
+
   </div> <!-- end row -->
 <button type="submit" class="btn btn-primary">{{__('site.search')}}</button>
 </form>

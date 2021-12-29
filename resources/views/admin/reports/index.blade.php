@@ -157,7 +157,7 @@
   																	  max="{{date('Y-m-d')}}"
   																	 class="form-control form-control-solid datetimepicker-input"
   					                         data-toggle="datetimepicker"
-  					                          name="from" data-target="#from-date">
+  					                          name="from" data-target="#from-date" autocomplete="off">
   					                         <div class="input-group-append" data-target="#from-date" data-toggle="datetimepicker">
   					                           <span class="input-group-text">
   					                             <i class="ki ki-calendar"></i>
@@ -175,8 +175,8 @@
   					                         <input value="{{request('to')}}" required type="text" class="form-control form-control-solid datetimepicker-input"
   					                         data-toggle="datetimepicker"
   																	 min="{{date('Y/m/d')}}"
-  					                          name="to" data-target="#to-date">
-  					                         <div class="input-group-append" data-target="#to-date" data-toggle="datetimepicker">
+  					                          name="to" data-target="#to-date" autocomplete="off">
+  					                         <div class="input-group-append" data-target="#to-date" data-toggle="datetimepicker" >
   					                           <span class="input-group-text">
   					                             <i class="ki ki-calendar"></i>
   					                           </span>
@@ -352,10 +352,8 @@
   					                       <div class="input-group input-group-solid date" id="" data-target-input="nearest">
   					                         <input value="{{request('from')}}" required type="date"
   										 max="{{date('Y-m-d')}}"  class="form-control form-control-solid "
-  					                          name="from" >
-  					                         <div class="input-group-append" data-
-  					                       </div>
-  					                     </div>
+  					                          name="from" autocomplete="off">
+  					                     		</div>
   					                   </div>
   					                </div>
   					                </div>
@@ -368,7 +366,7 @@
   					                         <input value="{{request('to')}}" required type="date"
   										 max="{{date('Y-m-d')}}"
   																	 class="form-control form-control-solid "
-  					                          name="to" >
+  					                          name="to" autocomplete="off">
   					                         
   					                       </div>
   					                     </div>
@@ -421,15 +419,15 @@
 <script>
 
   $(document).on('submit','#search-form', function (e){
-    let from = $('#from-date-input').val();
-    let to = $('#to-date-input').val();
-    if(from < to)
-    {
-      return true;
-    }else{
-      alert('Plase Choose Correct Date !');
-      return false;
-    }
+    // let from = $('#from-datefrom-date').val();
+    // let to = $('#to-date-input').val();
+    // if(from < to)
+    // {
+    //   return true;
+    // }else{
+    //   alert('Please Choose Correct Date !');
+    //   return false;
+    // }
   });
   
   
@@ -439,13 +437,13 @@
    date.setDate(date.getDate()-1)
 
   $(`#from-date`).datetimepicker({
-      format: 'L',
-      minDate:date
+      format: 'L'
+      //minDate:date
   });
 
   $(`#to-date`).datetimepicker({
-      format: 'L',
-      minDate:new Date()
+      format: 'L'
+      //minDate:new Date()
   });
 
 </script>
