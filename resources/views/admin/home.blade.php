@@ -101,7 +101,7 @@
 								    duplicated
 								</a>
 								<!--end::Button-->
-
+								@php /*
 								<div class="dropdown dropdown-inline mr-2">
 									<button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<span class="svg-icon svg-icon-md" style="color:#fff">
@@ -126,6 +126,14 @@
 									</div>
 									<!--end::Dropdown Menu-->
 								</div>
+								*/
+								@endphp
+
+								<a href="{{request()->fullUrlWithQuery(['exportData' => '1'])}}" class="btn btn-primary font-weight-bolder" target="_blank">
+								<span class="svg-icon svg-icon-md">
+								<i class="fas fa-database" style="color:#fff"></i>
+								</span>{{__('site.export') }}</a>
+
 
 								<a href="?unassigned=get" class="btn btn-primary font-weight-bolder">
 								<span class="svg-icon svg-icon-md">
