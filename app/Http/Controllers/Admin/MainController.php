@@ -39,35 +39,87 @@ class MainController extends Controller
 
       if(Request()->has('duplicated')){
 
-        $contacts = Contact::select($this->selectedAttruibutes,\DB::raw('COUNT(phone) as phone'))
-                ->groupBy('phone')
-                ->havingRaw('COUNT(phone) > ?', [1])
-                ->get();
+        if(userRole() == 'sales admin uae'){
 
-        $contactsPhone = $contacts->pluck('phone');
+          $contacts = Contact::select($this->selectedAttruibutes,\DB::raw('COUNT(phone) as phone'))
+                  ->where('country_id','2')
+                  ->groupBy('phone')
+                  ->havingRaw('COUNT(phone) > ?', [1])
+                  ->get();
 
-        $contacts =   Contact::whereIn('phone',$contactsPhone->toArray())
-                                ->orderByRaw("phone")
-                                ->paginate(20);
+          $contactsPhone = $contacts->pluck('phone');
 
-        $contactsCount = count($contacts);
+          $contacts =   Contact::whereIn('phone',$contactsPhone->toArray())
+                                  ->where('country_id','2')
+                                  ->orderByRaw("phone")
+                                  ->paginate(20);
 
-      }else{
-        $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
-              $this->filterPrams($q);
-            })->orderBy('created_at','DESC');
+          $contactsCount = count($contacts);
+          
+        }else if(userRole() == 'sales admin saudi'){
+          $contacts = Contact::select($this->selectedAttruibutes,\DB::raw('COUNT(phone) as phone'))
+                  ->where('country_id','1')
+                  ->groupBy('phone')
+                  ->havingRaw('COUNT(phone) > ?', [1])
+                  ->get();
 
-        $contactsCount = $contacts->count();
+          $contactsPhone = $contacts->pluck('phone');
 
-            // get all data to export
-        if(request()->has('export'))
-        {
-            $paginationNo = 2000000000000;
+          $contacts =   Contact::whereIn('phone',$contactsPhone->toArray())
+                                  ->where('country_id','1')
+                                  ->orderByRaw("phone")
+                                  ->paginate(20);
+
+          $contactsCount = count($contacts);
+
         }else{
-            $paginationNo = 20;
-        }
+          $contacts = Contact::select($this->selectedAttruibutes,\DB::raw('COUNT(phone) as phone'))
+                  ->groupBy('phone')
+                  ->havingRaw('COUNT(phone) > ?', [1])
+                  ->get();
 
-        $contacts = $contacts->paginate($paginationNo);
+          $contactsPhone = $contacts->pluck('phone');
+
+          $contacts =   Contact::whereIn('phone',$contactsPhone->toArray())
+                                  ->orderByRaw("phone")
+                                  ->paginate(20);
+
+          $contactsCount = count($contacts);
+        }
+      }else{
+
+        if(userRole() == 'sales admin uae'){
+
+          $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
+            $this->filterPrams($q);
+          })->where('country_id','2')->orderBy('created_at','DESC');
+
+          $contactsCount = $contacts->count();
+
+          $paginationNo = 20;
+          $contacts = $contacts->paginate($paginationNo);
+          
+        }else if(userRole() == 'sales admin saudi'){
+          $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
+            $this->filterPrams($q);
+          })->where('country_id','1')->orderBy('created_at','DESC');
+
+          $contactsCount = $contacts->count();
+
+          $paginationNo = 20;
+          $contacts = $contacts->paginate($paginationNo);
+
+        }else{
+
+          $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
+                $this->filterPrams($q);
+              })->orderBy('created_at','DESC');
+
+          $contactsCount = $contacts->count();
+
+          $paginationNo = 20;
+          $contacts = $contacts->paginate($paginationNo);
+        }
       }
 
     }elseif(userRole() == 'leader'){
@@ -237,12 +289,19 @@ class MainController extends Controller
         "campaign",
         "last_mile_conversion",
         "status_id",
-        "created_by" //Added by Javed
+        "created_by", //Added by Javed
+        "project_country_id" //Added by Javed
       ];
 
       foreach($feilds as $feild => $value){
         if(in_array($feild,$allowedFeilds) AND !empty($value)){
-          $q->where($feild,$value);
+          if($feild == 'project_country_id'){
+            $q->whereHas('project', function($q2) use($value) {
+              $q2->where('projects.country_id',$value);
+            });
+          }else{
+            $q->where($feild,$value);
+          }
         }
       }
 

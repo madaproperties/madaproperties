@@ -89,6 +89,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         $phone .= str_starts_with($contact->phone,0) ? substr($contact->phone,1) : $contact->phone;
 
         $country = $contact->country ? $contact->country->name : '';
+        $project = $contact->project ? $contact->project->name : '';
         $city = $contact->city ? $contact->city->name : '';
         $status = $contact->status ? $contact->status->name : '';
         if(userRole() != 'seller'){
@@ -99,6 +100,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
               $contact->fullname,
               $phone,
               $country,
+              $project,
               $city,
               $status,
               timeZone($contact->created_at),
@@ -121,25 +123,25 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
     public function headings(): array
     {
       if(userRole() != 'seller'){
-        return [
-            'NAME',
-            'PHONE',
-            'COUNTRY',
-            'CITY',
-            'STATUS',
-            'CREATED',
-            'ASSIGNED TO',
-            'CREATED BY'
-        ];
+        return array_map('ucfirst',[
+          __('site.Name'),
+          __('site.Phone'),
+          __('site.country'),
+          __('site.project'),
+          __('site.status'),
+          __('site.Created'),
+          __('site.Assigned To'),
+          __('site.Created By')
+        ]);
       }else{
-        return [
-          'NAME',
-          'PHONE',
-          'COUNTRY',
-          'CITY',
-          'STATUS',
-          'CREATED'
-        ];
+        return array_map('ucfirst',[
+          __('site.Name'),
+          __('site.Phone'),
+          __('site.country'),
+          __('site.project'),
+          __('site.status'),
+          __('site.Created')
+        ]);
       }
   }
   
@@ -156,12 +158,19 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         "campaign",
         "last_mile_conversion",
         "status_id",
-        "created_by" //Added by Javed
+        "created_by", //Added by Javed
+        "project_country_id" //Added by Javed
       ];
 
       foreach($feilds as $feild => $value){
         if(in_array($feild,$allowedFeilds) AND !empty($value)){
-          $q->where($feild,$value);
+          if($feild == 'project_country_id'){
+            $q->whereHas('project', function($q2) use($value) {
+              $q2->where('projects.country_id',$value);
+            });
+          }else{
+            $q->where($feild,$value);
+          }
         }
       }
 

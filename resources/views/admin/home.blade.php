@@ -291,7 +291,8 @@
 										<th>{{__('site.Name')}}</th>
 										<th>{{__('site.Phone')}}</th>
 										<th>{{__('site.country')}} </th>
-										<th>{{__('site.city')}}</th>
+										<th>{{__('site.project')}} </th>
+										<!--<th>{{__('site.city')}}</th>-->
 										<th>{{__('site.status')}}</th>
 										<th>{{__('site.Created')}}</th>
 										@if(userRole() != 'seller')
@@ -324,7 +325,8 @@
 										</td>
 
 											<td>{{$contact->country ? $contact->country->name : ''}}</td>
-											<td>{{$contact->city ? $contact->city->name : ''}}</td>
+											<td>{{$contact->project ? $contact->project->name : ''}}</td>
+											<!--<td>{{$contact->city ? $contact->city->name : ''}}</td>-->
 											<td>{{$contact->status?$contact->status->name : ''}}</td>
 			<td>
 			    {{ timeZone($contact->created_at) }}
