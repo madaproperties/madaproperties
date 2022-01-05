@@ -185,6 +185,8 @@
           </div>
         </div>
     </div>
+    @if(userRole() == 'admin')
+
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.project')}} {{__('site.country')}}</label>
       <select class="form-control" name="project_country_id">
@@ -196,7 +198,7 @@
         @endforeach
       </select>
     </div>
-
+    @endif
     <!-- End by Javed -->
 
 

@@ -142,6 +142,12 @@
 								@endif
 								<!--end::Button-->
 
+					      @if(userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' )
+									<a href="{{request()->fullUrlWithQuery(['exportData' => '1'])}}" class="btn btn-primary font-weight-bolder" target="_blank">
+									<span class="svg-icon svg-icon-md">
+									<i class="fas fa-database" style="color:#fff"></i>
+									</span>{{__('site.export') }}</a>
+								@endif
 								<!--begin::Button-->
 
 

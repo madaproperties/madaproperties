@@ -25,7 +25,16 @@
                               return $q->whereIn('user_id',$users)
                               ->orWhereIn('created_by',$users)
                               ->get();
-                          }
+                          }else if(userRole() == 'sales admin uae') {
+                            return $q->whereHas('project', function($q2) {
+                                $q2->where('projects.country_id','2');
+                            })->get();
+
+                            }else if(userRole() == 'sales admin saudi'){
+                            return $q->whereHas('project', function($q2) {
+                                $q2->where('projects.country_id','1');
+                            })->get();
+                        }
                       })->
                       where('campaign',$campaing->name)
                       ->count();
@@ -47,6 +56,15 @@ href="{{route('admin.home')}}?status={{$statu->id}}&campaign={{ $campaing->name}
                         return $q->whereIn('user_id',$users)
                                 ->orWhereIn('created_by',$users)
                                 ->get();
+                    }else if(userRole() == 'sales admin uae') {
+                        return $q->whereHas('project', function($q2) {
+                            $q2->where('projects.country_id','2');
+                        })->get();
+
+                    }else if(userRole() == 'sales admin saudi'){
+                        return $q->whereHas('project', function($q2) {
+                            $q2->where('projects.country_id','1');
+                        })->get();
                     }
                 })->
                 where('campaign',$campaing->name)
@@ -78,6 +96,15 @@ No campaign
                       return $q->whereIn('user_id',$users)
                                 ->orWhereIn('created_by',$users)
                                 ->get();
+                                }else if(userRole() == 'sales admin uae') {
+                                    return $q->whereHas('project', function($q2) {
+                                        $q2->where('projects.country_id','2');
+                                    })->get();
+
+                                }else if(userRole() == 'sales admin saudi'){
+                                    return $q->whereHas('project', function($q2) {
+                                        $q2->where('projects.country_id','1');
+                                    })->get();
                                 }
                             })->where('campaign',null)
                             ->where('status_id',$statu->id)
@@ -96,7 +123,16 @@ No campaign
                             return $q->whereIn('user_id',$users)
                                     ->orWhereIn('created_by',$users)
                                  ->get();
-                                }
+                                }else if(userRole() == 'sales admin uae') {
+                                    return $q->whereHas('project', function($q2) {
+                                        $q2->where('projects.country_id','2');
+                                    })->get();
+
+                                }else if(userRole() == 'sales admin saudi'){
+                                    return $q->whereHas('project', function($q2) {
+                                        $q2->where('projects.country_id','1');
+                                    })->get();
+                               }
                             })
                             ->count() }}
               </a>

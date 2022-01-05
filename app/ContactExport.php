@@ -36,20 +36,77 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
       if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' ){ //Updated by Javed
 
         if(Request()->has('duplicated')){
-  
-          $contacts = Contact::select($this->selectedAttruibutes,\DB::raw('COUNT(phone) as phone'))
-                  ->groupBy('phone')
-                  ->havingRaw('COUNT(phone) > ?', [1])
-                  ->get();
-  
-          $contactsPhone = $contacts->pluck('phone');
-  
-          $contacts =   Contact::query()->whereIn('phone',$contactsPhone->toArray())
-                                  ->orderByRaw("phone");
+
+          if(userRole() == 'sales admin uae'){ //Updated by Javed
+            $contacts = Contact::select($this->selectedAttruibutes,\DB::raw('COUNT(phone) as phone'))
+                    ->whereHas('project', function($q2) {
+                      $q2->where('projects.country_id','2');
+                    })
+                    ->groupBy('phone')
+                    ->havingRaw('COUNT(phone) > ?', [1])
+                    ->get();
+    
+            $contactsPhone = $contacts->pluck('phone');
+    
+            $contacts =   Contact::query()->whereIn('phone',$contactsPhone->toArray())
+                                          ->where('country_id','2')
+                                          ->orderByRaw("phone");
+
+          }else if(userRole() == 'sales admin saudi'){
+            $contacts = Contact::select($this->selectedAttruibutes,\DB::raw('COUNT(phone) as phone'))
+                    ->whereHas('project', function($q2) {
+                      $q2->where('projects.country_id','1');
+                    })
+                    ->groupBy('phone')
+                    ->havingRaw('COUNT(phone) > ?', [1])
+                    ->get();
+    
+            $contactsPhone = $contacts->pluck('phone');
+    
+            $contacts =   Contact::query()->whereIn('phone',$contactsPhone->toArray())
+                                          ->where('country_id','1')                        
+                                          ->orderByRaw("phone");
+
+          }else{
+            $contacts = Contact::select($this->selectedAttruibutes,\DB::raw('COUNT(phone) as phone'))
+                    ->groupBy('phone')
+                    ->havingRaw('COUNT(phone) > ?', [1])
+                    ->get();
+    
+            $contactsPhone = $contacts->pluck('phone');
+    
+            $contacts =   Contact::query()->whereIn('phone',$contactsPhone->toArray())
+                                    ->orderByRaw("phone");
+
+          }
         }else{
-          $contacts = Contact::query()->select($this->selectedAttruibutes)->where(function ($q){
-                $this->filterPrams($q);
-              })->orderBy('created_at','DESC');
+          
+          if(userRole() == 'sales admin uae'){
+
+            $contacts = Contact::query()->select($this->selectedAttruibutes)->where(function ($q){
+              $this->filterPrams($q);
+            })
+            ->whereHas('project', function($q2) {
+              $q2->where('projects.country_id','2');
+            })
+            ->orderBy('created_at','DESC');
+          
+          }else if(userRole() == 'sales admin saudi'){
+            
+            $contacts = Contact::query()->select($this->selectedAttruibutes)->where(function ($q){
+              $this->filterPrams($q);
+            })
+            ->whereHas('project', function($q2) {
+              $q2->where('projects.country_id','1');
+            })
+            ->orderBy('created_at','DESC');
+          
+          }else{
+          
+            $contacts = Contact::query()->select($this->selectedAttruibutes)->where(function ($q){
+                  $this->filterPrams($q);
+                })->orderBy('created_at','DESC');
+          }
         }
   
       }elseif(userRole() == 'leader'){
@@ -101,7 +158,6 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
               $phone,
               $country,
               $project,
-              $city,
               $status,
               timeZone($contact->created_at),
               $assigned_to,
@@ -112,7 +168,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
             $contact->fullname,
             $phone,
             $country,
-            $city,
+            $project,
             $status,
             timeZone($contact->created_at)
           ];

@@ -332,7 +332,7 @@ href="{{route('admin.home')}}?filter_status={{ App\Status::where('name_en','new'
 		</li>
 
 
-      @if(userRole() == 'admin' OR userRole() == 'leader')
+      @if(userRole() == 'admin' OR userRole() == 'leader' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi')
 	<li class="menu-item menu-item-active text-dark">
         <a class="menu-link menu-toggle menu-link text-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {{__('site.reports')}}

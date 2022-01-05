@@ -42,7 +42,9 @@ class MainController extends Controller
         if(userRole() == 'sales admin uae'){
 
           $contacts = Contact::select($this->selectedAttruibutes,\DB::raw('COUNT(phone) as phone'))
-                  ->where('country_id','2')
+                  ->whereHas('project', function($q2) {
+                    $q2->where('projects.country_id','2');
+                  })
                   ->groupBy('phone')
                   ->havingRaw('COUNT(phone) > ?', [1])
                   ->get();
@@ -50,7 +52,9 @@ class MainController extends Controller
           $contactsPhone = $contacts->pluck('phone');
 
           $contacts =   Contact::whereIn('phone',$contactsPhone->toArray())
-                                  ->where('country_id','2')
+                                  ->whereHas('project', function($q2) {
+                                    $q2->where('projects.country_id','2');
+                                  })
                                   ->orderByRaw("phone")
                                   ->paginate(20);
 
@@ -58,7 +62,9 @@ class MainController extends Controller
           
         }else if(userRole() == 'sales admin saudi'){
           $contacts = Contact::select($this->selectedAttruibutes,\DB::raw('COUNT(phone) as phone'))
-                  ->where('country_id','1')
+                  ->whereHas('project', function($q2) {
+                    $q2->where('projects.country_id','1');
+                  })
                   ->groupBy('phone')
                   ->havingRaw('COUNT(phone) > ?', [1])
                   ->get();
@@ -66,7 +72,9 @@ class MainController extends Controller
           $contactsPhone = $contacts->pluck('phone');
 
           $contacts =   Contact::whereIn('phone',$contactsPhone->toArray())
-                                  ->where('country_id','1')
+                                  ->whereHas('project', function($q2) {
+                                    $q2->where('projects.country_id','1');
+                                  })
                                   ->orderByRaw("phone")
                                   ->paginate(20);
 
@@ -92,7 +100,11 @@ class MainController extends Controller
 
           $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
             $this->filterPrams($q);
-          })->where('country_id','2')->orderBy('created_at','DESC');
+          })
+          ->whereHas('project', function($q2) {
+            $q2->where('projects.country_id','2');
+          })
+          ->orderBy('created_at','DESC');
 
           $contactsCount = $contacts->count();
 
@@ -102,7 +114,11 @@ class MainController extends Controller
         }else if(userRole() == 'sales admin saudi'){
           $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
             $this->filterPrams($q);
-          })->where('country_id','1')->orderBy('created_at','DESC');
+          })
+          ->whereHas('project', function($q2) {
+            $q2->where('projects.country_id','1');
+          })
+          ->orderBy('created_at','DESC');
 
           $contactsCount = $contacts->count();
 

@@ -180,7 +180,7 @@ class ReportController extends Controller
 		}
 
 		// 07-04-2021
-		if(userRole() === 'admin')
+		if(userRole() === 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi')
 		{
 			$users = User::all();
 		}elseif(userRole() == 'leader')
