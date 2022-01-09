@@ -245,7 +245,13 @@ class MainController extends Controller
         $countries->prepend($topCountry);
     }
     // End Hundel Counties Sort
-    $projects = Project::orderBy('weight','DESC')->get();
+    if(userRole() == 'sales admin saudi'){ //Added by Javed
+      $projects = Project::where('country_id','1')->orderBy('weight','DESC')->get();
+    }else if(userRole() == 'sales admin uae'){  //Added by Javed
+      $projects = Project::where('country_id','2')->orderBy('weight','DESC')->get();
+    }else{
+      $projects = Project::orderBy('weight','DESC')->get();
+    }
 
     $purpose  = auth()->user()->position_types;
     $purpose  = json_decode($purpose);
