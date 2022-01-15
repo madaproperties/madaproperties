@@ -51,7 +51,7 @@
   					                         <input value="{{request('to')}}" required type="date" class="form-control form-control-solid "
   					                         data-toggle=""
   																	
-  					                          name="to" 
+  					                          name="to" >
   					                         
   					                         </div>
   					                         </div>

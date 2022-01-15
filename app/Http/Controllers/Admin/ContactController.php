@@ -625,4 +625,12 @@ class ContactController extends Controller
       ]);
     }
 
+    public function multiple_delete() {
+      $contacts = explode(',',request()->ids);
+      $contacts = Contact::whereIn('id',$contacts)->delete();
+      return response()->json([
+        'status' => true,
+      ]);
+    }
+
 }

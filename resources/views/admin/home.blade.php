@@ -267,7 +267,7 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button style="margin: 5px;" class="btn btn-info btn-xs delete-all" data-url="">
+                        <button style="margin: 5px;" class="btn btn-info btn-xs assign-all" data-url="">
                           Assing
                         </button>
                       </div>
@@ -285,6 +285,11 @@
                 data-toggle="modal" data-target="#assign-leads">
                     Assing <i class="fa fa-users"></i>
                   </button>
+
+                <button type="button" class="btn btn-primary delete-all">
+                    Delete <i class="fa fa-trash"></i>
+                  </button>
+
                 @endif
 							<!--begin: Datatable-->
 							<table class="{{ request()->has('export') ? 'table-export' : ''}} text-center table table-separate table-head-custom table-checkable table-striped" id="" style="padding:20px">
@@ -419,57 +424,87 @@ function dataTable()
 <script type="text/javascript">
 $(document).ready(function () {
 	$('#check_all').on('click', function(e) {
-	if($(this).is(':checked',true))
-{
-	$(".checkbox").prop('checked', true);
-	} else {
-	$(".checkbox").prop('checked',false);
-}
-});
+		if($(this).is(':checked',true)){
+			$(".checkbox").prop('checked', true);
+		} else {
+			$(".checkbox").prop('checked',false);
+		}
+	});
 	$('.checkbox').on('click',function(){
-	if($('.checkbox:checked').length == $('.checkbox').length){
-	$('#check_all').prop('checked',true);
-	}else{
-	$('#check_all').prop('checked',false);
-}
-});
+		if($('.checkbox:checked').length == $('.checkbox').length){
+			$('#check_all').prop('checked',true);
+		}else{
+			$('#check_all').prop('checked',false);
+		}
+	});
+
+	// Assign multiple leads
+	$('.assign-all').on('click', function(e) {
+		var idsArr = [];
+		$(".checkbox:checked").each(function() {
+			idsArr.push($(this).attr('data-id'));
+		});
+		if(idsArr.length <=0){
+			alert("Please select atleast one Lead.");
+		}  else {
+			if(confirm("Are you sure, you want to Assign Selected Leads ?")){
+
+				if(!$('#assigned-seller').val())
+				{
+					return alert('please select User To Assign To');
+				}
+				var strIds = idsArr.join(",");
+				$.ajax({
+					url: "{{ route('admin.contacts.multiple-assign') }}",
+					type: 'POST',
+					headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+					data: 'ids='+strIds+"&id="+$('#assigned-seller').val(),
+					success: function (data) {
+						console.log(data);
+						if (data.status == true) {
+							location.reload();
+						} else {
+							alert('Whoops Something went wrong!!');
+						}
+					}, error: function (data) {
+						alert(data.responseText);
+					}
+				});
+			}
+		}
+	});
+
+	// Added by Javed to delete multiple records
 	$('.delete-all').on('click', function(e) {
-	var idsArr = [];
-	$(".checkbox:checked").each(function() {
-	idsArr.push($(this).attr('data-id'));
-});
-	if(idsArr.length <=0)
-{
-	alert("Please select atleast one Lead.");
-	}  else {
-	if(confirm("Are you sure, you want to Assign Slected Leads ?")){
+		var idsArr = [];
+		$(".checkbox:checked").each(function() {
+			idsArr.push($(this).attr('data-id'));
+		});
+		if(idsArr.length <=0){
+			alert("Please select atleast one Lead.");
+		}  else {
+			if(confirm("Are you sure, you want to Delete Selected Leads ?")){
 
-    if(!$('#assigned-seller').val())
-    {
-      return alert('please select User To Assign To');
-    }
-
-	var strIds = idsArr.join(",");
-	$.ajax({
-	url: "{{ route('admin.contacts.multiple-assign') }}",
-	type: 'POST',
-	headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-	data: 'ids='+strIds+"&id="+$('#assigned-seller').val(),
-	success: function (data) {
-    console.log(data);
-	if (data.status == true) {
-    location.reload();
-	} else {
-	   alert('Whoops Something went wrong!!');
-  }
-},
-	error: function (data) {
-	alert(data.responseText);
-}
-});
-}
-}
-});
+				var strIds = idsArr.join(",");
+				$.ajax({
+					url: "{{ route('admin.contacts.multiple-delete') }}",
+					type: 'POST',
+					headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+					data: 'ids='+strIds,
+					success: function (data) {
+						if (data.status == true) {
+							location.reload();
+						} else {
+							alert('Whoops Something went wrong!!');
+						}
+					}, error: function (data) {
+						alert(data.responseText);
+					}
+				});
+			}
+		}
+	});
+	//End 
 
 });
 </script>

@@ -70,7 +70,7 @@
 				<th style="">{{__('site.time_zone')}}</th>
 				<th style="">{{__('site.status')}}</th>
 				<th style="">{{__('site.Rule')}}</th>
-				<th style="">{{__('site.Last Login')}}</th>
+				<th style="">{{__('site.last login')}}</th>
 				<th class="pr-0 " style="">{{__('site.action')}}</th>
 													</tr>
 												</thead>
@@ -95,7 +95,8 @@
 														</td>
 														<td>
 															<span class="text-muted font-weight-bold">{{$user->last_login}}
-
+														</td>
+	
 														<td class="pr-0 ">
 
 															<a href=""
@@ -275,11 +276,27 @@
 													    </div>
 													</div>
 
+													
+													
+														@if(auth()->user()->rule == 'admin')
+															<form id="destory-{{$user->id}}" class="delete" onsubmit="return confirm('{{__('site.confirm')}}');"
+															  action="{{ route('admin.accounts.destroy',$user->id) }}" method="POST" >
+																@csrf
+																@method('DELETE')
+															   <button type="submit" class="btn btn-danger">
+																  {{__('site.delete')}}
+															   </button>
+															</form>
+														@endif
+													
 														</td>
 													</tr>
 													@endforeach
 												</tbody>
+												{{ $users->withQueryString()->links() }}
 											</table>
+											{{ $users->withQueryString()->links() }}
+
 										</div>
 										<!--end::Table-->
 									</div>

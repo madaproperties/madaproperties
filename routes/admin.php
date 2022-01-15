@@ -70,6 +70,10 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
               return redirect(route('admin.home') .'?filter_status='.$newStatus->id);
           }
       });
+
+      //Added by Javed
+      Route::post('contact/multiple-delete','ContactController@multiple_delete')
+      ->name('contacts.multiple-delete');
 });
 
 

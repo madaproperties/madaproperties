@@ -16,7 +16,7 @@ class AccountsController extends Controller
     public function index()
     {
    
-        $users = User::all();
+        $users = User::paginate(20);
         $leaders = User::where('rule','leader')->where('active','1')->get();
         $positions = ['rent','buy','sell','management'];
 
@@ -113,8 +113,10 @@ class AccountsController extends Controller
     }
 
 
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        //
+        $contact = User::findOrFail($id);
+        $contact->delete();
+        return back()->withSuccess(__('site.success'));
     }
 }
