@@ -561,11 +561,11 @@ class ContactController extends Controller
 
 
 
-    // check $redirectSalesAdmin
-    if(isset($redirectSalesAdmin))
-    {
-     return redirect(route('admin.'))->withSuccess(__('site.success'));
-    }
+      // check $redirectSalesAdmin
+      if(isset($redirectSalesAdmin))
+      {
+        return redirect(route('admin.'))->withSuccess(__('site.success'));
+      }
 
       return back()->withSuccess(__('site.success'));
     }

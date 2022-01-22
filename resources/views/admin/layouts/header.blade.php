@@ -357,6 +357,13 @@ href="{{route('admin.home')}}?filter_status={{ App\Status::where('name_en','new'
       </li>
 
 
+	    @if(userRole() == 'admin')
+			<li class="menu-item menu-item-active" aria-haspopup="true">
+				<a href="{{route('admin.deal.index')}}" class="menu-link {{ active_nav('deals') ? 'active' : ''}}">
+					<span class="menu-text">{{__('site.deals')}}</span>
+				</a>
+			</li>
+      	@endif
 
 
 

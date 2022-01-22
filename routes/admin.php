@@ -74,6 +74,11 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       //Added by Javed
       Route::post('contact/multiple-delete','ContactController@multiple_delete')
       ->name('contacts.multiple-delete');
+
+      // overview
+      Route::resource('deal','DealController');
+      // mainDashboardPage
+
 });
 
 
