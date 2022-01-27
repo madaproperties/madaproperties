@@ -25,6 +25,8 @@ use App\Content;
 use App\Source;
 use App\Medium;
 use App\Deal;
+use Maatwebsite\Excel\Facades\Excel;
+use App\DealExport;
 
 class DealController extends Controller
 {
@@ -35,6 +37,10 @@ class DealController extends Controller
       return abort(404);
     }
    
+    if(Request()->has('exportData')){
+      return Excel::download(new DealExport, 'DealsReport.xlsx');
+    }  
+
     $deals = Deal::orderBy('id','desc')->paginate(20);
       
     return view('admin.deals.index',compact('deals'));
@@ -139,6 +145,8 @@ class DealController extends Controller
         "commission"            => "required|numeric|between:1,100",
         "commission_amount"     => "required|numeric",
         "vat"                   => "required|numeric|between:1,100",
+        "vat_amount"            => "required|numeric",
+        "vat_received"     => "required",
         "total_invoice"         => "required",
         "expected_date"         => "required|max:20",
         "invoice_date"          => "required|max:20",
@@ -154,7 +162,11 @@ class DealController extends Controller
         "leader_id"       => "required|numeric",
         "spa"       => "nullable",
         "token"       => "nullable",
-        "down_payment"       => "nullable"
+        "down_payment"       => "nullable",
+        "agent_commission_received"       => "required",
+        "agent_leader_commission_received"       => "required",
+        "mada_commission_received"       => "required",
+        "notes"       => "nullable",
       ]);
 
 
@@ -189,37 +201,45 @@ class DealController extends Controller
 
     $data = $request->validate([
       "unit_country"          => "required|max:3",
-        "project_id"            => "required",
-        "unit_name"             => "required",
-        "developer_name"        => "required|max:50",
-        'purpose'               => 'required',
-        "purpose_type"          => "required",
-        "deal_date"             => "required",
-        "client_name"           => "required|max:50",
-        "client_mobile_no"      => "required|max:50",
-        "client_email"          => "required|email|max:100",
-        "price"                 => "required",
-        "commission_type"       => "required|max:20",
-        "commission"            => "required|numeric|between:1,100",
-        "commission_amount"     => "required|numeric",
-        "vat"                   => "required|numeric|between:1,100",
-        "total_invoice"         => "required",
-        "expected_date"         => "required|max:20",
-        "invoice_date"          => "required|max:20",
-        "agent_commission_percent" => "required|numeric|between:1,100",
-        "agent_commission_amount"  => "required|numeric",
-        "agent_leader_commission_percent" => "required|numeric|between:1,100",
-        "agent_leader_commission_amount"  => "required|numeric",
-        "third_party"           => "sometimes",
-        "third_party_amount"    => "required_if:third_party,on",
-        "third_party_name"      => "required_if:third_party,on",
-        "mada_commission"       => "required|numeric",
-        "agent_id"       => "required|numeric",
-        "leader_id"       => "required|numeric",
-        "spa"       => "nullable",
-        "token"       => "nullable",
-        "down_payment"       => "nullable"
-      ]);
+      "project_id"            => "required",
+      "unit_name"             => "required",
+      "developer_name"        => "required|max:50",
+      'purpose'               => 'required',
+      "purpose_type"          => "required",
+      "deal_date"             => "required",
+      "client_name"           => "required|max:50",
+      "client_mobile_no"      => "required|max:50",
+      "client_email"          => "required|email|max:100",
+      "price"                 => "required",
+      "commission_type"       => "required|max:20",
+      "commission"            => "required|numeric|between:1,100",
+      "commission_amount"     => "required|numeric",
+      "vat"                   => "required|numeric|between:1,100",
+      "vat_amount"            => "required|numeric",
+      "vat_received"     => "required",
+      "total_invoice"         => "required",
+      "expected_date"         => "required|max:20",
+      "invoice_date"          => "required|max:20",
+      "agent_commission_percent" => "required|numeric|between:1,100",
+      "agent_commission_amount"  => "required|numeric",
+      "agent_leader_commission_percent" => "required|numeric|between:1,100",
+      "agent_leader_commission_amount"  => "required|numeric",
+      "third_party"           => "sometimes",
+      "third_party_amount"    => "required_if:third_party,on",
+      "third_party_name"      => "required_if:third_party,on",
+      "mada_commission"       => "required|numeric",
+      "agent_id"       => "required|numeric",
+      "leader_id"       => "required|numeric",
+      "spa"       => "nullable",
+      "token"       => "nullable",
+      "down_payment"       => "nullable",
+      "agent_commission_received"       => "required",
+      "agent_leader_commission_received"       => "required",
+      "mada_commission_received"       => "required",
+      "notes"       => "nullable",
+    ]);
+
+    $data['updated_at'] = Carbon::now();
 
     $deal->update($data);
     return redirect(route('admin.deal.index'))->withSuccess(__('site.success'));

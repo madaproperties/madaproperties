@@ -19,6 +19,13 @@
 						<span class="text-muted mt-3 font-weight-bold font-size-sm">{{count($deals)}} {{__('site.deals')}}</span>
 					</h3>
 					<div class="card-toolbar">
+						<a href="{{request()->fullUrlWithQuery(['exportData' => '1'])}}" class="btn btn-primary font-weight-bolder" target="_blank">
+							<span class="svg-icon svg-icon-md">
+							<i class="fas fa-database" style="color:#fff"></i>
+							</span>{{__('site.export') }}
+						</a>
+
+
 						<a href="{{route('admin.deal.create')}}" id="kt_quick_user_toggle" class="btn btn-success font-weight-bolder font-size-sm">
 						<span class="fa fa-plus"></span> {{__('site.New Deal')}}</a>
 					</div>
@@ -31,39 +38,55 @@
 						<table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
 							<thead>
 								<tr class="text-left">
-									<th style="min-width: 150px">{{__('site.project')}}</th>
-									<th style="">{{__('site.price')}}</th>
-									<th style="min-width: 150px">{{__('site.mada_commission')}}</th>
-									<th class="pr-0 " style="min-width: 150px">{{__('site.agent_commission_amount')}}</th>
-									<th class="pr-0 " style="min-width: 150px">{{__('site.agent_leader_commission_amount')}}</th>
-									<th class="pr-0 " style="min-width: 150px">{{__('site.third_party_amount')}}</th>
-									<th class="pr-0 ">{{__('site.total_invoice')}}</th>
-									<th class="pr-0">{{__('site.action')}}</th>
+									<th>{{__('site.country')}}</th>
+									<th>{{__('site.project')}}</th>
+									<th>{{__('site.price')}}</th>
+									<th>{{__('site.total_invoice')}}</th>
+									<th>{{__('site.mada_commission')}}</th>
+									<th>{{__('site.vat_amount')}}</th>
+									<th>{{__('site.down_payment')}}</th>
+									<th>{{__('site.expected_date')}}</th>
+									<th>{{__('site.invoice_date')}}</th>
+									<th>{{__('site.Agent')}}</th>
+									<th>{{__('site.created_at')}}</th>
+									<th>{{__('site.action')}}</th>
 								</tr>
 							</thead>
 							<tbody>
 								@foreach($deals as $deal)
 								<tr>
 									<td class="pl-0">
+										<span class="text-muted font-weight-bold text-muted d-block">{{$deal->country ? $deal->country->name : 'N/A'}}</span>
+									</td>
+									<td class="pl-0">
 										<span class="text-muted font-weight-bold text-muted d-block">{{$deal->project->name}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$deal->price}}</span>
+										<span class="text-muted font-weight-bold">{{number_format($deal->price)}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$deal->mada_commission}}</span>
+										<span class="text-muted font-weight-bold">{{number_format($deal->total_invoice)}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$deal->agent_commission_amount}}</span>
+										<span class="text-muted font-weight-bold">{{number_format($deal->mada_commission)}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$deal->agent_leader_commission_amount}}</span>
+										<span class="text-muted font-weight-bold">{{number_format($deal->vat_amount)}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$deal->third_party_amount}}</span>
+										<span class="text-muted font-weight-bold">{{number_format($deal->down_payment)}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$deal->total_invoice}}</span>
+										<span class="text-muted font-weight-bold">{{$deal->expected_date}}</span>
+									</td>
+									<td>
+										<span class="text-muted font-weight-bold">{{$deal->invoice_date}}</span>
+									</td>
+									<td>
+										<span class="text-muted font-weight-bold">{{$deal->agent ? substr($deal->agent->email, 0, strpos($deal->agent->email, "@")) : 'N/A'}}</span>
+									</td>
+									<td>
+										<span class="text-muted font-weight-bold">{{timeZone($deal->created_at)}}</span>
 									</td>
 									<td>
 

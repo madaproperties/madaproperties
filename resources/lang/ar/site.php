@@ -239,5 +239,12 @@ return [
   'installment2' => 'القسط 2',
   'yes' => 'نعم',
   'no' => 'رقم',
-  'edit_deal' => 'تحرير الصفقة'
+  'edit_deal' => 'تحرير الصفقة',
+  'vat_amount' => 'قيمة الضريبة',
+  'agent_commission_received' => 'استلام عمولة الوكيل',
+  'agent_leader_commission_received' => 'استلام لجنة وكيل القائد',
+  'mada_commission_received' => 'استقبال لجنة مدى',
+  'created_at' => 'أنشئت في',
+  'updated_at' => 'تم التحديث في',
+  'vat_received' => 'ضريبة القيمة المضافة المدفوعة',
 ];

@@ -73,6 +73,7 @@
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.project')}}</label>
 																		<div class="col-lg-9 col-xl-9">
 																			<select class="form-control other-select"  name="project_id">
+																			<option value="">{{ __('site.choose') }}</option>
 																			</select>
 																		</div>
 																	</div>
@@ -236,7 +237,32 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
-																	
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.vat_amount')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" required id="vat_amount" name="vat_amount" type="text" value="{{old('vat_amount')}}" placeholder="{{__('site.vat_amount')}}" readonly>
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-form-label">{{__('site.vat_received')}}</label>
+																		<div class="col-xl-1">
+																			<input class="form-control" name="vat_received" type="radio" value="no" checked>
+																		</div>
+																		<label class="col-form-label">{{__('site.no')}}</label>
+																		<div class="col-xl-1">
+																			<input class="form-control" name="vat_received" type="radio" value="yes">
+																		</div>
+																		<label class="col-form-label">{{__('site.yes')}}</label>
+																	</div>
+																	<!--end::Group-->
+
+
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.total_invoice')}}</label>
@@ -246,14 +272,6 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
-
-																</div>
-															</div>
-
-															<div class="col-xl-6">
-																<!--begin::Wizard Step 1-->
-																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-																
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.token')}}</label>
@@ -284,6 +302,15 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
+
+
+																</div>
+															</div>
+
+															<div class="col-xl-6">
+																<!--begin::Wizard Step 1-->
+																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+																
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.expected_date')}}</label>
@@ -339,6 +366,20 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-form-label">{{__('site.agent_commission_received')}}</label>
+																		<div class="col-xl-1">
+																			<input class="form-control" name="agent_commission_received" type="radio" value="no" checked>
+																		</div>
+																		<label class="col-form-label">{{__('site.no')}}</label>
+																		<div class="col-xl-1">
+																			<input class="form-control" name="agent_commission_received" type="radio" value="yes">
+																		</div>
+																		<label class="col-form-label">{{__('site.yes')}}</label>
+																	</div>
+																	<!--end::Group-->
+
 
 																	@if(count($leaders))
 																	<!--begin::Group-->
@@ -376,6 +417,19 @@
 																	</div>
 																	<!--end::Group-->
 
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-form-label">{{__('site.agent_leader_commission_received')}}</label>
+																		<div class="col-xl-1">
+																			<input class="form-control" name="agent_leader_commission_received" type="radio" value="no" checked>
+																		</div>
+																		<label class="col-form-label">{{__('site.no')}}</label>
+																		<div class="col-xl-1">
+																			<input class="form-control" name="agent_leader_commission_received" type="radio" value="yes">
+																		</div>
+																		<label class="col-form-label">{{__('site.yes')}}</label>
+																	</div>
+																	<!--end::Group-->
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
@@ -415,7 +469,32 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
-																	
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-form-label">{{__('site.mada_commission_received')}}</label>
+																		<div class="col-xl-1">
+																			<input class="form-control" name="mada_commission_received" type="radio" value="no" checked>
+																		</div>
+																		<label class="col-form-label">{{__('site.no')}}</label>
+																		<div class="col-xl-1">
+																			<input class="form-control" name="mada_commission_received" type="radio" value="yes">
+																		</div>
+																		<label class="col-form-label">{{__('site.yes')}}</label>
+																	</div>
+																	<!--end::Group-->
+
+
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.notes')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<textarea class="form-control form-control-solid form-control-lg" rows="10" name="notes" type="text" id="notes" value="{{old('notes')}}" placeholder="{{__('site.notes')}}"></textarea>
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
 
 
 																</div>
@@ -512,14 +591,9 @@
 	$('#unit_country').on('change', function (){
 		getCountryCities($('#unit_country').val(),$("#unit_city"));
 		getProjects($('#unit_country').val());
-		$('.prject-area').css('height','auto');
-		$('.prject-area').css('opacity','1');
 	});
 
 	$( document ).ready(function (){
-	   $('.prject-area').css('height','0');
-	   $('.prject-area').css('opacity','0');
-
 
 		$('.datepic').datetimepicker({
 			format: 'L'
@@ -559,6 +633,11 @@
 			var comi = $(this).val();
 			var price = $("#price").val();	
 			$("#commission_amount").val((price*comi)/100);
+
+			var comi = $("#vat").val();
+			var commission_amount = $("#commission_amount").val();	
+			$("#vat_amount").val(((commission_amount*comi)/100));
+			$("#total_invoice").val(((commission_amount*comi)/100) + parseFloat(commission_amount));
 			updateMadaCommission();
 		});
 
@@ -612,9 +691,17 @@
 				$(this).val(0);
 			}
 
+			if($("#commission_amount").val() < 0){
+				alert('Commission amount should not be 0');
+				$("#commission_amount").focus();
+				$(this).val(0);
+			}
+
 			var comi = $(this).val();
 			var price = $("#price").val();	
-			$("#total_invoice").val(((price*comi)/100) + parseFloat(price));
+			var commission_amount = $("#commission_amount").val();	
+			$("#vat_amount").val(((commission_amount*comi)/100));
+			$("#total_invoice").val(((commission_amount*comi)/100) + parseFloat(commission_amount));
 		});
 
 		$("#third_party_amount").on('input keyup keypress blur change',function(){

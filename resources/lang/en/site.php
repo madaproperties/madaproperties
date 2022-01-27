@@ -233,7 +233,7 @@ return [
   'invoice_date' => 'Invoice Date',
   'agent_commission_percent' => 'Agent Commission Percent',
   'agent_commission_amount' => 'Agent Commission Amount',
-  'agent_leader_commission_percent' => 'Agent  Leader Commission Percent',
+  'agent_leader_commission_percent' => 'Agent Leader Commission Percent',
   'agent_leader_commission_amount' => 'Agent Leader Commission Amount',
   'third_party' => 'Third Party',
   'third_party_amount' => 'Third Party Amount',
@@ -247,5 +247,12 @@ return [
   'installment2' => 'Installment 2',
   'yes' => 'Yes',
   'no' => 'No',
-  'edit_deal' => 'Edit Deal'
+  'edit_deal' => 'Edit Deal',
+  'vat_amount' => 'Vat Amount',
+  'agent_commission_received' => 'Agent Commission Received',
+  'agent_leader_commission_received' => 'Agent Leader Commission Received',
+  'mada_commission_received' => 'Mada Commission Received',
+  'created_at' => 'Created At',
+  'updated_at' => 'Updated At',
+  'vat_received' => 'Vat Paid',
 ];

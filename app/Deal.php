@@ -10,13 +10,13 @@ class Deal extends Model
 
     
 
-    public function user()
+    public function leader()
     {
-      return $this->belongsTo(User::class);
+      return $this->belongsTo(User::class,'leader_id');
     }
-    public function creator()
+    public function agent()
     {
-      return $this->belongsTo(User::class,'created_by');
+      return $this->belongsTo(User::class,'agent_id');
     }
 
     public function status()
@@ -39,6 +39,10 @@ class Deal extends Model
       }
     }
 
+    public function country()
+    {
+      return $this->belongsTo(Country::class,'unit_country');
+    }
 
 
 }
