@@ -109,7 +109,7 @@ class DealController extends Controller
       $sources = Source::where('active','1')->get();
       $mediums = Medium::where('active','1')->get();
 
-      $sellers = User::where('rule','salles')
+      $sellers = User::where('rule','salles')->orWhere('rule','leader')
                       ->where('active','1')->get();
     
       $leaders = User::where('rule','leader')
@@ -130,42 +130,42 @@ class DealController extends Controller
   {
 
       $data = $request->validate([
-        "unit_country"          => "required|max:3",
+        "unit_country"          => "required",
         "project_id"            => "required",
-        "unit_name"             => "required",
-        "developer_name"        => "required|max:50",
-        'purpose'               => 'required',
-        "purpose_type"          => "required",
-        "deal_date"             => "required",
-        "client_name"           => "required|max:50",
-        "client_mobile_no"      => "required|max:50",
-        "client_email"          => "required|email|max:100",
+        "unit_name"             => "nullable",
+        "developer_name"        => "nullable",
+        'purpose'               => 'nullable',
+        "purpose_type"          => "nullable",
+        "deal_date"             => "nullable",
+        "client_name"           => "nullable",
+        "client_mobile_no"      => "nullable",
+        "client_email"          => "nullable",
         "price"                 => "required",
-        "commission_type"       => "required|max:20",
+        "commission_type"       => "nullable",
         "commission"            => "required|numeric|between:1,100",
         "commission_amount"     => "required|numeric",
-        "vat"                   => "required|numeric|between:1,100",
-        "vat_amount"            => "required|numeric",
+        "vat"                   => "nullable",
+        "vat_amount"            => "nullable",
         "vat_received"     => "required",
         "total_invoice"         => "required",
-        "expected_date"         => "required|max:20",
-        "invoice_date"          => "required|max:20",
-        "agent_commission_percent" => "required|numeric|between:1,100",
-        "agent_commission_amount"  => "required|numeric",
-        "agent_leader_commission_percent" => "required|numeric|between:1,100",
-        "agent_leader_commission_amount"  => "required|numeric",
+        "expected_date"         => "nullable",
+        "invoice_date"          => "nullable",
+        "agent_commission_percent" => "nullable",
+        "agent_commission_amount"  => "nullable",
+        "agent_leader_commission_percent" => "nullable",
+        "agent_leader_commission_amount"  => "nullable",
         "third_party"           => "sometimes",
         "third_party_amount"    => "required_if:third_party,on",
         "third_party_name"      => "required_if:third_party,on",
         "mada_commission"       => "required|numeric",
-        "agent_id"       => "required|numeric",
-        "leader_id"       => "required|numeric",
+        "agent_id"       => "nullable",
+        "leader_id"       => "nullable",
         "spa"       => "nullable",
         "token"       => "nullable",
         "down_payment"       => "nullable",
-        "agent_commission_received"       => "required",
-        "agent_leader_commission_received"       => "required",
-        "mada_commission_received"       => "required",
+        "agent_commission_received"       => "nullable",
+        "agent_leader_commission_received"       => "nullable",
+        "mada_commission_received"       => "nullable",
         "notes"       => "nullable",
       ]);
 
@@ -200,44 +200,44 @@ class DealController extends Controller
     $deal = Deal::findOrFail($deal);
 
     $data = $request->validate([
-      "unit_country"          => "required|max:3",
+      "unit_country"          => "required",
       "project_id"            => "required",
-      "unit_name"             => "required",
-      "developer_name"        => "required|max:50",
-      'purpose'               => 'required',
-      "purpose_type"          => "required",
-      "deal_date"             => "required",
-      "client_name"           => "required|max:50",
-      "client_mobile_no"      => "required|max:50",
-      "client_email"          => "required|email|max:100",
+      "unit_name"             => "nullable",
+      "developer_name"        => "nullable",
+      'purpose'               => 'nullable',
+      "purpose_type"          => "nullable",
+      "deal_date"             => "nullable",
+      "client_name"           => "nullable",
+      "client_mobile_no"      => "nullable",
+      "client_email"          => "nullable",
       "price"                 => "required",
-      "commission_type"       => "required|max:20",
+      "commission_type"       => "nullable",
       "commission"            => "required|numeric|between:1,100",
       "commission_amount"     => "required|numeric",
-      "vat"                   => "required|numeric|between:1,100",
-      "vat_amount"            => "required|numeric",
+      "vat"                   => "nullable",
+      "vat_amount"            => "nullable",
       "vat_received"     => "required",
       "total_invoice"         => "required",
-      "expected_date"         => "required|max:20",
-      "invoice_date"          => "required|max:20",
-      "agent_commission_percent" => "required|numeric|between:1,100",
-      "agent_commission_amount"  => "required|numeric",
-      "agent_leader_commission_percent" => "required|numeric|between:1,100",
-      "agent_leader_commission_amount"  => "required|numeric",
+      "expected_date"         => "nullable",
+      "invoice_date"          => "nullable",
+      "agent_commission_percent" => "nullable",
+      "agent_commission_amount"  => "nullable",
+      "agent_leader_commission_percent" => "nullable",
+      "agent_leader_commission_amount"  => "nullable",
       "third_party"           => "sometimes",
       "third_party_amount"    => "required_if:third_party,on",
       "third_party_name"      => "required_if:third_party,on",
       "mada_commission"       => "required|numeric",
-      "agent_id"       => "required|numeric",
-      "leader_id"       => "required|numeric",
+      "agent_id"       => "nullable",
+      "leader_id"       => "nullable",
       "spa"       => "nullable",
       "token"       => "nullable",
       "down_payment"       => "nullable",
-      "agent_commission_received"       => "required",
-      "agent_leader_commission_received"       => "required",
-      "mada_commission_received"       => "required",
+      "agent_commission_received"       => "nullable",
+      "agent_leader_commission_received"       => "nullable",
+      "mada_commission_received"       => "nullable",
       "notes"       => "nullable",
-    ]);
+  ]);
 
     $data['updated_at'] = Carbon::now();
 
@@ -309,7 +309,7 @@ class DealController extends Controller
         $purpose[0] = 'buy';
     }
 
-    $sellers = User::where('rule','salles')
+    $sellers = User::where('rule','salles')->orWhere('rule','leader')
     ->where('active','1')->get();
 
     $leaders = User::where('rule','leader')

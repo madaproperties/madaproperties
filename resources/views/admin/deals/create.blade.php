@@ -120,7 +120,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.unit_name')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" required	name="unit_name" type="text" value="{{old('unit_name')}}" placeholder="{{__('site.unit_name')}}">
+																			<input class="form-control form-control-solid form-control-lg" 	name="unit_name" type="text" value="{{old('unit_name')}}" placeholder="{{__('site.unit_name')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -130,7 +130,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.developer_name')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" required	name="developer_name" type="text" value="{{old('developer_name')}}" placeholder="{{__('site.developer_name')}}">
+																			<input class="form-control form-control-solid form-control-lg" 	name="developer_name" type="text" value="{{old('developer_name')}}" placeholder="{{__('site.developer_name')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -140,7 +140,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.deal_date')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" required	name="deal_date" type="date" value="{{old('deal_date')}}" placeholder="{{__('site.deal_date')}}">
+																			<input class="form-control form-control-solid form-control-lg" 	name="deal_date" type="date" value="{{old('deal_date')}}" placeholder="{{__('site.deal_date')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -150,7 +150,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.client_name')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" required	name="client_name" type="text" value="{{old('client_name')}}" placeholder="{{__('site.client_name')}}">
+																			<input class="form-control form-control-solid form-control-lg" 	name="client_name" type="text" value="{{old('client_name')}}" placeholder="{{__('site.client_name')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -160,7 +160,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.client_mobile_no')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" required	name="client_mobile_no" type="text" value="{{old('client_mobile_no')}}" placeholder="{{__('site.client_mobile_no')}}">
+																			<input class="form-control form-control-solid form-control-lg" 	name="client_mobile_no" type="text" value="{{old('client_mobile_no')}}" placeholder="{{__('site.client_mobile_no')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -190,7 +190,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.price')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" id="price" required	name="price" type="text" value="{{old('price')}}" placeholder="{{__('site.price')}}" autocomplete="off">
+																			<input class="form-control form-control-solid form-control-lg" id="price" 	name="price" type="text" value="{{old('price')}}" placeholder="{{__('site.price')}}" autocomplete="off">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -212,7 +212,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.commission')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" id="commission" required	name="commission" type="text" value="{{old('commission')}}" placeholder="{{__('site.commission')}}" autocomplete="off">
+																			<input class="form-control form-control-solid form-control-lg" id="commission" 	name="commission" type="text" value="{{old('commission')}}" placeholder="{{__('site.commission')}}" autocomplete="off">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -222,7 +222,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.commission_amount')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" id="commission_amount" required	name="commission_amount" type="text" value="{{old('commission_amount')}}" placeholder="{{__('site.commission_amount')}}" readonly>
+																			<input class="form-control form-control-solid form-control-lg" id="commission_amount" 	name="commission_amount" type="text" value="{{old('commission_amount')}}" placeholder="{{__('site.commission_amount')}}" readonly>
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -232,7 +232,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.vat')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" id="vat" required name="vat" type="text" value="{{old('vat')}}" placeholder="{{__('site.vat')}}">
+																			<input class="form-control form-control-solid form-control-lg" id="vat"  name="vat" type="text" value="{{old('vat')}}" placeholder="{{__('site.vat')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -242,7 +242,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.vat_amount')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" required id="vat_amount" name="vat_amount" type="text" value="{{old('vat_amount')}}" placeholder="{{__('site.vat_amount')}}" readonly>
+																			<input class="form-control form-control-solid form-control-lg"  id="vat_amount" name="vat_amount" type="text" value="{{old('vat_amount')}}" placeholder="{{__('site.vat_amount')}}" readonly>
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -267,7 +267,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.total_invoice')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" required id="total_invoice" name="total_invoice" type="text" value="{{old('total_invoice')}}" placeholder="{{__('site.total_invoice')}}" readonly>
+																			<input class="form-control form-control-solid form-control-lg"  id="total_invoice" name="total_invoice" type="text" value="{{old('total_invoice')}}" placeholder="{{__('site.total_invoice')}}" readonly>
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -325,7 +325,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.invoice_date')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" type="date" required name="invoice_date" value="{{old('invoice_date')}}" placeholder="{{__('site.invoice_date')}}">
+																			<input class="form-control form-control-solid form-control-lg" type="date" name="invoice_date" value="{{old('invoice_date')}}" placeholder="{{__('site.invoice_date')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -351,7 +351,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.agent_commission_percent')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" required	name="agent_commission_percent" id="agent_commission_percent" type="text" value="{{old('agent_commission_percent')}}" placeholder="{{__('site.agent_commission_percent')}}" autocomplete="off">
+																			<input class="form-control form-control-solid form-control-lg" 	name="agent_commission_percent" id="agent_commission_percent" type="text" value="{{old('agent_commission_percent')}}" placeholder="{{__('site.agent_commission_percent')}}" autocomplete="off">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -361,7 +361,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.agent_commission_amount')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" required	name="agent_commission_amount" type="text" value="{{old('agent_commission_amount')}}" id="agent_commission_amount" placeholder="{{__('site.agent_commission_amount')}}" readonly>
+																			<input class="form-control form-control-solid form-control-lg" 	name="agent_commission_amount" type="text" value="{{old('agent_commission_amount')}}" id="agent_commission_amount" placeholder="{{__('site.agent_commission_amount')}}" readonly>
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -400,7 +400,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.agent_leader_commission_percent')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" id="agent_leader_commission_percent" required	name="agent_leader_commission_percent" type="text" value="{{old('agent_leader_commission_percent')}}" placeholder="{{__('site.agent_leader_commission_percent')}}" autocomplete="off">
+																			<input class="form-control form-control-solid form-control-lg" id="agent_leader_commission_percent" 	name="agent_leader_commission_percent" type="text" value="{{old('agent_leader_commission_percent')}}" placeholder="{{__('site.agent_leader_commission_percent')}}" autocomplete="off">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -411,7 +411,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.agent_leader_commission_amount')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" required	name="agent_leader_commission_amount" type="text" value="{{old('agent_leader_commission_amount')}}" id="agent_leader_commission_amount" placeholder="{{__('site.agent_leader_commission_amount')}}" readonly>
+																			<input class="form-control form-control-solid form-control-lg" 	name="agent_leader_commission_amount" type="text" value="{{old('agent_leader_commission_amount')}}" id="agent_leader_commission_amount" placeholder="{{__('site.agent_leader_commission_amount')}}" readonly>
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -464,7 +464,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mada_commission')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" id="mada_commission" required	name="mada_commission" type="text" value="{{old('mada_commission')}}" placeholder="{{__('site.mada_commission')}}" readonly> 
+																			<input class="form-control form-control-solid form-control-lg" id="mada_commission" 	name="mada_commission" type="text" value="{{old('mada_commission')}}" placeholder="{{__('site.mada_commission')}}" readonly> 
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -615,7 +615,7 @@
 		$("#price").on('input keyup keypress blur change',function(){
 			var comi = $("#commission").val();
 			var price = $("#price").val();	
-			$("#commission_amount").val((price*comi)/100);
+			$("#commission_amount").val(((price*comi)/100).toFixed(2));
 			$("#vat").change();
 		});
 
@@ -632,12 +632,12 @@
 
 			var comi = $(this).val();
 			var price = $("#price").val();	
-			$("#commission_amount").val((price*comi)/100);
+			$("#commission_amount").val(((price*comi)/100).toFixed(2));
 
 			var comi = $("#vat").val();
 			var commission_amount = $("#commission_amount").val();	
-			$("#vat_amount").val(((commission_amount*comi)/100));
-			$("#total_invoice").val(((commission_amount*comi)/100) + parseFloat(commission_amount));
+			$("#vat_amount").val(((commission_amount*comi)/100).toFixed(2));
+			$("#total_invoice").val((((commission_amount*comi)/100) + parseFloat(commission_amount)).toFixed(2));
 			updateMadaCommission();
 		});
 
@@ -655,7 +655,7 @@
 
 			var comi = $(this).val();
 			var price = $("#commission_amount").val();	
-			$("#agent_commission_amount").val((price*comi)/100);
+			$("#agent_commission_amount").val(((price*comi)/100).toFixed(2));
 			updateMadaCommission();
 		});
 
@@ -674,7 +674,8 @@
 
 			var comi = $(this).val();
 			var price = $("#commission_amount").val();	
-			$("#agent_leader_commission_amount").val((price*comi)/100);
+			var lead_com = parseFloat($("#commission_amount").val()) - parseFloat($("#agent_commission_amount").val());	
+			$("#agent_leader_commission_amount").val(((lead_com*comi)/100).toFixed(2));
 			updateMadaCommission();
 		});
 
@@ -700,8 +701,8 @@
 			var comi = $(this).val();
 			var price = $("#price").val();	
 			var commission_amount = $("#commission_amount").val();	
-			$("#vat_amount").val(((commission_amount*comi)/100));
-			$("#total_invoice").val(((commission_amount*comi)/100) + parseFloat(commission_amount));
+			$("#vat_amount").val(((commission_amount*comi)/100).toFixed(2));
+			$("#total_invoice").val((((commission_amount*comi)/100) + parseFloat(commission_amount)).toFixed(2));
 		});
 
 		$("#third_party_amount").on('input keyup keypress blur change',function(){
@@ -727,7 +728,7 @@
 				temp_com += third_party_amount;
 			}
 		}
-		$("#mada_commission").val(commission_amount - temp_com);		
+		$("#mada_commission").val((commission_amount - temp_com).toFixed(2));		
 	}
 
 	function getProjects(country)

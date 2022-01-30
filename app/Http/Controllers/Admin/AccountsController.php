@@ -18,7 +18,7 @@ class AccountsController extends Controller
    
         $users = User::paginate(20);
         $leaders = User::where('rule','leader')->where('active','1')->get();
-        $positions = ['rent','buy','sell','management'];
+        $positions = ['rent','buy','sell','management','handover'];
 
         return view('admin.accounts.index',[
           'users' => $users,
