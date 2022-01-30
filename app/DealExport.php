@@ -29,6 +29,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         $project = $deal->project ? $deal->project->name : '';
         $agent = $deal->agent ? $deal->agent->email : '';
         $leader = $deal->leader ? $deal->leader->email : '';
+        $developer_name = $deal->developer ? $deal->developer->name : '';
 
         return [
           $country,
@@ -36,7 +37,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $deal->purpose,
           $deal->purpose_type,
           $deal->unit_name,
-          $deal->developer_name,
+          $developer_name,
           $deal->deal_date,
           $deal->client_name,
           $deal->client_mobile_no,

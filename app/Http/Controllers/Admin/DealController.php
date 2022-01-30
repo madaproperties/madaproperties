@@ -27,6 +27,7 @@ use App\Medium;
 use App\Deal;
 use Maatwebsite\Excel\Facades\Excel;
 use App\DealExport;
+use App\Developer;
 
 class DealController extends Controller
 {
@@ -115,9 +116,11 @@ class DealController extends Controller
       $leaders = User::where('rule','leader')
       ->where('active','1')->get();
 
+      $developer = Developer::get();
+
 
       return view('admin.deals.create',
-      compact('projects','miles','countries','currencies','purpose','purposetype','campaigns','contents','sources','mediums','sellers','leaders'));
+      compact('projects','miles','countries','currencies','purpose','purposetype','campaigns','contents','sources','mediums','sellers','leaders','developer'));
   }
 
   /**
@@ -133,7 +136,7 @@ class DealController extends Controller
         "unit_country"          => "required",
         "project_id"            => "required",
         "unit_name"             => "nullable",
-        "developer_name"        => "nullable",
+        "developer_id"        => "nullable",
         'purpose'               => 'nullable',
         "purpose_type"          => "nullable",
         "deal_date"             => "nullable",
@@ -203,7 +206,7 @@ class DealController extends Controller
       "unit_country"          => "required",
       "project_id"            => "required",
       "unit_name"             => "nullable",
-      "developer_name"        => "nullable",
+      "developer_id"        => "nullable",
       'purpose'               => 'nullable',
       "purpose_type"          => "nullable",
       "deal_date"             => "nullable",
@@ -315,9 +318,11 @@ class DealController extends Controller
     $leaders = User::where('rule','leader')
     ->where('active','1')->get();
 
+    $developer = Developer::get();
+
 
     return view('admin.deals.show',
-    compact('deal','projects','miles','countries','currencies','purpose','purposetype','sellers','leaders'));
+    compact('deal','projects','miles','countries','currencies','purpose','purposetype','sellers','leaders','developer'));
 
   }  
 }

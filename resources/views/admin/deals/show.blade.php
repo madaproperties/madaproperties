@@ -113,9 +113,6 @@
 																	</div>
 																	<!--end::Group-->
 
-
-
-
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.unit_name')}}</label>
@@ -130,11 +127,16 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.developer_name')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="developer_name" type="text" value="{{$deal->developer_name}}" placeholder="{{__('site.developer_name')}}">
-																			<div class="fv-plugins-message-container"></div>
+																			<select class="form-control"  name="developer_id">
+																			<option value="">{{ __('site.choose') }}</option>
+																			@foreach($developer as $dev)
+																				<option {{$deal->developer_id == $dev->id ? 'selected' : ''}} value="{{$dev->id}}">{{$dev->name}}</option>
+																			@endforeach
+																			</select>
 																		</div>
 																	</div>
 																	<!--end::Group-->
+
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
@@ -201,6 +203,7 @@
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.commission_type')}}</label>
 																		<div class="col-lg-9 col-xl-9">
 																			<select class="form-control"  name="commission_type">
+																			<option {{$deal->commission_type == 'Commission Type' ? 'selected' : ''}} value="full">{{__('Commission Type')}}</option>
 																			<option {{$deal->commission_type == 'full' ? 'selected' : ''}} value="full">{{__('site.full')}}</option>
 																			<option {{$deal->commission_type == 'installment 1' ? 'selected' : ''}} value="installment 1">{{__('site.installment1')}}</option>
 																			<option {{$deal->commission_type == 'installment 2' ? 'selected' : ''}} value="installment 2">{{__('site.installment2')}}</option>
@@ -676,10 +679,9 @@
 				$(this).val(0);
 			}
 
-			var comi = $(this).val();
-			var price = $("#commission_amount").val();	
-			var lead_com = parseFloat($("#commission_amount").val()) - parseFloat($("#agent_commission_amount").val());	
-			$("#agent_leader_commission_amount").val(((lead_com*comi)/100).toFixed(2));
+		var comi = $(this).val();
+			var agent_commission_amount = $("#agent_commission_amount").val();	
+			$("#agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
 			updateMadaCommission();
 		});
 

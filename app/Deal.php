@@ -44,5 +44,10 @@ class Deal extends Model
       return $this->belongsTo(Country::class,'unit_country');
     }
 
+    public function developer()
+    {
+      return $this->belongsTo(Developer::class,'developer_id');
+    }
+
 
 }

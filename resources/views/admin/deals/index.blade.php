@@ -40,15 +40,15 @@
 								<tr class="text-left">
 									<th>{{__('site.country')}}</th>
 									<th>{{__('site.project')}}</th>
+									<th>{{__('site.unit_name')}}</th>
 									<th>{{__('site.price')}}</th>
 									<th>{{__('site.total_invoice')}}</th>
 									<th>{{__('site.mada_commission')}}</th>
 									<th>{{__('site.vat_amount')}}</th>
 									<th>{{__('site.down_payment')}}</th>
-									<th>{{__('site.expected_date')}}</th>
-									<th>{{__('site.invoice_date')}}</th>
+									<th>{{__('site.deal_date')}}</th>
+									<th>{{__('site.invoice_date')}}</th>	
 									<th>{{__('site.Agent')}}</th>
-									<th>{{__('site.created_at')}}</th>
 									<th>{{__('site.action')}}</th>
 								</tr>
 							</thead>
@@ -60,6 +60,9 @@
 									</td>
 									<td class="pl-0">
 										<span class="text-muted font-weight-bold text-muted d-block">{{$deal->project->name}}</span>
+									</td>
+									<td>
+										<span class="text-muted font-weight-bold">{{$deal->unit_name}}</span>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{number_format($deal->price)}}</span>
@@ -77,16 +80,13 @@
 										<span class="text-muted font-weight-bold">{{number_format($deal->down_payment)}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$deal->expected_date}}</span>
+										<span class="text-muted font-weight-bold">{{$deal->deal_date}}</span>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$deal->invoice_date}}</span>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$deal->agent ? substr($deal->agent->email, 0, strpos($deal->agent->email, "@")) : 'N/A'}}</span>
-									</td>
-									<td>
-										<span class="text-muted font-weight-bold">{{timeZone($deal->created_at)}}</span>
 									</td>
 									<td>
 
