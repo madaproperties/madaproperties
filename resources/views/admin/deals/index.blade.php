@@ -16,7 +16,7 @@
 				<div class="card-header border-0 py-5">
 					<h3 class="card-title align-items-start flex-column">
 						<span class="card-label font-weight-bolder text-dark">{{__('site.deals')}}</span>
-						<span class="text-muted mt-3 font-weight-bold font-size-sm">{{count($deals)}} {{__('site.deals')}}</span>
+						<span class="text-muted mt-3 font-weight-bold font-size-sm">{{$deals_count}} {{__('site.deals')}}</span>
 					</h3>
 					<div class="card-toolbar">
 						<a href="{{request()->fullUrlWithQuery(['exportData' => '1'])}}" class="btn btn-primary font-weight-bolder" target="_blank">
@@ -38,6 +38,7 @@
 						<table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
 							<thead>
 								<tr class="text-left">
+									<th>{{__('site.deal_date')}}</th>
 									<th>{{__('site.country')}}</th>
 									<th>{{__('site.project')}}</th>
 									<th>{{__('site.unit_name')}}</th>
@@ -46,7 +47,6 @@
 									<th>{{__('site.mada_commission')}}</th>
 									<th>{{__('site.vat_amount')}}</th>
 									<th>{{__('site.down_payment')}}</th>
-									<th>{{__('site.deal_date')}}</th>
 									<th>{{__('site.invoice_date')}}</th>	
 									<th>{{__('site.Agent')}}</th>
 									<th>{{__('site.action')}}</th>
@@ -55,6 +55,9 @@
 							<tbody>
 								@foreach($deals as $deal)
 								<tr>
+								<td>
+										<span class="text-muted font-weight-bold">{{$deal->deal_date}}</span>
+									</td>
 									<td class="pl-0">
 										<span class="text-muted font-weight-bold text-muted d-block">{{$deal->country ? $deal->country->name : 'N/A'}}</span>
 									</td>
@@ -80,9 +83,6 @@
 										<span class="text-muted font-weight-bold">{{number_format($deal->down_payment)}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$deal->deal_date}}</span>
-									</td>
-									<td>
 										<span class="text-muted font-weight-bold">{{$deal->invoice_date}}</span>
 									</td>
 									<td>
@@ -91,6 +91,8 @@
 									<td>
 
 										<a href="{{ route('admin.deal.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
+										<a href="{{ route('admin.deal.print',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Print commission report"><i class="fa fa-print"></i></a>																						
+										<a href="{{ route('admin.deal.printBill',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Print tax invoice"><i class="fa fa-print"></i></a>																						
 										@if(auth()->user()->rule == 'admin')
 											<form id="destory-{{$deal->id}}" class="delete" onsubmit="return confirm('{{__('site.confirm')}}');"
 												action="{{ route('admin.deal.destroy',$deal->id) }}" method="POST" >
@@ -107,6 +109,7 @@
 							</tbody>
 							{{$deals->links()}}
 						</table>
+						{{$deals->links()}}
 					</div>
 					<!--end::Table-->
 				</div>

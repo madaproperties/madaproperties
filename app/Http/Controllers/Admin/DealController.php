@@ -43,8 +43,9 @@ class DealController extends Controller
     }  
 
     $deals = Deal::orderBy('id','desc')->paginate(20);
+    $deals_count = Deal::count();
       
-    return view('admin.deals.index',compact('deals'));
+    return view('admin.deals.index',compact('deals','deals_count'));
   }
 
   public function create()
@@ -324,5 +325,22 @@ class DealController extends Controller
     return view('admin.deals.show',
     compact('deal','projects','miles','countries','currencies','purpose','purposetype','sellers','leaders','developer'));
 
+  }  
+
+  public function print($id)
+  {
+    if(userRole() != 'admin'){
+      return abort(404);
+    }
+    $deal = Deal::findOrFail($id);
+    return view('admin.deals.print',compact('deal'));
+  }  
+  public function printBill($id)
+  {
+    if(userRole() != 'admin'){
+      return abort(404);
+    }
+    $deal = Deal::findOrFail($id);
+    return view('admin.deals.print_bill',compact('deal'));
   }  
 }

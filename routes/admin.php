@@ -78,6 +78,12 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       // overview
       Route::resource('deal','DealController');
       // mainDashboardPage
+      Route::get('deal/print/{id}','DealController@print')
+                        ->name('deal.print');
+      Route::get('deal/printBill/{id}','DealController@printBill')
+                        ->name('deal.printBill');
+
+                        
 
 });
 
