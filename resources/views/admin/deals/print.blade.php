@@ -37,7 +37,7 @@
     <body onload="window.print()">
         <main>
 			<div class="logo center">
-				<img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="max-h-30px">
+				<img alt="Logo" src="{{ asset('public/imgs/logo.png') }}" class="max-h-30px">
 				<h3>Commission Report</h3>
 			</div>
             <table class="table table-bordered">
@@ -57,7 +57,7 @@
                     </tr>
 					<tr>
 						<td>Unit No.:</td>
-						<td colspan="2">{{'0'}}</td>
+						<td colspan="2">{{$deal->unit_name}}</td>
                     </tr>
 					<tr>
 						<td>Type of Property</td>
@@ -65,17 +65,17 @@
                     </tr>
 					<tr>
 						<td>Deal Type:</td>
-						<td>{{'0'}}</td>
+						<td>{{$deal->commission_type}}</td>
 						<td>Source: {{'0'}}</td>
                     </tr>
 					<tr>
 						<td>Price:</td>
-						<td colspan="2">{{$deal->price}}</td>
+						<td colspan="2">{{number_format($deal->price)}}</td>
                     </tr>
 					<tr>
 						<td>Period:</td>
 						<td>{{'0'}}</td>
-						<td>Date of Signing: {{$deal->deal_date}}</td>
+						<td>Date of Signing: {{date('d-m-Y',strtotime($deal->deal_date))}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -87,7 +87,7 @@
                     </tr>
 					<tr>
 						<td>Passport No.:</td>
-						<td colspan="2">{{'0'}}</td>
+						<td colspan="2"></td>
                     </tr>
 					<tr>
 						<td>Mobile No.:</td>
@@ -103,11 +103,11 @@
                 <tbody>
 					<tr>
 						<td>Company:</td>
-						<td colspan="2">{{'0'}}</td>
+						<td colspan="2">{{$deal->developer->company_address}}</td>
                     </tr>
 					<tr>
 						<td>Property Consultant:</td>
-						<td colspan="2">{{'0'}}</td>
+						<td colspan="2">{{$deal->agent ? substr($deal->agent->email, 0, strpos($deal->agent->email, "@")) : 'N/A'}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -119,17 +119,17 @@
                     </tr>
 					<tr>
 						<td>Total Commission</td>
-						<td>{{$deal->commission_amount}}</td>
-						<td>{{'0'}}</td>
+						<td>{{number_format($deal->commission_amount)}}</td>
+						<td></td>
                     </tr>
 					<tr>
 						<td>{{$deal->vat}}% VAT</td>
-						<td>{{$deal->vat_amount}}</td>
-						<td>{{'0'}}</td>
+						<td>{{number_format($deal->vat_amount)}}</td>
+						<td>{{number_format($deal->commission_amount+$deal->vat_amount)}}</td>
                     </tr>
 					<tr>
 						<td>Company</td>
-						<td>{{'0'}}</td>
+						<td>{{number_format($deal->mada_commission)}}</td>
 						<td>{{'0'}}</td>
                     </tr>
 					<tr>
@@ -139,12 +139,17 @@
                     </tr>
 					<tr>
 						<td>SM Commission</td>
-						<td>{{$deal->agent_commission_amount}}</td>
+						<td>{{number_format($deal->agent_commission_amount)}}</td>
+						<td>{{'0'}}</td>
+                    </tr>
+					<tr>
+						<td>Third Party Commission</td>
+						<td>{{number_format($deal->third_party_amount)}}</td>
 						<td>{{'0'}}</td>
                     </tr>
 					<tr>
 						<td>Total Commission</td>
-						<td colspan="2">{{$deal->commission_amount}}</td>
+						<td colspan="2">{{number_format($deal->commission_amount)}}</td>
                     </tr>
                 </tbody>
             </table>

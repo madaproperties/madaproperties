@@ -36,10 +36,13 @@
     </head>
     <body onload="window.print()">
         <main>
+			<div class="logo center">
+				<img alt="Logo" src="{{ asset('public/imgs/logo.png') }}" class="max-h-30px">
+			</div>		
             <table class="table table-bordered">
                 <tbody>
 					<tr>
-						<td style="text-align:center" colspan="8">TAX INVOICE</td>
+						<td style="text-align:center;" colspan="8">TAX INVOICE</td>
                     </tr>
 					<tr>
 						<td style="text-align:right;border:0px;" colspan="8">Invoice Date : {{$deal->invoice_date}}</td>
@@ -77,18 +80,18 @@
 						<td><b>Commission Amt. Incl. VAT</b></td>
                     </tr>
 					<tr>
-						<td>{{$deal->project->name}}</td>
+						<td>{{$deal->project->name .' '.$deal->unit_name}}</td>
 						<td>{{$deal->client_name}}</td>
-						<td>{{$deal->price}}</td>
+						<td>{{number_format($deal->price)}}</td>
 						<td>{{$deal->commission}} %</td>
-						<td>{{$deal->commission_amount}}</td>
+						<td>{{number_format($deal->commission_amount)}}</td>
 						<td>{{$deal->vat}} %</td>
-						<td>{{$deal->vat_amount}}</td>
-						<td>{{$deal->commission_amount}}</td>
+						<td>{{number_format($deal->vat_amount)}}</td>
+						<td>{{number_format($deal->commission_amount+$deal->vat_amount)}}</td>
                     </tr>
 					<tr>
 						<td colspan="7"><b>Total:</b></td>
-						<td>{{$deal->commission_amount}}</td>
+						<td>{{number_format($deal->commission_amount)}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -103,25 +106,25 @@
 						<td><b>Account Number</b></td>
 						<td>19004835</td>
 						<td><b>Total Commission excluding VAT</b></td>
-						<td>{{$deal->commission_amount}}</td>
+						<td>{{number_format($deal->commission_amount)}}</td>
                     </tr>
 					<tr>
 						<td><b>Bank Name</b></td>
 						<td>ADIB</td>
 						<td><b>VAT Amount</b></td>
-						<td>{{$deal->vat_amount}}</td>
+						<td>{{number_format($deal->vat_amount)}}</td>
                     </tr>
 					<tr>
 						<td><b>Swift Code</b></td>
 						<td>ABDIAEAD</td>
 						<td><b>Current Due (AED) INCL. VAT</b></td>
-						<td>{{'0'}}</td>
+						<td></td>
                     </tr>
 					<tr>
 						<td><b>IBAN #</b></td>
-						<td>AE140500000000019004835</td>
+						<td width="200px">AE140500000000019004835</td>
 						<td rowspan="2"><b>Total Commission Including VAT</b></td>
-						<td rowspan="2">{{$deal->vat_amount + $deal->commission_amount}}</td>
+						<td rowspan="2">{{number_format($deal->vat_amount + $deal->commission_amount)}}</td>
                     </tr>
 					<tr>
 						<td><b>Account Type</b></td>
@@ -133,6 +136,21 @@
                 <tbody>
 					<tr>
 						<td>_____________________________</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <table style="text-align:center;margin-top:50px;">
+                <tbody>
+					<tr>
+						<td>Office 1106, Opal Tower, Business Bay, Dubai, United Arab Emirates</td>
+                    </tr>
+					<tr>
+						<td>C.R. 880719 | RERA no. 23609 | T +971 4 243 4692</td>
+                    </tr>
+					<tr>
+						<td>info@madaproperties.com | www.madaproperties.com</td>
                     </tr>
                 </tbody>
             </table>

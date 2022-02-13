@@ -31,13 +31,36 @@
 					</div>
 				</div>
 				<!--end::Header-->
+				<!--end::Page Title-->
+				<form class="ml-5" action="">
+					@foreach(request()->all() as $pram => $val)
+						@if($pram != 'search')
+							<input type="hidden" name="{{$pram}}" value="{{$val}}" />
+						@endif
+					@endforeach
+					<div class="input-group input-group-sm input-group-solid" style="max-width:260px">
+						<input type="text" name="search" style="" class="form-control" id="kt_subheader_search_form" value="{{request('search')}}" placeholder="{{ __('site.search') }} {{__('site.unit_name')}}">
+						<div class="input-group-append">
+							<span class="input-group-text">
+								<span class="svg-icon">
+									<button type="submit" class="btn btn-sm btn-success ">
+										<i style="font-size: 14px;padding: 6px;" class="fas fa-search"></i>
+									</button>
+								</span>
+								<!--<i class="flaticon2-search-1 icon-sm"></i>-->
+							</span>
+						</div>
+
+					</div>
+				</form>
+
 				<!--begin::Body-->
 				<div class="card-body py-0">
 					<!--begin::Table-->
 					<div class="table-responsive">
-						<table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+						<table class="text-center table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
 							<thead>
-								<tr class="text-left">
+								<tr>
 									<th>{{__('site.deal_date')}}</th>
 									<th>{{__('site.country')}}</th>
 									<th>{{__('site.project')}}</th>
@@ -46,23 +69,23 @@
 									<th>{{__('site.total_invoice')}}</th>
 									<th>{{__('site.mada_commission')}}</th>
 									<th>{{__('site.vat_amount')}}</th>
-									<th>{{__('site.down_payment')}}</th>
-									<th>{{__('site.invoice_date')}}</th>	
+									<!--<th>{{__('site.down_payment')}}</th>-->
+									<!--<th>{{__('site.invoice_date')}}</th>-->
 									<th>{{__('site.Agent')}}</th>
-									<th>{{__('site.action')}}</th>
+									<th style="min-width:150px">{{__('site.action')}}</th>
 								</tr>
 							</thead>
 							<tbody>
 								@foreach($deals as $deal)
 								<tr>
-								<td>
-										<span class="text-muted font-weight-bold">{{$deal->deal_date}}</span>
+									<td>
+										<span class="text-muted font-weight-bold">{{date('d-m-Y',strtotime($deal->deal_date))}}</span>
 									</td>
-									<td class="pl-0">
-										<span class="text-muted font-weight-bold text-muted d-block">{{$deal->country ? $deal->country->name : 'N/A'}}</span>
+									<td>
+										<span class="text-muted font-weight-bold">{{$deal->country ? $deal->country->name : 'N/A'}}</span>
 									</td>
-									<td class="pl-0">
-										<span class="text-muted font-weight-bold text-muted d-block">{{$deal->project->name}}</span>
+									<td>
+										<span class="text-muted font-weight-bold">{{$deal->project->name}}</span>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$deal->unit_name}}</span>
@@ -79,12 +102,12 @@
 									<td>
 										<span class="text-muted font-weight-bold">{{number_format($deal->vat_amount)}}</span>
 									</td>
-									<td>
+									<!--<td>
 										<span class="text-muted font-weight-bold">{{number_format($deal->down_payment)}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$deal->invoice_date}}</span>
-									</td>
+										<span class="text-muted font-weight-bold">{{date('d-m-Y',strtotime($deal->invoice_date))}}</span>
+									</td>-->
 									<td>
 										<span class="text-muted font-weight-bold">{{$deal->agent ? substr($deal->agent->email, 0, strpos($deal->agent->email, "@")) : 'N/A'}}</span>
 									</td>
@@ -98,9 +121,9 @@
 												action="{{ route('admin.deal.destroy',$deal->id) }}" method="POST" >
 												@csrf
 												@method('DELETE')
-												<button type="submit" class="btn btn-danger">
-													{{__('site.delete')}}
-												</button>
+												<a href="javascript:void(0)" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Delete">
+												<i class="fa fa-trash" onclick="submitForm('{{$deal->id}}')"></i></a>
+												<button type="submit" style="display:none"></button>
 											</form>
 										@endif
 									</td>
@@ -122,3 +145,8 @@
 </div>
 
 @endsection
+<script>
+function submitForm(id){
+	$("#destory-"+id).submit();
+}
+</script>

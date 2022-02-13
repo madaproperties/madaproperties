@@ -42,9 +42,17 @@ class DealController extends Controller
       return Excel::download(new DealExport, 'DealsReport.xlsx');
     }  
 
-    $deals = Deal::orderBy('id','desc')->paginate(20);
-    $deals_count = Deal::count();
-      
+    if(Request()->has('search')){
+      $deals = Deal::where('unit_name','LIKE','%'. Request('search') .'%')->orderBy('id','desc')->paginate(20);
+      $deals_count = Deal::where('unit_name','LIKE','%'. Request('search') .'%')->count();
+        
+    }else{
+      $deals = Deal::orderBy('id','desc')->paginate(20);
+      $deals_count = Deal::count();
+  
+    }
+
+
     return view('admin.deals.index',compact('deals','deals_count'));
   }
 
