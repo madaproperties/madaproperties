@@ -56,15 +56,15 @@
                     </tr>
 					<tr>
 						<td style="text-align:left;border:0px;" colspan="5">TRN : 100506324100003</td>
-						<td colspan="3">Sobha LLC</td>
+						<td colspan="3">{{$deal->developer->name}}</td>
                     </tr>
 					<tr>
 						<td style="text-align:left;border:0px;" colspan="5">Telephone : +97142434692</td>
-						<td colspan="3">P.O Box 125250 Dubai , UAE</td>
+						<td colspan="3">{{$deal->developer->company_address}}</td>
                     </tr>
 					<tr>
 						<td style="text-align:left;border:0px;" colspan="5">Email: admin-dxb@madaproperties.com</td>
-						<td colspan="3">TRN : 100551377300003</td>
+						<td colspan="3">TRN : {{isset($deal->developer->trn) ? $deal->developer->trn : ''}}</td>
                     </tr>
 					<tr>
 						<td style="border:0px;" colspan="8">Website : www.madaproperties.com</td>
