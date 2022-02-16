@@ -255,4 +255,5 @@ return [
   'created_at' => 'Created At',
   'updated_at' => 'Updated At',
   'vat_received' => 'Vat Paid',
+  'invoice_number' => 'Invoice Number'
 ];

@@ -18,6 +18,10 @@ class Deal extends Model
     {
       return $this->belongsTo(User::class,'agent_id');
     }
+    public function source()
+    {
+      return $this->belongsTo(Source::class,'source_id');
+    }
 
     public function status()
     {

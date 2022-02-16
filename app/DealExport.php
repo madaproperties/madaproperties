@@ -20,10 +20,10 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
     public function query()
     {
       if(Request()->has('search')){
-        $deals = Deal::where('unit_name','LIKE','%'. Request('search') .'%')->orderBy('id','desc');
+        $deals = Deal::where('unit_name','LIKE','%'. Request('search') .'%')->orderBy('deal_date','desc');
           
       }else{
-        $deals = Deal::orderBy('id','desc');
+        $deals = Deal::orderBy('deal_date','desc');
       }
       return $deals;
     }
@@ -44,6 +44,9 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $deal->unit_name,
           $developer_name,
           date('d-m-Y',strtotime($deal->deal_date)),
+          $deal->source->name,
+          $deal->invoice_number,
+          $deal->client_name,
           $deal->client_name,
           $deal->client_mobile_no,
           $deal->client_email,
@@ -89,6 +92,8 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         __('site.unit_name'),
         __('site.developer_name'),
         __('site.deal_date'),
+        __('site.source'),
+        __('site.invoice_number'),
         __('site.client_name'),
         __('site.client_mobile_no'),
         __('site.client_email'),

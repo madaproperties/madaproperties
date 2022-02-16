@@ -150,6 +150,30 @@
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.invoice_number')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="invoice_number" type="text" value="{{$deal->invoice_number}}" placeholder="{{__('site.invoice_number')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.source')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<select class="form-control" name="source_id" tabindex="-1" aria-hidden="true">
+																				<option value="">{{ __('site.choose') }}</option>
+																					@foreach($sources as $source)
+																					<option {{$deal->source == $source->id ? 'selected' : ''}} value="{{$source->id}}">{{$source->name}}</option>
+																					@endforeach
+																			</select>														
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.client_name')}}</label>
 																		<div class="col-lg-9 col-xl-9">
 																			<input class="form-control form-control-solid form-control-lg" 	name="client_name" type="text" value="{{$deal->client_name}}" placeholder="{{__('site.client_name')}}">

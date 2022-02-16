@@ -43,11 +43,11 @@ class DealController extends Controller
     }  
 
     if(Request()->has('search')){
-      $deals = Deal::where('unit_name','LIKE','%'. Request('search') .'%')->orderBy('id','desc')->paginate(20);
+      $deals = Deal::where('unit_name','LIKE','%'. Request('search') .'%')->orderBy('deal_date','desc')->paginate(20);
       $deals_count = Deal::where('unit_name','LIKE','%'. Request('search') .'%')->count();
         
     }else{
-      $deals = Deal::orderBy('id','desc')->paginate(20);
+      $deals = Deal::orderBy('deal_date','desc')->paginate(20);
       $deals_count = Deal::count();
   
     }
@@ -149,6 +149,8 @@ class DealController extends Controller
         'purpose'               => 'nullable',
         "purpose_type"          => "nullable",
         "deal_date"             => "nullable",
+        "source_id"                => "nullable",
+        "invoice_number"        => "nullable",
         "client_name"           => "nullable",
         "client_mobile_no"      => "nullable",
         "client_email"          => "nullable",
@@ -219,6 +221,8 @@ class DealController extends Controller
       'purpose'               => 'nullable',
       "purpose_type"          => "nullable",
       "deal_date"             => "nullable",
+      "source_id"                => "nullable",
+      "invoice_number"        => "nullable",
       "client_name"           => "nullable",
       "client_mobile_no"      => "nullable",
       "client_email"          => "nullable",
@@ -328,10 +332,11 @@ class DealController extends Controller
     ->where('active','1')->get();
 
     $developer = Developer::get();
+    $sources = Source::where('active','1')->get();
 
 
     return view('admin.deals.show',
-    compact('deal','projects','miles','countries','currencies','purpose','purposetype','sellers','leaders','developer'));
+    compact('deal','projects','miles','countries','currencies','purpose','purposetype','sellers','leaders','developer','sources'));
 
   }  
 
