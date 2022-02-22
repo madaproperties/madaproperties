@@ -247,5 +247,8 @@ return [
   'created_at' => 'أنشئت في',
   'updated_at' => 'تم التحديث في',
   'vat_received' => 'ضريبة القيمة المضافة المدفوعة',
-  'invoice_number' => 'رقم الفاتورة'
+  'invoice_number' => 'رقم الفاتورة',
+  'new' => 'New',
+  'other' => 'other',
+
 ];

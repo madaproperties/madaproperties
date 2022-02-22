@@ -181,7 +181,11 @@
 		<!--begin::Header Mobile-->
 		<div id="kt_header_mobile" class="header-mobile  header-mobile-fixed">
 			<!--begin::Logo-->
-			<a href="{{route('admin.')}}">
+			@if(userRole() == 'other')
+				<a href="{{route('admin.deal.index')}}">
+			@else
+				<a href="{{route('admin.')}}">
+			@endif
 				<img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="max-h-30px" />
 			</a>
 			<!--end::Logo-->
@@ -221,7 +225,11 @@
 								<!--begin::Left-->
 								<div class="d-none d-lg-flex align-items-center mr-3">
 									<!--begin::Logo-->
-									<a href="{{route('admin.')}}" class="mr-20">
+									@if(userRole() == 'other')
+										<a href="{{route('admin.deal.index')}}" class="mr-20">
+									@else
+										<a href="{{route('admin.')}}" class="mr-20">
+									@endif
 										<img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo" />
 									</a>
 									<!--end::Logo-->
@@ -242,13 +250,14 @@
 												<span class="flaticon2-world" style="margin-right:2px"></span>
 												{{ app()->getLocale() == 'en' ? 'ع' : 'en'}}
 										</div>
-
+										@if(userRole() != 'other')
 										<div
 										onclick="window.location = '{{route('admin.notofications.index')}}'"
 										class="btn btn-icon btn-hover-transparent-white btn-dropdown btn-lg mr-1 {{ $notoficationCount ? 'pulse pulse-white' : ''}}">
 												<span class="flaticon-alert"></span> <span style="margin-left:5px;" class="bg-white badge badge-light">{{$notoficationCount}}</span>
 												<span class="pulse-ring"></span>
 										</div>
+										@endif
 
 										<div
 										onclick="window.location = '{{route('admin.account.index')}}'"
@@ -292,7 +301,7 @@
 											<div id="kt_header_menu" class="header-menu header-menu-mobile header-menu-layout-default">
 												<!--begin::Nav-->
 												<ul class="menu-nav">
-
+@if(userRole() != 'other')
       @if(userRole() == 'admin' OR userRole() == 'manger')
     <li class="menu-item menu-item-active" aria-haspopup="true">
 		<a
@@ -358,11 +367,15 @@ href="{{route('admin.home')}}?filter_status={{ App\Status::where('name_en','new'
 
 
 	    @if(userRole() == 'admin')
-			<li class="menu-item menu-item-active" aria-haspopup="true">
-				<a href="{{route('admin.deal.index')}}" class="menu-link {{ active_nav('deals') ? 'active' : ''}}">
-					<span class="menu-text">{{__('site.deals')}}</span>
-				</a>
-			</li>
+		<li class="menu-item menu-item-active text-dark">
+			<a class="menu-link menu-toggle menu-link text-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			{{__('site.deals')}}
+			</a>
+			<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+				<a class="dropdown-item" href="{{route('admin.deal.index')}}">{{__('site.deals')}}</a>
+				<a class="dropdown-item" href="{{route('admin.deal_project.index')}}">{{__('site.deals') .' '. __('site.project')}}</a>
+			</div>
+		</li>
       	@endif
 
 
@@ -370,7 +383,7 @@ href="{{route('admin.home')}}?filter_status={{ App\Status::where('name_en','new'
 
 
     @endif
-
+@endif
 
 												</ul>
 												<!--end::Nav-->

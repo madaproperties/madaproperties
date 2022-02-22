@@ -763,7 +763,7 @@
 	{
 	    $('.related-to-project').css('display','none');
 	    let token = $('meta[name=csrf-token]').attr('content');
-		let route = '{{route("admin.get.projects")}}';
+		let route = '{{route("admin.get.dealprojects")}}';
 		let projectEl = $('.other-select');
 
 

@@ -32,10 +32,10 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
     {
         $country = $deal->country ? $deal->country->name : '';
         $project = $deal->project ? $deal->project->name : '';
-        $agent = $deal->agent ? $deal->agent->email : '';
-        $leader = $deal->leader ? $deal->leader->email : '';
+        $agent = $deal->agent ? $deal->agent->name : '';
+        $leader = $deal->leader ? $deal->leader->name : '';
         $developer_name = $deal->developer ? $deal->developer->name : '';
-
+		$source = $deal->source ? $deal->source->name : '';
         return [
           $country,
           $project,
@@ -44,9 +44,8 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $deal->unit_name,
           $developer_name,
           date('d-m-Y',strtotime($deal->deal_date)),
-          $deal->source->name,
+		  $source,
           $deal->invoice_number,
-          $deal->client_name,
           $deal->client_name,
           $deal->client_mobile_no,
           $deal->client_email,
@@ -136,6 +135,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
       $allowedFeilds =[
         "country_id" ,
         "project_id" ,
+		"source_id" ,
         "purpose" ,
         "agent_id" ,
         "leader_id" ,

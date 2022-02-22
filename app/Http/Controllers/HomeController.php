@@ -15,7 +15,10 @@ class HomeController extends Controller
 
     public function index()
     {
-        return view('home');
+      if(userRole() == 'other'){
+        return redirect()->route('admin.deal.index');      
+      }
+      return view('home');
     }
 
     public function login(Request $req)
@@ -35,6 +38,9 @@ class HomeController extends Controller
           User::where('id',auth()->id())->update([
             'last_login' => Carbon::now()->toDateTimeString()
           ]);
+          if(userRole() == 'other'){
+            return redirect()->route('admin.deal.index');      
+          }
           return redirect()->route('admin.');
         }
         // back if notfound

@@ -83,6 +83,10 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::get('deal/printBill/{id}','DealController@printBill')
                         ->name('deal.printBill');
 
+      Route::resource('deal_project','DealProjectController');
+      Route::post('get-dealprojects','DealProjectController@getDealProjects')
+                        ->name('get.dealprojects');
+
                         
 
 });

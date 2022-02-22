@@ -165,7 +165,7 @@
 																			<select class="form-control" name="source_id" tabindex="-1" aria-hidden="true">
 																				<option value="">{{ __('site.choose') }}</option>
 																					@foreach($sources as $source)
-																					<option {{$deal->source == $source->id ? 'selected' : ''}} value="{{$source->id}}">{{$source->name}}</option>
+																					<option {{$deal->source_id == $source->id ? 'selected' : ''}} value="{{$source->id}}">{{$source->name}}</option>
 																					@endforeach
 																			</select>														
 																		</div>
@@ -765,7 +765,7 @@
 	{
 	    $('.related-to-project').css('display','none');
 	    let token = $('meta[name=csrf-token]').attr('content');
-		let route = '{{route("admin.get.projects")}}';
+		let route = '{{route("admin.get.dealprojects")}}';
 		let projectEl = $('.other-select');
 
 

@@ -396,6 +396,9 @@
                           <option
                         		{{old('rule') == 'sales admin saudi' ? 'selected' : ''}}
                           value="sales admin saudi">{{__('site.sales admin saudi')}}</option>
+						  <option
+                        		{{old('rule') == 'other' ? 'selected' : ''}}
+                          value="other">{{__('site.other')}}</option>						  
 												</select>
 											</div>
 

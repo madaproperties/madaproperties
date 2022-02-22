@@ -30,6 +30,10 @@ class MainController extends Controller
 
   // index
   public function index(){
+    if(userRole() == 'other'){
+      return redirect()->route('admin.deal.index');      
+    }
+
 
     if(Request()->has('exportData')){
       return Excel::download(new ContactExport, 'Report.xlsx');

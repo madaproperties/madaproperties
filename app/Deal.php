@@ -30,17 +30,12 @@ class Deal extends Model
 
     public function project()
     {
-      return $this->belongsTo(Project::class);
+      return $this->belongsTo(DealProject::class);
     }
 
     public function getProjectNameAttribute()
     {
-      if(app()->getLocale() == 'ar')
-      {
-        return $this->project->name_ar;
-      }else{
-        return $this->project->name_en;
-      }
+      return $this->project->project_name;
     }
 
     public function country()

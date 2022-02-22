@@ -34,7 +34,7 @@ class DealController extends Controller
 
   // index 
   public function index(){
-    if(userRole() != 'admin'){
+    if(userRole() != 'admin' && userRole() != 'other'){
       return abort(404);
     }
    
@@ -58,7 +58,11 @@ class DealController extends Controller
 
   public function create()
   {
-      $currencyName = app()->getLocale() == 'en' ? 'currency' : 'currency_ar';
+    if(userRole() != 'admin'){
+      return abort(404);
+    }
+
+    $currencyName = app()->getLocale() == 'en' ? 'currency' : 'currency_ar';
 
       $projects = Project::where('name_en','others')
                           ->get();
@@ -140,6 +144,9 @@ class DealController extends Controller
     */
   public function store(Request $request)
   {
+    if(userRole() != 'admin'){
+      return abort(404);
+    }
 
       $data = $request->validate([
         "unit_country"          => "required",
@@ -211,6 +218,10 @@ class DealController extends Controller
 
   public function update(Request $request,  $deal)
   {
+    if(userRole() != 'admin'){
+      return abort(404);
+    }
+
     $deal = Deal::findOrFail($deal);
 
     $data = $request->validate([
@@ -274,6 +285,9 @@ class DealController extends Controller
 
   public function show($deal)
   {
+    if(userRole() != 'admin' && userRole() != 'other'){
+      return abort(404);
+    }
     $deal = Deal::findOrFail($deal);
     if(userRole() != 'admin'){
       return abort(404);
@@ -342,7 +356,7 @@ class DealController extends Controller
 
   public function print($id)
   {
-    if(userRole() != 'admin'){
+    if(userRole() != 'admin' && userRole() != 'other'){
       return abort(404);
     }
     $deal = Deal::findOrFail($id);
@@ -350,7 +364,7 @@ class DealController extends Controller
   }  
   public function printBill($id)
   {
-    if(userRole() != 'admin'){
+    if(userRole() != 'admin' && userRole() != 'other'){
       return abort(404);
     }
     $deal = Deal::findOrFail($id);

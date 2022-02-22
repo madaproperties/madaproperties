@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Invoice Number</title>
+        <title></title>
         <style>
             * {
                 -webkit-box-sizing: border-box;
@@ -17,6 +17,7 @@
 				margin-top:200px;
                 width: 100%;
                 max-width: 100%;
+				padding:20px;
 			}
             table {
                 width: 100%;
@@ -27,11 +28,12 @@
 				margin-bottom:15px;
             }
             .table td  {
-                border: 1px solid #ddd;
+                border: 1px solid #000;
                 padding: 1px;
 				max-width:20px;
-				font-size:13px;
+				font-size:12px;
 				padding-left: 5px;
+				font-family:Calibri;
             }
 			.center{
 				text-align:center;
@@ -49,7 +51,7 @@
             <table class="table table-bordered">
                 <tbody>
 					<tr>
-						<td style="text-align:center;border:0px;text-decoration: underline;padding-bottom: 35px;" colspan="8"><b>TAX INVOICE</b></td>
+						<td style="text-align:center;border:0px;text-decoration: underline;padding-bottom: 35px;padding-left:100px;" colspan="8"><b>TAX INVOICE</b></td>
                     </tr>
 					<tr>
 						<td style="text-align:left;border:0px;" colspan="8">Invoice Date : {{$deal->invoice_date}}</td>
@@ -58,48 +60,48 @@
 						<td style="text-align:left;border:0px;padding-bottom: 15px;" colspan="8">Invoice Number : {{$deal->invoice_number}}</td>
                     </tr>
 					<tr>
-						<td style="text-align:left;border:0px;" colspan="5"><b>Mada Properties</b></td>
-						<td colspan="3" style="border:0px;"><b>Invoiced To :</b></td>
+						<td style="text-align:left;border:0px;" colspan="5"><b>Mada Properties LLC</b></td>
+						<td colspan="3" style="border:0px;text-align:left;"><b>Invoiced To :</b></td>
                     </tr>
 					<tr>
 						<td style="text-align:left;border:0px;" colspan="5">TRN : 100506324100003</td>
-						<td colspan="3" style="border:0px;">{{$deal->developer->name}}</td>
+						<td colspan="3" style="border:0px;text-align:left;">{{$deal->developer->name}}</td>
                     </tr>
 					<tr>
 						<td style="text-align:left;border:0px;" colspan="5">Telephone : +97142434692</td>
-						<td colspan="3" style="border:0px;">{{$deal->developer->company_address}}</td>
+						<td colspan="3" style="border:0px;text-align:left;">{{$deal->developer->company_address}}</td>
                     </tr>
 					<tr>
-						<td style="text-align:left;border:0px;" colspan="5">Email: admin-dxb@madaproperties.com</td>
-						<td colspan="3" style="border:0px;">TRN : {{isset($deal->developer->trn) ? $deal->developer->trn : ''}}</td>
+						<td style="text-align:left;border:0px;padding-bottom:30px;" colspan="5">Email: admin-dxb@madaproperties.com</td>
+						<td colspan="3" style="border:0px;text-align:left;padding-bottom:30px;">TRN : {{isset($deal->developer->trn) ? $deal->developer->trn : ''}}</td>
+                    </tr>
+					
+					<tr>
+						<td style="text-align:center;"><b>Project</b></td>
+						<td style="text-align:center;"><b>Unit</br> Details</b></td>
+						<td style="text-align:center;"><b>Client</br> Name</b></td>
+						<td style="text-align:center;"><b>Selling</br> Price</b></td>
+						<td style="text-align:center;"><b>Commission</br> %</b></td>
+						<td style="text-align:center;"><b>Commission</br> Amt. (AED)</b></td>
+						<td style="text-align:center;"><b>VAT %</b></td>
+						<td style="text-align:center;"><b>VAT</br> Amt. (AED)</b></td>
+						<td style="text-align:center;"><b>Commission</br>Amt Incl VAT (AED)</b></td>
                     </tr>
 					<tr>
-						<td style="border:0px;padding-bottom: 30px;" colspan="8">Website : www.madaproperties.com</td>
+						<td style="text-align:center;padding:7px;">{{$deal->project->project_name}}</td>
+						<td style="text-align:center;padding:7px;">{{$deal->unit_name}}</td>
+						<td style="text-align:center;padding:7px;">{{$deal->client_name}}</td>
+						<td style="text-align:center;padding:7px;">{{number_format($deal->price)}}</td>
+						<td style="text-align:center;padding:7px;">{{$deal->commission}} %</td>
+						<td style="text-align:center;padding:7px;">{{number_format($deal->commission_amount)}}</td>
+						<td style="text-align:center;padding:7px;">{{$deal->vat}} %</td>
+						<td style="text-align:center;padding:7px;">{{number_format($deal->vat_amount)}}</td>
+						<td style="text-align:center;padding:7px;">{{number_format($deal->commission_amount+$deal->vat_amount)}}</td>
                     </tr>
 					<tr>
-						<td><b>Unit Details</b></td>
-						<td><b>Client Name</b></td>
-						<td><b>Selling Price</b></td>
-						<td><b>Commission %</b></td>
-						<td><b>Commission Amt. AED</b></td>
-						<td><b>VAT %</b></td>
-						<td><b>VAT Amt. AED</b></td>
-						<td><b>Commission Amt. Incl. VAT</b></td>
-                    </tr>
-					<tr>
-						<td>{{$deal->project->name .' '.$deal->unit_name}}</td>
-						<td>{{$deal->client_name}}</td>
-						<td>{{number_format($deal->price)}}</td>
-						<td>{{$deal->commission}} %</td>
-						<td>{{number_format($deal->commission_amount)}}</td>
-						<td>{{$deal->vat}} %</td>
-						<td>{{number_format($deal->vat_amount)}}</td>
-						<td>{{number_format($deal->commission_amount+$deal->vat_amount)}}</td>
-                    </tr>
-					<tr>
-						<td colspan="6" style="border:0px;"></td>
-						<td><b>Total:</b></td>
-						<td><b>{{number_format($deal->commission_amount+$deal->vat_amount)}}</b></td>
+						<td colspan="7" style="border:0px;"></td>
+						<td style="text-align:center;"><b>Total:</b></td>
+						<td style="text-align:center;"><b>{{number_format($deal->commission_amount+$deal->vat_amount)}}</b></td>
                     </tr>
                 </tbody>
             </table>
@@ -131,7 +133,7 @@
                     </tr>
                 </tbody>
             </table>
-            <table style="text-align:right;margin-top:80px;border:0px;">
+            <table style="text-align:right;margin-top:200px;border:0px;">
                 <tbody>
 					<tr>
 						<td>_____________________________</td>

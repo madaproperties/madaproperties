@@ -96,32 +96,6 @@
 																	<!--end::Group-->
 
 
-
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.unit_name')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="unit_name" type="text" value="{{old('unit_name')}}" placeholder="{{__('site.unit_name')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.developer_name')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<select class="form-control"  name="developer_id">
-																			<option value="">{{ __('site.choose') }}</option>
-																			@foreach($developer as $dev)
-																				<option {{old('developer_id') == $dev->id ? 'selected' : ''}} value="{{$dev->id}}">{{$dev->name}}</option>
-																			@endforeach
-																			</select>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.deal_date')}}</label>
@@ -250,15 +224,6 @@
 																	<!--end::Group-->
 
 
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.total_invoice')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg"  id="total_invoice" name="total_invoice" type="text" value="{{old('total_invoice')}}" placeholder="{{__('site.total_invoice')}}" readonly>
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.token')}}</label>
