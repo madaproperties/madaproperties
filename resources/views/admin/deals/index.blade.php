@@ -1,3 +1,27 @@
+@push('css')
+    <style>
+        .dataTables_info,.dataTables_paginate ,#DataTables_Table_0_filter
+        {
+            display:none;
+        }
+        .dt-button
+        {
+                padding: 5px;
+                background: #000;
+                color: #fff;
+                border: none;
+        }
+        .search-from {
+          padding: 20px;
+          background: #fff;
+          margin: 20px;
+          box-shadow: 2px 2px 10px #fff, -2px -2px 10px #fff4f4;
+          border:1px solid #eee;
+          border-radius: 10px;
+        }
+    </style>
+@endpush
+
 @extends('admin.layouts.main')
 @section('content')
 
@@ -18,15 +42,30 @@
 						<span class="card-label font-weight-bolder text-dark">{{__('site.deals')}}</span>
 						<span class="text-muted mt-3 font-weight-bold font-size-sm">{{$deals_count}} {{__('site.deals')}}</span>
 					</h3>
+					<div class="form-group row fv-plugins-icon-container">
+							<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.export') .' '.__('site.fields') }}</label>
+							<div class="col-lg-8 col-xl-8">
+								<select class="form-control" name="selectData" id="selectData" multiple>
+								@foreach($fields as $dev)
+									<option value="{{$dev}}">{{$dev}}</option>
+								@endforeach
+								</select>
+							</div>
+						</div>
+
+
+
 					<div class="card-toolbar">
-					@if(userRole() == 'admin')
-						<a href="{{request()->fullUrlWithQuery(['exportData' => '1'])}}" class="btn btn-primary font-weight-bolder" target="_blank">
+
+
+						<a href="{{request()->fullUrlWithQuery(['exportData' => '1'])}}" class="btn btn-primary font-weight-bolder" id="exportButton" target="_blank" onclick="exportdata()">
 							<span class="svg-icon svg-icon-md">
 							<i class="fas fa-database" style="color:#fff"></i>
 							</span>{{__('site.export') }}
 						</a>
 
 
+					@if(userRole() == 'admin')
 						<a href="{{route('admin.deal.create')}}" id="kt_quick_user_toggle" class="btn btn-success font-weight-bolder font-size-sm">
 						<span class="fa fa-plus"></span> {{__('site.New Deal')}}</a>
 					@endif
@@ -53,11 +92,13 @@
 							</span>
 						</div>
 
-					</div>
+					</div><br>
 				</form>
 
 				<!--begin::Body-->
 				<div class="card-body py-0">
+				@include('admin.layouts.advanced-search-deals')
+
 					<!--begin::Table-->
 					<div class="table-responsive">
 						<table class="text-center table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
@@ -93,16 +134,16 @@
 										<span class="text-muted font-weight-bold">{{$deal->unit_name}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{number_format($deal->price)}}</span>
+										<span class="text-muted font-weight-bold">{{number_format($deal->price, 2)}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{number_format($deal->total_invoice)}}</span>
+										<span class="text-muted font-weight-bold">{{number_format($deal->total_invoice, 2)}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{number_format($deal->mada_commission)}}</span>
+										<span class="text-muted font-weight-bold">{{number_format($deal->mada_commission, 2)}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{number_format($deal->vat_amount)}}</span>
+										<span class="text-muted font-weight-bold">{{number_format($deal->vat_amount, 2)}}</span>
 									</td>
 									<!--<td>
 										<span class="text-muted font-weight-bold">{{$deal->down_payment}}</span>
@@ -152,5 +193,12 @@
 <script>
 function submitForm(id){
 	$("#destory-"+id).submit();
+}
+function exportdata(){
+	var url = $("#exportButton").attr('href');
+	var expSelected = '&select='+$("#selectData").val();
+	if(expSelected != ''){
+		window.location.href = url+expSelected;
+	}
 }
 </script>

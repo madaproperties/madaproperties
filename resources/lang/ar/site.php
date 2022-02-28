@@ -250,5 +250,5 @@ return [
   'invoice_number' => 'رقم الفاتورة',
   'new' => 'New',
   'other' => 'other',
-
+  'fields' => 'Fields',
 ];

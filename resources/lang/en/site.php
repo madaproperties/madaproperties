@@ -257,5 +257,6 @@ return [
   'vat_received' => 'Vat Paid',
   'invoice_number' => 'Invoice Number',
   'new' => 'New',
-  'other' => 'other'
+  'other' => 'other',
+  'fields' => 'Fields',
 ];

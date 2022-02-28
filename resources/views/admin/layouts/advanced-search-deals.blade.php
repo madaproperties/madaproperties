@@ -15,11 +15,11 @@
   <div class="card">
     <div class="card-header" id="headingOne">
       <h5 class="mb-0">
-        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
           Advanced Search <i class="fas fa-compress"></i>
           
           @if(request('ADVANCED'))
-            <a href="?">
+            <a href="{{route('admin.deal.index')}}">
                 Remove Filter
             </a>
           @endif
@@ -28,446 +28,221 @@
     </div>
     <div id="collapseOne" class="collapse " aria-labelledby="headingOne" data-parent="#accordion">
 
-                          <form method="GET" action="" class="search-from" >
-                            <h3 class="text-center">advanced Search</h2> <hr />
-                            <input type="hidden" name="ADVANCED" value="search">
-                            <div class="col-xl-6">
-																<!--begin::Wizard Step 1-->
-																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+<form method="GET" action="" class="search-from" >
+  <h3 class="text-center">advanced Search</h2> <hr />
+  <input type="hidden" name="ADVANCED" value="search">
 
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.unit country')}} </label>
-																		<div class="col-lg-9 col-xl-9" data-select2-id="38">
-																			<select class="form-control " id="unit_country"
-																			name="unit_country" data-select2-id="" tabindex="-1" aria-hidden="true">
-																				<option value="">{{ __('site.choose') }}</option>
-																				@foreach($countries as $country)
-																					<option {{old('unit_country') == $country->id ? 'selected' : ''}} value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>
-																				@endforeach
-																			</select>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row prject-area">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.project')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<select class="form-control other-select"  name="project_id">
-																			<option value="">{{ __('site.choose') }}</option>
-																			</select>
-																		</div>
-																	</div>
-																	<!--end::Group-->
+  <div class="row"> <!--- row -->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.country')}}</label>
+	  <select class="form-control " id="unit_country"
+		name="unit_country" data-select2-id="" tabindex="-1" aria-hidden="true">
+			<option value="">{{ __('site.choose') }}</option>
+			@foreach($countries as $country)
+				<option {{Request('unit_country') == $country->id ? 'selected' : ''}} value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>
+			@endforeach
+		</select>
+    </div>
 
 
-																	<!--end::Wizard Step 1-->
-																	@if(count($purpose) == 1)
-																		<input type="hidden" value="{{$purpose[0]}}" name="purpose" />
-																	@elseif(count($purpose)>1)
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Purpose')}}</label>
-																		<div class="col-lg-9 col-xl-9" data-select2-id="38">
-																			<select class="form-control"  name="purpose">
-																				<option value="">{{ __('site.choose') }}</option>
-																				@foreach($purpose as $purp)
-																				<option {{old('purpose') == $purp ? 'selected' : ''}} value="{{$purp}}">{{$purp}}</option>
-																				@endforeach
-																			</select>
-																		</div>
-																		</div>
-																	<!--end::Group-->
-																	@endif
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.project')}}</label>
+      <select class="form-control" name="project_id">
+        <option value="">{{__('site.project')}}</option>
+        @foreach($projects as $project)
+            <option
+            {{ Request('project_id') == $project->id ? 'selected':  '' }}
+            value="{{$project->id}}">{{$project->project_name}}</option>
+        @endforeach
+      </select>
+    </div>
+    @if(count($purpose)>1)
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.Purpose')}}</label>
+      <select class="form-control" name="purpose">
+        <option value="">{{__('site.choose')}}</option>
+        @foreach($purpose as $purp)
+          <option {{Request('purpose') == $purp ? 'selected' : ''}} value="{{$purp}}">{{$purp}}</option>
+        @endforeach
+      </select>
+    </div>
+    @endif
 
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.purpose type')}}</label>
-																		<div class="col-lg-9 col-xl-9" data-select2-id="38">
-																			<select class="form-control"  name="purpose_type">
-																				<option value="">{{ __('site.choose') }}</option>
-																				@foreach($purposetype as $purpType)
-																				<option {{old('purpose_type') == $purpType->name ? 'selected' : ''}} value="{{$purpType->name}}">{{$purpType->name}}</option>
-																				@endforeach
-																			</select>
-																		</div>
-																	</div>
-																	<!--end::Group-->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.purpose type')}}</label>
+      <select class="form-control"  name="purpose_type">
+		<option value="">{{ __('site.choose') }}</option>
+		@foreach($purposetype as $purpType)
+		<option {{Request('purpose_type') == $purpType->name ? 'selected' : ''}} value="{{$purpType->name}}">{{$purpType->name}}</option>
+		@endforeach
+	</select>
+    </div>
 
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.deal_date')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="deal_date" type="date" value="{{old('deal_date')}}" placeholder="{{__('site.deal_date')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.client_name')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="client_name" type="text" value="{{old('client_name')}}" placeholder="{{__('site.client_name')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.client_mobile_no')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="client_mobile_no" type="text" value="{{old('client_mobile_no')}}" placeholder="{{__('site.client_mobile_no')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.client_email')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<div class="input-group input-group-solid input-group-lg">
-																				<div class="input-group-prepend">
-																					<span class="input-group-text">
-																						<i class="la la-at"></i>
-																					</span>
-																				</div>
-																				<input type="email" class="form-control form-control-solid form-control-lg" name="client_email" value="{{old('client_email')}}">
-																			</div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.developer_name')}}</label>
+      <select class="form-control"  name="developer_id">
+		<option value="">{{ __('site.choose') }}</option>
+		@foreach($developer as $dev)
+			<option {{Request('developer_id') == $dev->id ? 'selected' : ''}} value="{{$dev->id}}">{{$dev->name}}</option>
+		@endforeach
+		</select>
+    </div>
 
 
+	@if(count($sellers))
+	<!--begin::Group-->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.Agent')}}</label>
+	  <select class="form-control"  name="agent_id">
+			<option value="">{{ __('site.select agent') }}</option>
+			@foreach($sellers as $seller)
+				<option {{Request('agent_id') == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
+			@endforeach
+			</select>
+    </div>
+	@endif
+    
 
+	@if(count($leaders))
+	<!--begin::Group-->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.Leader')}}</label>
+	  <select class="form-control"  name="leader_id">
+		<option value="">{{ __('site.select leader') }}</option>
+		@foreach($leaders as $leader)
+			<option {{Request('leader_id') == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
+		@endforeach
+		</select>
+    </div>
+	@endif
+    
 
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.price')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" id="price" 	name="price" type="text" value="{{old('price')}}" placeholder="{{__('site.price')}}" autocomplete="off">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.commission_type')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<select class="form-control"  name="commission_type">
-																			<option {{old('commission_type') == 'Commission Type' ? 'selected' : ''}} value="Commission Type">{{__('Commission Type')}}</option>
-																			<option {{old('commission_type') == 'full' ? 'selected' : ''}} value="full">{{__('site.full')}}</option>
-																			<option {{old('commission_type') == 'installment 1' ? 'selected' : ''}} value="installment 1">{{__('site.installment1')}}</option>
-																			<option {{old('commission_type') == 'installment 2' ? 'selected' : ''}} value="installment 2">{{__('site.installment2')}}</option>
-																			</select>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.commission')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" id="commission" 	name="commission" type="text" value="{{old('commission')}}" placeholder="{{__('site.commission')}}" autocomplete="off">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.commission_amount')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" id="commission_amount" 	name="commission_amount" type="text" value="{{old('commission_amount')}}" placeholder="{{__('site.commission_amount')}}" readonly>
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.vat')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" id="vat"  name="vat" type="text" value="{{old('vat')}}" placeholder="{{__('site.vat')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.vat_amount')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg"  id="vat_amount" name="vat_amount" type="text" value="{{old('vat_amount')}}" placeholder="{{__('site.vat_amount')}}" readonly>
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-form-label">{{__('site.vat_received')}}</label>
-																		<div class="col-xl-1">
-																			<input class="form-control" name="vat_received" type="radio" value="no" checked>
-																		</div>
-																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1">
-																			<input class="form-control" name="vat_received" type="radio" value="yes">
-																		</div>
-																		<label class="col-form-label">{{__('site.yes')}}</label>
-																	</div>
-																	<!--end::Group-->
-
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.token')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" type="text" name="token" value="{{old('token')}}" placeholder="{{__('site.token')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.down_payment')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" type="text" name="down_payment" value="{{old('down_payment')}}" placeholder="{{__('site.down_payment')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.spa')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<select class="form-control"  name="spa">
-																			<option {{old('spa') == 'yes' ? 'selected' : ''}} value="yes">{{__('site.yes')}}</option>
-																			<option {{old('spa') == 'no' ? 'selected' : ''}} value="no">{{__('site.no')}}</option>
-																			</select>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-
-																</div>
-															</div>
-
-															<div class="col-xl-6">
-																<!--begin::Wizard Step 1-->
-																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-																
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.expected_date')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" type="date" name="expected_date" value="{{old('expected_date')}}" placeholder="{{__('site.expected_date')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.invoice_date')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" type="date" name="invoice_date" value="{{old('invoice_date')}}" placeholder="{{__('site.invoice_date')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-																	
-																	@if(count($sellers))
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Agent')}} </label>
-																		<div class="col-lg-9 col-xl-9">
-																			<select class="form-control"  name="agent_id">
-																			<option value="">{{ __('site.select agent') }}</option>
-																			@foreach($sellers as $seller)
-																				<option {{old('agent_id') == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
-																			@endforeach
-																			</select>
-																		</div>
-																	</div>
-																	@endif
-
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.agent_commission_percent')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="agent_commission_percent" id="agent_commission_percent" type="text" value="{{old('agent_commission_percent')}}" placeholder="{{__('site.agent_commission_percent')}}" autocomplete="off">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.agent_commission_amount')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="agent_commission_amount" type="text" value="{{old('agent_commission_amount')}}" id="agent_commission_amount" placeholder="{{__('site.agent_commission_amount')}}" readonly>
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-form-label">{{__('site.agent_commission_received')}}</label>
-																		<div class="col-xl-1">
-																			<input class="form-control" name="agent_commission_received" type="radio" value="no" checked>
-																		</div>
-																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1">
-																			<input class="form-control" name="agent_commission_received" type="radio" value="yes">
-																		</div>
-																		<label class="col-form-label">{{__('site.yes')}}</label>
-																	</div>
-																	<!--end::Group-->
-
-
-																	@if(count($leaders))
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Leader')}} </label>
-																		<div class="col-lg-9 col-xl-9">
-																			<select class="form-control"  name="leader_id">
-																			<option value="">{{ __('site.select leader') }}</option>
-																			@foreach($leaders as $leader)
-																				<option {{old('leader_id') == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
-																			@endforeach
-																			</select>
-																		</div>
-																	</div>
-																	@endif
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.agent_leader_commission_percent')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" id="agent_leader_commission_percent" 	name="agent_leader_commission_percent" type="text" value="{{old('agent_leader_commission_percent')}}" placeholder="{{__('site.agent_leader_commission_percent')}}" autocomplete="off">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.agent_leader_commission_amount')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="agent_leader_commission_amount" type="text" value="{{old('agent_leader_commission_amount')}}" id="agent_leader_commission_amount" placeholder="{{__('site.agent_leader_commission_amount')}}" readonly>
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-form-label">{{__('site.agent_leader_commission_received')}}</label>
-																		<div class="col-xl-1">
-																			<input class="form-control" name="agent_leader_commission_received" type="radio" value="no" checked>
-																		</div>
-																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1">
-																			<input class="form-control" name="agent_leader_commission_received" type="radio" value="yes">
-																		</div>
-																		<label class="col-form-label">{{__('site.yes')}}</label>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-form-label">{{__('site.third_party')}}</label>
-																		<div class="col-xl-1">
-																			<input class="form-control third_party" id="third_party" name="third_party" type="checkbox" value="{{old('third_party')}}">
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container third_party_div">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.third_party_amount')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" id="third_party_amount" name="third_party_amount" type="text" value="{{old('third_party_amount')}}" placeholder="{{__('site.third_party_amount')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container third_party_div">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.third_party_name')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" name="third_party_name" type="text" id="third_party_name" value="{{old('third_party_name')}}" placeholder="{{__('site.third_party_name')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mada_commission')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" id="mada_commission" 	name="mada_commission" type="text" value="{{old('mada_commission')}}" placeholder="{{__('site.mada_commission')}}" readonly> 
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-form-label">{{__('site.mada_commission_received')}}</label>
-																		<div class="col-xl-1">
-																			<input class="form-control" name="mada_commission_received" type="radio" value="no" checked>
-																		</div>
-																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1">
-																			<input class="form-control" name="mada_commission_received" type="radio" value="yes">
-																		</div>
-																		<label class="col-form-label">{{__('site.yes')}}</label>
-																	</div>
-																	<!--end::Group-->
+    <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.deal_date')}} {{ __('site.from') }} </label>
+          <div class="">
+            <div class="input-group input-group-solid date"
+            id="from-deal" data-target-input="nearest">
+              <input value="{{request('from')}}" type="text"
+              max="{{date('d-m-Y')}}"
+              class="form-control form-control-solid datetimepicker-input datepicker"
+              data-toggle="datetimepicker"
+              name="from" data-target="#from-deal" autocomplete="off">
+              <div class="input-group-append" data-target="#from-deal" data-toggle="datetimepicker">
+                <span class="input-group-text">
+                  <i class="ki ki-calendar"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.deal_date')}} {{ __('site.to') }}</label>
+          <div class="">
+            <div class="input-group input-group-solid date to-date-el"  data-target-input="nearest">
+              <input value="{{request('to')}}" type="text" id="to-deal" class="form-control form-control-solid datetimepicker-input datepicker"
+              data-toggle="datetimepicker"
+              min="{{date('d-m-Y')}}"
+              name="to" data-target="#to-deal" autocomplete="off">
+              <div class="input-group-append" data-target="#to-deal" data-toggle="datetimepicker">
+                <span class="input-group-text">
+                  <i class="ki ki-calendar"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.vat_received')}}</label>
+      <select class="form-control"  name="vat_received">
+      <option {{Request('vat_received') == 'no' ? 'selected' : ''}} value="no">No</option>
+      <option {{Request('vat_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
+		</select>
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.agent_leader_commission_received')}}</label>
+      <select class="form-control"  name="agent_leader_commission_received">
+      <option {{Request('agent_leader_commission_received') == 'no' ? 'selected' : ''}} value="no">No</option>
+      <option {{Request('agent_leader_commission_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
+		</select>
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.agent_commission_received')}}</label>
+      <select class="form-control"  name="agent_commission_received">
+      <option {{Request('agent_commission_received') == 'no' ? 'selected' : ''}} value="no">No</option>
+      <option {{Request('agent_commission_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
+		</select>
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.mada_commission_received')}}</label>
+      <select class="form-control"  name="mada_commission_received">
+      <option {{Request('mada_commission_received') == 'no' ? 'selected' : ''}} value="no">No</option>
+      <option {{Request('mada_commission_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
+		</select>
+    </div>
 
 
 
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.notes')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<textarea class="form-control form-control-solid form-control-lg" rows="10" name="notes" type="text" id="notes" value="{{old('notes')}}" placeholder="{{__('site.notes')}}"></textarea>
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
 
+    <!-- <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.vat')}}</label>
+          <div class="">
+            <div class="input-group input-group-solid date">
+              <input value="{{request('vat')}}" type="text" class="form-control form-control-solid"
+              name="vat" autocomplete="off">
+            </div>
+          </div>
+        </div>
+    </div>
 
-																</div>
-															</div>
+    <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.third_party_amount')}}</label>
+          <div class="">
+            <div class="input-group input-group-solid date">
+              <input value="{{request('third_party_amount')}}" type="text" class="form-control form-control-solid"
+              name="third_party_amount" autocomplete="off">
+            </div>
+          </div>
+        </div>
+    </div>
 
-															<div class="col-xl-12">
-																
-																
-																<!--begin::Wizard Actions-->
-																<div class="d-flex justify-content-between border-top pt-10 mt-15">
-																	<div>
-                                  <button type="submit" class="btn btn-primary">{{__('site.search')}}</button>
-																	</div>
-																</div>
-																<!--end::Wizard Actions-->
-															</div>
-														</div>
-  
-
+    <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.mada_commission')}}</label>
+          <div class="">
+            <div class="input-group input-group-solid date">
+              <input value="{{request('mada_commission')}}" type="text" class="form-control form-control-solid"
+              name="mada_commission" autocomplete="off">
+            </div>
+          </div>
+        </div>
+    </div>-->
+  </div> <!-- end row -->
+<button type="submit" class="btn btn-primary">{{__('site.search')}}</button>
 </form>
 
 </div>
 </div>
 </div>
+@push('js')
+<!-- Added By javed -->
+<script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
+<script>
+	$('#from-deal').datepicker({
+    //format: 'dd/mm/yyyy',
+    todayHighlight:'TRUE',
+    autoclose: true,
+  });
+
+  $('#to-deal').datepicker({
+		//format: 'dd/mm/yyyy',
+    todayHighlight:'TRUE',
+    autoclose: true,
+  });
+</script>
+@endpush

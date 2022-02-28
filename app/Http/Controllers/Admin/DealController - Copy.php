@@ -28,7 +28,6 @@ use App\Deal;
 use Maatwebsite\Excel\Facades\Excel;
 use App\DealExport;
 use App\Developer;
-use App\DealProject;
 
 class DealController extends Controller
 {
@@ -43,15 +42,9 @@ class DealController extends Controller
       return Excel::download(new DealExport, 'DealsReport.xlsx');
     }  
 
-    if(Request()->has('search') || Request()->has('ADVANCED')){
-      $data = Deal::where(function ($q){
-        $this->filterPrams($q);
-      })->orderBy('deal_date','desc');
-
-      $deals_count = $data->count();
-      $deals = $data->paginate(20);
-      //$deals = Deal::where('unit_name','LIKE','%'. Request('search') .'%')->orderBy('deal_date','desc')->paginate(20);
-      //$deals_count = Deal::where('unit_name','LIKE','%'. Request('search') .'%')->count();
+    if(Request()->has('search')){
+      $deals = Deal::where('unit_name','LIKE','%'. Request('search') .'%')->orderBy('deal_date','desc')->paginate(20);
+      $deals_count = Deal::where('unit_name','LIKE','%'. Request('search') .'%')->count();
         
     }else{
       $deals = Deal::orderBy('deal_date','desc')->paginate(20);
@@ -86,7 +79,6 @@ class DealController extends Controller
         $purpose[0] = 'buy';
     }
     $purposetype = PurposeType::orderBy('type')->get();
-    $currencyName = app()->getLocale() == 'en' ? 'currency' : 'currency_ar';
     $currencies = Currency::orderBy($currencyName)->get();
 
     $campaigns = Campaing::where('active','1')->get();
@@ -101,101 +93,8 @@ class DealController extends Controller
     ->where('active','1')->get();
 
     $developer = Developer::get();
-    $projects = DealProject::get();
-    $miles = LastMileConversion::where('active','1')
-    ->orderBy('name_'. app()->getLocale())
-    ->get();
 
-    /*$fields = [
-      'unit_country'=>__('site.unit country'),
-      'project_id'=>__('site.project'),
-      'purpose'=>__('site.Purpose'),
-      'purpose_type'=>__('site.purpose type'),
-      'unit_name'=>__('site.unit_name'),
-      'developer_name'=>__('site.developer_name'),
-      'deal_date'=>__('site.deal_date'),
-      'source'=>__('site.source'),
-      'invoice_number'=>__('site.invoice_number'),
-      'client_name'=>__('site.client_name'),
-      'client_mobile_no'=>__('site.client_mobile_no'),
-      'client_email'=>__('site.client_email'),
-      'price'=>__('site.price'),
-      'commission_type'=>__('site.commission_type'),
-      'commission'=>__('site.commission'),
-      'commission_amount'=>__('site.commission_amount'),
-      'vat'=>__('site.vat'),
-      'vat_amount'=>__('site.vat_amount'),
-      'vat_received'=>__('site.vat_received'),
-      'total_invoice'=>__('site.total_invoice'),
-      'token'=>__('site.token'),
-      'down_payment'=>__('site.down_payment'),
-      'spa'=>__('site.spa'),
-      'expected_date'=>__('site.expected_date'),
-      'invoice_date'=>__('site.invoice_date'),
-      'agent_id'=>__('site.Agent'),
-      'agent_commission_percent'=>__('site.agent_commission_percent'),
-      'agent_commission_amount'=>__('site.agent_commission_amount'),
-      'agent_commission_received'=>__('site.agent_commission_received'),
-      'leader_id'=>__('site.Leader'),
-      'agent_leader_commission_percent'=>__('site.agent_leader_commission_percent'),
-      'agent_leader_commission_amount'=>__('site.agent_leader_commission_amount'),
-      'agent_leader_commission_received'=>__('site.agent_leader_commission_received'),
-      'third_party'=>__('site.third_party'),
-      'third_party_amount'=>__('site.third_party_amount'),
-      'third_party_name'=>__('site.third_party_name'),
-      'mada_commission'=>__('site.mada_commission'),
-      'mada_commission_received'=>__('site.mada_commission_received'),
-      'notes'=>__('site.notes'),
-      'created_at'=>__('site.created_at'),
-      'updated_at'=>__('site.updated_at'),
-    ]; */
-
-
-    $fields = [
-      __('site.unit country'),
-      __('site.project'),
-      __('site.Purpose'),
-      __('site.purpose type'),
-      __('site.unit_name'),
-      __('site.developer_name'),
-      __('site.deal_date'),
-      __('site.source'),
-      __('site.invoice_number'),
-      __('site.client_name'),
-      __('site.client_mobile_no'),
-      __('site.client_email'),
-      __('site.price'),
-      __('site.commission_type'),
-      __('site.commission'),
-      __('site.commission_amount'),
-      __('site.vat'),
-      __('site.vat_amount'),
-      __('site.vat_received'),
-      __('site.total_invoice'),
-      __('site.token'),
-      __('site.down_payment'),
-      __('site.spa'),
-      __('site.expected_date'),
-      __('site.invoice_date'),
-      __('site.Agent'),
-      __('site.agent_commission_percent'),
-      __('site.agent_commission_amount'),
-      __('site.agent_commission_received'),
-      __('site.Leader'),
-      __('site.agent_leader_commission_percent'),
-      __('site.agent_leader_commission_amount'),
-      __('site.agent_leader_commission_received'),
-      __('site.third_party'),
-      __('site.third_party_amount'),
-      __('site.third_party_name'),
-      __('site.mada_commission'),
-      __('site.mada_commission_received'),
-      __('site.notes'),
-      __('site.created_at'),
-      __('site.updated_at'),
-    ];
-
-    return view('admin.deals.index',compact('fields','projects','miles','deals','deals_count','countries','purpose','purposetype','campaigns','contents','sources','mediums','sellers','leaders','developer'));
+    return view('admin.deals.index',compact('deals','deals_count','countries','purpose','purposetype','campaigns','contents','sources','mediums','sellers','leaders','developer'));
   }
 
   public function create()
@@ -511,61 +410,5 @@ class DealController extends Controller
     }
     $deal = Deal::findOrFail($id);
     return view('admin.deals.print_bill',compact('deal'));
-  }
-  
-  
-  private function filterPrams($q){
-
-    if(request()->has('ADVANCED')){
-      $feilds = request()->all();
-      $allowedFeilds =[
-        "unit_country" ,
-        "project_id" ,
-        "purpose" ,
-        "purpose_type" ,
-        "developer_id",
-        "agent_id",
-        "leader_id",
-        "vat_received",
-        "agent_commission_received",
-        "agent_leader_commission_received",
-        "mada_commission_received"
-      ];
-
-      foreach($feilds as $feild => $value){
-        if(in_array($feild,$allowedFeilds) AND !empty($value)){
-            $q->where($feild,$value);
-        }
-      }
-
-      //Added by Javed
-      if(Request('from') && Request('to')){
-        $uri = Request()->fullUrl();
-        $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
-        $to = date('Y-m-d 23:59:59', strtotime(Request('to')));
-        $q->whereBetween('deal_date',[$from,$to]);
-      }else{   
-        if(Request('from')){
-          $uri = Request()->fullUrl();
-          $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
-          $q->where('deal_date','>=', $from);
-        }   
-        if(Request('to')){
-          $uri = Request()->fullUrl();
-          $to = date('Y-m-d 23:59:59', strtotime(Request('to')));
-          $q->where('deal_date','<=',$to);
-        }            
-      }
-      //End
-              
-      return $q->get();
-    }
-
-    if(Request()->has('search')){
-      $uri = Request()->fullUrl();
-      session()->put('start_filter_url',$uri);
-      return $q->where('unit_name','LIKE','%'. Request('search') .'%')
-              ->get();
-    }
   }  
 }

@@ -19,8 +19,11 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
 
     public function query()
     {
-      if(Request()->has('search')){
-        $deals = Deal::where('unit_name','LIKE','%'. Request('search') .'%')->orderBy('deal_date','desc');
+      $select = '*';
+      if(Request()->has('search') || Request()->has('ADVANCED')){
+        $deals = Deal::where(function ($q){
+          $this->filterPrams($q);
+        })->orderBy('deal_date','desc');
           
       }else{
         $deals = Deal::orderBy('deal_date','desc');
@@ -30,12 +33,138 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
 
     public function map($deal): array
     {
+      $exportArray = [];
+      if(Request()->has('select')) {
+        $i=0;
+        $select = explode(",",str_replace(" ","_",strtolower(Request('select'))));
+        if(in_array('project_country',$select)){
+          $exportArray[++$i] = $deal->country ? $deal->country->name : '';
+        }
+        if(in_array('project',$select)){
+          $exportArray[++$i] = $deal->project ? $deal->project->name : '';
+        }
+        if(in_array('purpose',$select)){
+          $exportArray[++$i] = $deal->purpose;
+        }
+        if(in_array('purpose_type',$select)){
+          $exportArray[++$i] = $deal->purpose_type;
+        }
+        if(in_array('unit_name',$select)){
+          $exportArray[++$i] = $deal->unit_name;
+        }
+        if(in_array('developer_name',$select)){
+          $exportArray[++$i] = $deal->developer ? $deal->developer->name : '';
+        }
+        if(in_array('deal_date',$select)){
+          $exportArray[++$i] = date('d-m-Y',strtotime($deal->deal_date));
+        }
+        if(in_array('source',$select)){
+          $exportArray[++$i] = $deal->source ? $deal->source->name : '';
+        }
+        if(in_array('invoice_number',$select)){
+          $exportArray[++$i] = $deal->invoice_number;
+        }
+        if(in_array('client_name',$select)){
+          $exportArray[++$i] = $deal->client_name;
+        }
+        if(in_array('client_mobile_no',$select)){
+          $exportArray[++$i] = $deal->client_mobile_no;
+        }
+        if(in_array('client_email',$select)){
+          $exportArray[++$i] = $deal->client_email;
+        }
+        if(in_array('price',$select)){
+          $exportArray[++$i] = $deal->price;
+        }
+        if(in_array('commission_type',$select)){
+          $exportArray[++$i] = $deal->commission_type;
+        }
+        if(in_array('commission',$select)){
+          $exportArray[++$i] = $deal->commission;
+        }
+        if(in_array('commission_amount',$select)){
+          $exportArray[++$i] = $deal->commission_amount;
+        }
+        if(in_array('vat',$select)){
+          $exportArray[++$i] = $deal->vat;
+        }
+        if(in_array('vat_amount',$select)){
+          $exportArray[++$i] = $deal->vat_amount;
+        }
+        if(in_array('vat_received',$select)){
+          $exportArray[++$i] = $deal->vat_received;
+        }
+        if(in_array('total_invoice',$select)){
+          $exportArray[++$i] = $deal->total_invoice;
+        }
+        if(in_array('token',$select)){
+          $exportArray[++$i] = $deal->token;
+        }
+        if(in_array('down_payment',$select)){
+          $exportArray[++$i] = $deal->down_payment;
+        }
+        if(in_array('spa',$select)){
+          $exportArray[++$i] = $deal->spa;
+        }
+        if(in_array('expected_date',$select)){
+          $exportArray[++$i] = date('d-m-Y',strtotime($deal->expected_date));
+        }
+        if(in_array('invoice_date',$select)){
+          $exportArray[++$i] = date('d-m-Y',strtotime($deal->invoice_date));
+        }
+        if(in_array('agent',$select)){
+          $exportArray[++$i] = $deal->agent ? $deal->agent->name : '';
+        }
+        if(in_array('agent_commission_percent',$select)){
+          $exportArray[++$i] = $deal->agent_commission_percent;
+        }
+        if(in_array('agent_commission_amount',$select)){
+          $exportArray[++$i] = $deal->agent_commission_amount;
+        }
+        if(in_array('agent_commission_received',$select)){
+          $exportArray[++$i] = $deal->agent_commission_received;
+        }
+        if(in_array('leader',$select)){
+          $exportArray[++$i] = $deal->leader ? $deal->leader->name : '';
+        }
+        if(in_array('agent_leader_commission_percent',$select)){
+          $exportArray[++$i] = $deal->agent_leader_commission_percent;
+        }
+        if(in_array('agent_leader_commission_amount',$select)){
+          $exportArray[++$i] = $deal->agent_leader_commission_amount;
+        }
+        if(in_array('agent_leader_commission_received',$select)){
+          $exportArray[++$i] = $deal->agent_leader_commission_received;
+        }
+        if(in_array('third_party',$select)){
+          $exportArray[++$i] = $deal->third_party;
+        }
+        if(in_array('third_party_name',$select)){
+          $exportArray[++$i] = $deal->third_party_name;
+        }
+        if(in_array('mada_commission',$select)){
+          $exportArray[++$i] = $deal->mada_commission;
+        }
+        if(in_array('mada_commission_received',$select)){
+          $exportArray[++$i] = $deal->mada_commission_received;
+        }
+        if(in_array('notes',$select)){
+          $exportArray[++$i] = $deal->notes;
+        }
+        if(in_array('created_at',$select)){
+          $exportArray[++$i] = timeZone($deal->created_at);
+        }
+        if(in_array('updated_at',$select)){
+          $exportArray[++$i] = timeZone($deal->updated_at);
+        }
+        return $exportArray;
+      }else{
         $country = $deal->country ? $deal->country->name : '';
         $project = $deal->project ? $deal->project->name : '';
+        $developer_name = $deal->developer ? $deal->developer->name : '';
+        $source = $deal->source ? $deal->source->name : '';
         $agent = $deal->agent ? $deal->agent->name : '';
         $leader = $deal->leader ? $deal->leader->name : '';
-        $developer_name = $deal->developer ? $deal->developer->name : '';
-		$source = $deal->source ? $deal->source->name : '';
         return [
           $country,
           $project,
@@ -44,7 +173,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $deal->unit_name,
           $developer_name,
           date('d-m-Y',strtotime($deal->deal_date)),
-		  $source,
+		      $source,
           $deal->invoice_number,
           $deal->client_name,
           $deal->client_mobile_no,
@@ -79,11 +208,17 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           timeZone($deal->created_at),
           timeZone($deal->updated_at),
         ];
+      }
+
+
+      
     }    
 
     public function headings(): array
     {
-      return array_map('ucfirst',[
+
+      return array_map('ucfirst',explode(",",Request('select')));
+      /*return array_map('ucfirst',[
         __('site.unit country'),
         __('site.project'),
         __('site.Purpose'),
@@ -125,20 +260,25 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         __('site.notes'),
         __('site.created_at'),
         __('site.updated_at'),
-      ]);
+      ]);*/
   }
   
-  function filterPrams($q){
+  private function filterPrams($q){
 
     if(request()->has('ADVANCED')){
       $feilds = request()->all();
       $allowedFeilds =[
-        "country_id" ,
+        "unit_country" ,
         "project_id" ,
-		"source_id" ,
         "purpose" ,
-        "agent_id" ,
-        "leader_id" ,
+        "purpose_type" ,
+        "developer_id",
+        "agent_id",
+        "leader_id",
+        "vat_received",
+        "agent_commission_received",
+        "agent_leader_commission_received",
+        "mada_commission_received"
       ];
 
       foreach($feilds as $feild => $value){
@@ -149,128 +289,33 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
 
       //Added by Javed
       if(Request('from') && Request('to')){
+        $uri = Request()->fullUrl();
         $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
         $to = date('Y-m-d 23:59:59', strtotime(Request('to')));
-        $q->whereBetween('created_at',[$from,$to]);
+        $q->whereBetween('deal_date',[$from,$to]);
       }else{   
         if(Request('from')){
+          $uri = Request()->fullUrl();
           $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
-          $q->where('created_at','>=', $from);
+          $q->where('deal_date','>=', $from);
         }   
         if(Request('to')){
+          $uri = Request()->fullUrl();
           $to = date('Y-m-d 23:59:59', strtotime(Request('to')));
-          $q->where('created_at','<=',$to);
+          $q->where('deal_date','<=',$to);
         }            
       }
       //End
               
-      return $q;
-    }
-
-    if(Request()->has('search') AND Request()->has('my-contacts')  AND Request()->has('filter_status')){
-      return $q->where('status_id',Request('filter_status'))
-          ->where('user_id', auth()->id())
-          ->where(function ($q){
-              $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
-                ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
-                ->OrWhere('phone','LIKE','%'. Request('search') .'%')
-                ->OrWhere('scound_phone','LIKE','%'. Request('search') .'%')
-                ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
-                ->OrWhere('source','LIKE','%'. Request('search') .'%')
-                ->OrWhere('medium','LIKE','%'. Request('search') .'%');
-          });
-    }
-
-    if(Request()->has('filter_status') AND Request()->has('search')){
-      echo "dfdfsddsfd";
-      die;
-      return $q->where('status_id',Request('filter_status'))
-        ->where(function ($q){
-          $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
-            ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
-            ->OrWhere('phone','LIKE','%'. Request('search') .'%')
-            ->OrWhere('scound_phone','LIKE','%'. Request('search') .'%')
-            ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
-            ->OrWhere('source','LIKE','%'. Request('search') .'%')
-            ->OrWhere('medium','LIKE','%'. Request('search') .'%');
-      });
-    }
-
-    if(Request()->has('campaign')){
-      if(!request('status')){
-        return $q->where('campaign', request('campaign'));
-      }
-      return $q->where('status_id', request('status'))
-              ->where('campaign', request('campaign'));
-    }
-
-
-    if(Request()->has('search') AND Request()->has('my-contacts')){
-        return $q->where('user_id','LIKE',auth()->id())
-          ->where(function ($q){
-            $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
-              ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
-              ->OrWhere('phone','LIKE','%'. Request('search') .'%')
-              ->OrWhere('scound_phone','LIKE','%'. Request('search') .'%')
-              ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
-              ->OrWhere('source','LIKE','%'. Request('search') .'%')
-              ->OrWhere('medium','LIKE','%'. Request('search') .'%');
-        });
-    }
-
-
-    if(Request()->has('my-contacts') AND Request()->has('filter_status')){
-      return $q->where('status_id', Request('filter_status'))->where('user_id', auth()->id());
-    }
-
-    if(Request()->has('my-contacts')){
-      return $q->where('user_id', auth()->id());
-    }
-
-    if(Request()->has('filter_status')){
-      return $q->where('status_id', Request('filter_status'));
-    }
-
-
-    if(Request()->has('unassigned')){
-      $notAssignedLevel = User::select('id','rule')
-                              ->where('rule','admin')
-                              ->OrWhere('rule','sales admin')->get();
-
-      return $q->where('user_id',null)
-              ->orWhereIn('user_id',$notAssignedLevel->pluck('id')->toArray());
-    }
-
-
-
-    if(request()->has('status') AND request()->has('user')){
-      return  $q->where('status_changed_at', '<=', Carbon::today()->subDays( 2 ))
-                ->where('status_id',request('status'))
-                ->where('user_id',request('user'));
-
-    }
-
-
-    if(request()->has('export')){
-      $req = request('export');
-      $campaing = Campaing::select('id','name')->where('id',$req)->first();
-
-      if($campaing)
-      {
-          return $q->where('campaign',$campaing->name);
-      }
+      return $q->get();
     }
 
     if(Request()->has('search')){
-      return $q->where('first_name','LIKE','%'. Request('search') .'%')
-              ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
-              ->OrWhere('phone','LIKE','%'. Request('search') .'%')
-              ->OrWhere('scound_phone','LIKE','%'. Request('search') .'%')
-              ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
-              ->OrWhere('source','LIKE','%'. Request('search') .'%')
-              ->OrWhere('medium','LIKE','%'. Request('search') .'%');
+      $uri = Request()->fullUrl();
+      return $q->where('unit_name','LIKE','%'. Request('search') .'%')
+              ->get();
     }
-  }
+  }  
 
 }
 

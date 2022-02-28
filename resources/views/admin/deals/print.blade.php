@@ -87,7 +87,7 @@
                     </tr>
 					<tr>
 						<td>Price (AED):</td>
-						<td>{{number_format($deal->price)}}</td>
+						<td>{{number_format($deal->price, 2)}}</td>
 						<td>Date of Signing: {{date('d-m-Y',strtotime($deal->deal_date))}}</td>
                     </tr>
                 </tbody>
@@ -121,7 +121,7 @@
                     </tr>
 					<tr>
 						<td>Property Consultant Amount (AED)</td>
-						<td>{{number_format($deal->agent_commission_amount)}}</td>
+						<td>{{number_format($deal->agent_commission_amount, 2)}}</td>
 						
                     </tr>
 					<tr>
@@ -141,12 +141,12 @@
                     </tr>
 						<tr>
 						<td>3rd Party Amount (AED)</td>
-						<td>{{number_format($deal->third_party_amount)}}</td>
+						<td>{{number_format($deal->third_party_amount, 2)}}</td>
 						
                     </tr>
 						<tr>
 						<td>Mada Commission (AED)</td>
-						<td>{{number_format($deal->mada_commission)}}</td>
+						<td>{{number_format($deal->mada_commission, 2)}}</td>
 						
                     </tr>
 					
@@ -156,16 +156,16 @@
                 <tbody>
 				<tr>
 						<td>Commission (AED)</td>
-						<td>{{number_format($deal->commission_amount)}}</td>
+						<td>{{number_format($deal->commission_amount, 2)}}</td>
                     </tr>
 					<tr>
 						<td>VAT (AED)</td>
-						<td>{{number_format($deal->vat_amount)}}</td>
+						<td>{{number_format($deal->vat_amount, 2)}}</td>
 						
                     </tr>
 					<tr>
 						<td><b>Total Commission Inc VAT (AED)</b></td>
-						<td><b>{{number_format($deal->commission_amount+$deal->vat_amount)}}</b></td>
+						<td><b>{{number_format(($deal->commission_amount+$deal->vat_amount), 2)}}</b></td>
 						
                     </tr>
 				</tbody>

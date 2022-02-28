@@ -91,17 +91,17 @@
 						<td style="text-align:center;padding:7px;">{{$deal->project->project_name}}</td>
 						<td style="text-align:center;padding:7px;">{{$deal->unit_name}}</td>
 						<td style="text-align:center;padding:7px;">{{$deal->client_name}}</td>
-						<td style="text-align:center;padding:7px;">{{number_format($deal->price)}}</td>
+						<td style="text-align:center;padding:7px;">{{number_format($deal->price, 2)}}</td>
 						<td style="text-align:center;padding:7px;">{{$deal->commission}} %</td>
-						<td style="text-align:center;padding:7px;">{{number_format($deal->commission_amount)}}</td>
+						<td style="text-align:center;padding:7px;">{{number_format($deal->commission_amount, 2)}}</td>
 						<td style="text-align:center;padding:7px;">{{$deal->vat}} %</td>
-						<td style="text-align:center;padding:7px;">{{number_format($deal->vat_amount)}}</td>
-						<td style="text-align:center;padding:7px;">{{number_format($deal->commission_amount+$deal->vat_amount)}}</td>
+						<td style="text-align:center;padding:7px;">{{number_format($deal->vat_amount, 2)}}</td>
+						<td style="text-align:center;padding:7px;">{{number_format(($deal->commission_amount+$deal->vat_amount), 2)}}</td>
                     </tr>
 					<tr>
 						<td colspan="7" style="border:0px;"></td>
 						<td style="text-align:center;"><b>Total:</b></td>
-						<td style="text-align:center;"><b>{{number_format($deal->commission_amount+$deal->vat_amount)}}</b></td>
+						<td style="text-align:center;"><b>{{number_format(($deal->commission_amount+$deal->vat_amount),2)}}</b></td>
                     </tr>
                 </tbody>
             </table>

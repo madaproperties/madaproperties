@@ -196,7 +196,9 @@
 						  <option
                         		{{$user->rule == 'sales admin saudi' ? 'selected' : ''}}
                           value="sales admin saudi">{{__('site.sales admin saudi')}}</option>
-
+						  <option
+                        		{{$user->rule == 'other' ? 'selected' : ''}}
+                          value="other">{{__('site.other')}}</option>
 											</select>
 										</div>
 										<div class="form-group select-leader" style="display:none">
