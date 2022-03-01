@@ -24,7 +24,7 @@
   <input type="hidden" name="ADVANCED" value="search">
 
   <div class="row"> <!--- row -->
-    <div class="form-group col-md-4 col-sm-12">
+    <div class="form-group col-md-3 col-sm-12">
       <label for="country">{{__('site.country')}}</label>
 	  <select class="form-control " id="unit_country"
 		name="unit_country" data-select2-id="" tabindex="-1" aria-hidden="true">
@@ -36,7 +36,7 @@
     </div>
 
 
-    <div class="form-group col-md-4 col-sm-12">
+    <div class="form-group col-md-3 col-sm-12">
       <label for="country">{{__('site.project')}}</label>
       <select class="form-control" name="project_id">
         <option value="">{{__('site.project')}}</option>
@@ -48,7 +48,7 @@
       </select>
     </div>
     @if(count($purpose)>1)
-    <div class="form-group col-md-4 col-sm-12">
+    <div class="form-group col-md-3 col-sm-12">
       <label for="country">{{__('site.Purpose')}}</label>
       <select class="form-control" name="purpose">
         <option value="">{{__('site.choose')}}</option>
@@ -59,7 +59,7 @@
     </div>
     @endif
 
-    <div class="form-group col-md-4 col-sm-12">
+    <div class="form-group col-md-3 col-sm-12">
       <label for="country">{{__('site.purpose type')}}</label>
       <select class="form-control"  name="purpose_type">
 		<option value="">{{ __('site.choose') }}</option>
@@ -69,7 +69,7 @@
 	</select>
     </div>
 
-    <div class="form-group col-md-4 col-sm-12">
+    <div class="form-group col-md-3 col-sm-12">
       <label for="country">{{__('site.developer_name')}}</label>
       <select class="form-control"  name="developer_id">
 		<option value="">{{ __('site.choose') }}</option>
@@ -82,7 +82,7 @@
 
 	@if(count($sellers))
 	<!--begin::Group-->
-    <div class="form-group col-md-4 col-sm-12">
+    <div class="form-group col-md-3 col-sm-12">
       <label for="country">{{__('site.Agent')}}</label>
 	  <select class="form-control"  name="agent_id">
 			<option value="">{{ __('site.select agent') }}</option>
@@ -96,7 +96,7 @@
 
 	@if(count($leaders))
 	<!--begin::Group-->
-    <div class="form-group col-md-4 col-sm-12">
+    <div class="form-group col-md-3 col-sm-12">
       <label for="country">{{__('site.Leader')}}</label>
 	  <select class="form-control"  name="leader_id">
 		<option value="">{{ __('site.select leader') }}</option>
@@ -108,7 +108,7 @@
 	@endif
     
 
-    <div class="form-group col-md-4 col-sm--12">
+    <div class="form-group col-md-3 col-sm-12">
       <div class="form-group ">
           <label class="">{{__('site.deal_date')}} {{ __('site.from') }} </label>
           <div class="">
@@ -128,7 +128,7 @@
           </div>
         </div>
     </div>
-    <div class="form-group col-md-4 col-sm--12">
+    <div class="form-group col-md-3 col-sm-12">
       <div class="form-group ">
           <label class="">{{__('site.deal_date')}} {{ __('site.to') }}</label>
           <div class="">
@@ -146,39 +146,39 @@
           </div>
         </div>
     </div>
-    <div class="form-group col-md-4 col-sm-12">
+    <div class="form-group col-md-3 col-sm-12">
       <label for="country">{{__('site.vat_received')}}</label>
       <select class="form-control"  name="vat_received">
       <option {{Request('vat_received') == 'no' ? 'selected' : ''}} value="no">No</option>
       <option {{Request('vat_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
 		</select>
     </div>
-    <div class="form-group col-md-4 col-sm-12">
-      <label for="country">{{__('site.agent_leader_commission_received')}}</label>
-      <select class="form-control"  name="agent_leader_commission_received">
-      <option {{Request('agent_leader_commission_received') == 'no' ? 'selected' : ''}} value="no">No</option>
-      <option {{Request('agent_leader_commission_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
-		</select>
-    </div>
-    <div class="form-group col-md-4 col-sm-12">
-      <label for="country">{{__('site.agent_commission_received')}}</label>
-      <select class="form-control"  name="agent_commission_received">
-      <option {{Request('agent_commission_received') == 'no' ? 'selected' : ''}} value="no">No</option>
-      <option {{Request('agent_commission_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
-		</select>
-    </div>
-    <div class="form-group col-md-4 col-sm-12">
+    <div class="form-group col-md-3 col-sm-12">
       <label for="country">{{__('site.mada_commission_received')}}</label>
       <select class="form-control"  name="mada_commission_received">
       <option {{Request('mada_commission_received') == 'no' ? 'selected' : ''}} value="no">No</option>
       <option {{Request('mada_commission_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
 		</select>
     </div>
-    <div class="form-group col-md-4 col-sm-12">
+    <div class="form-group col-md-3 col-sm-12">
       <label for="country">{{__('site.third_party')}}</label>
       <select class="form-control"  name="third_party">
       <option {{Request('third_party') == 'no' ? 'selected' : ''}} value="no">No</option>
       <option {{Request('third_party') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
+		</select>
+    </div>
+    <div class="form-group col-md-3 col-sm-12">
+      <label for="country">{{__('site.agent_commission_received')}}</label>
+      <select class="form-control"  name="agent_commission_received">
+      <option {{Request('agent_commission_received') == 'no' ? 'selected' : ''}} value="no">No</option>
+      <option {{Request('agent_commission_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
+		</select>
+    </div>
+    <div class="form-group col-md-3 col-sm-12">
+      <label for="country" style="font-size: 11.7px;">{{__('site.agent_leader_commission_received')}}</label>
+      <select class="form-control"  name="agent_leader_commission_received">
+      <option {{Request('agent_leader_commission_received') == 'no' ? 'selected' : ''}} value="no">No</option>
+      <option {{Request('agent_leader_commission_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
 		</select>
     </div>
 
