@@ -12,24 +12,15 @@
   </style>
 @endpush
 <div id="accordion">
-  <div class="card">
+  <div class="">
     <div class="card-header" id="headingOne">
       <h5 class="mb-0">
-        <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Advanced Search <i class="fas fa-compress"></i>
-          
-          @if(request('ADVANCED'))
-            <a href="{{route('admin.deal.index')}}">
-                Remove Filter
-            </a>
-          @endif
-        </button>
       </h5>
     </div>
-    <div id="collapseOne" class="collapse " aria-labelledby="headingOne" data-parent="#accordion">
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 
 <form method="GET" action="" class="search-from" >
-  <h3 class="text-center">advanced Search</h2> <hr />
+  <h3 class="text-center">{{__('site.Advanced Export')}}</h2> <hr />
   <input type="hidden" name="ADVANCED" value="search">
 
   <div class="row"> <!--- row -->
@@ -191,9 +182,14 @@
 		</select>
     </div>
 
-
-
-
+    <div class="form-group col-md-12 col-sm-12">
+      <label>{{__('site.export') .' '.__('site.fields') }}</label>
+        <select class="form-control" name="select[]" id="selectData" multiple>
+        @foreach($fields as $dev)
+          <option value="{{$dev}}">{{$dev}}</option>
+        @endforeach
+        </select>
+    </div>
     <!-- <div class="form-group col-md-4 col-sm--12">
       <div class="form-group ">
           <label class="">{{__('site.vat')}}</label>
@@ -230,7 +226,7 @@
         </div>
     </div>-->
   </div> <!-- end row -->
-<button type="submit" class="btn btn-primary">{{__('site.search')}}</button>
+<button type="submit" class="btn btn-primary">{{__('site.download-excel')}}</button>
 </form>
 
 </div>
@@ -250,6 +246,10 @@
 		//format: 'dd/mm/yyyy',
     todayHighlight:'TRUE',
     autoclose: true,
+  });
+
+  $('#selectData').select2({
+      placeholder: "Select fields to export",
   });
 </script>
 @endpush

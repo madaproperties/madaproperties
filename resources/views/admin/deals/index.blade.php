@@ -42,19 +42,6 @@
 						<span class="card-label font-weight-bolder text-dark">{{__('site.deals')}}</span>
 						<span class="text-muted mt-3 font-weight-bold font-size-sm">{{$deals_count}} {{__('site.deals')}}</span>
 					</h3>
-					<div class="form-group row fv-plugins-icon-container">
-							<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.export') .' '.__('site.fields') }}</label>
-							<div class="col-lg-8 col-xl-8">
-								<select class="form-control" name="selectData" id="selectData" multiple>
-								@foreach($fields as $dev)
-									<option value="{{$dev}}">{{$dev}}</option>
-								@endforeach
-								</select>
-							</div>
-						</div>
-
-
-
 					<div class="card-toolbar">
 
 
@@ -62,6 +49,11 @@
 							<span class="svg-icon svg-icon-md">
 							<i class="fas fa-database" style="color:#fff"></i>
 							</span>{{__('site.export') }}
+						</a>
+						<a href="{{route('admin.deal.advanceExport')}}" class="btn btn-primary font-weight-bolder" target="_blank">
+							<span class="svg-icon svg-icon-md">
+							<i class="fas fa-database" style="color:#fff"></i>
+							</span>{{__('site.Advanced Export')}}
 						</a>
 
 
@@ -193,12 +185,5 @@
 <script>
 function submitForm(id){
 	$("#destory-"+id).submit();
-}
-function exportdata(){
-	var url = $("#exportButton").attr('href');
-	var expSelected = '&select='+$("#selectData").val();
-	if(expSelected != ''){
-		window.location.href = url+expSelected;
-	}
 }
 </script>

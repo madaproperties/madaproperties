@@ -568,4 +568,112 @@ class DealController extends Controller
               ->get();
     }
   }  
+
+
+  // index 
+  public function advanceExport(){
+    if(userRole() != 'admin' && userRole() != 'other'){
+      return abort(404);
+    }
+   
+    if(Request()->has('ADVANCED')){
+      return Excel::download(new DealExport, 'DealsReport.xlsx');
+    }  
+
+
+    $countries = Country::orderBy('name_en')->get();
+
+    $collectCounties = [];
+    $collectCounties = collect($collectCounties);
+
+    foreach($countries as $index => $country){
+        if(in_array($country->name_en,toCountriess()) ){
+            $collectCounties->push($country);
+        }
+    }
+
+
+    $countries = $countries->filter(function($item) {
+      return !in_array($item->name_en,toCountriess());
+    });
+
+
+    foreach($collectCounties as $topCountry){
+        $countries->prepend($topCountry);
+    }
+    $purpose  = auth()->user()->position_types;
+    $purpose  = json_decode($purpose);
+
+    if(count($purpose) == 1 AND $purpose[0] == 'sell'){
+        $purpose[0] = 'buy';
+    }
+    $purposetype = PurposeType::orderBy('type')->get();
+    $currencyName = app()->getLocale() == 'en' ? 'currency' : 'currency_ar';
+    $currencies = Currency::orderBy($currencyName)->get();
+
+    $campaigns = Campaing::where('active','1')->get();
+    $contents = Content::where('active','1')->get();
+    $sources = Source::where('active','1')->get();
+    $mediums = Medium::where('active','1')->get();
+
+    $sellers = User::where('rule','salles')->orWhere('rule','leader')
+                    ->where('active','1')->get();
+  
+    $leaders = User::where('rule','leader')
+    ->where('active','1')->get();
+
+    $developer = Developer::get();
+    $projects = DealProject::get();
+    $miles = LastMileConversion::where('active','1')
+    ->orderBy('name_'. app()->getLocale())
+    ->get();
+
+    $fields = [
+      __('site.unit country'),
+      __('site.project'),
+      __('site.Purpose'),
+      __('site.purpose type'),
+      __('site.unit_name'),
+      __('site.developer_name'),
+      __('site.deal_date'),
+      __('site.source'),
+      __('site.invoice_number'),
+      __('site.client_name'),
+      __('site.client_mobile_no'),
+      __('site.client_email'),
+      __('site.price'),
+      __('site.commission_type'),
+      __('site.commission'),
+      __('site.commission_amount'),
+      __('site.vat'),
+      __('site.vat_amount'),
+      __('site.vat_received'),
+      __('site.total_invoice'),
+      __('site.token'),
+      __('site.down_payment'),
+      __('site.spa'),
+      __('site.expected_date'),
+      __('site.invoice_date'),
+      __('site.Agent'),
+      __('site.agent_commission_percent'),
+      __('site.agent_commission_amount'),
+      __('site.agent_commission_received'),
+      __('site.Leader'),
+      __('site.agent_leader_commission_percent'),
+      __('site.agent_leader_commission_amount'),
+      __('site.agent_leader_commission_received'),
+      __('site.third_party'),
+      __('site.third_party_amount'),
+      __('site.third_party_name'),
+      __('site.mada_commission'),
+      __('site.mada_commission_received'),
+      __('site.notes'),
+      __('site.created_at'),
+      __('site.updated_at'),
+    ];
+
+    return view('admin.deals.advance_export',compact('fields','projects','miles','countries','purpose','purposetype','campaigns','contents','sources','mediums','sellers','leaders','developer'));
+  }
+
+
 }

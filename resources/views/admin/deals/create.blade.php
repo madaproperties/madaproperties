@@ -360,6 +360,63 @@
 																	</div>
 																	<!--end::Group-->
 																	
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mada_commission')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" id="mada_commission" 	name="mada_commission" type="text" value="{{old('mada_commission')}}" placeholder="{{__('site.mada_commission')}}" readonly> 
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-form-label">{{__('site.mada_commission_received')}}</label>
+																		<div class="col-xl-1">
+																			<input class="form-control" name="mada_commission_received" type="radio" value="no" checked>
+																		</div>
+																		<label class="col-form-label">{{__('site.no')}}</label>
+																		<div class="col-xl-1">
+																			<input class="form-control" name="mada_commission_received" type="radio" value="yes">
+																		</div>
+																		<label class="col-form-label">{{__('site.yes')}}</label>
+																	</div>
+																	<!--end::Group-->
+
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-form-label">{{__('site.third_party')}}</label>
+																		<div class="col-xl-1">
+																			<input class="form-control third_party" id="third_party" name="third_party" type="checkbox" value="{{old('third_party')}}">
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container third_party_div">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.third_party_amount')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" id="third_party_amount" name="third_party_amount" type="text" value="{{old('third_party_amount')}}" placeholder="{{__('site.third_party_amount')}}" autocomplete="off">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container third_party_div">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.third_party_name')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" name="third_party_name" type="text" id="third_party_name" value="{{old('third_party_name')}}" placeholder="{{__('site.third_party_name')}}" autocomplete="off">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+
+
 																	@if(count($sellers))
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
@@ -455,59 +512,6 @@
 																		<label class="col-form-label">{{__('site.no')}}</label>
 																		<div class="col-xl-1">
 																			<input class="form-control" name="agent_leader_commission_received" type="radio" value="yes">
-																		</div>
-																		<label class="col-form-label">{{__('site.yes')}}</label>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-form-label">{{__('site.third_party')}}</label>
-																		<div class="col-xl-1">
-																			<input class="form-control third_party" id="third_party" name="third_party" type="checkbox" value="{{old('third_party')}}">
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container third_party_div">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.third_party_amount')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" id="third_party_amount" name="third_party_amount" type="text" value="{{old('third_party_amount')}}" placeholder="{{__('site.third_party_amount')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container third_party_div">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.third_party_name')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" name="third_party_name" type="text" id="third_party_name" value="{{old('third_party_name')}}" placeholder="{{__('site.third_party_name')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mada_commission')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" id="mada_commission" 	name="mada_commission" type="text" value="{{old('mada_commission')}}" placeholder="{{__('site.mada_commission')}}" readonly> 
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-form-label">{{__('site.mada_commission_received')}}</label>
-																		<div class="col-xl-1">
-																			<input class="form-control" name="mada_commission_received" type="radio" value="no" checked>
-																		</div>
-																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1">
-																			<input class="form-control" name="mada_commission_received" type="radio" value="yes">
 																		</div>
 																		<label class="col-form-label">{{__('site.yes')}}</label>
 																	</div>
@@ -684,6 +688,12 @@
 
 			var comi = $(this).val();
 			var price = $("#commission_amount").val();	
+			if ($('.third_party').is(':checked')) {
+				var third_party_amount = parseFloat($("#third_party_amount").val());
+				if(third_party_amount > 0){
+					price -= third_party_amount;
+				}
+			}
 			$("#agent_commission_amount").val(((price*comi)/100).toFixed(2));
 			updateMadaCommission();
 		});
@@ -701,7 +711,7 @@
 				$(this).val(0);
 			}
 
-		var comi = $(this).val();
+			var comi = $(this).val();
 			var agent_commission_amount = $("#agent_commission_amount").val();	
 			$("#agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
 			updateMadaCommission();

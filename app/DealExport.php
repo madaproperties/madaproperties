@@ -19,7 +19,6 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
 
     public function query()
     {
-      $select = '*';
       if(Request()->has('search') || Request()->has('ADVANCED')){
         $deals = Deal::where(function ($q){
           $this->filterPrams($q);
@@ -34,9 +33,10 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
     public function map($deal): array
     {
       $exportArray = [];
-      if(Request()->has('select')) {
+      if(Request()->has('select') && !empty(Request('select'))) {
+        $select = implode(",",Request('select'));
         $i=0;
-        $select = explode(",",str_replace(" ","_",strtolower(Request('select'))));
+        $select = explode(",",str_replace(" ","_",strtolower($select)));
         if(in_array('project_country',$select)){
           $exportArray[++$i] = $deal->country ? $deal->country->name : '';
         }
@@ -67,7 +67,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         if(in_array('client_name',$select)){
           $exportArray[++$i] = $deal->client_name;
         }
-        if(in_array('client_mobile_no',$select)){
+        if(in_array('client_mobile_number',$select)){
           $exportArray[++$i] = $deal->client_mobile_no;
         }
         if(in_array('client_email',$select)){
@@ -91,7 +91,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         if(in_array('vat_amount',$select)){
           $exportArray[++$i] = $deal->vat_amount;
         }
-        if(in_array('vat_received',$select)){
+        if(in_array('vat_paid',$select)){
           $exportArray[++$i] = $deal->vat_received;
         }
         if(in_array('total_invoice',$select)){
@@ -216,9 +216,10 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
 
     public function headings(): array
     {
-
-      return array_map('ucfirst',explode(",",Request('select')));
-      /*return array_map('ucfirst',[
+      if(Request()->has('select') && !empty(Request('select'))) {
+        return array_map('ucfirst',Request('select'));
+      }else{
+      return array_map('ucfirst',[
         __('site.unit country'),
         __('site.project'),
         __('site.Purpose'),
@@ -260,7 +261,8 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         __('site.notes'),
         __('site.created_at'),
         __('site.updated_at'),
-      ]);*/
+      ]);
+      }
   }
   
   private function filterPrams($q){

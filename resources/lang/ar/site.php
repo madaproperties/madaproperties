@@ -248,7 +248,9 @@ return [
   'updated_at' => 'تم التحديث في',
   'vat_received' => 'ضريبة القيمة المضافة المدفوعة',
   'invoice_number' => 'رقم الفاتورة',
-  'new' => 'New',
-  'other' => 'other',
-  'fields' => 'Fields',
+  'new' => 'جديد',
+  'other' => 'آخر',
+  'fields' => 'مجالات',
+  'download-excel' => 'قم بتنزيل Excel',
+  'Advanced Export' => 'تصدير متقدم'
 ];

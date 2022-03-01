@@ -87,6 +87,8 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::post('get-dealprojects','DealProjectController@getDealProjects')
                         ->name('get.dealprojects');
 
+      Route::get('advanceExport','DealController@advanceExport')->name('deal.advanceExport');
+
                         
 
 });

@@ -259,4 +259,6 @@ return [
   'new' => 'New',
   'other' => 'other',
   'fields' => 'Fields',
+  'download-excel' => 'Download Excel',
+  'Advanced Export' => 'Advanced Export'
 ];
