@@ -41,7 +41,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $exportArray[++$i] = $deal->country ? $deal->country->name : '';
         }
         if(in_array('project',$select)){
-          $exportArray[++$i] = $deal->project ? $deal->project->name : '';
+          $exportArray[++$i] = $deal->project ? $deal->project->project_name : '';
         }
         if(in_array('purpose',$select)){
           $exportArray[++$i] = $deal->purpose;
@@ -160,7 +160,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         return $exportArray;
       }else{
         $country = $deal->country ? $deal->country->name : '';
-        $project = $deal->project ? $deal->project->name : '';
+        $project = $deal->project ? $deal->project->project_name : '';
         $developer_name = $deal->developer ? $deal->developer->name : '';
         $source = $deal->source ? $deal->source->name : '';
         $agent = $deal->agent ? $deal->agent->name : '';
