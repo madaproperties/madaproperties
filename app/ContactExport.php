@@ -215,7 +215,9 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         "last_mile_conversion",
         "status_id",
         "created_by", //Added by Javed
-        "project_country_id" //Added by Javed
+        "project_country_id", //Added by Javed
+        "budget", //Added by Javed
+        "source", //Added by Javed
       ];
 
       foreach($feilds as $feild => $value){

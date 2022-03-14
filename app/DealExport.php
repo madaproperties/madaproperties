@@ -56,7 +56,11 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $exportArray[++$i] = $deal->developer ? $deal->developer->name : '';
         }
         if(in_array('deal_date',$select)){
-          $exportArray[++$i] = date('d-m-Y',strtotime($deal->deal_date));
+          if(!empty($deal->deal_date)){
+            $exportArray[++$i] = date('d-m-Y',strtotime($deal->deal_date));
+          }else{
+            $exportArray[++$i] = '';
+          }
         }
         if(in_array('source',$select)){
           $exportArray[++$i] = $deal->source ? $deal->source->name : '';
@@ -107,10 +111,25 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $exportArray[++$i] = $deal->spa;
         }
         if(in_array('expected_date',$select)){
-          $exportArray[++$i] = date('d-m-Y',strtotime($deal->expected_date));
+          if(!empty($deal->expected_date)){
+            $exportArray[++$i] = date('d-m-Y',strtotime($deal->expected_date));
+          }else{
+            $exportArray[++$i] = '';
+          }
         }
         if(in_array('invoice_date',$select)){
-          $exportArray[++$i] = date('d-m-Y',strtotime($deal->invoice_date));
+          if(!empty($deal->invoice_date)){
+            $exportArray[++$i] = date('d-m-Y',strtotime($deal->invoice_date));
+          }else{
+            $exportArray[++$i] = '';
+          }
+        }
+        if(in_array('commission_received_date',$select)){
+          if(!empty($deal->commission_received_date)){
+            $exportArray[++$i] = date('d-m-Y',strtotime($deal->commission_received_date));
+          }else{
+            $exportArray[++$i] = '';
+          }
         }
         if(in_array('agent',$select)){
           $exportArray[++$i] = $deal->agent ? $deal->agent->name : '';
@@ -139,6 +158,9 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         if(in_array('third_party',$select)){
           $exportArray[++$i] = $deal->third_party;
         }
+        if(in_array('third_party_amount',$select)){
+          $exportArray[++$i] = $deal->third_party_amount;
+        }
         if(in_array('third_party_name',$select)){
           $exportArray[++$i] = $deal->third_party_name;
         }
@@ -165,6 +187,22 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         $source = $deal->source ? $deal->source->name : '';
         $agent = $deal->agent ? $deal->agent->name : '';
         $leader = $deal->leader ? $deal->leader->name : '';
+        $deal_date = '';
+        if(!empty($deal->deal_date)){
+          $deal_date = date('d-m-Y',strtotime($deal->deal_date));
+        }
+        $expected_date = '';
+        if(!empty($deal->expected_date)){
+          $expected_date = date('d-m-Y',strtotime($deal->expected_date));
+        }
+        $invoice_date = '';
+        if(!empty($deal->invoice_date)){
+          $invoice_date = date('d-m-Y',strtotime($deal->invoice_date));
+        }
+        $commission_received_date = '';
+        if(!empty($deal->commission_received_date)){
+          $commission_received_date = date('d-m-Y',strtotime($deal->commission_received_date));
+        }
         return [
           $country,
           $project,
@@ -172,7 +210,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $deal->purpose_type,
           $deal->unit_name,
           $developer_name,
-          date('d-m-Y',strtotime($deal->deal_date)),
+          $deal_date,
 		      $source,
           $deal->invoice_number,
           $deal->client_name,
@@ -189,8 +227,9 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $deal->token,
           ($deal->down_payment),
           $deal->spa,
-          date('d-m-Y',strtotime($deal->expected_date)),
-          date('d-m-Y',strtotime($deal->invoice_date)),
+          $expected_date,
+          $invoice_date,
+          $commission_received_date,
           $agent,
           $deal->agent_commission_percent,
           ($deal->agent_commission_amount),
@@ -245,6 +284,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         __('site.spa'),
         __('site.expected_date'),
         __('site.invoice_date'),
+        __('site.commission_received_date'),
         __('site.Agent'),
         __('site.agent_commission_percent'),
         __('site.agent_commission_amount'),
@@ -280,7 +320,8 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         "vat_received",
         "agent_commission_received",
         "agent_leader_commission_received",
-        "mada_commission_received"
+        "mada_commission_received",
+        "third_party"
       ];
 
       foreach($feilds as $feild => $value){
@@ -308,7 +349,28 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         }            
       }
       //End
-              
+
+      //Added by Javed
+      if(Request('from_commission_received_date') && Request('to_commission_received_date')){
+        $uri = Request()->fullUrl();
+        $from = date('Y-m-d 00:00:00', strtotime(Request('from_commission_received_date')));
+        $to = date('Y-m-d 23:59:59', strtotime(Request('to_commission_received_date')));
+        $q->whereBetween('commission_received_date',[$from,$to]);
+      }else{   
+        if(Request('from_commission_received_date')){
+          $uri = Request()->fullUrl();
+          $from = date('Y-m-d 00:00:00', strtotime(Request('from_commission_received_date')));
+          $q->where('commission_received_date','>=', $from);
+        }   
+        if(Request('to_commission_received_date')){
+          $uri = Request()->fullUrl();
+          $to = date('Y-m-d 23:59:59', strtotime(Request('to_commission_received_date')));
+          $q->where('commission_received_date','<=',$to);
+        }            
+      }
+      //End
+      
+
       return $q->get();
     }
 

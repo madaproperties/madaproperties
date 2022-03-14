@@ -177,6 +177,7 @@ class DealController extends Controller
       __('site.spa'),
       __('site.expected_date'),
       __('site.invoice_date'),
+      __('site.commission_received_date'),
       __('site.Agent'),
       __('site.agent_commission_percent'),
       __('site.agent_commission_amount'),
@@ -313,6 +314,7 @@ class DealController extends Controller
         "total_invoice"         => "required",
         "expected_date"         => "nullable",
         "invoice_date"          => "nullable",
+        "commission_received_date"          => "nullable",
         "agent_commission_percent" => "nullable",
         "agent_commission_amount"  => "nullable",
         "agent_leader_commission_percent" => "nullable",
@@ -389,6 +391,7 @@ class DealController extends Controller
       "total_invoice"         => "required",
       "expected_date"         => "nullable",
       "invoice_date"          => "nullable",
+      "commission_received_date"          => "nullable",
       "agent_commission_percent" => "nullable",
       "agent_commission_amount"  => "nullable",
       "agent_leader_commission_percent" => "nullable",
@@ -529,7 +532,8 @@ class DealController extends Controller
         "vat_received",
         "agent_commission_received",
         "agent_leader_commission_received",
-        "mada_commission_received"
+        "mada_commission_received",
+        "third_party"
       ];
 
       foreach($feilds as $feild => $value){
@@ -557,6 +561,28 @@ class DealController extends Controller
         }            
       }
       //End
+
+      //Added by Javed
+      if(Request('from_commission_received_date') && Request('to_commission_received_date')){
+        $uri = Request()->fullUrl();
+        $from = date('Y-m-d 00:00:00', strtotime(Request('from_commission_received_date')));
+        $to = date('Y-m-d 23:59:59', strtotime(Request('to_commission_received_date')));
+        $q->whereBetween('commission_received_date',[$from,$to]);
+      }else{   
+        if(Request('from_commission_received_date')){
+          $uri = Request()->fullUrl();
+          $from = date('Y-m-d 00:00:00', strtotime(Request('from_commission_received_date')));
+          $q->where('commission_received_date','>=', $from);
+        }   
+        if(Request('to_commission_received_date')){
+          $uri = Request()->fullUrl();
+          $to = date('Y-m-d 23:59:59', strtotime(Request('to_commission_received_date')));
+          $q->where('commission_received_date','<=',$to);
+        }            
+      }
+      //End
+
+
               
       return $q->get();
     }
@@ -654,6 +680,7 @@ class DealController extends Controller
       __('site.spa'),
       __('site.expected_date'),
       __('site.invoice_date'),
+      __('site.commission_received_date'),
       __('site.Agent'),
       __('site.agent_commission_percent'),
       __('site.agent_commission_amount'),

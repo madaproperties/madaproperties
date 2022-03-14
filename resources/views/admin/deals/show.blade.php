@@ -313,8 +313,11 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.down_payment')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" type="text" name="down_payment" value="{{$deal->down_payment}}" placeholder="{{__('site.down_payment')}}">
-																			<div class="fv-plugins-message-container"></div>
+																			<select class="form-control"  name="down_payment">
+																				<option {{$deal->down_payment == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
+																				<option {{$deal->down_payment == 'yes' ? 'selected' : ''}} value="yes">{{__('site.yes')}}</option>
+																				<option {{$deal->down_payment == 'no' ? 'selected' : ''}} value="no">{{__('site.no')}}</option>
+																			</select>
 																		</div>
 																	</div>
 																	<!--end::Group-->
@@ -353,6 +356,16 @@
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.invoice_date')}}</label>
 																		<div class="col-lg-9 col-xl-9">
 																			<input class="form-control form-control-solid form-control-lg" type="date"  name="invoice_date" value="{{$deal->invoice_date}}" placeholder="{{__('site.invoice_date')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.commission_received_date')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" type="date"  name="commission_received_date" value="{{$deal->commission_received_date}}" placeholder="{{__('site.commission_received_date')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>

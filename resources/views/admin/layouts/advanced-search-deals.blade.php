@@ -155,9 +155,51 @@
           </div>
         </div>
     </div>
+
+    <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.commission_received_date')}} {{ __('site.from') }} </label>
+          <div class="">
+            <div class="input-group input-group-solid date"
+            id="from-commission_received_date" data-target-input="nearest">
+              <input value="{{request('from_commission_received_date')}}" type="text"
+              max="{{date('d-m-Y')}}"
+              class="form-control form-control-solid datetimepicker-input datepicker"
+              data-toggle="datetimepicker"
+              name="from_commission_received_date" data-target="#from-commission_received_date" autocomplete="off">
+              <div class="input-group-append" data-target="#from-commission_received_date" data-toggle="datetimepicker">
+                <span class="input-group-text">
+                  <i class="ki ki-calendar"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.commission_received_date')}} {{ __('site.to') }}</label>
+          <div class="">
+            <div class="input-group input-group-solid date to-date-el"  data-target-input="nearest">
+              <input value="{{request('to_commission_received_date')}}" type="text" id="to-commission_received_date" class="form-control form-control-solid datetimepicker-input datepicker"
+              data-toggle="datetimepicker"
+              min="{{date('d-m-Y')}}"
+              name="to_commission_received_date" data-target="#to-commission_received_date" autocomplete="off">
+              <div class="input-group-append" data-target="#to-commission_received_date" data-toggle="datetimepicker">
+                <span class="input-group-text">
+                  <i class="ki ki-calendar"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.vat_received')}}</label>
       <select class="form-control"  name="vat_received">
+      <option {{Request('vat_received') == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
       <option {{Request('vat_received') == 'no' ? 'selected' : ''}} value="no">No</option>
       <option {{Request('vat_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
 		</select>
@@ -165,6 +207,7 @@
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.agent_leader_commission_received')}}</label>
       <select class="form-control"  name="agent_leader_commission_received">
+      <option {{Request('agent_leader_commission_received') == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
       <option {{Request('agent_leader_commission_received') == 'no' ? 'selected' : ''}} value="no">No</option>
       <option {{Request('agent_leader_commission_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
 		</select>
@@ -172,6 +215,7 @@
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.agent_commission_received')}}</label>
       <select class="form-control"  name="agent_commission_received">
+      <option {{Request('agent_commission_received') == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
       <option {{Request('agent_commission_received') == 'no' ? 'selected' : ''}} value="no">No</option>
       <option {{Request('agent_commission_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
 		</select>
@@ -179,6 +223,7 @@
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.mada_commission_received')}}</label>
       <select class="form-control"  name="mada_commission_received">
+      <option {{Request('mada_commission_received') == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
       <option {{Request('mada_commission_received') == 'no' ? 'selected' : ''}} value="no">No</option>
       <option {{Request('mada_commission_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
 		</select>
@@ -186,6 +231,7 @@
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.third_party')}}</label>
       <select class="form-control"  name="third_party">
+      <option {{Request('third_party') == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
       <option {{Request('third_party') == 'no' ? 'selected' : ''}} value="no">No</option>
       <option {{Request('third_party') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
 		</select>
@@ -240,7 +286,7 @@
 <!-- Added By javed -->
 <script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
 <script>
-	$('#from-deal').datepicker({
+	$('.date').datepicker({
     //format: 'dd/mm/yyyy',
     todayHighlight:'TRUE',
     autoclose: true,

@@ -260,5 +260,6 @@ return [
   'other' => 'other',
   'fields' => 'Fields',
   'download-excel' => 'Download Excel',
-  'Advanced Export' => 'Advance Export'
+  'Advanced Export' => 'Advance Export',
+  'commission_received_date' => 'Commission Received Date'
 ];

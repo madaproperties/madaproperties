@@ -89,7 +89,7 @@
                     </tr>
 					<tr>
 						<td style="text-align:center;padding:7px;">{{$deal->project->project_name}}</td>
-						<td style="text-align:center;padding:7px;">{{$deal->unit_name}}</td>
+						<td style="text-align:center;padding:7px;word-wrap: break-word;">{{$deal->unit_name}}</td>
 						<td style="text-align:center;padding:7px;">{{$deal->client_name}}</td>
 						<td style="text-align:center;padding:7px;">{{number_format($deal->price, 2)}}</td>
 						<td style="text-align:center;padding:7px;">{{$deal->commission}} %</td>
@@ -125,7 +125,7 @@
                     </tr>
 					<tr>
 						<td><b>IBAN #</b></td>
-						<td width="200px">AE140500000000019004835</td>
+						<td>AE140500000000019004835</td>
                     </tr>
 					<tr>
 						<td><b>Account Type</b></td>

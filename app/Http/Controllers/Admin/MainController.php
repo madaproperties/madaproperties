@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use App\Campaing;
 use Maatwebsite\Excel\Facades\Excel;
 use App\ContactExport;
+use App\Source;
 
 class MainController extends Controller
 {
@@ -268,9 +269,10 @@ class MainController extends Controller
     //Added by Javed
     $createdBy = User::select('id','email')->get();
     //End
+    $sources = Source::where('active','1')->get();
 
     return view('admin.home',
-    compact('miles','purpose','projects','campaigns','contacts','status','contactsCount','sellers','countries','createdBy'));
+    compact('sources','miles','purpose','projects','campaigns','contacts','status','contactsCount','sellers','countries','createdBy'));
   }
   // get only the attributes that i want
 
@@ -316,7 +318,9 @@ class MainController extends Controller
         "last_mile_conversion",
         "status_id",
         "created_by", //Added by Javed
-        "project_country_id" //Added by Javed
+        "project_country_id", //Added by Javed
+        "budget", //Added by Javed
+        "source" //Added by Javed
       ];
 
       foreach($feilds as $feild => $value){

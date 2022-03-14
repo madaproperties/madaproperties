@@ -252,5 +252,6 @@ return [
   'other' => 'آخر',
   'fields' => 'مجالات',
   'download-excel' => 'قم بتنزيل Excel',
-  'Advanced Export' => 'تصدير متقدم'
+  'Advanced Export' => 'تصدير متقدم',
+  'commission_received_date' => 'تاريخ استلام العمولة'
 ];
