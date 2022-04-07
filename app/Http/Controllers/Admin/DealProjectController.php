@@ -35,7 +35,7 @@ class DealProjectController extends Controller
 
   // index 
   public function index(){
-    if(userRole() != 'admin'){
+    if(userRole() != 'admin' && checkLeader()){
       return abort(404);
     }
    
@@ -44,12 +44,23 @@ class DealProjectController extends Controller
     }  
 
     if(Request()->has('search')){
-      $deals = DealProject::where('project_name','LIKE','%'. Request('search') .'%')->orderBy('id','desc')->paginate(20);
-      $deals_count = DealProject::where('project_name','LIKE','%'. Request('search') .'%')->count();
-        
+      if(!checkLeader()){
+        $deals = DealProject::where('country_id',1)->where('project_name','LIKE','%'. Request('search') .'%')->orderBy('id','desc')->paginate(20);
+        $deals_count = DealProject::where('country_id',1)->where('project_name','LIKE','%'. Request('search') .'%')->count();
+      }else{
+        $deals = DealProject::where('project_name','LIKE','%'. Request('search') .'%')->orderBy('id','desc')->paginate(20);
+        $deals_count = DealProject::where('project_name','LIKE','%'. Request('search') .'%')->count();
+
+      }
+
     }else{
-      $deals = DealProject::orderBy('id','desc')->paginate(20);
-      $deals_count = DealProject::count();
+      if(!checkLeader()){
+        $deals = DealProject::where('country_id',1)->orderBy('id','desc')->paginate(20);
+        $deals_count = DealProject::where('country_id',1)->count();
+      }else{
+        $deals = DealProject::orderBy('id','desc')->paginate(20);
+        $deals_count = DealProject::count();
+      }
     }
 
 
@@ -125,7 +136,7 @@ class DealProjectController extends Controller
 
   public function destroy ($id)
   {
-    if(userRole() != 'admin'){
+    if(userRole() != 'admin'  && checkLeader()){
       return abort(404);
     }
     $data = DealProject::findOrFail($id);
@@ -136,7 +147,7 @@ class DealProjectController extends Controller
   public function show($deal)
   {
     $deal = DealProject::findOrFail($deal);
-    if(userRole() != 'admin'){
+    if(userRole() != 'admin'  && checkLeader()){
       return abort(404);
     }
     // Start Hundel Counties Sort

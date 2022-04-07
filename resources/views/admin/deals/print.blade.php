@@ -120,7 +120,7 @@
 						
                     </tr>
 					<tr>
-						<td>Property Consultant Amount (AED)</td>
+						<td>Property Consultant Amount (AED) Commission Percent - {{$deal->agent_commission_percent.'%'}}</td>
 						<td>{{number_format($deal->agent_commission_amount, 2)}}</td>
 						
                     </tr>

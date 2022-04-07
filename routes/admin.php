@@ -89,8 +89,7 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
 
       Route::get('advanceExport','DealController@advanceExport')->name('deal.advanceExport');
 
-                        
-
+      Route::resource('cash','CashController');
 });
 
 

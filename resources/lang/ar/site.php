@@ -253,5 +253,28 @@ return [
   'fields' => 'مجالات',
   'download-excel' => 'قم بتنزيل Excel',
   'Advanced Export' => 'تصدير متقدم',
-  'commission_received_date' => 'تاريخ استلام العمولة'
+  'commission_received_date' => 'تاريخ استلام العمولة',
+  'Last Updated' => 'التحديث الاخير',
+  'Cash' => 'التحقق من',
+  'cash' => 'التحقق من',
+  'cheque_date' => 'راجع التاريخ',
+  'cheque_number' => 'رقم الشيك',
+  'paid' => 'مدفوع',
+  'New Cash' => 'كاش شيك جديد',
+  'edit_cash' => 'تحرير شيك جديد',
+  'amount' => 'مقدار',
+  'document' => 'وثيقة',
+  'select agent2' => 'حدد الوكيل',
+  'Agent2' => 'Agent 2',
+  'agent2_commission_percent' => 'Agent 2 Commission Percent',
+  'agent2_commission_amount' => 'Agent 2 Commission Amount',
+  'agent2_commission_received' => 'Agent 2 Commission Received',
+
+  'Leader2' => 'leader 2',
+  'select leader2' => 'select leader 2',
+  'agent2_leader_commission_received' => 'Agent 2 Leader Commission Received',
+  'agent2_leader_commission_percent' => 'Agent 2 Leader Commission Percent',
+  'agent2_leader_commission_amount' => 'Agent 2 Leader Commission Amount',
+
+
 ];

@@ -57,7 +57,7 @@
 						</a>
 
 
-					@if(userRole() == 'admin')
+					@if(userRole() == 'admin' || !checkLeader())
 						<a href="{{route('admin.deal.create')}}" id="kt_quick_user_toggle" class="btn btn-success font-weight-bolder font-size-sm">
 						<span class="fa fa-plus"></span> {{__('site.New Deal')}}</a>
 					@endif
@@ -167,9 +167,9 @@
 								</tr>
 								@endforeach
 							</tbody>
-							{{$deals->links()}}
+							{{$deals->withQueryString()->links()}}
 						</table>
-						{{$deals->links()}}
+						{{$deals->withQueryString()->links()}}
 					</div>
 					<!--end::Table-->
 				</div>

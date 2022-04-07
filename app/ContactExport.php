@@ -23,8 +23,8 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
     'purpose','lang','last_mile_conversion',
     'id','first_name','last_name',
     'phone','country_id','city_id',
-    'status_id','created_at',
-    'user_id','created_by'];    
+    'status_id','created_at','updated_at',
+    'user_id','created_by','purpose_type','source'];    
 
     public function __construct($active = true)
     {
@@ -154,23 +154,29 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
           $assigned_to = $contact->user ? explode('@',$contact->user->name)[0] : '';
           $created_by = $contact->creator ? explode('@',$contact->creator->name)[0] : '';
           return [
-              $contact->fullname,
+              str_replace(" ","N/A",str_replace("="," ",$contact->fullname)),
               $phone,
               $country,
               $project,
               $status,
               timeZone($contact->created_at),
+              timeZone($contact->updated_at),
               $assigned_to,
-              $created_by
+              $created_by,
+              $contact->purpose_type,
+              $contact->source
           ];
         }else{
           return [
-            $contact->fullname,
+            str_replace(" ","N/A",str_replace("="," ",$contact->fullname)),
             $phone,
             $country,
             $project,
             $status,
-            timeZone($contact->created_at)
+            $contact->purpose_type,
+            $contact->source,
+            timeZone($contact->created_at),
+            timeZone($contact->updated_at)
           ];
 
         }
@@ -186,8 +192,11 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
           __('site.project'),
           __('site.status'),
           __('site.Created'),
+          __('site.Last Updated'),
           __('site.Assigned To'),
-          __('site.Created By')
+          __('site.Created By'),
+          __('site.purpose type'),
+          __('site.source'),
         ]);
       }else{
         return array_map('ucfirst',[
@@ -196,7 +205,10 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
           __('site.country'),
           __('site.project'),
           __('site.status'),
-          __('site.Created')
+          __('site.purpose type'),
+          __('site.source'),
+          __('site.Created'),
+          __('site.Last Updated')
         ]);
       }
   }
@@ -218,6 +230,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         "project_country_id", //Added by Javed
         "budget", //Added by Javed
         "source", //Added by Javed
+        "purpose_type", //Added by Javed
       ];
 
       foreach($feilds as $feild => $value){
@@ -248,7 +261,24 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         }            
       }
       //End
-              
+
+      //Added by Javed
+      if(Request('last_update_from') && Request('last_update_to')){
+        $from = date('Y-m-d 00:00:00', strtotime(Request('last_update_from')));
+        $to = date('Y-m-d 23:59:59', strtotime(Request('last_update_to')));
+        $q->whereBetween('updated_at',[$from,$to]);
+      }else{   
+        if(Request('last_update_from')){
+          $from = date('Y-m-d 00:00:00', strtotime(Request('last_update_from')));
+          $q->where('updated_at','>=', $from);
+        }   
+        if(Request('last_update_to')){
+          $to = date('Y-m-d 23:59:59', strtotime(Request('last_update_to')));
+          $q->where('updated_at','<=',$to);
+        }            
+      }
+      //End
+        
       return $q;
     }
 
@@ -259,6 +289,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
               $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
                 ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
                 ->OrWhere('phone','LIKE','%'. Request('search') .'%')
+                ->OrWhere('email','LIKE','%'. Request('search') .'%')
                 ->OrWhere('scound_phone','LIKE','%'. Request('search') .'%')
                 ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
                 ->OrWhere('source','LIKE','%'. Request('search') .'%')
@@ -267,13 +298,12 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
     }
 
     if(Request()->has('filter_status') AND Request()->has('search')){
-      echo "dfdfsddsfd";
-      die;
       return $q->where('status_id',Request('filter_status'))
         ->where(function ($q){
           $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
             ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
             ->OrWhere('phone','LIKE','%'. Request('search') .'%')
+            ->OrWhere('email','LIKE','%'. Request('search') .'%')
             ->OrWhere('scound_phone','LIKE','%'. Request('search') .'%')
             ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
             ->OrWhere('source','LIKE','%'. Request('search') .'%')
@@ -296,6 +326,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
             $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
               ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
               ->OrWhere('phone','LIKE','%'. Request('search') .'%')
+              ->OrWhere('email','LIKE','%'. Request('search') .'%')
               ->OrWhere('scound_phone','LIKE','%'. Request('search') .'%')
               ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
               ->OrWhere('source','LIKE','%'. Request('search') .'%')
@@ -350,6 +381,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
       return $q->where('first_name','LIKE','%'. Request('search') .'%')
               ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
               ->OrWhere('phone','LIKE','%'. Request('search') .'%')
+              ->OrWhere('email','LIKE','%'. Request('search') .'%')
               ->OrWhere('scound_phone','LIKE','%'. Request('search') .'%')
               ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
               ->OrWhere('source','LIKE','%'. Request('search') .'%')

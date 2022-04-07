@@ -797,6 +797,15 @@ function userRole($get_rule = null)
 }
 
 
+function checkLeader(){
+  if(auth()->user()->email != 'maram.a@madaproperties.com'){
+    return true;
+  }else{
+    return false;
+  }  
+}
+
+
 // hundel_lang()
 // {
 //   $langs = [

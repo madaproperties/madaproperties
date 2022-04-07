@@ -333,14 +333,6 @@
 																	</div>
 																	<!--end::Group-->
 
-
-																</div>
-															</div>
-
-															<div class="col-xl-6">
-																<!--begin::Wizard Step 1-->
-																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-																
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.expected_date')}}</label>
@@ -370,6 +362,14 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
+
+																</div>
+															</div>
+
+															<div class="col-xl-6">
+																<!--begin::Wizard Step 1-->
+																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+																
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
@@ -529,12 +529,111 @@
 																	</div>
 																	<!--end::Group-->
 
+																	@if(count($sellers))
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Agent2')}} </label>
+																		<div class="col-lg-9 col-xl-9">
+																			<select class="form-control"  name="agent2_id">
+																			<option value="">{{ __('site.select agent2') }}</option>
+																			@foreach($sellers as $seller)
+																				<option {{$deal->agent_id2 == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
+																			@endforeach
+																			</select>
+																		</div>
+																	</div>
+																	@endif
+
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.agent2_commission_percent')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="agent2_commission_percent" id="agent2_commission_percent" type="text" value="{{$deal->agent2_commission_percent}}" placeholder="{{__('site.agent2_commission_percent')}}" autocomplete="off">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.agent2_commission_amount')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="agent2_commission_amount" type="text" value="{{$deal->agent2_commission_amount}}" id="agent2_commission_amount" placeholder="{{__('site.agent2_commission_amount')}}" readonly>
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-form-label">{{__('site.agent2_commission_received')}}</label>
+																		<div class="col-xl-1">
+																			<input class="form-control" name="agent2_commission_received" type="radio" value="no" {{ $deal->agent2_commission_received == 'no' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.no')}}</label>
+																		<div class="col-xl-1">
+																			<input class="form-control" name="agent2_commission_received" type="radio" value="yes" {{ $deal->agent2_commission_received == 'yes' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.yes')}}</label>
+																	</div>
+																	<!--end::Group-->
+
+																	@if(count($leaders))
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Leader2')}} </label>
+																		<div class="col-lg-9 col-xl-9">
+																			<select class="form-control"  name="leader_id">
+																			<option value="">{{ __('site.select leader') }}</option>
+																			@foreach($leaders as $leader)
+																				<option {{$deal->leader2_id == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
+																			@endforeach
+																			</select>
+																		</div>
+																	</div>
+																	@endif
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.agent2_leader_commission_percent')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" id="agent2_leader_commission_percent" 	name="agent2_leader_commission_percent" type="text" value="{{$deal->agent2_leader_commission_percent}}" placeholder="{{__('site.agent2_leader_commission_percent')}}" autocomplete="off">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.agent2_leader_commission_amount')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="agent2_leader_commission_amount" type="text" value="{{$deal->agent2_leader_commission_amount}}" id="agent2_leader_commission_amount" placeholder="{{__('site.agent2_leader_commission_amount')}}" readonly>
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-form-label">{{__('site.agent2_leader_commission_received')}}</label>
+																		<div class="col-xl-1">
+																			<input class="form-control" name="agent2_leader_commission_received" type="radio" value="no" {{ $deal->agent2_leader_commission_received == 'no' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.no')}}</label>
+																		<div class="col-xl-1">
+																			<input class="form-control" name="agent2_leader_commission_received" type="radio" value="yes" {{ $deal->agent2_leader_commission_received == 'yes' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.yes')}}</label>
+																	</div>
+																	<!--end::Group-->
+
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.notes')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<textarea class="form-control form-control-solid form-control-lg" rows="10" name="notes" type="text" id="notes" value="{{old('notes')}}" placeholder="{{__('site.notes')}}">{{$deal->notes}}</textarea>
+																			<textarea class="form-control form-control-solid form-control-lg" rows="10" name="notes" type="text" id="notes" placeholder="{{__('site.notes')}}">{{$deal->notes}}</textarea>
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -715,6 +814,30 @@
 		});
 
 
+		$("#agent2_commission_percent").on('input keyup keypress blur change',function(){
+			if($(this).val() > 100 || $(this).val() < 0){
+				alert('Agent 2 commission value should be greater than 0 and less than 100');
+				$("#agent2_commission_percent").focus();
+				$(this).val(0);
+			}
+			if($("#commission_amount").val() < 0){
+				alert('Commission amount should not be 0');
+				$("#commission_amount").focus();
+				$(this).val(0);
+			}
+
+			var comi = $(this).val();
+			var price = $("#commission_amount").val();	
+			if ($('.third_party').is(':checked')) {
+				var third_party_amount = parseFloat($("#third_party_amount").val());
+				if(third_party_amount > 0){
+					price -= third_party_amount;
+				}
+			}
+			$("#agent2_commission_amount").val(((price*comi)/100).toFixed(2));
+			updateMadaCommission();
+		});
+
 		$("#agent_leader_commission_percent").on('input keyup keypress blur change',function(){
 			if($(this).val() > 100 || $(this).val() < 0){
 				alert('Agent leader commission value should be greater than 0 and less than 100');
@@ -730,6 +853,24 @@
 		var comi = $(this).val();
 			var agent_commission_amount = $("#agent_commission_amount").val();	
 			$("#agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+			updateMadaCommission();
+		});
+
+		$("#agent2_leader_commission_percent").on('input keyup keypress blur change',function(){
+			if($(this).val() > 100 || $(this).val() < 0){
+				alert('Agent 2 leader commission value should be greater than 0 and less than 100');
+				$("#agent2_leader_commission_percent").focus();
+				$(this).val(0);
+			}
+			if($("#commission_amount").val() < 0){
+				alert('Commission amount should not be 0');
+				$("#commission_amount").focus();
+				$(this).val(0);
+			}
+
+		var comi = $(this).val();
+			var agent_commission_amount = $("#agent2_commission_amount").val();	
+			$("#agent2_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
 			updateMadaCommission();
 		});
 
@@ -768,13 +909,21 @@
 	function updateMadaCommission(){
 		var commission_amount = parseFloat($("#commission_amount").val());
 		var agent_commission_amount = parseFloat($("#agent_commission_amount").val());
+		var agent2_commission_amount = parseFloat($("#agent2_commission_amount").val());
 		var agent_leader_commission_amount = parseFloat($("#agent_leader_commission_amount").val());
+		var agent2_leader_commission_amount = parseFloat($("#agent2_leader_commission_amount").val());
 		var temp_com = 0;
 		if(agent_commission_amount > 0){
 			temp_com += agent_commission_amount;
 		}
+		if(agent2_commission_amount > 0){
+			temp_com += agent2_commission_amount;
+		}
 		if(agent_leader_commission_amount > 0){
 			temp_com += agent_leader_commission_amount;
+		}
+		if(agent2_leader_commission_amount > 0){
+			temp_com += agent2_leader_commission_amount;
 		}
 		if ($('.third_party').is(':checked')) {
 			var third_party_amount = parseFloat($("#third_party_amount").val());

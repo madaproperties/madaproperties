@@ -35,7 +35,7 @@ class DealController extends Controller
 
   // index 
   public function index(){
-    if(userRole() != 'admin' && userRole() != 'other'){
+    if(userRole() != 'admin' && userRole() != 'other' && checkLeader()){
       return abort(404);
     }
    
@@ -48,15 +48,22 @@ class DealController extends Controller
         $this->filterPrams($q);
       })->orderBy('deal_date','desc');
 
+      if(!checkLeader()){
+        $data = $data->where('unit_country',1);
+      }
       $deals_count = $data->count();
       $deals = $data->paginate(20);
       //$deals = Deal::where('unit_name','LIKE','%'. Request('search') .'%')->orderBy('deal_date','desc')->paginate(20);
       //$deals_count = Deal::where('unit_name','LIKE','%'. Request('search') .'%')->count();
         
     }else{
-      $deals = Deal::orderBy('deal_date','desc')->paginate(20);
-      $deals_count = Deal::count();
-  
+      if(!checkLeader()){
+        $deals = Deal::orderBy('deal_date','desc')->where('unit_country',1)->paginate(20);
+        $deals_count = Deal::where('unit_country',1)->count();
+      }else{
+        $deals = Deal::orderBy('deal_date','desc')->paginate(20);
+        $deals_count = Deal::count();
+      }
     }
 
     $countries = Country::orderBy('name_en')->get();
@@ -182,10 +189,18 @@ class DealController extends Controller
       __('site.agent_commission_percent'),
       __('site.agent_commission_amount'),
       __('site.agent_commission_received'),
+      __('site.Agent2'),
+      __('site.agent2_commission_percent'),
+      __('site.agent2_commission_amount'),
+      __('site.agent2_commission_received'),
       __('site.Leader'),
       __('site.agent_leader_commission_percent'),
       __('site.agent_leader_commission_amount'),
       __('site.agent_leader_commission_received'),
+      __('site.Leader2'),
+      __('site.agent2_leader_commission_percent'),
+      __('site.agent2_leader_commission_amount'),
+      __('site.agent2_leader_commission_received'),
       __('site.third_party'),
       __('site.third_party_amount'),
       __('site.third_party_name'),
@@ -201,7 +216,7 @@ class DealController extends Controller
 
   public function create()
   {
-    if(userRole() != 'admin'){
+    if(userRole() != 'admin' && checkLeader()){
       return abort(404);
     }
 
@@ -287,7 +302,7 @@ class DealController extends Controller
     */
   public function store(Request $request)
   {
-    if(userRole() != 'admin'){
+    if(userRole() != 'admin' && checkLeader()){
       return abort(404);
     }
 
@@ -317,19 +332,27 @@ class DealController extends Controller
         "commission_received_date"          => "nullable",
         "agent_commission_percent" => "nullable",
         "agent_commission_amount"  => "nullable",
+        "agent2_commission_percent" => "nullable",
+        "agent2_commission_amount"  => "nullable",
         "agent_leader_commission_percent" => "nullable",
         "agent_leader_commission_amount"  => "nullable",
+        "agent2_leader_commission_percent" => "nullable",
+        "agent2_leader_commission_amount"  => "nullable",
         "third_party"           => "sometimes",
         "third_party_amount"    => "required_if:third_party,on",
         "third_party_name"      => "required_if:third_party,on",
         "mada_commission"       => "required|numeric",
         "agent_id"       => "nullable",
+        "agent2_id"       => "nullable",
         "leader_id"       => "nullable",
+        "leader2_id"       => "nullable",
         "spa"       => "nullable",
         "token"       => "nullable",
         "down_payment"       => "nullable",
         "agent_commission_received"       => "nullable",
+        "agent2_commission_received"       => "nullable",
         "agent_leader_commission_received"       => "nullable",
+        "agent2_leader_commission_received"       => "nullable",
         "mada_commission_received"       => "nullable",
         "notes"       => "nullable",
       ]);
@@ -362,7 +385,7 @@ class DealController extends Controller
 
   public function update(Request $request,  $deal)
   {
-    if(userRole() != 'admin'){
+    if(userRole() != 'admin' && checkLeader()){
       return abort(404);
     }
 
@@ -394,19 +417,27 @@ class DealController extends Controller
       "commission_received_date"          => "nullable",
       "agent_commission_percent" => "nullable",
       "agent_commission_amount"  => "nullable",
+      "agent2_commission_percent" => "nullable",
+      "agent2_commission_amount"  => "nullable",
       "agent_leader_commission_percent" => "nullable",
       "agent_leader_commission_amount"  => "nullable",
+      "agent2_leader_commission_percent" => "nullable",
+      "agent2_leader_commission_amount"  => "nullable",
       "third_party"           => "sometimes",
       "third_party_amount"    => "required_if:third_party,on",
       "third_party_name"      => "required_if:third_party,on",
       "mada_commission"       => "required|numeric",
       "agent_id"       => "nullable",
+      "agent2_id"       => "nullable",
       "leader_id"       => "nullable",
+      "leader2_id"       => "nullable",
       "spa"       => "nullable",
       "token"       => "nullable",
       "down_payment"       => "nullable",
       "agent_commission_received"       => "nullable",
+      "agent2_commission_received"       => "nullable",
       "agent_leader_commission_received"       => "nullable",
+      "agent2_leader_commission_received"       => "nullable",
       "mada_commission_received"       => "nullable",
       "notes"       => "nullable",
   ]);
@@ -420,7 +451,7 @@ class DealController extends Controller
 
   public function destroy ($id)
   {
-    if(userRole() != 'admin'){
+    if(userRole() != 'admin' && checkLeader()){
       return abort(404);
     }
     $data = Deal::findOrFail($id);
@@ -430,11 +461,11 @@ class DealController extends Controller
 
   public function show($deal)
   {
-    if(userRole() != 'admin' && userRole() != 'other'){
+    if(userRole() != 'admin' && userRole() != 'other' && checkLeader()){
       return abort(404);
     }
     $deal = Deal::findOrFail($deal);
-    if(userRole() != 'admin'){
+    if(userRole() != 'admin' && checkLeader()){
       return abort(404);
     }
 
@@ -501,7 +532,7 @@ class DealController extends Controller
 
   public function print($id)
   {
-    if(userRole() != 'admin' && userRole() != 'other'){
+    if(userRole() != 'admin' && userRole() != 'other' && checkLeader()){
       return abort(404);
     }
     $deal = Deal::findOrFail($id);
@@ -509,7 +540,7 @@ class DealController extends Controller
   }  
   public function printBill($id)
   {
-    if(userRole() != 'admin' && userRole() != 'other'){
+    if(userRole() != 'admin' && userRole() != 'other' && checkLeader()){
       return abort(404);
     }
     $deal = Deal::findOrFail($id);
@@ -598,7 +629,7 @@ class DealController extends Controller
 
   // index 
   public function advanceExport(){
-    if(userRole() != 'admin' && userRole() != 'other'){
+    if(userRole() != 'admin' && userRole() != 'other' && checkLeader()){
       return abort(404);
     }
    
@@ -685,10 +716,18 @@ class DealController extends Controller
       __('site.agent_commission_percent'),
       __('site.agent_commission_amount'),
       __('site.agent_commission_received'),
+      __('site.Agent2'),
+      __('site.agent2_commission_percent'),
+      __('site.agent2_commission_amount'),
+      __('site.agent2_commission_received'),
       __('site.Leader'),
       __('site.agent_leader_commission_percent'),
       __('site.agent_leader_commission_amount'),
       __('site.agent_leader_commission_received'),
+      __('site.Leader2'),
+      __('site.agent2_leader_commission_percent'),
+      __('site.agent2_leader_commission_amount'),
+      __('site.agent2_leader_commission_received'),
       __('site.third_party'),
       __('site.third_party_amount'),
       __('site.third_party_name'),

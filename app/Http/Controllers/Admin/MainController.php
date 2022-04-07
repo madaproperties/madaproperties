@@ -16,6 +16,7 @@ use App\Campaing;
 use Maatwebsite\Excel\Facades\Excel;
 use App\ContactExport;
 use App\Source;
+use App\PurposeType;
 
 class MainController extends Controller
 {
@@ -24,8 +25,8 @@ class MainController extends Controller
                                   'purpose','lang','last_mile_conversion',
                                   'id','first_name','last_name',
                                   'phone','country_id','city_id',
-                                  'status_id','created_at',
-                                  'user_id','created_by'];
+                                  'status_id','created_at','updated_at',
+                                  'user_id','created_by','purpose_type','source'];
 
   private $selectedAttruibutes2 = ['id','first_name','last_name','country_id','city_id','status_id','created_at','user_id','created_by'];
 
@@ -180,8 +181,10 @@ class MainController extends Controller
 
     if(userRole() == 'leader'){
       $id = auth()->id();
-      $sellers = User::where('leader',$id)
-                      ->OrWhere('id',$id)
+      $sellers = User::where(function($q) use($id){
+                        $q->where('leader',$id);
+                        $q->OrWhere('id',$id);
+                      })
                       ->where('active','1')->get();
     }elseif(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' ){ //Updated by Javed
 
@@ -200,8 +203,10 @@ class MainController extends Controller
                       ->where('time_zone','like','%'.$whereCountry.'%')
                       ->get();
       }else{
-        $sellers = User::where('rule','salles')
-                      ->orWhere('rule','leader')
+        $sellers = User::where(function($q){
+                        $q->where('rule','salles');
+                        $q->orWhere('rule','leader');
+                      })
                       ->where('active','1')->get();
       }
 
@@ -210,8 +215,10 @@ class MainController extends Controller
         $leader = auth()->user()->leader;
         if($leader){
           $sellers = User::where('leader',$leader)
-                            ->where('id','!=',auth()->id())
-                            ->Orwhere('id',$leader)
+                            ->where(function($q) use($leader){
+                              $q->where('id','!=',auth()->id());
+                              $q->Orwhere('id',$leader);
+                            })
                             ->where('active','1')->get();
         }else{
             $sellers = [];
@@ -271,8 +278,9 @@ class MainController extends Controller
     //End
     $sources = Source::where('active','1')->get();
 
+    $purposetype = PurposeType::orderBy('type')->get();    
     return view('admin.home',
-    compact('sources','miles','purpose','projects','campaigns','contacts','status','contactsCount','sellers','countries','createdBy'));
+    compact('purposetype','sources','miles','purpose','projects','campaigns','contacts','status','contactsCount','sellers','countries','createdBy'));
   }
   // get only the attributes that i want
 
@@ -320,7 +328,8 @@ class MainController extends Controller
         "created_by", //Added by Javed
         "project_country_id", //Added by Javed
         "budget", //Added by Javed
-        "source" //Added by Javed
+        "source", //Added by Javed
+        "purpose_type", //Added by Javed
       ];
 
       foreach($feilds as $feild => $value){
@@ -357,7 +366,30 @@ class MainController extends Controller
         }            
       }
       //End
-              
+
+      //Added by Javed
+      if(Request('last_update_from') && Request('last_update_to')){
+        $uri = Request()->fullUrl();
+        session()->put('start_filter_url',$uri);
+        $from = date('Y-m-d 00:00:00', strtotime(Request('last_update_from')));
+        $to = date('Y-m-d 23:59:59', strtotime(Request('last_update_to')));
+        $q->whereBetween('updated_at',[$from,$to]);
+      }else{   
+        if(Request('last_update_from')){
+          $uri = Request()->fullUrl();
+          session()->put('start_filter_url',$uri);
+          $from = date('Y-m-d 00:00:00', strtotime(Request('last_update_from')));
+          $q->where('updated_at','>=', $from);
+        }   
+        if(Request('last_update_to')){
+          $uri = Request()->fullUrl();
+          session()->put('start_filter_url',$uri);
+          $to = date('Y-m-d 23:59:59', strtotime(Request('last_update_to')));
+          $q->where('updated_at','<=',$to);
+        }            
+      }
+      //End
+      
       return $q->get();
     }
 
@@ -369,6 +401,7 @@ class MainController extends Controller
           ->where(function ($q){
               $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
                 ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
+                ->OrWhere('email','LIKE','%'. Request('search') .'%')
                 ->OrWhere('phone','LIKE','%'. Request('search') .'%')
                 ->OrWhere('scound_phone','LIKE','%'. Request('search') .'%')
                 ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
@@ -384,6 +417,7 @@ class MainController extends Controller
         ->where(function ($q){
           $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
             ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
+            ->OrWhere('email','LIKE','%'. Request('search') .'%')
             ->OrWhere('phone','LIKE','%'. Request('search') .'%')
             ->OrWhere('scound_phone','LIKE','%'. Request('search') .'%')
             ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
@@ -411,6 +445,7 @@ class MainController extends Controller
             $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
               ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
               ->OrWhere('phone','LIKE','%'. Request('search') .'%')
+              ->OrWhere('email','LIKE','%'. Request('search') .'%')
               ->OrWhere('scound_phone','LIKE','%'. Request('search') .'%')
               ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
               ->OrWhere('source','LIKE','%'. Request('search') .'%')
@@ -473,6 +508,7 @@ class MainController extends Controller
       return $q->where('first_name','LIKE','%'. Request('search') .'%')
               ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
               ->OrWhere('phone','LIKE','%'. Request('search') .'%')
+              ->OrWhere('email','LIKE','%'. Request('search') .'%')
               ->OrWhere('scound_phone','LIKE','%'. Request('search') .'%')
               ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
               ->OrWhere('source','LIKE','%'. Request('search') .'%')

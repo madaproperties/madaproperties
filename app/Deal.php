@@ -14,9 +14,17 @@ class Deal extends Model
     {
       return $this->belongsTo(User::class,'leader_id');
     }
+    public function leaderTwo()
+    {
+      return $this->belongsTo(User::class,'leader2_id');
+    }
     public function agent()
     {
       return $this->belongsTo(User::class,'agent_id');
+    }
+    public function agentTwo()
+    {
+      return $this->belongsTo(User::class,'agent2_id');
     }
     public function source()
     {

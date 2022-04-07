@@ -366,7 +366,7 @@ href="{{route('admin.home')}}?filter_status={{ App\Status::where('name_en','new'
       </li>
 
 
-	    @if(userRole() == 'admin')
+	    @if(userRole() == 'admin' || !checkLeader())
 		<li class="menu-item menu-item-active text-dark">
 			<a class="menu-link menu-toggle menu-link text-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			{{__('site.deals')}}
@@ -378,6 +378,14 @@ href="{{route('admin.home')}}?filter_status={{ App\Status::where('name_en','new'
 		</li>
       	@endif
 
+
+	    @if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi')
+		<li class="menu-item menu-item-active" aria-haspopup="true">
+			<a href="{{route('admin.cash.index')}}" class="menu-link {{ active_nav('cash') ? 'active' : ''}}">
+				<span class="menu-text">{{__('site.cash')}}</span>
+			</a>
+		</li>
+      	@endif
 
 
 

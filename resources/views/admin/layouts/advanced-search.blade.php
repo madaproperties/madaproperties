@@ -222,6 +222,55 @@
     </div>
     <!--end::Group-->
 
+ <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.purpose type')}}</label>
+      <select class="form-control"  name="purpose_type">
+		<option value="">{{ __('site.choose') }}</option>
+		@foreach($purposetype as $purpType)
+		<option {{Request('purpose_type') == $purpType->name ? 'selected' : ''}} value="{{$purpType->name}}">{{$purpType->name}}</option>
+		@endforeach
+	</select>
+    </div>
+
+    <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.Last Updated')}} {{ __('site.from') }} </label>
+          <div class="">
+            <div class="input-group input-group-solid date"
+            id="lastupdatefrom-date" data-target-input="nearest">
+              <input value="{{request('last_update_from')}}" type="text"
+              max="{{date('d-m-Y')}}"
+              class="form-control form-control-solid datetimepicker-input"
+              data-toggle="datetimepicker"
+              name="last_update_from" data-target="#lastupdatefrom-date" autocomplete="off">
+              <div class="input-group-append" data-target="#lastupdatefrom-date" data-toggle="datetimepicker">
+                <span class="input-group-text">
+                  <i class="ki ki-calendar"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.Last Updated')}} {{ __('site.to') }}</label>
+          <div class="">
+            <div class="input-group input-group-solid date to-date-el" id="lastupdateto-date" data-target-input="nearest">
+              <input value="{{request('last_update_to')}}" type="text" class="form-control form-control-solid datetimepicker-input"
+              data-toggle="datetimepicker"
+              min="{{date('d-m-Y')}}"
+              name="last_update_to" data-target="#lastupdateto-date" autocomplete="off">
+              <div class="input-group-append" data-target="#lastupdateto-date" data-toggle="datetimepicker">
+                <span class="input-group-text">
+                  <i class="ki ki-calendar"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
   </div> <!-- end row -->
 <button type="submit" class="btn btn-primary">{{__('site.search')}}</button>
 </form>

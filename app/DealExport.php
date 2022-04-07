@@ -23,9 +23,17 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         $deals = Deal::where(function ($q){
           $this->filterPrams($q);
         })->orderBy('deal_date','desc');
+
+        if(!checkLeader()){
+          $deals = $deals->where('unit_country',1);
+        }
           
       }else{
-        $deals = Deal::orderBy('deal_date','desc');
+        if(!checkLeader()){
+          $deals = Deal::where('unit_country',1)->orderBy('deal_date','desc');
+        }else{
+          $deals = Deal::orderBy('deal_date','desc');
+        }
       }
       return $deals;
     }
@@ -143,6 +151,21 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         if(in_array('agent_commission_received',$select)){
           $exportArray[++$i] = $deal->agent_commission_received;
         }
+
+        if(in_array('agent2',$select)){
+          $exportArray[++$i] = $deal->agenTwo ? $deal->agentTwo->name : '';
+        }
+        if(in_array('agent2_commission_percent',$select)){
+          $exportArray[++$i] = $deal->agent2_commission_percent;
+        }
+        if(in_array('agent2_commission_amount',$select)){
+          $exportArray[++$i] = $deal->agent2_commission_amount;
+        }
+        if(in_array('agent2_commission_received',$select)){
+          $exportArray[++$i] = $deal->agent2_commission_received;
+        }
+
+
         if(in_array('leader',$select)){
           $exportArray[++$i] = $deal->leader ? $deal->leader->name : '';
         }
@@ -155,6 +178,21 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         if(in_array('agent_leader_commission_received',$select)){
           $exportArray[++$i] = $deal->agent_leader_commission_received;
         }
+
+        if(in_array('leader2',$select)){
+          $exportArray[++$i] = $deal->leaderTwo ? $deal->leaderTwo->name : '';
+        }
+        if(in_array('agent2_leader_commission_percent',$select)){
+          $exportArray[++$i] = $deal->agent2_leader_commission_percent;
+        }
+        if(in_array('agent2_leader_commission_amount',$select)){
+          $exportArray[++$i] = $deal->agent2_leader_commission_amount;
+        }
+        if(in_array('agent2_leader_commission_received',$select)){
+          $exportArray[++$i] = $deal->agent2_leader_commission_received;
+        }
+
+
         if(in_array('third_party',$select)){
           $exportArray[++$i] = $deal->third_party;
         }
@@ -186,7 +224,9 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         $developer_name = $deal->developer ? $deal->developer->name : '';
         $source = $deal->source ? $deal->source->name : '';
         $agent = $deal->agent ? $deal->agent->name : '';
+        $agent2 = $deal->agentTwo ? $deal->agentTwo->name : '';
         $leader = $deal->leader ? $deal->leader->name : '';
+        $leader2 = $deal->leaderTwo ? $deal->leaderTwo->name : '';
         $deal_date = '';
         if(!empty($deal->deal_date)){
           $deal_date = date('d-m-Y',strtotime($deal->deal_date));
@@ -234,10 +274,18 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $deal->agent_commission_percent,
           ($deal->agent_commission_amount),
           $deal->agent_commission_received,
+          $agent2,
+          $deal->agent2_commission_percent,
+          ($deal->agent2_commission_amount),
+          $deal->agent2_commission_received,
           $leader,
           $deal->agent_leader_commission_percent,
           ($deal->agent_leader_commission_amount),
           $deal->agent_leader_commission_received,
+          $leader2,
+          $deal->agent2_leader_commission_percent,
+          ($deal->agent2_leader_commission_amount),
+          $deal->agent2_leader_commission_received,
           $deal->third_party,
           ($deal->third_party_amount),
           $deal->third_party_name,
@@ -289,10 +337,18 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         __('site.agent_commission_percent'),
         __('site.agent_commission_amount'),
         __('site.agent_commission_received'),
+        __('site.Agent2'),
+        __('site.agent2_commission_percent'),
+        __('site.agent2_commission_amount'),
+        __('site.agent2_commission_received'),
         __('site.Leader'),
         __('site.agent_leader_commission_percent'),
         __('site.agent_leader_commission_amount'),
         __('site.agent_leader_commission_received'),
+        __('site.Leader2'),
+        __('site.agent2_leader_commission_percent'),
+        __('site.agent2_leader_commission_amount'),
+        __('site.agent2_leader_commission_received'),
         __('site.third_party'),
         __('site.third_party_amount'),
         __('site.third_party_name'),

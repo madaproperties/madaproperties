@@ -306,6 +306,7 @@
 										<!--<th>{{__('site.city')}}</th>-->
 										<th>{{__('site.status')}}</th>
 										<th>{{__('site.Created')}}</th>
+										<th>{{__('site.Last Updated')}}</th>
 										@if(userRole() != 'seller')
 										<th>{{__('site.Assigned To')}}</th>
 										<th>{{__('site.Created By')}}</th>
@@ -339,8 +340,11 @@
 											<td>{{$contact->project ? $contact->project->name : ''}}</td>
 											<!--<td>{{$contact->city ? $contact->city->name : ''}}</td>-->
 											<td>{{$contact->status?$contact->status->name : ''}}</td>
-			<td>
+											<td>
 			    {{ timeZone($contact->created_at) }}
+			</td>
+			<td>
+			    {{ !empty($contact->updated_at) ? timeZone($contact->updated_at) : 'N/A' }}
 			</td>
 											@if(userRole() != 'seller')
 <td>
@@ -512,13 +516,13 @@ $(document).ready(function () {
 <!-- Added By javed -->
 <script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
 <script>
-	$(`#from-date`).datepicker({
+	$(`#from-date,#lastupdatefrom-date`).datepicker({
     //format: 'dd/mm/yyyy',
     todayHighlight:'TRUE',
     autoclose: true,
   });
 
-  $(`#to-date`).datepicker({
+  $(`#to-date,#lastupdateto-date`).datepicker({
 		//format: 'dd/mm/yyyy',
     todayHighlight:'TRUE',
     autoclose: true,

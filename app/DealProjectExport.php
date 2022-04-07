@@ -20,10 +20,17 @@ class DealProjectExport implements FromQuery, WithHeadings, ShouldAutoSize, With
     public function query()
     {
       if(Request()->has('search')){
-        $deals = DealProject::where('project_name','LIKE','%'. Request('search') .'%')->orderBy('id','desc');
-          
+        if(!checkLeader()){
+          $deals = DealProject::where('country_id',1)->where('project_name','LIKE','%'. Request('search') .'%')->orderBy('id','desc');
+        }else{
+          $deals = DealProject::where('project_name','LIKE','%'. Request('search') .'%')->orderBy('id','desc');
+        }
       }else{
-        $deals = DealProject::orderBy('id','desc');
+        if(!checkLeader()){
+          $deals = DealProject::where('country_id',1)->orderBy('id','desc');
+        }else{
+          $deals = DealProject::orderBy('id','desc');
+        }
       }
       return $deals;
     }

@@ -205,6 +205,10 @@ class ContactsController extends Controller
             // if there is assigned to will be the smae value - atherwise will be the uploder
             $contact['user_id'] = !empty($contact['assignedto']) ? $contact['assignedto'] : $auth_user_id;
             
+            if(isset($contact['unit_country']) && $contact['unit_country'] == 1){
+              $contact['user_id'] = '19';
+            }
+          
             if($contact['user_id'] != $auth_user_id  AND $auth_user->rule != 'admin') // check if he assigned to anther one i have to check if the currentauth is the leader
             {
                
