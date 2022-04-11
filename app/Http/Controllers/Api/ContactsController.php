@@ -204,11 +204,8 @@ class ContactsController extends Controller
 
             // if there is assigned to will be the smae value - atherwise will be the uploder
             $contact['user_id'] = !empty($contact['assignedto']) ? $contact['assignedto'] : $auth_user_id;
+
             
-            if(isset($contact['unit_country']) && $contact['unit_country'] == 1){
-              $contact['user_id'] = '19';
-            }
-          
             if($contact['user_id'] != $auth_user_id  AND $auth_user->rule != 'admin') // check if he assigned to anther one i have to check if the currentauth is the leader
             {
                
@@ -272,7 +269,25 @@ class ContactsController extends Controller
          {
             return $this->returnError($this->errors,count($this->errors));
          }else{
-             $contact = Contact::create($contact);
+
+			//Added by Javed on 28-03-2022
+            if(isset($contact['unit_country']) && $contact['unit_country'] == 1){
+              $contact['user_id'] = '19';
+            }
+			//End
+            //Added by Javed on 10-04-2022
+            if(isset($project_id)){
+              $projectData = Project::where('id',$project_id)->first();
+              if(isset($projectData->country_id) && $projectData->country_id == 1){
+                $contact['user_id'] = '19';
+                $contact['created_by'] = '19'; // assigned created by to saudi agent
+              }
+            }
+            //End
+          
+
+
+		 $contact = Contact::create($contact);
 
             $action = __('site.contact created');
             $this->newActivity($contact->id,auth('api')->id(),$action,'Contact',$contact->id,null,true);
@@ -292,8 +307,9 @@ class ContactsController extends Controller
       {
         if($model == 'Country' OR $model == 'unit_country') // get the result form model
         {
-          $ID = Country::where($search_feild,'LIKE','%'. $value . '%')->first();
-          $customMsg = __('site.'.strtolower($model)).' '.__('site.not found: recourd').' ['.$index.']';
+
+			$ID = Country::where($search_feild,'LIKE','%'. $value . '%')->first();
+			$customMsg = __('site.'.strtolower($model)).' '.__('site.not found: recourd').' ['.$index.']';
         }
         if($model == 'City' OR $model == 'unit_city')
         {

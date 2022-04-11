@@ -147,13 +147,13 @@
 										<span class="text-muted font-weight-bold">{{$deal->agent ? substr($deal->agent->email, 0, strpos($deal->agent->email, "@")) : 'N/A'}}</span>
 									</td>
 									<td>
-									@if(userRole() == 'admin')
+									@if(userRole() == 'admin' || !checkLeader())
 									<a href="{{ route('admin.deal.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
 									@endif
 
 										<a href="{{ route('admin.deal.print',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Print commission report"><i class="fa fa-print"></i></a>																						
 										<a href="{{ route('admin.deal.printBill',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Print tax invoice"><i class="fa fa-print"></i></a>																						
-										@if(auth()->user()->rule == 'admin')
+										@if(auth()->user()->rule == 'admin'  || !checkLeader())
 											<form id="destory-{{$deal->id}}" class="delete" onsubmit="return confirm('{{__('site.confirm')}}');"
 												action="{{ route('admin.deal.destroy',$deal->id) }}" method="POST" >
 												@csrf

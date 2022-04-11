@@ -50,7 +50,7 @@
 							<i class="fas fa-database" style="color:#fff"></i>
 							</span>{{__('site.export') }}
 						</a>
-					@if(userRole() == 'admin')
+					@if(userRole() == 'admin' || userRole() != 'sales admin uae' || userRole() != 'sales admin saudi')
 						<a href="{{route('admin.cash.create')}}" id="kt_quick_user_toggle" class="btn btn-success font-weight-bolder font-size-sm">
 						<span class="fa fa-plus"></span> {{__('site.New Cash')}}</a>
 					@endif

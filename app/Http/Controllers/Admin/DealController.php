@@ -445,6 +445,11 @@ class DealController extends Controller
     $data['updated_at'] = Carbon::now();
 
     $deal->update($data);
+    //print_r(session('start_filter_url'));
+    //die;
+    if(session('start_filter_url')){
+      return redirect(session()->get('start_filter_url'))->withSuccess(__('site.success'));
+    }
     return redirect(route('admin.deal.index'))->withSuccess(__('site.success'));
   }
 
@@ -551,6 +556,7 @@ class DealController extends Controller
   private function filterPrams($q){
 
     if(request()->has('ADVANCED')){
+      $uri = '';
       $feilds = request()->all();
       $allowedFeilds =[
         "unit_country" ,
@@ -613,8 +619,8 @@ class DealController extends Controller
       }
       //End
 
-
-              
+      $uri = Request()->fullUrl();
+      session()->put('start_filter_url',$uri);
       return $q->get();
     }
 

@@ -40,7 +40,7 @@ class CalendarController extends Controller
 
       foreach($meetings as $meeting)
       {
-        $start_date = str_replace('-','/',$meeting['date']) . ' '.$meeting['time'];
+        $start_date = str_replace('-','/',$meeting['date']) . ' '.date('h:i A',strtotime($meeting['time']));
         $start_date = \Carbon\Carbon::parse($start_date);
 
         if($today == $start_date->format('y/m/d'))

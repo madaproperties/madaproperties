@@ -78,7 +78,7 @@
 									<td>
 
 										<a href="{{ route('admin.deal_project.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
-										@if(auth()->user()->rule == 'admin')
+										@if(auth()->user()->rule == 'admin' || !checkLeader())
 											<form id="destory-{{$deal->id}}" class="delete" onsubmit="return confirm('{{__('site.confirm')}}');"
 												action="{{ route('admin.deal_project.destroy',$deal->id) }}" method="POST" >
 												@csrf

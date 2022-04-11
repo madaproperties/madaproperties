@@ -537,7 +537,7 @@
 																			<select class="form-control"  name="agent2_id">
 																			<option value="">{{ __('site.select agent2') }}</option>
 																			@foreach($sellers as $seller)
-																				<option {{$deal->agent_id2 == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
+																				<option {{$deal->agent2_id == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
 																			@endforeach
 																			</select>
 																		</div>
@@ -583,7 +583,7 @@
 																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Leader2')}} </label>
 																		<div class="col-lg-9 col-xl-9">
-																			<select class="form-control"  name="leader_id">
+																			<select class="form-control"  name="leader2_id">
 																			<option value="">{{ __('site.select leader') }}</option>
 																			@foreach($leaders as $leader)
 																				<option {{$deal->leader2_id == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
