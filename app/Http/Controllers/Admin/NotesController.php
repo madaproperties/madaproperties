@@ -68,7 +68,7 @@ class NotesController extends Controller
       {
         $dataDb['type'] = 'note';
         $dataDb['date'] = date('Y-m-d',strtotime($request->date));
-        $dataDb['time'] = date('Y-m-d',strtotime($request->time));
+        $dataDb['time'] = date('H:i a',strtotime($request->time));
         $dataDb['type'] = $request->type;
         $data = $dataDb['date'];
         $task = Task::create($dataDb);
@@ -100,7 +100,10 @@ class NotesController extends Controller
           
         }
       }
-
+      
+      Contact::where('id',$lead->id)->update([
+        'updated_at' => \Carbon\Carbon::now()
+      ]);
 
       return back()->withSuccess(__('site.success'));
     }

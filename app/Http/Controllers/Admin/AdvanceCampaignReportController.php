@@ -56,7 +56,7 @@ class AdvanceCampaignReportController extends Controller
 		$campaings_data =Campaing::where('active','1')->get();	
 		$projects_options = Project::orderBy('name_en','asc')->get();
 		$reportData = CampainReport::where('id',$id)->first();
-		$countriesIds = Contact::where('project_id',$reportData->project_id)->distinct('country_id')->get()->pluck('country_id');
+		$countriesIds = Contact::where('project_id',$reportData->project_id)->distinct('campaign_country')->get()->pluck('campaign_country');
 		$countries = Country::orderBy('name_en')->whereIn('id',$countriesIds)->where('parent_id',0)->get();
 		$collectCounties = [];
 		$collectCounties = collect($collectCounties);
@@ -122,7 +122,7 @@ class AdvanceCampaignReportController extends Controller
 			}
 		}
 
-		$countriesIds = Contact::where('project_id',$project_id)->distinct('country_id')->get()->pluck('country_id');
+		$countriesIds = Contact::where('project_id',$project_id)->distinct('campaign_country')->get()->pluck('campaign_country');
 
 		$countries = Country::orderBy('name_en')->whereIn('id',$countriesIds)->where('parent_id',0)->get();
 		$collectCounties = [];
@@ -231,9 +231,9 @@ class AdvanceCampaignReportController extends Controller
 		}
 
 		if($project_id){
-			$countriesIds = Contact::where('project_id',$project_id)->distinct('country_id')->get()->pluck('country_id');
+			$countriesIds = Contact::where('project_id',$project_id)->distinct('campaign_country')->get()->pluck('campaign_country');
 		}else{
-			$countriesIds = Contact::distinct('country_id')->get()->pluck('country_id');
+			$countriesIds = Contact::distinct('campaign_country')->get()->pluck('campaign_country');
 		}
 
 		$countries = Country::orderBy('name_en')->whereIn('id',$countriesIds)->where('parent_id',0)->get();

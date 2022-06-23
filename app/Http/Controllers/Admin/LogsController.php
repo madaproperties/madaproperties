@@ -123,7 +123,9 @@ class LogsController extends Controller
      
      
      $contact->update([
-        'lead_type' => $request->lead_type
+        'lead_type' => $request->lead_type,
+         'updated_at' => Carbon::now()
+  
     ]);
     
       $data = $request->validate($validate);
@@ -192,7 +194,9 @@ class LogsController extends Controller
       }
      }
       $contact->update([
-        'lead_type' => $request->lead_type
+        'lead_type' => $request->lead_type,
+        'updated_at' => Carbon::now()
+  
     ]);
     
       unset($data['status_id']);

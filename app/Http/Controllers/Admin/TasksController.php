@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Task;
 use Illuminate\Http\Request;
 use App\Contact;
+use Carbon\Carbon;
 
 class TasksController extends Controller
 {
@@ -51,6 +52,11 @@ class TasksController extends Controller
         $task = Task::create($data);
         $action = auth()->user()->name. __('site.add new') . __('site.task');
         $this->newActivity($request->contact_id,auth()->id(),$action,'Task',$task->id,$data['date']);
+
+        Contact::where('id',$request->contact_id)->update([
+        'updated_at' => Carbon::now()
+        ]);
+    
         return back()->withSuccess(__('site.success'));
     }
 
