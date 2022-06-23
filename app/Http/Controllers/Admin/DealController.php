@@ -27,22 +27,31 @@ use App\Medium;
 use App\Deal;
 use Maatwebsite\Excel\Facades\Excel;
 use App\DealExport;
-use App\Developer;
+use App\DealDeveloper;
 use App\DealProject;
 
 class DealController extends Controller
 {
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+     function __construct()
+     {
+          $this->middleware('permission:deal-list', ['only' => ['index']]);
+          $this->middleware('permission:deal-create', ['only' => ['create','store']]);
+          $this->middleware('permission:deal-edit', ['only' => ['edit','show','update']]);
+          $this->middleware('permission:deal-delete', ['only' => ['destroy']]);
+          $this->middleware('permission:deal-export', ['only' => ['exportDataDeals']]);
+          $this->middleware('permission:print-commission-report', ['only' => ['print']]);
+          $this->middleware('permission:print-tax-invoice', ['only' => ['printBill']]);
+          $this->middleware('permission:deal-advance-export', ['only' => ['advanceExport']]);
+     }  
   // index 
   public function index(){
-    if(userRole() != 'admin' && userRole() != 'other' && checkLeader()){
-      return abort(404);
-    }
-   
-    if(Request()->has('exportData')){
-      return Excel::download(new DealExport, 'DealsReport.xlsx');
-    }  
-
+  
     if(Request()->has('search') || Request()->has('ADVANCED')){
       $data = Deal::where(function ($q){
         $this->filterPrams($q);
@@ -50,6 +59,8 @@ class DealController extends Controller
 
       if(!checkLeader()){
         $data = $data->where('unit_country',1);
+      }elseif(!checkLeaderUae()){
+        $data = $data->where('unit_country',2);
       }
       $deals_count = $data->count();
       $deals = $data->paginate(20);
@@ -60,6 +71,9 @@ class DealController extends Controller
       if(!checkLeader()){
         $deals = Deal::orderBy('deal_date','desc')->where('unit_country',1)->paginate(20);
         $deals_count = Deal::where('unit_country',1)->count();
+      }elseif(!checkLeaderUae()){
+        $deals = Deal::orderBy('deal_date','desc')->where('unit_country',2)->paginate(20);
+        $deals_count = Deal::where('unit_country',2)->count();
       }else{
         $deals = Deal::orderBy('deal_date','desc')->paginate(20);
         $deals_count = Deal::count();
@@ -101,13 +115,39 @@ class DealController extends Controller
     $sources = Source::where('active','1')->get();
     $mediums = Medium::where('active','1')->get();
 
-    $sellers = User::where('rule','salles')->orWhere('rule','leader')
-                    ->where('active','1')->get();
-  
-    $leaders = User::where('rule','leader')
+    if(!checkLeader()){
+      $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
+        $q->where('rule','sales')->orWhere('rule','leader');
+      })
     ->where('active','1')->get();
+    }elseif(!checkLeaderUae()){
+      $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
+        $q->where('rule','sales')->orWhere('rule','leader');
+      })
+    ->where('active','1')->get();
+    }else{
+      $sellers = User::where('rule','sales')->orWhere('rule','leader')
+    ->where('active','1')->get();
+    }
 
-    $developer = Developer::get();
+    if(!checkLeader()){
+      $leaders = User::where('rule','leader')
+      ->where('active','1')->where('time_zone','Asia/Riyadh')->get();
+    }elseif(!checkLeaderUae()){
+      $leaders = User::where('rule','leader')
+      ->where('active','1')->where('time_zone','Asia/Dubai')->get();
+    }else{
+      $leaders = User::where('rule','leader')
+      ->where('active','1')->get();
+    }
+
+    if(!checkLeader()){
+      $developer = DealDeveloper::where('country_id',1)->get();
+    }elseif(!checkLeaderUae()){
+      $developer = DealDeveloper::where('country_id',2)->get();
+    }else{
+      $developer = DealDeveloper::get();
+    }
     $projects = DealProject::get();
     $miles = LastMileConversion::where('active','1')
     ->orderBy('name_'. app()->getLocale())
@@ -216,9 +256,6 @@ class DealController extends Controller
 
   public function create()
   {
-    if(userRole() != 'admin' && checkLeader()){
-      return abort(404);
-    }
 
     $currencyName = app()->getLocale() == 'en' ? 'currency' : 'currency_ar';
 
@@ -281,13 +318,39 @@ class DealController extends Controller
       $sources = Source::where('active','1')->get();
       $mediums = Medium::where('active','1')->get();
 
-      $sellers = User::where('rule','salles')->orWhere('rule','leader')
-                      ->where('active','1')->get();
-    
-      $leaders = User::where('rule','leader')
+      if(!checkLeader()){
+        $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
+          $q->where('rule','sales')->orWhere('rule','leader');
+        })
       ->where('active','1')->get();
-
-      $developer = Developer::get();
+      }elseif(!checkLeaderUae()){
+        $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
+          $q->where('rule','sales')->orWhere('rule','leader');
+        })
+      ->where('active','1')->get();
+      }else{
+        $sellers = User::where('rule','sales')->orWhere('rule','leader')
+      ->where('active','1')->get();
+      }
+  
+      if(!checkLeader()){
+        $leaders = User::where('rule','leader')
+        ->where('active','1')->where('time_zone','Asia/Riyadh')->get();
+      }elseif(!checkLeaderUae()){
+        $leaders = User::where('rule','leader')
+        ->where('active','1')->where('time_zone','Asia/Dubai')->get();
+      }else{
+        $leaders = User::where('rule','leader')
+        ->where('active','1')->get();
+      }
+  
+      if(!checkLeader()){
+        $developer = DealDeveloper::where('country_id',1)->get();
+      }elseif(!checkLeaderUae()){
+        $developer = DealDeveloper::where('country_id',2)->get();
+      }else{
+        $developer = DealDeveloper::get();
+      }
 
 
       return view('admin.deals.create',
@@ -302,10 +365,6 @@ class DealController extends Controller
     */
   public function store(Request $request)
   {
-    if(userRole() != 'admin' && checkLeader()){
-      return abort(404);
-    }
-
       $data = $request->validate([
         "unit_country"          => "required",
         "project_id"            => "required",
@@ -385,9 +444,6 @@ class DealController extends Controller
 
   public function update(Request $request,  $deal)
   {
-    if(userRole() != 'admin' && checkLeader()){
-      return abort(404);
-    }
 
     $deal = Deal::findOrFail($deal);
 
@@ -456,9 +512,6 @@ class DealController extends Controller
 
   public function destroy ($id)
   {
-    if(userRole() != 'admin' && checkLeader()){
-      return abort(404);
-    }
     $data = Deal::findOrFail($id);
     $data->delete();
     return back()->withSuccess(__('site.success'));
@@ -466,14 +519,7 @@ class DealController extends Controller
 
   public function show($deal)
   {
-    if(userRole() != 'admin' && userRole() != 'other' && checkLeader()){
-      return abort(404);
-    }
     $deal = Deal::findOrFail($deal);
-    if(userRole() != 'admin' && checkLeader()){
-      return abort(404);
-    }
-
 
     $currencyName = app()->getLocale() == 'en' ? 'currency' : 'currency_ar';
     $projects = Project::where('name_en','others')
@@ -520,13 +566,40 @@ class DealController extends Controller
         $purpose[0] = 'buy';
     }
 
-    $sellers = User::where('rule','salles')->orWhere('rule','leader')
+    if(!checkLeader()){
+      $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
+        $q->where('rule','sales')->orWhere('rule','leader');
+      })
     ->where('active','1')->get();
-
-    $leaders = User::where('rule','leader')
+    }elseif(!checkLeaderUae()){
+      $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
+        $q->where('rule','sales')->orWhere('rule','leader');
+      })
     ->where('active','1')->get();
+    }else{
+      $sellers = User::where('rule','sales')->orWhere('rule','leader')
+    ->where('active','1')->get();
+    }
 
-    $developer = Developer::get();
+    if(!checkLeader()){
+      $leaders = User::where('rule','leader')
+      ->where('active','1')->where('time_zone','Asia/Riyadh')->get();
+    }elseif(!checkLeaderUae()){
+      $leaders = User::where('rule','leader')
+      ->where('active','1')->where('time_zone','Asia/Dubai')->get();
+    }else{
+      $leaders = User::where('rule','leader')
+      ->where('active','1')->get();
+    }
+
+    if(!checkLeader()){
+      $developer = DealDeveloper::where('country_id',1)->get();
+    }elseif(!checkLeaderUae()){
+      $developer = DealDeveloper::where('country_id',2)->get();
+    }else{
+      $developer = DealDeveloper::get();
+    }
+
     $sources = Source::where('active','1')->get();
 
 
@@ -537,17 +610,11 @@ class DealController extends Controller
 
   public function print($id)
   {
-    if(userRole() != 'admin' && userRole() != 'other' && checkLeader()){
-      return abort(404);
-    }
     $deal = Deal::findOrFail($id);
     return view('admin.deals.print',compact('deal'));
   }  
   public function printBill($id)
   {
-    if(userRole() != 'admin' && userRole() != 'other' && checkLeader()){
-      return abort(404);
-    }
     $deal = Deal::findOrFail($id);
     return view('admin.deals.print_bill',compact('deal'));
   }
@@ -635,12 +702,9 @@ class DealController extends Controller
 
   // index 
   public function advanceExport(){
-    if(userRole() != 'admin' && userRole() != 'other' && checkLeader()){
-      return abort(404);
-    }
    
     if(Request()->has('ADVANCED')){
-      return Excel::download(new DealExport, 'DealsReport.xlsx');
+      return Excel::download(new DealExport, 'DealsReport_'.date('d-m-Y').'.xlsx');
     }  
 
 
@@ -679,13 +743,40 @@ class DealController extends Controller
     $sources = Source::where('active','1')->get();
     $mediums = Medium::where('active','1')->get();
 
-    $sellers = User::where('rule','salles')->orWhere('rule','leader')
-                    ->where('active','1')->get();
-  
-    $leaders = User::where('rule','leader')
+    if(!checkLeader()){
+      $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
+        $q->where('rule','sales')->orWhere('rule','leader');
+      })
     ->where('active','1')->get();
+    }elseif(!checkLeaderUae()){
+      $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
+        $q->where('rule','sales')->orWhere('rule','leader');
+      })
+    ->where('active','1')->get();
+    }else{
+      $sellers = User::where('rule','sales')->orWhere('rule','leader')
+    ->where('active','1')->get();
+    }
 
-    $developer = Developer::get();
+    if(!checkLeader()){
+      $leaders = User::where('rule','leader')
+      ->where('active','1')->where('time_zone','Asia/Riyadh')->get();
+    }elseif(!checkLeaderUae()){
+      $leaders = User::where('rule','leader')
+      ->where('active','1')->where('time_zone','Asia/Dubai')->get();
+    }else{
+      $leaders = User::where('rule','leader')
+      ->where('active','1')->get();
+    }
+
+    if(!checkLeader()){
+      $developer = DealDeveloper::where('country_id',1)->get();
+    }elseif(!checkLeaderUae()){
+      $developer = DealDeveloper::where('country_id',2)->get();
+    }else{
+      $developer = DealDeveloper::get();
+    }
+
     $projects = DealProject::get();
     $miles = LastMileConversion::where('active','1')
     ->orderBy('name_'. app()->getLocale())
@@ -747,5 +838,10 @@ class DealController extends Controller
     return view('admin.deals.advance_export',compact('fields','projects','miles','countries','purpose','purposetype','campaigns','contents','sources','mediums','sellers','leaders','developer'));
   }
 
-
+  public function exportDataDeals(){
+  
+    if(Request()->has('exportData')){
+      return Excel::download(new DealExport, 'DealsReport_'.date('d-m-Y').'.xlsx');
+    }  
+  }
 }

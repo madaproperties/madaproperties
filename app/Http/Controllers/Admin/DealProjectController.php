@@ -33,20 +33,31 @@ use App\DealProject;
 class DealProjectController extends Controller
 {
 
-  // index 
-  public function index(){
-    if(userRole() != 'admin' && checkLeader()){
-      return abort(404);
-    }
-   
-    if(Request()->has('exportData')){
-      return Excel::download(new DealProjectExport, 'DealProjectsReport.xlsx');
+  /**
+    * Display a listing of the resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    function __construct()
+    {
+        $this->middleware('permission:deal-project-list', ['only' => ['index']]);
+        $this->middleware('permission:deal-project-create', ['only' => ['create','store']]);
+        $this->middleware('permission:deal-project-edit', ['only' => ['edit','show','update']]);
+        $this->middleware('permission:deal-project-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:deal-project-export', ['only' => ['exportDataDealProject']]);
     }  
 
+
+  // index 
+  public function index(){
+   
     if(Request()->has('search')){
       if(!checkLeader()){
         $deals = DealProject::where('country_id',1)->where('project_name','LIKE','%'. Request('search') .'%')->orderBy('id','desc')->paginate(20);
         $deals_count = DealProject::where('country_id',1)->where('project_name','LIKE','%'. Request('search') .'%')->count();
+      }elseif(!checkLeaderUae()){
+        $deals = DealProject::where('country_id',2)->where('project_name','LIKE','%'. Request('search') .'%')->orderBy('id','desc')->paginate(20);
+        $deals_count = DealProject::where('country_id',2)->where('project_name','LIKE','%'. Request('search') .'%')->count();
       }else{
         $deals = DealProject::where('project_name','LIKE','%'. Request('search') .'%')->orderBy('id','desc')->paginate(20);
         $deals_count = DealProject::where('project_name','LIKE','%'. Request('search') .'%')->count();
@@ -57,6 +68,9 @@ class DealProjectController extends Controller
       if(!checkLeader()){
         $deals = DealProject::where('country_id',1)->orderBy('id','desc')->paginate(20);
         $deals_count = DealProject::where('country_id',1)->count();
+      }elseif(!checkLeaderUae()){
+        $deals = DealProject::where('country_id',2)->orderBy('id','desc')->paginate(20);
+        $deals_count = DealProject::where('country_id',2)->count();
       }else{
         $deals = DealProject::orderBy('id','desc')->paginate(20);
         $deals_count = DealProject::count();
@@ -136,9 +150,6 @@ class DealProjectController extends Controller
 
   public function destroy ($id)
   {
-    if(userRole() != 'admin'  && checkLeader()){
-      return abort(404);
-    }
     $data = DealProject::findOrFail($id);
     $data->delete();
     return back()->withSuccess(__('site.success'));
@@ -147,9 +158,6 @@ class DealProjectController extends Controller
   public function show($deal)
   {
     $deal = DealProject::findOrFail($deal);
-    if(userRole() != 'admin'  && checkLeader()){
-      return abort(404);
-    }
     // Start Hundel Counties Sort
     $countries = Country::orderBy('name_en')->get();
 
@@ -198,6 +206,12 @@ class DealProjectController extends Controller
       'rows' => $rows,
       'countryCode' => $country->code
     ]);
+  }
+
+  public function exportDataDealProject(){
+    if(Request()->has('exportData')){
+      return Excel::download(new DealProjectExport, 'DealProjectsReport_'.date('d-m-Y').'.xlsx');
+    }  
   }
 
 }

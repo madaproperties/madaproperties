@@ -23,15 +23,15 @@ class Controller extends BaseController
        
         $contact = Contact::findOrFail($contactID);
         
-        $openStatus = Status::where('name_en','Open')->first();
+        $openStatus = Status::where('name_en','No Answer')->first();
         $newStatus = Status::where('name_en','New')->first();
         
         if(!$openStatus)
         {
             $openStatus = Status::create([
-                'name_en' => 'Open',
-                'name_ar' => 'مفتوح',
-                'active' => '1'
+                "name_ar" => "متواصل",
+                "name_en" => "No Answer",
+                "active" => "1"
             ]);
         }
         
@@ -40,13 +40,13 @@ class Controller extends BaseController
     if(!$createdContact){ // check if he just created contact
         if($contact->status_id == $newStatus->id)
         {
-            $state = Status::where('name_en','Open')->first();
+            $state = Status::where('name_en','No Answer')->first();
             
             if(!$state) // create if not exsist 
             {
                 $state = Status::create([
                     "name_ar" => "متواصل",
-                    "name_en" => "Open",
+                    "name_en" => "No Answer",
                     "active" => "1",
                 ]);
             }

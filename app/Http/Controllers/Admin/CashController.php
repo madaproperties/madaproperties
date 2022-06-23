@@ -9,20 +9,29 @@ use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Cash;
 use App\CashExport;
+use Spatie\Permission\Models\Role;
 
 class CashController extends Controller
 {
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+     function __construct()
+     {
+          $this->middleware('permission:cash-list|cash-create|cash-edit|cash-delete', ['only' => ['index','store']]);
+          $this->middleware('permission:cash-create', ['only' => ['create','store']]);
+          $this->middleware('permission:cash-edit', ['only' => ['show','edit']]);
+          $this->middleware('permission:cash-delete', ['only' => ['destroy']]);
+          $this->middleware('permission:cash-export', ['only' => ['exportDataCash']]);
+     }
+     
+   
+
   // index 
   public function index(){
-    if(userRole() != 'admin' && userRole() != 'sales admin uae' && userRole() != 'sales admin saudi'){
-      return abort(404);
-    }
-   
-    if(Request()->has('exportData')){
-      return Excel::download(new CashExport, 'CashReport.xlsx');
-    }  
-
     if(Request()->has('search')){
       $data = Cash::where(function ($q){
         $this->filterPrams($q);
@@ -40,9 +49,6 @@ class CashController extends Controller
 
   public function create()
   {
-    if(userRole() != 'admin' && userRole() != 'sales admin uae' && userRole() != 'sales admin saudi'){
-      return abort(404);
-    }
     return view('admin.cash.create');
   }
 
@@ -54,9 +60,6 @@ class CashController extends Controller
     */
   public function store(Request $request)
   {
-    if(userRole() != 'admin'&& userRole() != 'sales admin uae' && userRole() != 'sales admin saudi'){
-      return abort(404);
-    }
 
     $data = $request->validate([
       "cheque_date"   => "nullable",
@@ -81,9 +84,6 @@ class CashController extends Controller
 
   public function update(Request $request,  $deal)
   {
-    if(userRole() != 'admin' && userRole() != 'sales admin uae' && userRole() != 'sales admin saudi'){
-      return abort(404);
-    }
 
     $deal = Cash::findOrFail($deal);
 
@@ -108,9 +108,6 @@ class CashController extends Controller
 
   public function destroy ($id)
   {
-    if(userRole() != 'admin'){
-      return abort(404);
-    }
     $data = Cash::findOrFail($id);
     $data->delete();
     return back()->withSuccess(__('site.success'));
@@ -118,9 +115,6 @@ class CashController extends Controller
 
   public function show($id)
   {
-    if(userRole() != 'admin'){
-      return abort(404);
-    }
     $cash = Cash::findOrFail($id);
     return view('admin.cash.show',compact('cash'));
 
@@ -137,4 +131,10 @@ class CashController extends Controller
       ->get();
     }
   }  
+
+  public function exportDataCash(){
+    if(Request()->has('exportData')){
+      return Excel::download(new CashExport, 'CashReport_'.date('d-m-Y').'.xlsx');
+    }  
+  }
 }

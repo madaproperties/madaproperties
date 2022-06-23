@@ -3,11 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Contact extends Model
 {
-    protected $guarded = [];
+    use SoftDeletes;
 
+    protected $guarded = [];
+    protected $dates = ['deleted_at'];
     
 
     public function user()
@@ -72,6 +75,11 @@ class Contact extends Model
     {
       return $this->belongsTo(Currency::class,'currency');
     }
+    public function logs()
+    {
+      return $this->hasMany(Log::class,'contact_id');
+    }
+
 
 
 }

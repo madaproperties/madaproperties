@@ -1,5 +1,10 @@
 @extends('admin.layouts.main')
 @section('content')
+@php 
+$exportName = request()->fullUrlWithQuery(['exportData' => '1']);
+$exportUrl = explode('?',$exportName);
+$exportUrl = str_replace($exportUrl[0],route('admin.deal-project.exportDataDealProject'),$exportName);
+@endphp
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" style="padding-top:10px">
 	<!--begin::Entry-->
@@ -19,15 +24,18 @@
 						<span class="text-muted mt-3 font-weight-bold font-size-sm">{{$deals_count}} {{__('site.project')}}</span>
 					</h3>
 					<div class="card-toolbar">
-						<a href="{{request()->fullUrlWithQuery(['exportData' => '1'])}}" class="btn btn-primary font-weight-bolder" target="_blank">
+						@can('deal-project-export')
+						<a href="{{$exportUrl}}" class="btn btn-primary font-weight-bolder" target="_blank">
 							<span class="svg-icon svg-icon-md">
 							<i class="fas fa-database" style="color:#fff"></i>
 							</span>{{__('site.export') }}
 						</a>
+						@endcan
 
-
+						@can('deal-project-create')
 						<a href="{{route('admin.deal_project.create')}}" id="kt_quick_user_toggle" class="btn btn-success font-weight-bolder font-size-sm">
 						<span class="fa fa-plus"></span> {{__('site.new').' '.__('site.project')}}</a>
+						@endcan
 					</div>
 				</div>
 				<!--end::Header-->
@@ -77,8 +85,10 @@
 									</td>
 									<td>
 
+										@can('deal-project-edit')
 										<a href="{{ route('admin.deal_project.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
-										@if(auth()->user()->rule == 'admin' || !checkLeader())
+										@endcan
+										@can('deal-project-delete')
 											<form id="destory-{{$deal->id}}" class="delete" onsubmit="return confirm('{{__('site.confirm')}}');"
 												action="{{ route('admin.deal_project.destroy',$deal->id) }}" method="POST" >
 												@csrf
@@ -87,7 +97,7 @@
 												<i class="fa fa-trash" onclick="submitForm('{{$deal->id}}')"></i></a>
 												<button type="submit" style="display:none"></button>
 											</form>
-										@endif
+										@endcan
 									</td>
 								</tr>
 								@endforeach

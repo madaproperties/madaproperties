@@ -12,8 +12,22 @@ use App\Status;
 
 class CalendarController extends Controller
 {
-    public function index()
+
+  /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+     function __construct()
+     {
+          $this->middleware('permission:calendar-list', ['only' => ['index']]);
+    }  
+    public function index(Request $request)
     {
+      if(!empty($request->start)){
+        $start_date = date('Y-m-d',strtotime($request->start));
+        $end_date = date('Y-m-d',strtotime($request->end));
+      }
 
       if(userRole() == 'leader')
       {
@@ -22,16 +36,28 @@ class CalendarController extends Controller
                         
           $usersIds = $usersIds->pluck('id');
           $usersIds->push(auth()->id());
-
-          $meetings = Log::where('type','meeting')->whereIn('user_id',$usersIds->toArray())->get();
-          $tasks = Task::whereIn('user_id',$usersIds->toArray())->get();
+          if(!empty($request->start)){
+            $meetings = Log::where('type','meeting')->whereIn('user_id',$usersIds->toArray())
+                      ->whereBetween('log_date',[$start_date,$end_date])->get();
+            $tasks = Task::whereIn('user_id',$usersIds->toArray())->whereBetween('date',[$start_date,$end_date])->get();
+          }else{
+            $meetings = Log::where('type','meeting')->whereIn('user_id',$usersIds->toArray())->get();
+            $tasks = Task::whereIn('user_id',$usersIds->toArray())->get();
+          }
           $logs = Log::whereIn('user_id',$usersIds->toArray())->get();
           
       }else {
-        $meetings = Log::where('type','meeting')->where('user_id',auth()->id())->get();
-        $tasks = Task::where('user_id',auth()->id())->get();
+        if(!empty($request->start)){
+          $meetings = Log::where('type','meeting')->where('user_id',auth()->id())
+            ->whereBetween('log_date',[$start_date,$end_date])->get();
+            $tasks = Task::where('user_id',auth()->id())->whereBetween('date',[$start_date,$end_date])->get();
+          }else{
+          $meetings = Log::where('type','meeting')->where('user_id',auth()->id())->get();
+          $tasks = Task::where('user_id',auth()->id())->get();
+        }
         $logs = Log::where('user_id',auth()->id())->get();
       }
+      
 
       $rows = [];
       $today = \Carbon\Carbon::today();
@@ -40,22 +66,25 @@ class CalendarController extends Controller
 
       foreach($meetings as $meeting)
       {
-        $start_date = str_replace('-','/',$meeting['date']) . ' '.date('h:i A',strtotime($meeting['time']));
-        $start_date = \Carbon\Carbon::parse($start_date);
+        $start_date = str_replace('-','/',$meeting['log_date']) . ' '.date('h:i A',strtotime($meeting['time']));
+        if(strlen($start_date) < 20){
+          $start_date = \Carbon\Carbon::parse($start_date);
 
-        if($today == $start_date->format('y/m/d'))
-        {
-          $meetingTodayIds[] = $meeting->id;
+          if($today == $start_date->format('y/m/d'))
+          {
+            $meetingTodayIds[] = $meeting->id;
+          }
+
+
+          $rows[] = [
+            'id' => $meeting['id'],
+            'date' => $start_date,
+            'time' => $meeting['time'],
+            'description' => $meeting['duration'],
+            'type' => 'meeting',
+            'title' => 'meeting'
+          ];
         }
-
-
-        $rows[] = [
-          'id' => $meeting['id'],
-          'date' => $start_date,
-          'time' => $meeting['time'],
-          'description' => $meeting['duration'],
-          'type' => 'meeting'
-        ];
 
       }
 
@@ -63,22 +92,28 @@ class CalendarController extends Controller
       foreach($tasks as $task)
       {
         $task_start_date = str_replace('-','/',$task['date']);
-        $task_start_date  = \Carbon\Carbon::parse($task_start_date.' '.$task['time'])->format('Y-m-d H:i');
+        if(strlen($task_start_date.' '.$task['time']) < 20){
+          $task_start_date  = \Carbon\Carbon::parse($task_start_date.' '.$task['time'])->format('Y-m-d H:i');
 
-        $compare = \Carbon\Carbon::parse($task['date']);
-        
-        if($today == $compare->format('y/m/d'))
-        {
-          $tasksDayIds[] = $task->id;
+          $compare = \Carbon\Carbon::parse($task['date']);
+          
+          if($today == $compare->format('y/m/d'))
+          {
+            $tasksDayIds[] = $task->id;
+          }
+
+          $rows[] = [
+            'id' => $task['id'],
+            'date' => $task_start_date,
+            'time' => $task['time'],
+            'description' => $task['description'],
+            'type' => 'task',
+            'title' => 'task'
+          ];
         }
-
-        $rows[] = [
-          'id' => $task['id'],
-          'date' => $task_start_date,
-          'time' => $task['time'],
-          'description' => $task['description'],
-          'type' => 'task'
-        ];
+      }
+      if(!empty($request->start)){
+        return $rows;
       }
       // today data
       // $logs = Log::whereIn('id',$meetingTodayIds)->get();
@@ -115,5 +150,12 @@ class CalendarController extends Controller
         'status' => $status
       ]);
 
+    }
+
+    public function updateOldDate(){
+      $logs = Log::where('date_update',0)->get();      
+      foreach ($logs as $log) {
+        Log::where('id',$log->id)->update(['date_update'=>1,'log_date'=>\Carbon\Carbon::parse(str_replace('-','/',$log->date))->format('Y-m-d')]);
+      }
     }
 }

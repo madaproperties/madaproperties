@@ -292,6 +292,12 @@
     <span class="text-muted">{{ $contact->purpose_type }}</span>
   </div>
   @endif
+  @if(isset($contact->investmentcountry_id))
+  <div class="d-flex align-items-center justify-content-between mb-2">
+    <span class="font-weight-bold mr-2">{{ __('site.Investment Country')}}:</span>
+    <span class="text-muted">{{ $contact->investmentcountry_id }}</span>
+  </div>
+  @endif
 
 </div>
 <!--end::sidebar-->

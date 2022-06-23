@@ -6,55 +6,6 @@
     @endif
 @endpush
 
-@push('js')
-<script>
-  var taskID = {{$log->id}};
-  var id = `#edit-datetimepicker-log-`+taskID;
-  $(id).datetimepicker({
-      format: 'L',
-      maxDate:new Date()
-  });
-  var timeId = '#edit-log-datetimepicker-'+taskID;
-  $(timeId).datetimepicker({
-      format: 'LT'
-  });
-  var id = `#edit-datetimepicker-log-`+taskID+'-task';
-  $(id).datetimepicker({
-      format: 'L'
-  });
-  var timeId2 = '#edit-datetimepicker-log-'+taskID+'-tasktime';
-  $(timeId2).datetimepicker({
-      format: 'LT'
-  });
-</script>
-@endpush
-
-@push('js')
-<script defer>
-var id = `#log-description-`+{{$log->id}};
-var KTCkeditor = function () {
-    // Private functions
-    var demos = function () {
-        ClassicEditor
-      .create( document.querySelector(id) )
-      .then( editor => {
-
-      } )
-      .catch( error => {
-        console.error( error );
-      } );
-    }
-    return {
-        // public functions
-        init: function() {
-            demos();
-        }
-    };
-}();
-KTCkeditor.init();
-</script>
-@endpush
-
 @if($log->type == 'email')
 <!-- Add Log-email Modal-->
 <div class="modal fade" id="edit-log-{{$log->id}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
@@ -81,7 +32,7 @@ KTCkeditor.init();
                      <label class="">{{ __('site.Date') }}</label>
                      <div class="">
                        <div class="input-group input-group-solid date" id="edit-datetimepicker-log-{{$log->id}}" data-target-input="nearest">
-                         <input value="{{$log->date }}" required type="text" class="form-control form-control-solid datetimepicker-input"
+                         <input value="{{$log->date }}" required type="text" class="form-control form-control-solid datepicker-input"
                          data-toggle="datetimepicker"
                           name="date" data-target="#edit-datetimepicker-log-{{$log->id}}">
                          <div class="input-group-append" data-target="#edit-datetimepicker-log-{{$log->id}}" data-toggle="datetimepicker">
@@ -98,10 +49,10 @@ KTCkeditor.init();
                  <label class="">{{__('site.time')}}</label>
                  <div class="">
                    <div class="input-group input-group-solid date" id="edit-log-datetimepicker-{{$log->id}}" data-target-input="nearest">
-                     <input required value="{{$log->time }}" type="text" class="form-control form-control-solid datetimepicker-input"
+                     <input required value="{{$log->time }}" type="text" class="form-control form-control-solid timepicker-input"
                      data-toggle="datetimepicker"
                       name="time" data-target="#edit-log-datetimepicker-{{$log->id}}">
-                     <div class="input-group-append" data-target="#edit-log-datetimepicker-{{$log->id}}" data-toggle="datetimepicker">
+                     <div class="input-group-append" data-target="#edit-log-datetimepicker-{{$log->id}}-time" data-toggle="datetimepicker">
                        <span class="input-group-text">
                          <i class="ki ki-clock"></i>
                        </span>
@@ -206,7 +157,7 @@ KTCkeditor.init();
                      <label class="">{{ __('site.Date') }}</label>
                      <div class="">
                        <div class="input-group input-group-solid date" id="edit-datetimepicker-log-{{$log->id}}" data-target-input="nearest">
-                         <input value="{{$log->date }}" required type="text" class="form-control form-control-solid datetimepicker-input"
+                         <input value="{{$log->date }}" required type="text" class="form-control form-control-solid datepicker-input"
                          data-toggle="datetimepicker"
                           name="date" data-target="#edit-datetimepicker-log-{{$log->id}}">
                          <div class="input-group-append" data-target="#edit-datetimepicker-log-{{$log->id}}" data-toggle="datetimepicker">
@@ -223,7 +174,7 @@ KTCkeditor.init();
                  <label class="">{{__('site.time')}}</label>
                  <div class="">
                    <div class="input-group input-group-solid date" id="edit-log-datetimepicker-{{$log->id}}" data-target-input="nearest">
-                     <input required value="{{$log->time }}" type="text" class="form-control form-control-solid datetimepicker-input"
+                     <input required value="{{$log->time }}" type="text" class="form-control form-control-solid timepicker-input"
                      data-toggle="datetimepicker"
                       name="time" data-target="#edit-log-datetimepicker-{{$log->id}}">
                      <div class="input-group-append" data-target="#edit-log-datetimepicker-{{$log->id}}" data-toggle="datetimepicker">
@@ -342,7 +293,7 @@ KTCkeditor.init();
                      <label class="">{{ __('site.Date') }}</label>
                      <div class="">
                        <div class="input-group input-group-solid date" id="edit-datetimepicker-log-{{$log->id}}" data-target-input="nearest">
-                         <input value="{{$log->date }}" required type="text" class="form-control form-control-solid datetimepicker-input"
+                         <input value="{{$log->date }}" required type="text" class="form-control form-control-solid datepicker-input"
                          data-toggle="datetimepicker"
                           name="date" data-target="#edit-datetimepicker-log-{{$log->id}}">
                          <div class="input-group-append" data-target="#edit-datetimepicker-log-{{$log->id}}" data-toggle="datetimepicker">
@@ -358,11 +309,11 @@ KTCkeditor.init();
                  <div class="form-group ">
                  <label class="">{{__('site.time')}}</label>
                  <div class="">
-                   <div class="input-group input-group-solid date" id="edit-log-datetimepicker-{{$log->id}}" data-target-input="nearest">
-                     <input required value="{{$log->time }}" type="text" class="form-control form-control-solid datetimepicker-input"
+                   <div class="input-group input-group-solid date" id="edit-log-datetimepicker-{{$log->id}}-time" data-target-input="nearest">
+                     <input required value="{{$log->time }}" type="text" class="form-control form-control-solid timepicker-input"
                      data-toggle="datetimepicker"
-                      name="time" data-target="#edit-log-datetimepicker-{{$log->id}}">
-                     <div class="input-group-append" data-target="#edit-log-datetimepicker-{{$log->id}}" data-toggle="datetimepicker">
+                      name="time" data-target="#edit-log-datetimepicker-{{$log->id}}-time">
+                     <div class="input-group-append" data-target="#edit-log-datetimepicker-{{$log->id}}-time" data-toggle="datetimepicker">
                        <span class="input-group-text">
                          <i class="ki ki-clock"></i>
                        </span>
@@ -490,7 +441,7 @@ KTCkeditor.init();
                      <label class="">{{ __('site.Date') }}</label>
                      <div class="">
                        <div class="input-group input-group-solid date" id="edit-datetimepicker-log-{{$log->id}}" data-target-input="nearest">
-                         <input value="{{$log->date }}" required type="text" class="form-control form-control-solid datetimepicker-input"
+                         <input value="{{$log->date }}" required type="text" class="form-control form-control-solid datepicker-input"
                          data-toggle="datetimepicker"
                           name="date" data-target="#edit-datetimepicker-log-{{$log->id}}">
                          <div class="input-group-append" data-target="#edit-datetimepicker-log-{{$log->id}}" data-toggle="datetimepicker">
@@ -507,7 +458,7 @@ KTCkeditor.init();
                  <label class="">{{__('site.time')}}</label>
                  <div class="">
                    <div class="input-group input-group-solid date" id="edit-log-datetimepicker-{{$log->id}}" data-target-input="nearest">
-                     <input required value="{{$log->time }}" type="text" class="form-control form-control-solid datetimepicker-input"
+                     <input required value="{{$log->time }}" type="text" class="form-control form-control-solid timepicker-input"
                      data-toggle="datetimepicker"
                       name="time" data-target="#edit-log-datetimepicker-{{$log->id}}">
                      <div class="input-group-append" data-target="#edit-log-datetimepicker-{{$log->id}}" data-toggle="datetimepicker">
@@ -576,4 +527,30 @@ KTCkeditor.init();
 </div>
 <!--- Eit Log-CALL Model -->
 @endif
+
+@push('js')
+<script defer>
+var id = `#log-description-`+{{$log->id}};
+var KTCkeditor = function () {
+    // Private functions
+    var demos = function () {
+        ClassicEditor
+      .create( document.querySelector(id) )
+      .then( editor => {
+
+      } )
+      .catch( error => {
+        console.error( error );
+      } );
+    }
+    return {
+        // public functions
+        init: function() {
+            demos();
+        }
+    };
+}();
+KTCkeditor.init();
+</script>
+@endpush
 

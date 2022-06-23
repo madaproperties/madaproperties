@@ -26,26 +26,26 @@
         data.el.classList.add('fullcalendar-event');
       },
       initialView: 'dayGridMonth',
-      events: [
-        @foreach($rows as $row)
-      {
-        id:{{$row['id']}},
-        title: "{{$row['type']}}",
-        start: "{{$row['date']}}",
-      },
-      @endforeach
-    ],
+      // events: [
+      //   @foreach($rows as $row){
+      //     id:{{$row['id']}},
+      //     title: "{{$row['type']}}",
+      //     start: "{{$row['date']}}",
+      //   },
+      //   @endforeach
+      // ]
+      events: '{{route("admin.calendar")}}'
     });
     calendar.render();
   });
   // fullcalendar-event append the id
-  // $(document).ready(function (){
-  //   $('.fullcalendar-event').each((index,el) => {
-  //     const tilte = el.querySelector('.fc-event-title');
-  //     const title = tilte.textContent;
-  //
-  //   });
-  // });
+  $(document).ready(function (){
+    $('.fullcalendar-event').each((index,el) => {
+      const tilte = el.querySelector('.fc-event-title');
+      const title = tilte.textContent;
+  
+    });
+  });
   
   
   $(document).on('click','.fc-event', function (){
@@ -77,7 +77,8 @@
     		          $('#edit-task-'+id).modal('show');
         		        
         		    }
-		         
+                $(".datepicker-input" ).datepicker();
+                $(".timepicker-input" ).timepicker();
 		         
 		         renderDescriptionTextarea(id); 
 		       

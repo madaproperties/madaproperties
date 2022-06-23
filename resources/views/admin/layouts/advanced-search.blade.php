@@ -70,17 +70,7 @@
         @endforeach
       </select>
     </div>
-    @if(count($purpose)>1)
-    <div class="form-group col-md-4 col-sm-12">
-      <label for="country">{{__('site.Purpose')}}</label>
-      <select class="form-control" name="purpose">
-        <option value="">{{__('site.choose')}}</option>
-        @foreach($purpose as $purp)
-          <option {{old('purpose') == $purp ? 'selected' : ''}} value="{{$purp}}">{{$purp}}</option>
-        @endforeach
-      </select>
-    </div>
-    @endif
+    
 
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.language')}}</label>
@@ -269,6 +259,26 @@
             </div>
           </div>
         </div>
+    </div>
+
+    <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.email')}}</label>
+          <div class="">
+            <div class="input-group input-group-solid">
+              <input value="{{request('email')}}" type="text" class="form-control form-control-solid"
+              name="email" autocomplete="off">
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">Meeting</label>
+      <select class="form-control"  name="is_meeting">
+        <option {{Request('is_meeting') == '0' ? 'selected' : ''}} value="0">No</option>
+        <option {{Request('is_meeting') == '1' ? 'selected' : ''}} value="1">Yes</option>
+      </select>
     </div>
 
   </div> <!-- end row -->

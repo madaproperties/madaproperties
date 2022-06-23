@@ -6,9 +6,24 @@ use App\Http\Controllers\Controller;
 use App\Source;
 use Illuminate\Http\Request;
 use App\Setting;
+use Spatie\Permission\Models\Role;
 
 class SourcesController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+     function __construct()
+     {
+          // $this->middleware('permission:source-list|source-create|source-edit|source-delete', ['only' => ['index','store']]);
+          // $this->middleware('permission:source-create', ['only' => ['create','store']]);
+          // $this->middleware('permission:source-edit', ['only' => ['edit','update']]);
+          // $this->middleware('permission:source-delete', ['only' => ['destroy']]);
+     }
+     
    
     public function index()
     {

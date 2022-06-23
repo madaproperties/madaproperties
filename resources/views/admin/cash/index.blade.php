@@ -24,6 +24,11 @@
 
 @extends('admin.layouts.main')
 @section('content')
+@php 
+$exportName = request()->fullUrlWithQuery(['exportData' => '1']);
+$exportUrl = explode('?',$exportName);
+$exportUrl = str_replace($exportUrl[0],route('admin.cash.exportDataCash'),$exportName);
+@endphp
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" style="padding-top:10px">
 	<!--begin::Entry-->
@@ -45,15 +50,17 @@
 					<div class="card-toolbar">
 
 
-						<a href="{{request()->fullUrlWithQuery(['exportData' => '1'])}}" class="btn btn-primary font-weight-bolder" id="exportButton" target="_blank" onclick="exportdata()">
+						@can('cash-export')
+						<a href="{{$exportUrl}}" class="btn btn-primary font-weight-bolder" id="exportButton" target="_blank" onclick="exportdata()">
 							<span class="svg-icon svg-icon-md">
 							<i class="fas fa-database" style="color:#fff"></i>
 							</span>{{__('site.export') }}
 						</a>
-					@if(userRole() == 'admin' || userRole() != 'sales admin uae' || userRole() != 'sales admin saudi')
-						<a href="{{route('admin.cash.create')}}" id="kt_quick_user_toggle" class="btn btn-success font-weight-bolder font-size-sm">
-						<span class="fa fa-plus"></span> {{__('site.New Cash')}}</a>
-					@endif
+                        @endcan						
+						@can('cash-create')
+							<a href="{{route('admin.cash.create')}}" id="kt_quick_user_toggle" class="btn btn-success font-weight-bolder font-size-sm">
+							<span class="fa fa-plus"></span> {{__('site.New Cash')}}</a>
+                        @endcan						
 					</div>
 				</div>
 				<!--end::Header-->
@@ -114,10 +121,10 @@
 										<span class="text-muted font-weight-bold">{{$deal->description}}</span>
 									</td>
 									<td>
-										@if(userRole() == 'admin' || userRole() != 'sales admin uae' || userRole() != 'sales admin saudi')
+										@can('cash-edit')
 											<a href="{{ route('admin.cash.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
 										@endif
-										@if(auth()->user()->rule == 'admin' || userRole() != 'sales admin uae' || userRole() != 'sales admin saudi')
+										@can('cash-delete')
 											<form id="destory-{{$deal->id}}" class="delete" onsubmit="return confirm('{{__('site.confirm')}}');"
 												action="{{ route('admin.cash.destroy',$deal->id) }}" method="POST" >
 												@csrf

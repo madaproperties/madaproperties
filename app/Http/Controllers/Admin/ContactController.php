@@ -28,6 +28,17 @@ use App\Medium;
 class ContactController extends Controller
 {
 
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+     function __construct()
+     {
+          $this->middleware('permission:contact-create', ['only' => ['create','store']]);
+          $this->middleware('permission:contact-edit', ['only' => ['edit','show','update']]);
+          $this->middleware('permission:contact-delete', ['only' => ['destroy']]);
+     } 
 
   public function show( $contact)
   {
@@ -54,7 +65,7 @@ class ContactController extends Controller
         {
           return abort(404);
         }
-      }elseif(userRole() == 'salles')
+      }elseif(userRole() == 'sales')
       {
         if($contact->user_id != auth()->id())
         {
@@ -119,7 +130,7 @@ class ContactController extends Controller
                         ->where('active','1')->get();
       }elseif(userRole() == 'admin')
       {
-        $sellers = User::where('rule','salles')
+        $sellers = User::where('rule','sales')
                         ->orWhere('rule','leader')
                         ->where('active','1')->get();
       }elseif(userRole() == 'sales admin'){
@@ -148,7 +159,7 @@ class ContactController extends Controller
       $logs = Log::where('contact_id',$contact->id)->orderBy('created_at','DESC')->get();
 
 
-      $LastConnected = Log::where('contact_id',$contact->id)->orderBy('date','DESC')->first();
+      $LastConnected = Log::where('contact_id',$contact->id)->orderBy('log_date','DESC')->first();
 
       $minutes = [
         '15',
@@ -270,7 +281,7 @@ class ContactController extends Controller
                         ->where('active','1')->get();
       }elseif(userRole() == 'admin')
       {
-        $sellers = User::where('rule','salles')
+        $sellers = User::where('rule','sales')
                         ->orWhere('rule','leader')
                         ->where('active','1')->get();
       }elseif(userRole() == 'sales admin'){
@@ -556,6 +567,7 @@ class ContactController extends Controller
         }
      }
 
+     $data['updated_at'] = Carbon::now();
 
       $contact->update($data);
 

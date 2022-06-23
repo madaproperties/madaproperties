@@ -26,11 +26,15 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
 
         if(!checkLeader()){
           $deals = $deals->where('unit_country',1);
+        }elseif(!checkLeaderUae()){
+          $deals = $deals->where('unit_country',2);
         }
           
       }else{
         if(!checkLeader()){
           $deals = Deal::where('unit_country',1)->orderBy('deal_date','desc');
+        }elseif(!checkLeaderUae()){
+          $deals = Deal::where('unit_country',2)->orderBy('deal_date','desc');
         }else{
           $deals = Deal::orderBy('deal_date','desc');
         }

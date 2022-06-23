@@ -174,6 +174,9 @@
 		</style>
 
 	</head>
+	@php
+		$user = App\User::where('id',auth()->id())->first();
+	@endphp
 	<!--end::Head-->
 	<!--begin::Body-->
 	<body id="kt_body" class=" header-bottom-enabled page-loading">
@@ -301,96 +304,127 @@
 											<div id="kt_header_menu" class="header-menu header-menu-mobile header-menu-layout-default">
 												<!--begin::Nav-->
 												<ul class="menu-nav">
-@if(userRole() != 'other')
-      @if(userRole() == 'admin' OR userRole() == 'manger')
-    <li class="menu-item menu-item-active" aria-haspopup="true">
-		<a
-		href="{{route('admin.statics')}}"
-		class="menu-link {{ active_nav('admin.statics') ? 'active' : ''}}">
-			<span class="menu-text">{{__('site.statics')}}</span>
-		</a>
-    </li>
+					@if(userRole() != 'other')
+      					@if(userRole() == 'admin' OR userRole() == 'manger')
+							<li class="menu-item menu-item-active" aria-haspopup="true">
+								<a
+								href="{{route('admin.statics')}}"
+								class="menu-link {{ active_nav('admin.statics') ? 'active' : ''}}">
+									<span class="menu-text">{{__('site.statics')}}</span>
+								</a>
+							</li>
+						@endif
 
+						@if(userRole() != 'sales admin')
+						<li class="menu-item menu-item-active" aria-haspopup="true">
+							<a
+							href="{{route('admin.home')}}?my-contacts=get&filter_status={{ App\Status::where('name_en','new')->first()->id }} "
+							class="menu-link {{ active_nav('admin.home') ? 'active' : ''}}">
+								<span class="menu-text">{{__('site.my contacts')}}</span>
+							</a>
+						</li>
+						@endif
 
-@endif
+						@if(userRole() != 'sales')
+						<li class="menu-item menu-item-active" aria-haspopup="true">
+							<a href="{{route('admin.home')}}?filter_status={{ App\Status::where('name_en','new')->first()->id }}" class="menu-link {{ active_nav('admin.home') ? 'active' : ''}}">
+								<span class="menu-text">{{__('site.contacts')}}</span>
+							</a>
+						</li>
+						@endif
 
-        @if(userRole() != 'sales admin')
-        <li class="menu-item menu-item-active" aria-haspopup="true">
-    		<a
-    		href="{{route('admin.home')}}?my-contacts=get&filter_status={{ App\Status::where('name_en','new')->first()->id }} "
-    		class="menu-link {{ active_nav('admin.home') ? 'active' : ''}}">
-    			<span class="menu-text">{{__('site.my contacts')}}</span>
-    		</a>
-	    </li>
-    @endif
-
-				@if(userRole() != 'sales')
-				<li class="menu-item menu-item-active" aria-haspopup="true">
-					<a
-href="{{route('admin.home')}}?filter_status={{ App\Status::where('name_en','new')->first()->id }}" class="menu-link {{ active_nav('admin.home') ? 'active' : ''}}">
-						<span class="menu-text">{{__('site.contacts')}}</span>
-					</a>
-				</li>
-				@endif
-
-
+		@can('calendar-list')
 		<li class="menu-item menu-item-active" aria-haspopup="true">
 			<a href="{{route('admin.calendar')}}" class="menu-link {{ active_nav('calendar') ? 'active' : ''}}">
 				<span class="menu-text">{{__('site.calendar')}}</span>
 			</a>
 		</li>
+		@endcan
 
-
-      @if(userRole() == 'admin' OR userRole() == 'leader' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi')
-	<li class="menu-item menu-item-active text-dark">
-        <a class="menu-link menu-toggle menu-link text-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{__('site.reports')}}
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item"
-          href="{{route('admin.reports')}}?type=users">users</a>
-          <a class="dropdown-item"
-          href="{{route('admin.reports')}}?type=report">daily report</a>
-    
-          <a class="dropdown-item"
-          href="{{route('admin.reports')}}?type=campaing">campaign report</a>
-        @if(userRole() == 'admin')
-          <a class="dropdown-item"
-          href="{{route('admin.reports')}}?type=campaing-analytics">campaign analytics</a>
-          
-          <a class="dropdown-item"
-          href="{{route('admin.reports')}}?type=leaders">leaders</a>
-      @endif
-
-        </div>
-      </li>
-
-
-	    @if(userRole() == 'admin' || !checkLeader())
+		@if($user->can('users-report') || $user->can('daily-report') || $user->can('campaign-report') || $user->can('advance-campaign-report') || $user->can('campaign-analytics-report') || $user->can('leaders-report'))
+		<li class="menu-item menu-item-active text-dark">
+			<a class="menu-link menu-toggle menu-link text-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			{{__('site.reports')}}
+			</a>
+			<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+			@can('users-report')
+			<a class="dropdown-item" href="{{route('admin.users-report')}}?type=users">users</a>
+			@endcan
+			@can('daily-report')
+			<a class="dropdown-item" href="{{route('admin.daily-report')}}?type=report">daily report</a>
+			@endcan
+			@can('campaign-report')
+			<a class="dropdown-item" href="{{route('admin.campaign-report')}}?type=campaing">campaign report</a>
+			@endcan
+			@can('advance-campaign-report-list')
+			<a class="dropdown-item" href="{{route('admin.advance-campaign-report.index')}}">Advance campaign report</a>
+			@endcan
+			@can('campaign-analytics-report')
+			<a class="dropdown-item" href="{{route('admin.campaign-analytics-report')}}?type=campaing-analytics">campaign analytics</a>
+			@endcan
+			@can('leaders-report')
+			<a class="dropdown-item" href="{{route('admin.leaders-report')}}?type=leaders">leaders</a>
+			@endcan
+			</div>
+		</li>
+		@endif
+		@if($user->can('deal-list') || $user->can('deal-project-list') || $user->can('deal-developer-list'))
 		<li class="menu-item menu-item-active text-dark">
 			<a class="menu-link menu-toggle menu-link text-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			{{__('site.deals')}}
 			</a>
 			<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+				@can('deal-list')
 				<a class="dropdown-item" href="{{route('admin.deal.index')}}">{{__('site.deals')}}</a>
+				@endcan
+				@can('deal-project-list')
 				<a class="dropdown-item" href="{{route('admin.deal_project.index')}}">{{__('site.deals') .' '. __('site.project')}}</a>
+				@endcan
+				@can('deal-developer-list')
+				<a class="dropdown-item" href="{{route('admin.deal-developer.index')}}">{{__('site.developer')}}</a>
+				@endcan
 			</div>
 		</li>
       	@endif
 
 
-	    @if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi')
+	    @can('cash-list')
 		<li class="menu-item menu-item-active" aria-haspopup="true">
 			<a href="{{route('admin.cash.index')}}" class="menu-link {{ active_nav('cash') ? 'active' : ''}}">
 				<span class="menu-text">{{__('site.cash')}}</span>
 			</a>
 		</li>
+      	@endcan
+
+	    @can('role-list')
+		<li class="menu-item menu-item-active" aria-haspopup="true">
+			<a href="{{route('admin.roles.index')}}" class="menu-link {{ active_nav('roles') ? 'active' : ''}}">
+				<span class="menu-text">{{__('site.Roles & Permissions')}}</span>
+			</a>
+		</li>
+      	@endcan
+		
+
+		@if($user->can('project-list') || $user->can('project-name-list') || $user->can('project-developer-list'))
+		<li class="menu-item menu-item-active text-dark">
+			<a class="menu-link menu-toggle menu-link text-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			{{__('site.project')}}
+			</a>
+			<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+				@can('project-list')
+				<a class="dropdown-item" href="{{route('admin.project-data.index')}}">{{__('site.project')}}</a>
+				@endcan
+				@can('project-name-list')
+				<a class="dropdown-item" href="{{route('admin.project-name.index')}}">{{__('site.project') .' '. __('site.name')}}</a>
+				@endcan
+				@can('project-developer-list')
+				<a class="dropdown-item" href="{{route('admin.project-developer.index')}}">{{__('site.project') .' '.__('site.developer')}}</a>
+				@endcan
+			</div>
+		</li>
       	@endif
 
 
-
-
-    @endif
 @endif
 
 												</ul>

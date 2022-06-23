@@ -27,7 +27,7 @@
                             <label class="">{{__('site.Date')}} </label>
                             <div class="">
                               <div class="input-group input-group-solid date" id="edit-datetimepicker-task-{{$task->id}}" data-target-input="nearest">
-                                <input value="{{$task->date}}" required type="text" class="form-control form-control-solid datetimepicker-input"
+                                <input value="{{$task->date}}" required type="text" class="form-control form-control-solid datepicker-input"
                                 data-toggle="datetimepicker"
                                 name="date" data-target="#edit-datetimepicker-task-{{$task->id}}">
                                 <div class="input-group-append" data-target="#edit-datetimepicker-task-{{$task->id}}" data-toggle="datetimepicker">
@@ -44,7 +44,7 @@
                             <label class="">{{__('site.Time')}}</label>
                             <div class="">
                               <div class="input-group input-group-solid date" id="edit-task-datetimepicker-{{$task->id}}" data-target-input="nearest">
-                                <input required value="{{$task->time}}" type="text" class="form-control form-control-solid datetimepicker-input"
+                                <input required value="{{$task->time}}" type="text" class="form-control form-control-solid timepicker-input"
                                 data-toggle="datetimepicker"
                                 name="time" data-target="#edit-task-datetimepicker-{{$task->id}}">
                                 <div class="input-group-append" data-target="#edit-task-datetimepicker-{{$task->id}}" data-toggle="datetimepicker">
@@ -116,19 +116,6 @@
     </div>
 </div>
 <!--- Eit Information Model -->
-@push('js')
-<script>
-  var taskID = {{$task->id}};
-  var id = `#edit-datetimepicker-task-`+taskID;
-  $(id).datetimepicker({
-      format: 'L',
-  });
-  var timeId = '#edit-task-datetimepicker-'+taskID;
-  $(timeId).datetimepicker({
-      format: 'LT'
-  });
-</script>
-@endpush
 @push('js')
 <script defer>
 var id = `#task-description-edit-`+{{$task->id}};

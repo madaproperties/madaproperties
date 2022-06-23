@@ -24,7 +24,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
     'id','first_name','last_name',
     'phone','country_id','city_id',
     'status_id','created_at','updated_at',
-    'user_id','created_by','purpose_type','source'];    
+    'user_id','created_by','purpose_type','source','email'];    
 
     public function __construct($active = true)
     {
@@ -164,8 +164,9 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
               $assigned_to,
               $created_by,
               $contact->purpose_type,
-              $contact->source
-          ];
+              $contact->source,
+              $contact->email
+            ];
         }else{
           return [
             str_replace(" ","N/A",str_replace("="," ",$contact->fullname)),
@@ -175,6 +176,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
             $status,
             $contact->purpose_type,
             $contact->source,
+            $contact->email,
             timeZone($contact->created_at),
             timeZone($contact->updated_at)
           ];
@@ -197,6 +199,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
           __('site.Created By'),
           __('site.purpose type'),
           __('site.source'),
+          __('site.email'),
         ]);
       }else{
         return array_map('ucfirst',[
@@ -207,6 +210,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
           __('site.status'),
           __('site.purpose type'),
           __('site.source'),
+          __('site.email'),
           __('site.Created'),
           __('site.Last Updated')
         ]);
@@ -231,6 +235,8 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         "budget", //Added by Javed
         "source", //Added by Javed
         "purpose_type", //Added by Javed
+        "email", //Added by Javed
+        "is_meeting"  //Added by Javed
       ];
 
       foreach($feilds as $feild => $value){
@@ -239,7 +245,11 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
             $q->whereHas('project', function($q2) use($value) {
               $q2->where('projects.country_id',$value);
             });
-          }else{
+        }else if($feild == 'is_meeting' && $value == 1){
+          $q->whereHas('logs', function($q2) use($value) {
+            $q2->where('logs.type','meeting');
+          });
+        }else{
             $q->where($feild,$value);
           }
         }

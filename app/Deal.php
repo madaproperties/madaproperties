@@ -3,11 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Deal extends Model
 {
-    protected $guarded = [];
+    use SoftDeletes;
 
+    protected $guarded = [];
+    protected $dates = ['deleted_at'];
     
 
     public function leader()
@@ -53,7 +56,7 @@ class Deal extends Model
 
     public function developer()
     {
-      return $this->belongsTo(Developer::class,'developer_id');
+      return $this->belongsTo(DealDeveloper::class,'developer_id');
     }
 
 

@@ -59,6 +59,24 @@
 					<tr>
 						<td style="text-align:left;border:0px;padding-bottom: 15px;" colspan="8">Invoice Number : {{$deal->invoice_number}}</td>
                     </tr>
+					@if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+					<tr>
+						<td style="text-align:left;border:0px;" colspan="5"><b>Mada Properties</b></td>
+						<td colspan="3" style="border:0px;text-align:left;"><b>Invoiced To :</b></td>
+                    </tr>
+					<tr>
+						<td style="text-align:left;border:0px;" colspan="5">TRN : 311064002300003</td>
+						<td colspan="3" style="border:0px;text-align:left;">{{$deal->developer->name}}</td>
+                    </tr>
+					<tr>
+						<td style="text-align:left;border:0px;" colspan="5">Telephone : +966 11 4455199</td>
+						<td colspan="3" style="border:0px;text-align:left;">{{$deal->developer->company_address}}</td>
+                    </tr>
+					<tr>
+						<td style="text-align:left;border:0px;padding-bottom:30px;" colspan="5">Email: admin-ksa@madaproperties.com</td>
+						<td colspan="3" style="border:0px;text-align:left;padding-bottom:30px;">TRN : {{isset($deal->developer->trn) ? $deal->developer->trn : ''}}</td>
+                    </tr>
+					@else <!-- if country United Arab Emirates -->
 					<tr>
 						<td style="text-align:left;border:0px;" colspan="5"><b>Mada Properties LLC</b></td>
 						<td colspan="3" style="border:0px;text-align:left;"><b>Invoiced To :</b></td>
@@ -75,6 +93,7 @@
 						<td style="text-align:left;border:0px;padding-bottom:30px;" colspan="5">Email: admin-dxb@madaproperties.com</td>
 						<td colspan="3" style="border:0px;text-align:left;padding-bottom:30px;">TRN : {{isset($deal->developer->trn) ? $deal->developer->trn : ''}}</td>
                     </tr>
+					@endif
 					
 					<tr>
 						<td style="text-align:center;"><b>Project</b></td>
@@ -82,10 +101,28 @@
 						<td style="text-align:center;"><b>Client</br> Name</b></td>
 						<td style="text-align:center;"><b>Selling</br> Price</b></td>
 						<td style="text-align:center;"><b>Commission</br> %</b></td>
-						<td style="text-align:center;"><b>Commission</br> Amt. (AED)</b></td>
+						<td style="text-align:center;">
+						    	@if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						    <b>Commission</br> Amt. (SAR)</b>
+						    	@else
+						    	 <b>Commission</br> Amt. (AED)</b>
+						    	 @endif
+						    </td>
 						<td style="text-align:center;"><b>VAT %</b></td>
-						<td style="text-align:center;"><b>VAT</br> Amt. (AED)</b></td>
-						<td style="text-align:center;"><b>Commission</br>Amt Incl VAT (AED)</b></td>
+						<td style="text-align:center;">
+						    	@if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						    <b>VAT</br> Amt. (SAR)</b>
+						    	@else
+						    	<b>VAT</br> Amt. (AED)</b>
+						    	 @endif
+						    </td>
+						<td style="text-align:center;">
+						    	@if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						    <b>Commission</br>Amt Incl VAT (SAR)</b>
+						    @else
+						    <b>Commission</br>Amt Incl VAT (AED)</b>
+						     @endif
+						    </td>
                     </tr>
 					<tr>
 						<td style="text-align:center;padding:7px;">{{$deal->project->project_name}}</td>
@@ -111,6 +148,28 @@
 						<td colspan="2" style="text-align:left"><b>Bank Details</b></td>
 						
                     </tr>
+					@if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+					<tr>
+						<td><b>Account Number</b></td>
+						<td>0337-95022281-001</td>
+                    </tr>
+					<tr>
+						<td><b>Bank Name</b></td>
+						<td>Bank Aljazira</td>
+                    </tr>
+					<tr>
+						<td><b>Swift Code</b></td>
+						<td>BJAZSAJE</td>
+                    </tr>
+					<tr>
+						<td><b>IBAN #</b></td>
+						<td>SA9060100033795022281001</td>
+                    </tr>
+					<tr>
+						<td><b>Account Type</b></td>
+						<td>Saudi Arabia</td>
+                    </tr>
+					@else
 					<tr>
 						<td><b>Account Number</b></td>
 						<td>19004835</td>
@@ -131,6 +190,7 @@
 						<td><b>Account Type</b></td>
 						<td>UAE</td>
                     </tr>
+					@endif
                 </tbody>
             </table>
             <table style="text-align:right;margin-top:200px;border:0px;">

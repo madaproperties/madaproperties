@@ -86,7 +86,12 @@
 					
                     </tr>
 					<tr>
-						<td>Price (AED):</td>
+						<td>
+						      @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						      Price (SAR):
+						      @else
+						    Price (AED):
+						    @endif</td>
 						<td>{{number_format($deal->price, 2)}}</td>
 						<td>Date of Signing: {{date('d-m-Y',strtotime($deal->deal_date))}}</td>
                     </tr>
@@ -116,36 +121,96 @@
                 <tbody>
 					<tr>
 						<td>Property Consultant</td>
-						<td>{{isset($deal->agent->user) ? $deal->agent->user : 'N/A'}}</td>
+						<td>{{isset($deal->agent->name) ? $deal->agent->name : 'N/A'}}</td>
 						
                     </tr>
 					<tr>
-						<td>Property Consultant Amount (AED) Commission Percent - {{$deal->agent_commission_percent.'%'}}</td>
+						<td>
+						     @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						    Property Consultant Amount (SAR) Commission Percent - {{$deal->agent_commission_percent.'%'}}
+						    @else
+						    Property Consultant Amount (AED) Commission Percent - {{$deal->agent_commission_percent.'%'}}
+						    @endif
+						    </td>
 						<td>{{number_format($deal->agent_commission_amount, 2)}}</td>
 						
                     </tr>
+					@if(isset($deal->agentTwo))
 					<tr>
-						<td>Sales Manager Name</td>
-						<td>{{isset($deal->leader->user) ? $deal->leader->user : 'N/A'}}</td>
+						<td>Property Consultant 2</td>
+						<td>{{isset($deal->agentTwo->name) ? $deal->agentTwo->name : 'N/A'}}</td>
 						
                     </tr>
 					<tr>
-						<td>Sales Manager Amount (AED)</td>
+						<td>
+						      @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						      Property Consultant 2 Amount (SAR) Commission Percent - {{$deal->agent2_commission_percent.'%'}}
+						      @else
+						      Property Consultant 2 Amount (AED) Commission Percent - {{$deal->agent2_commission_percent.'%'}}
+						      @endif
+						      </td>
+						<td>{{number_format($deal->agent2_commission_amount, 2)}}</td>
+						
+                    </tr>
+					@endif
+					<tr>
+						<td>Sales Manager Name</td>
+						<td>{{isset($deal->leader) ? explode('@',$deal->leader->name)[0] : 'N/A'}}</td>
+						
+                    </tr>
+					<tr>
+						<td> @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+							Sales Manager Amount (SAR)
+						@else
+							Sales Manager Amount (AED)
+						@endif
+					</td>
 						<td>{{$deal->agent_leader_commission_amount}}</td>
 						
                     </tr>
-						<tr>
+					@if(isset($deal->leaderTwo))
+					<tr>
+						<td>Sales Manager 2 Name</td>
+						<td>{{isset($deal->leaderTwo) ? explode('@',$deal->leaderTwo->name)[0] : 'N/A'}}</td>
+						
+                    </tr>
+					<tr>
+						<td>
+						    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						    Sales Manager 2 Amount (SAR)
+						    @else
+						    Sales Manager 2 Amount (AED)
+						    @endif
+						    </td>
+						<td>{{$deal->agent2_leader_commission_amount}}</td>
+						
+                    </tr>
+					@endif
+
+					<tr>
 						<td>3rd Party Name</td>
 						<td>{{$deal->third_party_name}}</td>
 						
                     </tr>
 						<tr>
-						<td>3rd Party Amount (AED)</td>
+						<td>
+						     @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						    3rd Party Amount (SAR)
+						    @else
+						    3rd Party Amount (AED)
+						    @endif
+						    </td>
 						<td>{{number_format($deal->third_party_amount, 2)}}</td>
 						
                     </tr>
 						<tr>
-						<td>Mada Commission (AED)</td>
+						<td>
+						    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						Mada Commission (SAR)
+						@else
+						Mada Commission (AED)
+						@endif
+						</td>
 						<td>{{number_format($deal->mada_commission, 2)}}</td>
 						
                     </tr>
@@ -155,16 +220,34 @@
 			  <table class="table table-bordered">
                 <tbody>
 				<tr>
-						<td>Commission (AED)</td>
+						<td>
+						    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						     Commission (SAR)
+						    @else
+						     Commission (AED)
+						    @endif
+						   </td>
 						<td>{{number_format($deal->commission_amount, 2)}}</td>
                     </tr>
 					<tr>
-						<td>VAT (AED)</td>
+						<td>
+						    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						    VAT (SAR)
+						    @else
+						    VAT (AED)
+						    @endif
+						    </td>
 						<td>{{number_format($deal->vat_amount, 2)}}</td>
 						
                     </tr>
 					<tr>
-						<td><b>Total Commission Inc VAT (AED)</b></td>
+						<td>
+						    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						    <b>Total Commission Inc VAT (SAR)</b>
+						    @else
+						    <b>Total Commission Inc VAT (AED)</b>
+						    @endif
+						    </td>
 						<td><b>{{number_format(($deal->commission_amount+$deal->vat_amount), 2)}}</b></td>
 						
                     </tr>
@@ -183,12 +266,21 @@
 					<tr>
 						<td>__________________</td>
                     </tr>
+                    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
 					<tr>
+						<td>Mr. Abdullah Al-Qahtani.</td>
+                    </tr>
+					<tr>
+						<td>(CEO)</td>
+                    </tr>
+                    	@else <!-- if country United Arab Emirates -->
+                    		<tr>
 						<td>Mr. Mohamad Alhaj:</td>
                     </tr>
 					<tr>
 						<td>(Managing Director)</td>
                     </tr>
+                    		@endif
                 </tbody>
             </table>
         </main>

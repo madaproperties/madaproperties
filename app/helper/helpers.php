@@ -784,7 +784,7 @@ function userRole($get_rule = null)
   if($rule == 'manger')
   {
     $rule = 'admin';
-  }elseif($rule == 'salles')
+  }elseif($rule == 'sales')
   {
     $rule = 'sales';
   }else if($rule == 'sales admin'){
@@ -798,7 +798,22 @@ function userRole($get_rule = null)
 
 
 function checkLeader(){
-  if(auth()->user()->email != 'maram.a@madaproperties.com'){
+  if(userRole() != 'sales admin saudi'){
+    if(userRole() == 'other' && auth()->user()->time_zone == 'Asia/Riyadh'){
+      return false;
+    }
+    return true;
+  }else{
+    return false;
+  }  
+}
+
+function checkLeaderUae(){
+  if(userRole() != 'sales admin uae'){
+  
+    if(userRole() == 'other' && auth()->user()->time_zone == 'Asia/Dubai'){
+      return false;
+    }
     return true;
   }else{
     return false;

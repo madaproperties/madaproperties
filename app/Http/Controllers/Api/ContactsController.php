@@ -280,7 +280,7 @@ class ContactsController extends Controller
               $projectData = Project::where('id',$project_id)->first();
               if(isset($projectData->country_id) && $projectData->country_id == 1){
                 $contact['user_id'] = '19';
-                $contact['created_by'] = '19'; // assigned created by to saudi agent
+                $contact['created_by'] = '32';
               }
             }
             //End

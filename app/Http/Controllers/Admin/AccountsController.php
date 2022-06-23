@@ -9,21 +9,41 @@ use Hash;
 use Mail;
 use App\Mail\SetPassword;
 use App\Setting;
+use Spatie\Permission\Models\Role;
 
 class AccountsController extends Controller
 {
 
     public function index()
     {
-   
-        $users = User::paginate(20);
+        if(Request()->has('active') && (Request('active') == '0' || Request('active') == '1')){
+            $users = User::where('active',Request('active'));
+            $users_count = User::where('active',Request('active'));
+            if(Request()->has('search')){
+                $users = $users->where('email','LIKE','%'. Request('search') .'%');
+                $users_count = $users->where('email','LIKE','%'. Request('search') .'%');
+            }
+            $users = $users->paginate(20);
+            $users_count = $users_count->count();
+        }else{
+            if(Request()->has('search')){
+                $users = User::where('email','LIKE','%'. Request('search') .'%')->paginate(20);
+                $users_count = User::where('email','LIKE','%'. Request('search') .'%')->count();
+            }else{
+                $users = User::paginate(20);
+                $users_count = User::count();
+            }
+        }
+                    
         $leaders = User::where('rule','leader')->where('active','1')->get();
         $positions = ['rent','buy','sell','management','handover'];
-
+        $roles = Role::pluck('name','name')->all();
         return view('admin.accounts.index',[
           'users' => $users,
           'leaders' => $leaders,
           'positions' => $positions,
+          'roles' => $roles,
+          'users_count' => $users_count
         ]);
     }
 
@@ -59,6 +79,10 @@ class AccountsController extends Controller
      
         
         $user = User::create($data);
+        if($data['rule'] == 'sales'){
+            $data['rule']  = 'sales';
+        }
+        $user->assignRole($data['rule']);
         $user->update([
           'position_types' => $request->position_types
         ]);
@@ -90,7 +114,6 @@ class AccountsController extends Controller
         ]);
         
         
-        
         $data['password'] = $user->password;
         
         if(!empty($request->password))
@@ -100,7 +123,7 @@ class AccountsController extends Controller
         
         // set Leader To Null if rule not salles
     
-        if($data['rule'] == 'salles' OR $data['rule'] == 'sales admin')
+        if($data['rule'] == 'sales' OR $data['rule'] == 'sales admin')
         {
             $data['leader']  = $request->leader;
         }else{
@@ -109,6 +132,11 @@ class AccountsController extends Controller
  
 
         $user->update($data);
+        if($data['rule'] == 'sales'){
+            $data['rule']  = 'sales';
+        }
+        \DB::table('model_has_roles')->where('model_id',$id)->delete();
+        $user->assignRole($data['rule']);
         return back()->withSuccess(__('site.success'));
     }
 

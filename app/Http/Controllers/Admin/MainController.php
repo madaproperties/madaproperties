@@ -26,22 +26,30 @@ class MainController extends Controller
                                   'id','first_name','last_name',
                                   'phone','country_id','city_id',
                                   'status_id','created_at','updated_at',
-                                  'user_id','created_by','purpose_type','source'];
+                                  'user_id','created_by','purpose_type','source','email'];
 
   private $selectedAttruibutes2 = ['id','first_name','last_name','country_id','city_id','status_id','created_at','user_id','created_by'];
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+     function __construct()
+     {
+          $this->middleware('permission:contact-list|contact-create|contact-edit|contact-delete', ['only' => ['index','store']]);
+          $this->middleware('permission:contact-create', ['only' => ['create','store']]);
+          $this->middleware('permission:contact-edit', ['only' => ['edit','show','update']]);
+          $this->middleware('permission:contact-delete', ['only' => ['destroy']]);
+          $this->middleware('permission:contact-export', ['only' => ['exportDataContact']]);
+     }   
   // index
   public function index(){
     if(userRole() == 'other'){
       return redirect()->route('admin.deal.index');      
     }
-
-
-    if(Request()->has('exportData')){
-      return Excel::download(new ContactExport, 'Report.xlsx');
-    }  
     /********* Get Contacts By The Rule ***********/
-    if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' ){ //Updated by Javed
+    if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing'  || userRole() == 'ceo' ){ //Updated by Javed
 
       if(Request()->has('duplicated')){
 
@@ -186,40 +194,41 @@ class MainController extends Controller
                         $q->OrWhere('id',$id);
                       })
                       ->where('active','1')->get();
-    }elseif(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' ){ //Updated by Javed
+    }elseif(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing' || userRole() == 'ceo'){ //Updated by Javed
 
       if(userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' ){
         $whereCountry = '';
         if(userRole() == 'sales admin uae'){
           $whereCountry = 'Asia/Dubai';
+          $sellers = User::where(function($q){
+            $q->where('rule','sales');
+            $q->orWhere('rule','leader');
+          })
+          ->where('active','1')
+          ->where('time_zone','like','%'.$whereCountry.'%')
+		  ->orderBy('email','asc')
+          ->get();
         }else{
           $whereCountry = 'Asia/Riyadh';
-        }
-        $sellers = User::where(function($q){
-                        $q->where('rule','salles');
-                        $q->orWhere('rule','leader');
-                      })
-                      ->where('active','1')
-                      ->where('time_zone','like','%'.$whereCountry.'%')
-                      ->get();
+          $sellers = User::where('time_zone','like','%'.$whereCountry.'%')
+          ->where('active','1')
+		  ->orderBy('email','asc')
+          ->get();
+
+        }        
+		
       }else{
-        $sellers = User::where(function($q){
-                        $q->where('rule','salles');
-                        $q->orWhere('rule','leader');
-                      })
-                      ->where('active','1')->get();
+        $sellers = User::where('active','1')->orderBy('email','asc')->get();
       }
 
     }elseif(userRole() == 'sales admin'){
 
         $leader = auth()->user()->leader;
         if($leader){
-          $sellers = User::where('leader',$leader)
-                            ->where(function($q) use($leader){
-                              $q->where('id','!=',auth()->id());
-                              $q->Orwhere('id',$leader);
-                            })
-                            ->where('active','1')->get();
+			$sellers = User::where('leader',$leader)
+							->where('id','!=',auth()->id())
+                            ->where('active','1')
+							->orWhere('rule','sales admin saudi')->orWhere('id',$leader)->orderBy('email','asc')->get();
         }else{
             $sellers = [];
         }
@@ -258,16 +267,16 @@ class MainController extends Controller
     }
     // End Hundel Counties Sort
     if(userRole() == 'sales admin saudi'){ //Added by Javed
-      $projects = Project::where('country_id','1')->orderBy('weight','DESC')->get();
+      $projects = Project::where('country_id','1')->orderBy('name_en','ASC')->get();
     }else if(userRole() == 'sales admin uae'){  //Added by Javed
-      $projects = Project::where('country_id','2')->orderBy('weight','DESC')->get();
+      $projects = Project::where('country_id','2')->orderBy('name_en','ASC')->get();
     }else{
-      $projects = Project::orderBy('weight','DESC')->get();
+      $projects = Project::orderBy('name_en','ASC')->get();
     }
 
     $purpose  = auth()->user()->position_types;
     $purpose  = json_decode($purpose);
-    $campaigns = Campaing::where('active','1')->get();
+    $campaigns = Campaing::where('active','1')->orderBy('name','ASC')->get();
 
     $miles = LastMileConversion::where('active','1')
                         ->orderBy('name_'. app()->getLocale())
@@ -316,6 +325,8 @@ class MainController extends Controller
 
     if(request()->has('ADVANCED')){
       $feilds = request()->all();
+      $uri = Request()->fullUrl();
+      session()->put('start_filter_url',$uri);
       $allowedFeilds =[
         "country_id" ,
         "user_id" ,
@@ -330,6 +341,8 @@ class MainController extends Controller
         "budget", //Added by Javed
         "source", //Added by Javed
         "purpose_type", //Added by Javed
+        "email", //Added by Javed
+        "is_meeting", //Added by Javed,
       ];
 
       foreach($feilds as $feild => $value){
@@ -338,6 +351,10 @@ class MainController extends Controller
             $q->whereHas('project', function($q2) use($value) {
               $q2->where('projects.country_id',$value);
             });
+          }else if($feild == 'is_meeting' && $value == 1){
+              $q->whereHas('logs', function($q2) use($value) {
+                $q2->where('logs.type','meeting');
+              });
           }else{
             $q->where($feild,$value);
           }
@@ -515,6 +532,12 @@ class MainController extends Controller
               ->OrWhere('medium','LIKE','%'. Request('search') .'%')
               ->get();
     }
+  }
+
+  public function exportDataContact(){
+    if(Request()->has('exportData')){
+      return Excel::download(new ContactExport, 'Report_'.date('d-m-Y').'.xlsx');
+    }  
   }
 
 }

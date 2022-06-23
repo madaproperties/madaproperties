@@ -11,6 +11,22 @@ use App\Status;
 class SettingsController extends Controller
 {	
 
+	/**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+     function __construct()
+     {
+          $this->middleware('permission:settings-list|settings-create|settings-edit|settings-delete', ['only' => ['index','store']]);
+          $this->middleware('permission:settings-create', ['only' => ['create','store']]);
+          $this->middleware('permission:settings-edit', ['only' => ['show','edit','update']]);
+          $this->middleware('permission:settings-delete', ['only' => ['destroy']]);
+          $this->middleware('permission:settings-export', ['only' => ['index']]);
+     }
+     
+   
+
     // index 
     public function index(){
     	// set alll needed cloulmgs

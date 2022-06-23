@@ -67,5 +67,8 @@ class Kernel extends HttpKernel
         'lang' => \App\Http\Middleware\Lang::class,
         'check.api.cedentials' => \App\Http\Middleware\CheckApiCedentials::class,
         'jwt.auth' => \App\Http\Middleware\JwtAuth::class,
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
     ];
 }

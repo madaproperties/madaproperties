@@ -15,9 +15,9 @@ class Manger
      */
     public function handle($request, Closure $next)
     {
-        if(auth()->user()->rule != 'admin')
+        if(auth()->user()->rule != 'admin' || auth()->user()->rule != 'Admin')
         {
-          return abort(404);
+          //return abort(404);
         }
         return $next($request);
     }

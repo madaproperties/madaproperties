@@ -23,6 +23,11 @@
 @endpush
 @extends('admin.layouts.main')
 @section('content')
+@php 
+$exportName = request()->fullUrlWithQuery(['exportData' => '1']);
+$exportUrl = explode('?',$exportName);
+$exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),$exportName);
+@endphp
 
 	<!--begin::Content-->
 	<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
@@ -83,58 +88,32 @@
 								</div>
 
 								<!--begin::Button-->
+								@can('contact-create')
 								<a href="{{route('admin.contact.create')}}" class="btn btn-primary font-weight-bolder">
 								<span class="svg-icon svg-icon-md">
 									<i class="fa fa-user"></i>
 								</span>{{ __('site.New Contacts') }}</a>
+								@endcan
 								<!--end::Button-->
 								    	<!--begin::Button-->
 
 
 								<!--begin::Button-->
 
-                                @if(userRole() == 'admin')
-                                <a href="?duplicated=get" class="btn btn-primary font-weight-bolder">
+								@can('contact-export')
+								<a href="{{$exportUrl}}" class="btn btn-primary font-weight-bolder" target="_blank">
+								<span class="svg-icon svg-icon-md">
+								<i class="fas fa-database" style="color:#fff"></i>
+								</span>{{__('site.export') }}</a>
+								@endcan
+
+                @if(userRole() == 'admin')
+                <a href="?duplicated=get" class="btn btn-primary font-weight-bolder">
 								<span class="svg-icon svg-icon-md">
 									<i class="fa fa-users"></i>
 								</span>
 								    duplicated
 								</a>
-								<!--end::Button-->
-								@php /*
-								<div class="dropdown dropdown-inline mr-2">
-									<button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<span class="svg-icon svg-icon-md" style="color:#fff">
-										<!--begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg-->
-											<i class="fas fa-database" style="color:#fff"></i>
-										<!--end::Svg Icon-->
-									</span>{{__('site.export') }}</button>
-									<!--begin::Dropdown Menu-->
-									<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" style="">
-										<!--begin::Navigation-->
-										<ul class="navi flex-column  py-2">
-                                            @foreach(App\Campaing::where('active','1')->get() as $c)
-											<li class="navi-item">
-												<a href="?export={{ $c->id }}" class="navi-link" >
-													<span class="navi-text">{{$c->name }}</span>
-												</a>
-											</li>
-											@endforeach
-
-										</ul>
-										<!--end::Navigation-->
-									</div>
-									<!--end::Dropdown Menu-->
-								</div>
-								*/
-								@endphp
-
-								<a href="{{request()->fullUrlWithQuery(['exportData' => '1'])}}" class="btn btn-primary font-weight-bolder" target="_blank">
-								<span class="svg-icon svg-icon-md">
-								<i class="fas fa-database" style="color:#fff"></i>
-								</span>{{__('site.export') }}</a>
-
-
 								<a href="?unassigned=get" class="btn btn-primary font-weight-bolder">
 								<span class="svg-icon svg-icon-md">
                                 <i class="fas fa-users-slash"></i>
@@ -142,15 +121,7 @@
 								@endif
 								<!--end::Button-->
 
-					      @if(userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' )
-									<a href="{{request()->fullUrlWithQuery(['exportData' => '1'])}}" class="btn btn-primary font-weight-bolder" target="_blank">
-									<span class="svg-icon svg-icon-md">
-									<i class="fas fa-database" style="color:#fff"></i>
-									</span>{{__('site.export') }}</a>
-								@endif
-								<!--begin::Button-->
-
-
+								@can('contact-import')
 								<div class="dropdown dropdown-inline mr-2">
 									<button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<span class="svg-icon svg-icon-md" style="color:#fff">
@@ -179,6 +150,7 @@
 									</div>
 									<!--end::Dropdown Menu-->
 								</div>
+								@endcan
 								<!--end::Button-->
 								<!-- Modal -->
 								<div class="modal fade" id="importData" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -285,10 +257,12 @@
                 data-toggle="modal" data-target="#assign-leads">
                     Assing <i class="fa fa-users"></i>
                   </button>
+				@can('contact-delete')
 
-                <button type="button" class="btn btn-primary delete-all">
+					<button type="button" class="btn btn-primary delete-all">
                     Delete <i class="fa fa-trash"></i>
-                  </button>
+					</button>
+				@endcan
 
                 @endif
 							<!--begin: Datatable-->
@@ -312,9 +286,9 @@
 										<th>{{__('site.Created By')}}</th>
 
 										@endif
-										@if(userRole() == 'admin')
+										@can('contact-delete')
 										<th>#</th>
-										@endif
+										@endcan
 
 									</tr>
 								</thead>
@@ -357,20 +331,19 @@
 
 
 											<td>
-											    	@if(auth()->user()->rule == 'admin')
+											@can('contact-delete')
+											<form id="destory-{{$contact->id}}" class="delete"
+											onsubmit="return confirm('{{__('site.confirm')}}');"
+											action="{{ route('admin.contact.destroy',$contact->id) }}" method="POST" >
+											@csrf
+											@method('DELETE')
+												<button type="submit" class="btn btn-danger">
+												{{__('site.delete')}}
+												</button>
+											</form>
 
-                                    <form id="destory-{{$contact->id}}" class="delete"
-         onsubmit="return confirm('{{__('site.confirm')}}');"
-                                      action="{{ route('admin.contact.destroy',$contact->id) }}" method="POST" >
-                                        @csrf
-                                        @method('DELETE')
-                                       <button type="submit" class="btn btn-danger">
-                                          {{__('site.delete')}}
-                                       </button>
-                                    </form>
 
-
-                                    @endif
+											@endcan
 											</td>
 										</tr>
 

@@ -136,6 +136,7 @@ class LogsController extends Controller
       unset($data['status_id']);
       unset($data['status_changed_at']);
       $data['date'] = str_replace('/','-',$data['date']);
+      $data['log_date'] = \Carbon\Carbon::parse(str_replace('-','/',$data['date']))->format('Y-m-d');
       $log = Log::create($data);
 
 
@@ -196,6 +197,7 @@ class LogsController extends Controller
     
       unset($data['status_id']);
       unset($data['status_changed_at']);
+      $data['log_date'] = \Carbon\Carbon::parse(str_replace('-','/',$data['date']))->format('Y-m-d');
       $log->update($data);
       return back()->withSuccess(__('site.success'));
     }

@@ -40,7 +40,7 @@
 									<div class="card-header border-0 py-5">
 										<h3 class="card-title align-items-start flex-column">
 											<span class="card-label font-weight-bolder text-dark">{{__('site.Accounts')}}</span>
-											<span class="text-muted mt-3 font-weight-bold font-size-sm">{{count($users)}} {{__('site.Accounts')}}</span>
+											<span class="text-muted mt-3 font-weight-bold font-size-sm">{{$users_count}} {{__('site.Accounts')}}</span>
 										</h3>
 										<div class="card-toolbar">
 											<a href="#" id="kt_quick_user_toggle" class="btn btn-success font-weight-bolder font-size-sm">
@@ -58,6 +58,28 @@
 										</div>
 									</div>
 									<!--end::Header-->
+									<form class="ml-5" action="">
+										<div class="input-group input-group-sm input-group-solid" style="max-width:260px">
+											<input type="text" name="search" style="" class="form-control" id="kt_subheader_search_form" value="{{request('search')}}" placeholder="{{ __('site.search') }} {{__('site.email')}}">
+										</div><br>
+										<div class="input-group input-group-sm input-group-solid" style="max-width:260px">
+											<select class="form-control"  name="active">
+												<option>All</option>
+												<option {{Request('active') == '1' ? 'selected' : ''}} value="1">Active</option>
+												<option {{Request('active') == '0' ? 'selected' : ''}} value="0">In Active</option>
+											</select>
+											<div class="input-group-append">
+												<span class="input-group-text">
+													<span class="svg-icon">
+														<button type="submit" class="btn btn-sm btn-success ">
+															<i style="font-size: 14px;padding: 6px;" class="fas fa-search"></i>
+														</button>
+													</span>
+													<!--<i class="flaticon2-search-1 icon-sm"></i>-->
+												</span>
+											</div>
+										</div><br>
+									</form>									
 									<!--begin::Body-->
 									<div class="card-body py-0">
 										<!--begin::Table-->
@@ -176,29 +198,11 @@
 											id="edit-{{$user->id}}-rule"
 											 class="form-control form-control-lg form-control-solid mb-2 select-rule" required="">
 											 <option value="" >{{__('site.select option')}}</option>
-												<option
-												{{$user->rule == 'admin' ? 'selected' : ''}}
-												value="admin">Admin</option>
-												<option
-												{{$user->rule == 'leader' ? 'selected' : ''}}
-												value="leader">Leader</option>
-												<option
-												{{$user->rule == 'salles' ? 'selected' : ''}}
-												value="salles">sales</option>
-
-												 <option
-                        		{{$user->rule == 'sales admin' ? 'selected' : ''}}
-                          value="sales admin">{{__('site.sales admin')}}</option>
-						  @php //Added by Javed @endphp
-						  <option
-                        		{{$user->rule == 'sales admin uae' ? 'selected' : ''}}
-                          value="sales admin uae">{{__('site.sales admin uae')}}</option>
-						  <option
-                        		{{$user->rule == 'sales admin saudi' ? 'selected' : ''}}
-                          value="sales admin saudi">{{__('site.sales admin saudi')}}</option>
-						  <option
-                        		{{$user->rule == 'other' ? 'selected' : ''}}
-                          value="other">{{__('site.other')}}</option>
+											 	@foreach($roles as $zone)
+													<option 
+													{{ $user->roles->pluck('name','name')->first() == $zone ? 'selected' : '' }}
+													value="{{ $zone }}">{{$zone }}</option>
+												@endforeach
 											</select>
 										</div>
 										<div class="form-group select-leader" style="display:none">
@@ -379,28 +383,11 @@
 												<label>{{__('site.Rule')}}:</label>
 												<select name="rule" id="select-create-rule" class="form-control form-control-lg form-control-solid mb-2 select-rule" required>
 													<option value="" >{{__('site.select option')}}</option>
-													<option
-                          {{old('rule') == 'admin' ? 'selected' : ''}}
-                          value="admin">{{__('site.Admin')}}</option>
-													<option
-                        		{{old('rule') == 'leader' ? 'selected' : ''}}
-                          value="leader">{{__('site.Leader')}}</option>
-													<option
-                        		{{old('rule') == 'salles' ? 'selected' : ''}}
-                          value="salles">{{__('site.Salles')}}</option>
-                          <option
-                        		{{old('rule') == 'sales admin' ? 'selected' : ''}}
-                          value="sales admin">{{__('site.sales admin')}}</option>
-						  @php //Updated by Javed @endphp
-                          <option
-                        		{{old('rule') == 'sales admin uae' ? 'selected' : ''}}
-                          value="sales admin uae">{{__('site.sales admin uae')}}</option>
-                          <option
-                        		{{old('rule') == 'sales admin saudi' ? 'selected' : ''}}
-                          value="sales admin saudi">{{__('site.sales admin saudi')}}</option>
-						  <option
-                        		{{old('rule') == 'other' ? 'selected' : ''}}
-                          value="other">{{__('site.other')}}</option>						  
+													@foreach($roles as $zone)
+													<option 
+													{{ old('rule') == $zone ? 'selected' : '' }}
+													value="{{ $zone }}">{{$zone }}</option>
+													@endforeach
 												</select>
 											</div>
 
@@ -415,8 +402,6 @@
 											</div>
 
 										</div>
-
-										<
 
 										<div class="card-footer">
 											<button type="submit" form="new-account" class="btn btn-primary mr-2">{{__('site.save')}}</button>
@@ -443,7 +428,7 @@
 				{
 					let el = $('#'+id);
 					let val = el.val();
-					if(val == 'salles' || val == 'sales admin')
+					if(val == 'sales' || val == 'sales admin')
 					{
 						el.parent('.form-group').next('.form-group').css('display','block');
 					}else{
@@ -453,6 +438,7 @@
 				}
 
 				$('.select-rule').on('change', function (){
+					
 					selectLeader($(this).attr('id'));
 				});
 				// select all rule and work with them

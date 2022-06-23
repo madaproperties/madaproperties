@@ -101,9 +101,13 @@
       @include('admin.reports.campainganalytics')
     @endif
 
-    @if(Request('type') == 'campaing')
+    @if(isset($advance_campaign_repot))
+      @include('admin.reports.advance-campaign-report')
+		@elseif(isset($advance_campaign))
+			@include('admin.reports.create-advance-campaign')
+		@elseif(Request('type') == 'campaing')
       @include('admin.reports.campaign')
-   @else
+   	@else
 	<!--end::Content-->
 
 
@@ -125,7 +129,7 @@
   							<!--begin: Datatable-->
   							<div class="card card-custom">
   							 <!--begin::Form-->
-  							 <form action="{{route('admin.reports')}}" class="form" action="get" id="search-form">
+  							 <form action="" class="form" action="get" id="search-form">
   								  <div class="card-body">
 
                       <input type="hidden" name="type" value="users" />
@@ -328,9 +332,19 @@
   					@endif
 
   			 @if(request()->has('type') AND request('type') == 'report')
-  			 <div style="height:50px"></div>
-  			 <div class="container">
-  			     <div class="card-body">
+  	<!--begin::Content-->
+  	<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+  		<!--begin::Entry-->
+  		<div class="d-flex flex-column-fluid">
+  		   <div class="container">
+  				 <!--begin::Card-->
+  					<div class="card card-custom gutter-b">
+  						<div class="card-header flex-wrap border-0 pt-6 pb-0">
+  							<div class="card-title">
+  								<h3 class="card-label">{{ __('site.reports') }}
+  							</div>
+  						</div>
+							<div class="card-body">
   			         
   			         
   							<!--begin: Datatable-->
@@ -345,7 +359,7 @@
 
   								   <div class="row">
   								       
-  								   	<div class="col-md-6 col-sm--12">
+			  								   	<div class="col-md-6 col-sm--12">
   					                  <div class="form-group ">
   					                     <label class="">{{ __('site.from') }} </label>
   					                    
@@ -356,8 +370,6 @@
   					                     		</div>
   					                   </div>
   					                </div>
-  					                </div>
-  					                
   					                <div class="col-md-6 col-sm--12">
   					                  <div class="form-group ">
   					                     <label class="">{{ __('site.to') }} </label>
@@ -372,7 +384,7 @@
   					                     </div>
   					                   </div>
   					                </div>
-
+													</div>
 
   								   </div>
 
@@ -381,13 +393,15 @@
   							 </form>
 
   							 <!--end::Form-->
-  							</div>
-
-
-
-  						</div>
+								 </div>
+	 						</div>
+							 </div>
+	 						</div>
+							 </div>
+	 						</div>
+	 						</div>
   					<!--end::Card-->
-  				@if(auth()->user()->rule === 'admin' AND $canvas)
+  				@if($canvas)
   					<div class="card-body" style="background:#fff">
   						<!--begin: Datatable-->
   							<div class="row">

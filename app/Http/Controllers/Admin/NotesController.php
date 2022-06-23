@@ -67,8 +67,8 @@ class NotesController extends Controller
       if($request->withtask)
       {
         $dataDb['type'] = 'note';
-        $dataDb['date'] = $request->date;
-        $dataDb['time'] = $request->time;
+        $dataDb['date'] = date('Y-m-d',strtotime($request->date));
+        $dataDb['time'] = date('Y-m-d',strtotime($request->time));
         $dataDb['type'] = $request->type;
         $data = $dataDb['date'];
         $task = Task::create($dataDb);

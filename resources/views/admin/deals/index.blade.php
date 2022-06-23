@@ -24,6 +24,11 @@
 
 @extends('admin.layouts.main')
 @section('content')
+@php 
+$exportName = request()->fullUrlWithQuery(['exportData' => '1']);
+$exportUrl = explode('?',$exportName);
+$exportUrl = str_replace($exportUrl[0],route('admin.deal.exportDataDeals'),$exportName);
+@endphp
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" style="padding-top:10px">
 	<!--begin::Entry-->
@@ -44,23 +49,24 @@
 					</h3>
 					<div class="card-toolbar">
 
-
-						<a href="{{request()->fullUrlWithQuery(['exportData' => '1'])}}" class="btn btn-primary font-weight-bolder" id="exportButton" target="_blank" onclick="exportdata()">
+					@can('deal-export')
+						<a href="{{$exportUrl}}" class="btn btn-primary font-weight-bolder" id="exportButton" target="_blank" onclick="exportdata()">
 							<span class="svg-icon svg-icon-md">
 							<i class="fas fa-database" style="color:#fff"></i>
 							</span>{{__('site.export') }}
 						</a>
+					@endcan
+					@can('deal-advance-export')
 						<a href="{{route('admin.deal.advanceExport')}}" class="btn btn-primary font-weight-bolder" target="_blank">
 							<span class="svg-icon svg-icon-md">
 							<i class="fas fa-database" style="color:#fff"></i>
 							</span>{{__('site.Advanced Export')}}
 						</a>
-
-
-					@if(userRole() == 'admin' || !checkLeader())
+					@endcan
+					@can('deal-create')
 						<a href="{{route('admin.deal.create')}}" id="kt_quick_user_toggle" class="btn btn-success font-weight-bolder font-size-sm">
 						<span class="fa fa-plus"></span> {{__('site.New Deal')}}</a>
-					@endif
+					@endcan
 					</div>
 				</div>
 				<!--end::Header-->
@@ -147,13 +153,16 @@
 										<span class="text-muted font-weight-bold">{{$deal->agent ? substr($deal->agent->email, 0, strpos($deal->agent->email, "@")) : 'N/A'}}</span>
 									</td>
 									<td>
-									@if(userRole() == 'admin' || !checkLeader())
+									@can('deal-edit')
 									<a href="{{ route('admin.deal.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
-									@endif
-
+									@endcan
+									@can('print-commission-report')
 										<a href="{{ route('admin.deal.print',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Print commission report"><i class="fa fa-print"></i></a>																						
+									@endcan										
+									@can('print-tax-invoice')
 										<a href="{{ route('admin.deal.printBill',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Print tax invoice"><i class="fa fa-print"></i></a>																						
-										@if(auth()->user()->rule == 'admin'  || !checkLeader())
+									@endcan										
+									@can('deal-delete')
 											<form id="destory-{{$deal->id}}" class="delete" onsubmit="return confirm('{{__('site.confirm')}}');"
 												action="{{ route('admin.deal.destroy',$deal->id) }}" method="POST" >
 												@csrf
@@ -162,7 +171,7 @@
 												<i class="fa fa-trash" onclick="submitForm('{{$deal->id}}')"></i></a>
 												<button type="submit" style="display:none"></button>
 											</form>
-										@endif
+										@endcan
 									</td>
 								</tr>
 								@endforeach

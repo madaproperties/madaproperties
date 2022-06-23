@@ -18,4 +18,9 @@ class Project extends Model
       }
     }
 
+    public function contact()
+    {
+      return $this->hasMany(contact::class);
+    }
+
 }
