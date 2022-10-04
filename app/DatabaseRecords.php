@@ -17,4 +17,9 @@ class DatabaseRecords extends Model
       return $this->belongsTo(Country::class,'country_id');
     }
 
+    public function user()
+    {
+      return $this->belongsTo(User::class,'assign_to');
+    }
+
 }

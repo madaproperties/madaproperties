@@ -89,30 +89,73 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 				<!--begin::Body-->
 				<div class="card-body py-0">
 
+
+						<!-- Modal -->
+						<div class="modal fade" id="assign-leads" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+								<label for="exampleFormControlSelect1">users</label>
+								<select class="form-control" id="assigned-seller" name="seller">
+									@foreach($sellers as $seller)
+									<option value="{{$seller->id}}">{{$seller->name}}</option>
+									@endforeach
+								</select>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								<button style="margin: 5px;" class="btn btn-info btn-xs assign-all" data-url="">
+								Assing
+								</button>
+							</div>
+							</div>
+						</div>
+						</div>
+						<br />
+
+                @if(userRole() != 'sales')
+                <button type="button" class="btn btn-primary"
+                data-toggle="modal" data-target="#assign-leads">
+                    Assing <i class="fa fa-users"></i>
+                  </button>
+
+                @endif
+
 					<!--begin::Table-->
 					<div class="table-responsive">
 						<table class="text-center table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
 							<thead>
 								<tr>
+									@if(userRole() != 'sales')
+										<th><input type="checkbox" id="check_all"></th>
+									@endif
 									<th>{{__('site.name')}}</th>
 									<th>{{__('site.email')}}</th>
 									<th>{{__('site.phone')}}</th>
-									<!-- <th>{{__('site.country')}}</th>
-									<th>{{__('site.city')}}</th>
-									<th>{{__('site.area')}}</th> -->
 									<th>{{__('site.project_name')}}</th>
-									<th>{{__('site.building_name')}}</th>
-									<th>{{__('site.unit_name')}}</th>
 									<th>{{__('site.price')}}</th>
-									<th>{{__('site.bedroom')}}</th>
+									<th>{{__('site.assigned to')}}</th>
 									<th style="min-width:150px">{{__('site.action')}}</th>
 								</tr>
 							</thead>
 							<tbody>
 								@foreach($data as $rs)
 								<tr>
+									@if(userRole() != 'sales')
+									<td><input type="checkbox" class="checkbox" data-id="{{$rs->id}}"></td>
+									@endif
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->name}}</span>
+										<a class="text-dark" href="{{route('admin.database-records.show',$rs->id)}}">
+											<span class="text-muted font-weight-bold">{{$rs->name}}</span>
+										</a>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$rs->email}}</span>
@@ -120,29 +163,14 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 									<td>
 										<span class="text-muted font-weight-bold">{{$rs->phone}}</span>
 									</td>
-									<!-- <td>
-										<span class="text-muted font-weight-bold">{{$rs->country ? $rs->country->name : 'N/A'}}</span>
-									</td>
-									<td>
-										<span class="text-muted font-weight-bold">{{$rs->city}}</span>
-									</td>
-									<td>
-										<span class="text-muted font-weight-bold">{{$rs->area}}</span>
-									</td> -->
 									<td>
 										<span class="text-muted font-weight-bold">{{$rs->project_id}}</span>
-									</td>
-									<td>
-										<span class="text-muted font-weight-bold">{{$rs->building_name}}</span>
-									</td>
-									<td>
-										<span class="text-muted font-weight-bold">{{$rs->unit_name}}</span>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$rs->price}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->bedroom}}</span>
+										<span class="text-muted font-weight-bold">{{$rs->user ? $rs->user->name : 'N/A'}}</span>
 									</td>
 									<td>
 									@can('database-records-edit')
@@ -182,3 +210,58 @@ function submitForm(id){
 	$("#destory-"+id).submit();
 }
 </script>
+@push('js')
+<script type="text/javascript">
+$(document).ready(function () {
+	$('#check_all').on('click', function(e) {
+		if($(this).is(':checked',true)){
+			$(".checkbox").prop('checked', true);
+		} else {
+			$(".checkbox").prop('checked',false);
+		}
+	});
+	$('.checkbox').on('click',function(){
+		if($('.checkbox:checked').length == $('.checkbox').length){
+			$('#check_all').prop('checked',true);
+		}else{
+			$('#check_all').prop('checked',false);
+		}
+	});
+
+	// Assign multiple leads
+	$('.assign-all').on('click', function(e) {
+		var idsArr = [];
+		$(".checkbox:checked").each(function() {
+			idsArr.push($(this).attr('data-id'));
+		});
+		if(idsArr.length <=0){
+			alert("Please select atleast one Lead.");
+		}  else {
+			if(confirm("Are you sure, you want to assign selected records ?")){
+
+				if(!$('#assigned-seller').val())
+				{
+					return alert('please select User To Assign To');
+				}
+				var strIds = idsArr.join(",");
+				$.ajax({
+					url: "{{ route('admin.database.multiple-assign') }}",
+					type: 'POST',
+					headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+					data: 'ids='+strIds+"&id="+$('#assigned-seller').val(),
+					success: function (data) {
+						if (data.status == true) {
+							location.reload();
+						} else {
+							alert('Whoops Something went wrong!!');
+						}
+					}, error: function (data) {
+						alert(data.responseText);
+					}
+				});
+			}
+		}
+	});
+});
+</script>
+@endpush	

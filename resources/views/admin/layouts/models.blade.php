@@ -211,6 +211,8 @@
     </div>
 </div>
 <!--- Eit Note Model -->
+
+
 <!-- Button trigger modal-->
 <!-- Modal-->
 <div class="modal fade" id="edit-contact" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
@@ -1566,6 +1568,14 @@ var KTCkeditor = function () {
       } );
     ClassicEditor
       .create( document.querySelector( '#log-call-description' ) )
+      .then( editor => {
+
+      } )
+      .catch( error => {
+        console.error( error );
+      } );
+    ClassicEditor
+      .create( document.querySelector( '.description' ) )
       .then( editor => {
 
       } )

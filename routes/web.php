@@ -23,6 +23,12 @@ Route::group(['middleware' => ['guest','lang']], function (){
   Route::post('login','HomeController@login')->name('login');
 });
 
+Route::get('property-bayut-xml','Admin\PropertyController@propertyBayutXml')->name('propertyBayutXml');
+Route::get('property-finder-xml','Admin\PropertyController@propertyFinderXml')->name('propertyFinderXml');
+Route::get('property-xml','Admin\PropertyController@propertyXml')->name('propertyXml');
+Route::get('property/brochure/{property_id}','Admin\PropertyController@brochure')->name('property.brochure');
+
+Route::get('read-xml','Admin\PropertyController@readXml')->name('property.readXml');
 
 use App\Contact;
 use App\Country;

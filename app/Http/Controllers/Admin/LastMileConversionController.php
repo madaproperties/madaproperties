@@ -44,6 +44,8 @@ class LastMileConversionController extends Controller
         'name_en' => 'required|max:255|unique:last_mile_conversions',
       ]);
 
+      addHistory('Last Mile Conversion',0,'added',$data);   
+
       LastMileConversion::create($data);
       return back()->withSuccess(__('site.success'));
     }
@@ -77,14 +79,17 @@ class LastMileConversionController extends Controller
      * @param  \App\LastMileConversion  $lastMileConversion
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,  $mile)
+    public function update(Request $request,  $id)
     {
-      $mile = LastMileConversion::findOrFail($mile);
+      $mile = LastMileConversion::findOrFail($id);
       $data = $request->validate([
         'name_ar' => 'required|max:255|unique:last_mile_conversions,name_ar,'.$mile->id,
         'name_en' => 'required|max:255|unique:last_mile_conversions,name_en,'.$mile->id,
         'active' => 'required'
       ]);
+
+
+      addHistory('Last Mile Conversion',$id,'updated',$data,$mile);
 
       $mile->update($data);
       return back()->withSuccess(__('site.success'));
@@ -100,6 +105,7 @@ class LastMileConversionController extends Controller
     {
       $mile = Project::findOrFail($mile);
       $mile->delete();
+      addHistory('Project',$id,'deleted');           
       return back()->withSuccess(__('site.success'));
     }
 }

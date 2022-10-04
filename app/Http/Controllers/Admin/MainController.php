@@ -134,6 +134,10 @@ class MainController extends Controller
             ->whereHas('project', function($q2) {
                 $q2->where('projects.country_id','2');
             })
+            ->whereHas('creator', function($q2) {
+              $whereCountry = 'Asia/Dubai';
+              $q2->where('users.time_zone','like','%'.$whereCountry.'%');
+            })
             ->orderBy('created_at','DESC');
           }
 
@@ -157,6 +161,10 @@ class MainController extends Controller
             })
             ->whereHas('project', function($q2) {
                 $q2->where('projects.country_id','1');
+            })
+            ->orWhereHas('creator', function($q2) {
+                $whereCountry = 'Asia/Riyadh';
+                $q2->where('users.time_zone','like','%'.$whereCountry.'%');
             })
             ->orderBy('created_at','DESC');
           }

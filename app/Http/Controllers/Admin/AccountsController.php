@@ -107,6 +107,7 @@ class AccountsController extends Controller
             $data['user_pic'] = $md5Name.'.'.$guessExtension;
         }
      
+        addHistory('User',0,'added',$data);
         
         $user = User::create($data);
         if($data['rule'] == 'sales'){
@@ -130,8 +131,6 @@ class AccountsController extends Controller
        
         $user = User::findOrFail($id);
         
-        
-         
         $data = $request->validate([
           'email' => 'required|unique:users,email,'.$user->id,
           'rule' => 'required',
@@ -176,6 +175,8 @@ class AccountsController extends Controller
             $data['user_pic'] = $md5Name.'.'.$guessExtension;
         }
 
+
+        addHistory('User',$id,'updated',$data,$user);
        
         $user->update($data);
         if($data['rule'] == 'sales'){
@@ -191,6 +192,7 @@ class AccountsController extends Controller
     {
         $contact = User::findOrFail($id);
         $contact->delete();
+        addHistory('User',$id,'deleted');        
         return back()->withSuccess(__('site.success'));
     }
 }

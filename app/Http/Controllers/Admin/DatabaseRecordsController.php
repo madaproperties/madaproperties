@@ -11,22 +11,12 @@ use App\LastMileConversion;
 use App\City;
 use App\Country;
 use App\User;
-use App\Activity;
-use App\Task;
-use App\Note;
-use App\Log;
-use App\Meeting;
-use App\Status;
-use App\Currency;
-use App\PurposeType;
 use Carbon\Carbon;
-use App\Campaing;
-use App\Content;
-use App\Source;
-use App\Medium;
 use Maatwebsite\Excel\Facades\Excel;
 use App\DatabaseRecords;
 use App\DatabaseRecordsExport;
+use App\DatabaseNote;
+
 
 class DatabaseRecordsController extends Controller
 {
@@ -46,35 +36,86 @@ class DatabaseRecordsController extends Controller
      }  
   // index 
   public function index(){
-    if(Request()->has('search')){
-      $data = DatabaseRecords::where('name','LIKE','%'. Request('search') .'%')->orderBy('created_at','desc')->paginate(20);
-      $data_count  = DatabaseRecords::where('name','LIKE','%'. Request('search') .'%')->orderBy('created_at','desc')->count();
+    
+    
+    /********* Get Contacts By The Rule ***********/
+    if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing'  || userRole() == 'ceo' ){ //Updated by Javed
+
+        if(userRole() == 'sales admin uae'){
+
+          $data = DatabaseRecords::where(function ($q){
+            $this->filterPrams($q);
+          })->orderBy('created_at','DESC');
+
+          $data_count = $data->count();
+
+          $paginationNo = 20;
+          $data = $data->paginate($paginationNo);
+          
+        }else if(userRole() == 'sales admin saudi'){
+          $data = DatabaseRecords::where(function ($q){
+            $this->filterPrams($q);
+          })->orderBy('created_at','DESC');
+
+          $data_count = $data->count();
+
+          $paginationNo = 20;
+          $data = $data->paginate($paginationNo);
+
+        }else{
+
+          $data = DatabaseRecords::where(function ($q){
+                $this->filterPrams($q);
+              })->orderBy('created_at','DESC');
+
+          $data_count = $data->count();
+
+          $paginationNo = 20;
+          $data = $data->paginate($paginationNo);
+        }
+
+    }elseif(userRole() == 'leader'){
+      // get leader group
+      $leaderId = auth()->id();
+      // get leader , and sellers reltedt to that leader
+      $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+      $usersIds = $users->pluck('id')->toArray();
+      $data = DatabaseRecords::whereIn('assign_to',$usersIds)->where(function ($q){
+      $this->filterPrams($q);
+      })->orderBy('created_at','DESC');
+      $data_count = $data->count();
+      $data = $data->paginate(20);
+
+    }else if(userRole() == 'sales admin') { // sales admin
+      
+      $data = DatabaseRecords::where(function ($q){
+        $this->filterPrams($q);
+      })->where('assign_to',null)
+        ->orderBy('created_at','DESC');
+
+      $data_count = $data->count();
+      $data = $data->paginate(20);
+
     }else{
-      $data = DatabaseRecords::orderBy('created_at','desc')->paginate(20);
-      $data_count  = DatabaseRecords::orderBy('created_at','desc')->count();
+      $data = DatabaseRecords::where(function ($q){
+        $this->filterPrams($q);
+      })->where('assign_to',auth()->id())->orderBy('created_at','DESC');
+
+      $data_count = $data->count();
+      $data = $data->paginate(20);
+
     }
-    return view('admin.databaserecords.index',compact('data','data_count'));
+    $sellers = $this->getSellers();
+
+
+   
+    return view('admin.databaserecords.index',compact('data','data_count','sellers'));
   }
 
   public function create() {
-    $countries = Country::orderBy('name_en')->get();
-    $collectCounties = [];
-    $collectCounties = collect($collectCounties);
-
-    foreach($countries as $index => $country) {
-        if(in_array($country->name_en,toCountriess()) ) {
-            $collectCounties->push($country);
-        }
-    }
-    $countries = $countries->filter(function($item) {
-      return !in_array($item->name_en,toCountriess());
-    });
-
-    foreach($collectCounties as $topCountry) {
-        $countries->prepend($topCountry);
-    }
-
-    return view('admin.databaserecords.create',compact('countries'));
+    $countries = $this->getCuntoryList();
+    $sellers = $this->getSellers();
+    return view('admin.databaserecords.create',compact('countries','sellers'));
   }
 
   /**
@@ -104,11 +145,14 @@ class DatabaseRecordsController extends Controller
         'sub_community' => 'nullable',
         'developer' => 'nullable',
         'status' => 'nullable',        
-        'comment' => 'nullable'          
+        'comment' => 'nullable',
+        'assign_to' => 'nullable'           
       ]);
 
 
       $data['created_at'] = Carbon::now();
+
+      addHistory('Database Records',0,'added',$data);   
 
       $deal = DatabaseRecords::create($data);
       return redirect(route('admin.database-records.index'))->withSuccess(__('site.success'));
@@ -133,10 +177,10 @@ class DatabaseRecordsController extends Controller
   }
 
 
-  public function update(Request $request,  $deal)
+  public function update(Request $request,  $id)
   {
 
-    $deal = DatabaseRecords::findOrFail($deal);
+    $deal = DatabaseRecords::findOrFail($id);
 
     $data = $request->validate([
       "country_id"            => "nullable",
@@ -157,11 +201,13 @@ class DatabaseRecordsController extends Controller
       'sub_community' => 'nullable',
       'developer' => 'nullable',
       'status' => 'nullable',        
-      'comment' => 'nullable'        
+      'comment' => 'nullable',
+      'assign_to' => 'nullable'  
   ]);
 
     $data['updated_at'] = Carbon::now();
 
+    addHistory('Database Records',$id,'updated',$data,$deal);
     $deal->update($data);
     //print_r(session('start_filter_url'));
     //die;
@@ -176,6 +222,7 @@ class DatabaseRecordsController extends Controller
   {
     $data = DatabaseRecords::findOrFail($id);
     $data->delete();
+    addHistory('Database Records',$id,'deleted');
     return back()->withSuccess(__('site.success'));
   }
 
@@ -183,32 +230,12 @@ class DatabaseRecordsController extends Controller
   {
     $data = DatabaseRecords::findOrFail($deal);
 
-    // Start Hundel Counties Sort
-    $countries = Country::orderBy('name_en')->get();
+    $countries = $this->getCuntoryList();
+    $sellers = $this->getSellers();
 
-    $collectCounties = [];
-    $collectCounties = collect($collectCounties);
+    $notes = DatabaseNote::where('database_id',$data->id)->orderBy('created_at','DESC')->get();
 
-    foreach($countries as $index => $country)
-    {
-        if(in_array($country->name_en,toCountriess()) )
-        {
-            $collectCounties->push($country);
-        }
-    }
-
-
-    $countries = $countries->filter(function($item) {
-      return !in_array($item->name_en,toCountriess());
-    });
-
-
-    foreach($collectCounties as $topCountry)
-    {
-        $countries->prepend($topCountry);
-    }
-    return view('admin.databaserecords.show',compact('data','countries'));
-
+    return view('admin.databaserecords.show',compact('data','countries','sellers','notes'));
   }  
 
   private function filterPrams($q){
@@ -265,6 +292,8 @@ class DatabaseRecordsController extends Controller
       $uri = Request()->fullUrl();
       session()->put('start_filter_url',$uri);
       return $q->where('name','LIKE','%'. Request('search') .'%')
+              ->OrWhere('email','LIKE','%'. Request('search') .'%')
+              ->OrWhere('phone','LIKE','%'. Request('search') .'%')
               ->get();
     }
   }  
@@ -275,5 +304,105 @@ class DatabaseRecordsController extends Controller
     if(Request()->has('exportData')){
       return Excel::download(new DatabaseRecordsExport, 'DatabaseRecords_'.date('d-m-Y').'.xlsx');
     }  
+  }
+
+  public function multiple_assign() {
+    $data = [];
+    if(!request()->ids OR !request()->id) return false;
+    $user = User::where('id',request()->id)->first();
+    $records = explode(',',request()->ids);
+    $records = DatabaseRecords::select('id','assign_to')->whereIn('id',$records)->get();
+    if(!$records OR !$user) return false;
+
+    foreach($records as $data) {
+      $data->update([
+        'assign_to' => $user->id,
+        'updated_at' => Carbon::now()
+      ]);
+    }
+
+    return response()->json([
+      'status' => true,
+    ]);
+  }  
+
+  function getSellers(){
+    if(userRole() == 'leader'){
+      $id = auth()->id();
+      $sellers = User::where(function($q) use($id){
+                        $q->where('leader',$id);
+                        $q->OrWhere('id',$id);
+                      })
+                      ->where('active','1')->get();
+    }elseif(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing' || userRole() == 'ceo'){ //Updated by Javed
+
+      if(userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' ){
+        $whereCountry = '';
+        if(userRole() == 'sales admin uae'){
+          $whereCountry = 'Asia/Dubai';
+          $sellers = User::where(function($q){
+            $q->where('rule','sales');
+            $q->orWhere('rule','leader');
+          })
+          ->where('active','1')
+          ->where('time_zone','like','%'.$whereCountry.'%')
+    		  ->orderBy('email','asc')
+          ->get();
+        }else{
+          $whereCountry = 'Asia/Riyadh';
+          $sellers = User::where('time_zone','like','%'.$whereCountry.'%')
+          ->where('active','1')
+		      ->orderBy('email','asc')
+          ->get();
+        }        	
+      }else{
+        $sellers = User::where('active','1')->orderBy('email','asc')->get();
+      }
+    }elseif(userRole() == 'sales admin'){
+
+        $leader = auth()->user()->leader;
+        if($leader){
+    			$sellers = User::where('leader',$leader)
+							->where('active','1')
+							->where('id','!=',auth()->id())
+							->orWhere('rule','sales admin saudi')->orWhere('id',$leader)->orderBy('email','asc')->get();
+        }else{
+            $sellers = [];
+        }
+
+    }else {
+      $sellers = [];
+    }
+
+    return $sellers;
+  }
+
+  function getCuntoryList(){
+    // Start Hundel Counties Sort
+    $countries = Country::orderBy('name_en')->get();
+
+    $collectCounties = [];
+    $collectCounties = collect($collectCounties);
+
+    foreach($countries as $index => $country)
+    {
+        if(in_array($country->name_en,toCountriess()) )
+        {
+            $collectCounties->push($country);
+        }
+    }
+
+
+    $countries = $countries->filter(function($item) {
+      return !in_array($item->name_en,toCountriess());
+    });
+
+
+    foreach($collectCounties as $topCountry)
+    {
+        $countries->prepend($topCountry);
+    }
+
+    return $countries;
   }
 }

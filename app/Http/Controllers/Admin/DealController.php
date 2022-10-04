@@ -421,6 +421,8 @@ class DealController extends Controller
 
       $data['created_at'] = Carbon::now();
 
+      addHistory('Deal',0,'added',$data);   
+
       $deal = Deal::create($data);
       return redirect(route('admin.deal.index'))->withSuccess(__('site.success'));
   }
@@ -444,10 +446,10 @@ class DealController extends Controller
   }
 
 
-  public function update(Request $request,  $deal)
+  public function update(Request $request,  $id)
   {
 
-    $deal = Deal::findOrFail($deal);
+    $deal = Deal::findOrFail($id);
 
     $data = $request->validate([
       "unit_country"          => "required",
@@ -503,6 +505,8 @@ class DealController extends Controller
 
     $data['updated_at'] = Carbon::now();
 
+    addHistory('Deal',$id,'updated',$data,$deal);
+
     $deal->update($data);
     //print_r(session('start_filter_url'));
     //die;
@@ -517,6 +521,7 @@ class DealController extends Controller
   {
     $data = Deal::findOrFail($id);
     $data->delete();
+    addHistory('Deal',$id,'deleted');    
     return back()->withSuccess(__('site.success'));
   }
 

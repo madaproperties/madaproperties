@@ -79,8 +79,8 @@
 						<td>Type:</td>
 						<td colspan="2">{{$deal->project_type}}</td>
 					
-                    </tr>                   
-					<tr>
+                    </tr>
+                   	<tr>
 						<td>Source:</td>
 						<td colspan="2">{{isset($deal->source->name) ? $deal->source->name : 'N/A'}}</td>
 					

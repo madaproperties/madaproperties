@@ -27,7 +27,6 @@ use App\Medium;
 use Mail;
 use App\Mail\LeadAssigned;
 
-
 class ContactController extends Controller
 {
 
@@ -440,6 +439,9 @@ class ContactController extends Controller
         $data['created_from'] = 'website';
         $data['status_changed_at'] = Carbon::now();
 
+        addHistory('Contact',0,'added',$data);
+
+
         $contact = Contact::create($data);
         $action = __('site.contact created');
 
@@ -485,9 +487,9 @@ class ContactController extends Controller
     }
 
 
-    public function update(Request $request,  $contact)
+    public function update(Request $request,  $id)
     {
-      $contact = Contact::findOrFail($contact);
+      $contact = Contact::findOrFail($id);
 
 
 
@@ -574,6 +576,9 @@ class ContactController extends Controller
 
      $data['updated_at'] = Carbon::now();
 
+     
+     addHistory('Contact',$id,'updated',$data,$contact);
+
       $contact->update($data);
 
 
@@ -593,62 +598,67 @@ class ContactController extends Controller
 
         $contact = Contact::findOrFail($id);
         $contact->delete();
+        addHistory('Contact',$id,'deleted');    
         return back()->withSuccess(__('site.success'));
     }
 
     public function multiple_assign()
     {
-        $data = [];
+      $other_details ='';
+      $data = [];
       if(!request()->ids OR !request()->id) return false;
       $user = User::where('id',request()->id)->first();
       $contacts = explode(',',request()->ids);
-      //$contacts = Contact::select('*')->whereIn('id',$contacts)->get();
+      //$contacts = Contact::select('id','user_id','updated_at','status_id')->whereIn('id',$contacts)->get();
       $contacts = Contact::whereIn('id',$contacts)->get();
       if(!$contacts OR !$user) return false;
 
       foreach($contacts as $contact)
       {
-        
-        //Added by Lokesh on 13-09-2022  
         $mailData = [
           'user_name' => $contact->user ? $contact->user->name : '',
           'project_name' => $contact->project ? $contact->project->name : ''
-        ];          
-        //end
-          
+        ];
         // create new history if he not the same user !
         if($contact->user_id != $user->id)
         {
-          $action = __('site.assigned to') .' '.User::where('id',$user->id)->first()->name;
+          $other_details = $action = __('site.assigned to') .' '.$user->name;
           $this->newActivity($contact->id,auth()->id(),$action,null,null, null,true);
         }
         
         
         if($user->id != $contact->user_id)
         {
-            $action = __('site.assigned to') .' '.User::where('id',$user->id)->first()->name;
+            $other_details = $action = __('site.assigned to') .' '.$user->name;
             $this->newActivity($contact->id,auth()->id(),$action,null,null, null,true);
 
             // Change Startus to new if its not
-            if(isset($contact->status_id)){
+            if($contact->status_id != newStatus()->id){
                 $data['status_id'] = newStatus()->id;
 
-                 $data['status_changed_at'] = Carbon::now();
+                $data['status_changed_at'] = Carbon::now();
+                
                 $action = __('site.status changed to').' '.newStatus()->name;
+                $other_details .= ' and '.$action;
                 $this->newActivity($contact->id,auth()->id(),$action,null,null, null,true);
             }
 
         }
-        
+
         if(isset($data['status_id'])){ //added by Javed on 07-09-2022
-            $contact->update([
-              'user_id' => $user->id,
-              'status_id' => $data['status_id']
-             // 'updated_at' => Carbon::now()
-            ]);
-            Mail::to($user->name)->send(new LeadAssigned($mailData));
-            
+          addHistory('Contact',$contact->id,'updated',[
+            'user_id' => $user->id,
+            'status_id' => $data['status_id'],
+            'updated_at' => Carbon::now()
+          ],$contact,$other_details);
+          
+          $contact->update([
+            'user_id' => $user->id,
+            'status_id' => $data['status_id'],
+            'updated_at' => Carbon::now()
+          ]);
         }
+        Mail::to($user->name)->send(new LeadAssigned($mailData));
       }
 
       return response()->json([
@@ -659,6 +669,9 @@ class ContactController extends Controller
     public function multiple_delete() {
       $contacts = explode(',',request()->ids);
       $contacts = Contact::whereIn('id',$contacts)->delete();
+      for($i = 0; $i <= count($contacts); $i++){
+        addHistory('Contact',$contacts[$i],'deleted');    
+      }
       return response()->json([
         'status' => true,
       ]);

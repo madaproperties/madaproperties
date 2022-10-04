@@ -38,3 +38,9 @@ Route::get('test', function (){
     $input = json_decode(file_get_contents('php://input'), true);
     error_log(print_r($input, true));
 });
+Route::get('test2', function (){
+    echo request('hub_challenge');
+    
+    $input = json_decode(file_get_contents('php://input'), true);
+    error_log(print_r($input, true));
+});

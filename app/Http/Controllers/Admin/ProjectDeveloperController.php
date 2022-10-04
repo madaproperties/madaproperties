@@ -61,17 +61,23 @@ class ProjectDeveloperController extends Controller
         "name"          => "required|max:191",
       ]);
       $data['created_at'] = Carbon::now();
+
+      addHistory('Project Developer',0,'added',$data);   
+
       $deal = ProjectDeveloper::create($data);
       return redirect(route('admin.project-developer.index'))->withSuccess(__('site.success'));
   }
 
-  public function update(Request $request,  $deal)
+  public function update(Request $request,  $id)
   {
-    $deal = ProjectDeveloper::findOrFail($deal);
+    $deal = ProjectDeveloper::findOrFail($id);
     $data = $request->validate([
       "name"          => "required|max:191",
     ]);
     $data['updated_at'] = Carbon::now();
+
+    addHistory('Project Developer',$id,'updated',$data,$deal);
+
     $deal->update($data);
     return redirect(route('admin.project-developer.index'))->withSuccess(__('site.success'));
   }
@@ -81,6 +87,7 @@ class ProjectDeveloperController extends Controller
   {
     $data = ProjectDeveloper::findOrFail($id);
     $data->delete();
+    addHistory('Project Developer',$id,'deleted');    
     return back()->withSuccess(__('site.success'));
   }
 

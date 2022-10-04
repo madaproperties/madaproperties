@@ -845,3 +845,12 @@ function addHistory($module_name,$module_id,$request_type,$update_data=null,$old
   History::create($data);
 
 }
+
+function selectOptions($data,$form_value){
+  $html = "<option value='0'>".__('site.choose')."</option>";
+  foreach($data as $key => $value){
+    $selected = (($form_value == $key) ? 'selected' : '');
+    $html .= "<option value='".$key."' ".$selected.">".$value."</option>";
+  }
+  return $html;
+}

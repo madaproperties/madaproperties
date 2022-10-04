@@ -307,7 +307,6 @@
   </div>
   <hr />
  @endif
-  
 
 </div>
 <!--end::sidebar-->

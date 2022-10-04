@@ -53,7 +53,6 @@ class ContactsController extends Controller
           'campaign_country'           => "nullable",
           'deal_ip'           => "nullable",
           'scound_phone'           => "nullable",
-          'message'           => "nullable",
         ];
         
       

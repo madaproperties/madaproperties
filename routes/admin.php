@@ -2,7 +2,6 @@
 
 use App\Status;
 
-
 // Admin Protected Area
 Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], function (){
       // account
@@ -128,9 +127,30 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
 
       Route::resource('database-records', DatabaseRecordsController::class);        
       Route::get('exportDatabaseRecords','DatabaseRecordsController@exportDatabaseRecords')->name('database-records.exportDatabaseRecords');
+      Route::post('database/multiple-assign','DatabaseRecordsController@multiple_assign')->name('database.multiple-assign');
+      // NotesDashboardPage
+      Route::resource('database-note','DatabaseNotesController');
       
+      Route::resource('history','HistoryController');
+
+      Route::get('report-getUsers','ReportController@getUsers')->name('report.getUsers');
+
+      // importData
       Route::post('project-import-data','ProjectDataController@import')->name('projectImportData');
       
+      // importData
+      Route::resource('property','PropertyController');
+
+
+      Route::post('image/upload/store','PropertyController@imageStore')->name('property.imageStore');
+      Route::post('image/delete','PropertyController@imageDestroy')->name('property.imageDestroy');      
+      Route::get('image/get-project-image','PropertyController@getPropertyImages')->name('property.getPropertyImages');      
+
+      Route::post('document/upload/store','PropertyController@documentStore')->name('property.documentStore');
+      Route::post('document/delete','PropertyController@documentDestroy')->name('property.documentDestroy');      
+
+      Route::post('property/save-features','PropertyController@saveFeatures')->name('property.saveFeatures');
+      Route::post('property/save-portals','PropertyController@savePortals')->name('property.savePortals');
 
 });
 
