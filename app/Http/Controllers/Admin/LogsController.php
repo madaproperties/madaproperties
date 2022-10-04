@@ -153,6 +153,7 @@ class LogsController extends Controller
         $dataNoteDB['date'] = $request->task_date;
         $dataNoteDB['time'] = $request->task_time;
         $dataNoteDB['type'] = $request->task_type;
+        $dataNoteDB['date'] = \Carbon\Carbon::parse(str_replace('-','/',$request->task_date))->format('Y-m-d'); 
         $task = Task::create($dataNoteDB);
       }
 

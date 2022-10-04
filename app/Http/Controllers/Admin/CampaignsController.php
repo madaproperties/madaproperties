@@ -14,7 +14,8 @@ class CampaignsController extends Controller
     {
       $status = Campaing::paginate(20);
       return view('admin.campaigns.index',[
-        'status' => $status
+        'status' => $status,
+        'copyEnable' => true
       ]);
     }
 

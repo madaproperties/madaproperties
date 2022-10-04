@@ -112,7 +112,7 @@ class DealController extends Controller
 
     $campaigns = Campaing::where('active','1')->get();
     $contents = Content::where('active','1')->get();
-    $sources = Source::where('active','1')->get();
+    $sources = Source::where('active','1')->orderBy('name')->get();
     $mediums = Medium::where('active','1')->get();
 
     if(!checkLeader()){
@@ -203,6 +203,7 @@ class DealController extends Controller
       __('site.project'),
       __('site.Purpose'),
       __('site.purpose type'),
+      __('site.project_type'),
       __('site.unit_name'),
       __('site.developer_name'),
       __('site.deal_date'),
@@ -315,41 +316,41 @@ class DealController extends Controller
 
       $campaigns = Campaing::where('active','1')->get();
       $contents = Content::where('active','1')->get();
-      $sources = Source::where('active','1')->get();
+      $sources = Source::where('active','1')->orderBy('name')->get();
       $mediums = Medium::where('active','1')->get();
 
       if(!checkLeader()){
         $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
           $q->where('rule','sales')->orWhere('rule','leader');
         })
-      ->where('active','1')->get();
+      ->where('active','1')->orderBy('email')->get();
       }elseif(!checkLeaderUae()){
         $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
           $q->where('rule','sales')->orWhere('rule','leader');
         })
-      ->where('active','1')->get();
+      ->where('active','1')->orderBy('email')->get();
       }else{
         $sellers = User::where('rule','sales')->orWhere('rule','leader')
-      ->where('active','1')->get();
+      ->where('active','1')->orderBy('email')->get();
       }
   
       if(!checkLeader()){
         $leaders = User::where('rule','leader')
-        ->where('active','1')->where('time_zone','Asia/Riyadh')->get();
+        ->where('active','1')->where('time_zone','Asia/Riyadh')->orderBy('email')->get();
       }elseif(!checkLeaderUae()){
         $leaders = User::where('rule','leader')
-        ->where('active','1')->where('time_zone','Asia/Dubai')->get();
+        ->where('active','1')->where('time_zone','Asia/Dubai')->orderBy('email')->get();
       }else{
         $leaders = User::where('rule','leader')
-        ->where('active','1')->get();
+        ->where('active','1')->orderBy('email')->get();
       }
   
       if(!checkLeader()){
-        $developer = DealDeveloper::where('country_id',1)->get();
+        $developer = DealDeveloper::where('country_id',1)->orderBy('name_en')->get();
       }elseif(!checkLeaderUae()){
-        $developer = DealDeveloper::where('country_id',2)->get();
+        $developer = DealDeveloper::where('country_id',2)->orderBy('name_en')->get();
       }else{
-        $developer = DealDeveloper::get();
+        $developer = DealDeveloper::orderBy('name_en')->get();
       }
 
 
@@ -372,6 +373,7 @@ class DealController extends Controller
         "developer_id"        => "nullable",
         'purpose'               => 'nullable',
         "purpose_type"          => "nullable",
+        "project_type"          => "nullable",
         "deal_date"             => "nullable",
         "source_id"                => "nullable",
         "invoice_number"        => "nullable",
@@ -454,6 +456,7 @@ class DealController extends Controller
       "developer_id"        => "nullable",
       'purpose'               => 'nullable',
       "purpose_type"          => "nullable",
+      "project_type"          => "nullable",
       "deal_date"             => "nullable",
       "source_id"                => "nullable",
       "invoice_number"        => "nullable",
@@ -570,37 +573,37 @@ class DealController extends Controller
       $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
         $q->where('rule','sales')->orWhere('rule','leader');
       })
-    ->where('active','1')->get();
+    ->where('active','1')->orderBy('email')->get();
     }elseif(!checkLeaderUae()){
       $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
         $q->where('rule','sales')->orWhere('rule','leader');
       })
-    ->where('active','1')->get();
+    ->where('active','1')->orderBy('email')->get();
     }else{
       $sellers = User::where('rule','sales')->orWhere('rule','leader')
-    ->where('active','1')->get();
+    ->where('active','1')->orderBy('email')->get();
     }
 
     if(!checkLeader()){
       $leaders = User::where('rule','leader')
-      ->where('active','1')->where('time_zone','Asia/Riyadh')->get();
+      ->where('active','1')->where('time_zone','Asia/Riyadh')->orderBy('email')->get();
     }elseif(!checkLeaderUae()){
       $leaders = User::where('rule','leader')
-      ->where('active','1')->where('time_zone','Asia/Dubai')->get();
+      ->where('active','1')->where('time_zone','Asia/Dubai')->orderBy('email')->get();
     }else{
       $leaders = User::where('rule','leader')
-      ->where('active','1')->get();
+      ->where('active','1')->orderBy('email')->get();
     }
 
     if(!checkLeader()){
-      $developer = DealDeveloper::where('country_id',1)->get();
+      $developer = DealDeveloper::where('country_id',1)->orderBy('name_en')->get();
     }elseif(!checkLeaderUae()){
-      $developer = DealDeveloper::where('country_id',2)->get();
+      $developer = DealDeveloper::where('country_id',2)->orderBy('name_en')->get();
     }else{
-      $developer = DealDeveloper::get();
+      $developer = DealDeveloper::orderBy('name_en')->get();
     }
 
-    $sources = Source::where('active','1')->get();
+    $sources = Source::where('active','1')->orderBy('name')->get();
 
 
     return view('admin.deals.show',
@@ -630,6 +633,7 @@ class DealController extends Controller
         "project_id" ,
         "purpose" ,
         "purpose_type" ,
+        "project_type" ,
         "developer_id",
         "agent_id",
         "leader_id",
@@ -740,7 +744,7 @@ class DealController extends Controller
 
     $campaigns = Campaing::where('active','1')->get();
     $contents = Content::where('active','1')->get();
-    $sources = Source::where('active','1')->get();
+    $sources = Source::where('active','1')->orderBy('name')->get();
     $mediums = Medium::where('active','1')->get();
 
     if(!checkLeader()){
@@ -787,6 +791,7 @@ class DealController extends Controller
       __('site.project'),
       __('site.Purpose'),
       __('site.purpose type'),
+      __('site.project_type'),
       __('site.unit_name'),
       __('site.developer_name'),
       __('site.deal_date'),

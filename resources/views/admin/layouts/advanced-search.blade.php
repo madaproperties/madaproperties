@@ -184,7 +184,7 @@
         @endforeach
       </select>
     </div>
-    @if(userRole() == 'admin')
+    @if(userRole() == 'admin' || userRole() == 'digital marketing')
 
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.project')}} {{__('site.country')}}</label>
@@ -261,7 +261,7 @@
         </div>
     </div>
 
-    <div class="form-group col-md-4 col-sm--12">
+    <div class="form-group col-md-4 col-sm-12">
       <div class="form-group ">
           <label class="">{{__('site.email')}}</label>
           <div class="">
@@ -274,11 +274,64 @@
     </div>
 
     <div class="form-group col-md-4 col-sm-12">
-      <label for="country">Meeting</label>
+      <label for="country">{{__('site.Challenge lead')}}</label>
+      <select class="form-control"  name="challenge_lead">
+        <option {{Request('challenge_lead ') == '0' ? 'selected' : ''}} value="0">No</option>
+        <option {{Request('challenge_lead') == '1' ? 'selected' : ''}} value="1">Yes</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.lead_category')}}</label>
+      <select class="form-control"  name="lead_category" id="lead_category">
+        <option value="">{{ __('site.choose') }}</option>
+				<option {{Request('lead_category') == 'Primary' ? 'selected' : ''}} value="Primary">{{__('site.Primary')}}</option>
+				<option {{Request('lead_category') == 'Secondary' ? 'selected' : ''}} value="Secondary">{{__('site.Secondary')}}</option>
+			</select>
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.Meeting')}}</label>
       <select class="form-control"  name="is_meeting">
         <option {{Request('is_meeting') == '0' ? 'selected' : ''}} value="0">No</option>
         <option {{Request('is_meeting') == '1' ? 'selected' : ''}} value="1">Yes</option>
       </select>
+    </div>
+    <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.Meeting')}} {{__('site.Created')}} {{ __('site.from') }}(Meeting should be Yes to use it)</label>
+          <div class="">
+            <div class="input-group input-group-solid date"
+            id="meeting-from-date" data-target-input="nearest">
+              <input value="{{request('meeting_from')}}" type="text"
+              max="{{date('d-m-Y')}}"
+              class="form-control form-control-solid datetimepicker-input"
+              data-toggle="datetimepicker"
+              name="meeting_from" data-target="#meeting-from-date" autocomplete="off">
+              <div class="input-group-append" data-target="#meeting-from-date" data-toggle="datetimepicker">
+                <span class="input-group-text">
+                  <i class="ki ki-calendar"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.Meeting')}} {{__('site.Created')}} {{ __('site.to') }}(Meeting should be Yes to use it)</label>
+          <div class="">
+            <div class="input-group input-group-solid date to-date-el" id="meeting-to-date" data-target-input="nearest">
+              <input value="{{request('meeting_to')}}" type="text" class="form-control form-control-solid datetimepicker-input"
+              data-toggle="datetimepicker"
+              min="{{date('d-m-Y')}}"
+              name="meeting_to" data-target="#meeting-to-date" autocomplete="off">
+              <div class="input-group-append" data-target="#meeting-to-date" data-toggle="datetimepicker">
+                <span class="input-group-text">
+                  <i class="ki ki-calendar"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
 
   </div> <!-- end row -->

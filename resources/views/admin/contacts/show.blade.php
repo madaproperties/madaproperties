@@ -2,7 +2,7 @@
 @section('content')
 
 	<hr />
-<div class="container">
+<div class="container leads_detail">
     
 	
 

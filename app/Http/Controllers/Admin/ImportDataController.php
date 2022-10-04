@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\ContactsImport;
+use App\Imports\ImportDataController;
 
 class ImportDataController extends Controller
 {
@@ -16,7 +16,7 @@ class ImportDataController extends Controller
       ]);
       $file = Request()->file('file');
 
-      $results = Excel::import(new ContactsImport,$file);
+      $results = Excel::import(new ProjectDataImport,$file);
 
       return back();
     }

@@ -49,9 +49,11 @@ class TasksController extends Controller
         ]);
 
         $data['user_id'] = auth()->id();
+        $data['date'] = \Carbon\Carbon::parse(str_replace('-','/',$request->date))->format('Y-m-d'); 
+
         $task = Task::create($data);
         $action = auth()->user()->name. __('site.add new') . __('site.task');
-        $this->newActivity($request->contact_id,auth()->id(),$action,'Task',$task->id,$data['date']);
+        $this->newActivity($request->contact_id,auth()->id(),$action,'Task',$task->id,$request->date);
 
         Contact::where('id',$request->contact_id)->update([
         'updated_at' => Carbon::now()

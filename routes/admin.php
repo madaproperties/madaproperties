@@ -125,6 +125,13 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::get('update-old-date','CalendarController@updateOldDate')->name('update-old-date');
 
       Route::post('storeReportAdvanceCampaing','ReportController@storeReportAdvanceCampaing')->name('storeReportAdvanceCampaing');
+
+      Route::resource('database-records', DatabaseRecordsController::class);        
+      Route::get('exportDatabaseRecords','DatabaseRecordsController@exportDatabaseRecords')->name('database-records.exportDatabaseRecords');
+      
+      Route::post('project-import-data','ProjectDataController@import')->name('projectImportData');
+      
+
 });
 
 

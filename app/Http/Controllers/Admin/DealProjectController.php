@@ -122,6 +122,7 @@ class DealProjectController extends Controller
 
       $data = $request->validate([
         "country_id"          => "required",
+        "project_type"            => "required",
         "project_name"            => "required",
       ]);
 
@@ -138,6 +139,7 @@ class DealProjectController extends Controller
 
     $data = $request->validate([
       "country_id"          => "required",
+      "project_type"            => "required",
       "project_name"            => "required",
     ]);
 
@@ -194,8 +196,9 @@ class DealProjectController extends Controller
     $country = Country::where('id',$request->country)->first();
   
     $rows = DealProject::where('country_id',$request->country)
-                          ->orderBy('project_name','ASC')
-                          ->get();
+                        ->where('project_type',$request->project_type)
+                        ->orderBy('project_name','ASC')
+                        ->get();
                           
     foreach($rows as $row)
     {

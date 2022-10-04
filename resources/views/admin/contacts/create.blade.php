@@ -254,7 +254,7 @@
  	</div>
  </div>
 <!--end::Group-->
-                                      <!--end::Group-->
+	     <!--end::Group-->
  <div class="related-to-project" style="display:none">
 <!--begin::Group-->
 <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
@@ -429,6 +429,20 @@ name="unit_zone" type="text" value="{{old('unit_zone')}}" placeholder="{{__('sit
 																			</div>
 																		 </div>
 																		<!--end::Group-->
+<!--begin::Group-->
+<div class="form-group row fv-plugins-icon-container" data-select2-id="">
+		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.lead_category')}} </label>
+		<div class="col-lg-9 col-xl-9" data-select2-id="">
+			<select class="form-control"  name="lead_category" id="lead_category">
+				<option {{old('lead_category') == 'Primary' ? 'selected' : ''}} value="Primary">{{__('site.Primary')}}</option>
+				<option {{old('lead_category') == 'Secondary' ? 'selected' : ''}} value="Secondary">{{__('site.Secondary')}}</option>
+			</select>
+		</div>
+	</div>
+	<!--end::Group-->	
+
+                                 
+																																	
 																		<!--begin::Wizard Actions-->
 																		<div class="d-flex justify-content-between border-top pt-10 mt-15">
 																			<div>

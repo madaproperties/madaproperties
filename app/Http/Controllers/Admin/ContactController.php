@@ -24,6 +24,9 @@ use App\Campaing;
 use App\Content;
 use App\Source;
 use App\Medium;
+use Mail;
+use App\Mail\LeadAssigned;
+
 
 class ContactController extends Controller
 {
@@ -127,12 +130,12 @@ class ContactController extends Controller
         $id = auth()->id();
         $sellers = User::where('leader',$id)
                         ->OrWhere('id',$id)
-                        ->where('active','1')->get();
+                        ->where('active','1')->orderBy('email')->get();
       }elseif(userRole() == 'admin')
       {
         $sellers = User::where('rule','sales')
                         ->orWhere('rule','leader')
-                        ->where('active','1')->get();
+                        ->where('active','1')->orderBy('email')->get();
       }elseif(userRole() == 'sales admin'){
 
       
@@ -144,7 +147,7 @@ class ContactController extends Controller
            $sellers = User::where('leader',$leader)
                              ->where('id','!=',auth()->id())
                             ->Orwhere('id',$leader)
-                            ->where('active','1')->get();
+                            ->where('active','1')->orderBy('email')->get();
         }else{
             $sellers = [];
         }
@@ -201,9 +204,9 @@ class ContactController extends Controller
         'durations' => $durations,
         'currencies' => $currencies,
         'purposetype' => $purposetype,
-        'campaigns' => Campaing::where('active','1')->get(),
-        'contents' => Content::where('active','1')->get(),
-        'sources' => Source::where('active','1')->get(),
+        'campaigns' => Campaing::where('active','1')->orderBy('name')->get(),
+        'contents' => Content::where('active','1')->orderBy('name')->get(),
+        'sources' => Source::where('active','1')->orderBy('name')->get(),
         'mediums' => Medium::where('active','1')->get(),
 
       ]);
@@ -268,9 +271,9 @@ class ContactController extends Controller
 
 
 
-        $campaigns = Campaing::where('active','1')->get();
-        $contents = Content::where('active','1')->get();
-        $sources = Source::where('active','1')->get();
+        $campaigns = Campaing::where('active','1')->orderBy('name')->get();
+        $contents = Content::where('active','1')->orderBy('name')->get();
+        $sources = Source::where('active','1')->orderBy('name')->get();
         $mediums = Medium::where('active','1')->get();
 
         if(userRole() == 'leader')
@@ -278,12 +281,12 @@ class ContactController extends Controller
           $id = auth()->id();
         $sellers = User::where('leader',$id)
                         ->OrWhere('id',$id)
-                        ->where('active','1')->get();
+                        ->where('active','1')->orderBy('email')->get();
       }elseif(userRole() == 'admin')
       {
         $sellers = User::where('rule','sales')
                         ->orWhere('rule','leader')
-                        ->where('active','1')->get();
+                        ->where('active','1')->orderBy('email')->get();
       }elseif(userRole() == 'sales admin'){
 
         $leader = auth()->user()->leader;
@@ -292,7 +295,7 @@ class ContactController extends Controller
            $sellers = User::where('leader',$leader)
                              ->where('id','!=',auth()->id())
                             ->Orwhere('id',$leader)
-                            ->where('active','1')->get();
+                            ->where('active','1')->orderBy('email')->get();
         }else{
             $sellers = [];
         }
@@ -339,7 +342,8 @@ class ContactController extends Controller
           "unit_city"             => "nullable|max:255",
           "last_mile_conversion"   => "nullable|max:255",
           "unit_zone"             => "nullable|max:255",
-          'content' => 'nullable|max:255'
+          'content' => 'nullable|max:255',
+          'lead_category' => 'nullable'
         ]);
 
 
@@ -512,7 +516,8 @@ class ContactController extends Controller
         "unit_country"          => "nullable|max:255",
         "unit_city"             => "nullable|max:255",
         "unit_zone"             => "nullable|max:255",
-        'content' => 'nullable|max:255'
+        'content' => 'nullable|max:255',
+        'lead_category' => 'nullable'
       ]);
 
 
@@ -597,11 +602,20 @@ class ContactController extends Controller
       if(!request()->ids OR !request()->id) return false;
       $user = User::where('id',request()->id)->first();
       $contacts = explode(',',request()->ids);
-      $contacts = Contact::select('id','user_id')->whereIn('id',$contacts)->get();
+      //$contacts = Contact::select('*')->whereIn('id',$contacts)->get();
+      $contacts = Contact::whereIn('id',$contacts)->get();
       if(!$contacts OR !$user) return false;
 
       foreach($contacts as $contact)
       {
+        
+        //Added by Lokesh on 13-09-2022  
+        $mailData = [
+          'user_name' => $contact->user ? $contact->user->name : '',
+          'project_name' => $contact->project ? $contact->project->name : ''
+        ];          
+        //end
+          
         // create new history if he not the same user !
         if($contact->user_id != $user->id)
         {
@@ -616,7 +630,7 @@ class ContactController extends Controller
             $this->newActivity($contact->id,auth()->id(),$action,null,null, null,true);
 
             // Change Startus to new if its not
-            if($contact->status_id != newStatus()->id){
+            if(isset($contact->status_id)){
                 $data['status_id'] = newStatus()->id;
 
                  $data['status_changed_at'] = Carbon::now();
@@ -626,10 +640,15 @@ class ContactController extends Controller
 
         }
         
-        $contact->update([
-          'user_id' => $user->id,
-          'status_id' => $data['status_id']
-        ]);
+        if(isset($data['status_id'])){ //added by Javed on 07-09-2022
+            $contact->update([
+              'user_id' => $user->id,
+              'status_id' => $data['status_id']
+             // 'updated_at' => Carbon::now()
+            ]);
+            Mail::to($user->name)->send(new LeadAssigned($mailData));
+            
+        }
       }
 
       return response()->json([

@@ -66,11 +66,11 @@
                     </tr>
 					<tr>
 						<td style="text-align:left;border:0px;" colspan="5">TRN : 311064002300003</td>
-						<td colspan="3" style="border:0px;text-align:left;">{{$deal->developer->name}}</td>
+						<td colspan="3" style="border:0px;text-align:left;">{{isset($deal->developer->name) ? $deal->developer->name : ''}}</td>
                     </tr>
 					<tr>
 						<td style="text-align:left;border:0px;" colspan="5">Telephone : +966 11 4455199</td>
-						<td colspan="3" style="border:0px;text-align:left;">{{$deal->developer->company_address}}</td>
+						<td colspan="3" style="border:0px;text-align:left;">{{isset($deal->developer->company_address) ? $deal->developer->company_address : ''}}</td>
                     </tr>
 					<tr>
 						<td style="text-align:left;border:0px;padding-bottom:30px;" colspan="5">Email: admin-ksa@madaproperties.com</td>
@@ -83,11 +83,11 @@
                     </tr>
 					<tr>
 						<td style="text-align:left;border:0px;" colspan="5">TRN : 100506324100003</td>
-						<td colspan="3" style="border:0px;text-align:left;">{{$deal->developer->name}}</td>
+						<td colspan="3" style="border:0px;text-align:left;">{{isset($deal->developer->name) ? $deal->developer->name : ''}}</td>
                     </tr>
 					<tr>
 						<td style="text-align:left;border:0px;" colspan="5">Telephone : +97142434692</td>
-						<td colspan="3" style="border:0px;text-align:left;">{{$deal->developer->company_address}}</td>
+						<td colspan="3" style="border:0px;text-align:left;">{{isset($deal->developer->company_address) ?$deal->developer->company_address : ''}}</td>
                     </tr>
 					<tr>
 						<td style="text-align:left;border:0px;padding-bottom:30px;" colspan="5">Email: admin-dxb@madaproperties.com</td>

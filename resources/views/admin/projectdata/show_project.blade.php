@@ -130,7 +130,6 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
-
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.property_type')}}</label>
@@ -144,6 +143,12 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
+																	
+																</div>
+															</div>
+															<div class="col-xl-6">
+																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
@@ -154,10 +159,6 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
-																</div>
-															</div>
-															<div class="col-xl-6">
-																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
@@ -214,18 +215,6 @@
 																				<option {{$deal->payment_status == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
 																				<option {{$deal->payment_status == 'cash-bank' ? 'selected' : ''}} value="cash-bank">{{__('site.cash-bank')}}</option>
 																				<option {{$deal->payment_status == 'cash-bank-sarkani' ? 'selected' : ''}} value="cash-bank-sarkani">{{__('site.cash-bank-sarkani')}}</option>
-																			</select>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.govt_docs')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<select class="form-control"  name="govt_docs">
-																				<option {{$deal->govt_docs == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
-																				<option {{$deal->govt_docs == 'Itmam_cert' ? 'selected' : ''}} value="Itmam_cert">{{__('site.Itmam cert')}}</option>
 																			</select>
 																		</div>
 																	</div>

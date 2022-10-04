@@ -33,6 +33,7 @@ if(isset($reportData->source_wise_amount)){
         <thead>
             <tr>
                 <th scope="col">Nationality</th>
+                    <th scope="col">{{ 'Facebook & Instagram' }} <br> Amount</th>
                 @foreach($sources_data as $source)
                     <th scope="col">{{ ucfirst($source->name) }} <br> Amount</th>
                 @endforeach
@@ -42,6 +43,9 @@ if(isset($reportData->source_wise_amount)){
             @foreach($countries_data as $country)
             <tr class="">
                 <th scope="row" style="background:#eee">{{$country->name }}</th>
+                <th scope="row">
+                    <input type="text" name="data[{{$country->id}}][{{'facebook_instagram'}}]" value="{{isset($data[$country->id]['facebook_instagram']) ? $data[$country->id]['facebook_instagram'] : 0}}">
+                </th>
                 @foreach($sources_data as $statu)
                 <th scope="row">
                     <input type="text" name="data[{{$country->id}}][{{$statu->name}}]" value="{{isset($data[$country->id][$statu->name]) ? $data[$country->id][$statu->name] : 0}}">
@@ -53,6 +57,9 @@ if(isset($reportData->source_wise_amount)){
             @if($europeCountries)
             <tr class="">
                 <th scope="row" style="background:#eee">Europe</th>
+                <th scope="row">
+                    <input type="text" name="data[{{$cData}}][{{'facebook_instagram'}}]" value="{{isset($data[$cData]['facebook_instagram']) ? $data[$cData]['facebook_instagram'] : 0}}">
+                </th>
                 @foreach($sources_data as $statu)
                 <th scope="row">
                     <input type="text" name="data[{{$cData}}][{{$statu->name}}]" value="{{isset($data[$cData][$statu->name]) ? $data[$cData][$statu->name] : 0}}">

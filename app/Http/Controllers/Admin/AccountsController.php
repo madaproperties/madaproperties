@@ -10,6 +10,7 @@ use Mail;
 use App\Mail\SetPassword;
 use App\Setting;
 use Spatie\Permission\Models\Role;
+use App\Country;
 
 class AccountsController extends Controller
 {
@@ -34,7 +35,22 @@ class AccountsController extends Controller
                 $users_count = User::count();
             }
         }
-                    
+
+        $countries = Country::orderBy('name_en')->get();
+        $collectCounties = [];
+        $collectCounties = collect($collectCounties);
+        foreach($countries as $index => $country) {
+            if(in_array($country->name_en,toCountriess()) ) {
+                $collectCounties->push($country);
+            }
+        }
+        $countries = $countries->filter(function($item) {
+          return !in_array($item->name_en,toCountriess());
+        });
+        foreach($collectCounties as $topCountry) {
+            $countries->prepend($topCountry);
+        }        
+
         $leaders = User::where('rule','leader')->where('active','1')->get();
         $positions = ['rent','buy','sell','management','handover'];
         $roles = Role::pluck('name','name')->all();
@@ -43,7 +59,8 @@ class AccountsController extends Controller
           'leaders' => $leaders,
           'positions' => $positions,
           'roles' => $roles,
-          'users_count' => $users_count
+          'users_count' => $users_count,
+          'countries' => $countries
         ]);
     }
 
@@ -58,6 +75,13 @@ class AccountsController extends Controller
           'rule' => 'required',
           'leader' => 'nullable',
           'time_zone' => 'nullable',
+          'username' => 'nullable',
+          'employee_id' => 'nullable',
+          'nationality' => 'nullable',
+          'mobile_no' => 'nullable',
+          'department' => 'nullable',
+          'designation' => 'nullable',
+          'user_pic' => 'nullable',
           'position_types' => 'required|array'
         ]);
 
@@ -76,6 +100,12 @@ class AccountsController extends Controller
         {
             $data['time_zone'] = timeZones()[0];
         }
+        if($request->file('user_pic')){
+            $md5Name = md5_file($request->file('user_pic')->getRealPath());
+            $guessExtension = $request->file('user_pic')->guessExtension();
+            $file = $request->file('user_pic')->move('public/uploads/users', $md5Name.'.'.$guessExtension);     
+            $data['user_pic'] = $md5Name.'.'.$guessExtension;
+        }
      
         
         $user = User::create($data);
@@ -86,8 +116,11 @@ class AccountsController extends Controller
         $user->update([
           'position_types' => $request->position_types
         ]);
-
-        Mail::to($data['email'])->send(new SetPassword($data));
+        try {
+            Mail::to($data['email'])->send(new SetPassword($data));
+        } catch (\Exception $e) {
+            return back()->withErrors($e->getMessage());
+        }
         return back()->withSuccess(__('site.success'));
     }
 
@@ -111,6 +144,13 @@ class AccountsController extends Controller
           'target_meeting' => 'nullable',
           'target_whatsapp' => 'nullable',
           'time_zone' => 'nullable',
+          'username' => 'nullable',
+          'employee_id' => 'nullable',
+          'nationality' => 'nullable',
+          'mobile_no' => 'nullable',
+          'department' => 'nullable',
+          'designation' => 'nullable',
+          'user_pic' => 'nullable',
         ]);
         
         
@@ -129,8 +169,14 @@ class AccountsController extends Controller
         }else{
             $data['leader']  = null;
          }
- 
+        if($request->file('user_pic')){
+            $md5Name = md5_file($request->file('user_pic')->getRealPath());
+            $guessExtension = $request->file('user_pic')->guessExtension();
+            $file = $request->file('user_pic')->move('public/uploads/users', $md5Name.'.'.$guessExtension);     
+            $data['user_pic'] = $md5Name.'.'.$guessExtension;
+        }
 
+       
         $user->update($data);
         if($data['rule'] == 'sales'){
             $data['rule']  = 'sales';

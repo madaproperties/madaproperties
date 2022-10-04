@@ -236,20 +236,62 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         "source", //Added by Javed
         "purpose_type", //Added by Javed
         "email", //Added by Javed
-        "is_meeting"  //Added by Javed
+        "is_meeting",  //Added by Javed
+        "lead_category", //Added by Javed        
+        "campaign_country", //Added by Javed        
       ];
 
+      // foreach($feilds as $feild => $value){
+      //   if(in_array($feild,$allowedFeilds) AND !empty($value)){
+      //     if($feild == 'project_country_id'){
+      //       $q->whereHas('project', function($q2) use($value) {
+      //         $q2->where('projects.country_id',$value);
+      //       });
+      //   }else if($feild == 'is_meeting' && $value == 1){
+      //     $q->whereHas('logs', function($q2) use($value) {
+      //       $q2->where('logs.type','meeting');
+      //     });
+      //   }else{
+      //       $q->where($feild,$value);
+      //     }
+      //   }
+      // }
+
+      $user_id = 0;
       foreach($feilds as $feild => $value){
         if(in_array($feild,$allowedFeilds) AND !empty($value)){
+          if($feild == 'user_id'){
+            $user_id = $value;
+          }
           if($feild == 'project_country_id'){
             $q->whereHas('project', function($q2) use($value) {
               $q2->where('projects.country_id',$value);
             });
-        }else if($feild == 'is_meeting' && $value == 1){
-          $q->whereHas('logs', function($q2) use($value) {
-            $q2->where('logs.type','meeting');
-          });
-        }else{
+          }else if($feild == 'is_meeting' && $value == 1){
+              $q->whereHas('logs', function($q2) use($value,$user_id) {
+                $q2->where('logs.type','meeting');
+                if($user_id){
+                  $q2->where('logs.user_id',$user_id);
+                }
+                //Added by Javed
+                if(Request('meeting_from') && Request('meeting_to')){
+                  $from = date('Y-m-d', strtotime(Request('meeting_from')));
+                  $to = date('Y-m-d', strtotime(Request('meeting_to')));
+                  $q2->whereBetween('logs.log_date',[$from,$to]);
+                }else{   
+                  if(Request('meeting_from')){
+                    $from = date('Y-m-d', strtotime(Request('meeting_from')));
+                    $q2->where('logs.log_date','>=', $from);
+                  }   
+                  if(Request('meeting_to')){
+                    $to = date('Y-m-d', strtotime(Request('meeting_to')));
+                    $q2->where('logs.log_date','<=',$to);
+                  }            
+                }                
+              });
+          }else if($feild == 'campaign_country'){
+            $q->whereIn($feild,explode(",",$value));
+          }else{
             $q->where($feild,$value);
           }
         }
@@ -288,7 +330,13 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         }            
       }
       //End
-        
+
+      if(Request()->has('challenge_lead') && request('challenge_lead')){
+        $uri = Request()->fullUrl();
+        session()->put('start_filter_url',$uri);
+        return $q->whereIn('status_id', ['1','4','7'])
+                  ->whereDate('updated_at', '<=', Carbon::now()->subMonths(1));
+      }
       return $q;
     }
 

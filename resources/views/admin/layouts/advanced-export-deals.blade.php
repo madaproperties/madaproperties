@@ -230,6 +230,14 @@
       <option {{Request('third_party') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
 		</select>
     </div>
+    <div class="form-group col-md-3 col-sm-12">
+      <label for="country">{{__('site.project_type')}}</label>
+      <select class="form-control" name="project_type">
+        <option {{Request('project_type') == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
+        <option {{Request('project_type') == 'Primary' ? 'selected' : ''}} value="Primary">{{__('site.Primary')}}</option>
+        <option {{Request('project_type') == 'Secondary' ? 'selected' : ''}} value="Secondary">{{__('site.Secondary')}}</option>
+      </select>
+    </div>
     <div class="form-group col-md-12 col-sm-12">
       <label>{{__('site.export') .' '.__('site.fields') }}</label>
         <select class="form-control" name="select[]" id="selectData" multiple>

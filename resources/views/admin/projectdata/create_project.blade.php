@@ -129,6 +129,7 @@
 																	</div>
 																	<!--end::Group-->
 
+
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.property_type')}}</label>
@@ -142,6 +143,11 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
+																</div>
+															</div>
+															<div class="col-xl-6">
+																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
@@ -152,11 +158,6 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
-																</div>
-															</div>
-															<div class="col-xl-6">
-																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.area_plot')}}</label>
@@ -216,17 +217,6 @@
 																	</div>
 																	<!--end::Group-->
 
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.govt_docs')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<select class="form-control"  name="govt_docs">
-																				<option {{old('govt_docs') == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
-																				<option {{old('govt_docs') == 'Itmam_cert' ? 'selected' : ''}} value="Itmam_cert">{{__('site.Itmam cert')}}</option>
-																			</select>
-																		</div>
-																	</div>
-																	<!--end::Group-->
 
 																</div>
 															</div>

@@ -137,31 +137,74 @@
 										            </div>
 										            <div class="modal-body">
 
-					<form class="form" method="post" id="edit-{{$user->id}}-form" action="{{route('admin.accounts.update',$user->id)}}">
+					<form class="form" method="post" id="edit-{{$user->id}}-form" action="{{route('admin.accounts.update',$user->id)}}"  enctype="multipart/form-data">
 						@csrf
 						@method('PUT')
 								<div class="card-body">
 										<div class="separator separator-dashed my-5"></div>
 										<div class="form-group">
-											<label>{{__('site.email')}}:</label>
-											<input type="email" required="" class="form-control" name="email" value="{{$user->email}}" >
+											<label>{{__('site.name')}}:</label>
+											<input type="text" required="" class="form-control" name="username" value="{{$user->username}}" autocomplete="off">
 										</div>
+										<div class="form-group">
+											<label>{{__('site.email')}}:</label>
+											<input type="email" required="" class="form-control" name="email" value="{{$user->email}}" autocomplete="off">
+										</div>										
+										<div class="form-group">
+											<label>{{__('site.employee_id')}}:</label>
+											<input type="text" class="form-control" name="employee_id" value="{{$user->employee_id}}" autocomplete="off">
+										</div>
+
+										<div class="form-group">
+											<label>{{__('site.nationality')}}:</label>
+											<select class="form-control " id="nationality" name="nationality" data-select2-id="" tabindex="-1" aria-hidden="true">
+												<option value="">{{ __('site.choose') }}</option>
+												@foreach($countries as $country)
+													<option {{$user->nationality == $country->id ? 'selected' : ''}} value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>
+												@endforeach
+											</select>
+										</div>
+
+										<div class="form-group">
+											<label>{{__('site.mobile_no')}}:</label>
+											<input type="text" class="form-control" name="mobile_no" value="{{$user->mobile_no}}" autocomplete="off">
+										</div>
+										<div class="form-group">
+											<label>{{__('site.department')}}:</label>
+											<select class="form-control" name="department" id="department">
+												<option value="">{{ __('site.choose') }}</option>
+												<option {{$user->department == 'Primary' ? 'selected' : ''}} value="Primary">{{__('site.Primary')}}</option>
+												<option {{$user->department == 'Secondary' ? 'selected' : ''}} value="Secondary">{{__('site.Secondary')}}</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<label>{{__('site.designation')}}:</label>
+											<input type="text" class="form-control" name="designation" value="{{$user->designation}}" autocomplete="off">
+										</div>
+										<div class="form-group">
+											<label>{{__('site.user_pic')}}:</label>
+											<div class="fv-plugins-message-container"></div>
+											@if($user->user_pic)
+												<img src="{{env('APP_URL').'/public/uploads/users/'.$user->user_pic}}" width="50%">
+											@endif
+											<input type="file" class="form-control" name="user_pic" >
+										</div>
+
+
+
 										<div class="form-group ">
-		<label class="">
-								{{ __('site.time_zone')}}
-														    </label>
-					<div class="">
-                              <select name="time_zone" class="form-control form-control-lg form-control-solid mb-2" required>
-                                  
-  					<option value="en">{{__('site.choose')}}</option>
-  					@foreach(timeZones() as $zone)
-  					<option 
-  					{{ $user->time_zone == $zone ? 'selected' : '' }}
-  					value="{{ $zone }}">{{$zone }}</option>
-  					@endforeach
-  														</select>
-														</div>
-													</div>
+											<label class="">{{ __('site.time_zone')}}</label>
+											<div class="">
+												<select name="time_zone" class="form-control form-control-lg form-control-solid mb-2" required>
+													<option value="en">{{__('site.choose')}}</option>
+													@foreach(timeZones() as $zone)
+													<option 
+													{{ $user->time_zone == $zone ? 'selected' : '' }}
+													value="{{ $zone }}">{{$zone }}</option>
+													@endforeach
+												</select>
+											</div>
+										</div>
 
 										<div class="separator separator-dashed my-5"></div>
 										<div class="form-group">
@@ -333,15 +376,57 @@
 						<div class="d-flex flex-column">
 
 							<div class="navi mt-2">
-								<form class="form" method="post" id="new-account" action="{{route('admin.accounts.index')}}">
+								<form class="form" method="post" id="new-account" action="{{route('admin.accounts.index')}}"  enctype="multipart/form-data">
 									@csrf
 										<div class="card-body">
+
+											<div class="form-group">
+												<label>{{__('site.name')}}:</label>
+												<input type="text" required class="form-control" name="username" value="{{old('username')}}" autocomplete="off">
+											</div>
+
 											<div class="form-group">
 												<label>{{__('site.email')}}:</label>
-												<input type="email"
-												required
-												 class="form-control" name="email" value="{{old('email')}}" >
+												<input type="email" required class="form-control" name="email" value="{{old('email')}}"  autocomplete="off">
 											</div>
+											<div class="form-group">
+												<label>{{__('site.employee_id')}}:</label>
+												<input type="text" class="form-control" name="employee_id" value="{{old('employee_id')}}"  autocomplete="off">
+											</div>
+
+											<div class="form-group">
+												<label>{{__('site.nationality')}}:</label>
+												<select class="form-control " id="nationality" name="nationality" data-select2-id="" tabindex="-1" aria-hidden="true">
+													<option value="">{{ __('site.choose') }}</option>
+													@foreach($countries as $country)
+														<option {{old('nationality') == $country->id ? 'selected' : ''}} value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>
+													@endforeach
+												</select>
+											</div>
+
+											<div class="form-group">
+												<label>{{__('site.mobile_no')}}:</label>
+												<input type="text" class="form-control" name="mobile_no" value="{{old('mobile_no')}}" autocomplete="off" >
+											</div>
+											<div class="form-group">
+												<label>{{__('site.department')}}:</label>
+												<select class="form-control" name="department" id="department">
+													<option value="">{{ __('site.choose') }}</option>
+													<option {{old('department') == 'Primary' ? 'selected' : ''}} value="Primary">{{__('site.Primary')}}</option>
+													<option {{old('department') == 'Secondary' ? 'selected' : ''}} value="Secondary">{{__('site.Secondary')}}</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<label>{{__('site.designation')}}:</label>
+												<input type="text" class="form-control" name="designation" value="{{old('designation')}}" autocomplete="off" >
+											</div>
+											<div class="form-group">
+												<label>{{__('site.user_pic')}}:</label>
+												<input type="file" class="form-control" name="user_pic">
+											</div>
+
+											
+
 											
 							<div class="form-group">
 										<label class="text-alert">

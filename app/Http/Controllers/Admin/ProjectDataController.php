@@ -14,6 +14,7 @@ use App\ProjectName;
 use App\ProjectDeveloper;
 use App\ProjectDataExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ProjectDataImport;
 
 class ProjectDataController extends Controller
 {
@@ -123,19 +124,20 @@ class ProjectDataController extends Controller
         "price"          => "required",
         "completion_date"          => "required",
         "payment_status"          => "required",
-        "govt_docs"          => "required",
       ]);
 
 
       $data['created_at'] = Carbon::now();
 
+      addHistory('Project Data',0,'added',$data);   
+
       $deal = ProjectData::create($data);
       return redirect(route('admin.project-data.index'))->withSuccess(__('site.success'));
   }
 
-  public function update(Request $request,  $deal)
+  public function update(Request $request,  $id)
   {
-    $deal = ProjectData::findOrFail($deal);
+    $deal = ProjectData::findOrFail($id);
 
     $data = $request->validate([
       "country_id"          => "required",
@@ -151,10 +153,11 @@ class ProjectDataController extends Controller
       "price"          => "required",
       "completion_date"          => "required",
       "payment_status"          => "required",
-      "govt_docs"          => "required",
     ]);
 
     $data['updated_at'] = Carbon::now();
+
+    addHistory('Project Data',$id,'updated',$data,$deal);
 
     $deal->update($data);
     return redirect(route('admin.project-data.index'))->withSuccess(__('site.success'));
@@ -165,6 +168,7 @@ class ProjectDataController extends Controller
   {
     $data = ProjectData::findOrFail($id);
     $data->delete();
+    addHistory('Project Data',$id,'deleted');    
     return back()->withSuccess(__('site.success'));
   }
 
@@ -231,4 +235,14 @@ class ProjectDataController extends Controller
     }  
   }
 
+  public function import(Request $req) {
+    $file = $req->validate([
+      'file' => 'required|mimes:xlsx'
+    ]);
+    $file = Request()->file('file');
+
+    $results = Excel::import(new ProjectDataImport,$file);
+
+    return back();
+  }
 }

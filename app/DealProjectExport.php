@@ -45,6 +45,7 @@ class DealProjectExport implements FromQuery, WithHeadings, ShouldAutoSize, With
         return [
           $country,
           $deal->project_name,
+          $deal->project_type,
           timeZone($deal->created_at),
           timeZone($deal->updated_at),
         ];
@@ -55,6 +56,7 @@ class DealProjectExport implements FromQuery, WithHeadings, ShouldAutoSize, With
       return array_map('ucfirst',[
         __('site.country'),
         __('site.project').' '.__('site.name'),
+        __('site.project_type'),
         __('site.created_at'),
         __('site.updated_at'),
       ]);

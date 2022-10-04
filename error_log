@@ -1,6 +1,0 @@
-[16-Nov-2021 09:05:23 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home4/madapies/lms/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php on line 1671
-[16-Nov-2021 09:22:07 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home4/madapies/lms/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Concerns/HasAttributes.php on line 1019
-[17-Nov-2021 08:21:36 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home4/madapies/lms/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Concerns/HasAttributes.php on line 907
-[25-Nov-2021 13:43:41 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home4/madapies/lms/vendor/nesbot/carbon/src/Carbon/Traits/Creator.php on line 147
-[27-Nov-2021 11:49:26 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home4/madapies/lms/vendor/nesbot/carbon/src/Carbon/Traits/Creator.php on line 85
-[09-Dec-2021 11:33:00 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home4/madapies/lms/vendor/laravel/framework/src/Illuminate/Database/Connection.php on line 338

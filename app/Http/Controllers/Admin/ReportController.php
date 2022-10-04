@@ -72,16 +72,20 @@ class ReportController extends Controller
 			$projects_options = Project::orderBy('name_en','asc')->get();
 			$projects_data = Project::orderBy('created_at','desc');
 
+			if(userRole() == 'sales admin uae') {
+				$projects_data =  $projects_data->where('country_id','2');
+				$projects_options = Project::where('country_id','2')->orderBy('name_en','asc')->get();
+			}else if(userRole() == 'sales admin saudi'){
+				$projects_data =  $projects_data->where('country_id','1');
+				$projects_options = Project::where('country_id','1')->orderBy('name_en','asc')->get();
+			}
 			if(Request('project_id') && !empty(request('project_id'))){
 				$projects_data = $projects_data->where('id',request('project_id'));
 			}
 			if(Request('project_country_id') && !empty(request('project_country_id'))){
 				$projects_data = $projects_data->where('country_id',Request('project_country_id'));
 			}
-
 			$projects_data = $projects_data->paginate(10);
-
-
 
 			$countries = Country::orderBy('name_en')->get();
 			$collectCounties = [];
@@ -114,9 +118,22 @@ class ReportController extends Controller
 	public function reportLeaders(){ // leaders
 
 		if(Request('type') AND request('type') == 'leaders'){
-			$leaders = User::select('id','rule','leader','email')->where('rule','leader')->get();
+			$leaders = User::select('id','rule','leader','email')->where('active','1')->where('rule','leader');
+			if(userRole() == 'sales admin saudi'){
+				$whereCountry = 'Asia/Riyadh';
+				$leaders = $leaders->where('time_zone','like','%'.$whereCountry.'%');
+			}else if(userRole() == 'sales admin uae'){
+				$whereCountry = 'Asia/Dubai';
+				$leaders = $leaders->where('time_zone','like','%'.$whereCountry.'%');
+			}
+			$leaders = $leaders->get();
+
 			foreach($leaders as $lead){
-				$leaderTeam = User::select('id','rule','leader')->where('leader',$lead->id)->orWhere('id',$lead->id)->get();
+				$leaderTeam = User::select('id','rule','leader')
+							->where('leader',$lead->id)
+							->orWhere('id',$lead->id)->get();
+			
+
 				$usersIds = $leaderTeam->pluck('id')->toArray();
 					$leaderLeadsCount = Contact::
 						whereIn('user_id',$usersIds)
@@ -160,56 +177,98 @@ class ReportController extends Controller
 	public function reportUsers(){ // reportUsers
 		$canvas = false;
 		$weekends = 0;
-		if(request()->has('users_id') && request()->has('from') && request()->has('to')){
-			$from = str_replace('/','-', Request('from'));
-			$to = str_replace('/','-', Request('to'));
+		$report_dates = [];
+		$user = [];
+		$activities = [];
+		$status_not_changed_after_48_hours = [];
+		$canvas = true;
+		$user_contacts = [];	
+		$status_not_changed_after_1_week = [];	
+		$allUsersReport = false;
+		$userReport = [];
+		$two_week_report = [];
+
+		if(request('users_id') && request()->has('from') && request()->has('to')){
+			$from = date('Y-m-d 00:00:00', strtotime(Request('from')));
+			$to = date('Y-m-d 23:59:59', strtotime(Request('to')));
+
 			$user_id = Request('users_id');
 			// get the User
 			$user = User::findOrFail($user_id);
 			// get logs
 			$activities = Log::where('user_id',$user_id)
-								->where('is_log','1')
+								//->where('is_log','1')
 								->whereBetween('log_date',[ $from,$to ])
 								->get();
-			$from = Carbon::parse(Request('from'))->format('M d Y');
-			$to = Carbon::parse(Request('to'))->format('M d Y');
-
-			// get days beetwen 2 days
-			$period = CarbonPeriod::create($from, $to);
-			$user_contacts = Contact::select('id','status_id',DB::raw('DATE(created_at) AS created_at'))
-															->where('user_id',$user_id)->get();
-			// Iterate over the period / 2021-06-29
-			$report_dates = [];
-			foreach ($period as $date) {
-				$get_day = Carbon::parse($date)->format('m-d-Y');
-				$day = Carbon::createFromFormat('d-m-Y', $get_day)->format('l');
-				$date = Carbon::parse($date)->format('Y-m-d 00:00:00');
-				$report_dates[] = $get_day;
-				if($day == 'Friday'){
-						$weekends++;
-				}
-			}
-			// contacts taht pass 48 without any think
-			$status_not_changed_after_48_hours = Contact::select('id','user_id','status_id','status_changed_at')
+			$status_not_changed_after_1_week = Contact::select('id','user_id','status_id','status_changed_at')
 			->where('user_id',$user_id)
-			->whereDate('status_changed_at', '<=', Carbon::today()->subDays( 2 ))
+			->whereDate('updated_at', '<=', Carbon::today()->subDays( 14 ))
 			->get();
-			// end contacts
-		}else {
-			$report_dates = [];
-			$user = [];
-			$activities = [];
-			$status_not_changed_after_48_hours = [];
-			$canvas = true;
-			$user_contacts = [];
+
+			$two_week_report = Contact::select('id','user_id','status_id','status_changed_at')
+			->where('user_id',$user_id)
+			->whereDate('updated_at', '>=', Carbon::today()->subDays( 14 ))
+			->get();
+
+		}else if(userRole() == 'sales' && request()->has('from') && request()->has('to')){
+			$from = date('Y-m-d 00:00:00', strtotime(Request('from')));
+			$to = date('Y-m-d 23:59:59', strtotime(Request('to')));
+
+			$user_id = auth()->id();
+			// get the User
+			$user = User::findOrFail($user_id);
+			// get logs
+			$activities = Log::where('user_id',$user_id)
+								//->where('is_log','1')
+								->whereBetween('log_date',[ $from,$to ])
+								->get();
+
+			$status_not_changed_after_1_week = Contact::select('id','user_id','status_id','status_changed_at')
+			->where('user_id',$user_id)
+			->whereDate('updated_at', '<=', Carbon::today()->subDays( 14 ))
+			->get();
+
+			$two_week_report = Contact::select('id','user_id','status_id','status_changed_at')
+			->where('user_id',$user_id)
+			->whereDate('updated_at', '>=', Carbon::today()->subDays( 14 ))
+			->get();
+			
+		}else{
+			if(userRole() != 'sales'){
+				$allUsersReport = true;
+				$userReport = User::where('active','1')
+				->whereIn('rule',['sales','sales admin','leader']);
+				if(userRole() == 'sales admin saudi'){
+					$whereCountry = 'Asia/Riyadh';
+					$userReport = $userReport->where('time_zone','like','%'.$whereCountry.'%');
+				}else if(userRole() == 'sales admin uae'){
+					$whereCountry = 'Asia/Dubai';
+					$userReport = $userReport->where('time_zone','like','%'.$whereCountry.'%');
+				}else if(userRole() == 'leader'){
+					/// if he is leader get his sellars and get him with them too
+					$userReport = User::where('active','1')->where('leader',auth()->id());
+				}
+				$userReport = $userReport->whereNotIn('email',['lead-admin-uae@madaproperties.com','lead-admin-ksa@madaproperties.com'])
+				->orderBy('email')->paginate(10);
+
+			}
 		}
 
 		// 07-04-2021
-		$users = User::all();
-		if(userRole() == 'leader'){
-				/// if he is leader get his sellars and get him with them too
-			$users = User::where('leader',auth()->id())->OrWhere('id',auth()->id())->get();
+		$users = User::where('active','1')
+		->whereIn('rule',['sales','sales admin','leader']);
+        if(userRole() == 'sales admin saudi'){
+			$whereCountry = 'Asia/Riyadh';
+			$users = $users->where('time_zone','like','%'.$whereCountry.'%');
+		}else if(userRole() == 'sales admin uae'){
+			$whereCountry = 'Asia/Dubai';
+			$users = $users->where('time_zone','like','%'.$whereCountry.'%');
+		}else if(userRole() == 'leader'){
+			/// if he is leader get his sellars and get him with them too
+			$users = User::where('active','1')->where('leader',auth()->id());
 		}
+		$users = $users->whereNotIn('email',['lead-admin-uae@madaproperties.com','lead-admin-ksa@madaproperties.com'])
+		->orderBy('email')->get();
 
 		$status = Status::where('active','1')->get();
 
@@ -218,11 +277,15 @@ class ReportController extends Controller
 			'report_dates' =>  $report_dates,
 			'activities' => $activities ,
 			'user' => $user,
-			'status_not_changed_after_48_hours' => $status_not_changed_after_48_hours,
+			'status_not_changed_after_1_week' => $status_not_changed_after_1_week,
 			'status' => $status,
 			'user_contacts' => $user_contacts,
 			'canvas' => $canvas,
 			'weekends' => $weekends,
+			'last14days' => Carbon::today()->subDays( 14 ),
+			'userReport' => $userReport,
+			'allUsersReport' => $allUsersReport, 
+			'two_week_report' => $two_week_report 
 		]);
 	}
 
@@ -359,6 +422,7 @@ class ReportController extends Controller
 				foreach($collectCounties as $topCountry){
 					$countries->prepend($topCountry);
 				}
+				$status = Status::where('active','1')->get();
 
 				return view('admin.reports.index',[
 					'campaings' =>  $campaings,
@@ -369,7 +433,8 @@ class ReportController extends Controller
 					'advance_campaign_repot'=>true,
 					'project_id'=>$project_id,
 					'reportData'=>$reportData,
-					'users' => $users
+					'users' => $users,
+					'status' => $status
 				]);
 			}
 		}
@@ -452,6 +517,7 @@ class ReportController extends Controller
 	{
 	  $data = CampainReport::findOrFail($id);
 	  $data->delete();
+	  addHistory('Campain Report',$id,'deleted');
 	  return back()->withSuccess(__('site.success'));
 	}
   

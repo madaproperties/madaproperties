@@ -101,6 +101,9 @@
 				@if(isset($advance_campaign_repot))
 					<button type="submit" class="btn btn-primary">{{__('site.load report')}}</button>
 					<a href="{{route('admin.advance-campaign-report.index')}}" class="btn btn-warning">{{__('site.back to listing page')}}</a>
+					@if(isset($reportData->id))
+						<a href="{{ route('admin.advance-campaign-report.edit',$reportData->id) }}" class="btn btn-warning">{{__('site.Edit')}}</a>
+					@endif
 				@elseif(isset($advance_campaign))				
 					<button type="submit" class="btn btn-primary">{{__('site.add update report')}}</button>
 				@endif

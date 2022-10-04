@@ -52,7 +52,7 @@ class AdvanceCampaignReportController extends Controller
     public function edit($id)
     {
 		$campaings = Campaing::orderBy('id','desc')->paginate(10);
-		$source = Source::where('active','1')->orderBy('order_by','asc')->get();
+		$source = Source::where('active','1')->whereNotIn('name',['facebook','instagram'])->orderBy('order_by','asc')->get();
 		$campaings_data =Campaing::where('active','1')->get();	
 		$projects_options = Project::orderBy('name_en','asc')->get();
 		$reportData = CampainReport::where('id',$id)->first();
@@ -78,6 +78,15 @@ class AdvanceCampaignReportController extends Controller
 			$cData[] = $value->id;
 		}
 		$cData = implode("_",$cData);
+
+		$russiaCountries = Country::orderBy('name_en')->whereIn('id',$countriesIds)->where('parent_id',3)->get();
+		$rData = [];
+		foreach ($russiaCountries as $value) {
+			$rData[] = $value->id;
+		}
+		$rDataVar = implode("_",$rData);
+
+
 		return view('admin.reports.edit-advance-campaign-report',[
 			'campaings' =>  $campaings,
 			'sources_data' => $source,
@@ -86,20 +95,36 @@ class AdvanceCampaignReportController extends Controller
 			'project_id'=>$reportData->project_id,
 			'reportData'=>$reportData,
 			'advance_campaign' => true,
-			'europeCountries' => $cData
+			'europeCountries' => $cData,
+			'russiaCountries' => $rData
 		]);
     }
 	public function show($id){
 		$reportData = CampainReport::findOrFail($id);
-		$source = Source::where('active','1')->orderBy('order_by','asc')->get();
+		$source = Source::where('active','1')->whereNotIn('name',['facebook','instagram'])->orderBy('order_by','asc')->get();
 		$campaings_data =Campaing::where('active','1')->get();	
 		$projects_options = Project::orderBy('name_en','asc')->get();
 		// 07-04-2021
-		if(userRole() === 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi'){
-			$users = User::all();
-		}elseif(userRole() == 'leader'){
-			$users = User::where('leader',auth()->id())->OrWhere('id',auth()->id())->get();
+		// if(userRole() === 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi'){
+		// 	$users = User::all();
+		// }elseif(userRole() == 'leader'){
+		// 	$users = User::where('leader',auth()->id())->OrWhere('id',auth()->id())->get();
+		// }
+
+		$users = User::where('active','1');
+        if(userRole() == 'sales admin saudi'){
+			$whereCountry = 'Asia/Riyadh';
+			$users = $users->where('time_zone','like','%'.$whereCountry.'%');
+		}else if(userRole() == 'sales admin uae'){
+			$whereCountry = 'Asia/Dubai';
+			$users = $users->where('time_zone','like','%'.$whereCountry.'%');
+		}else if(userRole() == 'leader'){
+			/// if he is leader get his sellars and get him with them too
+			$users = $users->where('leader',auth()->id());
 		}
+		$users = $users->orderBy('email')->get();
+
+
 
 		$reportData = CampainReport::where('id',$id)
 						->first();
@@ -147,6 +172,30 @@ class AdvanceCampaignReportController extends Controller
 		}
 		$cDataVar = implode("_",$cData);
 
+		$russiaCountries = Country::orderBy('name_en')->whereIn('id',$countriesIds)->where('parent_id',3)->get();
+		$rData = [];
+		foreach ($russiaCountries as $value) {
+			$rData[] = $value->id;
+		}
+		$rDataVar = implode("_",$rData);
+
+		$country = Contact::where('project_id',$project_id)->distinct('country_id')->get()->pluck('country_id');
+		$countries2 = Country::orderBy('name_en')->whereIn('id',$country)->get();
+		$collectCounties = [];
+		$collectCounties = collect($collectCounties);
+		foreach($countries2 as $index => $country){
+			if(in_array($country->name_en,toCountriess()) ){
+				$collectCounties->push($country);
+			}
+		}
+		$countries2 = $countries2->filter(function($item) {
+			return !in_array($item->name_en,toCountriess());
+		});
+		foreach($collectCounties as $topCountry){
+			$countries2->prepend($topCountry);
+		}
+
+		$status = Status::where('active','1')->get();
 
 		return view('admin.reports.show-advance-campaign-report',[
 			'sources_data' => $source,
@@ -157,7 +206,11 @@ class AdvanceCampaignReportController extends Controller
 			'reportData'=>$reportData,
 			'users' => $users,
 			'europeCountries' => $cData,
-			'cDataVar' => $cDataVar
+			'cDataVar' => $cDataVar,
+			'russiaCountries' => $rData,
+			'rDataVar' => $rDataVar,
+			'status' => $status,
+			'countries' => $countries2
 		]);
 	}
 
@@ -207,7 +260,7 @@ class AdvanceCampaignReportController extends Controller
 	public function create(){	
 		$campaings = Campaing::orderBy('id','desc')->paginate(10);
 
-		$source = Source::where('active','1')->orderBy('order_by','asc')->get();
+		$source = Source::where('active','1')->whereNotIn('name',['facebook','instagram'])->orderBy('order_by','asc')->get();
 
 		$campaings_data =Campaing::where('active','1')->get();	
 		$projects_options = Project::orderBy('name_en','asc')->get();
@@ -231,10 +284,11 @@ class AdvanceCampaignReportController extends Controller
 		}
 
 		if($project_id){
-			$countriesIds = Contact::where('project_id',$project_id)->distinct('campaign_country')->get()->pluck('campaign_country');
+			$countriesIds = Contact::where('project_id',$project_id)->whereNotNull('campaign_country')->distinct('campaign_country')->get()->pluck('campaign_country');
 		}else{
 			$countriesIds = Contact::distinct('campaign_country')->get()->pluck('campaign_country');
 		}
+		
 
 		$countries = Country::orderBy('name_en')->whereIn('id',$countriesIds)->where('parent_id',0)->get();
 		$collectCounties = [];
@@ -257,6 +311,16 @@ class AdvanceCampaignReportController extends Controller
 			$cData[] = $value->id;
 		}
 		$cData = implode("_",$cData);
+
+
+		$russiaCountries = Country::orderBy('name_en')->whereIn('id',$countriesIds)->where('parent_id',3)->get();
+		$rData = [];
+		foreach ($russiaCountries as $value) {
+			$rData[] = $value->id;
+		}
+		$rDataVar = implode("_",$rData);
+
+
 		return view('admin.reports.create-advance-campaign-report',[
 			'campaings' =>  $campaings,
 			'sources_data' => $source,
@@ -265,7 +329,8 @@ class AdvanceCampaignReportController extends Controller
 			'project_id'=>$project_id,
 			'reportData'=>$reportData,
 			'advance_campaign' => true,
-			'europeCountries' => $cData
+			'europeCountries' => $cData,
+			'russiaCountries' => $rData
 		]);
 	}
 	

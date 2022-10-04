@@ -191,9 +191,9 @@
               <div class="form-group">
                <label for="task-type">{{__('site.call outCome')}}</label>
                @php
-                 $outcomes = ['busy','connected','no Answer','Wrong Number'];
+                 $outcomes = ['busy','connected','no Answer','wrong number','switch off'];
                @endphp
-               <select name="call_outcome" class="form-control" required>
+               <select name="call_outcome" class="form-control" required style="text-transform: capitalize;">
                  <option value="">select Option</option>
                  @foreach($outcomes as $outcome)
                    <option
@@ -522,7 +522,6 @@
             <!--end::Form-->
         </div>
       </div>
-    </div>
   </div>
 </div>
 <!--- Eit Log-CALL Model -->

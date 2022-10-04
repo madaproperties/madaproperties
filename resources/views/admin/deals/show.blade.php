@@ -68,6 +68,20 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container" data-select2-id="">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.project_type')}} </label>
+																		<div class="col-lg-9 col-xl-9" data-select2-id="">
+																			<select class="form-control"  name="project_type" id="project_type">
+																				<option {{$deal->project_type == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
+																				<option {{$deal->project_type == 'Primary' ? 'selected' : ''}} value="Primary">{{__('site.Primary')}}</option>
+																				<option {{$deal->project_type == 'Secondary' ? 'selected' : ''}} value="Secondary">{{__('site.Secondary')}}</option>
+																			</select>
+																			</select>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
 
 																	<!--begin::Group-->
 																	<div class="form-group row prject-area">
@@ -733,7 +747,11 @@
 
 	$('#unit_country').on('change', function (){
 		getCountryCities($('#unit_country').val(),$("#unit_city"));
-		getProjects($('#unit_country').val());
+		getProjects($('#unit_country').val(),$('#project_type').val());
+	});
+
+	$('#project_type').on('change', function (){
+		getProjects($('#unit_country').val(),$('#project_type').val());
 	});
 
 	$( document ).ready(function (){
@@ -934,7 +952,7 @@
 		$("#mada_commission").val((commission_amount - temp_com).toFixed(2));		
 	}
 
-	function getProjects(country)
+	function getProjects(country,project_type)
 	{
 	    $('.related-to-project').css('display','none');
 	    let token = $('meta[name=csrf-token]').attr('content');
@@ -948,7 +966,7 @@
 		$.ajax({
 			type:'POST',
 			url: route,
-			data:{_token:token,country:country},
+			data:{_token:token,country:country,project_type:project_type},
 			responseType:'json',
 			success: (res) => {
 				if(res.status == 'success'){
@@ -1003,7 +1021,7 @@
 		}
 	});
 
-	getProjects('{{$deal->unit_country}}');
+	getProjects('{{$deal->unit_country}}','{{$deal->project_type}}');
 	$('.prject-area').css('height','auto');
 	$('.prject-area').css('opacity','1');
 </script>

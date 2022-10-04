@@ -16,12 +16,24 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        $project = Project::paginate(20);
+        if(Request()->has('search')){
+            $project = Project::where(function ($q){
+              $this->filterPrams($q);
+            })->paginate(20);
+            $project_count = Project::where(function ($q){
+              $this->filterPrams($q);
+            })->count();
+        }else{
+            $project = Project::paginate(20);
+            $project_count = Project::count();
+        }
         $countries = Country::all();
         
         return view('admin.projects.index',[
           'projects' => $project,
-          'countries' => $countries
+          'countries' => $countries,
+          'copyEnable' => true,
+          'project_count' => $project_count,
         ]);
     }
 
@@ -100,4 +112,13 @@ class ProjectsController extends Controller
         'countryCode' => $country->code
       ]);
     }
+    
+    private function filterPrams($q){
+
+      if(Request()->has('search')){
+        $uri = Request()->fullUrl();
+        return $q->where('name_en','LIKE','%'. Request('search') .'%')
+        ->orWhere('name_ar','LIKE','%'. Request('search') .'%')->get();
+      }
+    } 
 }

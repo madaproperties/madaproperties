@@ -291,13 +291,23 @@
     <span class="font-weight-bold mr-2">{{ __('site.purpose type')}}:</span>
     <span class="text-muted">{{ $contact->purpose_type }}</span>
   </div>
+  <hr />
   @endif
   @if(isset($contact->investmentcountry_id))
   <div class="d-flex align-items-center justify-content-between mb-2">
     <span class="font-weight-bold mr-2">{{ __('site.Investment Country')}}:</span>
     <span class="text-muted">{{ $contact->investmentcountry_id }}</span>
   </div>
+  <hr />
   @endif
+  @if(isset($contact->campaign_country) && !empty($contact->campaign_country))
+  <div class="d-flex align-items-center justify-content-between mb-2">
+    <span class="font-weight-bold mr-2">{{ 'campaign country'}}:</span>
+    <span class="text-muted">{{App\Country::where('id',$contact->campaign_country)->first()->name_en}}</span>
+  </div>
+  <hr />
+ @endif
+  
 
 </div>
 <!--end::sidebar-->

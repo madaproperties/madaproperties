@@ -50,6 +50,10 @@ class ContactsController extends Controller
           "unit_zone"             => "nullable|max:255",
           'content' => 'nullable|max:255',
           'assignedto'           => "nullable|max:255|exists:users,id",
+          'campaign_country'           => "nullable",
+          'deal_ip'           => "nullable",
+          'scound_phone'           => "nullable",
+          'message'           => "nullable",
         ];
         
       
@@ -278,6 +282,9 @@ class ContactsController extends Controller
             //Added by Javed on 10-04-2022
             if(isset($project_id)){
               $projectData = Project::where('id',$project_id)->first();
+              if(!isset($contact['unit_country']) && isset($projectData->country_id)){
+                $contact['unit_country'] = $projectData->country_id;
+              }
               if(isset($projectData->country_id) && $projectData->country_id == 1){
                 $contact['user_id'] = '19';
                 $contact['created_by'] = '32';
@@ -285,6 +292,11 @@ class ContactsController extends Controller
             }
             //End
           
+			if(isset($contact['user_id']) && $contact['user_id'] == '19'){
+			  $contact['created_by'] = '32'; // lead-admin-ksa@madaproperties.com
+			}else if(isset($contact['user_id']) && $contact['user_id'] == '68'){
+			  $contact['created_by'] = '33'; // lead-admin-uae@madaproperties.com
+			}
 
 
 		 $contact = Contact::create($contact);

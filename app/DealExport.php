@@ -61,6 +61,9 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         if(in_array('purpose_type',$select)){
           $exportArray[++$i] = $deal->purpose_type;
         }
+        if(in_array('project_type',$select)){
+          $exportArray[++$i] = $deal->project_type;
+        }
         if(in_array('unit_name',$select)){
           $exportArray[++$i] = $deal->unit_name;
         }
@@ -252,6 +255,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $project,
           $deal->purpose,
           $deal->purpose_type,
+          $deal->project_type,
           $deal->unit_name,
           $developer_name,
           $deal_date,
@@ -315,6 +319,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         __('site.project'),
         __('site.Purpose'),
         __('site.purpose type'),
+        __('site.project_type'),
         __('site.unit_name'),
         __('site.developer_name'),
         __('site.deal_date'),
@@ -374,6 +379,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         "project_id" ,
         "purpose" ,
         "purpose_type" ,
+        "project_type" ,
         "developer_id",
         "agent_id",
         "leader_id",

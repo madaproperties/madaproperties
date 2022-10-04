@@ -47,7 +47,7 @@
 												<div class="card card-custom card-stretch gutter-b">
 													<!--begin::Header-->
 													<div class="card-header border-0">
-<h3 class="card-title font-weight-bolder text-dark">{{__('site.Notofications')}}</h3>
+<h3 class="card-title font-weight-bolder text-dark">{{__('site.Notofications')}}({{count($notes)}})</h3>
 													</div>
 													<!--end::Header-->
 													<!--begin::Body-->

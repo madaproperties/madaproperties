@@ -48,6 +48,11 @@ class MainController extends Controller
     if(userRole() == 'other'){
       return redirect()->route('admin.deal.index');      
     }
+
+    //Added by Javed
+    $createdBy = User::where('active','1')->select('id','email');
+    //End
+
     /********* Get Contacts By The Rule ***********/
     if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing'  || userRole() == 'ceo' ){ //Updated by Javed
 
@@ -73,6 +78,9 @@ class MainController extends Controller
                                   ->paginate(20);
 
           $contactsCount = count($contacts);
+
+          $whereCountry = 'Asia/Dubai';
+          $createdBy = $createdBy->where('time_zone','like','%'.$whereCountry.'%');
           
         }else if(userRole() == 'sales admin saudi'){
           $contacts = Contact::select($this->selectedAttruibutes,\DB::raw('COUNT(phone) as phone'))
@@ -94,6 +102,8 @@ class MainController extends Controller
 
           $contactsCount = count($contacts);
 
+          $whereCountry = 'Asia/Riyadh';
+          $createdBy = $createdBy->where('time_zone','like','%'.$whereCountry.'%');
         }else{
           $contacts = Contact::select($this->selectedAttruibutes,\DB::raw('COUNT(phone) as phone'))
                   ->groupBy('phone')
@@ -112,33 +122,52 @@ class MainController extends Controller
 
         if(userRole() == 'sales admin uae'){
 
-          $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
-            $this->filterPrams($q);
-          })
-          ->whereHas('project', function($q2) {
-            $q2->where('projects.country_id','2');
-          })
-          ->orderBy('created_at','DESC');
+          if(Request()->has('my-contacts')){
+            $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
+              $this->filterPrams($q);
+            })
+            ->orderBy('created_at','DESC');
+          }else{
+            $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
+              $this->filterPrams($q);
+            })
+            ->whereHas('project', function($q2) {
+                $q2->where('projects.country_id','2');
+            })
+            ->orderBy('created_at','DESC');
+          }
 
           $contactsCount = $contacts->count();
 
           $paginationNo = 20;
           $contacts = $contacts->paginate($paginationNo);
           
+          $whereCountry = 'Asia/Dubai';
+          $createdBy = $createdBy->where('time_zone','like','%'.$whereCountry.'%');
+          
         }else if(userRole() == 'sales admin saudi'){
-          $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
-            $this->filterPrams($q);
-          })
-          ->whereHas('project', function($q2) {
-            $q2->where('projects.country_id','1');
-          })
-          ->orderBy('created_at','DESC');
+          if(Request()->has('my-contacts')){
+            $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
+              $this->filterPrams($q);
+            })
+            ->orderBy('created_at','DESC');
+          }else{
+            $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
+              $this->filterPrams($q);
+            })
+            ->whereHas('project', function($q2) {
+                $q2->where('projects.country_id','1');
+            })
+            ->orderBy('created_at','DESC');
+          }
 
           $contactsCount = $contacts->count();
 
           $paginationNo = 20;
           $contacts = $contacts->paginate($paginationNo);
 
+          $whereCountry = 'Asia/Riyadh';
+          $createdBy = $createdBy->where('time_zone','like','%'.$whereCountry.'%');
         }else{
 
           $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
@@ -156,13 +185,17 @@ class MainController extends Controller
       // get leader group
       $leaderId = auth()->id();
       // get leader , and sellers reltedt to that leader
-      $users = User::select('id','leader')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+      $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
       $usersIds = $users->pluck('id')->toArray();
       $contacts = Contact::select($this->selectedAttruibutes)->whereIn('user_id',$usersIds)->where(function ($q){
       $this->filterPrams($q);
       })->orderBy('created_at','DESC');
       $contactsCount = $contacts->count();
       $contacts = $contacts->paginate(20);
+
+      //Added by Javed
+      $createdBy = $createdBy->where('leader',$leaderId);
+      //End
 
     }else if(userRole() == 'sales admin') { // sales admin
       
@@ -226,8 +259,8 @@ class MainController extends Controller
         $leader = auth()->user()->leader;
         if($leader){
 			$sellers = User::where('leader',$leader)
+							->where('active','1')
 							->where('id','!=',auth()->id())
-                            ->where('active','1')
 							->orWhere('rule','sales admin saudi')->orWhere('id',$leader)->orderBy('email','asc')->get();
         }else{
             $sellers = [];
@@ -272,6 +305,13 @@ class MainController extends Controller
       $projects = Project::where('country_id','2')->orderBy('name_en','ASC')->get();
     }else{
       $projects = Project::orderBy('name_en','ASC')->get();
+      if(userRole() == 'leader'){
+        if(auth()->user()->time_zone == 'Asia/Riyadh'){
+          $projects = Project::where('country_id','1')->orderBy('name_en','ASC')->get();
+        }else if(auth()->user()->time_zone == 'Asia/Dubai'){
+          $projects = Project::where('country_id','2')->orderBy('name_en','ASC')->get();
+        }
+      }
     }
 
     $purpose  = auth()->user()->position_types;
@@ -282,9 +322,8 @@ class MainController extends Controller
                         ->orderBy('name_'. app()->getLocale())
                         ->get();
 
-    //Added by Javed
-    $createdBy = User::select('id','email')->get();
-    //End
+    $createdBy = $createdBy->orderBy('email')->get();
+
     $sources = Source::where('active','1')->get();
 
     $purposetype = PurposeType::orderBy('type')->get();    
@@ -343,18 +382,46 @@ class MainController extends Controller
         "purpose_type", //Added by Javed
         "email", //Added by Javed
         "is_meeting", //Added by Javed,
+        "lead_category", //Added by Javed,
+        "campaign_country", //Added by Javed,
       ];
-
+      $user_id = 0;
       foreach($feilds as $feild => $value){
         if(in_array($feild,$allowedFeilds) AND !empty($value)){
+          if($feild == 'user_id'){
+            $user_id = $value;
+          }
           if($feild == 'project_country_id'){
             $q->whereHas('project', function($q2) use($value) {
               $q2->where('projects.country_id',$value);
             });
           }else if($feild == 'is_meeting' && $value == 1){
-              $q->whereHas('logs', function($q2) use($value) {
+              $q->whereHas('logs', function($q2) use($value,$user_id) {
                 $q2->where('logs.type','meeting');
+                if($user_id){
+                  $q2->where('logs.user_id',$user_id);
+                }
+                if(userRole() == 'sales'){
+                  $q2->where('logs.user_id',auth()->id());
+                }
+                //Added by Javed
+                if(Request('meeting_from') && Request('meeting_to')){
+                  $from = date('Y-m-d', strtotime(Request('meeting_from')));
+                  $to = date('Y-m-d', strtotime(Request('meeting_to')));
+                  $q2->whereBetween('logs.log_date',[$from,$to]);
+                }else{   
+                  if(Request('meeting_from')){
+                    $from = date('Y-m-d', strtotime(Request('meeting_from')));
+                    $q2->where('logs.log_date','>=', $from);
+                  }   
+                  if(Request('meeting_to')){
+                    $to = date('Y-m-d', strtotime(Request('meeting_to')));
+                    $q2->where('logs.log_date','<=',$to);
+                  }            
+                }                
               });
+          }else if($feild == 'campaign_country'){
+            $q->whereIn($feild,explode(",",$value));
           }else{
             $q->where($feild,$value);
           }
@@ -406,7 +473,14 @@ class MainController extends Controller
         }            
       }
       //End
-      
+
+
+      if(Request()->has('challenge_lead') && request('challenge_lead')){
+        $uri = Request()->fullUrl();
+        session()->put('start_filter_url',$uri);
+        return $q->whereIn('status_id', ['1','4','7'])
+                  ->whereDate('updated_at', '<=', Carbon::now()->subMonths(1));
+      }
       return $q->get();
     }
 
@@ -457,7 +531,7 @@ class MainController extends Controller
     if(Request()->has('search') AND Request()->has('my-contacts')){
         $uri = Request()->fullUrl();
         session()->put('start_filter_url',$uri);
-        return $q->where('user_id','LIKE',auth()->id())
+        return $q->where('user_id',auth()->id())
           ->where(function ($q){
             $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
               ->OrWhere('first_name','LIKE','%'. Request('search') .'%')

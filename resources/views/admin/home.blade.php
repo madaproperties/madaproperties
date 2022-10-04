@@ -240,7 +240,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button style="margin: 5px;" class="btn btn-info btn-xs assign-all" data-url="">
-                          Assing
+                          Assign
                         </button>
                       </div>
                     </div>
@@ -255,7 +255,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
                 @if(userRole() != 'sales')
                 <button type="button" class="btn btn-primary"
                 data-toggle="modal" data-target="#assign-leads">
-                    Assing <i class="fa fa-users"></i>
+                    Assign <i class="fa fa-users"></i>
                   </button>
 				@can('contact-delete')
 
@@ -489,13 +489,13 @@ $(document).ready(function () {
 <!-- Added By javed -->
 <script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
 <script>
-	$(`#from-date,#lastupdatefrom-date`).datepicker({
+	$(`#from-date,#lastupdatefrom-date,#meeting-from-date`).datepicker({
     //format: 'dd/mm/yyyy',
     todayHighlight:'TRUE',
     autoclose: true,
   });
 
-  $(`#to-date,#lastupdateto-date`).datepicker({
+  $(`#to-date,#lastupdateto-date,#meeting-to-date`).datepicker({
 		//format: 'dd/mm/yyyy',
     todayHighlight:'TRUE',
     autoclose: true,

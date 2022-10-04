@@ -71,13 +71,14 @@ class NotesController extends Controller
         $dataDb['time'] = date('H:i a',strtotime($request->time));
         $dataDb['type'] = $request->type;
         $data = $dataDb['date'];
+        $dataDb['date'] = \Carbon\Carbon::parse(str_replace('-','/',$request->date))->format('Y-m-d'); 
         $task = Task::create($dataDb);
       }else {
         $data = '';
       }
 
       $msg = auth()->user()->name . ' '.$msg;
-      $this->newActivity($dataDb['contact_id'],$dataDb['user_id'],$msg,'Note',$note->id,$data);
+      $this->newActivity($dataDb['contact_id'],$dataDb['user_id'],$msg,'Note',$note->id,$request->date);
 
     
     $contactUrl = route('admin.contact.show',$dataDb['contact_id']);

@@ -24,6 +24,7 @@ class CalendarController extends Controller
     }  
     public function index(Request $request)
     {
+      
       if(!empty($request->start)){
         $start_date = date('Y-m-d',strtotime($request->start));
         $end_date = date('Y-m-d',strtotime($request->end));
@@ -68,12 +69,12 @@ class CalendarController extends Controller
       {
         $start_date = str_replace('-','/',$meeting['log_date']) . ' '.date('h:i A',strtotime($meeting['time']));
         if(strlen($start_date) < 20){
-          $start_date = \Carbon\Carbon::parse($start_date);
+          $start_date = \Carbon\Carbon::parse($start_date)->format('Y-m-d H:i');
 
-          if($today == $start_date->format('y/m/d'))
-          {
-            $meetingTodayIds[] = $meeting->id;
-          }
+        //   if($today == $start_date->format('y/m/d'))
+        //   {
+        //     $meetingTodayIds[] = $meeting->id;
+        //   }
 
 
           $rows[] = [
@@ -95,12 +96,12 @@ class CalendarController extends Controller
         if(strlen($task_start_date.' '.$task['time']) < 20){
           $task_start_date  = \Carbon\Carbon::parse($task_start_date.' '.$task['time'])->format('Y-m-d H:i');
 
-          $compare = \Carbon\Carbon::parse($task['date']);
+        //   $compare = \Carbon\Carbon::parse($task['date']);
           
-          if($today == $compare->format('y/m/d'))
-          {
-            $tasksDayIds[] = $task->id;
-          }
+        //   if($today == $compare->format('y/m/d'))
+        //   {
+        //     $tasksDayIds[] = $task->id;
+        //   }
 
           $rows[] = [
             'id' => $task['id'],

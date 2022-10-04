@@ -78,7 +78,6 @@
           </span>
           <div class="d-flex flex-column">
               {{ $log->duration }}
-            </span>
           </div>
         </div>
         @endif
