@@ -25,10 +25,15 @@ Route::group(['middleware' => ['guest','lang']], function (){
 
 Route::get('property-bayut-xml','Admin\PropertyController@propertyBayutXml')->name('propertyBayutXml');
 Route::get('property-finder-xml','Admin\PropertyController@propertyFinderXml')->name('propertyFinderXml');
+Route::get('property-dubizzle-xml','Admin\PropertyController@propertyDubizzleXml')->name('propertyDubizzleXml');
+Route::get('property-dubizzle-hourly-xml','Admin\PropertyController@propertyDubizzleHourlyXml')->name('propertyDubizzleHourlyXml');
+
 Route::get('property-xml','Admin\PropertyController@propertyXml')->name('propertyXml');
 Route::get('property/brochure/{property_id}','Admin\PropertyController@brochure')->name('property.brochure');
 
 Route::get('read-xml','Admin\PropertyController@readXml')->name('property.readXml');
+Route::get('read-bayut-xml','Admin\PropertyController@readBayutXml')->name('property.readBayutXml');
+Route::get('read-dubizzle-xml','Admin\PropertyController@readDubizzleXml')->name('property.readDubizzleXml');
 
 use App\Contact;
 use App\Country;

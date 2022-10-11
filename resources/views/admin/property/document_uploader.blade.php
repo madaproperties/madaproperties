@@ -13,7 +13,7 @@
 							@csrf
                             <div class="row col-xl-12">
                                 <div class="col-xl-4">
-                                    <input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" id="documents" name="documents[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf"  multiple>
+                                    <input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" id="documents" name="documents[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png"  multiple>
                                     <div class="fv-plugins-message-container"></div>    
                                 </div>
                             </div>
@@ -81,7 +81,7 @@ $(document).ready(function(){
             type: 'POST',
             data: formData,
             success: function (data) {
-                $(".loader").hide();
+                $("#loadingHolder").hide();
                 if(data.success){
                     $("#uploadedDocument").prepend(data.images);
                 }
@@ -97,7 +97,7 @@ $(document).ready(function(){
             let token = $('meta[name=csrf-token]').attr('content');
             var documentName = $(this).attr('data-value');
             var property_id="{{isset($property->id) ? $property->id : '0'}}";
-            $(".loader").show();
+            $("#loadingHolder").show();
             $.ajax({
                 headers: {
                         'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -107,7 +107,7 @@ $(document).ready(function(){
                 data:{_token:token,documentName:documentName,property_id:property_id},
                 responseType:'json',
                 success: function (data) {
-                    $(".loader").hide();
+                    $("#loadingHolder").hide();
                     $("#"+documentName.replace('.','-')).hide();
                 }
             });

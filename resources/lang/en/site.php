@@ -476,4 +476,5 @@ return [
   'id'   => 'id',
   'ref'   => 'ref',
   'price_on_application'   => 'Price on application',
+  'Rera Available'   => 'Rera Available',
 ];

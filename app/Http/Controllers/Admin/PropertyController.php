@@ -125,7 +125,7 @@ class PropertyController extends Controller
   public function store(Request $request) {
 
     $data = $request->validate([
-      "title" => 'nullable',
+      "title" => 'required',
       "unitno" => 'nullable',
       "str_no" => 'nullable',
       "sale_rent" => 'nullable',
@@ -136,17 +136,17 @@ class PropertyController extends Controller
       "parking_type" => 'nullable',
       "parking_areas" => 'nullable',
       "floor" => 'nullable',
-      "city_id" => 'required',
-      "area_name" => 'required',
-      "project_name" => 'required',
-      "building_name" => 'required',
-      "source_id" => 'required',
+      "city_id" => 'nullable',
+      "area_name" => 'nullable',
+      "project_name" => 'nullable',
+      "building_name" => 'nullable',
+      "source_id" => 'nullable',
       //"channel_id" => 'required',
-      "campaign_id" => 'required',
+      "campaign_id" => 'nullable',
       //"view" => 'nullable',
       "category_id" => 'required',
       "price_type" => 'nullable',
-      "price" => 'nullable',
+      "price" => 'required',
       "price_on_application" => 'nullable',
       "price_unit" => 'nullable',
       "bedrooms" => 'nullable',
@@ -283,7 +283,7 @@ class PropertyController extends Controller
     $property = Property::findOrFail($id);
 
     $data = $request->validate([
-      "title" => 'nullable',
+      "title" => 'required',
       "unitno" => 'nullable',
       "str_no" => 'nullable',
       "sale_rent" => 'nullable',
@@ -294,18 +294,18 @@ class PropertyController extends Controller
       "parking_type" => 'nullable',
       "parking_areas" => 'nullable',
       "floor" => 'nullable',
-      "city_id" => 'required',
-      "area_name" => 'required',
-      "project_name" => 'required',
-      "building_name" => 'required',
-      "source_id" => 'required',
+      "city_id" => 'nullable',
+      "area_name" => 'nullable',
+      "project_name" => 'nullable',
+      "building_name" => 'nullable',
+      "source_id" => 'nullable',
       //"channel_id" => 'required',
-      "campaign_id" => 'required',
+      "campaign_id" => 'nullable',
       //"view" => 'nullable',
       "category_id" => 'required',
       "price_type" => 'nullable',
-      "price" => 'nullable',
-      "price_on_application" => 'nullable',      
+      "price" => 'required',
+      "price_on_application" => 'nullable',
       "price_unit" => 'nullable',
       "bedrooms" => 'nullable',
       "bathrooms" =>'nullable',
@@ -575,7 +575,7 @@ class PropertyController extends Controller
   {
     $html = '';
     if($request->hasFile('documents')) {
-      $allowedfileExtension=['pdf','xlsx','xls','doc', 'docx','ppt', 'pptx','txt'];
+      $allowedfileExtension=['pdf','xlsx','xls','doc', 'docx','ppt', 'pptx','txt','png','jpg','jpeg'];
       $files = $request->file('documents');
       foreach($files as $file){
         $filename = $file->getClientOriginalName();
@@ -633,6 +633,7 @@ class PropertyController extends Controller
       $documents = PropertyDocuments::where('document_link',$documentName)->delete();
       if($documents){
         $path=public_path().'public/uploads/property/'.$property_id.'/documents/'.$documentName;
+        Storage::disk('s3')->put('images', $request->image);
         if (file_exists($path)) {
             unlink($path);
         }
@@ -717,7 +718,11 @@ class PropertyController extends Controller
   }
 
   public function propertyBayutXml(Request $request){
-    $properties = Property::orderBy('last_updated','desc')->get();
+    $properties = Property::join('property_portals','property_portals.property_id','=','properties.id')
+    ->where('property_portals.portal_id',2)
+    ->where('status',1)
+    ->get();
+    
     header('Content-Type: text/xml');
 
     $xw = xmlwriter_open_memory();
@@ -727,34 +732,17 @@ class PropertyController extends Controller
     xmlwriter_start_document($xw, '1.0', 'UTF-8');
     
     // A first element
-    xmlwriter_start_element($xw, 'Listings');
+    xmlwriter_start_element($xw, 'Properties');
     $i = 1;
+
+    $defaultAgent = User::where('email','omar.ali@madaproperties.com')->first();
     foreach ($properties as $property) {
       // Start a child element
-      xmlwriter_start_element($xw, 'Listing');
-        // CDATA
-        xmlwriter_start_element($xw, 'Count');
-        xmlwriter_write_cdata($xw, $i++);
-        xmlwriter_end_element($xw); // Count
+      xmlwriter_start_element($xw, 'Property');
           
         // CDATA
         xmlwriter_start_element($xw, 'Property_Ref_No');
         xmlwriter_write_cdata($xw,$property->crm_id);
-        xmlwriter_end_element($xw); // Count
-          
-        // CDATA
-        xmlwriter_start_element($xw, 'Permit_Number');
-        xmlwriter_write_cdata($xw, $property->str_no);
-        xmlwriter_end_element($xw); // Count
-
-        $status=''; 
-        if($property->status == '1'){
-          $status = 'live';
-        }else if($property->status == '5'){
-          $status = 'archive';
-        }
-        xmlwriter_start_element($xw, 'Property_Status');
-        xmlwriter_write_cdata($xw, $status);
         xmlwriter_end_element($xw); // Count
 
         $sale_rent = '';
@@ -766,76 +754,23 @@ class PropertyController extends Controller
         xmlwriter_start_element($xw, 'Property_purpose');
         xmlwriter_write_cdata($xw, $sale_rent);
         xmlwriter_end_element($xw); // Count
-
+        
         if($property->category){
           xmlwriter_start_element($xw, 'Property_Type');
           xmlwriter_write_cdata($xw, $property->category->category_name);
           xmlwriter_end_element($xw); // Count
         }
         
-        
-        xmlwriter_start_element($xw, 'Property_Size');
-        xmlwriter_write_cdata($xw, $property->buildup_area);
+        $status=''; 
+        if($property->status == '1'){
+          $status = 'live';
+        }else if($property->status == '5'){
+          $status = 'archive';
+        }
+        xmlwriter_start_element($xw, 'Property_Status');
+        xmlwriter_write_cdata($xw, $status);
         xmlwriter_end_element($xw); // Count
 
-        $measure_unit = '';
-        if($property->measure_unit == '1'){
-          $measure_unit=strtoupper(__('config.measure_unit.'.$property->measure_unit));
-        }else if($property->measure_unit == '2'){
-          $measure_unit=strtoupper(__('config.measure_unit.'.$property->measure_unit));
-        }
-        xmlwriter_start_element($xw, 'Property_Size_Unit');
-        xmlwriter_write_cdata($xw, $measure_unit);
-        xmlwriter_end_element($xw); // Count
-
-        xmlwriter_start_element($xw, 'Bedrooms');
-        xmlwriter_write_cdata($xw, $property->bedrooms);
-        xmlwriter_end_element($xw); // Count
-
-        xmlwriter_start_element($xw, 'Bathroom');
-        xmlwriter_write_cdata($xw, $property->bathrooms);
-        xmlwriter_end_element($xw); // Count
-
-        if($property->features && count($property->features)){
-          xmlwriter_start_element($xw, 'Facilities');
-          foreach($property->features as $feature){
-            xmlwriter_start_element($xw, 'Facility');
-              xmlwriter_write_cdata($xw, $this->getFeatureName($feature->feature_id));
-            xmlwriter_end_element($xw); // Facility
-          }
-          xmlwriter_end_element($xw); // Facilities
-        }
-
-
-        if($property->images && count($property->images)){
-          xmlwriter_start_element($xw, 'Images');
-          foreach($property->images as $image){
-            xmlwriter_start_element($xw, 'ImageUrl');
-              //xmlwriter_write_cdata($xw, asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link));
-              xmlwriter_write_cdata($xw, $image->temp_image);
-            xmlwriter_end_element($xw); // ImageUrl
-          }
-          xmlwriter_end_element($xw); // Images
-        }
-                  
-
-        if($property->video){
-          xmlwriter_start_element($xw, 'Videos');
-          xmlwriter_write_cdata($xw, $property->video);
-          xmlwriter_end_element($xw); // Video
-        }
-
-        if($property->floorplan){
-          xmlwriter_start_element($xw, 'Floor_Plans');
-          xmlwriter_write_cdata($xw, $property->floorplan);
-          xmlwriter_end_element($xw); // Count
-        }
-
-        if($property->is_exclusive){
-          xmlwriter_start_element($xw, 'Off_plan');
-          xmlwriter_write_cdata($xw, $property->is_exclusive == '1' ? 'Yes' : 'No');
-          xmlwriter_end_element($xw); // Count
-        }
 
         if($property->city){
           xmlwriter_start_element($xw, 'City');
@@ -861,13 +796,115 @@ class PropertyController extends Controller
           xmlwriter_end_element($xw); // Count
         }
 
+        xmlwriter_start_element($xw, 'Property_Size');
+        xmlwriter_write_cdata($xw, $property->buildup_area);
+        xmlwriter_end_element($xw); // Count
+
+        $measure_unit = '';
+        if($property->measure_unit == '1'){
+          $measure_unit=strtoupper(__('config.measure_unit.'.$property->measure_unit));
+        }else if($property->measure_unit == '2'){
+          $measure_unit=strtoupper(__('config.measure_unit.'.$property->measure_unit));
+        }
+        xmlwriter_start_element($xw, 'Property_Size_Unit');
+        xmlwriter_write_cdata($xw, $measure_unit);
+        xmlwriter_end_element($xw); // Count
+
+        xmlwriter_start_element($xw, 'Bedrooms');
+        xmlwriter_write_cdata($xw, !empty($property->bedrooms) ? __('config.bedrooms.'.$property->bedrooms) : 0);
+        xmlwriter_end_element($xw); // Count
+
+        xmlwriter_start_element($xw, 'Bathroom');
+        xmlwriter_write_cdata($xw, !empty($property->bathrooms) ? $property->bathrooms : -1);
+        xmlwriter_end_element($xw); // Count
+
+        xmlwriter_start_element($xw, 'Price');
+        $price = $property->price;
+        if($property->yprice){
+          $price = $property->yprice;
+        }
+        xmlwriter_write_cdata($xw, $price);
+        xmlwriter_end_element($xw); // Count
+
+        if($property->agent && $property->agent->is_rera_active){
+          xmlwriter_start_element($xw, 'Listing_Agent');
+          xmlwriter_write_cdata($xw, $property->agent->username);
+          xmlwriter_end_element($xw); // Count
+            
+          xmlwriter_start_element($xw, 'Listing_Agent_Phone');
+          xmlwriter_write_cdata($xw, $property->agent->mobile_no);
+          xmlwriter_end_element($xw); // Count
+            
+          xmlwriter_start_element($xw, 'Listing_Agent_Email');
+          xmlwriter_write_cdata($xw, $property->agent->email);
+          xmlwriter_end_element($xw); // Count
+        }else{
+          if($defaultAgent){
+            xmlwriter_start_element($xw, 'Listing_Agent');
+            xmlwriter_write_cdata($xw, $defaultAgent->username);
+            xmlwriter_end_element($xw); // Count
+              
+            xmlwriter_start_element($xw, 'Listing_Agent_Phone');
+            xmlwriter_write_cdata($xw, $defaultAgent->mobile_no);
+            xmlwriter_end_element($xw); // Count
+              
+            xmlwriter_start_element($xw, 'Listing_Agent_Email');
+            xmlwriter_write_cdata($xw, $defaultAgent->email);
+            xmlwriter_end_element($xw); // Count
+          }
+        }  
+
+        
+
+        if($property->features && count($property->features)){
+          xmlwriter_start_element($xw, 'Facilities');
+          foreach($property->features as $feature){
+            xmlwriter_start_element($xw, 'Facility');
+              xmlwriter_write_cdata($xw, $this->getFeatureName($feature->feature_id));
+            xmlwriter_end_element($xw); // Facility
+          }
+          xmlwriter_end_element($xw); // Facilities
+        }
+
+
+        if($property->images && count($property->images)){
+          xmlwriter_start_element($xw, 'Images');
+          foreach($property->images as $image){
+            xmlwriter_start_element($xw, 'ImageUrl');
+              xmlwriter_write_cdata($xw, asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link));
+              //xmlwriter_write_cdata($xw, $image->temp_image);
+            xmlwriter_end_element($xw); // ImageUrl
+          }
+          xmlwriter_end_element($xw); // Images
+        }
+                  
+        if($property->floorplan){
+          xmlwriter_start_element($xw, 'Floor_Plans');
+          xmlwriter_write_cdata($xw, $property->floorplan);
+          xmlwriter_end_element($xw); // Count
+        }
+
         xmlwriter_start_element($xw, 'Last_Updated');
         xmlwriter_write_cdata($xw, $property->last_updated);
         xmlwriter_end_element($xw); // Count
 
-        xmlwriter_start_element($xw, 'Price');
-        xmlwriter_write_cdata($xw, $property->price);
+        // CDATA
+        xmlwriter_start_element($xw, 'Permit_Number');
+        xmlwriter_write_cdata($xw, $property->str_no);
         xmlwriter_end_element($xw); // Count
+
+
+        if($property->video){
+          xmlwriter_start_element($xw, 'Videos');
+          xmlwriter_write_cdata($xw, $property->video);
+          xmlwriter_end_element($xw); // Video
+        }
+
+        if($property->is_exclusive){
+          xmlwriter_start_element($xw, 'Off_plan');
+          xmlwriter_write_cdata($xw, $property->is_exclusive == '1' ? 'Yes' : 'No');
+          xmlwriter_end_element($xw); // Count
+        }
 
         xmlwriter_start_element($xw, 'Rent_Frequency');
         xmlwriter_write_cdata($xw, 'yearly');
@@ -882,19 +919,6 @@ class PropertyController extends Controller
         xmlwriter_end_element($xw); // Count
 
 
-        if($property->agent){
-          xmlwriter_start_element($xw, 'Listing_Agent');
-          xmlwriter_write_cdata($xw, $property->agent->username);
-          xmlwriter_end_element($xw); // Count
-            
-          xmlwriter_start_element($xw, 'Listing_Agent_Phone');
-          xmlwriter_write_cdata($xw, $property->agent->mobile_no);
-          xmlwriter_end_element($xw); // Count
-            
-          xmlwriter_start_element($xw, 'Listing_Agent_Email');
-          xmlwriter_write_cdata($xw, $property->agent->email);
-          xmlwriter_end_element($xw); // Count
-        }        
         // xmlwriter_start_element($xw, 'No_of_Rooms');
         // xmlwriter_write_cdata($xw, $property->rooms);
         // xmlwriter_end_element($xw); // Count
@@ -975,14 +999,23 @@ class PropertyController extends Controller
 
 
   function propertyFinderXml(){
-    $properties = Property::where('status',1)->get();
-    $count = Property::where('status',1)->count();
-    $last_update = Property::where('status',1)->orderBy('last_updated','desc')->first();
+    $properties = Property::join('property_portals','property_portals.property_id','=','properties.id')
+    ->where('property_portals.portal_id',1)
+    ->where('status',1)->get();
+    $count = Property::join('property_portals','property_portals.property_id','=','properties.id')
+    ->where('property_portals.portal_id',1)
+    ->where('status',1)->count();
+    $last_update = Property::join('property_portals','property_portals.property_id','=','properties.id')
+    ->where('property_portals.portal_id',1)
+    ->where('status',1)->orderBy('last_updated','desc')->first();
 
     header('Content-Type: text/xml');
     $xml = '<?xml version="1.0" encoding="utf-8"?>';    
     $xml.="<list last_update='".$last_update->last_updated."' listing_count='".$count."'>";
     $i = 1;
+
+    $defaultAgent = User::where('email','omar.ali@madaproperties.com')->first();
+
     foreach ($properties as $property) {
       $amenities = $this->get_amenities($property->id);
       $privateamenities = $amenities['privateamenities'];
@@ -1084,15 +1117,24 @@ class PropertyController extends Controller
       $xml.="<features>".$features."</features>
       <plot_size>".$property->plot_size."</plot_size>
       <size>".$property->buildup_area."</size>
-      <bedroom>".$property->bedrooms."</bedroom>
+      <bedroom>".__('config.bedrooms.'.$property->bedrooms)."</bedroom>
       <bathroom>".$property->bathrooms."</bathroom>";
-      if($property->agent){
+      if($property->agent && $property->agent->is_rera_active){
         $xml .="<agent>
           <id>".$property->agent->id."</id>
           <name><![CDATA[".$property->agent->name."]]></name>
           <email>".$property->agent->name."</email>
           <phone>".$property->agent->mobile_no."</phone>
         </agent>";
+      }else{
+        if($defaultAgent){
+          $xml .="<agent>
+            <id>".$defaultAgent->id."</id>
+            <name><![CDATA[".$defaultAgent->username."]]></name>
+            <email>".$defaultAgent->name."</email>
+            <phone>".$defaultAgent->mobile_no."</phone>
+          </agent>";
+        }
       }
       $xml .="<parking>".$property->parking_areas."</parking>
       <furnished>".($property->furnished == 1 ? 'Yes' : 'No')."</furnished>";
@@ -1106,7 +1148,7 @@ class PropertyController extends Controller
       if($property->images && count($property->images)){
         foreach($property->images as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
-          $xml.="<url last_updated='".$image->date."' watermark='yes'>".$image->temp_image."</url>";          
+          $xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
         }
       }
       $xml.="</photo>";
@@ -1119,8 +1161,361 @@ class PropertyController extends Controller
     $xml.="</list>";    
     echo $xml;  
     die;
+  }  
+  
+  function propertyDubizzleXml(){
+    $properties = Property::join('property_portals','property_portals.property_id','=','properties.id')
+    ->where('property_portals.portal_id',3)
+    ->where('status',1)
+    ->get();
+    
+    header('Content-Type: text/xml');
+    $xml = '<?xml version="1.0" encoding="utf-8"?>';    
+    $xml.="<dubizzlepropertyfeed>";
+    $i = 1;
+    $defaultAgent = User::where('email','omar.ali@madaproperties.com')->first();
+    foreach ($properties as $property) {
+      $amenities = $this->get_amenities($property->id);
+      $privateamenities = $amenities['privateamenities'];
+      $commercialamenities = $amenities['commercialamenities'];
+      $features = $amenities['features'];
+
+      $completion_status="completed";
+      if($property->project_status=='1') { $completion_status="off_plan"; }
+      
+      $permit_number=$property->str_no;
+
+      $sale_rent=$property->sale_rent;
+      
+      $main_category_id=isset($property->category->main_category_id) ? $property->category->main_category_id : 0;
+      $offering_type1=$offering_type2="";
+      
+      if($sale_rent==1) { $offering_type1="SP"; }
+      
+      else if($sale_rent==2) { $offering_type1="RP"; }
+      
+      $offering_type=$offering_type2.$offering_type1;
+      
+      //$category=$property->category->category_name;
+      
+      $get_property_type=isset($property->category->pfix) ? $property->category->pfix : "";
+      $price=$property->price;
+      $dte=date('d');
+      if($dte % 2 == 0){ 
+        $price=$price-1;      
+      }
+
+      $price=str_replace(".00","",$price);
+      //$city_text = $property->city->name_en;
+      $community=$property->area_name;
+      $project_name=$property->project_name;
+      $building_name=$property->bname;
+      
+      if($project_name=='Not Specified') { $project_name=""; }
+      if($building_name=='Not Specified') { $building_name=""; }
+      $longitute=$property->longitute;      
+      $latitude=$property->latitude;
+      
+      $long_lat="";
+      if($longitute!="" && $latitude!="") {
+        $long_lat=$longitute.",".$latitude;
+      }
+      
+
+
+      $xml.="
+      <property>";
+      if($property->stage){
+        $xml.="<status>vacant</status>";
+      }
+
+      if($offering_type){
+        $xml.="<type>".$offering_type."</type>";
+      }
+
+      if($get_property_type){
+        $xml.="<subtype>".$get_property_type."</subtype>";
+      }else{
+        $xml.="<subtype>AP</subtype>";
+      }
+
+      if($get_property_type == 'CO'){
+        $xml.="<commercialtype>".$get_property_type."</commercialtype>";
+      }      
+
+      if($property->crm_id){
+        $xml.="<refno>".$property->crm_id."</refno>";
+      }
+
+      if($permit_number){
+        $xml.="<permit_number>".$permit_number."</permit_number>";
+      }
+
+      
+      
+    $xml.="<price>";
+      if($property->yprice){
+        $xml.="<yearly>".$property->yprice."</yearly>";
+      }
+      if($property->mprice){
+        $xml.="<monthly>".$property->mprice."</monthly>";
+      }
+      if($property->price && $property->mprice ==0 && $property->yprice == 0){
+        $xml.=$property->price;
+      }
+      $xml.="</price>";
+
+
+
+      $xml.="<city><![CDATA[2]]></city>";
+      if($property->project_name){
+        $xml.="<locationtext><![CDATA[".$property->project_name."]]></locationtext>";
+      }else{
+        $xml.="<locationtext><![CDATA[Dubai]]></locationtext>";
+      }
+      $xml.="<building><![CDATA[".$property->building_name."]]></building>
+      <title><![CDATA[".$property->title."]]></title>
+      <description><![CDATA[".$property->description."]]></description>";
+      if($privateamenities){
+        $xml.="<privateamenities>".$privateamenities."</privateamenities>";
+      }
+      if($commercialamenities){
+        $xml.="<commercialamenities>".$commercialamenities."</commercialamenities>";
+      }
+      
+      $measure_unit = '';
+      if($property->measure_unit == '1'){
+        $measure_unit=strtoupper(__('config.measure_unit.'.$property->measure_unit));
+      }else if($property->measure_unit == '2'){
+        $measure_unit=strtoupper(__('config.measure_unit.'.$property->measure_unit));
+      }
+
+      $xml.="<size>".$property->buildup_area."</size>
+      <sizeunits>".$measure_unit."</sizeunits>
+      <bedrooms>".__('config.bedrooms.'.$property->bedrooms)."</bedrooms>
+      <bathrooms>".$property->bathrooms."</bathrooms>";
+      if($property->agent && $property->agent->is_rera_active){
+        $xml .="<contactemail>".$property->agent->name."</contactemail>
+          <contactnumber>".$property->agent->mobile_no."</contactnumber>";
+      }else{
+        if($defaultAgent){
+          $xml .="<contactemail>".$defaultAgent->name."</contactemail>
+          <contactnumber>".$defaultAgent->mobile_no."</contactnumber>";
+        }
+      }
+      $xml .="<lastupdated>".($property->last_updated)."</lastupdated>";
+      
+      if($property->developer){
+        $xml .="<developer>".($property->developer)."</developer>";
+      }
+      if($property->virtual_360){
+        $xml .="<view360>".($property->virtual_360)."</view360>";
+      }
+      if($property->video){
+        $xml .="<video_url>".($property->video)."</video_url>";
+      }
+      if($property->images && count($property->images)){
+        $xml .="<photos>";
+        $x=0;
+        $photo=[];
+        foreach($property->images as $image){
+          //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
+          $photo[]= asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link);          
+        }
+        $xml.= implode("|",$photo);
+        $xml.="</photos>";
+      }
+
+      $xml .="<furnished>".($property->furnished == 1 ? '1' : '0')."</furnished>";
+
+      if($property->geopoints){
+        $xml.="<geopoints>".$property->geopoints."</geopoints>";
+      }
+      $xml.="</property>";
+    }
+    
+    $xml.="</dubizzlepropertyfeed>";    
+    echo $xml;  
+    die;
   }
 
+  
+  function propertyDubizzleHourlyXml(){
+    $properties = Property::join('property_portals','property_portals.property_id','=','properties.id')
+    ->where('property_portals.portal_id',3)
+    ->where('status',1)
+    ->where('last_updated','>', Carbon::now()->subDay())
+    ->limit(10)
+    ->get();
+    
+    header('Content-Type: text/xml');
+    $xml = '<?xml version="1.0" encoding="utf-8"?>';    
+    $xml.="<dubizzlepropertyfeed>";
+    $i = 1;
+    $defaultAgent = User::where('email','omar.ali@madaproperties.com')->first();
+    foreach ($properties as $property) {
+      $amenities = $this->get_amenities($property->id);
+      $privateamenities = $amenities['privateamenities'];
+      $commercialamenities = $amenities['commercialamenities'];
+      $features = $amenities['features'];
+
+      $completion_status="completed";
+      if($property->project_status=='1') { $completion_status="off_plan"; }
+      
+      $permit_number=$property->str_no;
+
+      $sale_rent=$property->sale_rent;
+      
+      $main_category_id=isset($property->category->main_category_id) ? $property->category->main_category_id : 0;
+      $offering_type1=$offering_type2="";
+      
+      if($sale_rent==1) { $offering_type1="SP"; }
+      
+      else if($sale_rent==2) { $offering_type1="RP"; }
+      
+      $offering_type=$offering_type2.$offering_type1;
+      
+      //$category=$property->category->category_name;
+      
+      $get_property_type=isset($property->category->pfix) ? $property->category->pfix : "";
+      $price=$property->price;
+      $dte=date('d');
+      if($dte % 2 == 0){ 
+        $price=$price-1;      
+      }
+
+      $price=str_replace(".00","",$price);
+      $community=$property->area_name;
+      $project_name=$property->project_name;
+      $building_name=$property->bname;
+      
+      if($project_name=='Not Specified') { $project_name=""; }
+      if($building_name=='Not Specified') { $building_name=""; }
+      $longitute=$property->longitute;      
+      $latitude=$property->latitude;
+      
+      $long_lat="";
+      if($longitute!="" && $latitude!="") {
+        $long_lat=$longitute.",".$latitude;
+      }
+      
+
+
+      $xml.="
+      <property>";
+      if($property->stage){
+        $xml.="<status>vacant</status>";
+      }
+
+      if($offering_type){
+        $xml.="<type>".$offering_type."</type>";
+      }
+
+      if($get_property_type){
+        $xml.="<subtype>".$get_property_type."</subtype>";
+      }else{
+        $xml.="<subtype>AP</subtype>";
+      }
+
+      if($get_property_type == 'CO'){
+        $xml.="<commercialtype>".$get_property_type."</commercialtype>";
+      }      
+
+      if($property->crm_id){
+        $xml.="<refno>".$property->crm_id."</refno>";
+      }
+
+      if($permit_number){
+        $xml.="<permit_number>".$permit_number."</permit_number>";
+      }
+
+      
+      
+    $xml.="<price>";
+      if($property->yprice){
+        $xml.="<yearly>".$property->yprice."</yearly>";
+      }
+      if($property->mprice){
+        $xml.="<monthly>".$property->mprice."</monthly>";
+      }
+      if($property->price && $property->mprice ==0 && $property->yprice == 0){
+        $xml.=$property->price;
+      }
+      $xml.="</price>";
+
+
+      $xml.="<city><![CDATA[2]]></city>";
+
+      if($property->project_name){
+        $xml.="<locationtext><![CDATA[".$property->project_name."]]></locationtext>";
+      }else{
+        $xml.="<locationtext><![CDATA[Dubai]]></locationtext>";
+      }
+      
+      $xml.="<building><![CDATA[".$property->building_name."]]></building>
+      <title><![CDATA[".$property->title."]]></title>
+      <description><![CDATA[".$property->description."]]></description>";
+      if($privateamenities){
+        $xml.="<privateamenities>".$privateamenities."</privateamenities>";
+      }
+      if($commercialamenities){
+        $xml.="<commercialamenities>".$commercialamenities."</commercialamenities>";
+      }
+      
+      $measure_unit = '';
+      if($property->measure_unit == '1'){
+        $measure_unit=strtoupper(__('config.measure_unit.'.$property->measure_unit));
+      }else if($property->measure_unit == '2'){
+        $measure_unit=strtoupper(__('config.measure_unit.'.$property->measure_unit));
+      }
+
+      $xml.="<size>".$property->buildup_area."</size>
+      <sizeunits>".$measure_unit."</sizeunits>
+      <bedrooms>".__('config.bedrooms.'.$property->bedrooms)."</bedrooms>
+      <bathrooms>".$property->bathrooms."</bathrooms>";
+      if($property->agent && $property->agent->is_rera_active){
+        $xml .="<contactemail>".$property->agent->name."</contactemail>
+          <contactnumber>".$property->agent->mobile_no."</contactnumber>";
+      }else{
+        if($defaultAgent){
+          $xml .="<contactemail>".$defaultAgent->name."</contactemail>
+          <contactnumber>".$defaultAgent->mobile_no."</contactnumber>";
+        }
+      }
+      $xml .="<lastupdated>".($property->last_updated)."</lastupdated>";
+      if($property->developer){
+        $xml .="<developer>".($property->developer)."</developer>";
+      }
+      if($property->virtual_360){
+        $xml .="<view360>".($property->virtual_360)."</view360>";
+      }
+      if($property->video){
+        $xml .="<video_url>".($property->video)."</video_url>";
+      }
+      if($property->images && count($property->images)){
+        $xml .="<photos>";
+        $x=0;
+        $photo=[];
+        foreach($property->images as $image){
+          //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
+          $photo[]= asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link);          
+        }
+        $xml.= implode("|",$photo);
+        $xml.="</photos>";
+      }
+
+      $xml .="<furnished>".($property->furnished == 1 ? '1' : '0')."</furnished>";
+
+      if($property->geopoints){
+        $xml.="<geopoints>".$property->geopoints."</geopoints>";
+      }
+      $xml.="</property>";
+    }
+    
+    $xml.="</dubizzlepropertyfeed>";    
+    echo $xml;  
+    die;
+  }
   function get_amenities($property_id){
     $propertyFeature = PropertyFeatures::where('property_id',$property_id)->get();
     $y=0;
@@ -1336,7 +1731,7 @@ class PropertyController extends Controller
 
   public function readXml(){
     // Loading the XML file
-    $xml = simplexml_load_file(url("public/property-finder.xml")); //Staging 
+    $xml = simplexml_load_file(url("public/property-finder-xml-04102022.xml")); //Staging 
     //$xml = simplexml_load_file("public\property-finder.xml"); //Local
 
     echo "<h2>".$xml->attributes()->last_update."</h2><br />";
@@ -1382,24 +1777,220 @@ class PropertyController extends Controller
         $urls = (((array)$row->photo)['url']);
         if(count($urls)){
           for($i=0; $i < count($urls); $i++){
+            $fileName = $urls[$i];
+            $nameArray = explode('/',$fileName);
+            $destinationPath = 'public/uploads/property/'.$property->id.'/images';
+            if (!is_dir($destinationPath)){ 
+              mkdir($destinationPath, 0777, true);
+            }
+            copy($fileName,$destinationPath.'/'.end($nameArray));
+        
             PropertyImages::create([
               'property_id' => $property->id,
+              'images_link' => end($nameArray),
               'temp_image' => $urls[$i]
             ]);
           }          
         }
       }
       $temp = [];
-      for($j=0; $j < 20; $j++) {
+      for($j=0; $j < 10; $j++) {
         $temp[$i]['property_id'] = $property->id;
         $temp[$i++]['feature_id'] = Features::inRandomOrder()->first()->id;
       }
       \DB::table("property_features")->insert($temp);
+     
+      \DB::table("property_portals")->insert(['property_id'=>$property->id,'portal_id'=>1]);  
+
     }
     echo "<pre>";
     print_r($propertArray);
     die;
   }
+
+  public function readBayutXml(){
+    // Loading the XML file
+    $xml = simplexml_load_file(url("public/bayut-xml-04102022.xml")); //Staging 
+    //$xml = simplexml_load_file("public\property-finder.xml"); //Local
+
+    $propertArray = [];
+    $i=0;
+    foreach ($xml->children() as $row) {
+      $property = [];
+      $property['updated_at'] = $row->Last_Updated;
+      $property['crm_id'] = $row->Property_Ref_No;
+      $property['str_no'] = $row->Permit_Id;
+      if($row->Ad_Type == 'Rent'){
+        $property['sale_rent'] = '2';
+      }else{
+        $property['sale_rent'] = '1';
+      }
+      if(isset(Categories::where('category_name',$row->Unit_Type)->first()->id)){
+        $property['category_id'] = Categories::where('category_name',$row->Unit_Type)->first()->id;
+      }
+      $property['price'] = $row->Price;
+      if($row->Frequency == 'yearly'){
+        $property['yprice'] = $row->Price;
+        $property['price'] = 0;
+      }else if($row->Frequency == 'monthly'){
+        $property['mprice'] = $row->Price;
+        $property['yprice'] = 0;
+        $property['price'] = 0;
+      }
+      $property['city_id'] = City::where('name_en',$row->Emirate)->first()->id;
+      $property['area_name'] = $row->Community;
+      $property['project_name'] = $row->Property_Name;
+      //$property['location_id'] = $row->location_id;
+      $property['title'] = $row->Property_Title;
+      $property['description'] = $row->Web_Remarks;
+      $property['measure_unit'] = $row->unit_measure;
+      $property['bedrooms'] = $row->No_of_Rooms;
+      $property['bathrooms'] = $row->No_of_Bathrooms;
+      $property['user_id'] = 43;
+      $property['cheques'] = $row->Cheques;
+      $property['latitude'] = $row->Geopoints->Latitude;
+      $property['longitude'] = $row->Geopoints->Longitude;
+      $property['is_exclusive'] = $row->Off_Plan == 'YES' ? 1 : 0;
+
+      $property = Property::create($property);
+
+      if($row->Images){
+        $urls = (((array)$row->Images)['ImageUrl']);
+        if(count($urls)){
+          for($i=0; $i < count($urls); $i++){
+            $fileName = $urls[$i];
+            $nameArray = explode('/',$fileName);
+            $firstNameArray = explode('?',$fileName);
+            $destinationPath = 'public/uploads/property/'.$property->id.'/images';
+            if (!is_dir($destinationPath)){ 
+              mkdir($destinationPath, 0777, true);
+            }
+            if(isset($firstNameArray[0]) && !empty($firstNameArray[0])){
+              $nameArray = explode('/',$firstNameArray[0]);
+              copy($firstNameArray[0],$destinationPath.'/'.end($nameArray));
+            }else{
+              copy($fileName,$destinationPath.'/'.end($nameArray));
+            }
+            PropertyImages::create([
+              'property_id' => $property->id,
+              'images_link' => end($nameArray),
+              'temp_image' => $urls[$i]
+            ]);
+          }          
+        }
+      }
+      if($row->Facilities){
+        if(isset((((array)$row->Facilities)['Facility']))){
+          $facilities = (((array)$row->Facilities)['Facility']);
+          if(count($facilities)){
+            for($i=0; $i < count($facilities); $i++){
+              $feature = Features::where('feature_name',$facilities[$i])->first();
+              if($feature){
+                $data = ['property_id'=>$property->id,'feature_id'=>$feature->id];
+                PropertyFeatures::create($data);
+              }
+            }
+          }
+        }
+      }
+     
+      \DB::table("property_portals")->insert(['property_id'=>$property->id,'portal_id'=>2]);  
+
+    }
+    echo "<pre>";
+    print_r($propertArray);
+    die;
+  }  
+
+  public function readDubizzleXml(){
+    // Loading the XML file
+    $xml = simplexml_load_file(url("public/full-dubizzle-xml-06102022.xml")); //Staging 
+    //$xml = simplexml_load_file("public\property-finder.xml"); //Local
+
+    $propertArray = [];
+    $i=0;
+    foreach ($xml->children() as $row) {
+      $property = [];
+      $property['updated_at'] = $row->lastupdated;
+      $property['crm_id'] = $row->refno;
+      $property['str_no'] = $row->permit_number;
+      if($row->type == 'SP'){
+        $property['sale_rent'] = '1';
+      }else{
+        $property['sale_rent'] = '2';
+      }
+      if(isset(Categories::where('pfix',$row->subtype)->first()->id)){
+        $property['category_id'] = Categories::where('pfix',$row->subtype)->first()->id;
+      }
+      $property['price'] = $row->price;
+      if($row->Frequency == 'yearly'){
+        $property['yprice'] = $row->price;
+        $property['price'] = 0;
+      }else if($row->Frequency == 'monthly'){
+        $property['mprice'] = $row->price;
+        $property['yprice'] = 0;
+        $property['price'] = 0;
+      }
+      $property['price'] = $row->price;
+      $property['city_id'] = $row->city;
+      $property['area_name'] = $row->community;
+      $property['project_name'] = $row->sub_community;
+      $property['building_name'] = $row->building;
+      //$property['location_id'] = $row->location_id;
+      $property['title'] = $row->title;
+      $property['description'] = $row->description;
+      $property['buildup_area'] = $row->size;
+      $property['measure_unit'] = $row->sizeunits;
+      $property['bedrooms'] = $row->bedrooms;
+      $property['bathrooms'] = $row->bathrooms;
+      $property['user_id'] = 43;
+      $property['geopoints'] = $row->geopoints;
+      $property['developer'] = $row->developer;
+      $property['virtual_360'] = $row->view360;
+      $property['video'] = $row->video_url;
+
+      $property = Property::create($property);
+
+      if($row->photos){
+        $urls = explode("|",$row->photos);
+        if(count($urls)){
+          for($i=0; $i < count($urls); $i++){
+            $fileName = $urls[$i];
+            $nameArray = explode('/',$fileName);
+            $firstNameArray = explode('?',$fileName);
+            $destinationPath = 'public/uploads/property/'.$property->id.'/images';
+            if (!is_dir($destinationPath)){ 
+              mkdir($destinationPath, 0777, true);
+            }
+            if(isset($firstNameArray[0]) && !empty($firstNameArray[0])){
+              $nameArray = explode('/',$firstNameArray[0]);
+              copy($firstNameArray[0],$destinationPath.'/'.end($nameArray));
+            }else{
+              copy($fileName,$destinationPath.'/'.end($nameArray));
+            }
+            PropertyImages::create([
+              'property_id' => $property->id,
+              'images_link' => end($nameArray),
+              'temp_image' => $urls[$i]
+            ]);
+          }          
+        }
+
+        $temp = [];
+        for($j=0; $j < 10; $j++) {
+          $temp[$i]['property_id'] = $property->id;
+          $temp[$i++]['feature_id'] = Features::inRandomOrder()->first()->id;
+        }
+        \DB::table("property_features")->insert($temp);
+      }
+     
+      \DB::table("property_portals")->insert(['property_id'=>$property->id,'portal_id'=>3]);  
+
+    }
+    echo "<pre>";
+    print_r($propertArray);
+    die;
+  }  
 
   private function filterPrams($q){
 
@@ -1457,6 +2048,7 @@ class PropertyController extends Controller
     $xml = '<?xml version="1.0" encoding="utf-8"?>';    
     $xml.="<list last_update='".$last_update->last_updated."' listing_count='".$count."'>";
     $i = 1;
+    $defaultAgent = User::where('email','omar.ali@madaproperties.com')->first();
     foreach ($properties as $property) {
       $amenities = $this->get_amenities($property->id);
       $privateamenities = $amenities['privateamenities'];
@@ -1490,7 +2082,7 @@ class PropertyController extends Controller
       }
 
       $price=str_replace(".00","",$price);
-      $city_text = $property->city->name_en;
+      $city_text = isset($property->city->name_en) ? $property->city->name_en : "Dubai";
       $community=$property->area_name;
       $project_name=$property->project_name;
       $building_name=$property->bname;
@@ -1529,7 +2121,7 @@ class PropertyController extends Controller
       $xml.="<features>".$features."</features>
       <plot_size>".$property->plot_size."</plot_size>
       <size>".$property->buildup_area."</size>
-      <bedroom>".$property->bedrooms."</bedroom>
+      <bedroom>".__('config.bedrooms.'.$property->bedrooms)."</bedroom>
       <bathroom>".$property->bathrooms."</bathroom>";
 
       $xml.="<city><![CDATA[".$city_text."]]></city>
@@ -1559,13 +2151,22 @@ class PropertyController extends Controller
       if($commercialamenities){
         $xml.="<commercial_amenities>".$commercialamenities."</commercial_amenities>";
       }
-      if($property->agent){
+      if($property->agent && $property->agent->is_rera_active){
         $xml .="<agent>
           <id>".$property->agent->id."</id>
           <name><![CDATA[".$property->agent->name."]]></name>
           <email>".$property->agent->name."</email>
           <phone>".$property->agent->mobile_no."</phone>
         </agent>";
+      }else{
+        if($defaultAgent){
+          $xml .="<agent>
+            <id>".$defaultAgent->id."</id>
+            <name><![CDATA[".$defaultAgent->username."]]></name>
+            <email>".$defaultAgent->name."</email>
+            <phone>".$defaultAgent->mobile_no."</phone>
+          </agent>";
+        }
       }
       $xml .="<parking>".$property->parking_areas."</parking>
       <furnished>".($property->furnished == 1 ? 'Yes' : 'No')."</furnished>";
@@ -1579,7 +2180,7 @@ class PropertyController extends Controller
       if($property->images && count($property->images)){
         foreach($property->images as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
-          $xml.="<url last_updated='".$image->date."' watermark='yes'>".$image->temp_image."</url>";          
+          $xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
         }
       }
       $xml.="</photo>";

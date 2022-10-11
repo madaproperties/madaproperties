@@ -206,10 +206,10 @@ ul li{
 						<table cellpadding="0" cellspacing="0" border="0"  width="800">
 							<tr>
 								<td width="7">&nbsp;</td>
-	  							@if(isset($property->images[0]->temp_image))
+	  							@if(isset($property->images[0]->images_link))
 								<td  width="530" height="339" valign="top">
 									<!-- <img src="{{asset('public/uploads/property/'.$property->id.'/images/'.$property->images[0]->images_link) }}"  width="530" height="340"/> -->
-									<img src="{{url($property->images[0]->temp_image) }}"  width="530" height="340"/> 
+									<img src="{{asset('public/uploads/property/'.$property->id.'/images/'.$property->images[0]->images_link) }}"  width="530" height="340"/> 
 									
 								</td>
 								@endif
@@ -282,7 +282,7 @@ ul li{
 									@endif
 										<!-- <td width="262"><img src="{{asset('public/uploads/property/'.$property->id.'/images/'.$rs->images_link) }}" width="262" height="169"/></td>-->
 										<td width="4">&nbsp;</td>
-										<td><img src="{{url($rs->temp_image) }}" width="250" height="169"/></td>
+										<td><img src="{{asset('public/uploads/property/'.$property->id.'/images/'.$rs->images_link) }}" width="250" height="169"/></td>
 										<td width="4">&nbsp;</td>
 
 									@if($i==3)

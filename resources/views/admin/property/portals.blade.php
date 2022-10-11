@@ -56,7 +56,8 @@ input#portals {
                 type: 'POST',
                 data: formData,
                 success: function (data) {
-                        alert('portals added successfully!');
+                    $("#loadingHolder").hide();
+                    alert('portals added successfully!');
                 },
                 cache: false,
                 contentType: false,

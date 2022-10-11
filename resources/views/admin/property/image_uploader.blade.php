@@ -78,7 +78,7 @@
                 type: 'POST',
                 data: formData,
                 success: function (data) {
-                    $(".loader").hide();
+                    $("#loadingHolder").hide();
                     if(data.success){
                         $("#uploadedImage").prepend(data.images);
                     }
@@ -94,7 +94,7 @@
                 let token = $('meta[name=csrf-token]').attr('content');
                 var imageName = $(this).attr('data-value');
                 var property_id="{{isset($property->id) ? $property->id : '0'}}";
-                $(".loader").show();
+                $("#loadingHolder").show();
                 $.ajax({
                     headers: {
                             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -104,7 +104,7 @@
                     data:{_token:token,imageName:imageName,property_id:property_id},
 					responseType:'json',
                     success: function (data) {
-                        $(".loader").hide();
+                        $("#loadingHolder").hide();
                         $("#"+imageName.replace('.','-')).hide();
                     }
                 });

@@ -103,7 +103,7 @@
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-1 col-lg-1 col-form-label">{{__('site.title')}}</label>
 																				<div class="col-lg-11 col-xl-11">
-																					<input class="form-control form-control-solid form-control-lg" 	name="title" type="text" value="{{old('title')}}" placeholder="{{__('site.title')}}">
+																					<input class="form-control form-control-solid form-control-lg" 	name="title" type="text" value="{{old('title')}}" placeholder="{{__('site.title')}}" required>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -193,7 +193,7 @@
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.parking_type')}}</label>
 																				<div class="col-lg-9 col-xl-9">
-																					<select name="parking_type" id="parking_type" class="form-control" required>
+																					<select name="parking_type" id="parking_type" class="form-control">
 																						{!! selectOptions(__('config.parking_type'),old('parking_type')) !!}
 																					</select>
 																				</div>
@@ -203,7 +203,7 @@
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.parking')}}</label>
 																				<div class="col-lg-9 col-xl-9">
-																					<select name="parking_areas" id="parking_areas" class="form-control" required>
+																					<select name="parking_areas" id="parking_areas" class="form-control">
 																						{!! selectOptions(__('config.parking_areas'),old('parking_areas')) !!}
 																					</select>
 																				</div>
@@ -285,7 +285,7 @@
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.campaign')}}</label>
 																				<div class="col-lg-9 col-xl-9">
-																					<select class="form-control" name="campaign_id" required>
+																					<select class="form-control" name="campaign_id">
 																						<option value="">{{__('site.choose')}}</option>
 																						@foreach($campaigns as $campaign)
 																						<option {{ old('campaign_id') == $campaign->id ? 'selected' : ''}} value="{{$campaign->id}}">{{$campaign->name}}</option>
@@ -339,7 +339,7 @@
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.price')}}</label>
 																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="price" type="text" value="{{old('price')}}" placeholder="{{__('site.price')}}">
+																					<input class="form-control form-control-solid form-control-lg" 	name="price" type="text" value="{{old('price')}}" placeholder="{{__('site.price')}}" required>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -403,7 +403,7 @@
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Furnished')}}</label>
 																				<div class="col-lg-9 col-xl-9">
-																					<select name="furnished" id="furnished" class="form-control" required>
+																					<select name="furnished" id="furnished" class="form-control">
 																						{!! selectOptions(__('config.furnished'),old('furnished')) !!}																					
 																					</select>
 																				</div>
