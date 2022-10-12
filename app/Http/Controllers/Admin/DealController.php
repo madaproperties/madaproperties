@@ -135,10 +135,10 @@ class DealController extends Controller
       ->where('active','1')->where('time_zone','Asia/Riyadh')->get();
     }elseif(!checkLeaderUae()){
       $leaders = User::where('rule','leader')
-      ->where('active','1')->where('time_zone','Asia/Dubai')->get();
+      ->where('active','1')->where('time_zone','Asia/Dubai')->orWhere('email','omar.ali@madaproperties.com')->get();
     }else{
       $leaders = User::where('rule','leader')
-      ->where('active','1')->get();
+      ->where('active','1')->orWhere('email','omar.ali@madaproperties.com')->get();
     }
 
     if(!checkLeader()){
@@ -339,10 +339,10 @@ class DealController extends Controller
         ->where('active','1')->where('time_zone','Asia/Riyadh')->orderBy('email')->get();
       }elseif(!checkLeaderUae()){
         $leaders = User::where('rule','leader')
-        ->where('active','1')->where('time_zone','Asia/Dubai')->orderBy('email')->get();
+        ->where('active','1')->where('time_zone','Asia/Dubai')->orWhere('email','omar.ali@madaproperties.com')->orderBy('email')->get();
       }else{
         $leaders = User::where('rule','leader')
-        ->where('active','1')->orderBy('email')->get();
+        ->where('active','1')->orWhere('email','omar.ali@madaproperties.com')->orderBy('email')->get();
       }
   
       if(!checkLeader()){
@@ -589,10 +589,10 @@ class DealController extends Controller
       ->where('active','1')->where('time_zone','Asia/Riyadh')->orderBy('email')->get();
     }elseif(!checkLeaderUae()){
       $leaders = User::where('rule','leader')
-      ->where('active','1')->where('time_zone','Asia/Dubai')->orderBy('email')->get();
+      ->where('active','1')->where('time_zone','Asia/Dubai')->orWhere('email','omar.ali@madaproperties.com')->orderBy('email')->get();
     }else{
       $leaders = User::where('rule','leader')
-      ->where('active','1')->orderBy('email')->get();
+      ->where('active','1')->orWhere('email','omar.ali@madaproperties.com')->orderBy('email')->get();
     }
 
     if(!checkLeader()){
@@ -767,10 +767,10 @@ class DealController extends Controller
       ->where('active','1')->where('time_zone','Asia/Riyadh')->get();
     }elseif(!checkLeaderUae()){
       $leaders = User::where('rule','leader')
-      ->where('active','1')->where('time_zone','Asia/Dubai')->get();
+      ->where('active','1')->where('time_zone','Asia/Dubai')->orWhere('email','omar.ali@madaproperties.com')->get();
     }else{
       $leaders = User::where('rule','leader')
-      ->where('active','1')->get();
+      ->where('active','1')->orWhere('email','omar.ali@madaproperties.com')->get();
     }
 
     if(!checkLeader()){
