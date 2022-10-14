@@ -27,6 +27,31 @@ class Property extends Model
     {
       return $this->hasMany(PropertyFeatures::class,'property_id')->orderBy('id','desc');
     }
+    
+
+    public function devFeatures()
+    {
+      return $this->hasMany(PropertyFeatures::class,'property_id')
+      ->join('features','features.id','=','property_features.feature_id')
+      ->where('features.feature_type',2)->orderBy('property_features.id','desc');
+    }
+    
+
+    public function unitFeatures()
+    {
+      return $this->hasMany(PropertyFeatures::class,'property_id')
+      ->join('features','features.id','=','property_features.feature_id')
+      ->where('features.feature_type',1)->orderBy('property_features.id','desc');
+    }
+    
+
+    public function lifeStyleFeatures()
+    {
+      return $this->hasMany(PropertyFeatures::class,'property_id')
+      ->join('features','features.id','=','property_features.feature_id')
+      ->where('features.feature_type',3)->orderBy('property_features.id','desc');
+    }
+    
 
     public function agent()
     {

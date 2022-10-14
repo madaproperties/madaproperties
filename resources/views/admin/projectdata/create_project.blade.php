@@ -46,13 +46,21 @@
 											<div class="row justify-content-center py-8 px-8 py-lg-15 px-lg-10">
 												<div class="col-xl-12 col-xxl-10">
 													<!--begin::Wizard Form-->
-													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.project-data.store')}}" id="kt_form">
+													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.project-data.store')}}" id="kt_form"   enctype="multipart/form-data">
 														@csrf
 														<div class="row justify-content-center">
 														<div class="col-xl-6">
 																<!--begin::Wizard Step 1-->
 																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.unit_name')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="unit_name" type="text" value="{{old('unit_name')}}" placeholder="{{__('site.unit_name').' '.__('site.name')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.country')}} </label>
@@ -118,18 +126,6 @@
 																	</div>
 																	<!--end::Group-->
 
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.unit_name')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="unit_name" type="text" value="{{old('unit_name')}}" placeholder="{{__('site.unit_name').' '.__('site.name')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.property_type')}}</label>
@@ -143,6 +139,25 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.commission')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="commission" type="text" value="{{old('commission')}}" placeholder="{{__('site.commission')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.floor_plan')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="floor_plan" type="file">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->																	
 																</div>
 															</div>
 															<div class="col-xl-6">
@@ -167,6 +182,14 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.floor_no')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" required name="floor_no" type="text" value="{{old('floor_no')}}" placeholder="{{__('site.floor_no')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
@@ -212,6 +235,30 @@
 																				<option {{old('payment_status') == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
 																				<option {{old('payment_status') == 'cash-bank' ? 'selected' : ''}} value="cash-bank">{{__('site.cash-bank')}}</option>
 																				<option {{old('payment_status') == 'cash-bank-sarkani' ? 'selected' : ''}} value="cash-bank-sarkani">{{__('site.cash-bank-sarkani')}}</option>
+																			</select>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+                                                                   <!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.down_payment')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="down_payment" type="text" value="{{old('down_payment')}}" placeholder="{{__('site.down_payment')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.status')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<select class="form-control"  name="status">
+																				<option {{old('status') == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
+																				<option {{old('status') == 'Sold out' ? 'selected' : ''}} value="Sold out">Sold out</option>
+																				<option {{old('status') == 'Available' ? 'selected' : ''}} value="Available">Available</option>
+																				<option {{old('status') == 'Reserved' ? 'selected' : ''}} value="Reserved">Reserved</option>
 																			</select>
 																		</div>
 																	</div>

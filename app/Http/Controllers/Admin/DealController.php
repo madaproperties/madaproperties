@@ -247,6 +247,7 @@ class DealController extends Controller
       __('site.third_party_name'),
       __('site.mada_commission'),
       __('site.mada_commission_received'),
+      __('site.third_party_commission_received'),
       __('site.notes'),
       __('site.created_at'),
       __('site.updated_at'),
@@ -415,6 +416,7 @@ class DealController extends Controller
         "agent_leader_commission_received"       => "nullable",
         "agent2_leader_commission_received"       => "nullable",
         "mada_commission_received"       => "nullable",
+        "third_party_commission_received"=>"nullable",
         "notes"       => "nullable",
       ]);
 
@@ -500,6 +502,7 @@ class DealController extends Controller
       "agent_leader_commission_received"       => "nullable",
       "agent2_leader_commission_received"       => "nullable",
       "mada_commission_received"       => "nullable",
+      "third_party_commission_received" => "nullable",
       "notes"       => "nullable",
   ]);
 
@@ -646,6 +649,7 @@ class DealController extends Controller
         "agent_commission_received",
         "agent_leader_commission_received",
         "mada_commission_received",
+        "third_party_commission_received",
         "third_party"
       ];
 
@@ -840,6 +844,7 @@ class DealController extends Controller
       __('site.third_party_name'),
       __('site.mada_commission'),
       __('site.mada_commission_received'),
+      __('site.third_party_commission_received'),
       __('site.notes'),
       __('site.created_at'),
       __('site.updated_at'),

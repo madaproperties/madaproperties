@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\ImportDataController;
+use App\Imports\ProjectDataImport;
 
 class ImportDataController extends Controller
 {

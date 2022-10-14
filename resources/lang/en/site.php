@@ -476,4 +476,13 @@ return [
   'id'   => 'id',
   'ref'   => 'ref',
   'price_on_application'   => 'Price on application',
+  'floor_no'   => 'Floor No.',
+  'floor_plan'   => 'Floor Plan',
+  'iban'   => 'IBAN',
+  'bank_name'   => 'Bank Name',
+  'features'   => 'Features',
+  'feature'   => 'Feature',
+  'Feature'   => 'Feature',
+  'New Feature'   => 'New Feature',
+  'edit_feature'   => 'Edit Feature'
 ];

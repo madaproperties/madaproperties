@@ -27,6 +27,7 @@ Route::get('property-bayut-xml','Admin\PropertyController@propertyBayutXml')->na
 Route::get('property-finder-xml','Admin\PropertyController@propertyFinderXml')->name('propertyFinderXml');
 Route::get('property-xml','Admin\PropertyController@propertyXml')->name('propertyXml');
 Route::get('property/brochure/{property_id}','Admin\PropertyController@brochure')->name('property.brochure');
+Route::get('project-data/brochure/{project_id}','Admin\ProjectDataController@brochure')->name('project.brochure');
 
 Route::get('read-xml','Admin\PropertyController@readXml')->name('property.readXml');
 
