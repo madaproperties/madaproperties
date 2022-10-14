@@ -111,9 +111,11 @@ class PropertyController extends Controller
                           ->orderBy('email')->get();
       }
     }
-    $features = Features::get();
+    $unitFeatures = Features::where('feature_type',1)->get();
+    $devFeatures = Features::where('feature_type',2)->get();
+    $lifeStyleFeatures = Features::where('feature_type',3)->get();
     $categories = Categories::get(); 
-    return view('admin.property.create',compact('cities','countries','campaigns','sources','purposeType','sellers','features','categories'));
+    return view('admin.property.create',compact('cities','countries','campaigns','sources','purposeType','sellers','lifeStyleFeatures','categories','devFeatures','unitFeatures'));
   }
 
   /**
@@ -432,9 +434,12 @@ class PropertyController extends Controller
       }
     }
 
+    $unitFeatures = Features::where('feature_type',1)->get();
+    $devFeatures = Features::where('feature_type',2)->get();
+    $lifeStyleFeatures = Features::where('feature_type',3)->get();
     
     $categories = Categories::get(); 
-    return view('admin.property.show',compact('property','cities','countries','campaigns','sources','purposeType','sellers','features','propertyFeatures','propertyPortals','categories'));
+    return view('admin.property.show',compact('property','cities','countries','campaigns','sources','purposeType','sellers','unitFeatures','propertyFeatures','propertyPortals','categories','lifeStyleFeatures','devFeatures'));
 
   }  
 
@@ -447,6 +452,7 @@ class PropertyController extends Controller
   public function deleteImage($id)
   {
     $data = PropertyImages::findOrFail($id);
+    Property::where('id',$data->property_id)->update(['updated_at'=>Carbon::now(),'last_updated'=>Carbon::now()]);
     $data->delete();
     addHistory('PropertyImage',$id,'deleted');    
     return back()->withSuccess(__('site.success'));
@@ -677,15 +683,20 @@ class PropertyController extends Controller
     if($request->has('features')) {
       if(Request('property_id')){
         $property_id = Request('property_id');
+        $feature_type = Request('feature_type');
         $features = Request('features');
         $temp = [];
         $i = 0;
+        $featureIds = [];
         foreach ($features as $value) {
           $temp[$i]['property_id'] = $property_id;
           $temp[$i++]['feature_id'] = $value;
+          $featureIds[] = $value;
         }
-        PropertyFeatures::where('property_id',$property_id)->delete();
+        PropertyFeatures::where('property_id',$property_id)->whereIn('feature_id',$featureIds)->delete();
         \DB::table("property_features")->insert($temp);
+        
+        Property::where('id',$property_id)->update(['updated_at'=>Carbon::now(),'last_updated'=>Carbon::now()]);
       }else{
         $features = Request('features');
         \Session::push('tempFeatures', $features);
@@ -709,6 +720,8 @@ class PropertyController extends Controller
         }
         PropertyPortals::where('property_id',$property_id)->delete();
         \DB::table("property_portals")->insert($temp);
+
+        Property::where('id',$property_id)->update(['updated_at'=>Carbon::now(),'last_updated'=>Carbon::now()]);
       }else{
         $portals = Request('portals');
         \Session::push('tempPortals', $portals);

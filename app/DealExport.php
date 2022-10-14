@@ -215,6 +215,9 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         if(in_array('mada_commission_received',$select)){
           $exportArray[++$i] = $deal->mada_commission_received;
         }
+        if(in_array('third_party_commission_received',$select)){
+          $exportArray[++$i] = $deal->third_party_commission_received;
+        }
         if(in_array('notes',$select)){
           $exportArray[++$i] = $deal->notes;
         }
@@ -299,6 +302,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $deal->third_party_name,
           $deal->mada_commission,
           $deal->mada_commission_received,
+          $deal->third_party_commission_received,
           $deal->notes,
           timeZone($deal->created_at),
           timeZone($deal->updated_at),
@@ -363,6 +367,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         __('site.third_party_name'),
         __('site.mada_commission'),
         __('site.mada_commission_received'),
+        __('site.third_party_commission_received'),
         __('site.notes'),
         __('site.created_at'),
         __('site.updated_at'),
@@ -387,6 +392,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         "agent_commission_received",
         "agent_leader_commission_received",
         "mada_commission_received",
+        "third_party_commission_received",
         "third_party"
       ];
 

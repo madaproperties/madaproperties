@@ -34,6 +34,8 @@
 							<thead>
 								<tr>
 									<th>{{__('site.developer name')}}</th>
+									<th>{{__('site.bank_name')}}</th>
+									<th>{{__('site.iban')}}</th>
 									<th>{{__('site.created_at')}}</th>
 									<th style="min-width:150px">{{__('site.action')}}</th>
 								</tr>
@@ -43,6 +45,12 @@
 								<tr>
 									<td>
 										<span class="text-muted font-weight-bold">{{$deal->name}}</span>
+									</td>
+									<td>
+										<span class="text-muted font-weight-bold">{{!empty($deal->bank_name) ? $deal->bank_name : 'N/A'}}</span>
+									</td>
+									<td>
+										<span class="text-muted font-weight-bold">{{!empty($deal->iban) ? $deal->iban : 'N/A'}}</span>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$deal->created_at}}</span>

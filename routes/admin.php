@@ -152,6 +152,7 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::post('property/save-features','PropertyController@saveFeatures')->name('property.saveFeatures');
       Route::post('property/save-portals','PropertyController@savePortals')->name('property.savePortals');
 
+      Route::resource('features','FeaturesController');
 });
 
 

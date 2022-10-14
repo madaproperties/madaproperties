@@ -59,6 +59,8 @@ class ProjectDeveloperController extends Controller
 
       $data = $request->validate([
         "name"          => "required|max:191",
+        "iban"          => "required|max:191",
+        "bank_name"          => "required|max:250",
       ]);
       $data['created_at'] = Carbon::now();
 
@@ -73,7 +75,9 @@ class ProjectDeveloperController extends Controller
     $deal = ProjectDeveloper::findOrFail($id);
     $data = $request->validate([
       "name"          => "required|max:191",
-    ]);
+      "iban"          => "required|max:191",
+      "bank_name"          => "required|max:250",
+  ]);
     $data['updated_at'] = Carbon::now();
 
     addHistory('Project Developer',$id,'updated',$data,$deal);

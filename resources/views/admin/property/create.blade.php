@@ -493,8 +493,9 @@
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.unit_features')}}</label>
 																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="unit_features" type="text" value="{{old('unit_features')}}" placeholder="{{__('site.unit_features')}}">
-																					<div class="fv-plugins-message-container"></div>
+																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#features_modal_unit">
+																					{{__('site.unit_features')}} <i class="fa fa-menu"></i>
+                  																	</button>
 																				</div>
 																			</div>
 																			<!--end::Group-->
@@ -503,8 +504,9 @@
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.dev_feature')}}</label>
 																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="dev_feature" type="text" value="{{old('dev_feature')}}" placeholder="{{__('site.dev_feature')}}">
-																					<div class="fv-plugins-message-container"></div>
+																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#features_modal_dev">
+																					{{__('site.dev_feature')}} <i class="fa fa-menu"></i>
+                  																	</button>
 																				</div>
 																			</div>
 																			<!--end::Group-->
@@ -513,11 +515,24 @@
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.lifestyle')}}</label>
 																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="lifestyle" type="text" value="{{old('lifestyle')}}" placeholder="{{__('site.lifestyle')}}">
-																					<div class="fv-plugins-message-container"></div>
+																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#features_modal_life_style">
+																					{{__('site.lifestyle')}} <i class="fa fa-menu"></i>
+                  																	</button>
 																				</div>
 																			</div>
 																			<!--end::Group-->
+
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.portals')}}</label>
+																				<div class="col-lg-9 col-xl-9">
+																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#portals_modal">
+                    																	Add portals <i class="fa fa-menu"></i>
+                  																	</button>
+																				</div>
+																			</div>
+																			<!--end::Group-->
+
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.photos')}} ({{__('site.can attach more than one')}})</label>
@@ -532,18 +547,7 @@
 																			</div>
 																			<!--end::Group-->
 
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.features')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#features_modal">
-                    																	Add features <i class="fa fa-menu"></i>
-                  																	</button>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			
+																																					
 																			
 																		</div>
 																	</div>
@@ -623,19 +627,7 @@
 																				</div>
 																			</div>
 																			<!--end::Group-->
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.portals')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#portals_modal">
-                    																	Add portals <i class="fa fa-menu"></i>
-                  																	</button>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-
-
+																			
 																		</div>
 																	</div>
 																</div>
@@ -907,7 +899,9 @@
 <!--end::Content-->
 @include('admin.property.image_uploader')
 @include('admin.property.document_uploader')
-@include('admin.property.features')
+@include('admin.property.dev_features')
+@include('admin.property.unit_features')
+@include('admin.property.life_style_features')
 @include('admin.property.portals')
 @endsection
 

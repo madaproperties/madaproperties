@@ -180,5 +180,10 @@ return [
     '1' => 'Premium',
     '2' => 'Featured',
     '3' => 'Hot'
-  ]  
+  ],
+  'feature_type' => [
+    '1' => 'Unit Features',
+    '2' => 'Development Features',
+    '3' => 'Lifestyle'
+  ],  
 ];

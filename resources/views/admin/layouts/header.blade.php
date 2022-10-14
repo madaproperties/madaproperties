@@ -443,13 +443,21 @@
 							</a>
 						</li>
 						@endcan
-						@can('property-list')
-						<li class="menu-item menu-item-active" aria-haspopup="true">
-							<a href="{{route('admin.property.index')}}" class="menu-link {{ active_nav('property') ? 'active' : ''}}">
-								<span class="menu-text">{{__('site.property')}}</span>
+						@if($user->can('property-list') || $user->can('features-list'))
+						<li class="menu-item menu-item-active text-dark">
+							<a class="menu-link menu-toggle menu-link text-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							{{__('site.property')}}
 							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+								@can('property-list')
+									<a class="dropdown-item" href="{{route('admin.property.index')}}">{{__('site.property')}}</a>
+								@endcan
+								@can('feature-list')
+								<a class="dropdown-item" href="{{route('admin.features.index')}}">{{__('site.features')}}</a>
+								@endcan
+							</div>
 						</li>
-						@endcan
+						@endif						
 							</ul>
 							<!--end::Nav-->
 						</div>
