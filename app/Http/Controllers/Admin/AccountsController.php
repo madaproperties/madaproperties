@@ -82,7 +82,8 @@ class AccountsController extends Controller
           'department' => 'nullable',
           'designation' => 'nullable',
           'user_pic' => 'nullable',
-          'position_types' => 'required|array'
+          'position_types' => 'required|array',
+          'is_rera_active' => 'nullable'
         ]);
 
         unset($data['position_types']);
@@ -107,6 +108,7 @@ class AccountsController extends Controller
             $data['user_pic'] = $md5Name.'.'.$guessExtension;
         }
      
+        addHistory('User',0,'added',$data);
         
         $user = User::create($data);
         if($data['rule'] == 'sales'){
@@ -130,8 +132,6 @@ class AccountsController extends Controller
        
         $user = User::findOrFail($id);
         
-        
-         
         $data = $request->validate([
           'email' => 'required|unique:users,email,'.$user->id,
           'rule' => 'required',
@@ -151,6 +151,7 @@ class AccountsController extends Controller
           'department' => 'nullable',
           'designation' => 'nullable',
           'user_pic' => 'nullable',
+          'is_rera_active' => 'nullable',
         ]);
         
         
@@ -176,6 +177,8 @@ class AccountsController extends Controller
             $data['user_pic'] = $md5Name.'.'.$guessExtension;
         }
 
+
+        addHistory('User',$id,'updated',$data,$user);
        
         $user->update($data);
         if($data['rule'] == 'sales'){
@@ -191,6 +194,7 @@ class AccountsController extends Controller
     {
         $contact = User::findOrFail($id);
         $contact->delete();
+        addHistory('User',$id,'deleted');        
         return back()->withSuccess(__('site.success'));
     }
 }

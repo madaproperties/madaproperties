@@ -247,6 +247,7 @@ class DealController extends Controller
       __('site.third_party_name'),
       __('site.mada_commission'),
       __('site.mada_commission_received'),
+      __('site.third_party_commission_received'),
       __('site.notes'),
       __('site.created_at'),
       __('site.updated_at'),
@@ -415,11 +416,14 @@ class DealController extends Controller
         "agent_leader_commission_received"       => "nullable",
         "agent2_leader_commission_received"       => "nullable",
         "mada_commission_received"       => "nullable",
+        "third_party_commission_received"=>"nullable",
         "notes"       => "nullable",
       ]);
 
 
       $data['created_at'] = Carbon::now();
+
+      addHistory('Deal',0,'added',$data);   
 
       $deal = Deal::create($data);
       return redirect(route('admin.deal.index'))->withSuccess(__('site.success'));
@@ -444,10 +448,10 @@ class DealController extends Controller
   }
 
 
-  public function update(Request $request,  $deal)
+  public function update(Request $request,  $id)
   {
 
-    $deal = Deal::findOrFail($deal);
+    $deal = Deal::findOrFail($id);
 
     $data = $request->validate([
       "unit_country"          => "required",
@@ -498,10 +502,13 @@ class DealController extends Controller
       "agent_leader_commission_received"       => "nullable",
       "agent2_leader_commission_received"       => "nullable",
       "mada_commission_received"       => "nullable",
+      "third_party_commission_received" => "nullable",
       "notes"       => "nullable",
   ]);
 
     $data['updated_at'] = Carbon::now();
+
+    addHistory('Deal',$id,'updated',$data,$deal);
 
     $deal->update($data);
     //print_r(session('start_filter_url'));
@@ -517,6 +524,7 @@ class DealController extends Controller
   {
     $data = Deal::findOrFail($id);
     $data->delete();
+    addHistory('Deal',$id,'deleted');    
     return back()->withSuccess(__('site.success'));
   }
 
@@ -641,6 +649,7 @@ class DealController extends Controller
         "agent_commission_received",
         "agent_leader_commission_received",
         "mada_commission_received",
+        "third_party_commission_received",
         "third_party"
       ];
 
@@ -835,6 +844,7 @@ class DealController extends Controller
       __('site.third_party_name'),
       __('site.mada_commission'),
       __('site.mada_commission_received'),
+      __('site.third_party_commission_received'),
       __('site.notes'),
       __('site.created_at'),
       __('site.updated_at'),

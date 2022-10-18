@@ -41,7 +41,6 @@
   </div>
   <!--end::Header-->
 
-
   </div>
   <!--end::Demo Panel-->
   <!--begin::Global Config(global config for global JS scripts)-->
@@ -77,11 +76,14 @@
   evt.preventDefault();
 }, false);
 @endif
-    
+    $("form").submit(function(){
+      $("#loadingHolder").show();
+    });
   </script>
 
 
   @stack('js')
+
 </body>
 <!--end::Body-->
 </html>

@@ -2,7 +2,7 @@
 @section('content')
 
 	<hr />
-<div class="container leads_detail">
+<div class="container">
     
 	
 
@@ -15,76 +15,75 @@
 								<div class="flex-row-fluid ml-lg-8">
     
 									<div class="example-preview">
-													<ul class="nav nav-tabs" id="myTab" role="tablist">
-														<li class="nav-item">
-															<a class="nav-link active" id="activity-tab" data-toggle="tab" href="#activity">
-																<span class="nav-icon">
-																	<i class="flaticon2-chat-1"></i>
-																</span>
-																<span class="nav-text">{{__('site.activity')}}</span>
-															</a>
-														</li>
-														<li class="nav-item">
-															<a class="nav-link" id="notes-tab" data-toggle="tab" href="#notes" aria-controls="notes">
-																<span class="nav-icon">
-									<i class="fa fa-bell"></i>
-																</span>
-																<span class="nav-text">{{__('site.notes')}}</span>
-															</a>
-														</li>
+										<ul class="nav nav-tabs" id="myTab" role="tablist">
+											<li class="nav-item">
+												<a class="nav-link active" id="activity-tab" data-toggle="tab" href="#activity">
+													<span class="nav-icon">
+														<i class="flaticon2-chat-1"></i>
+													</span>
+													<span class="nav-text">{{__('site.activity')}}</span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" id="notes-tab" data-toggle="tab" href="#notes" aria-controls="notes">
+													<span class="nav-icon">
+														<i class="fa fa-bell"></i>
+													</span>
+													<span class="nav-text">{{__('site.notes')}}</span>
+												</a>
+											</li>
+											
+											<li class="nav-item">
+												<a class="nav-link" id="tasks-tab" data-toggle="tab" href="#tasks" aria-controls="tasks">
+													<span class="nav-icon">
+														<i class="fa fa-tasks"></i>
+													</span>
+													<span class="nav-text">{{__('site.tasks')}}</span>
+												</a>
+											</li>
+											
+											@foreach(contact_status() as $index => $contact_status)
+											<li class="nav-item">
+												<a class="nav-link" id="Log-{{$contact_status}}-tab"
+												data-toggle="tab" href="#{{$contact_status}}-tab" aria-controls="{{$contact_status}}-tab">
+													<span class="nav-icon">
+														@if( $index == 0)
+															<i class="fas fa-phone-alt"></i>   
+														@elseif($index == 1)
+															<i class="fas fa-envelope"></i>
+														@elseif($index == 2)
+														<i class="far fa-handshake"></i> 
+														@else 
+															<i class="fab fa-whatsapp"></i>
+														@endif
 														
-														<li class="nav-item">
-															<a class="nav-link" id="tasks-tab" data-toggle="tab" href="#tasks" aria-controls="tasks">
-																<span class="nav-icon">
-					<i class="fa fa-tasks"></i>
-																</span>
-																<span class="nav-text">{{__('site.tasks')}}</span>
-															</a>
-														</li>
-														
-				@foreach(contact_status() as $index => $contact_status)
-				<li class="nav-item">
-					<a class="nav-link" id="Log-{{$contact_status}}-tab"
-					data-toggle="tab" href="#{{$contact_status}}-tab" aria-controls="{{$contact_status}}-tab">
-						<span class="nav-icon">
-						    @if( $index == 0)
-                                 <i class="fas fa-phone-alt"></i>   
-                            @elseif($index == 1)
-                                <i class="fas fa-envelope"></i>
-                            @elseif($index == 2)
-                               <i class="far fa-handshake"></i> 
-                            @else 
-                                <i class="fab fa-whatsapp"></i>
-                            @endif
-    						
-						</span>
-						<span class="nav-text">{{__('site.'.$contact_status)}}</span>
-					</a>
-				</li>
-				@endforeach
-		</ul>
+													</span>
+													<span class="nav-text">{{__('site.'.$contact_status)}}</span>
+												</a>
+											</li>
+											@endforeach
+									</ul>
 		
-		<div class="tab-content mt-5" id="myTabContent">
-			<div class="tab-pane fade active show" id="activity" role="tabpanel" aria-labelledby="home-tab">
-				@include('admin.contacts.components.activities')
-			</div>
-			<div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
-				@include('admin.contacts.components.notes')
-			</div>
-			<div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
-				@include('admin.contacts.components.tasks')
-			</div>
-			@foreach(contact_status() as $contact_status)
-			<div class="tab-pane fade" id="{{strtolower($contact_status)}}-tab" role="tabpanel"
-			aria-labelledby="log-{{strtolower($contact_status)}}-tab">
-				@include('admin.contacts.components.logs',['filter' => $contact_status])
-			</div>
-			@endforeach
+									<div class="tab-content mt-5" id="myTabContent">
+										<div class="tab-pane fade active show" id="activity" role="tabpanel" aria-labelledby="home-tab">
+											@include('admin.contacts.components.activities')
+										</div>
+										<div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
+											@include('admin.contacts.components.notes')
+										</div>
+										<div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
+											@include('admin.contacts.components.tasks')
+										</div>
+										@foreach(contact_status() as $contact_status)
+										<div class="tab-pane fade" id="{{strtolower($contact_status)}}-tab" role="tabpanel"
+										aria-labelledby="log-{{strtolower($contact_status)}}-tab">
+											@include('admin.contacts.components.logs',['filter' => $contact_status])
+										</div>
+										@endforeach
 
-		</div>
-												</div>
-
+									</div>
 								</div>
+
 								<!--end::Content-->
 							</div>
 							<!--end::Profile Overview-->

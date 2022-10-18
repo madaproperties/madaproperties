@@ -255,8 +255,7 @@ class ReportController extends Controller
 		}
 
 		// 07-04-2021
-		$users = User::where('active','1')
-		->whereIn('rule',['sales','sales admin','leader']);
+		$users = User::where('active','1')->whereIn('rule',['sales','sales admin','leader']);
         if(userRole() == 'sales admin saudi'){
 			$whereCountry = 'Asia/Riyadh';
 			$users = $users->where('time_zone','like','%'.$whereCountry.'%');

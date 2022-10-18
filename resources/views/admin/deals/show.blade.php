@@ -440,6 +440,18 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
+																	<!--begin::Group--> 
+																	<div class="form-group row fv-plugins-icon-container third_party_div">{{__('Third party commission received')}}</label>
+																		<div class="col-xl-1">
+																			<input class="form-control" name="third_party_commission_received" type="radio" value="no" {{ $deal->third_party_commission_received == 'no' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.no')}}</label>
+																		<div class="col-xl-1">
+																			<input class="form-control" name="third_party_commission_received" type="radio" value="yes" {{ $deal->third_party_commission_received == 'yes' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.yes')}}</label>
+																	</div>
+																	<!--end::Group-->
 
 
 

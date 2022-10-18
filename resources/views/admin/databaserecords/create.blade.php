@@ -252,6 +252,22 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
+																	@if(count($sellers))
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.assigned to')}} </label>
+																		<div class="col-lg-9 col-xl-9">
+																			<select class="form-control"  name="assign_to">
+																				<option value="">{{ __('site.choose') }}</option>
+																				@foreach($sellers as $seller)
+																				<option {{old('assign_to') == $seller->id ? 'selected' : ''}}
+																				value="{{$seller->id}}">{{$seller->name}}</option>
+																				@endforeach
+																			</select>
+																		</div>
+																	</div>
+																	@endif
+																	<!--end::Group-->
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.comment')}}</label>
@@ -261,6 +277,7 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
+
 
 																</div>
 															</div>

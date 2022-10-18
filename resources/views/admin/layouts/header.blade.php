@@ -180,6 +180,10 @@
 	<!--end::Head-->
 	<!--begin::Body-->
 	<body id="kt_body" class=" header-bottom-enabled page-loading">
+		<div id="loadingHolder"> 
+			<div id="loader"></div>
+		</div>
+
 		<!--begin::Main-->
 		<!--begin::Header Mobile-->
 		<div id="kt_header_mobile" class="header-mobile  header-mobile-fixed">
@@ -304,6 +308,16 @@
 											<div id="kt_header_menu" class="header-menu header-menu-mobile header-menu-layout-default">
 												<!--begin::Nav-->
 												<ul class="menu-nav">
+						@can('history-list')
+							<li class="menu-item menu-item-active" aria-haspopup="true">
+								<a
+								href="{{route('admin.history.index')}}"
+								class="menu-link {{ active_nav('admin.history') ? 'active' : ''}}">
+									<span class="menu-text">{{__('site.history')}}</span>
+								</a>
+							</li>
+						@endcan
+
       					@if(userRole() == 'admin' OR userRole() == 'manger')
 							<li class="menu-item menu-item-active" aria-haspopup="true">
 								<a
@@ -429,7 +443,21 @@
 							</a>
 						</li>
 						@endcan
-
+						@if($user->can('property-list') || $user->can('features-list'))
+						<li class="menu-item menu-item-active text-dark">
+							<a class="menu-link menu-toggle menu-link text-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							{{__('site.property')}}
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+								@can('property-list')
+									<a class="dropdown-item" href="{{route('admin.property.index')}}">{{__('site.property')}}</a>
+								@endcan
+								@can('feature-list')
+								<a class="dropdown-item" href="{{route('admin.features.index')}}">{{__('site.features')}}</a>
+								@endcan
+							</div>
+						</li>
+						@endif						
 							</ul>
 							<!--end::Nav-->
 						</div>
@@ -446,3 +474,4 @@
 	</div>
 </div>
 <!--end::Header-->
+

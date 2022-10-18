@@ -60,17 +60,23 @@ class ProjectNameController extends Controller
         "name"          => "required|max:191",
       ]);
       $data['created_at'] = Carbon::now();
+
+      addHistory('Project Name',0,'added',$data);   
+
       $deal = ProjectName::create($data);
       return redirect(route('admin.project-name.index'))->withSuccess(__('site.success'));
   }
 
-  public function update(Request $request,  $deal)
+  public function update(Request $request,  $id)
   {
-    $deal = ProjectName::findOrFail($deal);
+    $deal = ProjectName::findOrFail($id);
     $data = $request->validate([
       "name"          => "required|max:191",
     ]);
     $data['updated_at'] = Carbon::now();
+
+    addHistory('Project Name',$id,'updated',$data,$deal);
+
     $deal->update($data);
     return redirect(route('admin.project-name.index'))->withSuccess(__('site.success'));
   }
@@ -80,6 +86,7 @@ class ProjectNameController extends Controller
   {
     $data = ProjectName::findOrFail($id);
     $data->delete();
+    addHistory('Project Name',$id,'deleted');    
     return back()->withSuccess(__('site.success'));
   }
 

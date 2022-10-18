@@ -20,13 +20,17 @@ class CampaignReportExport implements FromQuery, WithHeadings, ShouldAutoSize, W
     public function query()
     {		
         $projects_data = Project::orderBy('name_en','asc');	
+        if(userRole() == 'sales admin uae') {
+            $projects_data =  $projects_data->where('country_id','2');
+        }else if(userRole() == 'sales admin saudi'){
+            $projects_data =  $projects_data->where('country_id','1');
+        }
         if(Request('project_id') && !empty(request('project_id'))){
             $projects_data = $projects_data->where('id',request('project_id'));
         }
         if(Request('project_country_id') && !empty(request('project_country_id'))){
             $projects_data = $projects_data->where('country_id',Request('project_country_id'));
         }
-
         return $projects_data;	
     }
 
@@ -53,15 +57,6 @@ class CampaignReportExport implements FromQuery, WithHeadings, ShouldAutoSize, W
               return $q->whereIn('user_id',$users)
                       ->orWhereIn('created_by',$users)
                       ->get();
-          }else if(userRole() == 'sales admin uae') {
-              return $q->whereHas('project', function($q2) {
-                  $q2->where('projects.country_id','2');
-              })->get();
-
-          }else if(userRole() == 'sales admin saudi'){
-              return $q->whereHas('project', function($q2) {
-                  $q2->where('projects.country_id','1');
-              })->get();
           }
         })
         ->where('project_id',$campaing->id)
