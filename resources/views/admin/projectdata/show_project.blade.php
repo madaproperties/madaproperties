@@ -46,14 +46,22 @@
 											<div class="row justify-content-center py-8 px-8 py-lg-15 px-lg-10">
 												<div class="col-xl-12 col-xxl-10">
 													<!--begin::Wizard Form-->
-													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.project-data.update',$deal->id)}}" id="kt_form">
+													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.project-data.update',$projectdata->id)}}" id="kt_form"   enctype="multipart/form-data">
 														@csrf
 														@method('PATCH')
 														<div class="row justify-content-center">
 														<div class="col-xl-6">
 																<!--begin::Wizard Step 1-->
 																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.unit_name')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="unit_name" type="text" value="{{$projectdata->unit_name}}" placeholder="{{__('site.unit_name')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.country')}} </label>
@@ -62,7 +70,7 @@
 																			name="country_id" data-select2-id="" tabindex="-1" aria-hidden="true">
 																				<option value="">{{ __('site.choose') }}</option>
 																				@foreach($countries as $country)
-																					<option {{$deal->country_id == $country->id ? 'selected' : ''}} value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>
+																					<option {{$projectdata->country_id == $country->id ? 'selected' : ''}} value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>
 																				@endforeach
 																			</select>
 																		</div>
@@ -72,7 +80,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.city_name')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="city_name" type="text" value="{{$deal->city_name}}" placeholder="{{__('site.city_name')}}">
+																			<input class="form-control form-control-solid form-control-lg" 	name="city_name" type="text" value="{{$projectdata->city_name}}" placeholder="{{__('site.city_name')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -82,7 +90,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.district_name')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="district_name" type="text" value="{{$deal->district_name}}" placeholder="{{__('site.district_name')}}">
+																			<input class="form-control form-control-solid form-control-lg" 	name="district_name" type="text" value="{{$projectdata->district_name}}" placeholder="{{__('site.district_name')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -98,7 +106,7 @@
 																			name="project_id" data-select2-id="" tabindex="-1" aria-hidden="true">
 																				<option value="">{{ __('site.choose') }}</option>
 																				@foreach($projects as $project)
-																					<option {{$deal->project_id == $project->id ? 'selected' : ''}} value="{{$project->id}}" data-select2-id="{{$project->id}}">{{$project->name}}</option>
+																					<option {{$projectdata->project_id == $project->id ? 'selected' : ''}} value="{{$project->id}}" data-select2-id="{{$project->id}}">{{$project->name}}</option>
 																				@endforeach
 																			</select>
 																		</div>
@@ -113,7 +121,7 @@
 																			name="developer_id" data-select2-id="" tabindex="-1" aria-hidden="true">
 																				<option value="">{{ __('site.choose') }}</option>
 																				@foreach($developer as $dev)
-																					<option {{$deal->developer_id == $dev->id ? 'selected' : ''}} value="{{$dev->id}}" data-select2-id="{{$dev->id}}">{{$dev->name}}</option>
+																					<option {{$projectdata->developer_id == $dev->id ? 'selected' : ''}} value="{{$dev->id}}" data-select2-id="{{$dev->id}}">{{$dev->name}}</option>
 																				@endforeach
 																			</select>
 																		</div>
@@ -123,27 +131,41 @@
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.unit_name')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="unit_name" type="text" value="{{$deal->unit_name}}" placeholder="{{__('site.unit_name')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.property_type')}}</label>
 																		<div class="col-lg-9 col-xl-9">
 																		<select class="form-control"  name="property_type">
 																			<option value="">{{ __('site.choose') }}</option>
 																			@foreach($purposetype as $purpType)
-																			<option {{$deal->property_type == $purpType->name ? 'selected' : ''}} value="{{$purpType->name}}">{{$purpType->name}}</option>
+																			<option {{$projectdata->property_type == $purpType->name ? 'selected' : ''}} value="{{$purpType->name}}">{{$purpType->name}}</option>
 																			@endforeach
 																		</select>
 																		</div>
 																	</div>
 																	<!--end::Group-->
 																	
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.commission')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="commission" type="text" value="{{$projectdata->commission}}" placeholder="{{__('site.commission')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.floor_plan')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			@if($projectdata->floor_plan)
+																				<a href="{{env('APP_URL').'/public/uploads/projectData/'.$projectdata->floor_plan}}" target="_blank" download="download">Download</a>
+																			@endif
+																			<input class="form-control form-control-solid form-control-lg" 	name="floor_plan" type="file" >
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+																
 																</div>
 															</div>
 															<div class="col-xl-6">
@@ -154,7 +176,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.area_bua')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="area_bua" type="text" value="{{$deal->area_bua}}" placeholder="{{__('site.area_bua')}}">
+																			<input class="form-control form-control-solid form-control-lg" 	name="area_bua" type="text" value="{{$projectdata->area_bua}}" placeholder="{{__('site.area_bua')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -164,7 +186,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.area_plot')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="area_plot" type="text" value="{{$deal->area_plot}}" placeholder="{{__('site.area_plot')}}">
+																			<input class="form-control form-control-solid form-control-lg" 	name="area_plot" type="text" value="{{$projectdata->area_plot}}" placeholder="{{__('site.area_plot')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -172,15 +194,24 @@
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.floor_no')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" required name="floor_no" type="text" value="{{$projectdata->floor_no}}" placeholder="{{__('site.floor_no')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.bedroom')}}</label>
 																		<div class="col-lg-9 col-xl-9">
 																			<select class="form-control"  name="bedroom">
-																				<option {{$deal->bedroom == '1' ? 'selected' : ''}} value="1">1</option>
-																				<option {{$deal->bedroom == '2' ? 'selected' : ''}} value="2">2</option>
-																				<option {{$deal->bedroom == '3' ? 'selected' : ''}} value="3">3</option>
-																				<option {{$deal->bedroom == '4' ? 'selected' : ''}} value="4">4</option>
-																				<option {{$deal->bedroom == '5' ? 'selected' : ''}} value="5">5</option>
-																				<option {{$deal->bedroom == '6' ? 'selected' : ''}} value="6">6</option>
+																				<option {{$projectdata->bedroom == '1' ? 'selected' : ''}} value="1">1</option>
+																				<option {{$projectdata->bedroom == '2' ? 'selected' : ''}} value="2">2</option>
+																				<option {{$projectdata->bedroom == '3' ? 'selected' : ''}} value="3">3</option>
+																				<option {{$projectdata->bedroom == '4' ? 'selected' : ''}} value="4">4</option>
+																				<option {{$projectdata->bedroom == '5' ? 'selected' : ''}} value="5">5</option>
+																				<option {{$projectdata->bedroom == '6' ? 'selected' : ''}} value="6">6</option>
 																			</select>
 																		</div>
 																	</div>
@@ -189,7 +220,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.price')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="price" type="text" value="{{$deal->price}}" placeholder="{{__('site.price')}}">
+																			<input class="form-control form-control-solid form-control-lg" 	name="price" type="text" value="{{$projectdata->price}}" placeholder="{{__('site.price')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -202,7 +233,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.completion_date')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="completion_date" type="text" value="{{$deal->completion_date}}" placeholder="{{__('site.completion_date')}}">
+																			<input class="form-control form-control-solid form-control-lg" 	name="completion_date" type="text" value="{{$projectdata->completion_date}}" placeholder="{{__('site.completion_date')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -212,13 +243,38 @@
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.payment_status')}}</label>
 																		<div class="col-lg-9 col-xl-9">
 																			<select class="form-control"  name="payment_status">
-																				<option {{$deal->payment_status == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
-																				<option {{$deal->payment_status == 'cash-bank' ? 'selected' : ''}} value="cash-bank">{{__('site.cash-bank')}}</option>
-																				<option {{$deal->payment_status == 'cash-bank-sarkani' ? 'selected' : ''}} value="cash-bank-sarkani">{{__('site.cash-bank-sarkani')}}</option>
+																				<option {{$projectdata->payment_status == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
+																				<option {{$projectdata->payment_status == 'cash-bank' ? 'selected' : ''}} value="cash-bank">{{__('site.cash-bank')}}</option>
+																				<option {{$projectdata->payment_status == 'cash-bank-sarkani' ? 'selected' : ''}} value="cash-bank-sarkani">{{__('site.cash-bank-sarkani')}}</option>
 																			</select>
 																		</div>
 																	</div>
 																	<!--end::Group-->
+																	
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.down_payment')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="down_payment" type="text" value="{{$projectdata->down_payment}}" placeholder="{{__('site.down_payment')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.status')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<select class="form-control"  name="status">
+																				<option value="">{{ __('site.choose') }}</option>
+																				<option {{$projectdata->status == 'Sold out' ? 'selected' : ''}} value="Sold out">Sold out</option>
+																				<option {{$projectdata->status == 'Available' ? 'selected' : ''}} value="Available">Available</option>
+																				<option {{$projectdata->status == 'Reserved' ? 'selected' : ''}} value="Reserved">Reserved</option>
+																			</select>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
 																</div>
 															</div>
 														</div>

@@ -23,6 +23,7 @@ Route::group(['middleware' => ['guest','lang']], function (){
   Route::post('login','HomeController@login')->name('login');
 });
 
+Route::get('project-data/brochure/{project_id}','Admin\ProjectDataController@brochure')->name('project.brochure');
 
 use App\Contact;
 use App\Country;

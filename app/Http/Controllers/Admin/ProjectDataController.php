@@ -111,19 +111,24 @@ class ProjectDataController extends Controller
   {
 
       $data = $request->validate([
-        "country_id"          => "required",
+        "country_id"          => "nullable",
         "city_name"          => "required",
         "district_name"          => "required",
         "developer_id"          => "required",
         "unit_name"          => "required",
         "project_id"          => "required",
         "property_type"          => "required",
-        "area_bua"          => "required",
-        "area_plot"          => "required",
+        "area_bua"          => "nullable",
+        "area_plot"          => "nullable",
         "bedroom"          => "required",
         "price"          => "required",
-        "completion_date"          => "required",
-        "payment_status"          => "required",
+        "completion_date"          => "nullable",
+        "payment_status"          => "nullable",
+        "floor_no"      =>"required",
+        "commission"    =>"nullable",
+        "down_payment"  => "nullable",
+        "floor_plan"          => "nullable",
+        "status"          => "nullable",
       ]);
 
 
@@ -131,38 +136,70 @@ class ProjectDataController extends Controller
 
       addHistory('Project Data',0,'added',$data);   
 
-      $deal = ProjectData::create($data);
+      if($request->file('floor_plan')){
+        $md5Name = md5_file($request->file('floor_plan')->getRealPath());
+        $guessExtension = $request->file('floor_plan')->guessExtension();
+        $file = $request->file('floor_plan')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['floor_plan'] = $md5Name.'.'.$guessExtension;
+      }
+
+      ProjectData::create($data);
       return redirect(route('admin.project-data.index'))->withSuccess(__('site.success'));
   }
 
   public function update(Request $request,  $id)
   {
-    $deal = ProjectData::findOrFail($id);
+    $projectdata = ProjectData::findOrFail($id);
 
     $data = $request->validate([
-      "country_id"          => "required",
+      "country_id"          => "nullable",
       "city_name"          => "required",
       "district_name"          => "required",
       "developer_id"          => "required",
       "unit_name"          => "required",
       "project_id"          => "required",
       "property_type"          => "required",
-      "area_bua"          => "required",
-      "area_plot"          => "required",
+      "area_bua"          => "nullable",
+      "area_plot"          => "nullable",
       "bedroom"          => "required",
       "price"          => "required",
-      "completion_date"          => "required",
-      "payment_status"          => "required",
+      "completion_date"          => "nullable",
+      "payment_status"          => "nullable",
+      "floor_no"      =>"required",
+      "commission"    =>"nullable",
+      "down_payment"  => "nullable",
+      "floor_plan"          => "nullable",
+      "status"          => "nullable",
     ]);
 
     $data['updated_at'] = Carbon::now();
 
-    addHistory('Project Data',$id,'updated',$data,$deal);
+    addHistory('Project Data',$id,'updated',$data,$projectdata);
 
-    $deal->update($data);
+    if($request->file('floor_plan')){
+      $md5Name = md5_file($request->file('floor_plan')->getRealPath());
+      $guessExtension = $request->file('floor_plan')->guessExtension();
+      $file = $request->file('floor_plan')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+      $data['floor_plan'] = $md5Name.'.'.$guessExtension;
+    }
+
+    $projectdata->update($data);
     return redirect(route('admin.project-data.index'))->withSuccess(__('site.success'));
   }
+  public function brochure($id)
+  {
 
+    $project = ProjectData::join('projects','projects_data.project_id','projects.id')
+                            ->where('projects_data.id',$id)
+                            ->first();
+                            // dd($project);
+                      
+       $date=Carbon::now("Asia/Riyadh");
+       $time=Carbon::now("Asia/Riyadh")->format('g:i A');
+       //dd($property->images[0]->images_link);
+      return view('admin.projectdata.brochure',compact('project','date','time'));
+
+  }
 
   public function destroy ($id)
   {
@@ -172,9 +209,9 @@ class ProjectDataController extends Controller
     return back()->withSuccess(__('site.success'));
   }
 
-  public function show($deal)
+  public function show($id)
   {
-    $deal = ProjectData::findOrFail($deal);
+    $projectdata = ProjectData::findOrFail($id);
     // Start Hundel Counties Sort
     $countries = Country::orderBy('name_en')->get();
 
@@ -204,7 +241,7 @@ class ProjectDataController extends Controller
     $projects = ProjectName::orderBy('name','ASC')->get();
     $developer = ProjectDeveloper::orderBy('name','ASC')->get();
 
-    return view('admin.projectdata.show_project',compact('deal','countries','purposetype','projects','developer'));
+    return view('admin.projectdata.show_project',compact('projectdata','countries','purposetype','projects','developer'));
 
   } 
   

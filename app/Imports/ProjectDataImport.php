@@ -37,7 +37,11 @@ class ProjectDataImport implements ToCollection, WithHeadingRow,ShouldQueue,With
       "bedroom.*"          => "required",
       "price.*"          => "required",
       "completion_date.*"          => "required",
-      "payment_status.*"          => "required"
+      "payment_status.*"          => "required",
+      "floor_no.*" =>"required",
+      "commission" => "nullable",
+      "down_payment" =>"nullable",      
+      "status" =>"nullable",      
       ];
 
     public function collection(Collection $rows)
