@@ -23,18 +23,17 @@ Route::group(['middleware' => ['guest','lang']], function (){
   Route::post('login','HomeController@login')->name('login');
 });
 
-Route::get('property-bayut-xml','Admin\PropertyController@propertyBayutXml')->name('propertyBayutXml');
-Route::get('property-finder-xml','Admin\PropertyController@propertyFinderXml')->name('propertyFinderXml');
-Route::get('property-dubizzle-xml','Admin\PropertyController@propertyDubizzleXml')->name('propertyDubizzleXml');
-Route::get('property-dubizzle-hourly-xml','Admin\PropertyController@propertyDubizzleHourlyXml')->name('propertyDubizzleHourlyXml');
+Route::get('property-bayut-xml','Admin\PropertyBayutXmlController@propertyBayutXml')->name('propertyBayutXml');
+Route::get('property-finder-xml','Admin\PropertyFinderXmlController@propertyFinderXml')->name('propertyFinderXml');
+Route::get('property-dubizzle-xml','Admin\PropertyDubizzleXmlController@propertyDubizzleXml')->name('propertyDubizzleXml');
+Route::get('property-dubizzle-hourly-xml','Admin\PropertyDubizzleXmlController@propertyDubizzleHourlyXml')->name('propertyDubizzleHourlyXml');
 
-Route::get('property-xml','Admin\PropertyController@propertyXml')->name('propertyXml');
+Route::get('property-xml','Admin\PropertyXmlController@propertyXml')->name('propertyXml');
 Route::get('property/brochure/{property_id}','Admin\PropertyController@brochure')->name('property.brochure');
-Route::get('project-data/brochure/{project_id}','Admin\ProjectDataController@brochure')->name('project.brochure');
 
-Route::get('read-xml','Admin\PropertyController@readXml')->name('property.readXml');
-Route::get('read-bayut-xml','Admin\PropertyController@readBayutXml')->name('property.readBayutXml');
-Route::get('read-dubizzle-xml','Admin\PropertyController@readDubizzleXml')->name('property.readDubizzleXml');
+Route::get('read-xml','Admin\PropertyXmlController@readXml')->name('property.readXml');
+Route::get('read-bayut-xml','Admin\PropertyXmlController@readBayutXml')->name('property.readBayutXml');
+Route::get('read-dubizzle-xml','Admin\PropertyXmlController@readDubizzleXml')->name('property.readDubizzleXml');
 
 use App\Contact;
 use App\Country;

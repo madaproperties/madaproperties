@@ -253,6 +253,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 
                 <br />
                 @if(userRole() != 'sales')
+								<div class="page-button">
                 <button type="button" class="btn btn-primary"
                 data-toggle="modal" data-target="#assign-leads">
                     Assing <i class="fa fa-users"></i>
@@ -263,6 +264,8 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
                     Delete <i class="fa fa-trash"></i>
 					</button>
 				@endcan
+				{{ $contacts->withQueryString()->links() }}
+				</div>
 
                 @endif
 							<!--begin: Datatable-->
@@ -352,7 +355,6 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 									@endforeach
 
 								</tbody>
-								{{ $contacts->withQueryString()->links() }}
 							</table>
 							{{ $contacts->withQueryString()->links() }}
 							<!--end: Datatable-->
