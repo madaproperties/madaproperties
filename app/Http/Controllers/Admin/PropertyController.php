@@ -219,6 +219,29 @@ class PropertyController extends Controller
     $data['created_at'] = Carbon::now();
     $data['created_by'] = auth()->id();
     $data['user_id'] = auth()->id();
+
+    $address='';
+    if($data['building_name']){
+      $address .= $data['building_name'].',';
+    }
+    if($data['project_name']){
+      $address .= $data['project_name'].',';
+    }
+    if($data['area_name']){
+      $address .= $data['area_name'].',';
+    }
+    if($data['city_id']){
+      $address .= City::where('id',$data['city_id'])->first()->name_en;
+    }
+    if($address){
+      $add = $this->getGeoCode($address);
+      if(isset($add['lat']) && isset($add['lng'])){
+        $data['geopoints'] = implode(',',$add);
+        $data['latitude'] = $add['lat'];
+        $data['longitude'] = $add['lng'];
+      }
+    }
+
     addHistory('Property',0,'added',$data);
 
     $property = Property::create($data);
@@ -380,6 +403,30 @@ class PropertyController extends Controller
     if($property->status != 1 && $data['status'] == 1){
       $data['publishing_date'] = Carbon::now();
     }
+
+
+    $address='';
+    if($data['building_name']){
+      $address .= $data['building_name'].',';
+    }
+    if($data['project_name']){
+      $address .= $data['project_name'].',';
+    }
+    if($data['area_name']){
+      $address .= $data['area_name'].',';
+    }
+    if($data['city_id']){
+      $address .= City::where('id',$data['city_id'])->first()->name_en;
+    }
+    if($address){
+      $add = $this->getGeoCode($address);
+      if(isset($add['lat']) && isset($add['lng'])){
+        $data['geopoints'] = implode(',',$add);
+        $data['latitude'] = $add['lat'];
+        $data['longitude'] = $add['lng'];
+      }
+    }
+
     addHistory('Property',$id,'updated',$data,$property);
     $property->update($data);
 
@@ -783,10 +830,17 @@ class PropertyController extends Controller
   }
     
   function getGeoCode($address){
+    $key = 'AIzaSyC-Fb4qyExl4P-2mK01YEj_TmfyXJ5ljYQ';
     // geocoding api url
-    $url = "http://maps.google.com/maps/api/geocode/json?address=$address";
+    //$url = 'https://maps.googleapis.com/maps/api/geocode/json?address='.$address.'&key='.$key;
     // send api request
-    $geocode = file_get_contents($url);
+    $url = 'https://maps.googleapis.com/maps/api/geocode/json?';   
+    $options = array("address"=>$address,"key"=>$key,"keyword"=>$url);
+    $url .= http_build_query($options,'','&');
+    
+    $geocode = file_get_contents("$url");
+
+    //$geocode = file_get_contents($url);
     $json = json_decode($geocode);
     $data['lat'] = $json->results[0]->geometry->location->lat;
     $data['lng'] = $json->results[0]->geometry->location->lng;

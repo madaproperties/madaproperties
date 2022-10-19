@@ -31,9 +31,9 @@
 		<!--begin::Container-->
 		<div class="container">
 			<!--begin::Profile Change Password-->
-			<div class="d-flex flex-row">
+			<div class="w-100">
 				<!--begin::Content-->
-				<div class="flex-row-fluid ml-lg-8">
+				<div class="w-100">
 					<!--begin::Card-->
 					<div class="card card-custom gutter-b">
 				<!--begin::Header-->
@@ -60,7 +60,7 @@
 				</div>
 				<!--end::Header-->
 				<!--end::Page Title-->
-				<form class="ml-5" action="">
+				<form class="ml-5 formSearchh" action="">
 					@foreach(request()->all() as $pram => $val)
 						@if($pram != 'search')
 							<input type="hidden" name="{{$pram}}" value="{{$val}}" />
@@ -121,6 +121,7 @@
 										<span class="text-muted font-weight-bold">{{($property->last_updated)}}</span>
 									</td>																		
 									<td>
+									<div class="editPro">
 										@can('property-edit')
 											<a href="{{ route('admin.property.show',$property->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
 										@endif
@@ -135,6 +136,7 @@
 												<button type="submit" style="display:none"></button>
 											</form>
 										@endif
+	</div>
 									</td>
 								</tr>
 								@endforeach
