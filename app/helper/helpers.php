@@ -306,7 +306,7 @@ function timeZone($row)
                             auth()->user()->time_zone
                                     : 'Asia/Riyadh';
 
-    if(in_array($row,timeZones()))
+    if(in_array($zone,timeZones()))
     {
         return $row->timezone($zone);
     }

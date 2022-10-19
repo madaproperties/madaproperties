@@ -194,9 +194,10 @@ class ProjectDataController extends Controller
                             ->first();
                             // dd($project);
                       
-
-    //dd($property->images[0]->images_link);
-    return view('admin.projectdata.brochure',compact('project'));
+       $date=Carbon::now("Asia/Riyadh");
+       $time=Carbon::now("Asia/Riyadh")->format('g:i A');
+       //dd($property->images[0]->images_link);
+      return view('admin.projectdata.brochure',compact('project','date','time'));
 
   }
 

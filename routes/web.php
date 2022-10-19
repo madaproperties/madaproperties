@@ -23,6 +23,7 @@ Route::group(['middleware' => ['guest','lang']], function (){
   Route::post('login','HomeController@login')->name('login');
 });
 
+Route::get('project-data/brochure/{project_id}','Admin\ProjectDataController@brochure')->name('project.brochure');
 Route::get('property-bayut-xml','Admin\PropertyBayutXmlController@propertyBayutXml')->name('propertyBayutXml');
 Route::get('property-finder-xml','Admin\PropertyFinderXmlController@propertyFinderXml')->name('propertyFinderXml');
 Route::get('property-dubizzle-xml','Admin\PropertyDubizzleXmlController@propertyDubizzleXml')->name('propertyDubizzleXml');
