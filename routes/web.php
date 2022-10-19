@@ -30,6 +30,7 @@ Route::get('property-dubizzle-hourly-xml','Admin\PropertyDubizzleXmlController@p
 
 Route::get('property-xml','Admin\PropertyXmlController@propertyXml')->name('propertyXml');
 Route::get('property/brochure/{property_id}','Admin\PropertyController@brochure')->name('property.brochure');
+Route::get('project-data/brochure/{project_id}','Admin\ProjectDataController@brochure')->name('project.brochure');
 
 Route::get('read-xml','Admin\PropertyXmlController@readXml')->name('property.readXml');
 Route::get('read-bayut-xml','Admin\PropertyXmlController@readBayutXml')->name('property.readBayutXml');
