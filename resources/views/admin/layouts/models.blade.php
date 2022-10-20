@@ -406,7 +406,7 @@
   <div class="col-lg-9 col-xl-9">
     <select class="form-control other-select" id="" name="project_id" style="width:100%">
 
-      @if($contact->project_id)
+      @if(isset($contact->project->country_id) && $contact->project_id)
       <option
       id="project-value-{{$contact->project->id}}"
       data-text="{{$contact->project->name}}"
