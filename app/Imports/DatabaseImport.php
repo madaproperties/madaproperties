@@ -17,7 +17,7 @@ use App\Status;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Carbon\Carbon;
-use App\ProjectData;
+use App\DatabaseRecords;
 
 
 class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChunkReading 
@@ -59,16 +59,13 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
         // get new status 
         $country_id = $this->getID($index,'Country','name_en',$contact['country_name']);
         $contact['country_id'] = $country_id;
-        $project_id = $this->getID($index,'Project','name',$contact['project_name']);
-        $contact['project_id'] = $project_id;
-        $developer_id = $this->getID($index,'Developer','name',$contact['developer_name']);
+        $developer_id = $this->getID($index,'Agent','email',$contact['agent_email']);
         $contact['developer_id'] = $developer_id;
-        $contact['payment_status'] = str_replace(" ","-",$contact['payment_status']);
-
+        $contact['project_id'] = $contact['project_name'];
         unset($contact['country_name']); // remove asssigned to => replaced with user_id
+        unset($contact['agent_email']);
         unset($contact['project_name']);
-        unset($contact['developer_name']);
-        $contact = ProjectData::create(array_filter($contact));
+        $contact = DatabaseRecords::create(array_filter($contact));
       }
       session()->flash('success',__('site.success'));
     }
@@ -83,9 +80,9 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
         }else if($model == 'Project') {
           $ID = ProjectName::where($search_feild,'LIKE','%'. $value )->first();
           $customMsg = __('site.project not found: recode').$value.' #['.$index.']';
-        }else if($model == 'Developer') {
-          $ID =  ProjectDeveloper::where($search_feild,'LIKE','%'.$value)->first();
-          $customMsg = __('site.developer not found: recode').'['.$index.'] ' ;
+        }else if($model == 'Agent') {
+          $ID =  User::where($search_feild,'LIKE','%'.$value)->first();
+          $customMsg = __('site.user not found: recode').'['.$index.'] ' ;
         }
         // check if therer is result found or make an errors messge
         if(!$ID){
