@@ -125,55 +125,7 @@ class ContactController extends Controller
       $currencies = Currency::orderBy($currencyName)->get();
 
 
-      if(userRole() == 'leader'){
-        $id = auth()->id();
-        $sellers = User::where(function($q) use($id){
-                          $q->where('leader',$id);
-                          $q->OrWhere('id',$id);
-                        })
-                        ->where('active','1')->get();
-      }elseif(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing' || userRole() == 'ceo'){ //Updated by Javed
-  
-        if(userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' ){
-          $whereCountry = '';
-          if(userRole() == 'sales admin uae'){
-            $whereCountry = 'Asia/Dubai';
-            $sellers = User::where(function($q){
-              $q->where('rule','sales');
-              $q->orWhere('rule','leader');
-            })
-            ->where('active','1')
-            ->where('time_zone','like','%'.$whereCountry.'%')
-        ->orderBy('email','asc')
-            ->get();
-          }else{
-            $whereCountry = 'Asia/Riyadh';
-            $sellers = User::where('time_zone','like','%'.$whereCountry.'%')
-            ->where('active','1')
-        ->orderBy('email','asc')
-            ->get();
-  
-          }        
-      
-        }else{
-          $sellers = User::where('active','1')->orderBy('email','asc')->get();
-        }
-  
-      }elseif(userRole() == 'sales admin'){
-  
-          $leader = auth()->user()->leader;
-          if($leader){
-        $sellers = User::where('leader',$leader)
-                ->where('active','1')
-                ->where('id','!=',auth()->id())
-                ->orWhere('rule','sales admin saudi')->orWhere('id',$leader)->orderBy('email','asc')->get();
-          }else{
-              $sellers = [];
-          }
-  
-      }else {
-        $sellers = [];
-      }
+      $sellers = $this->getSellers();
 
       $activities = Activity::where('contact_id',$contact->id)->orderBy('id','DESC')->get();
       $tasks = Task::where('contact_id',$contact->id)->orderBy('created_at','DESC')->get();
@@ -294,35 +246,7 @@ class ContactController extends Controller
         $contents = Content::where('active','1')->orderBy('name')->get();
         $sources = Source::where('active','1')->orderBy('name')->get();
         $mediums = Medium::where('active','1')->get();
-
-        if(userRole() == 'leader')
-      {
-          $id = auth()->id();
-        $sellers = User::where('leader',$id)
-                        ->OrWhere('id',$id)
-                        ->where('active','1')->orderBy('email')->get();
-      }elseif(userRole() == 'admin')
-      {
-        $sellers = User::where('rule','sales')
-                        ->orWhere('rule','leader')
-                        ->where('active','1')->orderBy('email')->get();
-      }elseif(userRole() == 'sales admin'){
-
-        $leader = auth()->user()->leader;
-        if($leader)
-        {
-           $sellers = User::where('leader',$leader)
-                             ->where('id','!=',auth()->id())
-                            ->Orwhere('id',$leader)
-                            ->where('active','1')->orderBy('email')->get();
-        }else{
-            $sellers = [];
-        }
-
-      }else {
-        $sellers = [];
-      }
-      
+        $sellers = $this->getSellers();
 
         return view('admin.contacts.create',
         compact('projects','miles','countries','currencies','purpose','purposetype','campaigns','contents','sources','mediums','sellers'));
@@ -695,6 +619,57 @@ class ContactController extends Controller
       return response()->json([
         'status' => true,
       ]);
+    }
+
+    function getSellers(){
+      if(userRole() == 'leader'){
+        $id = auth()->id();
+        $sellers = User::where(function($q) use($id){
+                          $q->where('leader',$id);
+                          $q->OrWhere('id',$id);
+                        })
+                        ->where('active','1')->get();
+      }elseif(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing' || userRole() == 'ceo'){ //Updated by Javed
+  
+        if(userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' ){
+          $whereCountry = '';
+          if(userRole() == 'sales admin uae'){
+            $whereCountry = 'Asia/Dubai';
+            $sellers = User::where(function($q){
+              $q->where('rule','sales');
+              $q->orWhere('rule','leader');
+            })
+            ->where('active','1')
+            ->where('time_zone','like','%'.$whereCountry.'%')
+            ->orderBy('email','asc')
+            ->get();
+          }else{
+            $whereCountry = 'Asia/Riyadh';
+            $sellers = User::where('time_zone','like','%'.$whereCountry.'%')
+            ->where('active','1')
+            ->orderBy('email','asc')
+            ->get();
+          }        	
+        }else{
+          $sellers = User::where('active','1')->orderBy('email','asc')->get();
+        }
+      }elseif(userRole() == 'sales admin'){
+  
+          $leader = auth()->user()->leader;
+          if($leader){
+            $sellers = User::where('leader',$leader)
+                ->where('active','1')
+                ->where('id','!=',auth()->id())
+                ->orWhere('rule','sales admin saudi')->orWhere('id',$leader)->orderBy('email','asc')->get();
+          }else{
+              $sellers = [];
+          }
+  
+      }else {
+        $sellers = [];
+      }
+  
+      return $sellers;
     }
 
 }
