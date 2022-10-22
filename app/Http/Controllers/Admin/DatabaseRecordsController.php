@@ -16,6 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\DatabaseRecords;
 use App\DatabaseRecordsExport;
 use App\DatabaseNote;
+use App\Imports\DatabaseImport;
 
 
 class DatabaseRecordsController extends Controller
@@ -404,5 +405,16 @@ class DatabaseRecordsController extends Controller
     }
 
     return $countries;
+  }
+
+  public function import(Request $req) {
+    $file = $req->validate([
+      'file' => 'required|mimes:xlsx'
+    ]);
+    $file = Request()->file('file');
+
+    $results = Excel::import(new DatabaseImport,$file);
+
+    return back();
   }
 }

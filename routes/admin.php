@@ -137,6 +137,7 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
 
       // importData
       Route::post('project-import-data','ProjectDataController@import')->name('projectImportData');
+      Route::post('database-import-data','DatabaseRecordsController@import')->name('databaseImportData');
       
       // importData
       Route::resource('property','PropertyController');

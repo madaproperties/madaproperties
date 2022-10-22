@@ -59,6 +59,12 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 					@can('database-records-create')
 						<a href="{{route('admin.database-records.create')}}" id="kt_quick_user_toggle" class="btn btn-success font-weight-bolder font-size-sm">
 						<span class="fa fa-plus"></span> {{__('site.New database record')}}</a>
+
+						<a href="#" data-toggle="modal" data-target="#databaseImportData" class="btn btn-success font-weight-bolder font-size-sm">
+							<span class="svg-icon svg-icon-md">
+							<i class="fas fa-database"></i>
+							</span>{{__('site.Import Data') }}
+						</a>
 					@endcan
 					</div>
 				</div>
@@ -203,7 +209,27 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 	</div>
 	<!--end::Profile Change Password-->
 </div>
+<div class="modal fade" id="databaseImportData" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<form method="post" id="import-data-form" action="{{route('admin.databaseImportData')}}" enctype="multipart/form-data">
+	<div class="modal-content">
 
+		<div class="modal-body">
+					@csrf
+					<div class="form-group">
+					<label for="exampleInputEmail1">File <a href="{{ url('public/files/database-import-sample.xlsx') }}" target="_blank"> Download example file</a></label>
+					<input type="file" name="file"
+						class="form-control" required>
+					</div>
+		</div>
+		<div class="modal-footer">
+				<button type="submit" form="import-data-form" class="btn btn-primary">Uplode</button>
+		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		</div>
+	</div>
+	</form>
+	</div>
+</div>
 @endsection
 <script>
 function submitForm(id){
