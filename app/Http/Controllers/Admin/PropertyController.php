@@ -24,6 +24,8 @@ use App\Categories;
 use Image;
 use Mail;
 use App\Mail\PropertyNotification;
+use Illuminate\Support\Facades\Storage;
+
 
 class PropertyController extends Controller
 {
@@ -560,6 +562,7 @@ class PropertyController extends Controller
             $img->insert($watermark, 'center');
             $img->save($destinationPath.'/'.$filename);
             
+            Storage::disk('s3')->put('uploads/property/'.$property_id.'/images', $filename);
             PropertyImages::create([
             'property_id' => $property_id,
             'images_link' => $filename
@@ -647,6 +650,7 @@ class PropertyController extends Controller
             $property_id = Request('property_id');
             $file = $file->move('public/uploads/property/'.$property_id.'/documents', $md5Name.'.'.$guessExtension);     
             $filename = $md5Name.'.'.$guessExtension;
+            Storage::disk('s3')->put('uploads/property/'.$property_id.'/documents', $filename);
             PropertyDocuments::create([
             'property_id' => $property_id,
             'document_link' => $filename
@@ -691,7 +695,6 @@ class PropertyController extends Controller
       $documents = PropertyDocuments::where('document_link',$documentName)->delete();
       if($documents){
         $path=public_path().'public/uploads/property/'.$property_id.'/documents/'.$documentName;
-        Storage::disk('s3')->put('images', $request->image);
         if (file_exists($path)) {
             unlink($path);
         }
