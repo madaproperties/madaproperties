@@ -319,7 +319,7 @@
 																								<i class="la la-phone"></i>
 																							</span>
 																						</div>
-																						<input type="number"
+																						<input type="text"
 																						value="{{$contact->phone}}"
 																{{ userRole() != 'admin' ? 'disabled' : ''}}						class="form-control form-control-solid form-control-lg" required name="phone" placeholder="{{__('site.contact phone')}}">
 																					</div>
