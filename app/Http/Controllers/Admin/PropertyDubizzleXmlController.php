@@ -180,7 +180,7 @@ class PropertyDubizzleXmlController extends Controller
         $photo=[];
         foreach($property->images as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
-          $photo[]= asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link);          
+          $photo[]= env('S3_URL').'uploads/property/'.$property->id.'/images/'.$image->images_link;          
         }
         $xml.= implode("|",$photo);
         $xml.="</photos>";
@@ -358,7 +358,7 @@ class PropertyDubizzleXmlController extends Controller
         $photo=[];
         foreach($property->images as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
-          $photo[]= asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link);          
+          $photo[]= env('S3_URL').'uploads/property/'.$property->id.'/images/'.$image->images_link;          
         }
         $xml.= implode("|",$photo);
         $xml.="</photos>";

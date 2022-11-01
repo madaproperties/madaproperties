@@ -168,7 +168,7 @@ class PropertyXmlController extends Controller
       if($property->images && count($property->images)){
         foreach($property->images as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
-          $xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
+          $xml.="<url last_updated='".$image->date."' watermark='yes'>".env('S3_URL').'uploads/property/'.$property->id.'/images/'.$image->images_link."</url>";          
         }
       }
       $xml.="</photo>";

@@ -845,8 +845,11 @@ class PropertyController extends Controller
 
     //$geocode = file_get_contents($url);
     $json = json_decode($geocode);
-    $data['lat'] = $json->results[0]->geometry->location->lat;
-    $data['lng'] = $json->results[0]->geometry->location->lng;
+    $data = array();
+    if(isset($json->results[0])){
+      $data['lat'] = $json->results[0]->geometry->location->lat;
+      $data['lng'] = $json->results[0]->geometry->location->lng;
+    }
     return $data;
   }
 }
