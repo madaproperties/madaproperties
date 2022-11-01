@@ -134,10 +134,6 @@ class MainController extends Controller
             ->whereHas('project', function($q2) {
                 $q2->where('projects.country_id','2');
             })
-            ->whereHas('creator', function($q2) {
-              $whereCountry = 'Asia/Dubai';
-              $q2->where('users.time_zone','like','%'.$whereCountry.'%');
-            })
             ->orderBy('created_at','DESC');
           }
 
@@ -161,10 +157,6 @@ class MainController extends Controller
             })
             ->whereHas('project', function($q2) {
                 $q2->where('projects.country_id','1');
-            })
-            ->orWhereHas('creator', function($q2) {
-                $whereCountry = 'Asia/Riyadh';
-                $q2->where('users.time_zone','like','%'.$whereCountry.'%');
             })
             ->orderBy('created_at','DESC');
           }
@@ -216,49 +208,8 @@ class MainController extends Controller
       $contactsCount = $contacts->count();
       $contacts = $contacts->paginate(20);
 
-    }
-    else if(userRole() == 'sales director') { // sales director
+    }else{
       
-      if(Request()->has('my-contacts')){
-            $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
-              $this->filterPrams($q);
-            })
-            ->orderBy('created_at','DESC');
-          }
-          else{
-                  $userloc=User::where('id',auth()->id())->first();
-                 
-                 if($userloc->time_zone=='Asia/Dubai'){
-                 
-                  $contacts = Contact::where('unit_country',2)
-            
-            ->orderBy('created_at','DESC');
-                 }
-                 else{
-
-                 $contacts = Contact::where('unit_country',1)
-            ->orderBy('created_at','DESC'); 
-                 }
-                  $contactsCount = $contacts->count();
-
-
-          $paginationNo = 20;
-          $contacts = $contacts->paginate($paginationNo);
-           if($userloc->time_zone=='Asia/Dubai')
-              { 
-               $whereCountry = 'Asia/Dubai';  
-              }
-              else
-              {
-              $whereCountry = 'Asia/Riyadh';
-              }
-          $createdBy = $createdBy->where('time_zone','like','%'.$whereCountry.'%');
-
-                }
-              }
-
-         else{
-       
       $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
         $this->filterPrams($q);
       })->where('user_id',auth()->id())->orderBy('created_at','DESC');
@@ -303,27 +254,7 @@ class MainController extends Controller
         $sellers = User::where('active','1')->orderBy('email','asc')->get();
       }
 
-    }
-    elseif(userRole() == 'sales director'){
-            $userloc=User::where('id',auth()->id())->first();
-                 if($userloc->time_zone=='Asia/Dubai')
-                 {
-                 $sellers = User::where('time_zone','Asia/Dubai')
-                      ->where('active','1')->get();
-                 }
-                 else
-                 {
-                  $sellers = User::where('time_zone','Asia/Riyadh')
-                      ->where('active','1')->get();
-                 }
-
-    
-    }
-
-
-
-
-    elseif(userRole() == 'sales admin'){
+    }elseif(userRole() == 'sales admin'){
 
         $leader = auth()->user()->leader;
         if($leader){

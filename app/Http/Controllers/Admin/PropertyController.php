@@ -56,7 +56,7 @@ class PropertyController extends Controller
     }else{
       $property = Property::where(function ($q){
         $this->filterPrams($q);
-      })->where('created_by',auth()->id())->orderBy('last_updated','desc');
+      })->where('user_id',auth()->id())->orderBy('last_updated','desc');
     }
     $properties = $property->paginate(20);
     $property_count = $property->count();
