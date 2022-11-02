@@ -21,6 +21,7 @@ use App\Project;
 use App\CampaignReportExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\CampainReport;
+use App\ProjectData;
 
 class ReportController extends Controller
 {
@@ -175,6 +176,7 @@ class ReportController extends Controller
 
 
 	public function reportUsers(){ // reportUsers
+		
 		$canvas = false;
 		$weekends = 0;
 		$report_dates = [];
@@ -189,7 +191,7 @@ class ReportController extends Controller
 		$two_week_report = [];
 
 		if(request('users_id') && request()->has('from') && request()->has('to')){
-			$from = date('Y-m-d 00:00:00', strtotime(Request('from')));
+		  $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
 			$to = date('Y-m-d 23:59:59', strtotime(Request('to')));
 
 			$user_id = Request('users_id');
@@ -209,11 +211,14 @@ class ReportController extends Controller
 			->where('user_id',$user_id)
 			->whereDate('updated_at', '>=', Carbon::today()->subDays( 14 ))
 			->get();
+			$leader=0;
 
-		}else if(userRole() == 'sales' && request()->has('from') && request()->has('to')){
+		 }
+		
+		else if(userRole() == 'sales' && request()->has('from') && request()->has('to')){
 			$from = date('Y-m-d 00:00:00', strtotime(Request('from')));
 			$to = date('Y-m-d 23:59:59', strtotime(Request('to')));
-
+      
 			$user_id = auth()->id();
 			// get the User
 			$user = User::findOrFail($user_id);
@@ -235,6 +240,7 @@ class ReportController extends Controller
 			
 		}else{
 			if(userRole() != 'sales'){
+				
 				$allUsersReport = true;
 				$userReport = User::where('active','1')
 				->whereIn('rule',['sales','sales admin','leader']);
@@ -244,33 +250,101 @@ class ReportController extends Controller
 				}else if(userRole() == 'sales admin uae'){
 					$whereCountry = 'Asia/Dubai';
 					$userReport = $userReport->where('time_zone','like','%'.$whereCountry.'%');
-				}else if(userRole() == 'leader'){
+				}
+				// added by fazal
+				else if(userRole()=='sales director')
+				{
+					$userdetail=User::where('id',auth()->id())->first();
+				   if($userdetail->time_zone=='Asia/Riyadh')
+				   {
+				   $whereCountry = 'Asia/Riyadh';
+					$userReport = $userReport->where('time_zone','like','%'.$whereCountry.'%');	
+				   }	
+				   else
+				   {
+				   	$whereCountry = 'Asia/Dubai';
+					$userReport = $userReport->where('time_zone','like','%'.$whereCountry.'%');
+				   }
+				}
+				//added by fazal end
+      else if(userRole() == 'leader'){
 					/// if he is leader get his sellars and get him with them too
 					$userReport = User::where('active','1')->where('leader',auth()->id());
 				}
-				$userReport = $userReport->whereNotIn('email',['lead-admin-uae@madaproperties.com','lead-admin-ksa@madaproperties.com'])
+
+        // 
+$userReport = $userReport->whereNotIn('email',['lead-admin-uae@madaproperties.com','lead-admin-ksa@madaproperties.com'])
 				->orderBy('email')->paginate(10);
+				$leader='';
 
 			}
+			
+        // 
 		}
 
 		// 07-04-2021
-		$users = User::where('active','1')->whereIn('rule',['sales','sales admin','leader']);
+		if(userRole()=='sales director')
+		{
+
+			$userdetail=User::where('id',auth()->id())->first();
+				   if($userdetail->time_zone=='Asia/Riyadh'){
+		       $users = User::where('active','1')->whereIn('rule',['sales','sales admin','leader','sales admin sadui']);
+		       	$whereCountry = 'Asia/Riyadh';
+			     $users = $users->where('time_zone','like','%'.$whereCountry.'%');		   	
+				   }
+				   else
+				   {
+				   	$users = User::where('active','1')->whereIn('rule',['sales','sales admin','leader','sales admin uae']);
+				   		$whereCountry = 'Asia/Dubai';
+			        $users = $users->where('time_zone','like','%'.$whereCountry.'%');
+				   }
+		
+		}
+		else{
+			$users = User::where('active','1')->whereIn('rule',['sales','sales admin','leader']);
+		}
+		
         if(userRole() == 'sales admin saudi'){
 			$whereCountry = 'Asia/Riyadh';
 			$users = $users->where('time_zone','like','%'.$whereCountry.'%');
 		}else if(userRole() == 'sales admin uae'){
 			$whereCountry = 'Asia/Dubai';
 			$users = $users->where('time_zone','like','%'.$whereCountry.'%');
-		}else if(userRole() == 'leader'){
+		}
+		else if(userRole() == 'leader'){
 			/// if he is leader get his sellars and get him with them too
 			$users = User::where('active','1')->where('leader',auth()->id());
 		}
-		$users = $users->whereNotIn('email',['lead-admin-uae@madaproperties.com','lead-admin-ksa@madaproperties.com'])
+		
+    $users = $users->whereNotIn('email',['lead-admin-uae@madaproperties.com','lead-admin-ksa@madaproperties.com'])
 		->orderBy('email')->get();
+		 
 
 		$status = Status::where('active','1')->get();
+        $countries=Country::get();
+        if(userRole()=='sales director')
+        {
+        	$user_loc=User::where('id',auth()->id())->first();
+        	if($user_loc->time_zone=='Asia/Riyadh')
+        	{
+        		$projects=ProjectData::where('projects_data.country_id',1)->join('projects','projects_data.project_id','projects.id')->select('projects.name_en','projects_data.id')->get();
+        		$leaders=User::whereIn('rule',['leader','sales director'])->where('time_zone','Asia/Riyadh')->get();
+        		
 
+        	}
+        	else
+        	{
+        		$projects=ProjectData::where('projects_data.country_id',2)->join('projects','projects_data.project_id','projects.id')->select('projects.name_en','projects_data.id')->get();
+        		$leaders=User::whereIn('rule',['leader','sales director'])->where('time_zone','Asia/Dubai')->get();
+        		
+        	}
+
+        }
+        else
+        {
+          $projects='';
+          $leaders='';
+        }
 		return view('admin.reports.index',[
 			'users' =>  $users,
 			'report_dates' =>  $report_dates,
@@ -284,9 +358,39 @@ class ReportController extends Controller
 			'last14days' => Carbon::today()->subDays( 14 ),
 			'userReport' => $userReport,
 			'allUsersReport' => $allUsersReport, 
-			'two_week_report' => $two_week_report 
+			'two_week_report' => $two_week_report,
+			'countries' =>$countries,
+			'leader'=>$leader,
+			'projects'=>$projects,
+			'leaders'=>$leaders 
 		]);
 	}
+	// added by fazal
+     public function fetchProject(Request $request)
+     { 
+
+       $country_id=$request->get('country_id');
+       $data['project']=ProjectData::where('projects_data.country_id',$country_id)->join('projects','projects_data.project_id','projects.id')->select('projects.name_en','projects.id')->get();
+
+       if($country_id==1)
+       {
+       	
+       	$data['leaders']=User::whereIn('rule',['leader','sales director'])->where('time_zone','Asia/Riyadh')->select('id','email')->get();
+       }
+       else
+       {
+
+       	$data['leaders']=User::whereIn('rule',['leader','sales director'])->where('time_zone','Asia/Dubai')->select('id','email')->get();
+       }
+       return response()->json($data);
+    }
+     public function fetchAgent(Request $request)
+     {
+      $data['agents']=User::where('leader',$request->get('leader_id'))->select('id','email')->get();
+      return response()->json($data);      
+     }
+	
+     //added by fazal end 
 
 	public function reportDaily(){ // reportUsers
 		$canvas = true;

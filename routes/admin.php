@@ -19,6 +19,7 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
         Route::resource('sources','SourcesController');
         Route::resource('mediums','MediumsController');
         Route::resource('contents','ContentsController');
+        Route::resource('employee','EmployeeController');
         Route::get('dashboard','MainController@statics')->name('statics');
       });
       /********* End Mnager Only ***************************/
@@ -66,7 +67,7 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
             return redirect(route('admin.statics'));
           }else{
               $newStatus = Status::where('name_en','new')->first();
-              return redirect(route('admin.home') .'?filter_status='.$newStatus->id);
+               return redirect(route('admin.home') .'?filter_status='.$newStatus->id);
           }
       });
 
@@ -93,7 +94,7 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::resource('deal-developer','DealDeveloperController');
       Route::post('get-dealdevelopers','DealDeveloperController@getDealDevelopers')
                         ->name('get.dealdevelopers');
-
+     
       Route::resource('roles', RoleController::class);        
       
       Route::get('exportDataDeals','DealController@exportDataDeals')->name('deal.exportDataDeals');
@@ -110,6 +111,10 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::get('campaign-report','ReportController@reportCampaing')->name('campaign-report');
       Route::get('campaign-analytics-report','ReportController@reportCampaingAnalytics')->name('campaign-analytics-report');
       Route::get('leaders-report','ReportController@reportLeaders')->name('leaders-report');
+       //added by fazal
+      Route::post('fetch-project', 'ReportController@fetchProject')->name('fetch-project');
+      Route::post('fetch-agent', 'ReportController@fetchAgent')->name('fetch-agent');
+       // 
 
 
 
@@ -137,7 +142,6 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
 
       // importData
       Route::post('project-import-data','ProjectDataController@import')->name('projectImportData');
-      Route::post('database-import-data','DatabaseRecordsController@import')->name('databaseImportData');
       
       // importData
       Route::resource('property','PropertyController');
@@ -153,7 +157,6 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::post('property/save-features','PropertyController@saveFeatures')->name('property.saveFeatures');
       Route::post('property/save-portals','PropertyController@savePortals')->name('property.savePortals');
 
-      Route::resource('features','FeaturesController');
 });
 
 
