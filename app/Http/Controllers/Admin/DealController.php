@@ -327,10 +327,30 @@ class DealController extends Controller
       ->where('active','1')->orderBy('email')->get();
       }elseif(!checkLeaderUae()){
         $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
-          $q->where('rule','sales')->orWhere('rule','leader');
+               $q->where('rule','sales')->orWhere('rule','leader');
+
+           // $q->whereIn('rule',['sales','leader','sales admin uae']);// added by fazal
         })
       ->where('active','1')->orderBy('email')->get();
-      }else{
+      }
+      // added by fazal
+      elseif(userRole()=='sales director')
+      {
+        $user_loc=User::where('id',auth()->id())->first();
+        if($user_loc->time_zone=='Asia/Riyadh')
+        {
+         $sellers = User::whereIn('rule',['sales','leader','sales admin saudi'])
+                        ->where('active','1')->where('time_zone','Asia/Riyadh')->orderBy('email')->get();          
+        }
+         else
+         {
+        $sellers = User::whereIn('rule',['sales','leader','sales admin uae'])
+                        ->where('active','1')->where('time_zone','Asia/Dubai')->orderBy('email')->get();  
+         }
+        
+      }
+      // 
+      else{
         $sellers = User::where('rule','sales')->orWhere('rule','leader')
       ->where('active','1')->orderBy('email')->get();
       }
@@ -350,7 +370,21 @@ class DealController extends Controller
         $developer = DealDeveloper::where('country_id',1)->orderBy('name_en')->get();
       }elseif(!checkLeaderUae()){
         $developer = DealDeveloper::where('country_id',2)->orderBy('name_en')->get();
-      }else{
+      }
+      // added by fazal
+      elseif(userRole()=='sales director')
+      {
+        $user_loc=User::where('id',auth()->id())->first();
+        if($user_loc->time_zone=='Asia/Riyadh')
+        {
+       $developer = DealDeveloper::where('country_id',1)->orderBy('name_en')->get();   
+        }
+        else
+        {
+          $developer = DealDeveloper::where('country_id',2)->orderBy('name_en')->get();
+        }
+      }
+      else{
         $developer = DealDeveloper::orderBy('name_en')->get();
       }
 
@@ -598,7 +632,26 @@ class DealController extends Controller
     }elseif(!checkLeaderUae()){
       $leaders = User::where('rule','leader')
       ->where('active','1')->where('time_zone','Asia/Dubai')->orWhere('email','omar.ali@madaproperties.com')->orderBy('email')->get();
-    }else{
+    }
+    // added by fazal
+      elseif(userRole()=='sales director')
+      {
+        $user_loc=User::where('id',auth()->id())->first();
+        if($user_loc->time_zone=='Asia/Riyadh')
+        {
+         $sellers = User::whereIn('rule',['sales','leader','sales admin saudi'])
+                        ->where('active','1')->where('time_zone','Asia/Riyadh')->orderBy('email')->get();          
+        }
+         else
+         {
+        $sellers = User::whereIn('rule',['sales','leader','sales admin uae'])
+                        ->where('active','1')->where('time_zone','Asia/Dubai')->orderBy('email')->get();  
+         }
+        
+      }
+      //
+
+     else{
       $leaders = User::where('rule','leader')
       ->where('active','1')->orWhere('email','omar.ali@madaproperties.com')->orderBy('email')->get();
     }
@@ -607,7 +660,21 @@ class DealController extends Controller
       $developer = DealDeveloper::where('country_id',1)->orderBy('name_en')->get();
     }elseif(!checkLeaderUae()){
       $developer = DealDeveloper::where('country_id',2)->orderBy('name_en')->get();
-    }else{
+    }
+    // added by fazal
+      elseif(userRole()=='sales director')
+      {
+        $user_loc=User::where('id',auth()->id())->first();
+        if($user_loc->time_zone=='Asia/Riyadh')
+        {
+       $developer = DealDeveloper::where('country_id',1)->orderBy('name_en')->get();   
+        }
+        else
+        {
+          $developer = DealDeveloper::where('country_id',2)->orderBy('name_en')->get();
+        }
+      }
+    else{
       $developer = DealDeveloper::orderBy('name_en')->get();
     }
 

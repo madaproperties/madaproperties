@@ -280,49 +280,69 @@ class MainController extends Controller
                         $q->OrWhere('id',$id);
                       })
                       ->where('active','1')->get();
-    }elseif(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing' || userRole() == 'ceo'){ //Updated by Javed
+    }elseif(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing' || userRole() == 'ceo' ||  userRole()=='sales director'){ //Updated by Javed
 
       if(userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' ){
         $whereCountry = '';
         if(userRole() == 'sales admin uae'){
+         
           $whereCountry = 'Asia/Dubai';
           $sellers = User::where(function($q){
-            $q->where('rule','sales');
-            $q->orWhere('rule','leader');
+             $q->whereIn('rule',['sales','leader','sales admin uae']);//added ny fazal
+            // $q->where('rule','sales');
+            // $q->orWhere('rule','leader');
           })
           ->where('active','1')
           ->where('time_zone','like','%'.$whereCountry.'%')
-      ->orderBy('email','asc')
+          ->orderBy('email','asc')
           ->get();
-        }else{
+        }
+         else{
+         
           $whereCountry = 'Asia/Riyadh';
-          $sellers = User::where('time_zone','like','%'.$whereCountry.'%')
+          $sellers =  User::where(function($q){
+            whereIn('rule',['sales','leader','sales admin saudi']);//added ny fazal
+            // $q->where('rule','sales');
+            // $q->orWhere('rule','leader');
+            })
           ->where('active','1')
-      ->orderBy('email','asc')
+          ->where('time_zone','like','%'.$whereCountry.'%')
+          ->orderBy('email','asc')
           ->get();
 
         }        
     
-      }else{
+      }
+      // added by fazal
+      elseif(userRole()=='sales director')
+      {
+        $auth_loc=User::where('id',auth()->id())->first();
+        if($auth_loc->time_zone=='Asia/Riyadh')
+        {
+         $sellers = User::where('time_zone','Asia/Riyadh')
+          ->whereIn('rule',['sales','leader','sales admin saudi'])
+          ->where('active','1')
+          ->orderBy('email','asc')
+          ->get(); 
+        }
+        else{
+           $sellers = User::where('time_zone','Asia/Dubai')
+          ->whereIn('rule',['sales','leader','sales admin uae'])
+          ->where('active','1')
+          ->orderBy('email','asc')
+          ->get(); 
+          // $sellers=User::where('id',auth()->id())->select('email')->get();  
+        } 
+           
+      }
+      // added by fazal end
+      
+      else{
         $sellers = User::where('active','1')->orderBy('email','asc')->get();
       }
 
     }
-    elseif(userRole() == 'sales director'){
-            $userloc=User::where('id',auth()->id())->first();
-                 if($userloc->time_zone=='Asia/Dubai')
-                 {
-                 $sellers = User::where('time_zone','Asia/Dubai')
-                      ->where('active','1')->get();
-                 }
-                 else
-                 {
-                  $sellers = User::where('time_zone','Asia/Riyadh')
-                      ->where('active','1')->get();
-                 }
-
-    
-    }
+   
 
 
 

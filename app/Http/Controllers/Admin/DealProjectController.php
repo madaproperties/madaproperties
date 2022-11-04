@@ -71,7 +71,27 @@ class DealProjectController extends Controller
       }elseif(!checkLeaderUae()){
         $deals = DealProject::where('country_id',2)->orderBy('id','desc')->paginate(20);
         $deals_count = DealProject::where('country_id',2)->count();
-      }else{
+      }
+      // 
+      elseif(userRole()=='sales director')
+      {
+        $user_loc=User::where('id',auth()->id())->first();
+        if($user_loc->time_zone=='Asia/Riyadh')
+        {
+          $deals = DealProject::where('country_id',1)->orderBy('id','desc')->paginate(20);
+          $deals_count = DealProject::where('country_id',1)->count();
+     
+        }
+         else
+          {
+           $deals = DealProject::where('country_id',2)->orderBy('id','desc')->paginate(20);
+           $deals_count = DealProject::where('country_id',2)->count();
+       
+          }
+       
+      }
+      // 
+      else{
         $deals = DealProject::orderBy('id','desc')->paginate(20);
         $deals_count = DealProject::count();
       }

@@ -50,6 +50,7 @@ class DealDeveloperController extends Controller
   // index 
   public function index(){
 
+
     if(Request()->has('search')){
       if(!checkLeader()){
         $deals = DealDeveloper::where('country_id',1)->where('name_en','LIKE','%'. Request('search') .'%')->orderBy('id','desc')->paginate(20);
@@ -57,7 +58,9 @@ class DealDeveloperController extends Controller
       }elseif(!checkLeaderUae()){
         $deals = DealDeveloper::where('country_id',2)->where('name_en','LIKE','%'. Request('search') .'%')->orderBy('id','desc')->paginate(20);
         $deals_count = DealDeveloper::where('country_id',2)->where('name_en','LIKE','%'. Request('search') .'%')->count();
-      }else{
+      }
+
+      else{
         $deals = DealDeveloper::where('name_en','LIKE','%'. Request('search') .'%')->orderBy('id','desc')->paginate(20);
         $deals_count = DealDeveloper::where('name_en','LIKE','%'. Request('search') .'%')->count();
 
@@ -70,7 +73,28 @@ class DealDeveloperController extends Controller
       }elseif(!checkLeaderUae()){
         $deals = DealDeveloper::where('country_id',2)->orderBy('id','desc')->paginate(20);
         $deals_count = DealDeveloper::where('country_id',2)->count();
-      }else{
+      }
+    // 
+       elseif(userRole()=='sales director')
+      {
+        $user_loc=User::where('id',auth()->id())->first();
+        if($user_loc->time_zone=='Asia/Riyadh')
+        {
+         $deals = DealDeveloper::where('country_id',1)->orderBy('id','desc')->paginate(20);
+        $deals_count = DealDeveloper::where('country_id',1)->count();
+     
+        }
+         else
+          {
+           $deals = DealDeveloper::where('country_id',2)->orderBy('id','desc')->paginate(20);
+        $deals_count = DealDeveloper::where('country_id',2)->count();
+       
+          }
+       
+      }
+    // 
+
+      else{
         $deals = DealDeveloper::orderBy('id','desc')->paginate(20);
         $deals_count = DealDeveloper::count();
       }

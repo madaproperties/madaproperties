@@ -447,6 +447,11 @@ $userReport = $userReport->whereNotIn('email',['lead-admin-uae@madaproperties.co
 				/// if he is leader get his sellars and get him with them too
 			$users = User::where('leader',auth()->id())->OrWhere('id',auth()->id())->get();
 		}
+		elseif(userRole() == 'sales director')
+		{
+				/// if he is leader get his sellars and get him with them too
+			$users = User::whereIn('rule',['sales','leader','sales admin uae'])->get();
+		}
 
 		$status = Status::where('active','1')->get();
 		return view('admin.reports.index',[
