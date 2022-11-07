@@ -88,18 +88,22 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 								</div>
 
 								<!--begin::Button-->
+								<!-- added by fazal -->
+								@if(userRole() !='sales director')
 								@can('contact-create')
 								<a href="{{route('admin.contact.create')}}" class="btn btn-primary font-weight-bolder">
 								<span class="svg-icon svg-icon-md">
 									<i class="fa fa-user"></i>
 								</span>{{ __('site.New Contacts') }}</a>
 								@endcan
+								@endif  
+								<!-- end added by fazal -->
 								<!--end::Button-->
 								    	<!--begin::Button-->
 
 
 								<!--begin::Button-->
-
+              
 								@can('contact-export')
 								<a href="{{$exportUrl}}" class="btn btn-primary font-weight-bolder" target="_blank">
 								<span class="svg-icon svg-icon-md">
@@ -120,7 +124,8 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 								</span>un unassigned</a>
 								@endif
 								<!--end::Button-->
-
+                <!-- added by fazal -->
+                  @if(userRole() != 'sales director')
 								@can('contact-import')
 								<div class="dropdown dropdown-inline mr-2">
 									<button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -151,6 +156,8 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 									<!--end::Dropdown Menu-->
 								</div>
 								@endcan
+								@endif
+								<!-- added by fazal end -->
 								<!--end::Button-->
 								<!-- Modal -->
 								<div class="modal fade" id="importData" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
