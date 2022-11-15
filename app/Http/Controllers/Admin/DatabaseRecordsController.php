@@ -96,7 +96,14 @@ class DatabaseRecordsController extends Controller
 
       $data_count = $data->count();
       $data = $data->paginate(20);
+    }else if(userRole() == 'sales director') { 
+      $data = DatabaseRecords::where(function ($q){
+        $this->filterPrams($q);
+      })->where('assign_to',null)
+        ->orderBy('created_at','DESC');
 
+      $data_count = $data->count();
+      $data = $data->paginate(20);
     }else{
       $data = DatabaseRecords::where(function ($q){
         $this->filterPrams($q);
