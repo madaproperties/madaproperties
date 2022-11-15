@@ -126,7 +126,19 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         })->where('created_by',auth()->id())
           ->where('user_id',null)
           ->orderBy('created_at','DESC');
-  
+      }else if(userRole() == 'sales director') { // sales director  
+        $userloc=User::where('id',auth()->id())->first();
+        if($userloc->time_zone=='Asia/Dubai'){
+          $contacts = Contact::query()->select($this->selectedAttruibutes)->where(function ($q){
+            $this->filterPrams($q);
+          })->where('unit_country',2)
+          ->orderBy('created_at','DESC');
+        }else{
+          $contacts = Contact::query()->select($this->selectedAttruibutes)->where(function ($q){
+            $this->filterPrams($q);
+          })->where('unit_country',1)
+          ->orderBy('created_at','DESC');
+        }          
       }else{
         
         $contacts = Contact::query()->select($this->selectedAttruibutes)->where(function ($q){
