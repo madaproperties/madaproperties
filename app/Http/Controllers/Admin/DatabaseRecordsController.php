@@ -106,7 +106,7 @@ class DatabaseRecordsController extends Controller
       $data = $data->paginate(20);
 
     }
-    $sellers = $this->getSellers();
+    $sellers = getSellers();
 
 
    
@@ -115,7 +115,7 @@ class DatabaseRecordsController extends Controller
 
   public function create() {
     $countries = $this->getCuntoryList();
-    $sellers = $this->getSellers();
+    $sellers = getSellers();
     return view('admin.databaserecords.create',compact('countries','sellers'));
   }
 
@@ -232,7 +232,7 @@ class DatabaseRecordsController extends Controller
     $data = DatabaseRecords::findOrFail($deal);
 
     $countries = $this->getCuntoryList();
-    $sellers = $this->getSellers();
+    $sellers = getSellers();
 
     $notes = DatabaseNote::where('database_id',$data->id)->orderBy('created_at','DESC')->get();
 
@@ -326,57 +326,6 @@ class DatabaseRecordsController extends Controller
       'status' => true,
     ]);
   }  
-
-  function getSellers(){
-    if(userRole() == 'leader'){
-      $id = auth()->id();
-      $sellers = User::where(function($q) use($id){
-                        $q->where('leader',$id);
-                        $q->OrWhere('id',$id);
-                      })
-                      ->where('active','1')->get();
-    }elseif(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing' || userRole() == 'ceo'){ //Updated by Javed
-
-      if(userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' ){
-        $whereCountry = '';
-        if(userRole() == 'sales admin uae'){
-          $whereCountry = 'Asia/Dubai';
-          $sellers = User::where(function($q){
-            $q->where('rule','sales');
-            $q->orWhere('rule','leader');
-          })
-          ->where('active','1')
-          ->where('time_zone','like','%'.$whereCountry.'%')
-    		  ->orderBy('email','asc')
-          ->get();
-        }else{
-          $whereCountry = 'Asia/Riyadh';
-          $sellers = User::where('time_zone','like','%'.$whereCountry.'%')
-          ->where('active','1')
-		      ->orderBy('email','asc')
-          ->get();
-        }        	
-      }else{
-        $sellers = User::where('active','1')->orderBy('email','asc')->get();
-      }
-    }elseif(userRole() == 'sales admin'){
-
-        $leader = auth()->user()->leader;
-        if($leader){
-    			$sellers = User::where('leader',$leader)
-							->where('active','1')
-							->where('id','!=',auth()->id())
-							->orWhere('rule','sales admin saudi')->orWhere('id',$leader)->orderBy('email','asc')->get();
-        }else{
-            $sellers = [];
-        }
-
-    }else {
-      $sellers = [];
-    }
-
-    return $sellers;
-  }
 
   function getCuntoryList(){
     // Start Hundel Counties Sort
