@@ -244,6 +244,15 @@ class ReportController extends Controller
 				}else if(userRole() == 'sales admin uae'){
 					$whereCountry = 'Asia/Dubai';
 					$userReport = $userReport->where('time_zone','like','%'.$whereCountry.'%');
+				}else if(userRole() == 'sales director') { // sales director
+					$userloc=User::where('id',auth()->id())->first();
+					if($userloc->time_zone=='Asia/Dubai') { 
+						$whereCountry = 'Asia/Dubai';  
+					}else{
+						$whereCountry = 'Asia/Riyadh';
+					}
+					$userReport = $userReport->where('time_zone','like','%'.$whereCountry.'%');
+
 				}else if(userRole() == 'leader'){
 					/// if he is leader get his sellars and get him with them too
 					$userReport = User::where('active','1')->where('leader',auth()->id());
@@ -261,6 +270,14 @@ class ReportController extends Controller
 			$users = $users->where('time_zone','like','%'.$whereCountry.'%');
 		}else if(userRole() == 'sales admin uae'){
 			$whereCountry = 'Asia/Dubai';
+			$users = $users->where('time_zone','like','%'.$whereCountry.'%');
+		}else if(userRole() == 'sales director') { // sales director
+			$userloc=User::where('id',auth()->id())->first();
+			if($userloc->time_zone=='Asia/Dubai') { 
+				$whereCountry = 'Asia/Dubai';  
+			}else{
+				$whereCountry = 'Asia/Riyadh';
+			}
 			$users = $users->where('time_zone','like','%'.$whereCountry.'%');
 		}else if(userRole() == 'leader'){
 			/// if he is leader get his sellars and get him with them too

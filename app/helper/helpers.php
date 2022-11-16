@@ -311,7 +311,7 @@ function timeZone($row)
         return $row->timezone($zone);
     }
 
-    return  $row->timezone('Asia/Riyadh');;
+    return  $row->timezone('Asia/Riyadh');
 
 }
 
@@ -912,10 +912,12 @@ function getSellers() {
     $userloc=User::where('id',auth()->id())->first();
     if($userloc->time_zone=='Asia/Dubai'){
       $sellers = User::where('time_zone','Asia/Dubai')
-        ->where('active','1')->get();
+        ->where('active','1')->where('rule','sales')
+        ->orWhere('rule','leader')->get();
     }else{
       $sellers = User::where('time_zone','Asia/Riyadh')
-        ->where('active','1')->get();
+        ->where('active','1')->where('rule','sales')
+        ->orWhere('rule','leader')->get();
     }
   }else {
     $sellers = [];
