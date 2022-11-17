@@ -881,13 +881,13 @@ function getSellers() {
         })
         ->where('active','1')
         ->where('time_zone','like','%'.$whereCountry.'%')
-    ->orderBy('email','asc')
+        ->orderBy('email','asc')
         ->get();
       }else{
         $whereCountry = 'Asia/Riyadh';
         $sellers = User::where('time_zone','like','%'.$whereCountry.'%')
         ->where('active','1')
-    ->orderBy('email','asc')
+        ->orderBy('email','asc')
         ->get();
 
       }        
@@ -900,10 +900,13 @@ function getSellers() {
 
       $leader = auth()->user()->leader;
       if($leader){
-    $sellers = User::where('leader',$leader)
+        $sellers = User::where('leader',$leader)
             ->where('active','1')
-            ->where('id','!=',auth()->id())
-            ->orWhere('rule','sales admin saudi')->orWhere('id',$leader)->orderBy('email','asc')->get();
+            ->where(function($q){
+              $q->where('id','!=',auth()->id())
+              ->orWhere('rule','sales admin saudi')
+              ->orWhere('id',$leader);
+            })->orderBy('email','asc')->get();
       }else{
           $sellers = [];
       }
@@ -912,12 +915,18 @@ function getSellers() {
     $userloc=User::where('id',auth()->id())->first();
     if($userloc->time_zone=='Asia/Dubai'){
       $sellers = User::where('time_zone','Asia/Dubai')
-        ->where('active','1')->where('rule','sales')
-        ->orWhere('rule','leader')->get();
+        ->where('active','1')
+        ->where(function($q){
+          $q->where('rule','sales')
+          ->orWhere('rule','leader');
+        })->get();
     }else{
       $sellers = User::where('time_zone','Asia/Riyadh')
-        ->where('active','1')->where('rule','sales')
-        ->orWhere('rule','leader')->get();
+        ->where('active','1')
+        ->where(function($q){
+          $q->where('rule','sales')
+          ->orWhere('rule','leader');
+        })->get();
     }
   }else {
     $sellers = [];

@@ -209,6 +209,13 @@ class MainController extends Controller
       $contacts = $contacts->paginate(20);
 
     }else if(userRole() == 'sales director') { // sales director
+      $userloc=User::where('id',auth()->id())->first();
+      if($userloc->time_zone=='Asia/Dubai') { 
+        $whereCountry = 'Asia/Dubai';  
+      }else{
+        $whereCountry = 'Asia/Riyadh';
+      }
+      $createdBy = $createdBy->where('time_zone','like','%'.$whereCountry.'%');
       if(Request()->has('my-contacts')){
         $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
           $this->filterPrams($q);
@@ -218,7 +225,6 @@ class MainController extends Controller
           $paginationNo = 20;
           $contacts = $contacts->paginate($paginationNo);
       }else{
-        $userloc=User::where('id',auth()->id())->first();
         if($userloc->time_zone=='Asia/Dubai'){
           $contacts = Contact::where('unit_country',2)
           ->orderBy('created_at','DESC');
@@ -229,14 +235,8 @@ class MainController extends Controller
         $contactsCount = $contacts->count();
         $paginationNo = 20;
         $contacts = $contacts->paginate($paginationNo);
-        if($userloc->time_zone=='Asia/Dubai') { 
-          $whereCountry = 'Asia/Dubai';  
-        }else{
-          $whereCountry = 'Asia/Riyadh';
-        }
-        $createdBy = $createdBy->where('time_zone','like','%'.$whereCountry.'%');
       }
-    }else{
+  }else{
       $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
         $this->filterPrams($q);
       })->where('user_id',auth()->id())->orderBy('created_at','DESC');
