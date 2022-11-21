@@ -208,67 +208,44 @@ class MainController extends Controller
       $contactsCount = $contacts->count();
       $contacts = $contacts->paginate(20);
 
+    }else if(userRole() == 'sales director') { // sales director
+      $userloc=User::where('id',auth()->id())->first();
+      if($userloc->time_zone=='Asia/Dubai') { 
+        $whereCountry = 'Asia/Dubai';  
+      }else{
+        $whereCountry = 'Asia/Riyadh';
+      }
+      $createdBy = $createdBy->where('time_zone','like','%'.$whereCountry.'%');
+      if(Request()->has('my-contacts')){
+        $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
+          $this->filterPrams($q);
+        })
+        ->orderBy('created_at','DESC');
+          $contactsCount = $contacts->count();
+          $paginationNo = 20;
+          $contacts = $contacts->paginate($paginationNo);
+      }else{
+        if($userloc->time_zone=='Asia/Dubai'){
+          $contacts = Contact::where('unit_country',2)
+          ->orderBy('created_at','DESC');
+        }else{
+          $contacts = Contact::where('unit_country',1)
+          ->orderBy('created_at','DESC'); 
+        }
+        $contactsCount = $contacts->count();
+        $paginationNo = 20;
+        $contacts = $contacts->paginate($paginationNo);
+      }
     }else{
-      
       $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
         $this->filterPrams($q);
       })->where('user_id',auth()->id())->orderBy('created_at','DESC');
 
       $contactsCount = $contacts->count();
       $contacts = $contacts->paginate(20);
-
     }
-
-
-    if(userRole() == 'leader'){
-      $id = auth()->id();
-      $sellers = User::where(function($q) use($id){
-                        $q->where('leader',$id);
-                        $q->OrWhere('id',$id);
-                      })
-                      ->where('active','1')->get();
-    }elseif(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing' || userRole() == 'ceo'){ //Updated by Javed
-
-      if(userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' ){
-        $whereCountry = '';
-        if(userRole() == 'sales admin uae'){
-          $whereCountry = 'Asia/Dubai';
-          $sellers = User::where(function($q){
-            $q->where('rule','sales');
-            $q->orWhere('rule','leader');
-          })
-          ->where('active','1')
-          ->where('time_zone','like','%'.$whereCountry.'%')
-		  ->orderBy('email','asc')
-          ->get();
-        }else{
-          $whereCountry = 'Asia/Riyadh';
-          $sellers = User::where('time_zone','like','%'.$whereCountry.'%')
-          ->where('active','1')
-		  ->orderBy('email','asc')
-          ->get();
-
-        }        
-		
-      }else{
-        $sellers = User::where('active','1')->orderBy('email','asc')->get();
-      }
-
-    }elseif(userRole() == 'sales admin'){
-
-        $leader = auth()->user()->leader;
-        if($leader){
-			$sellers = User::where('leader',$leader)
-							->where('active','1')
-							->where('id','!=',auth()->id())
-							->orWhere('rule','sales admin saudi')->orWhere('id',$leader)->orderBy('email','asc')->get();
-        }else{
-            $sellers = [];
-        }
-
-    }else {
-      $sellers = [];
-    }
+    
+    $sellers = getSellers(); // Added by Lokesh on 15-11-2022
 
     $status = Status::where('active','1')->orderBy('weight','ASC')->get();
 

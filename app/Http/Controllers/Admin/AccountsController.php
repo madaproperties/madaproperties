@@ -51,7 +51,7 @@ class AccountsController extends Controller
             $countries->prepend($topCountry);
         }        
 
-        $leaders = User::where('rule','leader')->where('active','1')->get();
+        $leaders = User::whereIn('rule',['leader','sales director'])->where('active','1')->get();
         $positions = ['rent','buy','sell','management','handover'];
         $roles = Role::pluck('name','name')->all();
         return view('admin.accounts.index',[
