@@ -52,6 +52,9 @@
                 if(Request('project_id') && !empty(request('project_id'))){
                     $tempOne = $tempOne->where('project_id',request('project_id'));
                 }
+                if(Request('campaing_id') && !empty(request('campaing_id'))){
+                    $tempOne = $tempOne->where('campaign',request('campaing_id'));
+                }
 
                 if(Request('from') && Request('to')){
                     $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
