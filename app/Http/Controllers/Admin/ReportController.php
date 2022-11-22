@@ -85,6 +85,11 @@ class ReportController extends Controller
 			if(Request('project_country_id') && !empty(request('project_country_id'))){
 				$projects_data = $projects_data->where('country_id',Request('project_country_id'));
 			}
+			if(Request('campaing_id') && !empty(request('campaing_id'))){
+				$tempIds = Contact::where('campaign',request('campaing_id'))->get()->pluck('project_id');
+				$projects_data = $projects_data->whereIn('id',$tempIds);
+			}
+
 			$projects_data = $projects_data->paginate(10);
 
 			$countries = Country::orderBy('name_en')->get();

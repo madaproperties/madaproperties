@@ -21,7 +21,7 @@
 			<form method="GET" action="" class="search-from" >
 				<div class="row"> <!--- row -->
 					<div class="form-group col-md-3 col-sm-12">
-						<label for="country">{{__('site.campaing')}}</label>
+						<label for="country">{{__('site.campaign')}}</label>
 						<select class="form-control " id="campaing_id"
 						name="campaing_id" data-select2-id="" tabindex="-1" aria-hidden="true">
 							<option value="">{{ __('site.choose') }}</option>
