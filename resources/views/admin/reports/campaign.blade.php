@@ -3,8 +3,11 @@
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
    <div class="container">
+   
+    <div class="card card-custom gutter-b">
+    <div class="card-body table-responsive">
    @include('admin.reports.advance_search')
-<table class="table">
+<table class=" text-center table table-separate table-head-custom table-checkable table-striped">
     <thead>
     <tr>
         <th scope="col">#</th>
@@ -52,7 +55,6 @@
                 if(Request('project_id') && !empty(request('project_id'))){
                     $tempOne = $tempOne->where('project_id',request('project_id'));
                 }
-                
 
                 if(Request('from') && Request('to')){
                     $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
@@ -94,4 +96,6 @@
         </div>
 </div>
 <!--end::Entry-->
+</div>
+</div>
 </div>

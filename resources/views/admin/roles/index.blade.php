@@ -53,25 +53,34 @@
 				<div class="card-body py-0">
 					<!--begin::Table-->
 					<div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class=" text-center table table-separate table-head-custom table-checkable table-striped">
+                        <thead>
                         <tr>
                             <th>No</th>
                             <th>Name</th>
                             <th width="280px">Action</th>
                         </tr>
+                        </thead>
                         @foreach ($roles as $key => $role)
                         <tr>
                             <td>{{ ++$i }}</td>
                             <td>{{ $role->name }}</td>
                             <td>
-                                @can('role-edit')
-                                    <a class="btn btn-primary" href="{{ route('admin.roles.edit',$role->id) }}">Edit</a>
-                                @endcan
-                                @can('role-delete')
-                                {!! Form::open(['method' => 'DELETE','route' => ['admin.roles.destroy', $role->id],'style'=>'display:inline']) !!}
-                                    {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                    {!! Form::close() !!}
-                                @endcan
+                                <div class="editPro">
+                                    @can('role-edit')
+                                        <a href="{{ route('admin.roles.edit',$role->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
+                                    @endcan
+                                    @can('role-delete')
+                                        <form id="destory-{{$role->id}}" class="delete" onsubmit="return confirm('{{__('site.confirm')}}');"
+                                            action="{{ route('admin.roles.destroy',$role->id) }}" method="POST" >
+                                            @csrf
+                                            @method('DELETE')
+                                            <a href="javascript:void(0)" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Delete">
+                                            <i class="fa fa-trash" onclick="submitForm('{{$role->id}}')"></i></a>
+                                            <button type="submit" style="display:none"></button>
+                                        </form>                                    
+                                    @endcan
+                                </div>
                             </td>
                         </tr>
                         @endforeach
@@ -91,3 +100,8 @@
 </div>
 
 @endsection
+<script>
+function submitForm(id){
+	$("#destory-"+id).submit();
+}
+</script>

@@ -2,7 +2,8 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>{{$project->name_en}}</title>
+        <title>{{$project->project->name}} -  {{$project->unit_name}}</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link href="{{ asset('public/assets/css/style.bundle.css?t='.time())}}" rel="stylesheet" type="text/css" />
 
         <style>
@@ -28,6 +29,7 @@
                 background-color: transparent;
 				margin-bottom:15px;
 				text-align:center;
+				margin:auto;
             }
             .table td  {
                 border: 1px solid #000;
@@ -178,28 +180,47 @@ ul li{
     top: 0;
   }
 }
-
-.bottom-line {
-  border-bottom: 1pt solid black;
+.mada_table tr td{padding:5px;}
+.mada_table tr{ border-bottom: 1px solid #9FCE31;}
+.mada_table{margin-top:70px;}
+.terms_condition{margin-top:100px;margin-bottom: 100px;}
+	span.date{
+		float: left;
+    padding: 15px;
+	}
+	table.about_company{margin-top:100px;}
+	.about_company i.fa{color: #9FCE31;
+    font-size: 14px;
+    padding-right: 10px;}
+	img.jood_logo{max-height: 200px;margin-top:30px;}
+td.center span {
+    font-weight: bold;
+    padding-left: 45px;
 }
+	.floor_plan img{margin-top:50px;width:90%;margin-bottom:50px;}
+	table.floor_plan{margin-top:200px;}
 </style>
     </head>
     <body>
         <main id="section-to-print">
-            <table width="800" cellpadding="0" cellspacing="0" border="0" align="center" style="background-color:#FFFFFF">
-				
+		<table width="800" cellpadding="0" cellspacing="0" border="0" align="center" style="background-color:#FFFFFF">
+			<tr>
+		<td height="30"> <span class="date">{{date("d/M/y", strtotime($date))}},{{ $time}} </span>
+		</td></tr>
 				<tr>
-					<td height="30"> {{ date('d/M/y, H:i A') }}
-
+					<!--<td height="30"> <span class="date">{{ now()->format('Y-m-d') }}</span>-->
+					<td>
+				
+					
 						<table cellpadding="0" cellspacing="0" border="0"  width="800">
 							<tr>
-								<td><img class="logo" src="{{ asset('public/imgs/logo.png') }}"/></td>
+								<td><img class="jood_logo" src="{{ asset('public/imgs/jood-7-logo.png') }}"/></td>
 							</tr>
 							<tr>
 								<td align="center" style="font-size:22px;word-spacing:0px;letter-spacing: 0px; font-family: inherit;font-weight:bold; color:#000;"></td>
 							</tr>
 							<tr>
-								<td align="center" style="font-size:13pt; font-family: Arial, Helvetica, sans-serif; color:#000;">Quatation</td>
+								<td align="center" style="font-size: 16pt;font-family: Arial, Helvetica, sans-serif;color: #9FCE31;text-decoration: underline;padding-top: 50px;font-weight: bold;text-decoration-color: #9FCE31;text-transform: uppercase;">Sales Offer</td>
 							</tr>
 						</table>
 					</td>
@@ -210,77 +231,153 @@ ul li{
 							<tr>
 					          <td width="14">&nbsp;</td>
 								<td   valign="top" >
-									<table width="80%" height="60" align="center">
+									<table width="80%" height="60" align="center" class="mada_table">
+									<tr class="bottom-line">
+											<td style="text-align:left">Project</td>
+											<td class="center" valign="top"><span>{{$project->project->name}}</span></td>
+											<td style="text-align:right">المشروع</td>
+										</tr>
 									
 										<tr class="bottom-line">
 											<td style="text-align:left">Floor No</td>
-											<td style="text-align:right;font-size:14px; font-family: Arial, Helvetica, sans-serif;  color:black;" valign="top">{{$project->floor_no}}</td>
+											<td class="center" valign="top"><span>{{$project->floor_no}}</span></td>
+											<td style="text-align:right">رقم الدور</td>
 										</tr>
                                         <tr class="bottom-line">
 											<td style="text-align:left">Type</td>
-											<td style="text-align:right;font-size:14px; font-family: Arial, Helvetica, sans-serif;  color:black;" valign="top">{{$project->property_type}}</td>
-
+											<td class="center" valign="top"><span>{{$project->property_type}}</span></td>
+											<td style="text-align:right">الفئة</td>
 										</tr>
 										<tr class="bottom-line">
 											<td style="text-align:left">Unit No</td>
-											<td style="text-align:right;font-size:14px; font-family: Arial, Helvetica, sans-serif;  color:black;" valign="top">{{$project->unit_name}}</td>
+											<td class="center" style="" valign="top"><span>{{$project->unit_name}}</span></td>
+											<td style="text-align:right">رقم الوحدة</td>
 										</tr>
 										<tr class="bottom-line">
-											<td style="text-align:left">Total Area (sqft)</td>
-											<td style="text-align:right;font-size:14px; font-family: Arial, Helvetica, sans-serif;  color:black;" valign="top">{{$project->area_bua}}</td>
+											<td style="text-align:left">Total Area (sqm)</td>
+											<td class="center" valign="top"><span>{{$project->area_bua}}</span></td>
+											<td style="text-align:right">المساحة الإجمالية (بالمتر المربع)</td>
 
 										</tr>
 										<tr class="bottom-line">
 											<td style="text-align:left">Price in SAR</td>
-											<td style="text-align:right;font-size:14px; font-family: Arial, Helvetica, sans-serif;  color:black;" valign="top">{{$project->price}}</td>
+											<td class="center" valign="top"><span>{{$project->price}}</span></td>
+											<td style="text-align:right">السعر بالريال السعودي</td>
 										</tr>
                                   </table>
-								</td>
-				          <br>
-				
-					<table style="border:1px solid black; margin-left: 200px;">
-						<th style="border:1px solid black;width: 200px; background-color: grey;" >Mada Fee 2.5% (+15% VAT)</th>
-						
-						<th style="border:1px solid black;width: 200px;background-color: grey;">{{$project->commission}}</th>
+								</td>				
+					<table class="mada_table">
+						<th style="width: 200px; background-color: #9FCE31;color:#000;font-weight:bold;padding: 5px;" >Mada Fee</th>
+						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">{{$project->commission}}*</th>
+						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">عمولة مدى</th>
 						<tr>
-							<td style="border:1px solid black;" >Account name </td>
-							<td style="border:1px solid black;">Mada Real Estate</td>
+							<td>Account name </td>
+							<td>Company Mada Real Estate</td>
+							<td>اسم الحساب</td>
 						</tr>
 						<tr>
 							<td>IBAN </td>
-							<td style="border:1px solid black;width: 250px;">IBANSA9060100033795022281001</td>
+							<td style="width: 250px;">SA9060100033795022281001</td>
+							<td>رقم الايبان </td>
 						</tr>
-						<tr style="border:1px solid black;">
+						<tr>
 							<td>Bank Name	  </td>
-							<td style="border:1px solid black;">Aljazira</td>
+							<td>بنك الجزيرة</td>
+							<td>اسم البنك</td>
 						</tr>	
 					</table>
 					@if($project->developer)
-					<br>
-					<table style="border:1px solid black; margin-left: 200px;">
-						<th style="border:1px solid black;width: 200px; background-color: grey;" >Down Payment 20%</th>
+					
+					<table class="mada_table">
+						<th style="color:#000;font-weight:bold;width: 200px; background-color: #9FCE31;padding: 5px;" >Down Payment 20%</th>
 						
-						<th style="border:1px solid black;width: 200px;background-color: grey;">{{$project->down_payment}}</th>
+						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">{{$project->down_payment}}*</th>
+						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">دفعة أولى 20%</th>
 						<tr>
-							<td style="border:1px solid black;" >Account name </td>
-							<td style="border:1px solid black;">{{$project->developer->name}}</td>
+							<td>Account name </td>
+							<td>{{$project->developer->name}}</td>
+							<td>اسم الحساب</td>
 						</tr>
 						<tr>
 							<td>IBAN </td>
-							<td style="border:1px solid black;width: 250px;">{{$project->developer->iban}}</td>
+							<td style="width: 250px;">{{$project->developer->iban}}</td>
+							<td>رقم الايبان</td>
 						</tr>
-						<tr style="border:1px solid black;">
+						<tr>
 							<td>Bank Name</td>
-							<td style="border:1px solid black;">{{$project->developer->bank_name}}</td>
+							<td>{{$project->developer->bank_name}}</td>
+							<td>اسم البنك</td>
 						</tr>	
 					</table>
-					@endif
+					<table class="terms_condition">
+					<tr>
+					<td>*This Sales Offer is valid only for 3 days. Price and payment plan are subject to change without prior notice.</td>
+					</tr>
+					</table>
+					
+				@endif
 					@if($project->floor_plan)
 																				
-					<table>
+					<table class="floor_plan">
+					<tr>
+						<td align="center" style="font-size: 16pt;font-family: Arial, Helvetica, sans-serif;color: #9FCE31;text-decoration: underline;padding-top: 70px;padding-bottom: 30px;font-weight: bold;text-decoration-color: #9FCE31;text-transform: uppercase;">Floor Plan</td>
+					</tr>
 						<tr>
 							<td><img src="{{env('APP_URL').'/public/uploads/projectData/'.$project->floor_plan}}" ></td>
 						</tr>	
+					</table>
+					<table class="about_company" width="80%">
+						<tr>
+						<td>
+						<table>
+							<tr>
+							<td><img class="logo" src="{{ asset('public/imgs/logo.png') }}"/></td>
+							</tr>
+						</table>
+						</td>
+						</tr>
+					<tr>
+					<td>
+					<table style="margin-top:20px;width:100%;">
+						
+							<tr>
+							<td style="font-size: 16px;color: #9FCE31;font-weight: bold;"><img src="{{ asset('public/imgs/KSAflag.png') }}" width="50" style="  padding-right: 10px;"/>Riyadh</td>
+							<td style="font-size: 16px;color: #9FCE31;font-weight: bold;"><img src="{{ asset('public/imgs/UAEflag.png') }}" width="50" style="  padding-right: 10px;"/>Dubai </td>
+							
+							
+						</tr>
+						<tr>
+						
+							<td>Prince Muhammad Ibn Salman St. Al Aqiq, Office 15, </br>2nd floor, Riyadh 13515</td>
+							<td>PO Box: 112037, Office 1106, Opal Tower, </br> Business Bay, Dubai</td>
+							
+						</tr>	
+						<tr>
+						<td> +966 55 008 8601 | +966 11 4455199</td>
+						<td>+971 50 377 0780 | +971 424 34 692</td>
+						</tr>
+						<tr>
+						<td>
+						<a href="https://www.facebook.com/madaproperties" target="_blank"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+						<a href="https://www.instagram.com/madaproperties" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+						<a href="https://twitter.com/MadaProperties" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+						<a href="https://www.youtube.com/channel/UCeFvODTAaNG-pIiqSTsT39w" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+						<a href="https://www.linkedin.com/company/madaproperties" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+						</td>
+						<td>
+						<a href="https://www.facebook.com/madapropertiesuae" target="_blank"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+						<a href="https://www.instagram.com/madaproperties.uae/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+						<a href="https://twitter.com/MadaPropUAE" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+						<a href="https://www.youtube.com/channel/UCQWJrg12NV5GxxsBD9StC8Q" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+						<a href="https://www.linkedin.com/company/mada-properties-uae" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+						</td>
+
+						</td>
+						</tr>
+					</table>
+					
+					</td></tr>
+					
 					</table>
 					@endif
 				</td>

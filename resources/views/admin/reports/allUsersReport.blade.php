@@ -8,7 +8,7 @@
 				<h4>
 					{{__('site.contacts')}}
 				</h4>
-				<table class="table" style="background:#f4f4f4">
+				<table class=" text-center table table-separate table-head-custom table-checkable table-striped">
 					<thead>
 						<tr>
 							<th>Name</th>
@@ -65,7 +65,7 @@
 <div class="card-body">
 	<div class="card card-custom" style="padding:20px">
 		<div class="table-responsive">
-			<table class="table  table-separate table-head-custom table-checkable">
+			<table class="ext-center table table-separate table-head-custom table-checkable table-striped">
 				<thead>
 					<tr>
 						<td>Name</td>
@@ -132,7 +132,7 @@
 				<h4>
 				{{'Last 2 week leads'}}
 				</h4>
-				<table class="table" style="background:#f4f4f4">
+				<table class="ext-center table table-separate table-head-custom table-checkable table-striped">
 					<thead>
 						<tr>
 							<th>Name</th>
@@ -190,7 +190,7 @@
 				<h4>
 				{{'2 week have passed and the status has not changed'}}
 				</h4>
-				<table class="table" style="background:#f4f4f4">
+				<table class="ext-center table table-separate table-head-custom table-checkable table-striped" style="background:#f4f4f4">
 					<thead>
 						<tr>
 							<th>Name</th>

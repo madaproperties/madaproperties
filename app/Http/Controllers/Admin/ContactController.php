@@ -613,8 +613,8 @@ class ContactController extends Controller
 
     public function multiple_delete() {
       $contacts = explode(',',request()->ids);
-      $contacts = Contact::whereIn('id',$contacts)->delete();
-      for($i = 0; $i <= count($contacts); $i++){
+      Contact::whereIn('id',$contacts)->delete();
+      for($i = 0; $i < count($contacts); $i++){
         addHistory('Contact',$contacts[$i],'deleted');    
       }
       return response()->json([

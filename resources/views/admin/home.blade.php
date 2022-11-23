@@ -1,9 +1,5 @@
 @push('css')
     <style>
-        .dataTables_info,.dataTables_paginate ,#DataTables_Table_0_filter
-        {
-            display:none;
-        }
         .dt-button
         {
                 padding: 5px;
@@ -179,7 +175,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 
 
                        <!--end::Page Title-->
-                      <form class="ml-5" action="">
+                      <form class="ml-5 formSearchh" action="" >
 
 
                           @foreach(request()->all() as $pram => $val)
@@ -254,6 +250,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
                 <br />
                 @if(userRole() != 'sales')
 								<div class="page-button">
+									<div class="">
                 <button type="button" class="btn btn-primary"
                 data-toggle="modal" data-target="#assign-leads">
                     Assing <i class="fa fa-users"></i>
@@ -264,6 +261,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
                     Delete <i class="fa fa-trash"></i>
 					</button>
 				@endcan
+				</div>
 				{{ $contacts->withQueryString()->links() }}
 				</div>
 
@@ -340,9 +338,9 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 											action="{{ route('admin.contact.destroy',$contact->id) }}" method="POST" >
 											@csrf
 											@method('DELETE')
-												<button type="submit" class="btn btn-danger">
-												{{__('site.delete')}}
-												</button>
+											<a href="javascript:void(0)" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Delete">
+												<i class="fa fa-trash" onclick="submitForm('{{$contact->id}}')"></i></a>
+												<button type="submit" style="display:none"></button>
 											</form>
 
 
@@ -369,10 +367,10 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 
 @endsection
 @push('js')
-<script src="{{ asset('public/assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
-<script src="{{ asset('public/assets/js/pages/crud/datatables/basic/scrollable.js') }}"></script>
-
 <script type="text/javascript">
+function submitForm(id){
+	$("#destory-"+id).submit();
+}
 $(document).ready(function () {
 	$('#check_all').on('click', function(e) {
 		if($(this).is(':checked',true)){
@@ -475,4 +473,5 @@ $(document).ready(function () {
     autoclose: true,
   });
 </script>
+
 @endpush

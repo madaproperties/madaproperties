@@ -65,7 +65,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.cash.exportDataCash'),$expor
 				</div>
 				<!--end::Header-->
 				<!--end::Page Title-->
-				<form class="ml-5" action="">
+				<form class="ml-5 formSearchh" action="">
 					@foreach(request()->all() as $pram => $val)
 						@if($pram != 'search')
 							<input type="hidden" name="{{$pram}}" value="{{$val}}" />
@@ -91,56 +91,60 @@ $exportUrl = str_replace($exportUrl[0],route('admin.cash.exportDataCash'),$expor
 				<div class="card-body py-0">
 					<!--begin::Table-->
 					<div class="table-responsive">
-						<table class="text-center table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
-							<thead>
-								<tr>
-									<th>{{__('site.cheque_date')}}</th>
-									<th>{{__('site.cheque_number')}}</th>
-									<th>{{__('site.paid')}}</th>
-									<th>{{__('site.amount')}}</th>
-									<th>{{__('site.description')}}</th>
-									<th style="min-width:150px">{{__('site.action')}}</th>
-								</tr>
-							</thead>
-							<tbody>
-								@foreach($cash as $deal)
-								<tr>
-									<td>
-										<span class="text-muted font-weight-bold">{{date('d-m-Y',strtotime($deal->cheque_date))}}</span>
-									</td>
-									<td>
-										<span class="text-muted font-weight-bold">{{$deal->cheque_number ? $deal->cheque_number : 'N/A'}}</span>
-									</td>
-									<td>
-										<span class="text-muted font-weight-bold">{{$deal->paid}}</span>
-									</td>
-									<td>
-										<span class="text-muted font-weight-bold">{{$deal->amount}}</span>
-									</td>
-									<td>
-										<span class="text-muted font-weight-bold">{{$deal->description}}</span>
-									</td>
-									<td>
-										@can('cash-edit')
-											<a href="{{ route('admin.cash.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
-										@endif
-										@can('cash-delete')
-											<form id="destory-{{$deal->id}}" class="delete" onsubmit="return confirm('{{__('site.confirm')}}');"
-												action="{{ route('admin.cash.destroy',$deal->id) }}" method="POST" >
-												@csrf
-												@method('DELETE')
-												<a href="javascript:void(0)" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Delete">
-												<i class="fa fa-trash" onclick="submitForm('{{$deal->id}}')"></i></a>
-												<button type="submit" style="display:none"></button>
-											</form>
-										@endif
-									</td>
-								</tr>
-								@endforeach
-							</tbody>
+						<div class="custom-table-responsive">
+							<table class="text-center table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
+								<thead>
+									<tr>
+										<th>{{__('site.cheque_date')}}</th>
+										<th>{{__('site.cheque_number')}}</th>
+										<th>{{__('site.paid')}}</th>
+										<th>{{__('site.amount')}}</th>
+										<th>{{__('site.description')}}</th>
+										<th style="min-width:150px">{{__('site.action')}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach($cash as $deal)
+									<tr>
+										<td>
+											<span class="text-muted font-weight-bold">{{date('d-m-Y',strtotime($deal->cheque_date))}}</span>
+										</td>
+										<td>
+											<span class="text-muted font-weight-bold">{{$deal->cheque_number ? $deal->cheque_number : 'N/A'}}</span>
+										</td>
+										<td>
+											<span class="text-muted font-weight-bold">{{$deal->paid}}</span>
+										</td>
+										<td>
+											<span class="text-muted font-weight-bold">{{$deal->amount}}</span>
+										</td>
+										<td>
+											<span class="text-muted font-weight-bold">{{$deal->description}}</span>
+										</td>
+										<td>
+											<div class="editPro">
+											@can('cash-edit')
+												<a href="{{ route('admin.cash.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
+											@endif
+											@can('cash-delete')
+												<form id="destory-{{$deal->id}}" class="delete" onsubmit="return confirm('{{__('site.confirm')}}');"
+													action="{{ route('admin.cash.destroy',$deal->id) }}" method="POST" >
+													@csrf
+													@method('DELETE')
+													<a href="javascript:void(0)" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Delete">
+													<i class="fa fa-trash" onclick="submitForm('{{$deal->id}}')"></i></a>
+													<button type="submit" style="display:none"></button>
+												</form>
+											@endif
+											</div>
+										</td>
+									</tr>
+									@endforeach
+								</tbody>
+								{{$cash->withQueryString()->links()}}
+							</table>
 							{{$cash->withQueryString()->links()}}
-						</table>
-						{{$cash->withQueryString()->links()}}
+						</div>
 					</div>
 					<!--end::Table-->
 				</div>

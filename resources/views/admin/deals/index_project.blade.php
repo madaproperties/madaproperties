@@ -12,9 +12,9 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal-project.exportDataDealP
 		<!--begin::Container-->
 		<div class="container">
 			<!--begin::Profile Change Password-->
-			<div class="d-flex flex-row">
+			<div class="w-100">
 				<!--begin::Content-->
-				<div class="flex-row-fluid ml-lg-8">
+				<div class="w-100">
 					<!--begin::Card-->
 					<div class="card card-custom gutter-b">
 				<!--begin::Header-->
@@ -40,7 +40,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal-project.exportDataDealP
 				</div>
 				<!--end::Header-->
 				<!--end::Page Title-->
-				<form class="ml-5" action="">
+				<form class="ml-5 formSearchh" action="">
 					@foreach(request()->all() as $pram => $val)
 						@if($pram != 'search')
 							<input type="hidden" name="{{$pram}}" value="{{$val}}" />
@@ -88,7 +88,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal-project.exportDataDealP
 										<span class="text-muted font-weight-bold">{{$deal->project_name}}</span>
 									</td>
 									<td>
-
+                                   <div class="editPro">
 										@can('deal-project-edit')
 										<a href="{{ route('admin.deal_project.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
 										@endcan
@@ -102,6 +102,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal-project.exportDataDealP
 												<button type="submit" style="display:none"></button>
 											</form>
 										@endcan
+										</div>
 									</td>
 								</tr>
 								@endforeach
