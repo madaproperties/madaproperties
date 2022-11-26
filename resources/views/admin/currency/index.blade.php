@@ -83,7 +83,7 @@
 
 
 														<td class="pr-0 ">
-
+														<div class="editPro">
 															<a href=""
 															data-toggle="modal" data-target="#edit-{{$row->id}}"
 															class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details">	                            <span class="svg-icon svg-icon-md">
@@ -107,7 +107,7 @@
 																</svg>
 															</span>
 														</a>
-
+													</div>
 														<form id="destroy-currency-{{$row->id}}" action="{{route('admin.currencies.destroy',$row->id)}}" method="POST" class="d-none">
 										            @csrf
 																@method('DELETE')

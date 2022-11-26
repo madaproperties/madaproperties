@@ -184,6 +184,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 										<span class="text-muted font-weight-bold">{{$rs->user ? $rs->user->name : 'N/A'}}</span>
 									</td>
 									<td>
+									<div class="editPro">
 									@can('database-records-edit')
 									<a href="{{ route('admin.database-records.show',$rs->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
 									@endcan
@@ -197,6 +198,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 												<button type="submit" style="display:none"></button>
 											</form>
 										@endcan
+									</div>
 									</td>
 								</tr>
 								@endforeach

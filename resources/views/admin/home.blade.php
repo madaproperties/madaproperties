@@ -333,6 +333,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 
 
 											<td>
+											<div class="editPro">
 											@can('contact-delete')
 											<form id="destory-{{$contact->id}}" class="delete"
 											onsubmit="return confirm('{{__('site.confirm')}}');"
@@ -343,6 +344,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 												<i class="fa fa-trash" onclick="submitForm('{{$contact->id}}')"></i></a>
 												<button type="submit" style="display:none"></button>
 											</form>
+											</div>
 
 
 											@endcan

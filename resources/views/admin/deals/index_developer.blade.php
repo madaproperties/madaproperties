@@ -94,6 +94,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal-developer.exportDataDev
 										<span class="text-muted font-weight-bold">{{$deal->trn}}</span>
 									</td>
 									<td>
+									<div class="editPro">
 										@can('deal-developer-edit')
 										<a href="{{ route('admin.deal-developer.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
 										@endcan
@@ -107,6 +108,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal-developer.exportDataDev
 												<button type="submit" style="display:none"></button>
 											</form>
 										@endcan
+									</div>
 									</td>
 								</tr>
 								@endforeach
