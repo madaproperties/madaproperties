@@ -53,6 +53,8 @@
 				<div class="card-body py-0">
 					<!--begin::Table-->
 					<div class="table-responsive">
+                    <div class="custom-table-responsive">							
+
                     <table class=" text-center table table-separate table-head-custom table-checkable table-striped">
                         <thead>
                         <tr>
@@ -86,7 +88,7 @@
                         @endforeach
                     </table>
 
-
+                    </div>
                     {!! $roles->render() !!}
 					</div>
 					<!--end::Table-->

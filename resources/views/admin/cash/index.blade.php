@@ -91,6 +91,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.cash.exportDataCash'),$expor
 				<div class="card-body py-0">
 					<!--begin::Table-->
 					<div class="table-responsive">
+					{{$cash->withQueryString()->links()}}
 						<div class="custom-table-responsive">
 							<table class="text-center table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
 								<thead>
@@ -141,10 +142,9 @@ $exportUrl = str_replace($exportUrl[0],route('admin.cash.exportDataCash'),$expor
 									</tr>
 									@endforeach
 								</tbody>
-								{{$cash->withQueryString()->links()}}
 							</table>
-							{{$cash->withQueryString()->links()}}
 						</div>
+						{{$cash->withQueryString()->links()}}
 					</div>
 					<!--end::Table-->
 				</div>

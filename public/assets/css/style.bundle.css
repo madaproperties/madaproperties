@@ -87665,3 +87665,44 @@ display: block;
 .header-menu .menu-nav > .menu-item > .menu-link{
   padding: 12px 15px; 
 }
+.custom-table-responsive{
+  background-color: #9fc538;
+  border-radius: 15px;
+  overflow-x: auto;
+}
+.custom-table-responsive .table{
+  margin-top: 0px !important;
+}
+.menuSideView .container {
+  padding: 0px 15px;
+}
+.ml-lg-8, .mx-lg-8{
+  margin-left: 0px !important;
+}
+li.menu-item.menu-item-active.text-dark.show {
+  background: #9fc538;
+  border-radius: 15px;
+}
+.dropdown-item{
+  color:#333;
+}
+.editPro a .fa{
+  color:#f1f1f1;
+}
+.editPro a {
+  background-color: #9fc538 !important;
+}
+.editPro a:hover{
+  background-color:#000 !important
+}
+.dropdown-menu{
+background-color: #c6eb63;
+overflow: hidden;
+padding: 0;
+}
+.formSearchh .input-group{
+  border-radius: 30px !important;
+}
+.formSearchh .svg-icon .btn{
+  border-radius: 30px;
+}

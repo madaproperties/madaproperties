@@ -59,7 +59,8 @@
 									<div class="card-body py-0">
 										<!--begin::Table-->
 										<div class="table-responsive">
-											<table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+										<div class="custom-table-responsive">							
+											<table class="table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
 												<thead>
 													<tr class="text-left">
 														<th style="min-width: 150px">{{ __('site.ID') }}</th>
@@ -161,8 +162,10 @@
 													</tr>
 													@endforeach
 												</tbody>
-												{{$status->links()}}
 											</table>
+											</div>
+											{{$status->links()}}
+
 										</div>
 										<!--end::Table-->
 									</div>

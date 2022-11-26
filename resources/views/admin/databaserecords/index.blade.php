@@ -93,7 +93,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 				</form>
 
 				<!--begin::Body-->
-				<div class="card-body py-0">
+				<div class="card-body table-responsive">
 
 
 						<!-- Modal -->
@@ -128,15 +128,20 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 						<br />
 
                 @if(userRole() != 'sales')
+				<div class="page-button">
+					<div>
                 <button type="button" class="btn btn-primary"
                 data-toggle="modal" data-target="#assign-leads">
                     Assing <i class="fa fa-users"></i>
                   </button>
+				  </div>
+				</div>
 
                 @endif
 
 					<!--begin::Table-->
-					<div class="table-responsive">
+					{{$data->withQueryString()->links()}}
+					<div class="custom-table-responsive mt-10">							
 						<table class="text-center table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
 							<thead>
 								<tr>
@@ -196,10 +201,9 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 								</tr>
 								@endforeach
 							</tbody>
-							{{$data->withQueryString()->links()}}
 						</table>
+						</div>
 						{{$data->withQueryString()->links()}}
-					</div>
 					<!--end::Table-->
 				</div>
 				<!--end::Body-->

@@ -99,6 +99,8 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal.exportDataDeals'),$expo
 
 					<!--begin::Table-->
 					<div class="table-responsive">
+					{{$deals->withQueryString()->links()}}
+					<div class="custom-table-responsive">							
 						<table class="text-center table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
 							<thead>
 								<tr>
@@ -178,8 +180,8 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal.exportDataDeals'),$expo
 								</tr>
 								@endforeach
 							</tbody>
-							{{$deals->withQueryString()->links()}}
 						</table>
+						</div>
 						{{$deals->withQueryString()->links()}}
 					</div>
 					<!--end::Table-->

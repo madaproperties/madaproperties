@@ -964,7 +964,7 @@
 
 
 
-							class="menu-link {{ active_nav('admin.home') ? 'active' : ''}}">
+							class="menu-link menuRouter {{ active_nav('admin.home') ? 'active' : ''}}">
 
 
 
@@ -1972,37 +1972,49 @@ var i;
 
 
 
-for (i = 0; i < dropdown.length; i++) {
+// for (i = 0; i < dropdown.length; i++) {
 
-  dropdown[i].addEventListener("click", function() {
+//   dropdown[i].addEventListener("click", function() {
 
-    this.classList.toggle("active");
+//     this.classList.toggle("active");
 
-    var dropdownContent = this.nextElementSibling;
+//     var dropdownContent = this.nextElementSibling;
 
-    if (dropdownContent.style.display === "block") {
+//     if (dropdownContent.style.display === "block") {
 
-      dropdownContent.style.display = "none";
+//       dropdownContent.style.display = "none";
 
-    } else {
+//     } else {
 
-      dropdownContent.style.display = "block";
+//       dropdownContent.style.display = "block";
 
-    }
+//     }
 
-  });
+//   });
 
-}
+// }
 	
-$(".menu-nav").on('click', '.menuSideView .menu-link.dropdown-toggle', function () {
-    $("menu-nav li .menuSideView .menu-link.dropdown-toggle").removeClass("active");
-    // adding classname 'active' to current click li 
-    $(this).addClass("active");
-});	
+// $(".menu-nav").on('click', '.menuSideView .menu-link.dropdown-toggle', function () {
+//     $("menu-nav li .menuSideView .menu-link.dropdown-toggle").removeClass("active");
+//     // adding classname 'active' to current click li 
+//     $(this).addClass("active");
+// });	
 
 
 </script>
+<script> 
+/* $(document).ready(function(){
+  $(".dropdown-toggle").click(function(){
+    $(".dropdown-menu").slideDown("slow");
+  });
+}); */
 
+$(document).ready(function(){
+    $('.menu-item a').click(function() {
+        $(this).siblings('div').slideToggle("slow");
+    });
+});
+</script>
 <!--end::Header-->
 
 

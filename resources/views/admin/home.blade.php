@@ -262,11 +262,12 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 					</button>
 				@endcan
 				</div>
-				{{ $contacts->withQueryString()->links() }}
 				</div>
 
                 @endif
 							<!--begin: Datatable-->
+							{{ $contacts->withQueryString()->links() }}
+						<div class="custom-table-responsive">							
 							<table class="{{ request()->has('export') ? 'table-export' : ''}} text-center table table-separate table-head-custom table-checkable table-striped" id="" style="padding:20px">
 
                 <thead>
@@ -354,6 +355,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 
 								</tbody>
 							</table>
+							</div>
 							{{ $contacts->withQueryString()->links() }}
 							<!--end: Datatable-->
 						</div>

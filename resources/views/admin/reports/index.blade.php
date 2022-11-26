@@ -213,6 +213,7 @@
   											<h4>
   												{{__('site.contacts')}}
   											</h4>
+									  <div class="custom-table-responsive">							
   										  <table class="table" style="background:#f4f4f4">
   												<thead>
   													<tr>
@@ -250,6 +251,7 @@
   													 </tr>
   													</tbody>
   										  </table>
+										</div>
   										</div>
   										<!--end::Card-->
   									</div>
@@ -266,7 +268,8 @@
   								</h4>
   								<!--begin: Datatable-->
   								<p>{{__('site.from')}}: [{{ request('from') }}]  {{__('site.to')}} [{{ request('to') }}]
-  								<div class="table-responsive">
+  								<div class="table-responsive">						
+								  <div class="custom-table-responsive">							
   								<table class="table table-separate table-head-custom table-checkable " id="kt_datatable1">
   									<thead>
   										<tr>
@@ -307,6 +310,7 @@
 
   									</tbody>
   								</table>
+								  </div>
   								<!--end: Datatable-->
   							</div>
   							</div>
@@ -322,6 +326,8 @@
 													<h4>
 													{{'Last 2 week leads'}}
 													</h4>
+													<div class="custom-table-responsive">							
+
 													<table class="table" style="background:#f4f4f4">
 														<thead>
 															<tr>
@@ -355,6 +361,7 @@
 															</tr>
 															</tbody>
 													</table>
+													</div>
 												</div>
 												<!--end::Card-->
 											</div>
@@ -375,6 +382,7 @@
 													<h4>
 													{{'2 week have passed and the status has not changed'}}
 													</h4>
+													<div class="custom-table-responsive">							
 													<table class="table" style="background:#f4f4f4">
 														<thead>
 															<tr>
@@ -408,6 +416,7 @@
 															</tr>
 															</tbody>
 													</table>
+													</div>
 												</div>
 												<!--end::Card-->
 											</div>

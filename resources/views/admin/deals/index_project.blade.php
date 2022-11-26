@@ -66,6 +66,8 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal-project.exportDataDealP
 				<div class="card-body py-0">
 					<!--begin::Table-->
 					<div class="table-responsive">
+					{{$deals->links()}}
+					<div class="custom-table-responsive">							
 						<table class="text-center table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
 							<thead>
 								<tr>
@@ -107,8 +109,8 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal-project.exportDataDealP
 								</tr>
 								@endforeach
 							</tbody>
-							{{$deals->links()}}
 						</table>
+						</div>
 						{{$deals->links()}}
 					</div>
 					<!--end::Table-->
