@@ -952,19 +952,11 @@
 
 
 
-						<li class="menu-item menu-item-active {{ request()->routeIs('admin.home') ? 'active' : '' }}" aria-haspopup="true">
+						<li class="menu-item menu-item-active {{ request()->has('my-contacts') ? 'active' : '' }}" aria-haspopup="true">
 
 
 
-							<a
-
-
-
-							href="{{route('admin.home')}}?my-contacts=get&filter_status={{ App\Status::where('name_en','new')->first()->id }} "
-
-
-
-							class="menu-link menuRouter {{ active_nav('admin.home') ? 'active' : ''}}">
+							<a href="{{route('admin.home')}}?my-contacts=get&filter_status={{ App\Status::where('name_en','new')->first()->id }} " class="menu-link menuRouter {{ request()->has('my-contacts') ? 'active' : ''}}">
 
 
 
@@ -992,11 +984,11 @@
 
 
 
-						<li class="menu-item menu-item-active {{ request()->routeIs('admin.home') ? 'active' : '' }}" aria-haspopup="true">
+						<li class="menu-item menu-item-active {{ (request()->routeIs('admin.home') && !request()->has('my-contacts'))  ? 'active' : '' }}" aria-haspopup="true">
 
 
 
-							<a href="{{route('admin.home')}}?filter_status={{ App\Status::where('name_en','new')->first()->id }}" class="menu-link {{ active_nav('admin.home') ? 'active' : ''}}">
+							<a href="{{route('admin.home')}}?filter_status={{ App\Status::where('name_en','new')->first()->id }}" class="menu-link {{ (request()->routeIs('admin.home') && !request()->has('my-contacts')) ? 'active' : ''}}">
 
 
 
