@@ -22,8 +22,7 @@
 				<div class="row"> <!--- row -->
 					<div class="form-group col-md-3 col-sm-12">
 						<label for="country">{{__('site.campaign')}}</label>
-						<select class="form-control " id="campaing_id"
-						name="campaing_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+						<select class="form-control " id="campaing_id" name="campaing_id">
 							<option value="">{{ __('site.choose') }}</option>
 							@foreach($campaings_data as $rs)
 								<option {{Request('campaing_id') == $rs->name ? 'selected' : ''}} value="{{$rs->name}}" data-select2-id="{{$rs->name}}">{{$rs->name}}</option>
@@ -46,7 +45,7 @@
 					<div class="form-group col-md-3 col-sm-12">
 						<label for="country">{{__('site.project') }} {{__('site.country')}}</label>
 						<select class="form-control " id="project_country_id"
-						name="project_country_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+						name="project_country_id">
 							<option value="">{{ __('site.choose') }}</option>
 							@foreach($countries_data as $country)
 								<option {{Request('project_country_id') == $country->id ? 'selected' : ''}} value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>
@@ -57,7 +56,7 @@
 					<div class="form-group col-md-3 col-sm-12">
 						<label for="country">{{__('site.country')}}</label>
 						<select class="form-control " id="country_id"
-						name="country_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+						name="country_id">
 							<option value="">{{ __('site.choose') }}</option>
 							@foreach($countries_data as $country)
 								<option {{Request('country_id') == $country->id ? 'selected' : ''}} value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>

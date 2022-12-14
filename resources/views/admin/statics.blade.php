@@ -8,117 +8,47 @@
 @endpush
 @extends('admin.layouts.main')
 @section('content')
+<div class="row">
+    <div class="col-lg-4 col-6">
+      <!-- small box -->
+      <div class="small-box bg-info">
+        <div class="inner">
+          <h3>{{$campaingsCount}}</h3>
 
-	<!--begin::Content-->
-	<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-		<!--begin::Entry-->
-		<div class="d-flex flex-column-fluid">
-		   <div class="container">
-				 <!--begin::Card-->
-					<div class="card card-custom gutter-b">
-						<div class="card-header flex-wrap border-0 pt-6 pb-0">
-						
-
-						
-						</div>
-                   
-
-						<div class="card-body table-responsive" style="padding:20px">
-							
-							   
-							  <div class="row">
-							      
-							      <div class="col-xl-4">
-                                        <!--begin::Tiles Widget 2-->
-                                        
-                                          <div class="text-center card card-custom bg-success  gutter-b" style="">
-                                          <!--begin::Body-->
-                                          <div class="card-body d-flex flex-column p-0">
-                                            <!--begin::Stats-->
-                                            <div class="flex-grow-1 card-spacer-x pt-6 pb-6">
-                                              <div class="text-inverse-danger font-weight-bold">
-                                                Active Campaigns
-                                              </div>
-                                              <div class="text-inverse-danger font-weight-bolder font-size-h1">
-                                                {{$campaingsCount}}
-                                              </div>
-                                            </div>
-                                            <!--end::Stats-->
-                                            <!--begin::Chart-->
-                                            <!--end::Chart-->
-                                          </div>
-                                          <!--end::Body-->
-                                        </div>
-                                        
-                                        <!--end::Tiles Widget 2-->
-                                      </div>
-                                      
-                                      <div class="col-xl-4">
-                                        <!--begin::Tiles Widget 2-->
-                                        
-                                          <div class="text-center card card-custom bg-success  gutter-b" style="">
-                                          <!--begin::Body-->
-                                          <div class="card-body d-flex flex-column p-0">
-                                            <!--begin::Stats-->
-                                            <div class="flex-grow-1 card-spacer-x pt-6 pb-6">
-                                              <div class="text-inverse-danger font-weight-bold">
-                                                Active Agents 
-                                              </div>
-                                              <div class="text-inverse-danger font-weight-bolder font-size-h1">
-                                                {{$agentsCount}}
-                                              </div>
-                                            </div>
-                                            <!--end::Stats-->
-                                            <!--begin::Chart-->
-                                            
-                                            <!--end::Chart-->
-                                          </div>
-                                          <!--end::Body-->
-                                        </div>
-                                        
-                                        <!--end::Tiles Widget 2-->
-                                      </div>
-                                      
-                                      <div class="col-xl-4">
-                                        <!--begin::Tiles Widget 2-->
-                                        
-                                          <div class="text-center card card-custom bg-success  gutter-b" style="">
-                                          <!--begin::Body-->
-                                          <div class="card-body d-flex flex-column p-0">
-                                            <!--begin::Stats-->
-                                            <div class="flex-grow-1 card-spacer-x pt-6 pb-6">
-                                              <div class="text-inverse-danger font-weight-bold">
-                                                Total leads
-                                              </div>
-                                              <div class="text-inverse-danger font-weight-bolder font-size-h1">
-                                                {{$leadsCount}}
-                                              </div>
-                                            </div>
-                                            <!--end::Stats-->
-                                            <!--begin::Chart-->
-                                     
-                                            <!--end::Chart-->
-                                          </div>
-                                          <!--end::Body-->
-                                        </div>
-                                        
-                                        <!--end::Tiles Widget 2-->
-                                      </div>
-							      
-							  </div>
-							
-							<!--end: Datatable-->
-						</div>
-					</div>
-					<!--end::Card-->
-       </div>
-		</div>
-		<!--end::Entry-->
-	</div>
-	<!--end::Content-->
-
+          <p>Active Campaigns</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-bag"></i>
+        </div>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-4 col-6">
+      <!-- small box -->
+      <div class="small-box bg-warning">
+        <div class="inner">
+          <h3>{{$agentsCount}}</h3>
+          <p>Active Agents </p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-person-add"></i>
+        </div>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-4 col-6">
+      <!-- small box -->
+      <div class="small-box bg-danger">
+        <div class="inner">
+          <h3>{{$leadsCount}}</h3>
+          <p>Total leads</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-pie-graph"></i>
+        </div>
+      </div>
+    </div>
+    <!-- ./col -->
+  </div>
+  <!-- /.row -->
 @endsection
-@push('js')
-<script src="{{ asset('public/assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
-<script src="{{ asset('public/assets/js/pages/crud/datatables/basic/scrollable.js') }}"></script>
-@endpush

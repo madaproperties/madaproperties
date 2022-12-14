@@ -61,3 +61,7 @@ div.span,label,h3,button,a, .menu-text{
 	from{ bottom:-100px; opacity:0 } 
 	to{ bottom:0; opacity:1 }
 }
+.card-body nav
+{
+	float:right;
+}

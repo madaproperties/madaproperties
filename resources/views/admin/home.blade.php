@@ -1,26 +1,3 @@
-@push('css')
-    <style>
-        .dataTables_info,.dataTables_paginate ,#DataTables_Table_0_filter
-        {
-            display:none;
-        }
-        .dt-button
-        {
-                padding: 5px;
-                background: #000;
-                color: #fff;
-                border: none;
-        }
-        .search-from {
-          padding: 20px;
-          background: #fff;
-          margin: 20px;
-          box-shadow: 2px 2px 10px #fff, -2px -2px 10px #fff4f4;
-          border:1px solid #eee;
-          border-radius: 10px;
-        }
-    </style>
-@endpush
 @extends('admin.layouts.main')
 @section('content')
 @php 
@@ -43,7 +20,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 							</div>
 
 							<div class="card-toolbar">
-								<div class="dropdown dropdown-inline mr-2">
+								<div class="dropdown dropdown-inline mr-2" style="float:left">
 									<button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<span class="svg-icon svg-icon-md">
 										<!--begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg-->
@@ -61,9 +38,9 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 									<!--begin::Dropdown Menu-->
 									<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" style="">
 										<!--begin::Navigation-->
-										<ul class="navi flex-column navi-hover py-2">
+										<ul class="nav-item">
 
-										    <li class="navi-item">
+										  <li class="nav-item">
 												<a href="{{ request()->has('my-contacts') ? '?my-contacts=get&' : '?'}}"
 	class=" navi-link">
 	<span  class="{{ !request('filter_status')  ? 'text-warning': ''}} navi-text">{{ __('site.all') }}</span>
@@ -72,7 +49,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 
 
 											@foreach($status as $state)
-											<li class="navi-item">
+											<li class="nav-item">
 												<a href="{{ request()->has('my-contacts') ? '?my-contacts=get&' : '?'}}filter_status={{$state->id}}"
 	class="  navi-link">
 				<span
@@ -122,7 +99,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 								<!--end::Button-->
 
 								@can('contact-import')
-								<div class="dropdown dropdown-inline mr-2">
+								<div class="dropdown dropdown-inline mr-2" style="float:right">
 									<button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<span class="svg-icon svg-icon-md" style="color:#fff">
 										<!--begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg-->
@@ -134,12 +111,12 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 										<!--begin::Navigation-->
 										<ul class="navi flex-column  py-2">
 
-											<li class="navi-item">
+											<li class="nav-item">
 												<a href="#" class="navi-link" data-toggle="modal" data-target="#importData">
 													<span class="navi-text">{{__('site.Import Data') }}</span>
 												</a>
 											</li>
-											<li class="navi-item">
+											<li class="nav-item">
 												<a href="{{ asset('public/files/mada-import-sampleV2.xlsx') }}" class="navi-link">
 													<span class="navi-text">{{__('site.sample') }}</span>
 												</a>
@@ -177,45 +154,28 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 							</div>
 						</div>
 
-
-                       <!--end::Page Title-->
-                      <form class="ml-5" action="">
-
-
-                          @foreach(request()->all() as $pram => $val)
-                          @if($pram != 'search')
-                     <input type="hidden" name="{{$pram}}" value="{{$val}}" />
-                          @endif
-                          @endforeach
-
-
-											<div class="input-group input-group-sm input-group-solid" style="max-width:260px">
-												<input type="text"
-                        name="search" style=""
-                        class="form-control" id="kt_subheader_search_form" value="{{request('search')}}" placeholder="{{ __('site.search') }}">
-
-												<div
-
-												class="input-group-append">
-													<span class="input-group-text">
-														<span class="svg-icon">
-															<button type="submit" class="btn btn-sm btn-success ">
-															    <i
-															    style="font-size: 14px;padding: 6px;"
-															    class="fas fa-search  "></i>
-															 </button>
-														</span>
-														<!--<i class="flaticon2-search-1 icon-sm"></i>-->
-													</span>
-												</div>
-
-											</div>
-										  </form>
-  										<!--begin::Breadcrumb-->
+										
 
 						<div class="card-body table-responsive" style="padding:20px">
 
+<form>
+											<div class="input-group">
+													@foreach(request()->all() as $pram => $val)
+														@if($pram != 'search')
+																<input type="hidden" name="{{$pram}}" value="{{$val}}" />
+                          	@endif
+                          @endforeach
+												<input type="text"
+                        name="search"
+                        class="form-control form-control-lg" value="{{request('search')}}" placeholder="{{ __('site.search') }}">
 
+												<div class="input-group-append">
+                                <button type="submit" class="btn btn-lg btn-default">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+											</div>
+										</form>
 
                 <!-- Modal -->
                 <div class="modal fade" id="assign-leads" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
