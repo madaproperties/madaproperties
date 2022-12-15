@@ -127,6 +127,7 @@ class ProjectDataController extends Controller
         "floor_no"      =>"required",
         "commission"    =>"nullable",
         "down_payment"  => "nullable",
+        "down_payment_percentage"=>"nullable",
         "floor_plan"          => "nullable",
         "status"          => "nullable",
       ]);
@@ -168,6 +169,7 @@ class ProjectDataController extends Controller
       "floor_no"      =>"required",
       "commission"    =>"nullable",
       "down_payment"  => "nullable",
+      "down_payment_percentage"=>"nullable",
       "floor_plan"          => "nullable",
       "status"          => "nullable",
     ]);

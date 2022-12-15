@@ -61,8 +61,15 @@ class ProjectDeveloperController extends Controller
         "name"          => "required|max:191",
         "iban"          => "required|max:191",
         "bank_name"          => "required|max:250",
+        "developer_logo"     =>"nullable",
       ]);
       $data['created_at'] = Carbon::now();
+      if($request->file('developer_logo')){
+        $md5Name = md5_file($request->file('developer_logo')->getRealPath());
+        $guessExtension = $request->file('developer_logo')->guessExtension();
+        $file = $request->file('developer_logo')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['developer_logo'] = $md5Name.'.'.$guessExtension;
+      }
 
       addHistory('Project Developer',0,'added',$data);   
 
@@ -77,8 +84,16 @@ class ProjectDeveloperController extends Controller
       "name"          => "required|max:191",
       "iban"          => "required|max:191",
       "bank_name"          => "required|max:250",
+      "developer_logo"     =>"nullable",
   ]);
     $data['updated_at'] = Carbon::now();
+     if($request->file('developer_logo')){
+        $md5Name = md5_file($request->file('developer_logo')->getRealPath());
+        $guessExtension = $request->file('developer_logo')->guessExtension();
+        $file = $request->file('developer_logo')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['developer_logo'] = $md5Name.'.'.$guessExtension;
+      }
+
 
     addHistory('Project Developer',$id,'updated',$data,$deal);
 

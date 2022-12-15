@@ -485,5 +485,6 @@ return [
   'feature'   => 'Feature',
   'Feature'   => 'Feature',
   'New Feature'   => 'New Feature',
-  'edit_feature'   => 'Edit Feature'
+  'edit_feature'   => 'Edit Feature',
+  'down_payment_percentage'=>'Down Payment Percentage'
 ];
