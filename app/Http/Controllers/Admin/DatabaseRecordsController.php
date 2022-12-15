@@ -119,19 +119,18 @@ class DatabaseRecordsController extends Controller
     {
      $data=DatabaseRecords::join('statuses','database_records.status','statuses.id')
                             ->select('database_records.*','statuses.name_en AS status') 
-                               ->paginate(20);
+                            ->paginate(20);
      $data_count = DatabaseRecords::count();
 
     }
     else
     {
-     $data=DatabaseRecords::where('assign_to',auth()->id())->paginate(20);
+     $data=DatabaseRecords::where('assign_to',auth()->id())
+                           ->select('database_records.*','statuses.name_en AS status') 
+                           ->paginate(20);
      $data_count = DatabaseRecords::count();
     }
     $sellers = getSellers();
-
-
-    
     return view('admin.databaserecords.index',compact('data','data_count','sellers'));
   }
 
