@@ -30,7 +30,9 @@ class DatabaseRecordsExport implements FromQuery, WithHeadings, ShouldAutoSize, 
     public function map($deal): array
     {
       $country = $deal->country ? $deal->country->name : '';
+      $created_by = $deal->creator ? $deal->creator->name : '';
       $assign_to = $deal->user ? $deal->user->name : '';
+      $status=Status::where('id',$deal->status)->first();
       return [
           $country,
           $deal->name,
@@ -49,7 +51,8 @@ class DatabaseRecordsExport implements FromQuery, WithHeadings, ShouldAutoSize, 
           $deal->community,
           $deal->sub_community,
           $deal->developer,
-          $deal->status,
+          $status->name_en,
+          $created_by,
           $assign_to,
           $deal->comment,
         ];
@@ -76,6 +79,7 @@ class DatabaseRecordsExport implements FromQuery, WithHeadings, ShouldAutoSize, 
         __('site.sub_community'),
         __('site.developer'),
         __('site.status'),
+        __('site.created by'),
         __('site.assigned to'),
         __('site.comment'),
       ]);

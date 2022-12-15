@@ -44,14 +44,14 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
       'developer' => 'nullable',
       'status' => 'nullable',        
       'comment' => 'nullable',
-      'assign_to' => 'nullable'       
+      'created_by'=>'nullable',
+      'assign_to' => 'nullable',       
       ];
 
     public function collection(Collection $rows)
     {
       $contactsData = $rows->slice(0);
       $rowsArray = $contactsData->toArray();
-      
       
       foreach($contactsData as $index => $contact) {
         $index++;
@@ -62,6 +62,9 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
         $developer_id = $this->getID($index,'Agent','email',$contact['agent_email']);
         $contact['developer_id'] = $developer_id;
         $contact['project_id'] = $contact['project_name'];
+        $contact['created_by']=auth()->id();
+        $contact['assign_to']=auth()->id();
+        $contact['status']=2;
         unset($contact['country_name']); // remove asssigned to => replaced with user_id
         unset($contact['agent_email']);
         unset($contact['project_name']);

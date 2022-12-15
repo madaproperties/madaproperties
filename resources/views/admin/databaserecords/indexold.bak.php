@@ -173,28 +173,19 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 										</a>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->phone}}</span>
+										<span class="text-muted font-weight-bold">{{$rs->email}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->country ? $rs->country->name : ''}}</span>
+										<span class="text-muted font-weight-bold">{{$rs->phone}}</span>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$rs->project_id}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->status}}</span>
+										<span class="text-muted font-weight-bold">{{$rs->price}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->created_at}}</span>
-									</td>
-									<td>
-										<span class="text-muted font-weight-bold">{{$rs->updated_at}}</span>
-									</td>
-									<td>
-										<span class="text-muted font-weight-bold"> {{$rs->user ? explode('@',$rs->user->name)[0] : ''}}</span>
-									</td>
-									<td>
-										<span class="text-muted font-weight-bold">{{$rs->creator ? explode('@',$rs->creator->name)[0] : ''}}</span>
+										<span class="text-muted font-weight-bold">{{$rs->user ? $rs->user->name : 'N/A'}}</span>
 									</td>
 									<td>
 									@can('database-records-edit')
