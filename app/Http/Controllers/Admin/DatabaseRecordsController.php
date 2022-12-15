@@ -126,6 +126,7 @@ class DatabaseRecordsController extends Controller
     else
     {
      $data=DatabaseRecords::where('assign_to',auth()->id())
+                           ->join('statuses','database_records.status','statuses.id')
                            ->select('database_records.*','statuses.name_en AS status') 
                            ->paginate(20);
      $data_count = DatabaseRecords::count();
