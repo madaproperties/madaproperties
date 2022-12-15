@@ -64,6 +64,7 @@ class ProjectDataExport implements FromQuery, WithHeadings, ShouldAutoSize, With
           $data->floor_no,
           $data->commission,
           $data->down_payment,
+          $data->down_payment_percentage,
           $data->status,
         ];
     }    
@@ -88,6 +89,7 @@ class ProjectDataExport implements FromQuery, WithHeadings, ShouldAutoSize, With
         __('site.floor_no'),
         __('site.commission'),
         __('site.down_payment'),
+        __('site.down_payment_percentage'),
         __('site.status'),
       ]);
     }
