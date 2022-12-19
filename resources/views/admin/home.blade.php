@@ -9,7 +9,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 	<!--begin::Content-->
 	<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 		<!--begin::Entry-->
-		<div class="d-flex flex-column-fluid">
+		<div class="">
 		   <div class="container">
 				 <!--begin::Card-->
 					<div class="card card-custom gutter-b">

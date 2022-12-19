@@ -7,12 +7,12 @@
 	
 
 					<!--begin::Profile Overview-->
-							<div class="d-flex flex-row">
+							<div class="">
 							        
 								<!--begin::Aside-->
 									@include('admin.databaserecords.components.sidebar')
 								<!--begin::Content-->
-								<div class="flex-row-fluid ml-lg-8">
+								<div class="col-sm-8">
     
 									<div class="example-preview">
 										<ul class="nav nav-tabs" id="myTab" role="tablist">

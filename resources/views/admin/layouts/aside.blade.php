@@ -1,4 +1,4 @@
-<div class="flex-row-auto offcanvas-mobile w-250px w-xxl-350px" id="kt_profile_aside">
+<div class="col-sm-4">
   <!--begin::Profile Card-->
   <div class="card card-custom card-stretch">
     <!--begin::Body-->
@@ -45,7 +45,7 @@
           class="navi-link py-4 {{ active_nav('currencies.index') ? 'active' : ''}}">
             <span class="navi-icon mr-2">
               <span class="svg-icon">
-                <i class="la la-money-bill"></i>
+                <i class="fas fa-money-bill"></i>
               </span>
             </span>
             <span class="navi-text font-size-lg">{{__('site.Currencies')}}</span>
@@ -57,7 +57,7 @@
           class="navi-link py-4 {{ active_nav('notofications.index') ? 'active' : ''}}">
             <span class="navi-icon mr-2">
               <span class="svg-icon">
-                <span class="flaticon-alert"></span>
+                <i class="fas fa-bell"></i>
               </span>
             </span>
             <span class="navi-text font-size-lg">{{__('site.notofications')}}</span>

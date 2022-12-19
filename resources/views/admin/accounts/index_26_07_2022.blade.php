@@ -24,16 +24,16 @@
 						</div>
 						<!--end::Subheader-->
 						<!--begin::Entry-->
-						<div class="d-flex flex-column-fluid">
+						<div class="">
 							<!--begin::Container-->
 							<div class="container">
 								<!--begin::Profile Change Password-->
-								<div class="d-flex flex-row">
+								<div class="">
 									<!--begin::Aside-->
 									@include('admin.layouts.aside')
 									<!--end::Aside-->
 									<!--begin::Content-->
-									<div class="flex-row-fluid ml-lg-8">
+									<div class="col-sm-8">
 										<!--begin::Card-->
 										<div class="card card-custom gutter-b">
 									<!--begin::Header-->

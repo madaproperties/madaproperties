@@ -20,7 +20,7 @@ $to = date('Y-m-d 23:59:59', strtotime($reportData->end_to));
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 <!--begin::Entry-->
-<div class="d-flex flex-column-fluid">
+<div class="">
    <div class="container">
    @include('admin.reports.advance_campaign_search',$reportData)
    
@@ -238,7 +238,7 @@ $to = date('Y-m-d 23:59:59', strtotime($reportData->end_to));
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 <!--begin::Entry-->
-<div class="d-flex flex-column-fluid">
+<div class="">
    <div class="container">
 <table class="table">
     <thead>

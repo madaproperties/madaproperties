@@ -1,33 +1,11 @@
-@push('css')
-    <style>
-        .dataTables_info,.dataTables_paginate ,#DataTables_Table_0_filter
-        {
-            display:none;
-        }
-        .dt-button
-        {
-                padding: 5px;
-                background: #000;
-                color: #fff;
-                border: none;
-        }
-        .search-from {
-          padding: 20px;
-          background: #fff;
-          margin: 20px;
-          box-shadow: 2px 2px 10px #fff, -2px -2px 10px #fff4f4;
-          border:1px solid #eee;
-          border-radius: 10px;
-        }
-    </style>
-@endpush
+
 
 @extends('admin.layouts.main')
 @section('content')
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" style="padding-top:10px">
 	<!--begin::Entry-->
-	<div class="d-flex flex-column-fluid">
+	<div class="">
 		<!--begin::Container-->
 		<div class="container">
 			<!--begin::Profile Change Password-->
@@ -60,30 +38,24 @@
 				</div>
 				<!--end::Header-->
 				<!--end::Page Title-->
-				<form class="ml-5 formSearchh" action="">
-					@foreach(request()->all() as $pram => $val)
-						@if($pram != 'search')
-							<input type="hidden" name="{{$pram}}" value="{{$val}}" />
-						@endif
-					@endforeach
-					<div class="input-group input-group-sm input-group-solid" style="max-width:260px">
-						<input type="text" name="search" style="" class="form-control" id="kt_subheader_search_form" value="{{request('search')}}" placeholder="{{ __('site.search') }}">
-						<div class="input-group-append">
-							<span class="input-group-text">
-								<span class="svg-icon">
-									<button type="submit" class="btn btn-sm btn-success ">
-										<i style="font-size: 14px;padding: 6px;" class="fas fa-search"></i>
-									</button>
-								</span>
-								<!--<i class="flaticon2-search-1 icon-sm"></i>-->
-							</span>
-						</div>
-
-					</div><br>
-				</form>
-
+				
 				<!--begin::Body-->
 				<div class="card-body py-0">
+				<form>
+					<div class="input-group">
+						@foreach(request()->all() as $pram => $val)
+							@if($pram != 'search')
+								<input type="hidden" name="{{$pram}}" value="{{$val}}" />
+							@endif
+						@endforeach
+						<input type="text" name="search" class="form-control form-control-lg" value="{{request('search')}}" placeholder="{{ __('site.search') }}">
+						<div class="input-group-append">
+							<button type="submit" class="btn btn-lg btn-default">
+							<i class="fa fa-search"></i>
+							</button>
+						</div>
+					</div>
+				</form>	
 					@include('admin.layouts.advanced-search-properties')
 					<!--begin::Table-->
 					<div class="table-responsive">

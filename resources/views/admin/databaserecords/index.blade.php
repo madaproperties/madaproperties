@@ -32,13 +32,13 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" style="padding-top:10px">
 	<!--begin::Entry-->
-	<div class="d-flex flex-column-fluid">
+	<div class="">
 		<!--begin::Container-->
 		<div class="container">
 			<!--begin::Profile Change Password-->
-			<div class="d-flex flex-row">
+			<div class="">
 				<!--begin::Content-->
-				<div class="flex-row-fluid ml-lg-8">
+				<div class="col-sm-8">
 					<!--begin::Card-->
 					<div class="card card-custom gutter-b">
 				<!--begin::Header-->
@@ -70,31 +70,25 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 				</div>
 				<!--end::Header-->
 				<!--end::Page Title-->
-				<form class="ml-5" action="">
-					@foreach(request()->all() as $pram => $val)
-						@if($pram != 'search')
-							<input type="hidden" name="{{$pram}}" value="{{$val}}" />
-						@endif
-					@endforeach
-					<div class="input-group input-group-sm input-group-solid" style="max-width:260px">
-						<input type="text" name="search" style="" class="form-control" id="kt_subheader_search_form" value="{{request('search')}}" placeholder="{{ __('site.search') }}">
-						<div class="input-group-append">
-							<span class="input-group-text">
-								<span class="svg-icon">
-									<button type="submit" class="btn btn-sm btn-success ">
-										<i style="font-size: 14px;padding: 6px;" class="fas fa-search"></i>
-									</button>
-								</span>
-								<!--<i class="flaticon2-search-1 icon-sm"></i>-->
-							</span>
-						</div>
-
-					</div><br>
-				</form>
+				
 
 				<!--begin::Body-->
 				<div class="card-body py-0">
-
+				<form>
+					<div class="input-group">
+						@foreach(request()->all() as $pram => $val)
+							@if($pram != 'search')
+								<input type="hidden" name="{{$pram}}" value="{{$val}}" />
+							@endif
+						@endforeach
+						<input type="text" name="search" class="form-control form-control-lg" value="{{request('search')}}" placeholder="{{ __('site.search') }}">
+						<div class="input-group-append">
+							<button type="submit" class="btn btn-lg btn-default">
+							<i class="fa fa-search"></i>
+							</button>
+						</div>
+					</div>
+				</form>
 
 						<!-- Modal -->
 						<div class="modal fade" id="assign-leads" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

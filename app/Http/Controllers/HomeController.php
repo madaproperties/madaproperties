@@ -78,4 +78,9 @@ class HomeController extends Controller
 
         return redirect(route('admin.'));
     }
+
+    public function forgetPassword(Request $req)
+    {   
+      return view('admin.forget-password');
+    }    
 }

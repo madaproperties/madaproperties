@@ -65,3 +65,7 @@ div.span,label,h3,button,a, .menu-text{
 {
 	float:right;
 }
+.card-toolbar a{
+	float:right;
+	margin-right:5px;
+}

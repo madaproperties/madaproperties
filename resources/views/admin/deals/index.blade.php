@@ -32,69 +32,61 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal.exportDataDeals'),$expo
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" style="padding-top:10px">
 	<!--begin::Entry-->
-	<div class="d-flex flex-column-fluid">
+	<div class="">
 		<!--begin::Container-->
 		<div class="container">
 			<!--begin::Profile Change Password-->
-			<div class="d-flex flex-row">
+			<div class="">
 				<!--begin::Content-->
-				<div class="flex-row-fluid ml-lg-8">
+				<div class="">
 					<!--begin::Card-->
 					<div class="card card-custom gutter-b">
-				<!--begin::Header-->
-				<div class="card-header border-0 py-5">
-					<h3 class="card-title align-items-start flex-column">
-						<span class="card-label font-weight-bolder text-dark">{{__('site.deals')}}</span>
-						<span class="text-muted mt-3 font-weight-bold font-size-sm">{{$deals_count}} {{__('site.deals')}}</span>
-					</h3>
-					<div class="card-toolbar">
+						<!--begin::Header-->
+						<div class="card-header border-0 py-5">
+							<h3 class="card-title align-items-start flex-column">
+								<span class="card-label font-weight-bolder text-dark">{{__('site.deals')}}</span>
+								<span class="text-muted mt-3 font-weight-bold font-size-sm">{{$deals_count}} {{__('site.deals')}}</span>
+							</h3>
+							<div class="card-toolbar">
 
-					@can('deal-export')
-						<a href="{{$exportUrl}}" class="btn btn-primary font-weight-bolder" id="exportButton" target="_blank" onclick="exportdata()">
-							<span class="svg-icon svg-icon-md">
-							<i class="fas fa-database" style="color:#fff"></i>
-							</span>{{__('site.export') }}
-						</a>
-					@endcan
-					@can('deal-advance-export')
-						<a href="{{route('admin.deal.advanceExport')}}" class="btn btn-primary font-weight-bolder" target="_blank">
-							<span class="svg-icon svg-icon-md">
-							<i class="fas fa-database" style="color:#fff"></i>
-							</span>{{__('site.Advanced Export')}}
-						</a>
-					@endcan
-					@can('deal-create')
-						<a href="{{route('admin.deal.create')}}" id="kt_quick_user_toggle" class="btn btn-success font-weight-bolder font-size-sm">
-						<span class="fa fa-plus"></span> {{__('site.New Deal')}}</a>
-					@endcan
-					</div>
-				</div>
-				<!--end::Header-->
-				<!--end::Page Title-->
-				<form class="ml-5" action="">
-					@foreach(request()->all() as $pram => $val)
-						@if($pram != 'search')
-							<input type="hidden" name="{{$pram}}" value="{{$val}}" />
-						@endif
-					@endforeach
-					<div class="input-group input-group-sm input-group-solid" style="max-width:260px">
-						<input type="text" name="search" style="" class="form-control" id="kt_subheader_search_form" value="{{request('search')}}" placeholder="{{ __('site.search') }} {{__('site.unit_name')}}">
-						<div class="input-group-append">
-							<span class="input-group-text">
-								<span class="svg-icon">
-									<button type="submit" class="btn btn-sm btn-success ">
-										<i style="font-size: 14px;padding: 6px;" class="fas fa-search"></i>
-									</button>
-								</span>
-								<!--<i class="flaticon2-search-1 icon-sm"></i>-->
-							</span>
+								@can('deal-export')
+									<a href="{{$exportUrl}}" class="btn btn-primary font-weight-bolder" id="exportButton" target="_blank" onclick="exportdata()">
+										<span class="svg-icon svg-icon-md">
+										<i class="fas fa-database" style="color:#fff"></i>
+										</span>{{__('site.export') }}
+									</a>
+								@endcan
+								@can('deal-advance-export')
+									<a href="{{route('admin.deal.advanceExport')}}" class="btn btn-primary font-weight-bolder" target="_blank">
+										<span class="svg-icon svg-icon-md">
+										<i class="fas fa-database" style="color:#fff"></i>
+										</span>{{__('site.Advanced Export')}}
+									</a>
+								@endcan
+								@can('deal-create')
+									<a href="{{route('admin.deal.create')}}" id="kt_quick_user_toggle" class="btn btn-success font-weight-bolder font-size-sm">
+									<span class="fa fa-plus"></span> {{__('site.New Deal')}}</a>
+								@endcan
+							</div>
 						</div>
-
-					</div><br>
-				</form>
-
+				<!--end::Header-->
 				<!--begin::Body-->
 				<div class="card-body py-0">
+					<form>
+						<div class="input-group">
+							@foreach(request()->all() as $pram => $val)
+								@if($pram != 'search')
+									<input type="hidden" name="{{$pram}}" value="{{$val}}" />
+								@endif
+							@endforeach
+							<input type="text" name="search" class="form-control form-control-lg" value="{{request('search')}}" placeholder="{{ __('site.search') }}">
+							<div class="input-group-append">
+								<button type="submit" class="btn btn-lg btn-default">
+								<i class="fa fa-search"></i>
+								</button>
+							</div>
+						</div>
+					</form>
 				@include('admin.layouts.advanced-search-deals')
 
 					<!--begin::Table-->

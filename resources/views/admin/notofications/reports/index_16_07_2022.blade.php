@@ -15,7 +15,7 @@
 	@if(request()->has('type') AND request('type') == 'leaders')
 	<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
   		<!--begin::Entry-->
-  		<div class="d-flex flex-column-fluid">
+  		<div class="">
   		   <div class="container">
   							<!--start: Datatable-->
   							<div class="card-body">
@@ -111,7 +111,7 @@
   	<!--begin::Content-->
   	<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
   		<!--begin::Entry-->
-  		<div class="d-flex flex-column-fluid">
+  		<div class="">
   		   <div class="container">
   				 <!--begin::Card-->
   					<div class="card card-custom gutter-b">
@@ -331,7 +331,7 @@
   	<!--begin::Content-->
   	<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
   		<!--begin::Entry-->
-  		<div class="d-flex flex-column-fluid">
+  		<div class="">
   		   <div class="container">
   				 <!--begin::Card-->
   					<div class="card card-custom gutter-b">

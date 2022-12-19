@@ -4,7 +4,7 @@
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 	<!--begin::Entry-->
-	<div class="d-flex flex-column-fluid">
+	<div class="">
 		<div class="container">
 
          	<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
@@ -30,7 +30,7 @@
 				<!--end::Subheader-->
 
 				<!--begin::Entry-->
-				<div class="d-flex flex-column-fluid">
+				<div class="">
 					<!--begin::Container-->
 					<div class="container">
 						<!--begin::Card-->

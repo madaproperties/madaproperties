@@ -21,6 +21,7 @@ Route::group(['middleware' => ['guest','lang']], function (){
   Route::get('setpassword/{token}','HomeController@setpassword')->name('setpassword');
   Route::post('change-password','HomeController@changePassword')->name('changepassword');
   Route::post('login','HomeController@login')->name('login');
+  Route::get('forget-password','HomeController@forgetPassword')->name('forget-password');
 });
 
 Route::get('project-data/brochure/{project_id}','Admin\ProjectDataController@brochure')->name('project.brochure');

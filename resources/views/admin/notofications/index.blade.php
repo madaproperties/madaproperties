@@ -32,16 +32,16 @@
 						</div>
 						<!--end::Subheader-->
 						<!--begin::Entry-->
-						<div class="d-flex flex-column-fluid">
+						<div class="">
 							<!--begin::Container-->
 							<div class="container">
 								<!--begin::Profile Change Password-->
-								<div class="d-flex flex-row">
+								<div class="row">
 									<!--begin::Aside-->
 									@include('admin.layouts.aside')
 									<!--end::Aside-->
 									<!--begin::Content-->
-									<div class="flex-row-fluid ml-lg-8">
+									<div class="col-sm-8">
 
 												<!--begin::List Widget 10-->
 												<div class="card card-custom card-stretch gutter-b">

@@ -1,16 +1,10 @@
-      </div>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
     <!-- /.content-header -->
   </div>
-
-  <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://madaproperties.com/">Mada Properties</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-    </div>
-  </footer>
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
