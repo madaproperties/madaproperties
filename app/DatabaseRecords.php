@@ -21,5 +21,15 @@ class DatabaseRecords extends Model
     {
       return $this->belongsTo(User::class,'assign_to');
     }
+    public function creator()
+    {
+      return $this->belongsTo(User::class,'created_by');
+    }
+
+    //  public function status()
+    // {
+
+    //   return $this->belongsTo(Status::class,);
+    // }
 
 }

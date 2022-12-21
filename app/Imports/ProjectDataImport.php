@@ -40,7 +40,8 @@ class ProjectDataImport implements ToCollection, WithHeadingRow,ShouldQueue,With
       "payment_status.*"          => "required",
       "floor_no.*" =>"required",
       "commission" => "nullable",
-      "down_payment" =>"nullable",      
+      "down_payment" =>"nullable",
+       "down_payment_percentage" =>"nullable",     
       "status" =>"nullable",      
       ];
 

@@ -16,6 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\DatabaseRecords;
 use App\DatabaseRecordsExport;
 use App\DatabaseNote;
+use App\Status;
 use App\Imports\DatabaseImport;
 
 
@@ -40,90 +41,105 @@ class DatabaseRecordsController extends Controller
     
     
     /********* Get Contacts By The Rule ***********/
-    if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing'  || userRole() == 'ceo' ){ //Updated by Javed
+    // if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing'  || userRole() == 'ceo' ){ //Updated by Javed
 
-        if(userRole() == 'sales admin uae'){
+    //     if(userRole() == 'sales admin uae'){
 
-          $data = DatabaseRecords::where(function ($q){
-            $this->filterPrams($q);
-          })->orderBy('created_at','DESC');
+    //       $data = DatabaseRecords::where(function ($q){
+    //         $this->filterPrams($q);
+    //       })->orderBy('created_at','DESC');
 
-          $data_count = $data->count();
+    //       $data_count = $data->count();
 
-          $paginationNo = 20;
-          $data = $data->paginate($paginationNo);
+    //       $paginationNo = 20;
+    //       $data = $data->paginate($paginationNo);
           
-        }else if(userRole() == 'sales admin saudi'){
-          $data = DatabaseRecords::where(function ($q){
-            $this->filterPrams($q);
-          })->orderBy('created_at','DESC');
+    //     }else if(userRole() == 'sales admin saudi'){
+    //       $data = DatabaseRecords::where(function ($q){
+    //         $this->filterPrams($q);
+    //       })->orderBy('created_at','DESC');
 
-          $data_count = $data->count();
+    //       $data_count = $data->count();
 
-          $paginationNo = 20;
-          $data = $data->paginate($paginationNo);
+    //       $paginationNo = 20;
+    //       $data = $data->paginate($paginationNo);
 
-        }else{
+    //     }else{
 
-          $data = DatabaseRecords::where(function ($q){
-                $this->filterPrams($q);
-              })->orderBy('created_at','DESC');
+    //       $data = DatabaseRecords::where(function ($q){
+    //             $this->filterPrams($q);
+    //           })->orderBy('created_at','DESC');
 
-          $data_count = $data->count();
+    //       $data_count = $data->count();
 
-          $paginationNo = 20;
-          $data = $data->paginate($paginationNo);
-        }
+    //       $paginationNo = 20;
+    //       $data = $data->paginate($paginationNo);
+    //     }
 
-    }elseif(userRole() == 'leader'){
-      // get leader group
-      $leaderId = auth()->id();
-      // get leader , and sellers reltedt to that leader
-      $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
-      $usersIds = $users->pluck('id')->toArray();
-      $data = DatabaseRecords::whereIn('assign_to',$usersIds)->where(function ($q){
-      $this->filterPrams($q);
-      })->orderBy('created_at','DESC');
-      $data_count = $data->count();
-      $data = $data->paginate(20);
+    // }elseif(userRole() == 'leader'){
+    //   // get leader group
+    //   $leaderId = auth()->id();
+    //   // get leader , and sellers reltedt to that leader
+    //   $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+    //   $usersIds = $users->pluck('id')->toArray();
+    //   $data = DatabaseRecords::whereIn('assign_to',$usersIds)->where(function ($q){
+    //   $this->filterPrams($q);
+    //   })->orderBy('created_at','DESC');
+    //   $data_count = $data->count();
+    //   $data = $data->paginate(20);
 
-    }else if(userRole() == 'sales admin') { // sales admin
+    // }else if(userRole() == 'sales admin') { // sales admin
       
-      $data = DatabaseRecords::where(function ($q){
-        $this->filterPrams($q);
-      })->where('assign_to',null)
-        ->orderBy('created_at','DESC');
+    //   $data = DatabaseRecords::where(function ($q){
+    //     $this->filterPrams($q);
+    //   })->where('assign_to',null)
+    //     ->orderBy('created_at','DESC');
 
-      $data_count = $data->count();
-      $data = $data->paginate(20);
-    }else if(userRole() == 'sales director') { 
-      $data = DatabaseRecords::where(function ($q){
-        $this->filterPrams($q);
-      })->where('assign_to',null)
-        ->orderBy('created_at','DESC');
+    //   $data_count = $data->count();
+    //   $data = $data->paginate(20);
+    // }else if(userRole() == 'sales director') { 
+    //   $data = DatabaseRecords::where(function ($q){
+    //     $this->filterPrams($q);
+    //   })->where('assign_to',null)
+    //     ->orderBy('created_at','DESC');
 
-      $data_count = $data->count();
-      $data = $data->paginate(20);
-    }else{
-      $data = DatabaseRecords::where(function ($q){
-        $this->filterPrams($q);
-      })->where('assign_to',auth()->id())->orderBy('created_at','DESC');
+    //   $data_count = $data->count();
+    //   $data = $data->paginate(20);
+    // }else{
+    //   $data = DatabaseRecords::where(function ($q){
+    //     $this->filterPrams($q);
+    //   })->where('assign_to',auth()->id())->orderBy('created_at','DESC');
 
-      $data_count = $data->count();
-      $data = $data->paginate(20);
+    //   $data_count = $data->count();
+    //   $data = $data->paginate(20);
+
+    // }
+    // added by fazal
+    if(userRole() == 'admin')
+    {
+     $data=DatabaseRecords::join('statuses','database_records.status','statuses.id')
+                            ->select('database_records.*','statuses.name_en AS status') 
+                            ->paginate(20);
+     $data_count = DatabaseRecords::count();
 
     }
+    else
+    {
+     $data=DatabaseRecords::where('assign_to',auth()->id())
+                           ->join('statuses','database_records.status','statuses.id')
+                           ->select('database_records.*','statuses.name_en AS status') 
+                           ->paginate(20);
+     $data_count = DatabaseRecords::count();
+    }
     $sellers = getSellers();
-
-
-   
     return view('admin.databaserecords.index',compact('data','data_count','sellers'));
   }
 
   public function create() {
     $countries = $this->getCuntoryList();
     $sellers = getSellers();
-    return view('admin.databaserecords.create',compact('countries','sellers'));
+    $status =  Status::get();
+    return view('admin.databaserecords.create',compact('countries','sellers','status'));
   }
 
   /**
@@ -154,12 +170,15 @@ class DatabaseRecordsController extends Controller
         'developer' => 'nullable',
         'status' => 'nullable',        
         'comment' => 'nullable',
-        'assign_to' => 'nullable'           
+        'created_by' =>'nullable',
+        'assign_to' => 'nullable',           
       ]);
 
 
       $data['created_at'] = Carbon::now();
-
+      $data['created_by'] = auth()->id();
+      $data['assign_to'] = auth()->id();
+      $data['status'] = 2; 
       addHistory('Database Records',0,'added',$data);   
 
       $deal = DatabaseRecords::create($data);
@@ -240,10 +259,10 @@ class DatabaseRecordsController extends Controller
 
     $countries = $this->getCuntoryList();
     $sellers = getSellers();
-
+    $status =  Status::get();
     $notes = DatabaseNote::where('database_id',$data->id)->orderBy('created_at','DESC')->get();
 
-    return view('admin.databaserecords.show',compact('data','countries','sellers','notes'));
+    return view('admin.databaserecords.show',compact('data','countries','sellers','notes','status'));
   }  
 
   private function filterPrams($q){

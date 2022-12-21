@@ -46,7 +46,7 @@
 											<div class="row justify-content-center py-8 px-8 py-lg-15 px-lg-10">
 												<div class="col-xl-12 col-xxl-10">
 													<!--begin::Wizard Form-->
-													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.project-developer.update',$deal->id)}}" id="kt_form">
+													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.project-developer.update',$deal->id)}}" id="kt_form" enctype="multipart/form-data">
 														@csrf
 														@method('PATCH')
 														<div class="row justify-content-center">
@@ -81,7 +81,18 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
-
+																	<!-- added by fazal -->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.developer_logo')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			@if($deal->developer_logo)
+																				<a href="{{env('APP_URL').'/public/uploads/projectData/'.$deal->developer_logo}}" target="_blank" download="download">Download</a>
+																			@endif
+																			<input class="form-control form-control-solid form-control-lg" 	name="developer_logo" type="file" >
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+                                                                    <!-- end added by fazal -->
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<div class="col-lg-9 col-xl-9">

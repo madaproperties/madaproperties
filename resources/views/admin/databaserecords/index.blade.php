@@ -20,7 +20,7 @@
           border-radius: 10px;
         }
     </style>
-@endpush
+@endpush 
 
 @extends('admin.layouts.main')
 @section('content')
@@ -142,14 +142,23 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 								<tr>
 									@if(userRole() != 'sales')
 										<th><input type="checkbox" id="check_all"></th>
-									@endif
-									<th>{{__('site.name')}}</th>
-									<th>{{__('site.email')}}</th>
-									<th>{{__('site.phone')}}</th>
-									<th>{{__('site.project_name')}}</th>
-									<th>{{__('site.price')}}</th>
-									<th>{{__('site.assigned to')}}</th>
-									<th style="min-width:150px">{{__('site.action')}}</th>
+                                    @endif
+										<th>{{__('site.Name')}}</th>
+										<th>{{__('site.Phone')}}</th>
+										<th>{{__('site.country')}} </th>
+										<th>{{__('site.project')}} </th>
+										<!--<th>{{__('site.city')}}</th>-->
+										<th>{{__('site.status')}}</th>
+										<th>{{__('site.Created')}}</th>
+										<th>{{__('site.Last Updated')}}</th>
+										@if(userRole() != 'seller')
+										<th>{{__('site.Assigned To')}}</th>
+										<th>{{__('site.Created By')}}</th>
+
+										@endif
+										@can('contact-delete')
+										<th>#</th>
+										@endcan
 								</tr>
 							</thead>
 							<tbody>
@@ -164,19 +173,28 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 										</a>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->email}}</span>
+										<span class="text-muted font-weight-bold">{{$rs->phone}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->phone}}</span>
+										<span class="text-muted font-weight-bold">{{$rs->country ? $rs->country->name : ''}}</span>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$rs->project_id}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->price}}</span>
+										<span class="text-muted font-weight-bold">{{$rs->status}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->user ? $rs->user->name : 'N/A'}}</span>
+										<span class="text-muted font-weight-bold">{{$rs->created_at}}</span>
+									</td>
+									<td>
+										<span class="text-muted font-weight-bold">{{$rs->updated_at}}</span>
+									</td>
+									<td>
+										<span class="text-muted font-weight-bold"> {{$rs->user ? explode('@',$rs->user->name)[0] : ''}}</span>
+									</td>
+									<td>
+										<span class="text-muted font-weight-bold">{{$rs->creator ? explode('@',$rs->creator->name)[0] : ''}}</span>
 									</td>
 									<td>
 									@can('database-records-edit')
