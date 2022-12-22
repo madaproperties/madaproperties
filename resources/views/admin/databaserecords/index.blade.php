@@ -189,7 +189,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 										<span class="text-muted font-weight-bold">{{$rs->project_id}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->status}}</span>
+										<span class="text-muted font-weight-bold">{{$rs->status->name_en}}</span>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$rs->created_at}}</span>
