@@ -108,11 +108,11 @@
     @endif
    <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.status')}}</label>
-      <select class="form-control" name="status_id">
+      <select class="form-control" name="status">
         <option value="">{{__('site.choose')}}</option>
         @foreach($status as $statu)
          <option
-         {{Request('status_id') == $statu->id ? 'selected' : ''}}
+         {{Request('status') == $statu->id ? 'selected' : ''}}
          value="{{$statu->id}}">{{$statu->name}}</option>
          @endforeach
       </select>
