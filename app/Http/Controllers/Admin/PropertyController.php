@@ -56,7 +56,7 @@ class PropertyController extends Controller
     }else{
       $property = Property::where(function ($q){
         $this->filterPrams($q);
-      })->where('created_by',auth()->id())->orderBy('last_updated','desc');
+      })->where('user_id',auth()->id())->orderBy('last_updated','desc');
     }
     $properties = $property->paginate(20);
     $property_count = $property->count();
@@ -845,8 +845,11 @@ class PropertyController extends Controller
 
     //$geocode = file_get_contents($url);
     $json = json_decode($geocode);
-    $data['lat'] = $json->results[0]->geometry->location->lat;
-    $data['lng'] = $json->results[0]->geometry->location->lng;
+    $data = array();
+    if(isset($json->results[0])){
+      $data['lat'] = $json->results[0]->geometry->location->lat;
+      $data['lng'] = $json->results[0]->geometry->location->lng;
+    }
     return $data;
   }
 }

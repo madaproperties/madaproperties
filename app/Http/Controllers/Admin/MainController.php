@@ -236,7 +236,7 @@ class MainController extends Controller
         $paginationNo = 20;
         $contacts = $contacts->paginate($paginationNo);
       }
-  }else{
+    }else{
       $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
         $this->filterPrams($q);
       })->where('user_id',auth()->id())->orderBy('created_at','DESC');
