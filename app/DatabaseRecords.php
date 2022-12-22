@@ -21,7 +21,7 @@ class DatabaseRecords extends Model
     {
       return $this->belongsTo(User::class,'user_id');
     }
-    public function status()
+    public function statusName()
     {
       return $this->belongsTo(Status::class,'status');
     }

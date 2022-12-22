@@ -183,13 +183,13 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 										<span class="text-muted font-weight-bold">{{$rs->phone}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->country ? $rs->country->name : ''}}</span>
+										<span class="text-muted font-weight-bold">{{$rs->country ? $rs->country->name : 'N/A'}}</span>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$rs->project_id}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->status}}</span>
+										<span class="text-muted font-weight-bold">{{$rs->statusName ? $rs->statusName->name_en : 'N/A'}}</span>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$rs->created_at}}</span>
