@@ -97,7 +97,7 @@
 																
 																<!--begin::Group-->
 																<div class="form-group row fv-plugins-icon-container">
-																	<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.status')}}</label>
+																	<label class="col-xl-1 col-lg-1 col-form-label">{{__('site.status')}}</label>
 																	<div class="col-lg-9 col-xl-9">
 																		<select name="status" id="status" class="form-control">
 																			{!! selectOptions(__('config.status'),$property->status) !!}
@@ -441,7 +441,7 @@
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.offplan')}}</label>
-																				<div class="col-lg-9 col-xl-9">
+																				<div class="col-lg-9 col-xl-9 pt-4">
 																					<input type="checkbox" name="is_exclusive" class="checkbox" {{ $property->is_exclusive ? 'checked' : ''}}>
 																				</div>
 																			</div>
