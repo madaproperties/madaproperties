@@ -152,7 +152,10 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
 
       Route::post('property/save-features','PropertyController@saveFeatures')->name('property.saveFeatures');
       Route::post('property/save-portals','PropertyController@savePortals')->name('property.savePortals');
-
+      // added by fazl
+       Route::post('fetch-project', 'ReportController@fetchProject')->name('fetch-project');
+      Route::post('fetch-agent', 'ReportController@fetchAgent')->name('fetch-agent');
+      // end
       Route::resource('features','FeaturesController');
 });
 
