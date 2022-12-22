@@ -213,18 +213,12 @@ class ReportController extends Controller
 			->get();
 			$leader=0;
 
-		 }
-		 // added by fazal
-
-		else if(request('leader_id'))
-		{
-			     
+		}else if(request('leader_id') > 0) {
           $userReport = User::where('leader',request('leader_id'))->whereIn('rule',['sales','sales admin','leader'])->get();
 		 // dd($users);
          $leader=request('leader_id');
-		}
-		
-		else if(userRole() == 'sales' && request()->has('from') && request()->has('to')){
+
+		}else if(userRole() == 'sales' && request()->has('from') && request()->has('to')){
 			$from = date('Y-m-d 00:00:00', strtotime(Request('from')));
 			$to = date('Y-m-d 23:59:59', strtotime(Request('to')));
       
@@ -259,10 +253,7 @@ class ReportController extends Controller
 				}else if(userRole() == 'sales admin uae'){
 					$whereCountry = 'Asia/Dubai';
 					$userReport = $userReport->where('time_zone','like','%'.$whereCountry.'%');
-				}
-				// added by fazal
-				else if(userRole()=='sales director')
-				{
+				}else if(userRole()=='sales director') { // added by fazal
 					$userdetail=User::where('id',auth()->id())->first();
 				   if($userdetail->time_zone=='Asia/Riyadh')
 				   {
@@ -276,12 +267,12 @@ class ReportController extends Controller
 				   }
 				}
 				//added by fazal end
-      else if(userRole() == 'leader'){
+			    else if(userRole() == 'leader'){
 					/// if he is leader get his sellars and get him with them too
 					$userReport = User::where('active','1')->where('leader',auth()->id());
 				}
         // 
-$userReport = $userReport->whereNotIn('email',['lead-admin-uae@madaproperties.com','lead-admin-ksa@madaproperties.com'])
+				$userReport = $userReport->whereNotIn('email',['lead-admin-uae@madaproperties.com','lead-admin-ksa@madaproperties.com'])
 				->orderBy('email')->paginate(10);
 				$leader=0;
 
@@ -360,7 +351,7 @@ $userReport = $userReport->whereNotIn('email',['lead-admin-uae@madaproperties.co
         {
         	$leaders=User::where('rule',['leader'])->get();
         	$projects=$projects=Project::where('country_id',2)->get();
-        }
+		}
 		return view('admin.reports.index',[
 			'users' =>  $users,
 			'report_dates' =>  $report_dates,
