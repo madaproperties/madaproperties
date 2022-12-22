@@ -151,7 +151,8 @@ class DatabaseRecordsController extends Controller
   public function create() {
     $countries = $this->getCuntoryList();
     $sellers = getSellers();
-    return view('admin.databaserecords.create',compact('countries','sellers'));
+    $status=Status::get();
+    return view('admin.databaserecords.create',compact('countries','sellers','status'));
   }
 
   /**
