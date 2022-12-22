@@ -119,7 +119,7 @@ class DatabaseRecordsController extends Controller
     {
      $data=DatabaseRecords::join('statuses','database_records.status','statuses.id')
                             ->select('database_records.*','statuses.name_en AS status') 
-                            ->paginate(20);
+                            ->get();
      $data_count = DatabaseRecords::count();
 
     }
