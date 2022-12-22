@@ -190,7 +190,7 @@ class ReportController extends Controller
 		$userReport = [];
 		$two_week_report = [];
 
-		if(request('users_id') && request()->has('from') && request()->has('to')){
+		if(userRole()!='sales director' && request('users_id') && request()->has('from') && request()->has('to')){
 		  $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
 			$to = date('Y-m-d 23:59:59', strtotime(Request('to')));
 
@@ -212,11 +212,6 @@ class ReportController extends Controller
 			->whereDate('updated_at', '>=', Carbon::today()->subDays( 14 ))
 			->get();
 			$leader=0;
-
-		}else if(request('leader_id') > 0) {
-          $userReport = User::where('leader',request('leader_id'))->whereIn('rule',['sales','sales admin','leader'])->get();
-		 // dd($users);
-         $leader=request('leader_id');
 
 		}else if(userRole() == 'sales' && request()->has('from') && request()->has('to')){
 			$from = date('Y-m-d 00:00:00', strtotime(Request('from')));
@@ -257,7 +252,7 @@ class ReportController extends Controller
 					$userdetail=User::where('id',auth()->id())->first();
 				   if($userdetail->time_zone=='Asia/Riyadh')
 				   {
-				   $whereCountry = 'Asia/Riyadh';
+				   	$whereCountry = 'Asia/Riyadh';
 					$userReport = $userReport->where('time_zone','like','%'.$whereCountry.'%');	
 				   }	
 				   else
@@ -271,7 +266,10 @@ class ReportController extends Controller
 					/// if he is leader get his sellars and get him with them too
 					$userReport = User::where('active','1')->where('leader',auth()->id());
 				}
-        // 
+		// 
+				if(request('users_id') > 0){
+					$userReport = $userReport->where('id',request('users_id'));
+				}
 				$userReport = $userReport->whereNotIn('email',['lead-admin-uae@madaproperties.com','lead-admin-ksa@madaproperties.com'])
 				->orderBy('email')->paginate(10);
 				$leader=0;
