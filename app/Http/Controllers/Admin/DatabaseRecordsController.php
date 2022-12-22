@@ -291,7 +291,7 @@ private function filterPrams($q){
         "lang" ,
         "campaign",
         "last_mile_conversion",
-        "status_id",
+        "status",
         "created_by", //Added by Javed
         "project_country_id", //Added by Javed
         "budget", //Added by Javed
@@ -395,7 +395,7 @@ private function filterPrams($q){
       if(Request()->has('challenge_lead') && request('challenge_lead')){
         $uri = Request()->fullUrl();
         session()->put('start_filter_url',$uri);
-        return $q->whereIn('status_id', ['1','4','7'])
+        return $q->whereIn('status', ['1','4','7'])
                   ->whereDate('updated_at', '<=', Carbon::now()->subMonths(1));
       }
       return $q->get();
@@ -404,7 +404,7 @@ private function filterPrams($q){
     if(Request()->has('search') AND Request()->has('my-contacts')  AND Request()->has('filter_status')){
       $uri = Request()->fullUrl();
       session()->put('start_filter_url',$uri);
-      return $q->where('status_id',Request('filter_status'))
+      return $q->where('status',Request('filter_status'))
           ->where('user_id', auth()->id())
           ->where(function ($q){
               $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
@@ -421,7 +421,7 @@ private function filterPrams($q){
     if(Request()->has('filter_status') AND Request()->has('search')){
       $uri = Request()->fullUrl();
       session()->put('start_filter_url',$uri);
-      return $q->where('status_id',Request('filter_status'))
+      return $q->where('status',Request('filter_status'))
         ->where(function ($q){
           $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
             ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
@@ -440,7 +440,7 @@ private function filterPrams($q){
       if(!request('status')){
         return $q->where('campaign', request('campaign'))->get();
       }
-      return $q->where('status_id', request('status'))
+      return $q->where('status', request('status'))
               ->where('campaign', request('campaign'))->get();
     }
 
@@ -465,7 +465,7 @@ private function filterPrams($q){
     if(Request()->has('my-contacts') AND Request()->has('filter_status')){
       $uri = Request()->fullUrl();
       session()->put('start_filter_url',$uri);
-      return $q->where('status_id', Request('filter_status'))->where('user_id', auth()->id());
+      return $q->where('status', Request('filter_status'))->where('user_id', auth()->id());
     }
 
     if(Request()->has('my-contacts')){
@@ -475,7 +475,7 @@ private function filterPrams($q){
     if(Request()->has('filter_status')){
       $uri = Request()->fullUrl();
       session()->put('start_filter_url',$uri);
-      return $q->where('status_id', Request('filter_status'));
+      return $q->where('status', Request('filter_status'));
     }
 
 
@@ -494,7 +494,7 @@ private function filterPrams($q){
 
     if(request()->has('status') AND request()->has('user')){
       return  $q->where('status_changed_at', '<=', Carbon::today()->subDays( 2 ))
-                ->where('status_id',request('status'))
+                ->where('status',request('status'))
                 ->where('user_id',request('user'));
 
     }
