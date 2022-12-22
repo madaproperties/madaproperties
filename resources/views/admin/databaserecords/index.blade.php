@@ -1,3 +1,5 @@
+
+
 @push('css')
     <style>
         .dataTables_info,.dataTables_paginate ,#DataTables_Table_0_filter
@@ -68,6 +70,8 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 					@endcan
 					</div>
 				</div>
+               
+
 				<!--end::Header-->
 				<!--end::Page Title-->
 				<form class="ml-5" action="">
@@ -91,6 +95,9 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 
 					</div><br>
 				</form>
+				 
+                @include('admin.layouts.advance-database')
+                
 
 				<!--begin::Body-->
 				<div class="card-body py-0">
@@ -271,7 +278,6 @@ $(document).ready(function () {
 			$('#check_all').prop('checked',false);
 		}
 	});
-
 	// Assign multiple leads
 	$('.assign-all').on('click', function(e) {
 		var idsArr = [];
@@ -282,7 +288,6 @@ $(document).ready(function () {
 			alert("Please select atleast one Lead.");
 		}  else {
 			if(confirm("Are you sure, you want to assign selected records ?")){
-
 				if(!$('#assigned-seller').val())
 				{
 					return alert('please select User To Assign To');
@@ -307,5 +312,18 @@ $(document).ready(function () {
 		}
 	});
 });
+</script>
+<script>
+	$(`#from-date,#lastupdatefrom-date,#meeting-from-date`).datepicker({
+    //format: 'dd/mm/yyyy',
+    todayHighlight:'TRUE',
+    autoclose: true,
+  });
+
+  $(`#to-date,#lastupdateto-date,#meeting-to-date`).datepicker({
+		//format: 'dd/mm/yyyy',
+    todayHighlight:'TRUE',
+    autoclose: true,
+  });
 </script>
 @endpush	

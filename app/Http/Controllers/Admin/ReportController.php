@@ -337,9 +337,10 @@ $userReport = $userReport->whereNotIn('email',['lead-admin-uae@madaproperties.co
         if(userRole()=='sales director')
         {   
         	$userdetail=User::where('id',auth()->id())->first();
-				   if($userdetail->time_zone=='Asia/Riyadh'){
+		     if($userdetail->time_zone=='Asia/Riyadh'){
         	 $leaders=User::where('active','1')->whereIn('rule',['leader'])->where('time_zone','Asia/Riyadh')->get();
         	 $projects=Project::where('country_id',1)->get();
+             
         	}
         	else
         	{

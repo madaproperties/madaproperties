@@ -451,7 +451,7 @@
 							@if($allUsersReport)
 								@include('admin.reports.allUsersReport')
 							 <!-- added by fazal -->
-							@elseif($leader != 0)
+							@elseif($leader != 0 || userRole()=='sales director')
   					        @include('admin.reports.allLeaderUser')
 
   					        
