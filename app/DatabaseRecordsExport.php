@@ -51,8 +51,9 @@ class DatabaseRecordsExport implements FromQuery, WithHeadings, ShouldAutoSize, 
           $deal->community,
           $deal->sub_community,
           $deal->developer,
-          $unit_country,
-          
+          $unit_country, 
+          isset($status->name_en) ? $status->name_en : 'N/A',
+          $created_by,
           $assign_to,
           $deal->comment,
         ];

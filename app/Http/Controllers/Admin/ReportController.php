@@ -241,7 +241,7 @@ class ReportController extends Controller
 				
 				$allUsersReport = true;
 				$userReport = User::where('active','1')
-				->whereIn('rule',['sales','sales admin','leader']);
+				->whereIn('rule',['sales','sales admin','leader','sales director']);
 				if(userRole() == 'sales admin saudi'){
 					$whereCountry = 'Asia/Riyadh';
 					$userReport = $userReport->where('time_zone','like','%'.$whereCountry.'%');
@@ -453,11 +453,30 @@ class ReportController extends Controller
 		// 07-04-2021
 		if(userRole() === 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi')
 		{
-			$users = User::all();
+			$users = User::where('active','1')->get();
 		}elseif(userRole() == 'leader')
 		{
 				/// if he is leader get his sellars and get him with them too
-			$users = User::where('leader',auth()->id())->OrWhere('id',auth()->id())->get();
+			$users = User::where('leader',auth()->id())->OrWhere('id',auth()->id())->where('active','1')->get();
+		}elseif(userRole() == 'sales director'){
+			$userloc=User::where('id',auth()->id())->first();
+			if($userloc->time_zone=='Asia/Dubai'){
+				$users = User::where('time_zone','Asia/Dubai')
+				->where('active','1')
+				->where(function($q){
+					$q->where('rule','sales')
+					->orWhere('rule','leader')
+					->orWhere('rule','sales director');
+				})->get();
+			}else{
+				$users = User::where('time_zone','Asia/Riyadh')
+				->where('active','1')
+				->where(function($q){
+					$q->where('rule','sales')
+					->orWhere('rule','leader')
+					->orWhere('rule','sales director');
+				})->get();
+			}
 		}
 		elseif(userRole() == 'sales director')
 		{
