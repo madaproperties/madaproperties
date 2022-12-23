@@ -31,7 +31,7 @@
   					                     <div class="">
   					                       <div class="input-group input-group-solid date"
                                    id="from-date" data-target-input="nearest">
-  					                         <input value="{{request('from')}}" required type="date"
+  					                         <input value="{{request('from')}}"  type="date"
   																	  
   																	 class="form-control form-control-solid "
   					                        
@@ -48,7 +48,7 @@
   					                     <label class="">{{ __('site.to') }}</label>
   					                     <div class="">
   					                       <div class="input-group input-group-solid ">
-  					                         <input value="{{request('to')}}" required type="date" class="form-control form-control-solid "
+  					                         <input value="{{request('to')}}"  type="date" class="form-control form-control-solid "
   					                         data-toggle=""
   																	
   					                          name="to" >
@@ -132,8 +132,181 @@
   							 <form action="" class="form" action="get" id="search-form">
   								  <div class="card-body">
 										<input type="hidden" name="type" value="users" />
-										@if(userRole() != 'sales')
 
+									@if(userRole() =='admin')
+									 <!--  -->
+                                   <div class="row">
+  								   	<div class="col-md-6 col-sm--12">
+  					                  <div class="form-group ">
+  					                     <label class="">{{ __('site.country') }}</label>
+  					                     <div class="">
+  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                        <select class="form-control" id="country" name="country_id">
+  					                        	<option value="">Choose</option>
+  					                        	@foreach($countries as $country)
+                                                 
+
+                                            <option {{request('country_id') == $country->id ? 'selected' : ''}}
+  	                                    value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name_en}}</option>
+
+  					                        	@endforeach
+  					                        </select>
+  					                       </div>
+  					                     </div>
+  					                   </div>
+  					                </div>
+  					                <div class="col-md-6 col-sm--12">
+  					                  <div class="form-group ">
+  					                     <label class="">{{ __('site.project') }}</label>
+  					                     <div class="">
+  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                       <select class="form-control" id="project" name="project_id">
+  					                       	<option value="">Choose</option>
+  					                       		@foreach($projects as $proj)
+  					                       	
+                                            <option {{request('project_id') == $proj->id ? 'selected' : ''}}
+  	                                    value="{{$proj->id}}" data-select2-id="{{$proj->id}}">{{$proj->name_en}}</option>
+                                      
+
+  					                       	@endforeach
+  					                       </select>
+  					                       </div>
+  					                     </div>
+  					                   </div>
+  					                </div>
+
+  								   </div>
+  								   <div class="row">
+  								   <div class="col-md-6 col-sm--12">
+  					                  <div class="form-group ">
+  					                     <label class="">{{ __('site.leaders') }}</label>
+  					                     <div class="">
+  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                       <select class="form-control" id="leader" name="leader_id">
+  					                       	<option value="">Choose</option>
+  					                       	@foreach($leaders as $lea)
+                                            <option {{request('leader_id') == $lea->id ? 'selected' : ''}} value="{{$lea->id}}" data-select2-id="{{$lea->id}}">{{$lea->name}}</option>
+  					                       	@endforeach
+  					                       </select>
+  					                       </div>
+  					                     </div>
+  					                   </div>
+  					                </div>	
+  								   </div>
+  								   
+  								   <div class="form-group">
+  								    <label>{{__('site.account')}}</label>
+  								    <div class="input-icon">
+  								     <select class="form-control " id="users" name="users_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+  										<option value="">{{ __('site.choose') }}</option>
+  	                                   @foreach($users as $choosedUser)
+  	        							<option
+  	                                    {{request('users_id') == $choosedUser->id ? 'selected' : ''}}
+  	                                    value="{{$choosedUser->id}}" data-select2-id="{{$choosedUser->id}}">{{$choosedUser->name}}</option>
+  	                                    @endforeach
+          							</select>
+  								     <span><i class="flaticon2-search-1 icon-md"></i></span>
+  								    </div>
+  								   </div> 
+
+                                      <!--  added by  fazal-->
+  								   @elseif(userRole()=='sales director')
+  								   <div class="row">
+  								   	
+                                    <div class="col-md-6 col-sm--12">
+  					                  <div class="form-group ">
+  					                     <label class="">{{ __('site.project') }}</label>
+  					                     <div class="">
+  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                       <select class="form-control" id="project" name="project_id">
+  					                       	<option>choose</option>
+  					                       	@foreach($projects as $proj)
+  					                       	
+                                            <option {{request('project_id') == $proj->id ? 'selected' : ''}}
+  	                                    value="{{$proj->id}}" data-select2-id="{{$proj->id}}">{{$proj->name_en}}</option>
+                                      
+
+  					                       	@endforeach
+  					                       </select>
+  					                       </div>
+  					                     </div>
+  					                   </div>
+  					                </div>
+
+  								   
+  								   <div class="col-md-6 col-sm--12">
+  					                  <div class="form-group ">
+  					                     <label class="">{{ __('site.leaders') }}</label>
+  					                     <div class="">
+  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                       <select class="form-control" id="leader" name="leader_id" >
+  					                       	<option>choose</option>
+  					                       	@foreach($leaders as $lea)
+                                            <option {{request('leader_id') == $lea->id ? 'selected' : ''}} value="{{$lea->id}}" data-select2-id="{{$lea->id}}">{{$lea->name}}</option>
+  					                       	@endforeach
+  					                       </select>
+  					                       </div>
+  					                     </div>
+  					                   </div>
+  					                </div>	
+  								   </div>
+  								   
+  								   <div class="form-group">
+  								    <label>{{__('site.account')}}</label>
+  								    <div class="input-icon">
+  								     <select class="form-control " id="users" name="users_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+  										<option value="">{{ __('site.choose') }}</option>
+  	                                   @foreach($users as $choosedUser)
+  	        							<option
+  	                                    {{request('users_id') == $choosedUser->id ? 'selected' : ''}}
+  	                                    value="{{$choosedUser->id}}" data-select2-id="{{$choosedUser->id}}">{{$choosedUser->name}}</option>
+  	                                    @endforeach
+          							</select>
+  								     <span><i class="flaticon2-search-1 icon-md"></i></span>
+  								    </div>
+  								   </div> 
+  								   <!-- admin uae -->
+  								   @elseif(userRole()=='sales admin saudi')
+  								   <div class="row">
+  								   	
+                                    <div class="col-md-6 col-sm--12">
+  					                  <div class="form-group ">
+  					                     <label class="">{{ __('site.project') }}</label>
+  					                     <div class="">
+  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                       <select class="form-control" id="project" name="project_id">
+  					                       	<option>choose</option>
+  					                       	@foreach($projects as $proj)
+  					                       	
+                                            <option {{request('project_id') == $proj->id ? 'selected' : ''}}
+  	                                    value="{{$proj->id}}" data-select2-id="{{$proj->id}}">{{$proj->name_en}}</option>
+                                      
+
+  					                       	@endforeach
+  					                       </select>
+  					                       </div>
+  					                     </div>
+  					                   </div>
+  					                </div>
+
+  								   
+  								   <div class="col-md-6 col-sm--12">
+  					                  <div class="form-group ">
+  					                     <label class="">{{ __('site.leaders') }}</label>
+  					                     <div class="">
+  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                       <select class="form-control" id="leader" name="leader_id" >
+  					                       	<option>choose</option>
+  					                       	@foreach($leaders as $lea)
+                                            <option {{request('leader_id') == $lea->id ? 'selected' : ''}} value="{{$lea->id}}" data-select2-id="{{$lea->id}}">{{$lea->name}}</option>
+  					                       	@endforeach
+  					                       </select>
+  					                       </div>
+  					                     </div>
+  					                   </div>
+  					                </div>	
+  								   </div>
+  								   
   								   <div class="form-group">
   								    <label>{{__('site.account')}}</label>
   								    <div class="input-icon">
@@ -148,7 +321,82 @@
   								     <span><i class="flaticon2-search-1 icon-md"></i></span>
   								    </div>
   								   </div>
-										 @endif
+  								   <!-- end  -->
+  								   <!-- adimin saudi -->
+  								   @elseif(userRole()=='sales admin uae')
+  								   <div class="row">
+  								   	
+                                    <div class="col-md-6 col-sm--12">
+  					                  <div class="form-group ">
+  					                     <label class="">{{ __('site.project') }}</label>
+  					                     <div class="">
+  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                       <select class="form-control" id="project" name="project_id">
+  					                       	<option>choose</option>
+  					                       	@foreach($projects as $proj)
+  					                       	<option {{request('project_id') == $proj->id ? 'selected' : ''}}
+  	                                    value="{{$proj->id}}" data-select2-id="{{$proj->id}}">{{$proj->name_en}}</option>
+                                           @endforeach
+  					                       </select>
+  					                       </div>
+  					                     </div>
+  					                   </div>
+  					                </div>
+
+  								   
+  								   <div class="col-md-6 col-sm--12">
+  					                  <div class="form-group ">
+  					                     <label class="">{{ __('site.leaders') }}</label>
+  					                     <div class="">
+  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                       <select class="form-control" id="leader" name="leader_id" >
+  					                       	<option>choose</option>
+  					                       	@foreach($leaders as $lea)
+                                            <option {{request('leader_id') == $lea->id ? 'selected' : ''}} value="{{$lea->id}}" data-select2-id="{{$lea->id}}">{{$lea->name}}</option>
+  					                       	@endforeach
+  					                       </select>
+  					                       </div>
+  					                     </div>
+  					                   </div>
+  					                </div>	
+  								   </div>
+  								   
+  								   <div class="form-group">
+  								    <label>{{__('site.account')}}</label>
+  								    <div class="input-icon">
+  								     <select class="form-control " id="users" name="users_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+  										<option value="">{{ __('site.choose') }}</option>
+  	                                   @foreach($users as $choosedUser)
+  	        							<option
+  	                                    {{request('users_id') == $choosedUser->id ? 'selected' : ''}}
+  	                                    value="{{$choosedUser->id}}" data-select2-id="{{$choosedUser->id}}">{{$choosedUser->name}}</option>
+  	                                    @endforeach
+          							</select>
+  								     <span><i class="flaticon2-search-1 icon-md"></i></span>
+  								    </div>
+  								   </div>
+  								   <!-- end added by fazal -->
+
+                               
+
+    					           @elseif(userRole() != 'sales')
+    					          
+  								   <div class="form-group">
+  								    <label>{{__('site.account')}}</label>
+  								    <div class="input-icon">
+  								     <select class="form-control " id="users" name="users_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+  										<option value="">{{ __('site.choose') }}</option>
+  	                                   @foreach($users as $choosedUser)
+  	        							<option
+  	                                    {{request('users_id') == $choosedUser->id ? 'selected' : ''}}
+  	                                    value="{{$choosedUser->id}}" data-select2-id="{{$choosedUser->id}}">{{$choosedUser->name}}</option>
+  	                                    @endforeach
+          							</select>
+  								     <span><i class="flaticon2-search-1 icon-md"></i></span>
+  								    </div>
+  								   </div>
+
+								    @endif
 
   								   <div class="row">
   								   	<div class="col-md-6 col-sm--12">
@@ -157,7 +405,7 @@
   					                     <div class="">
   					                       <div class="input-group input-group-solid date"
                                    id="from-date" data-target-input="nearest">
-  					                         <input value="{{request('from')}}" required type="text"
+  					                         <input value="{{request('from')}}"  type="text"
   																	  max="{{date('Y-m-d')}}"
   																	 class="form-control form-control-solid datetimepicker-input"
   					                         data-toggle="datetimepicker"
@@ -176,7 +424,7 @@
   					                     <label class="">{{ __('site.to') }}</label>
   					                     <div class="">
   					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
-  					                         <input value="{{request('to')}}" required type="text" class="form-control form-control-solid datetimepicker-input"
+  					                         <input value="{{request('to')}}"  type="text" class="form-control form-control-solid datetimepicker-input"
   					                         data-toggle="datetimepicker"
   																	 min="{{date('Y/m/d')}}"
   					                          name="to" data-target="#to-date" autocomplete="off">
@@ -198,9 +446,15 @@
 
   							 <!--end::Form-->
   							</div>
+  							
 
 							@if($allUsersReport)
 								@include('admin.reports.allUsersReport')
+							 <!-- added by fazal -->
+							@elseif($leader != 0 || userRole()=='sales director')
+  					        @include('admin.reports.allLeaderUser')
+
+  					        
 							@elseif(request()->has('from') && request()->has('to'))
   							<!--start: Datatable-->
   							
@@ -418,11 +672,12 @@
 								@endif
 
   							@endif <!-- end  -->
-
+                            
   						</div>
   					</div>
+  					
   					@endif
-
+                  
   			 @if(request()->has('type') AND request('type') == 'report')
   	<!--begin::Content-->
   	<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
@@ -453,10 +708,10 @@
   								       
 			  								   	<div class="col-md-6 col-sm--12">
   					                  <div class="form-group ">
-  					                     <label class="">{{ __('site.from') }} </label>
+  					                     <label class="">{{ __('site.from1') }} </label>
   					                    
   					                       <div class="input-group input-group-solid date" id="" data-target-input="nearest">
-  					                         <input value="{{request('from')}}" required type="date"
+  					                         <input value="{{request('from')}}"  type="date"
   										 max="{{date('Y-m-d')}}"  class="form-control form-control-solid "
   					                          name="from" autocomplete="off">
   					                     		</div>
@@ -467,7 +722,7 @@
   					                     <label class="">{{ __('site.to') }} </label>
   					                     <div class="">
   					                       <div class="input-group input-group-solid date"  data-target-input="nearest">
-  					                         <input value="{{request('to')}}" required type="date"
+  					                         <input value="{{request('to')}}"  type="date"
   										 max="{{date('Y-m-d')}}"
   																	 class="form-control form-control-solid "
   					                          name="to" autocomplete="off">
@@ -521,6 +776,7 @@
     
 @endsection
 @push('js')
+ <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 <script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
 <script>
 
@@ -536,8 +792,72 @@
     // }
   });
   
-  
+  $(document).ready(function () {
+            $('#country').on('change', function () {
+                var idCountry = this.value;
+       
+                $.ajax({
+                    url: "{{url('fetch-project')}}",
+                    type: "POST",
+                    data: {
+                        country_id: idCountry,
+                        _token: '{{csrf_token()}}'
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                        $('#project').html('<option value="">Select project</option>');
 
+                        $.each(result.project, function (key, value) {
+                            $("#project").append('<option value="' + value
+                                .id + '">' + value.name_en + '</option>');
+                        });
+                        $('#leader').html('<option value="">Select leader</option>');
+                        $.each(result.leaders, function (key, value) {
+
+                            $("#leader").append('<option value="' + value
+                                .id + '">' + value.email + '</option>');
+                        });
+                        $.each(result.director, function (key, value) {
+
+                            $("#leader").append('<option value="' + value
+                                .id + '">' + value.email + '</option>');
+                        });
+
+                        
+                    }
+                });
+            }); 
+        // 
+         $('#leader').on('change', function () {
+                var leader_id = this.value;
+
+                $.ajax({
+                    url: "{{url('fetch-agent')}}",
+                    type: "POST",
+                    data: {
+                       leader_id : leader_id,
+                        _token: '{{csrf_token()}}'
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                        $('#users').html('<option value="">choose</option>');
+
+                        $.each(result.agents, function (key, value) {
+                            $("#users").append('<option value="' + value
+                                .id + '">' + value.email + '</option>');
+                        });
+                        
+                       
+                        
+                    }
+                });
+            });
+        // 
+
+
+           });
+
+  
   
   var date = new Date() ;
    date.setDate(date.getDate()-1)

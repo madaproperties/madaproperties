@@ -68,7 +68,7 @@ class ReportController extends Controller
 
 			$source = Source::where('active','1')->get();
 
-			$campaings_data =Campaing::where('active','1')->orderBy('name','asc')->get();	
+			$campaings_data =Campaing::where('active','1')->get();	
 			$city_data = City::get();
 			$projects_options = Project::orderBy('name_en','asc')->get();
 			$projects_data = Project::orderBy('created_at','desc');
@@ -86,11 +86,6 @@ class ReportController extends Controller
 			if(Request('project_country_id') && !empty(request('project_country_id'))){
 				$projects_data = $projects_data->where('country_id',Request('project_country_id'));
 			}
-			if(Request('campaing_id') && !empty(request('campaing_id'))){
-				$tempIds = Contact::where('campaign',request('campaing_id'))->get()->pluck('project_id');
-				$projects_data = $projects_data->whereIn('id',$tempIds);
-			}
-
 			$projects_data = $projects_data->paginate(10);
 
 			$countries = Country::orderBy('name_en')->get();
@@ -352,10 +347,9 @@ class ReportController extends Controller
         }
         else
         {
-        	$leaders='';
-        	$projects='';
+        	$leaders=User::where('rule',['leader'])->get();
+        	$projects=$projects=Project::where('country_id',2)->get();
 		}
-		$leader= 0;
 		return view('admin.reports.index',[
 			'users' =>  $users,
 			'report_dates' =>  $report_dates,
@@ -371,7 +365,7 @@ class ReportController extends Controller
 			'allUsersReport' => $allUsersReport, 
 			'two_week_report' => $two_week_report,
 			'countries' =>$countries,
-			 'leader'=>$leader,
+			'leader'=>$leader, 
 			'leaders'=>$leaders,
 			'projects'=>$projects,
 		]);
