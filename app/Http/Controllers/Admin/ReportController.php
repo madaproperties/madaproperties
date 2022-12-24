@@ -86,6 +86,11 @@ class ReportController extends Controller
 			if(Request('project_country_id') && !empty(request('project_country_id'))){
 				$projects_data = $projects_data->where('country_id',Request('project_country_id'));
 			}
+			if(Request('campaing_id') && !empty(request('campaing_id'))){
+				$tempIds = Contact::where('campaign',request('campaing_id'))->get()->pluck('project_id');
+				$projects_data = $projects_data->whereIn('id',$tempIds);
+			}
+				
 			$projects_data = $projects_data->paginate(10);
 
 			$countries = Country::orderBy('name_en')->get();
@@ -284,21 +289,15 @@ class ReportController extends Controller
 		{
 
 			$userdetail=User::where('id',auth()->id())->first();
-				   if($userdetail->time_zone=='Asia/Riyadh'){
-		       $users = User::where('active','1')->whereIn('rule',['sales','sales admin','leader','sales admin sadui']);
-		       	$whereCountry = 'Asia/Riyadh';
-			     $users = $users->where('time_zone','like','%'.$whereCountry.'%');
-			     	
-			     	   	
-				   }
-				   else
-				   {
-				   	$users = User::where('active','1')->whereIn('rule',['sales','sales admin','leader','sales admin uae']);
-				   		$whereCountry = 'Asia/Dubai';
-			        $users = $users->where('time_zone','like','%'.$whereCountry.'%');
-			       
-				   }
-		
+			if($userdetail->time_zone=='Asia/Riyadh'){
+				$users = User::where('active','1')->whereIn('rule',['sales','sales admin','leader','sales admin sadui']);
+				$whereCountry = 'Asia/Riyadh';
+				$users = $users->where('time_zone','like','%'.$whereCountry.'%');
+			}else {
+				$users = User::where('active','1')->whereIn('rule',['sales','sales admin','leader','sales admin uae']);
+				$whereCountry = 'Asia/Dubai';
+				$users = $users->where('time_zone','like','%'.$whereCountry.'%');
+			}
 		}
 		else{
 			$users = User::where('active','1')->whereIn('rule',['sales','sales admin','leader']);
@@ -317,38 +316,35 @@ class ReportController extends Controller
 		}
 
 		
-    $users = $users->whereNotIn('email',['lead-admin-uae@madaproperties.com','lead-admin-ksa@madaproperties.com'])
+    	$users = $users->whereNotIn('email',['lead-admin-uae@madaproperties.com','lead-admin-ksa@madaproperties.com'])
 		->orderBy('email')->get();
 		 
 
 		$status = Status::where('active','1')->get();
         $countries=Country::get();
-        if(userRole()=='sales director')
-        {   
-        	$userdetail=User::where('id',auth()->id())->first();
-		     if($userdetail->time_zone=='Asia/Riyadh'){
-        	 $leaders=User::where('active','1')->whereIn('rule',['leader'])->where('time_zone','Asia/Riyadh')->get();
-        	 $projects=Project::where('country_id',1)->get();
-             
+        if(userRole()=='sales director'){   
+			$userdetail=User::where('id',auth()->id())->first();
+			$leaders=User::where('active','1')
+				->whereIn('rule',['leader','sales director']);
+		    if($userdetail->time_zone=='Asia/Riyadh'){
+				$leaders= $leaders->where('time_zone','Asia/Riyadh');
+				$projects=Project::where('country_id',1)->get();
+        	}else{
+				$leaders= $leaders->where('time_zone','Asia/Dubai');
+				$projects=Project::where('country_id',2)->get();
         	}
-        	else
-        	{
-        	$leaders=User::where('active','1')->whereIn('rule',['leader'])->where('time_zone','Asia/Dubai')->get();	
+			$leaders = $leaders->orWhere(function($q2){
+				$q2->where('id',auth()->id());
+			})->get();	
+        }elseif(userRole()=='sales admin saudi'){
+            $leaders=User::where('active','1')->whereIn('rule',['leader'])->where('time_zone','Asia/Riyadh')->get();
+        	$projects=Project::where('country_id',1)->get();
+        }elseif(userRole()=='sales admin uae'){
+         	$leaders=User::where('active','1')->whereIn('rule',['leader'])->where('time_zone','Asia/Dubai')->get();
         	$projects=Project::where('country_id',2)->get();
-        	}
-        }
-        elseif(userRole()=='sales admin saudi'){
-             $leaders=User::where('active','1')->whereIn('rule',['leader'])->where('time_zone','Asia/Riyadh')->get();
-        	 $projects=Project::where('country_id',1)->get();
-        }
-        elseif(userRole()=='sales admin uae'){
-         $leaders=User::where('active','1')->whereIn('rule',['leader'])->where('time_zone','Asia/Dubai')->get();
-        	 $projects=Project::where('country_id',2)->get();
-        }
-        else
-        {
+        }else{
         	$leaders=User::where('rule',['leader'])->get();
-        	$projects=$projects=Project::where('country_id',2)->get();
+        	$projects=Project::get();
 		}
 		return view('admin.reports.index',[
 			'users' =>  $users,
@@ -396,11 +392,11 @@ class ReportController extends Controller
        }
        return response()->json($data);
     }
-     public function fetchAgent(Request $request)
-     {
-      $data['agents']=User::where('leader',$request->get('leader_id'))->select('id','email')->get();
-      return response()->json($data);      
-     }
+    public function fetchAgent(Request $request)
+    {
+		$data['agents']=User::where('leader',$request->get('leader_id'))->select('id','email')->get();
+		return response()->json($data);      
+    }
 	
      //added by fazal end 
 
