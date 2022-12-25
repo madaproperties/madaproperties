@@ -111,8 +111,8 @@
 
 
 
-		<link href="{{ asset('public/css/developer.css?t='.time())}}" rel="stylesheet" type="text/css" />
 		<link href="{{ asset('public/css/revemp-style.css?t='.time())}}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('public/css/developer.css?t='.time())}}" rel="stylesheet" type="text/css" />
 
 
 

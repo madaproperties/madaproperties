@@ -60,20 +60,16 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 										<ul class="navi flex-column navi-hover py-2">
 
 										    <li class="navi-item">
-												<a href="{{ request()->has('my-contacts') ? '?my-contacts=get&' : '?'}}"
-	class=" navi-link">
-	<span  class="{{ !request('filter_status')  ? 'text-warning': ''}} navi-text">{{ __('site.all') }}</span>
+												<a href="{{ request()->has('my-contacts') ? '?my-contacts=get&' : '?'}}" class=" navi-link">
+													<span  class="{{ !request('filter_status')  ? 'text-warning': ''}} navi-text">{{ __('site.all') }}</span>
 												</a>
 											</li>
 
 
 											@foreach($status as $state)
 											<li class="navi-item">
-												<a href="{{ request()->has('my-contacts') ? '?my-contacts=get&' : '?'}}filter_status={{$state->id}}"
-	class="  navi-link">
-				<span
-
-				class="{{ request('filter_status') == $state->id  ? 'text-warning': ''}} navi-text">{{$state->name}}</span>
+												<a href="{{ request()->has('my-contacts') ? '?my-contacts=get&' : '?'}}filter_status={{$state->id}}" class="navi-link">
+													<span	class="{{ request('filter_status') == $state->id  ? 'text-warning': ''}} navi-text">{{$state->name}}</span>
 												</a>
 											</li>
 											@endforeach
@@ -247,25 +243,23 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 
                 @include('admin.layouts.advanced-search')
 
-                <br />
-                @if(userRole() != 'sales')
-								<div class="page-button">
-									<div class="">
-                <button type="button" class="btn btn-primary"
-                data-toggle="modal" data-target="#assign-leads">
-                    Assing <i class="fa fa-users"></i>
-                  </button>
-				@can('contact-delete')
-
-					<button type="button" class="btn btn-primary delete-all">
-                    Delete <i class="fa fa-trash"></i>
-					</button>
-				@endcan
-				</div>
-				</div>
-
-                @endif
+               
 							<!--begin: Datatable-->
+				<!--begin::Body-->
+				<div class="table-responsive">
+							@if(userRole() != 'sales')
+								<div class="{{$contacts->withQueryString()->links() == ''? 'assign-delete-buttons' : 'page-button'}}">
+									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#assign-leads">
+															Assing <i class="fa fa-users"></i></button>
+									@can('contact-delete')
+										<button type="button" class="btn btn-primary delete-all">
+															Delete <i class="fa fa-trash"></i>
+										</button>
+									@endcan
+								</div>
+                			@endif
+
+
 							{{ $contacts->withQueryString()->links() }}
 						<div class="custom-table-responsive">							
 							<table class="{{ request()->has('export') ? 'table-export' : ''}} text-center table table-separate table-head-custom table-checkable table-striped" id="" style="padding:20px">
@@ -361,6 +355,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 							{{ $contacts->withQueryString()->links() }}
 							<!--end: Datatable-->
 						</div>
+					</div>
 					</div>
 					<!--end::Card-->
        </div>

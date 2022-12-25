@@ -61,3 +61,18 @@ div.span,label,h3,button,a, .menu-text{
 	from{ bottom:-100px; opacity:0 } 
 	to{ bottom:0; opacity:1 }
 }
+.assign-delete-buttons{
+	justify-content:left !important;
+	margin-bottom: 0px !important;
+	margin-top: 5px;
+    padding-bottom: 5px;
+}
+.btn.btn-primary {
+    background: #9fc538 !important;
+    border: 1px solid #000 !important;
+	color: #fff !important;
+	text-transform: capitalize;
+}
+.page-button{
+	margin-top:5px;
+}

@@ -127,21 +127,20 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 						</div>
 						<br />
 
-                @if(userRole() != 'sales')
-				<div class="page-button">
-					<div>
-                <button type="button" class="btn btn-primary"
-                data-toggle="modal" data-target="#assign-leads">
-                    Assing <i class="fa fa-users"></i>
-                  </button>
-				  </div>
-				</div>
-
-                @endif
+                
 
 					<!--begin::Table-->
+				<div class="table-responsive">
+					@if(userRole() != 'sales')
+					<div class="{{$data->withQueryString()->links() == ''? 'assign-delete-buttons' : 'page-button'}}">
+						<button type="button" class="btn btn-primary"
+						data-toggle="modal" data-target="#assign-leads">
+						Assing <i class="fa fa-users"></i>
+						</button>
+					</div>
+					@endif					
 					{{$data->withQueryString()->links()}}
-					<div class="custom-table-responsive mt-10">							
+					<div class="custom-table-responsive">							
 						<table class="text-center table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
 							<thead>
 								<tr>
