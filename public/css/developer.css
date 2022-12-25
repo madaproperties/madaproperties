@@ -1,4 +1,4 @@
-div.span,label,h3,button,a, .menu-text{
+div.span,label,h3,button,a, .menu-text, .dropdown-menu{
 	text-transform: capitalize !important;
 }
 .modal .modal-header .close span{

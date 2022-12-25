@@ -92,333 +92,79 @@
 
 
 		<link href="{{ asset('public/assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
-
-
-
 		<link href="{{ asset('public/assets/plugins/custom/prismjs/prismjs.bundle.css')}}" rel="stylesheet" type="text/css" />
-
-
-
 		<link href="{{ asset('public/assets/css/style.bundle.css?t='.time())}}" rel="stylesheet" type="text/css" />
-
-
-
 		<link href="{{ asset('public/css/custom.css?t='.time())}}" rel="stylesheet" type="text/css" />
-
-
-
 		@php //Updated by Javed @endphp
-
-
-
 		<link href="{{ asset('public/css/revemp-style.css?t='.time())}}" rel="stylesheet" type="text/css" />
 		<link href="{{ asset('public/css/developer.css?t='.time())}}" rel="stylesheet" type="text/css" />
-
-
-
-
-
-
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-
-
 		<script src="{{ asset('public/assets/plugins/custom/ckeditor/ckeditor-classic.bundle.js') }}"></script>
-
-
-
 		<script src="{{ asset('public/assets/js/pages/crud/forms/editors/ckeditor-classic.js') }}"></script>
-
-
-
 		<script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
-
-
-
 		<script src="{{ asset('public/assets/js/pages/crud/forms/widgets/bootstrap-datetimepicker.js') }}"></script>
-
-
-
-
-
-
-
-		<!--end::Global Theme Styles-->
-
-
-
-		<!--begin::Layout Themes(used by all pages)-->
-
-
-
-		<!--end::Layout Themes-->
-
-
-
 		@include('admin.layouts.msgs')
-
-
-
 		@stack('css')
-
-
-
 		<link rel="shortcut icon" href="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" />
-
-
-
 		<style>
-
-
-
 		@if(Request::root() == 'https://lmsstaging.madaproperties.com')
-
-
-
 		    body {
-
-
-
 		     background:#e8afaf;
-
-
-
 		    }
-
-
-
 		@else
-
-
-
 		    body {
-
-
-
 		        background:#F2F3F7;
-
-
-
 		    }
-
-
-
 		@endif
-
-
-
-
-
-
-
 	    .dropdown-toggle::after
-
-
-
 	    {
-
-
-
 	        margin-top:10px
-
-
-
 	    }
-
-
-
 		.task.form-group
-
-
-
 		{
-
-
-
 			margin-bottom: 0
-
-
-
 		}
-
-
-
 		@media (min-width: 576px){
-
-
-
 			.modal-dialog {
-
-
-
 				max-width: 700px;
-
-
-
 			}
-
-
-
 		}
-
-
-
 		</style>
-
-
-
 		<!--- HUNDEL AR DIRECTION --->
-
-
-
 		@if(app()->getLocale() == 'ar')
-
-
-
 		<style>
-
-
-
 			.flex-row-fluid
-
-
-
 			{
-
-
-
 				margin-left: unset;
-
-
-
 				margin-right:2rem !important
-
-
-
 			}
-
-
-
 			.t-ar-right
-
-
-
 			{
-
-
-
 				text-align: right !important
-
-
-
 			}
-
-
-
 			.d-flex
-
-
-
 			{
-
-
-
 				text-align: right;
-
-
-
 			}
-
-
-
 			.icon-2x
-
-
-
 			{
-
-
-
 				margin-left:8px
-
-
-
 			}
-
-
-
-
-
-
-
 			.card-toolbar .btn {
-
-
-
 				margin-left:10px
-
-
-
 			}
-
-
-
 		</style>
-
-
-
 		@endif
-
-
-
-
-
-
-
-
-
-
-
 		<!--- new style -->
-
-
-
 		<style>
-
-
-
 				.header .header-top , .btn-primary , .topbar .topbar-item,.btn-light-primary,
-
-
-
 				.dataTables_wrapper .dataTables_paginate .pagination .page-item.active > .page-link,
-
-
-
 				.fc-daygrid-event,
-
-
-
 				.btn.btn-success,
-
-
-
 				.paginate_button.page-item:hover a
-
-
-
 				{
-
-
-
 					background: #000 !important
-
-
-
 				}
-
-
-
 				.btn.btn-success
 
 
