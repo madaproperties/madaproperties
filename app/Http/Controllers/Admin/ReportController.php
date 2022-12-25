@@ -68,7 +68,7 @@ class ReportController extends Controller
 
 			$source = Source::where('active','1')->get();
 
-			$campaings_data =Campaing::where('active','1')->get();	
+			$campaings_data =Campaing::where('active','1')->orderBy('name','asc')->get();	
 			$city_data = City::get();
 			$projects_options = Project::orderBy('name_en','asc')->get();
 			$projects_data = Project::orderBy('created_at','desc');
