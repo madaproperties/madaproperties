@@ -1,4 +1,4 @@
-{{$userReport->withQueryString()->links()}}
+
 <div class="card-body" style="background:#fff;margin:10px 0">
 <!--begin: Datatable-->
 	<div class="row">
@@ -8,7 +8,7 @@
 				<h4>
 					{{__('site.contacts')}}
 				</h4>
-				<table class=" text-center table table-separate table-head-custom table-checkable table-striped">
+				<table class="table" style="background:#f4f4f4">
 					<thead>
 						<tr>
 							<th>Name</th>
@@ -76,7 +76,7 @@
 <div class="card-body">
 	<div class="card card-custom" style="padding:20px">
 		<div class="table-responsive">
-			<table class="ext-center table table-separate table-head-custom table-checkable table-striped">
+			<table class="table  table-separate table-head-custom table-checkable">
 				<thead>
 					<tr>
 						<td>Name</td>
@@ -86,7 +86,7 @@
 						<td>Email</td>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="user_report_tab">
 					@php
 					$callFinalTotal=0;
 					$meetingFinalTotal=0;
@@ -143,7 +143,7 @@
 				<h4>
 				{{'Last 2 week leads'}}
 				</h4>
-				<table class="ext-center table table-separate table-head-custom table-checkable table-striped">
+				<table class="table" style="background:#f4f4f4">
 					<thead>
 						<tr>
 							<th>Name</th>
@@ -171,8 +171,9 @@
 								$two_week_report = $two_week_report->whereHas('project', function($q2) {
 									$q2->where('projects.country_id',getSalesDirectorCountryId());
 								});
-							}								
-							$two_week_report = $two_week_report->get();
+							}
+								
+							$two_week_report = $two_week_report->get();									
 							@endphp
 
 							<tr>
@@ -213,7 +214,7 @@
 				<h4>
 				{{'2 week have passed and the status has not changed'}}
 				</h4>
-				<table class="ext-center table table-separate table-head-custom table-checkable table-striped" style="background:#f4f4f4">
+				<table class="table" style="background:#f4f4f4">
 					<thead>
 						<tr>
 							<th>Name</th>
@@ -241,7 +242,8 @@
 								$status_not_changed_after_1_week = $status_not_changed_after_1_week->whereHas('project', function($q2) {
 									$q2->where('projects.country_id',getSalesDirectorCountryId());
 								});
-							}									
+							}
+
 							$status_not_changed_after_1_week = $status_not_changed_after_1_week->get();									
 							@endphp
 
@@ -273,6 +275,6 @@
 <!--end: Datatable-->
 </div>
 
-{{$userReport->withQueryString()->links()}}
+
 
 

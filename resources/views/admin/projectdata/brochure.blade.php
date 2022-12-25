@@ -198,7 +198,6 @@ td.center span {
     padding-left: 45px;
 }
 	.floor_plan img{margin-top:50px;width:90%;margin-bottom:50px;}
-	table.floor_plan{margin-top:200px;}
 </style>
     </head>
     <body>
@@ -208,13 +207,15 @@ td.center span {
 		<td height="30"> <span class="date">{{date("d/M/y", strtotime($date))}},{{ $time}} </span>
 		</td></tr>
 				<tr>
-					<!--<td height="30"> <span class="date">{{ now()->format('Y-m-d') }}</span>-->
+					<!--<td height="30"> <span class="date">{{ now()->format('Y-m-d') }}</span> </td>-->
 					<td>
 				
 					
 						<table cellpadding="0" cellspacing="0" border="0"  width="800">
 							<tr>
-								<td><img class="jood_logo" src="{{ asset('public/imgs/jood-7-logo.png') }}"/></td>
+							    
+								<td><img class="jood_logo" src="{{ asset('public/uploads/projectData/'.$project->developer->developer_logo) }}"/></td>
+                                  								
 							</tr>
 							<tr>
 								<td align="center" style="font-size:22px;word-spacing:0px;letter-spacing: 0px; font-family: inherit;font-weight:bold; color:#000;"></td>
@@ -265,66 +266,140 @@ td.center span {
 											<td style="text-align:right">السعر بالريال السعودي</td>
 										</tr>
                                   </table>
-								</td>				
-					<table class="mada_table">
-						<th style="width: 200px; background-color: #9FCE31;color:#000;font-weight:bold;padding: 5px;" >Mada Fee</th>
-						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">{{$project->commission}}*</th>
-						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">عمولة مدى</th>
-						<tr>
-							<td>Account name </td>
-							<td>Company Mada Real Estate</td>
-							<td>اسم الحساب</td>
-						</tr>
-						<tr>
-							<td>IBAN </td>
-							<td style="width: 250px;">SA9060100033795022281001</td>
-							<td>رقم الايبان </td>
-						</tr>
-						<tr>
-							<td>Bank Name	  </td>
-							<td>بنك الجزيرة</td>
-							<td>اسم البنك</td>
-						</tr>	
-					</table>
-					@if($project->developer)
-					
-					<table class="mada_table">
-						<th style="color:#000;font-weight:bold;width: 200px; background-color: #9FCE31;padding: 5px;" >Down Payment 20%</th>
-						
-						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">{{$project->down_payment}}*</th>
-						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">دفعة أولى 20%</th>
-						<tr>
-							<td>Account name </td>
-							<td>{{$project->developer->name}}</td>
-							<td>اسم الحساب</td>
-						</tr>
-						<tr>
-							<td>IBAN </td>
-							<td style="width: 250px;">{{$project->developer->iban}}</td>
-							<td>رقم الايبان</td>
-						</tr>
-						<tr>
-							<td>Bank Name</td>
-							<td>{{$project->developer->bank_name}}</td>
-							<td>اسم البنك</td>
-						</tr>	
-					</table>
-					<table class="terms_condition">
+								</td>	
+							</tr>
+						</table>
+					</td>
 					<tr>
-					<td>*This Sales Offer is valid only for 3 days. Price and payment plan are subject to change without prior notice.</td>
-					</tr>
-					</table>
+						<td   valign="top" >
+				
+    					<table class="mada_table">
+    						<th style="width: 200px; background-color: #9FCE31;color:#000;font-weight:bold;padding: 5px;" >Mada Fee</th>
+    						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">{{$project->commission}}*</th>
+    						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">عمولة مدى</th>
+    						<tr>
+    							<td>Account name </td>
+    							<td>Company Mada Real Estate</td>
+    							<td>اسم الحساب</td>
+    						</tr>
+    						<tr>
+    							<td>IBAN </td>
+    							<td style="width: 250px;">SA9060100033795022281001</td>
+    							<td>رقم الايبان </td>
+    						</tr>
+    						<tr>
+    							<td>Bank Name	  </td>
+    							<td>بنك الجزيرة</td>
+    							<td>اسم البنك</td>
+    						</tr>	
+    					</table>
+    					</td>
+    				</tr>
+					@if($project->developer)
+					<tr>
+						<td   valign="top" >
+        					<table class="mada_table">
+        					
+        						<th style="color:#000;font-weight:bold;width: 200px; background-color: #9FCE31;padding: 5px;" >Down Payment {{$project->down_payment_percentage}}%</th>
+        						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">{{$project->down_payment}}*</th>
+        						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">دفعة أولى  {{$project->down_payment_percentage}}%</th
+        						
+        						
+        						>
+        						<tr>
+        							<td>Account name </td>
+        							<td>{{$project->developer->name}}</td>
+        							<td>اسم الحساب</td>
+        						</tr>
+        						<tr>
+        							<td>IBAN </td>
+        							<td style="width: 250px;">{{$project->developer->iban}}</td>
+        							<td>رقم الايبان</td>
+        						</tr>
+        						<tr>
+        							<td>Bank Name</td>
+        							<td>{{$project->developer->bank_name}}</td>
+        							<td>اسم البنك</td>
+        						</tr>	
+        					</table>
+        				</td>
+        			</tr>
+					<tr>
+						<td   valign="top" >
+        					<table class="terms_condition">
+        					<tr>
+        					<td>*This Sales Offer is valid only for 3 days. Price and payment plan are subject to change without prior notice.</td>
+        					</tr>
+        					</table>
+        				</td>
+        			</tr>
 					
 				@endif
 					@if($project->floor_plan)
-																				
-					<table class="floor_plan">
 					<tr>
-						<td align="center" style="font-size: 16pt;font-family: Arial, Helvetica, sans-serif;color: #9FCE31;text-decoration: underline;padding-top: 70px;padding-bottom: 30px;font-weight: bold;text-decoration-color: #9FCE31;text-transform: uppercase;">Floor Plan</td>
-					</tr>
-						<tr>
-							<td><img src="{{env('APP_URL').'/public/uploads/projectData/'.$project->floor_plan}}" ></td>
-						</tr>	
+						<td valign="top" >
+        					<table class="floor_plan">
+            					<tr>
+            						<td align="center" style="font-size: 16pt;font-family: Arial, Helvetica, sans-serif;color: #9FCE31;text-decoration: underline;font-weight: bold;text-decoration-color: #9FCE31;text-transform: uppercase;">Floor Plan</td>
+            					</tr>
+        						<tr>
+        							<td><img src="{{env('APP_URL').'/public/uploads/projectData/'.$project->floor_plan}}" ></td>
+        						</tr>	
+        					</table>
+        					<table class="about_company" width="80%">
+        						<tr>
+            						<td>
+                						<table>
+                							<tr>
+                							<td><img class="logo" src="{{ asset('public/imgs/logo.png') }}"/></td>
+                							</tr>
+                						</table>
+            						</td>
+        					    </tr>
+            					<tr>
+                					<td>
+                					<table style="margin-top:20px;width:100%;">
+                						
+                							<tr>
+                							<td style="font-size: 16px;color: #9FCE31;font-weight: bold;"><img src="{{ asset('public/imgs/KSAflag.png') }}" width="50" style="  padding-right: 10px;"/>Riyadh</td>
+                							<td style="font-size: 16px;color: #9FCE31;font-weight: bold;"><img src="{{ asset('public/imgs/UAEflag.png') }}" width="50" style="  padding-right: 10px;"/>Dubai </td>
+                							
+                							
+                						</tr>
+                						<tr>
+                						
+                							<td>Prince Muhammad Ibn Salman St. Al Aqiq, Office 15, </br>2nd floor, Riyadh 13515</td>
+                							<td>PO Box: 112037, Office 1106, Opal Tower, </br> Business Bay, Dubai</td>
+                							
+                						</tr>	
+                						<tr>
+                						<td> +966 55 008 8601 | +966 11 4455199</td>
+                						<td>+971 50 377 0780 | +971 424 34 692</td>
+                						</tr>
+                						<tr>
+                						<td>
+                						<a href="https://www.facebook.com/madaproperties" target="_blank"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                						<a href="https://www.instagram.com/madaproperties" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                						<a href="https://twitter.com/MadaProperties" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                						<a href="https://www.youtube.com/channel/UCeFvODTAaNG-pIiqSTsT39w" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+                						<a href="https://www.linkedin.com/company/madaproperties" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                						</td>
+                						<td>
+                						<a href="https://www.facebook.com/madapropertiesuae" target="_blank"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                						<a href="https://www.instagram.com/madaproperties.uae/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                						<a href="https://twitter.com/MadaPropUAE" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                						<a href="https://www.youtube.com/channel/UCQWJrg12NV5GxxsBD9StC8Q" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+                						<a href="https://www.linkedin.com/company/mada-properties-uae" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                						</td>
+                
+                						</td>
+                						</tr>
+                					</table>
+        					    </td>
+        					</tr>
+        				</td>
+        				</tr>
+					
 					</table>
 					<table class="about_company" width="80%">
 						<tr>

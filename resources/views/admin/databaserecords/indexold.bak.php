@@ -1,5 +1,3 @@
-
-
 @push('css')
     <style>
         .dataTables_info,.dataTables_paginate ,#DataTables_Table_0_filter
@@ -70,8 +68,6 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 					@endcan
 					</div>
 				</div>
-               
-
 				<!--end::Header-->
 				<!--end::Page Title-->
 				<form class="ml-5" action="">
@@ -95,12 +91,9 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 
 					</div><br>
 				</form>
-				 
-                @include('admin.layouts.advance-database')
-                
 
 				<!--begin::Body-->
-				<div class="card-body table-responsive">
+				<div class="card-body py-0">
 
 
 						<!-- Modal -->
@@ -134,20 +127,16 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 						</div>
 						<br />
 
-                
+                @if(userRole() != 'sales')
+                <button type="button" class="btn btn-primary"
+                data-toggle="modal" data-target="#assign-leads">
+                    Assing <i class="fa fa-users"></i>
+                  </button>
+
+                @endif
 
 					<!--begin::Table-->
-				<div class="table-responsive">
-					@if(userRole() != 'sales')
-					<div class="{{$data->withQueryString()->links() == ''? 'assign-delete-buttons' : 'page-button'}}">
-						<button type="button" class="btn btn-primary"
-						data-toggle="modal" data-target="#assign-leads">
-						Assing <i class="fa fa-users"></i>
-						</button>
-					</div>
-					@endif					
-					{{$data->withQueryString()->links()}}
-					<div class="custom-table-responsive">							
+					<div class="table-responsive">
 						<table class="text-center table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
 							<thead>
 								<tr>
@@ -184,31 +173,21 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 										</a>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->phone}}</span>
+										<span class="text-muted font-weight-bold">{{$rs->email}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->country ? $rs->country->name : 'N/A'}}</span>
+										<span class="text-muted font-weight-bold">{{$rs->phone}}</span>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$rs->project_id}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->statusName ? $rs->statusName->name_en : 'N/A'}}</span>
+										<span class="text-muted font-weight-bold">{{$rs->price}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->created_at}}</span>
+										<span class="text-muted font-weight-bold">{{$rs->user ? $rs->user->name : 'N/A'}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$rs->updated_at}}</span>
-									</td>
-									<td>
-										<span class="text-muted font-weight-bold"> {{$rs->user ? explode('@',$rs->user->name)[0] : ''}}</span>
-									</td>
-									<td>
-										<span class="text-muted font-weight-bold">{{$rs->creator ? explode('@',$rs->creator->name)[0] : ''}}</span>
-									</td>
-									<td>
-									<div class="editPro">
 									@can('database-records-edit')
 									<a href="{{ route('admin.database-records.show',$rs->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
 									@endcan
@@ -222,14 +201,14 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 												<button type="submit" style="display:none"></button>
 											</form>
 										@endcan
-									</div>
 									</td>
 								</tr>
 								@endforeach
 							</tbody>
+							{{$data->withQueryString()->links()}}
 						</table>
-						</div>
 						{{$data->withQueryString()->links()}}
+					</div>
 					<!--end::Table-->
 				</div>
 				<!--end::Body-->
@@ -283,6 +262,7 @@ $(document).ready(function () {
 			$('#check_all').prop('checked',false);
 		}
 	});
+
 	// Assign multiple leads
 	$('.assign-all').on('click', function(e) {
 		var idsArr = [];
@@ -293,6 +273,7 @@ $(document).ready(function () {
 			alert("Please select atleast one Lead.");
 		}  else {
 			if(confirm("Are you sure, you want to assign selected records ?")){
+
 				if(!$('#assigned-seller').val())
 				{
 					return alert('please select User To Assign To');
@@ -317,18 +298,5 @@ $(document).ready(function () {
 		}
 	});
 });
-</script>
-<script>
-	$(`#from-date,#lastupdatefrom-date,#meeting-from-date`).datepicker({
-    //format: 'dd/mm/yyyy',
-    todayHighlight:'TRUE',
-    autoclose: true,
-  });
-
-  $(`#to-date,#lastupdateto-date,#meeting-to-date`).datepicker({
-		//format: 'dd/mm/yyyy',
-    todayHighlight:'TRUE',
-    autoclose: true,
-  });
 </script>
 @endpush	

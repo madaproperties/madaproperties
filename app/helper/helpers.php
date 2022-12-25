@@ -799,17 +799,30 @@ function userRole($get_rule = null)
 
 
 function checkLeader(){
-  if(userRole() != 'sales admin saudi'){
-    if(userRole() == 'other' && auth()->user()->time_zone == 'Asia/Riyadh'){
+  if(userRole() == 'sales director'){
+    if(auth()->user()->time_zone == 'Asia/Riyadh'){
       return false;
     }
     return true;
+  }
+  if(userRole() != 'sales admin saudi'){
+    if(userRole() == 'other' && auth()->user()->time_zone == 'Asia/Riyadh'){
+    return false;
+  }
+  return true;
   }else{
     return false;
   }  
 }
 
 function checkLeaderUae(){
+  if(userRole() == 'sales director'){
+    if(auth()->user()->time_zone == 'Asia/Dubai'){
+      return false;
+    }
+    return true;
+  }
+
   if(userRole() != 'sales admin uae'){
   
     if(userRole() == 'other' && auth()->user()->time_zone == 'Asia/Dubai'){
@@ -878,6 +891,7 @@ function getSellers() {
         $sellers = User::where(function($q){
           $q->where('rule','sales');
           $q->orWhere('rule','leader');
+          $q->orWhere('rule','sales director');
         })
         ->where('active','1')
         ->where('time_zone','like','%'.$whereCountry.'%')
@@ -885,7 +899,12 @@ function getSellers() {
         ->get();
       }else{
         $whereCountry = 'Asia/Riyadh';
-        $sellers = User::where('time_zone','like','%'.$whereCountry.'%')
+        $sellers = User::where(function($q){
+          $q->where('rule','sales');
+          $q->orWhere('rule','leader');
+          $q->orWhere('rule','sales director');
+        })
+        ->where('time_zone','like','%'.$whereCountry.'%')
         ->where('active','1')
         ->orderBy('email','asc')
         ->get();
@@ -918,18 +937,28 @@ function getSellers() {
         ->where('active','1')
         ->where(function($q){
           $q->where('rule','sales')
-          ->orWhere('rule','leader');
+          ->orWhere('rule','leader')
+          ->orWhere('rule','sales director');
         })->get();
     }else{
       $sellers = User::where('time_zone','Asia/Riyadh')
         ->where('active','1')
         ->where(function($q){
           $q->where('rule','sales')
-          ->orWhere('rule','leader');
+          ->orWhere('rule','leader')
+          ->orWhere('rule','sales director');
         })->get();
     }
   }else {
     $sellers = [];
   }
   return $sellers;
+}
+function getSalesDirectorCountryId(){
+  if(userRole() == 'sales director'){
+    if(auth()->user()->time_zone == 'Asia/Riyadh'){
+      return 1;
+    }
+    return 2;
+  }
 }

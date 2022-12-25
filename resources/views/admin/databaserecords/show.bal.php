@@ -289,14 +289,27 @@
 												<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.status')}}</label>
 												<div class="col-lg-9 col-xl-9">
 													<select class="form-control" name="status" id="status">
-													@foreach($status as $sta)
-															<option {{$data->status == $sta->id ? 'selected' : ''}} value="{{$sta->id}}" data-select2-id="{{$sta->id}}">{{$sta->name_en}}</option>
-														@endforeach	
+														<option value="">{{ __('site.choose') }}</option>
+														<option {{$data->status == 'Ready' ? 'selected' : ''}} value="Ready">{{__('site.Ready')}}</option>
+														<option {{$data->status == 'Not Ready' ? 'selected' : ''}} value="Not Ready">{{__('site.Not Ready')}}</option>
 													</select>
 												</div>
 											</div>
 											<!--end::Group-->
-											
+											@if(count($sellers))
+											<!--begin::Group-->
+											<div class="form-group row fv-plugins-icon-container">
+												<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.assigned to')}} </label>
+												<div class="col-lg-9 col-xl-9">
+													<select class="form-control"  name="assign_to">
+														<option value="">{{ __('site.choose') }}</option>
+														@foreach($sellers as $seller)
+														<option {{$data->assign_to == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
+														@endforeach
+													</select>
+												</div>
+											</div>
+											@endif
 											<!--end::Group-->
 
 										</div>

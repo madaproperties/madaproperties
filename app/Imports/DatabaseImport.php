@@ -32,6 +32,7 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
       "city"          => "nullable",
       "area"          => "nullable",
       "project_id"          => "nullable",
+      "unit_country"    =>"nullable",
       "building_name"          => "nullable",
       "unit_name"             => "nullable",
       "price"          => "nullable",
@@ -59,11 +60,17 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
         // get new status 
         $country_id = $this->getID($index,'Country','name_en',$contact['country_name']);
         $contact['country_id'] = $country_id;
+        $unit_country = $this->getID($index,'Country','name_en',$contact['unit_country']);
+        $contact['unit_country'] = $unit_country;
         $developer_id = $this->getID($index,'Agent','email',$contact['agent_email']);
         $contact['developer_id'] = $developer_id;
         $contact['project_id'] = $contact['project_name'];
+        $contact['created_by']=auth()->id();
+        $contact['user_id']=auth()->id();
+        $contact['status']=2;
         unset($contact['country_name']); // remove asssigned to => replaced with user_id
         unset($contact['agent_email']);
+        // unset($contact['unit_country']);
         unset($contact['project_name']);
         $contact = DatabaseRecords::create(array_filter($contact));
       }
@@ -77,7 +84,9 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
         if($model == 'Country') {
           $ID = Country::where($search_feild,'LIKE','%'.$value)->first();
           $customMsg = __('site.'.strtolower($model)).' '.__('site.not found: recourd').$value.' #['.$index.']';
-        }else if($model == 'Project') {
+        }
+
+        else if($model == 'Project') {
           $ID = ProjectName::where($search_feild,'LIKE','%'. $value )->first();
           $customMsg = __('site.project not found: recode').$value.' #['.$index.']';
         }else if($model == 'Agent') {

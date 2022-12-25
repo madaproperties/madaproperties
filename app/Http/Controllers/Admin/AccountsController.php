@@ -83,7 +83,7 @@ class AccountsController extends Controller
           'designation' => 'nullable',
           'user_pic' => 'nullable',
           'position_types' => 'required|array',
-          'is_rera_active' => 'nullable'
+          
         ]);
 
         unset($data['position_types']);
@@ -151,7 +151,7 @@ class AccountsController extends Controller
           'department' => 'nullable',
           'designation' => 'nullable',
           'user_pic' => 'nullable',
-          'is_rera_active' => 'nullable',
+          
         ]);
         
         

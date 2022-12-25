@@ -225,11 +225,19 @@ class MainController extends Controller
           $paginationNo = 20;
           $contacts = $contacts->paginate($paginationNo);
       }else{
-        if($userloc->time_zone=='Asia/Dubai'){
-          $contacts = Contact::where('unit_country',2)
+         if($userloc->time_zone=='Asia/Dubai'){
+          $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
+            $this->filterPrams($q);
+          })->whereHas('project', function($q2){
+            $q2->where('projects.country_id',2);
+          })
           ->orderBy('created_at','DESC');
         }else{
-          $contacts = Contact::where('unit_country',1)
+          $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
+            $this->filterPrams($q);
+          })->whereHas('project', function($q2){
+            $q2->where('projects.country_id',1);
+          })
           ->orderBy('created_at','DESC'); 
         }
         $contactsCount = $contacts->count();

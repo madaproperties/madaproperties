@@ -19,7 +19,20 @@ class DatabaseRecords extends Model
 
     public function user()
     {
-      return $this->belongsTo(User::class,'assign_to');
+      return $this->belongsTo(User::class,'user_id');
     }
+    public function statusName()
+    {
+      return $this->belongsTo(Status::class,'status');
+    }
+    public function creator()
+    {
+      return $this->belongsTo(User::class,'created_by');
+    }
+     public function unitCountry()
+    {
+      return $this->belongsTo(Country::class,'unit_country');
+    }
+   
 
 }
