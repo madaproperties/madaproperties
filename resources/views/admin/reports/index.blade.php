@@ -455,7 +455,7 @@
   					        @include('admin.reports.allLeaderUser')
 
   					        
-							@elseif(request()->has('from') && request()->has('to'))
+							@elseif(userRole()=='sales' || (request()->has('from') && request()->has('to')))
   							<!--start: Datatable-->
   							
   						<div class="card-body" style="background:#fff;margin:10px 0">

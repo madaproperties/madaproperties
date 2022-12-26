@@ -194,7 +194,7 @@ class ReportController extends Controller
 		$allUsersReport = false;
 		$userReport = [];
 		$two_week_report = [];
-
+		$leader=0;
 		if(userRole()!='sales director' && request('users_id') && request()->has('from') && request()->has('to')){
 		  $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
 			$to = date('Y-m-d 23:59:59', strtotime(Request('to')));
@@ -218,10 +218,10 @@ class ReportController extends Controller
 			->get();
 			$leader=0;
 
-		}else if(userRole() == 'sales' && request()->has('from') && request()->has('to')){
-			$from = date('Y-m-d 00:00:00', strtotime(Request('from')));
-			$to = date('Y-m-d 23:59:59', strtotime(Request('to')));
-      
+		}else if(userRole() == 'sales'){
+				$from = date('Y-m-d 00:00:00', strtotime(Request('from')));
+				$to = date('Y-m-d 23:59:59', strtotime(Request('to')));
+	  
 			$user_id = auth()->id();
 			// get the User
 			$user = User::findOrFail($user_id);
