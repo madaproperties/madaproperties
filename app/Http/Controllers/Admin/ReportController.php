@@ -329,7 +329,7 @@ class ReportController extends Controller
 		 
 
 		$status = Status::where('active','1')->get();
-        $countries=Country::get();
+        $countries=Country::whereIn('id',['1','2'])->get();
         if(userRole()=='sales director'){   
 			$userdetail=User::where('id',auth()->id())->first();
 			$leaders=User::where('active','1')
