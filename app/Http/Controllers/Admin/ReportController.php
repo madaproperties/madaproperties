@@ -194,6 +194,7 @@ class ReportController extends Controller
 		$allUsersReport = false;
 		$userReport = [];
 		$two_week_report = [];
+		$leader=1;
 
 		if(userRole()!='sales director' && request('users_id') && request()->has('from') && request()->has('to')){
 		  $from = date('Y-m-d 00:00:00', strtotime(Request('from')));

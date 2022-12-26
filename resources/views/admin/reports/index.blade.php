@@ -141,7 +141,7 @@
   					                     <label class="">{{ __('site.country') }}</label>
   					                     <div class="">
   					                       <div class="input-group input-group-solid to-date-el" data-target-input="nearest">
-  					                        <select class="form-control" id="country" name="country_id">
+  					                        <select class="form-	control" id="country" name="country_id">
   					                        	<option value="">Choose</option>
   					                        	@foreach($countries as $country)
                                                  
@@ -455,7 +455,7 @@
   					        @include('admin.reports.allLeaderUser')
 
   					        
-							@elseif(request()->has('from') && request()->has('to'))
+							@elseif(userRole()=='sales' || (request()->has('from') && request()->has('to')))
   							<!--start: Datatable-->
   							
   						<div class="card-body" style="background:#fff;margin:10px 0">
