@@ -521,6 +521,5 @@ return [
   'verified_person' =>'Verified Person',
   'verified_date' =>'Verified Date',
   'salary'=>'Salary'
-
-
+  'switch off' => 'switch off',
 ];
