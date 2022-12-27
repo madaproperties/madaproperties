@@ -520,6 +520,6 @@ return [
   'other_allowance'=>'Other Allowance',
   'verified_person' =>'Verified Person',
   'verified_date' =>'Verified Date',
-  'salary'=>'Salary'
+  'salary'=>'Salary',
   'switch off' => 'switch off',
 ];
