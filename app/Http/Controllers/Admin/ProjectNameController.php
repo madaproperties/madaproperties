@@ -24,7 +24,7 @@ class ProjectNameController extends Controller
       $this->middleware('permission:project-name-create', ['only' => ['create','store']]);
       $this->middleware('permission:project-name-edit', ['only' => ['show','edit']]);
       $this->middleware('permission:project-name-delete', ['only' => ['destroy']]);
-    }	
+    } 
 
 
   // index 
@@ -58,10 +58,17 @@ class ProjectNameController extends Controller
 
       $data = $request->validate([
         "name"          => "required|max:191",
+        "image"         => "nullable"
       ]);
       $data['created_at'] = Carbon::now();
 
       addHistory('Project Name',0,'added',$data);   
+       if($request->file('image')){
+        $md5Name = md5_file($request->file('image')->getRealPath());
+        $guessExtension = $request->file('image')->guessExtension();
+        $file = $request->file('image')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['image'] = $md5Name.'.'.$guessExtension;
+      }
 
       $deal = ProjectName::create($data);
       return redirect(route('admin.project-name.index'))->withSuccess(__('site.success'));
@@ -72,8 +79,15 @@ class ProjectNameController extends Controller
     $deal = ProjectName::findOrFail($id);
     $data = $request->validate([
       "name"          => "required|max:191",
+      "image"         => "nullable",
     ]);
     $data['updated_at'] = Carbon::now();
+    if($request->file('image')){
+        $md5Name = md5_file($request->file('image')->getRealPath());
+        $guessExtension = $request->file('image')->guessExtension();
+        $file = $request->file('image')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['image'] = $md5Name.'.'.$guessExtension;
+      }
 
     addHistory('Project Name',$id,'updated',$data,$deal);
 

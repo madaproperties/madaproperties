@@ -399,9 +399,8 @@
 							</div>
 						</li>
 						@endif
-
-
-						@can('cash-list')
+                     
+                        @can('cash-list')
 						<li class="menu-item menu-item-active" aria-haspopup="true">
 							<a href="{{route('admin.cash.index')}}" class="menu-link {{ active_nav('cash') ? 'active' : ''}}">
 								<span class="menu-text">{{__('site.cash')}}</span>
@@ -433,6 +432,9 @@
 								@can('project-developer-list')
 								<a class="dropdown-item" href="{{route('admin.project-developer.index')}}">{{__('site.project') .' '.__('site.developer')}}</a>
 								@endcan
+								@if(userRole()=='admin' || userRole()=='sales director' ||userRole()=='sales admin uae' || userRole()== 'sales admin saudi' )
+								<a class="dropdown-item" href="{{route('admin.projcets.newweb')}}">{{__('site.Project Availability')}}</a>
+								@endif
 							</div>
 						</li>
 						@endif

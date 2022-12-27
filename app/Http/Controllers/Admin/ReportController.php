@@ -361,6 +361,8 @@ $userReport = $userReport->whereNotIn('email',['lead-admin-uae@madaproperties.co
         	$leaders=User::where('rule',['leader'])->get();
         	$projects=$projects=Project::where('country_id',2)->get();
         }
+        
+        $leader= 0;
 		return view('admin.reports.index',[
 			'users' =>  $users,
 			'report_dates' =>  $report_dates,
@@ -376,7 +378,7 @@ $userReport = $userReport->whereNotIn('email',['lead-admin-uae@madaproperties.co
 			'allUsersReport' => $allUsersReport, 
 			'two_week_report' => $two_week_report,
 			'countries' =>$countries,
-			'leader'=>$leader, 
+			'leader'=>$leader,
 			'leaders'=>$leaders,
 			'projects'=>$projects,
 		]);

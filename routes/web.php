@@ -36,7 +36,7 @@ Route::get('project-data/brochure/{project_id}','Admin\ProjectDataController@bro
 Route::get('read-xml','Admin\PropertyXmlController@readXml')->name('property.readXml');
 Route::get('read-bayut-xml','Admin\PropertyXmlController@readBayutXml')->name('property.readBayutXml');
 Route::get('read-dubizzle-xml','Admin\PropertyXmlController@readDubizzleXml')->name('property.readDubizzleXml');
-
+Route::get('employee','EmployeeController@index')->name('employee.index');
 use App\Contact;
 use App\Country;
 use App\City;

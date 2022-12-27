@@ -157,6 +157,10 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::post('fetch-agent', 'ReportController@fetchAgent')->name('fetch-agent');
       // end
       Route::resource('features','FeaturesController');
+      // unit listing :added by fazal
+      Route::get('new-web','ProjectDataController@newWeb')->name('projcets.newweb'); 
+      Route::get('projectdata/view/{id}','ProjectDataController@View')->name('projectdata.view');
+      // end
 });
 
 
