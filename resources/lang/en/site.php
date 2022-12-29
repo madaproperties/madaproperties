@@ -522,4 +522,5 @@ return [
   'verified_date' =>'Verified Date',
   'salary'=>'Salary',
   'switch off' => 'switch off',
+  'project availability'=>'Project Availability',
 ];

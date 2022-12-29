@@ -8,7 +8,24 @@
           border: 1px solid black;
           width: 65%;
         }
-    </style>
+        .collapsible {
+            color: black;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+           font-size: 15px;
+        }
+       .btn-info
+       {
+        margin-top: 117px;
+        margin-bottom: 143px;
+        width: 261px;
+       }
+
+</style>
 @endpush
 @extends('admin.layouts.main')
 @section('content')
@@ -23,10 +40,28 @@
             <div class="card-header flex-wrap border-0 pt-6 pb-0">
             </div>
             <div class="card-body table-responsive" style="padding:20px">
-              <h4 align="center" style="font-size:21px;">{{$project_name['name']}}</h4>
-                   <button type="button" class="bg-success" style="width: 17px;height: 17px;"></button> :Available
-                      <button type="button" class="bg-danger" style="width: 17px;height: 17px;"></button> :Sold out
-                      <button type="button" class="bg-primary" style="width: 17px;height: 17px;"></button> :Reserved
+              <h4 align="center" style="font-size:21px;text-transform: uppercase;">{{$project_name['name']}}</h4>
+              
+                
+<button type="button" class="collapsible" data-toggle="collapse" data-target="#demo" style="margin-bottom:20px;text-align: center;"><b>About Project</b></button>
+<div class="collapse" id="demo">
+  <div class="row" style="margin-bottom:30px;margin-left: 20px;">
+    @if($project_name['video'])
+    <embed type="video/webm" src="{{ asset('public/uploads/projectData/'.$project_name['video'])}}" width="400" height="300" style="border: 3px solid black; margin-left: 15px;">
+    @endif
+    <a href="{{ asset('public/uploads/projectData/'.$project_name['brochure'])}}" class="btn btn-info"  style="margin-left: 91px; margin-right: 30px;" target="_blank" >Brochure </a>
+   
+    <a href="{{ asset('public/uploads/projectData/'.$project_name['payment_plan'])}}" class="btn btn-info" target="_blank">Payment plan </a>
+  </div>
+</div>
+  <!--  -->
+  <button type="button" class="collapsible" data-toggle="collapse" data-target="#units" style="margin-bottom:20px;text-align: center;"><b>Units</b></button>
+<div class="collapse" id="units">
+     <div class="row" style="margin-left:20px;">
+        <button type="button" class="bg-success" style="width: 17px;height: 17px;"></button>&nbsp; : Available &nbsp;
+        <button type="button" class="bg-danger" style="width: 17px;height: 17px;"></button>&nbsp; : Sold out&nbsp;&nbsp;
+        <button type="button" class="bg-primary" style="width: 17px;height: 17px;"></button>&nbsp; : Reserved 
+    </div>
                      @foreach($arr as $res)
                       <h4 style="text-align: center;">Floor :{{$res->floor_no}}</h4>
                       <div class="row">
@@ -154,6 +189,14 @@
               @endforeach 
               </div> 
              @endforeach   
+</div>
+<!--  -->
+
+
+
+
+
+                   
               <!--end: Datatable-->
             </div>
           </div>

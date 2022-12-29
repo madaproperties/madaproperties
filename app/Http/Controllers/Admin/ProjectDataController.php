@@ -324,7 +324,7 @@ class ProjectDataController extends Controller
      foreach($arr as $key=>$data){
       $arr[$key]['unit_name']=ProjectData::where('project_id',$id)->where('floor_no',$data->floor_no)->get();
      }
-     $project_name=ProjectName::where('id',$id)->select('name')->first();
+     $project_name=ProjectName::where('id',$id)->first();
      return view('admin.projectdata.view',compact('unit_count','project_id','arr','project_name'));
    }
 }

@@ -433,7 +433,7 @@
 								<a class="dropdown-item" href="{{route('admin.project-developer.index')}}">{{__('site.project') .' '.__('site.developer')}}</a>
 								@endcan
 								@if(userRole()=='admin' || userRole()=='sales director' ||userRole()=='sales admin uae' || userRole()== 'sales admin saudi' )
-								<a class="dropdown-item" href="{{route('admin.projcets.newweb')}}">{{__('site.Project Availability')}}</a>
+								<a class="dropdown-item" href="{{route('admin.projcets.newweb')}}">{{__('site.project availability')}}</a>
 								@endif
 							</div>
 						</li>

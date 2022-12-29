@@ -1,15 +1,28 @@
 @push('css')
-    <style>
-        .row .card-body
-        {
-            background:#9fce31;
-        }
-        .availibility .card-body a{
-                font-size: 22px;
+    
+       <style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+img {
+  border-radius: 5px 5px 0 0;
+  style="width:100%;height: 100%;
+}
+.web-project{
+    font-size: 22px;
     font-weight: 500;
-    color: #fff;
-        }
-         .availibility .card-body img{margin-bottom:10px;}
+    color: #000;
+text-transform: uppercase;padding-top: 10px;padding-bottom: 10px;text-align: center;    
+  }
+
     </style>
 @endpush
 @extends('admin.layouts.main')
@@ -19,55 +32,24 @@
   <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Entry-->
     <div class="d-flex flex-column-fluid">
+      <div class="d-flex flex-column-fluid">
        <div class="container">
-         <!--begin::Card-->
-          <div class="card card-custom gutter-b">
-            <div class="card-header flex-wrap border-0 pt-6 pb-0">
-            </div>
-            <div class="card-body table-responsive" style="padding:20px">
-             
-             <div class="row availibility">
-                    @foreach($data as $datas)
-                    <div class="col-xl-4">
-                                        <!--begin::Tiles Widget 2-->
-                                        
-                                          <div class="text-center card card-custom bg-success  gutter-b" style="">
-                                          <!--begin::Body-->
-                                          <div class="card-body d-flex flex-column p-0">
-                                            <!--begin::Stats-->
-                                            <div class="flex-grow-1 card-spacer-x pt-6 pb-6">
-                                              <div class="text-inverse-danger font-weight-bold">
-                                                 
-                                            <img src="{{ asset('public/uploads/projectData/'.$datas->project->image)}}" width="320" height="200">
-                                              <a href="{{route('admin.projectdata.view',$datas->project->id)}}" > {{$datas->project->name}}  </a>
-                                              </div>
-                                              <div class="text-inverse-danger font-weight-bolder font-size-h1">
-                                                      
-                                              </div>
-                                            </div>
-                                            <!--end::Stats-->
-                                            <!--begin::Chart-->
-                                            <!--end::Chart-->
-                                          </div>
-                                          <!--end::Body-->
-                                        </div>
-                                        
-                                        <!--end::Tiles Widget 2-->
-                                      </div>
-                                      @endforeach
-                                      
-                                      
-                                      
-                    
-                </div>
-              
-              <!--end: Datatable-->
-            </div>
-          </div>
-          <!--end::Card-->
+        <div class="row">
+       @foreach($data as $datas)
+      <div class="col-md-4">
+        <div class="card" style="margin-right: 20px;margin-bottom: 20px;">
+  <img src="{{ asset('public/uploads/projectData/'.$datas->project->image)}}" alt="Avatar">
+  <a class="web-project" href="{{route('admin.projectdata.view',$datas->project->id)}}">  {{$datas->project->name}}  </a>
+   
+  
+</div>
+</div>
+@endforeach
+</div>
        </div>
     </div>
     <!--end::Entry-->
+  </div>
   </div>
   <!--end::Content-->
 
