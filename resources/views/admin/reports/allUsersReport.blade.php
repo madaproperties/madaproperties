@@ -34,11 +34,22 @@
 								<th>{{$rs->name}}</th>
 								@foreach($status as $state)
 								<th scope="row">
-									<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id={{$state->id}}&from={{Request('from')}}&to={{Request('to')}}">
+									<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id={{$state->id}}&from={{Request('from')}}&to={{Request('to')}}&project_id={{Request('project_id')}}&country_id={{Request('country_id')}}">
 										@php
 										$leadTotal = App\Contact::where('status_id',$state->id)->where('user_id',$rs->id);
 										if(!empty(Request('from')) && !empty(Request('to'))){
 											$leadTotal = $leadTotal->whereBetween('created_at',[ $from,$to ]);
+										}
+										if(!empty(Request('country_id'))){
+											$leadTotal = $leadTotal->where('country_id',Request('country_id'));
+										}										
+										if(!empty(Request('project_id'))){
+											$leadTotal = $leadTotal->where('project_id',Request('project_id'));
+										}										
+										if(userRole() == 'sales director'){
+											$leadTotal = $leadTotal->whereHas('project', function($q2) {
+												$q2->where('projects.country_id',getSalesDirectorCountryId());
+											});
 										}
 										$leadTotal = $leadTotal->count();
 										$finalTotal += $leadTotal;
@@ -48,7 +59,7 @@
 								</th>
 								@endforeach
 								<th>
-									<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id=&from={{Request('from')}}&to={{Request('to')}}">
+									<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id=&from={{Request('from')}}&to={{Request('to')}}&project_id={{Request('project_id')}}&country_id={{Request('country_id')}}">
 									{{$finalTotal}}
 								</th>
 							</tr>
@@ -148,15 +159,27 @@
 							$finalTotal = 0;
 							$two_week_report = App\Contact::select('id','user_id','status_id','status_changed_at')
 									->where('user_id',$rs->id)
-									->whereDate('updated_at', '>=', Carbon\Carbon::today()->subDays( 14 ))
-									->get();
+									->whereDate('updated_at', '>=', Carbon\Carbon::today()->subDays( 14 ));
+
+							if(!empty(Request('country_id'))){
+								$two_week_report = $two_week_report->where('country_id',Request('country_id'));
+							}										
+							if(!empty(Request('project_id'))){
+								$two_week_report = $two_week_report->where('project_id',Request('project_id'));
+							}										
+							if(userRole() == 'sales director'){
+								$two_week_report = $two_week_report->whereHas('project', function($q2) {
+									$q2->where('projects.country_id',getSalesDirectorCountryId());
+								});
+							}								
+							$two_week_report = $two_week_report->get();
 							@endphp
 
 							<tr>
 								<th>{{$rs->name}}</th>
 								@foreach($status as $state)
 									<th scope="row">
-										<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id={{$state->id}}&last_update_from={{$last14days}}">
+										<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id={{$state->id}}&last_update_from={{$last14days}}&project_id={{Request('project_id')}}&country_id={{Request('country_id')}}">
 											@php
 											$leadTotal = $two_week_report->where('status_id',$state->id)->count();
 											$finalTotal += $leadTotal;
@@ -166,7 +189,7 @@
 									</th>
 								@endforeach
 								<th>
-									<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id=&last_update_from={{$last14days}}">
+									<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id=&last_update_from={{$last14days}}&project_id={{Request('project_id')}}&country_id={{Request('country_id')}}">
 									{{$finalTotal}}
 								</th>
 							</tr>
@@ -206,15 +229,27 @@
 							$finalTotal = 0;
 							$status_not_changed_after_1_week = App\Contact::select('id','user_id','status_id','status_changed_at')
 									->where('user_id',$rs->id)
-									->whereDate('updated_at', '<=', Carbon\Carbon::today()->subDays( 14 ))
-									->get();
+									->whereDate('updated_at', '<=', Carbon\Carbon::today()->subDays( 14 ));
+
+							if(!empty(Request('country_id'))){
+								$status_not_changed_after_1_week = $status_not_changed_after_1_week->where('country_id',Request('country_id'));
+							}										
+							if(!empty(Request('project_id'))){
+								$status_not_changed_after_1_week = $status_not_changed_after_1_week->where('project_id',Request('project_id'));
+							}										
+							if(userRole() == 'sales director'){
+								$status_not_changed_after_1_week = $status_not_changed_after_1_week->whereHas('project', function($q2) {
+									$q2->where('projects.country_id',getSalesDirectorCountryId());
+								});
+							}									
+							$status_not_changed_after_1_week = $status_not_changed_after_1_week->get();									
 							@endphp
 
 							<tr>
 								<th>{{$rs->name}}</th>
 								@foreach($status as $state)
 									<th scope="row">
-										<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id={{$state->id}}&last_update_to={{$last14days}}">
+										<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id={{$state->id}}&last_update_to={{$last14days}}&project_id={{Request('project_id')}}&country_id={{Request('country_id')}}">
 											@php
 											$leadTotal = $status_not_changed_after_1_week->where('status_id',$state->id)->count();
 											$finalTotal += $leadTotal;
@@ -224,7 +259,7 @@
 									</th>
 								@endforeach
 								<th>
-									<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id=&last_update_to={{$last14days}}">
+									<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id=&last_update_to={{$last14days}}&project_id={{Request('project_id')}}&country_id={{Request('country_id')}}">
 									{{$finalTotal}}
 								</th>
 							</tr>

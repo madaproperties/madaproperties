@@ -48,7 +48,7 @@
   					                     <label class="">{{ __('site.to') }}</label>
   					                     <div class="">
   					                       <div class="input-group input-group-solid ">
-  					                         <input value="{{request('to')}}"  type="date" class="form-control form-control-solid "
+  					                         <input value="{{request('to')}}"  type="date" class="form-control form-control-solid date"
   					                         data-toggle=""
   																	
   					                          name="to" >
@@ -140,7 +140,7 @@
   					                  <div class="form-group ">
   					                     <label class="">{{ __('site.country') }}</label>
   					                     <div class="">
-  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                       <div class="input-group input-group-solid to-date-el" data-target-input="nearest">
   					                        <select class="form-control" id="country" name="country_id">
   					                        	<option value="">Choose</option>
   					                        	@foreach($countries as $country)
@@ -159,7 +159,7 @@
   					                  <div class="form-group ">
   					                     <label class="">{{ __('site.project') }}</label>
   					                     <div class="">
-  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                       <div class="input-group input-group-solid to-date-el" data-target-input="nearest">
   					                       <select class="form-control" id="project" name="project_id">
   					                       	<option value="">Choose</option>
   					                       		@foreach($projects as $proj)
@@ -179,9 +179,9 @@
   								   <div class="row">
   								   <div class="col-md-6 col-sm--12">
   					                  <div class="form-group ">
-  					                     <label class="">{{ __('site.leaders') }}</label>
+  					                     <label class="">{{ __('site.Leaders') }}</label>
   					                     <div class="">
-  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                       <div class="input-group input-group-solid to-date-el" data-target-input="nearest">
   					                       <select class="form-control" id="leader" name="leader_id">
   					                       	<option value="">Choose</option>
   					                       	@foreach($leaders as $lea)
@@ -217,9 +217,9 @@
   					                  <div class="form-group ">
   					                     <label class="">{{ __('site.project') }}</label>
   					                     <div class="">
-  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                       <div class="input-group input-group-solid to-date-el"  data-target-input="nearest">
   					                       <select class="form-control" id="project" name="project_id">
-  					                       	<option>choose</option>
+  					                       	<option value="">choose</option>
   					                       	@foreach($projects as $proj)
   					                       	
                                             <option {{request('project_id') == $proj->id ? 'selected' : ''}}
@@ -236,11 +236,11 @@
   								   
   								   <div class="col-md-6 col-sm--12">
   					                  <div class="form-group ">
-  					                     <label class="">{{ __('site.leaders') }}</label>
+  					                     <label class="">{{ __('site.Leaders') }}</label>
   					                     <div class="">
-  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                       <div class="input-group input-group-solid to-date-el"  data-target-input="nearest">
   					                       <select class="form-control" id="leader" name="leader_id" >
-  					                       	<option>choose</option>
+  					                       	<option value="">choose</option>
   					                       	@foreach($leaders as $lea)
                                             <option {{request('leader_id') == $lea->id ? 'selected' : ''}} value="{{$lea->id}}" data-select2-id="{{$lea->id}}">{{$lea->name}}</option>
   					                       	@endforeach
@@ -273,9 +273,9 @@
   					                  <div class="form-group ">
   					                     <label class="">{{ __('site.project') }}</label>
   					                     <div class="">
-  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                       <div class="input-group input-group-solid to-date-el"  data-target-input="nearest">
   					                       <select class="form-control" id="project" name="project_id">
-  					                       	<option>choose</option>
+  					                       	<option value="">choose</option>
   					                       	@foreach($projects as $proj)
   					                       	
                                             <option {{request('project_id') == $proj->id ? 'selected' : ''}}
@@ -292,11 +292,11 @@
   								   
   								   <div class="col-md-6 col-sm--12">
   					                  <div class="form-group ">
-  					                     <label class="">{{ __('site.leaders') }}</label>
+  					                     <label class="">{{ __('site.Leaders') }}</label>
   					                     <div class="">
-  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                       <div class="input-group input-group-solid to-date-el" data-target-input="nearest">
   					                       <select class="form-control" id="leader" name="leader_id" >
-  					                       	<option>choose</option>
+  					                       	<option value="">choose</option>
   					                       	@foreach($leaders as $lea)
                                             <option {{request('leader_id') == $lea->id ? 'selected' : ''}} value="{{$lea->id}}" data-select2-id="{{$lea->id}}">{{$lea->name}}</option>
   					                       	@endforeach
@@ -330,9 +330,9 @@
   					                  <div class="form-group ">
   					                     <label class="">{{ __('site.project') }}</label>
   					                     <div class="">
-  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                       <div class="input-group input-group-solid to-date-el" data-target-input="nearest">
   					                       <select class="form-control" id="project" name="project_id">
-  					                       	<option>choose</option>
+  					                       	<option value="">choose</option>
   					                       	@foreach($projects as $proj)
   					                       	<option {{request('project_id') == $proj->id ? 'selected' : ''}}
   	                                    value="{{$proj->id}}" data-select2-id="{{$proj->id}}">{{$proj->name_en}}</option>
@@ -346,11 +346,11 @@
   								   
   								   <div class="col-md-6 col-sm--12">
   					                  <div class="form-group ">
-  					                     <label class="">{{ __('site.leaders') }}</label>
+  					                     <label class="">{{ __('site.Leaders') }}</label>
   					                     <div class="">
-  					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+  					                       <div class="input-group input-group-solid to-date-el" data-target-input="nearest">
   					                       <select class="form-control" id="leader" name="leader_id" >
-  					                       	<option>choose</option>
+  					                       	<option value="">choose</option>
   					                       	@foreach($leaders as $lea)
                                             <option {{request('leader_id') == $lea->id ? 'selected' : ''}} value="{{$lea->id}}" data-select2-id="{{$lea->id}}">{{$lea->name}}</option>
   					                       	@endforeach
@@ -407,7 +407,7 @@
                                    id="from-date" data-target-input="nearest">
   					                         <input value="{{request('from')}}"  type="text"
   																	  max="{{date('Y-m-d')}}"
-  																	 class="form-control form-control-solid datetimepicker-input"
+  																	 class="form-control form-control-solid date"
   					                         data-toggle="datetimepicker"
   					                          name="from" data-target="#from-date" autocomplete="off">
   					                         <div class="input-group-append" data-target="#from-date" data-toggle="datetimepicker">
@@ -424,7 +424,7 @@
   					                     <label class="">{{ __('site.to') }}</label>
   					                     <div class="">
   					                       <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
-  					                         <input value="{{request('to')}}"  type="text" class="form-control form-control-solid datetimepicker-input"
+  					                         <input value="{{request('to')}}"  type="text" class="form-control form-control-solid date"
   					                         data-toggle="datetimepicker"
   																	 min="{{date('Y/m/d')}}"
   					                          name="to" data-target="#to-date" autocomplete="off">
@@ -455,7 +455,7 @@
   					        @include('admin.reports.allLeaderUser')
 
   					        
-							@elseif(request()->has('from') && request()->has('to'))
+							@elseif(userRole()=='sales' || (request()->has('from') && request()->has('to')))
   							<!--start: Datatable-->
   							
   						<div class="card-body" style="background:#fff;margin:10px 0">
@@ -862,15 +862,15 @@
   var date = new Date() ;
    date.setDate(date.getDate()-1)
 
-  $(`#from-date`).datetimepicker({
+  $('.date').datetimepicker({
       format: 'L'
       //minDate:date
   });
 
-  $(`#to-date`).datetimepicker({
-      format: 'L'
-      //minDate:new Date()
-  });
+//   $(`#to-date`).datetimepicker({
+//       format: 'L'
+//       //minDate:new Date()
+//   });
 
 </script>
   @if(!empty($sources))

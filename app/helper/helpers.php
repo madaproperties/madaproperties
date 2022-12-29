@@ -954,3 +954,11 @@ function getSellers() {
   }
   return $sellers;
 }
+function getSalesDirectorCountryId(){
+  if(userRole() == 'sales director'){
+    if(auth()->user()->time_zone == 'Asia/Riyadh'){
+      return 1;
+    }
+    return 2;
+  }
+}

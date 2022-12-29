@@ -22,7 +22,7 @@
           @foreach($status as $statu)
           @php $tempOne =0 @endphp
           <th scope="row">
-            <a href="{{route('admin.home')}}?ADVANCED=search&status_id={{$statu->id}}&project_id={{$campaing->id}}&project_country_id={{Request('project_country_id')}}&country_id={{Request('country_id')}}&source={{Request('source')}}&from={{Request('from')}}&to={{Request('to')}}">
+            <a href="{{route('admin.home')}}?ADVANCED=search&status_id={{$statu->id}}&project_id={{$campaing->id}}&project_country_id={{Request('project_country_id')}}&country_id={{Request('country_id')}}&source={{Request('source')}}&from={{Request('from')}}&to={{Request('to')}}&campaign={{Request('campaing_id')}}">
             @php $tempOne = App\Contact::where(function ($q) use ($users){
 
                     if(userRole() == 'leader')
@@ -53,6 +53,9 @@
                     $tempOne = $tempOne->where('project_id',request('project_id'));
                 }
                 
+                if(Request('campaing_id') && !empty(request('campaing_id'))){
+                    $tempOne = $tempOne->where('campaign',request('campaing_id'));
+                }
 
                 if(Request('from') && Request('to')){
                     $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
@@ -79,7 +82,7 @@
 
 @endforeach
 <th scope="row">
-<a href="{{route('admin.home')}}?ADVANCED=search&status_id=&project_id={{$campaing->id}}&country_id={{Request('country_id')}}&project_country_id={{Request('project_country_id')}}&source={{Request('source')}}&from={{Request('from')}}&to={{Request('to')}}">
+<a href="{{route('admin.home')}}?ADVANCED=search&status_id=&project_id={{$campaing->id}}&country_id={{Request('country_id')}}&project_country_id={{Request('project_country_id')}}&source={{Request('source')}}&from={{Request('from')}}&to={{Request('to')}}&campaign={{Request('campaing_id')}}">
 {{ $totalCount }}
 </a>
 </th>
