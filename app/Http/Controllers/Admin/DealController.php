@@ -117,16 +117,16 @@ class DealController extends Controller
 
     if(!checkLeader()){
       $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
-        $q->where('rule','sales')->orWhere('rule','leader');
+        $q->whereIn('rule',['sales','leader','sales director']);
       })
     ->where('active','1')->get();
     }elseif(!checkLeaderUae()){
       $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
-        $q->where('rule','sales')->orWhere('rule','leader');
+        $q->whereIn('rule',['sales','leader','sales director']);
       })
     ->where('active','1')->get();
     }else{
-      $sellers = User::where('rule','sales')->orWhere('rule','leader')
+      $sellers = User::whereIn('rule',['sales','leader','sales director'])
     ->where('active','1')->get();
     }
 
@@ -322,16 +322,16 @@ class DealController extends Controller
 
       if(!checkLeader()){
         $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
-          $q->where('rule','sales')->orWhere('rule','leader');
+          $q->whereIn('rule',['sales','leader','sales director']);
         })
       ->where('active','1')->orderBy('email')->get();
       }elseif(!checkLeaderUae()){
         $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
-          $q->where('rule','sales')->orWhere('rule','leader');
+          $q->whereIn('rule',['sales','leader','sales director']);
         })
       ->where('active','1')->orderBy('email')->get();
       }else{
-        $sellers = User::where('rule','sales')->orWhere('rule','leader')
+        $sellers = User::whereIn('rule',['sales','leader','sales director'])
       ->where('active','1')->orderBy('email')->get();
       }
   
@@ -579,16 +579,16 @@ class DealController extends Controller
 
     if(!checkLeader()){
       $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
-        $q->where('rule','sales')->orWhere('rule','leader');
+        $q->whereIn('rule',['sales','leader','sales director']);
       })
     ->where('active','1')->orderBy('email')->get();
     }elseif(!checkLeaderUae()){
       $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
-        $q->where('rule','sales')->orWhere('rule','leader');
+        $q->whereIn('rule',['sales','leader','sales director']);
       })
     ->where('active','1')->orderBy('email')->get();
     }else{
-      $sellers = User::where('rule','sales')->orWhere('rule','leader')
+      $sellers = User::whereIn('rule',['sales','leader','sales director'])
     ->where('active','1')->orderBy('email')->get();
     }
 
@@ -758,16 +758,16 @@ class DealController extends Controller
 
     if(!checkLeader()){
       $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
-        $q->where('rule','sales')->orWhere('rule','leader');
+        $q->whereIn('rule',['sales','leader','sales director']);
       })
     ->where('active','1')->get();
     }elseif(!checkLeaderUae()){
       $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
-        $q->where('rule','sales')->orWhere('rule','leader');
+        $q->whereIn('rule',['sales','leader','sales director']);
       })
     ->where('active','1')->get();
     }else{
-      $sellers = User::where('rule','sales')->orWhere('rule','leader')
+      $sellers = User::whereIn('rule',['sales','leader','sales director'])
     ->where('active','1')->get();
     }
 

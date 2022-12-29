@@ -487,5 +487,6 @@ return [
   'New Feature'   => 'New Feature',
   'edit_feature'   => 'Edit Feature',
   'switch off' => 'switch off',
-  'down_payment_percentage'=>'Down Payment Percentage'
+  'down_payment_percentage'=>'Down Payment Percentage',
+  'campaign_country' => 'Campaign Country',
 ];
