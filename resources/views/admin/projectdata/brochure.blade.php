@@ -284,13 +284,22 @@ td.center span {
     						</tr>
     						<tr>
     							<td>IBAN </td>
+    							@if(isset($project->project) && $project->project->name=='Judya')
+    							<td style="width: 250px;">SA6410000026100000337206</td>
+    							@else
     							<td style="width: 250px;">SA9060100033795022281001</td>
+    							@endif
+    							
     							<td>رقم الايبان </td>
     						</tr>
     						<tr>
-    							<td>Bank Name	  </td>
+    							<td>Bank Name</td>
+    							@if(isset($project->project) && $project->project->name=='Judya')
+    						<td>Al Ahli Bank</td>
+    							@else
     							<td>بنك الجزيرة</td>
-    							<td>اسم البنك</td>
+    							@endif
+    						 <td>اسم البنك</td>
     						</tr>	
     					</table>
     					</td>
@@ -401,6 +410,7 @@ td.center span {
         				</tr>
 					
 					</table>
+					
 					@endif
 				</td>
 				</tr>
