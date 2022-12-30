@@ -48,7 +48,11 @@ img {
        @foreach($data as $datas)
       <div class="col-md-4 webcard">
         <div class="card" >
+          @if(($datas->project) && !empty($datas->project->image))
   <img src="{{ asset('public/uploads/projectData/'.$datas->project->image)}}" alt="Avatar">
+  @else
+  <img src="{{ asset('public/images/park3.jpg')}}" alt="Avatar">
+  @endif
   <a class="web-project" href="{{route('admin.projectdata.view',$datas->project->id)}}">  {{$datas->project->name}}  </a>
    
   
