@@ -6,6 +6,8 @@
   transition: 0.3s;
   width: 100%;
   border-radius: 5px;
+  margin-right: 20px;
+  margin-bottom: 20px;
 }
 
 .card:hover {
@@ -20,7 +22,15 @@ img {
     font-size: 22px;
     font-weight: 500;
     color: #000;
-text-transform: uppercase;padding-top: 10px;padding-bottom: 10px;text-align: center;    
+    text-transform: uppercase;
+    padding-top: 12px;
+    padding-bottom: 20px;
+    text-align: center;    
+  
+  }
+  .webcard
+  {
+    margin-bottom: 20px;
   }
 
     </style>
@@ -36,8 +46,8 @@ text-transform: uppercase;padding-top: 10px;padding-bottom: 10px;text-align: cen
        <div class="container">
         <div class="row">
        @foreach($data as $datas)
-      <div class="col-md-4">
-        <div class="card" style="margin-right: 20px;margin-bottom: 20px;">
+      <div class="col-md-4 webcard">
+        <div class="card" >
   <img src="{{ asset('public/uploads/projectData/'.$datas->project->image)}}" alt="Avatar">
   <a class="web-project" href="{{route('admin.projectdata.view',$datas->project->id)}}">  {{$datas->project->name}}  </a>
    
