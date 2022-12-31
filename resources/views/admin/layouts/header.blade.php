@@ -265,7 +265,7 @@
                                             </a>
                                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2"> @can('project-list') <a class="dropdown-item {{(request()->routeIs('admin.project-data.*')) ? 'active' : '' }}" href="{{route('admin.project-data.index')}}">{{__('site.project')}}</a> @endcan @can('project-name-list') <a class="dropdown-item {{(request()->routeIs('admin.project-name.*')) ? 'active' : '' }}" href="{{route('admin.project-name.index')}}">{{__('site.project') .' '. __('site.name')}}</a> @endcan @can('project-developer-list') <a class="dropdown-item {{(request()->routeIs('admin.project-developer.*')) ? 'active' : '' }}" href="{{route('admin.project-developer.index')}}">{{__('site.project') .' '.__('site.developer')}}</a> @endcan 
 											@if(userRole()=='admin' || userRole()=='sales director' ||userRole()=='sales admin uae' || userRole()== 'sales admin saudi' )
-											<a class="dropdown-item {{(request()->routeIs('projcets.newweb')) ? 'active' : '' }}" href="{{route('projcets.newweb')}}">{{__('site.project') .' '.__('site.developer')}}</a>
+											<a class="dropdown-item {{(request()->routeIs('projcets.newweb')) ? 'active' : '' }}" href="{{route('projcets.newweb')}}">{{__('site.project availability')}}</a>
 											@endif
 											</div>
                                         </li> @endif @can('database-records-list') <li class="menu-item menu-item-active {{ (request()->routeIs('admin.database-records.*')) ? 'active' : '' }} " aria-haspopup="true">
