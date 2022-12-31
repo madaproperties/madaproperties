@@ -157,6 +157,7 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::post('fetch-agent', 'ReportController@fetchAgent')->name('fetch-agent');
       // end
       Route::resource('features','FeaturesController');
+    
 });
 
 

@@ -194,8 +194,7 @@ class ReportController extends Controller
 		$allUsersReport = false;
 		$userReport = [];
 		$two_week_report = [];
-		$leader=1;
-
+		$leader=0;
 		if(userRole()!='sales director' && request('users_id') && request()->has('from') && request()->has('to')){
 		  $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
 			$to = date('Y-m-d 23:59:59', strtotime(Request('to')));
@@ -219,10 +218,10 @@ class ReportController extends Controller
 			->get();
 			$leader=0;
 
-		}else if(userRole() == 'sales' && request()->has('from') && request()->has('to')){
-			$from = date('Y-m-d 00:00:00', strtotime(Request('from')));
-			$to = date('Y-m-d 23:59:59', strtotime(Request('to')));
-      
+		}else if(userRole() == 'sales'){
+				$from = date('Y-m-d 00:00:00', strtotime(Request('from')));
+				$to = date('Y-m-d 23:59:59', strtotime(Request('to')));
+	  
 			$user_id = auth()->id();
 			// get the User
 			$user = User::findOrFail($user_id);
@@ -330,7 +329,7 @@ class ReportController extends Controller
 		 
 
 		$status = Status::where('active','1')->get();
-        $countries=Country::get();
+        $countries=Country::whereIn('id',['1','2'])->get();
         if(userRole()=='sales director'){   
 			$userdetail=User::where('id',auth()->id())->first();
 			$leaders=User::where('active','1')
@@ -365,6 +364,7 @@ class ReportController extends Controller
 	
 	
 		}
+
 		return view('admin.reports.index',[
 			'users' =>  $users,
 			'report_dates' =>  $report_dates,
@@ -380,7 +380,7 @@ class ReportController extends Controller
 			'allUsersReport' => $allUsersReport, 
 			'two_week_report' => $two_week_report,
 			'countries' =>$countries,
-			'leader'=>$leader, 
+			'leader'=>$leader,
 			'leaders'=>$leaders,
 			'projects'=>$projects,
 		]);

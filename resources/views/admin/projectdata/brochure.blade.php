@@ -284,13 +284,22 @@ td.center span {
     						</tr>
     						<tr>
     							<td>IBAN </td>
+    							@if(isset($project->project) && $project->project->name=='Judya')
+    							<td style="width: 250px;">SA6410000026100000337206</td>
+    							@else
     							<td style="width: 250px;">SA9060100033795022281001</td>
+    							@endif
+    							
     							<td>رقم الايبان </td>
     						</tr>
     						<tr>
-    							<td>Bank Name	  </td>
+    							<td>Bank Name</td>
+    							@if(isset($project->project) && $project->project->name=='Judya')
+    						<td>Al Ahli Bank</td>
+    							@else
     							<td>بنك الجزيرة</td>
-    							<td>اسم البنك</td>
+    							@endif
+    						 <td>اسم البنك</td>
     						</tr>	
     					</table>
     					</td>
@@ -401,59 +410,7 @@ td.center span {
         				</tr>
 					
 					</table>
-					<table class="about_company" width="80%">
-						<tr>
-						<td>
-						<table>
-							<tr>
-							<td><img class="logo" src="{{ asset('public/imgs/logo.png') }}"/></td>
-							</tr>
-						</table>
-						</td>
-						</tr>
-					<tr>
-					<td>
-					<table style="margin-top:20px;width:100%;">
-						
-							<tr>
-							<td style="font-size: 16px;color: #9FCE31;font-weight: bold;"><img src="{{ asset('public/imgs/KSAflag.png') }}" width="50" style="  padding-right: 10px;"/>Riyadh</td>
-							<td style="font-size: 16px;color: #9FCE31;font-weight: bold;"><img src="{{ asset('public/imgs/UAEflag.png') }}" width="50" style="  padding-right: 10px;"/>Dubai </td>
-							
-							
-						</tr>
-						<tr>
-						
-							<td>Prince Muhammad Ibn Salman St. Al Aqiq, Office 15, </br>2nd floor, Riyadh 13515</td>
-							<td>PO Box: 112037, Office 1106, Opal Tower, </br> Business Bay, Dubai</td>
-							
-						</tr>	
-						<tr>
-						<td> +966 55 008 8601 | +966 11 4455199</td>
-						<td>+971 50 377 0780 | +971 424 34 692</td>
-						</tr>
-						<tr>
-						<td>
-						<a href="https://www.facebook.com/madaproperties" target="_blank"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
-						<a href="https://www.instagram.com/madaproperties" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-						<a href="https://twitter.com/MadaProperties" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-						<a href="https://www.youtube.com/channel/UCeFvODTAaNG-pIiqSTsT39w" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a>
-						<a href="https://www.linkedin.com/company/madaproperties" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-						</td>
-						<td>
-						<a href="https://www.facebook.com/madapropertiesuae" target="_blank"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
-						<a href="https://www.instagram.com/madaproperties.uae/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-						<a href="https://twitter.com/MadaPropUAE" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-						<a href="https://www.youtube.com/channel/UCQWJrg12NV5GxxsBD9StC8Q" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a>
-						<a href="https://www.linkedin.com/company/mada-properties-uae" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-						</td>
-
-						</td>
-						</tr>
-					</table>
 					
-					</td></tr>
-					
-					</table>
 					@endif
 				</td>
 				</tr>

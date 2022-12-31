@@ -46,7 +46,7 @@
 											<div class="row justify-content-center py-8 px-8 py-lg-15 px-lg-10">
 												<div class="col-xl-12 col-xxl-10">
 													<!--begin::Wizard Form-->
-													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.project-name.store')}}" id="kt_form">
+													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.project-name.store')}}" id="kt_form" enctype="multipart/form-data">
 														@csrf
 														<div class="row justify-content-center">
 														<div class="col-xl-6">
@@ -62,6 +62,39 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
+																	<!-- added by fazal -->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.image')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="image" type="file">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!-- end added by fazal -->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.brochure')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="brochure" type="file">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!-- end added by fazal -->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.video')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="video" type="file">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!-- end added by fazal -->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.payment_plan')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="	" type="file">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!-- end added by fazal -->
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">

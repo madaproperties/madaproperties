@@ -56,7 +56,11 @@ class AdvanceCampaignReportController extends Controller
 		$campaings_data =Campaing::where('active','1')->get();	
 		$projects_options = Project::orderBy('name_en','asc')->get();
 		$reportData = CampainReport::where('id',$id)->first();
-		$countriesIds = Contact::where('project_id',$reportData->project_id)->distinct('campaign_country')->get()->pluck('campaign_country');
+
+		$from = date('Y-m-d 00:00:00', strtotime($reportData->start_from));
+		$to = date('Y-m-d 23:59:59', strtotime($reportData->end_to));
+
+		$countriesIds = Contact::where('project_id',$reportData->project_id)->whereBetween('created_at',[ $from,$to ])->distinct('campaign_country')->get()->pluck('campaign_country');
 		$countries = Country::orderBy('name_en')->whereIn('id',$countriesIds)->where('parent_id',0)->get();
 		$collectCounties = [];
 		$collectCounties = collect($collectCounties);
@@ -72,14 +76,14 @@ class AdvanceCampaignReportController extends Controller
 			$countries->prepend($topCountry);
 		}
 
-		$europeCountries = Country::orderBy('name_en')->whereIn('id',$countriesIds)->where('parent_id',2)->get();
+		$europeCountries = Country::orderBy('name_en')->whereBetween('created_at',[ $from,$to ])->whereIn('id',$countriesIds)->where('parent_id',2)->get();
 		$cData = [];
 		foreach ($europeCountries as $value) {
 			$cData[] = $value->id;
 		}
 		$cData = implode("_",$cData);
 
-		$russiaCountries = Country::orderBy('name_en')->whereIn('id',$countriesIds)->where('parent_id',3)->get();
+		$russiaCountries = Country::orderBy('name_en')->whereBetween('created_at',[ $from,$to ])->whereIn('id',$countriesIds)->where('parent_id',3)->get();
 		$rData = [];
 		foreach ($russiaCountries as $value) {
 			$rData[] = $value->id;
@@ -100,7 +104,6 @@ class AdvanceCampaignReportController extends Controller
 		]);
     }
 	public function show($id){
-		$reportData = CampainReport::findOrFail($id);
 		$source = Source::where('active','1')->whereNotIn('name',['facebook','instagram'])->orderBy('order_by','asc')->get();
 		$campaings_data =Campaing::where('active','1')->get();	
 		$projects_options = Project::orderBy('name_en','asc')->get();
@@ -147,7 +150,10 @@ class AdvanceCampaignReportController extends Controller
 			}
 		}
 
-		$countriesIds = Contact::where('project_id',$project_id)->distinct('campaign_country')->get()->pluck('campaign_country');
+		$from = date('Y-m-d 00:00:00', strtotime($reportData->start_from));
+		$to = date('Y-m-d 23:59:59', strtotime($reportData->end_to));
+		
+		$countriesIds = Contact::where('project_id',$project_id)->whereBetween('created_at',[ $from,$to ])->distinct('campaign_country')->get()->pluck('campaign_country');
 
 		$countries = Country::orderBy('name_en')->whereIn('id',$countriesIds)->where('parent_id',0)->get();
 		$collectCounties = [];
@@ -165,21 +171,21 @@ class AdvanceCampaignReportController extends Controller
 		}
 
 
-		$europeCountries = Country::orderBy('name_en')->whereIn('id',$countriesIds)->where('parent_id',2)->get();
+		$europeCountries = Country::orderBy('name_en')->whereBetween('created_at',[ $from,$to ])->whereIn('id',$countriesIds)->where('parent_id',2)->get();
 		$cData = [];
 		foreach ($europeCountries as $value) {
 			$cData[] = $value->id;
 		}
 		$cDataVar = implode("_",$cData);
 
-		$russiaCountries = Country::orderBy('name_en')->whereIn('id',$countriesIds)->where('parent_id',3)->get();
+		$russiaCountries = Country::orderBy('name_en')->whereBetween('created_at',[ $from,$to ])->whereIn('id',$countriesIds)->where('parent_id',3)->get();
 		$rData = [];
 		foreach ($russiaCountries as $value) {
 			$rData[] = $value->id;
 		}
 		$rDataVar = implode("_",$rData);
 
-		$country = Contact::where('project_id',$project_id)->distinct('country_id')->get()->pluck('country_id');
+		$country = Contact::where('project_id',$project_id)->whereBetween('created_at',[ $from,$to ])->distinct('country_id')->get()->pluck('country_id');
 		$countries2 = Country::orderBy('name_en')->whereIn('id',$country)->get();
 		$collectCounties = [];
 		$collectCounties = collect($collectCounties);
@@ -283,6 +289,9 @@ class AdvanceCampaignReportController extends Controller
 			}
 		}
 
+		$from = date('Y-m-d 00:00:00', strtotime(Request('last_update_from')));
+		$to = date('Y-m-d 23:59:59', strtotime(Request('last_update_to')));
+
 		if($project_id){
 			$countriesIds = Contact::where('project_id',$project_id)->whereNotNull('campaign_country')->distinct('campaign_country')->get()->pluck('campaign_country');
 		}else{
@@ -290,7 +299,7 @@ class AdvanceCampaignReportController extends Controller
 		}
 		
 
-		$countries = Country::orderBy('name_en')->whereIn('id',$countriesIds)->where('parent_id',0)->get();
+		$countries = Country::orderBy('name_en')->whereBetween('created_at',[ $from,$to ])->whereIn('id',$countriesIds)->where('parent_id',0)->get();
 		$collectCounties = [];
 		$collectCounties = collect($collectCounties);
 		foreach($countries as $index => $country){
@@ -305,7 +314,7 @@ class AdvanceCampaignReportController extends Controller
 			$countries->prepend($topCountry);
 		}
 
-		$europeCountries = Country::orderBy('name_en')->whereIn('id',$countriesIds)->where('parent_id',2)->get();
+		$europeCountries = Country::orderBy('name_en')->whereBetween('created_at',[ $from,$to ])->whereIn('id',$countriesIds)->where('parent_id',2)->get();
 		$cData = [];
 		foreach ($europeCountries as $value) {
 			$cData[] = $value->id;
@@ -313,7 +322,7 @@ class AdvanceCampaignReportController extends Controller
 		$cData = implode("_",$cData);
 
 
-		$russiaCountries = Country::orderBy('name_en')->whereIn('id',$countriesIds)->where('parent_id',3)->get();
+		$russiaCountries = Country::orderBy('name_en')->whereBetween('created_at',[ $from,$to ])->whereIn('id',$countriesIds)->where('parent_id',3)->get();
 		$rData = [];
 		foreach ($russiaCountries as $value) {
 			$rData[] = $value->id;
