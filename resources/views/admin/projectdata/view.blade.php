@@ -176,11 +176,11 @@
                               </tr>
                               <tr>
                                 <td>Project</td>
-                                <td>{{$unit_name->project->name}}</td>
+                                <td>{{$unit_name->project ? $unit_name->project->name : 'N/A'}}</td>
                               </tr>
                               <tr>
                                 <td>Developer</td>
-                                <td>{{$unit_name->developer->name}}</td>
+                                <td>{{$unit_name->developer ? $unit_name->developer->name : 'N/A'}}</td>
                               </tr>
                               <tr>
                                 <td>Unit name</td>

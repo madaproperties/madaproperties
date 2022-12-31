@@ -53,7 +53,7 @@ img {
   @else
   <img src="{{ asset('public/images/park3.jpg')}}" alt="Avatar">
   @endif
-  <a class="web-project" href="{{route('admin.projectdata.view',$datas->project->id)}}">  {{$datas->project->name}}  </a>
+  <a class="web-project" href="{{route('projectdata.view',$datas->project->id)}}">  {{$datas->project->name}}  </a>
    
   
 </div>
