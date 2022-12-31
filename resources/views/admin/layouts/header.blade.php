@@ -302,9 +302,9 @@
 							<!--end::Container-->
 						</div>
 						<!--end::Top-->
+						@if(auth()->id())
 						<div class="header-bottom">
-							<!--begin::Container-->
-							@if(auth()->id())
+							<!--begin::Container-->							
 							<div class="container">
 								<!--begin::Header Menu Wrapper-->
 								<div class="header-navs header-navs-left" id="kt_header_navs">
@@ -491,10 +491,10 @@
 			@php 
 			@enphp
 			<!--end::Header Menu Wrapper-->
-		</div>
-		@endif
+		</div>		
 		<!--end::Container-->
 	</div>
+	@endif
 </div>
 <!--end::Header-->
 
