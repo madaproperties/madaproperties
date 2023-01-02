@@ -488,8 +488,6 @@
 				</div>
 				<!--end::Tab Content-->
 			</div>
-			@php 
-			@enphp
 			<!--end::Header Menu Wrapper-->
 		</div>		
 		<!--end::Container-->
