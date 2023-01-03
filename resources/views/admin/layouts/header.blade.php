@@ -174,27 +174,35 @@
 		</style>
 
 	</head>
-	@php
-		$user = App\User::where('id',auth()->id())->first();
-	@endphp
+	
 	<!--end::Head-->
 	<!--begin::Body-->
 	<body id="kt_body" class=" header-bottom-enabled page-loading">
 		<div id="loadingHolder"> 
 			<div id="loader"></div>
 		</div>
-
+		@if(auth()->id())
+			@php
+				$user = App\User::where('id',auth()->id())->first();
+			@endphp
+		@endif
 		<!--begin::Main-->
 		<!--begin::Header Mobile-->
 		<div id="kt_header_mobile" class="header-mobile  header-mobile-fixed">
 			<!--begin::Logo-->
-			@if(userRole() == 'other')
-				<a href="{{route('admin.deal.index')}}">
-			@else
-				<a href="{{route('admin.')}}">
-			@endif
+			@if(auth()->id())
+				@if(userRole() == 'other')
+					<a href="{{route('admin.deal.index')}}">
+				@else
+					<a href="{{route('admin.')}}">
+				@endif
 				<img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="max-h-30px" />
 			</a>
+			@else
+			<a href="{{route('projcets.newweb')}}">
+				<img alt="Mada Properties" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="max-h-30px" />
+			</a>
+			@endif
 			<!--end::Logo-->
 			<!--begin::Toolbar-->
 			<div class="d-flex align-items-center">
@@ -228,9 +236,11 @@
 						<!--begin::Top-->
 						<div class="header-top">
 							<!--begin::Container-->
+							
 							<div class="container">
 								<!--begin::Left-->
 								<div class="d-none d-lg-flex align-items-center mr-3">
+									@if(auth()->id())
 									<!--begin::Logo-->
 									@if(userRole() == 'other')
 										<a href="{{route('admin.deal.index')}}" class="mr-20">
@@ -240,10 +250,15 @@
 										<img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo" />
 									</a>
 									<!--end::Logo-->
-
+									@else
+									<a href="{{route('projcets.newweb')}}">
+										<img alt="Mada Properties" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo" />
+									</a>
+									@endif
 								</div>
 								<!--end::Left-->
 								<!--begin::Topbar-->
+								@if(auth()->id())
 								<div class="topbar bg-primary">
 									@php
 										$notoficationCount = App\Notofication::where('user_id',auth()->id())->where('completed','0')->count();
@@ -280,13 +295,16 @@
 									</div>
 									<!--end::User-->
 								</div>
+								@endif
 								<!--end::Topbar-->
 							</div>
+							
 							<!--end::Container-->
 						</div>
 						<!--end::Top-->
+						@if(auth()->id())
 						<div class="header-bottom">
-							<!--begin::Container-->
+							<!--begin::Container-->							
 							<div class="container">
 								<!--begin::Header Menu Wrapper-->
 								<div class="header-navs header-navs-left" id="kt_header_navs">
@@ -433,7 +451,7 @@
 								<a class="dropdown-item" href="{{route('admin.project-developer.index')}}">{{__('site.project') .' '.__('site.developer')}}</a>
 								@endcan
 								@if(userRole()=='admin' || userRole()=='sales director' ||userRole()=='sales admin uae' || userRole()== 'sales admin saudi' )
-								<a class="dropdown-item" href="{{route('admin.projcets.newweb')}}">{{__('site.project availability')}}</a>
+								<a class="dropdown-item" href="{{route('projcets.newweb')}}">{{__('site.project availability')}}</a>
 								@endif
 							</div>
 						</li>
@@ -471,9 +489,10 @@
 				<!--end::Tab Content-->
 			</div>
 			<!--end::Header Menu Wrapper-->
-		</div>
+		</div>		
 		<!--end::Container-->
 	</div>
+	@endif
 </div>
 <!--end::Header-->
 

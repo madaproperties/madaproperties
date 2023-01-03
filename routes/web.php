@@ -37,6 +37,12 @@ Route::get('read-xml','Admin\PropertyXmlController@readXml')->name('property.rea
 Route::get('read-bayut-xml','Admin\PropertyXmlController@readBayutXml')->name('property.readBayutXml');
 Route::get('read-dubizzle-xml','Admin\PropertyXmlController@readDubizzleXml')->name('property.readDubizzleXml');
 Route::get('employee','EmployeeController@index')->name('employee.index');
+
+// unit listing :added by fazal
+Route::get('new-web','Admin\ProjectDataController@newWeb')->name('projcets.newweb'); 
+Route::get('projectdata/view/{id}','Admin\ProjectDataController@View')->name('projectdata.view');
+// end
+
 use App\Contact;
 use App\Country;
 use App\City;
