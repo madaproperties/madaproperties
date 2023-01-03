@@ -320,11 +320,16 @@ class ProjectDataController extends Controller
      
      $unit_count=ProjectData::where('project_id',$id)->count();
      $project_id=$id;
-     $arr= ProjectData::where('project_id',$id)->where('floor_no','!=', " " )->groupBy('floor_no')->get();
+     $arr= ProjectData::where('project_id',$id)->where('floor_no','!=', " " )->groupBy('floor_no')->orderBy('id', 'asc')->get();
      foreach($arr as $key=>$data){
       $arr[$key]['unit_name']=ProjectData::where('project_id',$id)->where('floor_no',$data->floor_no)->get();
      }
      $project_name=ProjectName::where('id',$id)->first();
-     return view('admin.projectdata.view',compact('unit_count','project_id','arr','project_name'));
+     $available=ProjectData::where('project_id',$id)->where('status','=','Available')->count();
+     $sold_out=ProjectData::where('project_id',$id)->where('status','Sold out')->count();
+     $reserved=ProjectData::where('project_id',$id)->where('status','Reserved')->count();
+     $total=ProjectData::where('project_id',$id)->count();
+     $image=ProjectData::where('project_id',$id)->first();
+     return view('admin.projectdata.view',compact('unit_count','project_id','arr','project_name','available','sold_out','reserved','total','image'));
    }
 }

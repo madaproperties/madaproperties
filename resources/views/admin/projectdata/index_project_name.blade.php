@@ -48,6 +48,7 @@
 										<span class="text-muted font-weight-bold">{{$deal->created_at}}</span>
 									</td>
 									<td>
+									<div class="editPro">
 										<a href="{{ route('admin.project-name.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
 										<form id="destory-{{$deal->id}}" class="delete" onsubmit="return confirm('{{__('site.confirm')}}');"
 											action="{{ route('admin.project-name.destroy',$deal->id) }}" method="POST" >
@@ -57,6 +58,7 @@
 											<i class="fa fa-trash" onclick="submitForm('{{$deal->id}}')"></i></a>
 											<button type="submit" style="display:none"></button>
 										</form>
+</div>
 									</td>
 								</tr>
 								@endforeach

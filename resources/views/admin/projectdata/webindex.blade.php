@@ -13,7 +13,7 @@
 .card:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
-
+.content .flex-column-fluid{flex:1;}
 img {
   border-radius: 5px 5px 0 0;
   style="width:100%;height: 100%;
@@ -53,7 +53,7 @@ img {
   @else
   <img src="{{ asset('public/images/park3.jpg')}}" alt="Avatar">
   @endif
-  <a class="web-project" href="{{route('admin.projectdata.view',$datas->project->id)}}">  {{$datas->project->name}}  </a>
+  <a class="web-project" href="{{route('projectdata.view',$datas->project->id)}}">  {{$datas->project->name}}  </a>
    
   
 </div>

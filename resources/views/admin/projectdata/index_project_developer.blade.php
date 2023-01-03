@@ -30,6 +30,8 @@
 				<div class="card-body py-0">
 					<!--begin::Table-->
 					<div class="table-responsive">
+					{{$data->links()}}
+					<div class="custom-table-responsive">							
 						<table class="text-center table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
 							<thead>
 								<tr>
@@ -56,6 +58,7 @@
 										<span class="text-muted font-weight-bold">{{$deal->created_at}}</span>
 									</td>
 									<td>
+									<div class="editPro">
 										<a href="{{ route('admin.project-developer.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
 										<form id="destory-{{$deal->id}}" class="delete" onsubmit="return confirm('{{__('site.confirm')}}');"
 											action="{{ route('admin.project-developer.destroy',$deal->id) }}" method="POST" >
@@ -65,12 +68,13 @@
 											<i class="fa fa-trash" onclick="submitForm('{{$deal->id}}')"></i></a>
 											<button type="submit" style="display:none"></button>
 										</form>
+</div>
 									</td>
 								</tr>
 								@endforeach
 							</tbody>
-							{{$data->links()}}
 						</table>
+						</div>
 						{{$data->links()}}
 					</div>
 					<!--end::Table-->
