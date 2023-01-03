@@ -357,6 +357,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
           ->where('user_id', auth()->id())
           ->where(function ($q){
               $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
+                ->OrWhere('id','LIKE','%'. Request('search') .'%')
                 ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
                 ->OrWhere('phone','LIKE','%'. Request('search') .'%')
                 ->OrWhere('email','LIKE','%'. Request('search') .'%')
@@ -371,6 +372,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
       return $q->where('status_id',Request('filter_status'))
         ->where(function ($q){
           $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
+            ->OrWhere('id','LIKE','%'. Request('search') .'%')
             ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
             ->OrWhere('phone','LIKE','%'. Request('search') .'%')
             ->OrWhere('email','LIKE','%'. Request('search') .'%')
@@ -394,6 +396,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         return $q->where('user_id','LIKE',auth()->id())
           ->where(function ($q){
             $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
+                ->OrWhere('id','LIKE','%'. Request('search') .'%')
               ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
               ->OrWhere('phone','LIKE','%'. Request('search') .'%')
               ->OrWhere('email','LIKE','%'. Request('search') .'%')
@@ -449,6 +452,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
 
     if(Request()->has('search')){
       return $q->where('first_name','LIKE','%'. Request('search') .'%')
+                ->OrWhere('id','LIKE','%'. Request('search') .'%')
               ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
               ->OrWhere('phone','LIKE','%'. Request('search') .'%')
               ->OrWhere('email','LIKE','%'. Request('search') .'%')
