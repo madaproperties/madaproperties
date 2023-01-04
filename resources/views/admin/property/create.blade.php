@@ -2,12 +2,12 @@
 @section('content')
 
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+<div class="d-flex flex-column flex-column-fluid" id="kt_content">
 	<!--begin::Entry-->
 	<div class="d-flex flex-column-fluid">
 		<div class="container">
 
-         	<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+         	<div>
 				<!--begin::Subheader-->
 				<div class="subheader py-2 py-lg-4 subheader-transparent" id="kt_subheader">
 					<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
@@ -234,6 +234,31 @@
 																						@foreach($cities as $city)
 																						<option {{old('city_id') == $city->id ? 'selected' : ''}} value="{{$city->id}}">{{$city->name_en}}</option>
 																						@endforeach 
+																					</select>
+																				</div>
+																			</div>
+																			<!--end::Group-->
+
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.community')}}</label>
+																				<div class="col-lg-9 col-xl-9">
+																					<select name="community" id="community" class="form-control">
+																						<option value="">{{ __('site.choose') }}</option>
+																						@foreach($community as $comm)
+																						<option {{old('community') == $comm->id ? 'selected' : ''}} value="{{$comm->id}}">{{$comm->name_en}}</option>
+																						@endforeach 
+																					</select>
+																				</div>
+																			</div>
+																			<!--end::Group-->
+
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.sub_community')}}</label>
+																				<div class="col-lg-9 col-xl-9">
+																					<select name="sub_community" id="sub_community" class="form-control">
+																						
 																					</select>
 																				</div>
 																			</div>

@@ -25,6 +25,7 @@ use Image;
 use Mail;
 use App\Mail\PropertyNotification;
 use Illuminate\Support\Facades\Storage;
+use App\Community;
 
 
 class PropertyController extends Controller
@@ -117,7 +118,8 @@ class PropertyController extends Controller
     $devFeatures = Features::where('feature_type',2)->get();
     $lifeStyleFeatures = Features::where('feature_type',3)->get();
     $categories = Categories::get(); 
-    return view('admin.property.create',compact('cities','countries','campaigns','sources','purposeType','sellers','lifeStyleFeatures','categories','devFeatures','unitFeatures'));
+    $community = Community::get(); 
+    return view('admin.property.create',compact('community','cities','countries','campaigns','sources','purposeType','sellers','lifeStyleFeatures','categories','devFeatures','unitFeatures'));
   }
 
   /**
@@ -493,7 +495,8 @@ class PropertyController extends Controller
     $lifeStyleFeatures = Features::where('feature_type',3)->get();
     
     $categories = Categories::get(); 
-    return view('admin.property.show',compact('property','cities','countries','campaigns','sources','purposeType','sellers','unitFeatures','propertyFeatures','propertyPortals','categories','lifeStyleFeatures','devFeatures'));
+    $community = Community::get();     
+    return view('admin.property.show',compact('community','property','cities','countries','campaigns','sources','purposeType','sellers','unitFeatures','propertyFeatures','propertyPortals','categories','lifeStyleFeatures','devFeatures'));
 
   }  
 

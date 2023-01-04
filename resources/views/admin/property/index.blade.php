@@ -123,7 +123,8 @@
 									<td>
 									<div class="editPro">
 										@can('property-edit')
-											<a href="{{ route('admin.property.show',$property->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
+										<a href="{{ route('admin.property.show',$property->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details in english"><i class="fa fa-edit"></i></a>																						
+										<a href="{{ route('admin.property.show',[$property->id,'lang'=>'ar']) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details in arabic"><i class="fa fa-edit"></i></a>																						
 										@endif
 										<a href="{{ route('property.brochure',$property->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Brochure"><i class="fa fa-print"></i></a>																						
 										@can('property-delete')
