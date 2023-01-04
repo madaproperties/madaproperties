@@ -246,7 +246,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
                
 							<!--begin: Datatable-->
 				<!--begin::Body-->
-				<div class="table-responsive">
+				<div class="table-responsive pt-5">
 							@if(userRole() != 'sales')
 								<div class="{{$contacts->withQueryString()->links() == ''? 'assign-delete-buttons' : 'page-button'}}">
 									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#assign-leads">
