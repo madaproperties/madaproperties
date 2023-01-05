@@ -199,7 +199,7 @@
 				<img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="max-h-30px" />
 			</a>
 			@else
-			<a href="{{route('admin.projcets.newweb')}}">
+			<a href="{{route('projcets.newweb')}}">
 				<img alt="Mada Properties" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="max-h-30px" />
 			</a>
 			@endif
@@ -251,7 +251,7 @@
 									</a>
 									<!--end::Logo-->
 									@else
-									<a href="{{route('admin.projcets.newweb')}}">
+									<a href="{{route('projcets.newweb')}}">
 										<img alt="Mada Properties" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo" />
 									</a>
 									@endif
@@ -451,7 +451,7 @@
 								<a class="dropdown-item" href="{{route('admin.project-developer.index')}}">{{__('site.project') .' '.__('site.developer')}}</a>
 								@endcan
 								@if(userRole()=='admin' || userRole()=='sales director' ||userRole()=='sales admin uae' || userRole()== 'sales admin saudi' )
-								<a class="dropdown-item" href="{{route('admin.projcets.newweb')}}">{{__('site.project availability')}}</a>
+								<a class="dropdown-item" href="{{route('projcets.newweb')}}">{{__('site.project availability')}}</a>
 								@endif
 							</div>
 						</li>
