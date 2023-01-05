@@ -364,6 +364,7 @@ class ReportController extends Controller
 	
 	
 		}
+
 		return view('admin.reports.index',[
 			'users' =>  $users,
 			'report_dates' =>  $report_dates,
@@ -379,7 +380,7 @@ class ReportController extends Controller
 			'allUsersReport' => $allUsersReport, 
 			'two_week_report' => $two_week_report,
 			'countries' =>$countries,
-			'leader'=>$leader, 
+			'leader'=>$leader,
 			'leaders'=>$leaders,
 			'projects'=>$projects,
 		]);

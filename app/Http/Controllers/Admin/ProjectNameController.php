@@ -24,7 +24,7 @@ class ProjectNameController extends Controller
       $this->middleware('permission:project-name-create', ['only' => ['create','store']]);
       $this->middleware('permission:project-name-edit', ['only' => ['show','edit']]);
       $this->middleware('permission:project-name-delete', ['only' => ['destroy']]);
-    }	
+    } 
 
 
   // index 
@@ -58,10 +58,38 @@ class ProjectNameController extends Controller
 
       $data = $request->validate([
         "name"          => "required|max:191",
+        "image"         => "nullable",
+        "brochure"      =>"nullable",
+        "video"=> "nullable",
+        "payment_plan"=>"nullable",
       ]);
       $data['created_at'] = Carbon::now();
 
       addHistory('Project Name',0,'added',$data);   
+       if($request->file('image')){
+        $md5Name = md5_file($request->file('image')->getRealPath());
+        $guessExtension = $request->file('image')->guessExtension();
+        $file = $request->file('image')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['image'] = $md5Name.'.'.$guessExtension;
+      }
+      if($request->file('brochure')){
+        $md5Name = md5_file($request->file('brochure')->getRealPath());
+        $guessExtension = $request->file('brochure')->guessExtension();
+        $file = $request->file('brochure')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['brochure'] = $md5Name.'.'.$guessExtension;
+      }
+      if($request->file('video')){
+        $md5Name = md5_file($request->file('video')->getRealPath());
+        $guessExtension = $request->file('video')->guessExtension();
+        $file = $request->file('video')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['video'] = $md5Name.'.'.$guessExtension;
+      }
+      if($request->file('payment_plan')){
+        $md5Name = md5_file($request->file('payment_plan')->getRealPath());
+        $guessExtension = $request->file('payment_plan')->guessExtension();
+        $file = $request->file('payment_plan')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['payment_plan'] = $md5Name.'.'.$guessExtension;
+      }
 
       $deal = ProjectName::create($data);
       return redirect(route('admin.project-name.index'))->withSuccess(__('site.success'));
@@ -72,8 +100,37 @@ class ProjectNameController extends Controller
     $deal = ProjectName::findOrFail($id);
     $data = $request->validate([
       "name"          => "required|max:191",
+      "image"         => "nullable",
+        "brochure"      =>"nullable",
+        "video"=> "nullable",
+        "payment_plan"=>"nullable",
+
     ]);
     $data['updated_at'] = Carbon::now();
+    if($request->file('image')){
+        $md5Name = md5_file($request->file('image')->getRealPath());
+        $guessExtension = $request->file('image')->guessExtension();
+        $file = $request->file('image')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['image'] = $md5Name.'.'.$guessExtension;
+      }
+      if($request->file('brochure')){
+        $md5Name = md5_file($request->file('brochure')->getRealPath());
+        $guessExtension = $request->file('brochure')->guessExtension();
+        $file = $request->file('brochure')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['brochure'] = $md5Name.'.'.$guessExtension;
+      }
+      if($request->file('video')){
+        $md5Name = md5_file($request->file('video')->getRealPath());
+        $guessExtension = $request->file('video')->guessExtension();
+        $file = $request->file('video')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['video'] = $md5Name.'.'.$guessExtension;
+      }
+      if($request->file('payment_plan')){
+        $md5Name = md5_file($request->file('payment_plan')->getRealPath());
+        $guessExtension = $request->file('payment_plan')->guessExtension();
+        $file = $request->file('payment_plan')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['payment_plan'] = $md5Name.'.'.$guessExtension;
+      }
 
     addHistory('Project Name',$id,'updated',$data,$deal);
 

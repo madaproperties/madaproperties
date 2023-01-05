@@ -76,10 +76,12 @@ $exportUrl = str_replace($exportUrl[0],route('admin.project-data.exportProjectDa
 					@include('admin.projectdata.advanced-search')
 					<!--begin::Table-->
 					<div class="table-responsive">
+					{{$data->links()}}
+					<div class="custom-table-responsive">							
 						<table class="text-center table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
 							<thead>
 								<tr>
-									<th>{{__('site.unit_name')}}</th>
+									<th>{{__('site.country')}}</th>
 									<th>{{__('site.project')}}</th>
 									<th>{{__('site.property_type')}}</th>
 									<th>{{__('site.bedroom')}}</th>
@@ -92,7 +94,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.project-data.exportProjectDa
 								@foreach($data as $project)
 								<tr>
 									<td>
-										<span class="text-muted font-weight-bold">{{$project->unit_name}}</span></span>
+										<span class="text-muted font-weight-bold">{{$project->country ? $project->country->name : 'N/A'}}</span>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$project->project ? $project->project->name : 'N/A'}}</span>
@@ -110,10 +112,11 @@ $exportUrl = str_replace($exportUrl[0],route('admin.project-data.exportProjectDa
 										<span class="text-muted font-weight-bold">{{$project->created_at}}</span>
 									</td>
 									<td>
+										<div class="editPro">
 										@can('project-edit')
 											<a href="{{ route('admin.project-data.show',$project->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
 										@endcan
-										<a href="{{ route('project.brochure',$project->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" target="_blank" title="Brochure"><i class="fa fa-print"></i></a>																						
+										<a href="{{ route('project.brochure',$project->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Brochure"><i class="fa fa-print"></i></a>																						
 										@can('project-delete')
 											<form id="destory-{{$project->id}}" class="delete" onsubmit="return confirm('{{__('site.confirm')}}');"
 												action="{{ route('admin.project-data.destroy',$project->id) }}" method="POST" >
@@ -124,12 +127,13 @@ $exportUrl = str_replace($exportUrl[0],route('admin.project-data.exportProjectDa
 												<button type="submit" style="display:none"></button>
 											</form>
 										@endcan
+										</div>
 									</td>
 								</tr>
 								@endforeach
 							</tbody>
-							{{$data->links()}}
 						</table>
+						</div>
 						{{$data->links()}}
 					</div>
 					<!--end::Table-->

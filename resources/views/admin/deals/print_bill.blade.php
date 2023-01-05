@@ -54,7 +54,7 @@
 						<td style="text-align:center;border:0px;text-decoration: underline;padding-bottom: 35px;padding-left:100px;" colspan="8"><b>TAX INVOICE</b></td>
                     </tr>
 					<tr>
-						<td style="text-align:left;border:0px;" colspan="8">Invoice Date : {{$deal->invoice_date}}</td>
+						<td style="text-align:left;border:0px;" colspan="8">Invoice Date :@if($deal->invoice_date) {{date('d-m-Y', strtotime($deal->invoice_date))}}@else {{date('d-m-Y')}} @endif</td>
                     </tr>
 					<tr>
 						<td style="text-align:left;border:0px;padding-bottom: 15px;" colspan="8">Invoice Number : {{$deal->invoice_number}}</td>
@@ -136,13 +136,19 @@
 						<td style="text-align:center;padding:7px;">{{number_format(($deal->commission_amount+$deal->vat_amount), 2)}}</td>
                     </tr>
 					<tr>
-						<td colspan="7" style="border:0px;"></td>
+						<td style="border-right:0px;"></td>
+						<td style="border-left: 0px;border-right: 0px;"></td>
+						<td style="border-left: 0px;border-right: 0px;"></td>
+						<td style="border-left: 0px;border-right: 0px;"></td>
+						<td style="border-left: 0px;border-right: 0px;"></td>
+						<td style="border-left: 0px;border-right: 0px;"></td>
+						<td style="border-left:0px;"></td>
 						<td style="text-align:center;"><b>Total:</b></td>
 						<td style="text-align:center;"><b>{{number_format(($deal->commission_amount+$deal->vat_amount),2)}}</b></td>
                     </tr>
                 </tbody>
             </table>
-            <table class="table table-bordered" style="width: 50%;">
+            <table class="table table-bordered" style="width: 50%;margin-top: 35px;">
                 <tbody>
 					<tr>
 						<td colspan="2" style="text-align:left"><b>Bank Details</b></td>
@@ -193,7 +199,7 @@
 					@endif
                 </tbody>
             </table>
-            <table style="text-align:right;margin-top:200px;border:0px;">
+            <table style="text-align:center;margin-top:200px;border:0px;">
                 <tbody>
 					<tr>
 						<td>_____________________________</td>

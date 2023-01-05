@@ -18,6 +18,7 @@ class HomeController extends Controller
       if(userRole() == 'other'){
         return redirect()->route('admin.deal.index');      
       }
+      
       return view('home');
     }
 
@@ -41,6 +42,7 @@ class HomeController extends Controller
           if(userRole() == 'other'){
             return redirect()->route('admin.deal.index');      
           }
+         
           return redirect()->route('admin.');
         }
         // back if notfound
