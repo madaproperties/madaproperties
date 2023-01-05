@@ -322,7 +322,7 @@ class ProjectDataController extends Controller
      
      $unit_count=ProjectData::where('project_id',$id)->count();
      $project_id=$id;
-     $arr= ProjectData::where('project_id',$id)->where('floor_no','!=', " " )->groupBy('floor_no')->orderBy('id', 'asc')->get();
+     $arr= ProjectData::where('project_id',$id)->where('floor_no','!=', " " )->orderBy('floor_no','asc')->groupBy('floor_no')->get();
      foreach($arr as $key=>$data){
       $arr[$key]['unit_name']=ProjectData::where('project_id',$id)->where('floor_no',$data->floor_no)->get();
      }

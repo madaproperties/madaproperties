@@ -23,6 +23,19 @@ body#kt_body .contentArea{padding-left:0;width:100%;}
 .availability-unit .card.card-custom > .card-body {
     padding-bottom: 10px !important;
 }
+.bottom_header{    background: url(/public/imgs/bannermada.jpg);
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-bottom: 30px;
+    padding-top: 30px;
+    height:400px;
+}
+.projectdetails a{width: 150px;
+    margin-right: 15px;
+    margin-left: 15px;font-size:18px;}
+.projectdetails{justify-content: center;
+    padding-top: 50px;}
 .availability-unit a{color:#000;}
 .bg-available{background:#9fc538;color:#fff;}
 .bg-reserve{background:#ffff00;color:#000 !important;}
@@ -77,6 +90,7 @@ div#units{padding:30px;}
      padding: 30px 20px 30px 20px;
     box-shadow: 0 0 5px #e2cece;
     margin: 20px 0px 20px 0px;
+     border-radius:6px;
 }
        .availability-unit .view{
          margin-top: 5px;
@@ -93,6 +107,9 @@ div#units{padding:30px;}
        .availability-unit .unitlist{
          padding-top:50px;
          padding-bottom:50px;
+         margin: 0px 0px 45px 0px;
+         background:#f7f7f7;
+         border-radius:6px;
        }
        .unitlist ul{display: flex; margin: auto;padding-left:0;}
        .unitlist ul li {
@@ -149,7 +166,7 @@ div#units{padding:30px;}
          display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 100%;
+  width: 300px;
        }
 
 </style>
@@ -168,12 +185,11 @@ div#units{padding:30px;}
             <img class="logo" src="{{ asset('public/imgs/logo.png') }}" width="200" />
            
         </div>
-         <div class="card-header m-auto flex-wrap border-0 pt-6 pb-0">
+         <div class="bottom_header">
         <img class="developer-logo" src="{{ asset('public/uploads/projectData/'.$image->developer->developer_logo) }}">
-           </div>
-        <div class="card-body table-responsive availability-unit">
-         
-          <h2 align="center" >{{$project_name['name']}}</h2>           
+         <h2 align="center" >{{$project_name['name']}}</h2>  
+          <div class="developer_detail">
+                  
           
           <div class="unit" id="demo">
               <div class="row projectdetails">
@@ -184,6 +200,10 @@ div#units{padding:30px;}
               <a href="{{ asset('public/uploads/projectData/'.$project_name['payment_plan'])}}" class="btn btn-info" target="_blank">Payment plan </a>
               </div>
           </div>
+          </div>
+           </div>
+        <div class="card-body table-responsive availability-unit">
+        
           <!--  -->
           <div class="unit" id="units">
            <div class="row unitlist pt-3 pb-5">
@@ -195,7 +215,7 @@ div#units{padding:30px;}
                        <li class="total">Total Units: {{$total}}</li>
                    </ul>
                </div>
-               <div class="col-xl-4">
+               <div class="col-xl-4 pt-3">
             <span><button type="button" class="bg-available" ></button><p>&nbsp;: Available</p></span>
             <span><button type="button" class="bg-sold" ></button><p>&nbsp; : Sold out&nbsp;&nbsp;</p></span>
             <span><button type="button" class="bg-reserve"></button><p>&nbsp; : Reserved</p> </span>

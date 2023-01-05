@@ -101,7 +101,7 @@
 																				<a href="{{env('APP_URL').'/public/uploads/projectData/'.$deal->payment_plan}}" target="_blank" download="download">Download</a>
 																			@endif
 																		
-																			<input class="form-control form-control-solid form-control-lg" 	name="	" type="file">
+																			<input class="form-control form-control-solid form-control-lg" 	name="payment_plan" type="file">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
