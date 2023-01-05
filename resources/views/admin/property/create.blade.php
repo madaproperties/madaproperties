@@ -34,17 +34,17 @@
 					<!--begin::Container-->
 					<div class="container">
 						<!--begin::Card-->
-						<div class="card card-custom card-transparent">
+						<div class="card-custom card-transparent">
 							<div class="card-body p-0">
 								<!--begin::Wizard-->
 								<div class="wizard wizard-4" id="kt_wizard" data-wizard-state="first" data-wizard-clickable="true">
 
 									<!--begin::Card-->
-									<div class="card card-custom card-shadowless rounded-top-0">
+									<div class="card-custom card-shadowless rounded-top-0">
 										<!--begin::Body-->
 										<div class="card-body p-0">
 											<div class="row py-8 px-8 py-lg-15 px-lg-10">
-												<div class="col-xl-12 col-xxl-12">
+												<div class="col-xl-8 col-xxl-8">
 													<ul class="nav nav-tabs" id="myTab" role="tablist">
 														<li class="nav-item">
 															<a class="nav-link active" id="basic-tab" data-toggle="tab" href="#basic">
@@ -92,7 +92,7 @@
 													<!--begin::Wizard Form-->
 													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.property.store')}}" id="kt_form" enctype="multipart/form-data">
 														@csrf
-														<div class="tab-content mt-5" id="myTabContent">
+														<div class="tab-content mt-5 card" id="myTabContent">
 															<div class="tab-pane fade active show" id="basic" role="tabpanel" aria-labelledby="basic-tab">
 																<div class="row col-xl-12">
 																	<div class="col-xl-12">
@@ -112,7 +112,7 @@
 																	</div>
 																</div>
 
-																<div class="row col-xl-12">
+																<div class="row col-xl-12 card-body">
 																	<div class="col-xl-4">
 																		<!--begin::Wizard Step 1-->
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
@@ -887,7 +887,7 @@
 																</div>
 															</div>															
 														</div>
-														<div class="col-xl-12">																				
+														<div class="col-xl-12 card">																				
 															<!--begin::Wizard Actions-->
 															<div class="d-flex justify-content-between border-top pt-10 mt-15">
 																<div>
@@ -896,10 +896,37 @@
 															</div>
 															<!--end::Wizard Actions-->
 														</div>
-													</div>
 													
-												</form>
+													</form>
 													<!--end::Wizard Form-->
+												</div>
+												<div class="col-xl-4 col-xxl-4">
+													<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+														<!--begin::Group-->
+														<div class="form-group row fv-plugins-icon-container">
+															<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Last update')}}</label>
+															<div class="col-lg-9 col-xl-9">
+																<p class="form-control-solid form-control-lg">{{date('d-m-y h:i:s a')}}</p>
+															</div>
+														</div>
+														<!--end::Group-->
+														<!--begin::Group-->
+														<div class="form-group row fv-plugins-icon-container">
+															<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Creation date')}}</label>
+															<div class="col-lg-9 col-xl-9">
+																<p class="form-control-solid form-control-lg">{{date('d-m-y h:i:s a')}}</p>
+															</div>
+														</div>
+														<!--end::Group-->
+														<!--begin::Group-->
+														<div class="form-group row fv-plugins-icon-container">
+															<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Created By')}}</label>
+															<div class="col-lg-9 col-xl-9">
+																<p class="form-control-solid form-control-lg">{{date('d-m-y h:i:s a')}}</p>
+															</div>
+														</div>
+														<!--end::Group-->
+													</div>
 												</div>
 											</div>
 										</div>
