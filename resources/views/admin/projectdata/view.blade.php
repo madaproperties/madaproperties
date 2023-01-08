@@ -276,89 +276,21 @@ div#units{padding:30px;}
                             <!--begin::Body-->
                            <div class="card-body d-flex flex-column p-0">
                             <!--begin::Stats-->
-                            <a href="#" class="view" data-toggle="modal" data-target="#assign-leads-{{$unit_name->id}}">
-                  <div class="flex-grow-1">
-                  <div class="font-weight-bold">
-                  {{$unit_name->unit_name}}
-                   </div>
-                   <div class="font-weight-bolder ">
-                   {{$unit_name->bedroom}} Bedroom 
-                   </div>
-                   <div class="font-weight-bolder">
-                   Area :{{$unit_name->area_bua}} 
-                   </div>
-                  </div>
-              </a>
-                  
-                   <!-- Modal -->
-                <div class="modal fade" id="assign-leads-{{$unit_name->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Property Details</h5>
-                      </div>
-                      <div class="modal-body">
-                        @if($unit_name->status == 'Available')
-                        <div class="form-group">
-                          <table>
-                            <tr>
-                             <td>Country</td>
-                             <td>{{$unit_name->country->name}}</td>
-                            </tr>
-                              <tr>
-                                <td>District</td>
-                                <td>{{$unit_name->district_name}}</td>
-                              </tr>
-                              <tr>
-                                <td>Project</td>
-                                <td>{{$unit_name->project ? $unit_name->project->name : 'N/A'}}</td>
-                              </tr>
-                              <tr>
-                                <td>Developer</td>
-                                <td>{{$unit_name->developer ? $unit_name->developer->name : 'N/A'}}</td>
-                              </tr>
-                              <tr>
-                                <td>Unit name</td>
-                                <td>{{$unit_name->unit_name}}</td>
-                              </tr>
-                              <tr>
-                                <td>Floor No</td>
-                                <td>{{$unit_name->floor_no}}</td>
-                              </tr>
-                              <tr>
-                                <td>Area(BUA)</td>
-                                <td>{{$unit_name->area_bua}}</td>
-                              </tr>
-                              <tr>
-                                <td>Price</td>
-                                <td>{{$unit_name->price}}</td>
-                              </tr>
-                              <tr>
-                                <td>Downpayment</td>
-                                <td>{{$unit_name->down_payment}}</td>
-                              </tr>
-                            </table>
-                      </div>
-                      @elseif($unit_name->status == 'Sold out')
-                      <p class="sold"> Sorry the unit already sold </p>
-                      @else
-                      <p class="reserved"> Sorry the unit is reserved </p>
-                      @endif
-                     </div>
-                     
-                     @if($unit_name->status == 'Available')
-                        <a href="{{ route('project.brochure',$unit_name->id) }}" target="_blank"  class="btn btn-info btn-xs brochureinf  " >Download Offer</a>
-                        @endif
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                      <div class="modal-footer">
-                        
-                      </div>
+                            <a href="javascript:void(0)" class="view" onclick="loadViewInPupUp({{$unit_name->id}})">
+                              <div class="flex-grow-1">
+                              <div class="font-weight-bold">
+                              {{$unit_name->unit_name}}
+                              </div>
+                              <div class="font-weight-bolder ">
+                              {{$unit_name->bedroom}} Bedroom 
+                              </div>
+                              <div class="font-weight-bolder">
+                              Area :{{$unit_name->area_bua}} 
+                              </div>
+                              </div>
+                          </a>
+                        </div>
                     </div>
-                  </div>
-                </div>
-             
-               </div>
-               </div>
               </div>
               @endforeach 
               </div>
@@ -381,4 +313,27 @@ div#units{padding:30px;}
 @push('js')
 <script src="{{ asset('public/assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
 <script src="{{ asset('public/assets/js/pages/crud/datatables/basic/scrollable.js') }}"></script>
+<script>
+function loadViewInPupUp(id){
+  let token = $('meta[name=csrf-token]').attr('content');
+  let route = '{{route("projectdata.getPupUpByAjax")}}';
+  $("#loadingHolder").show();
+  $.ajax({
+    type:'POST',
+    url: route,
+    data:{_token:token,id:id},
+    success: (res) => {
+      $('#assign-leads').html(res);
+      $('#assign-leads').modal();
+      $("#loadingHolder").hide();
+    },
+    error: function(res){
+      $('#assign-leads').html(res);
+      $('#assign-leads').modal();
+      $("#loadingHolder").hide();
+    }
+  });
+
+}
+</script>
 @endpush

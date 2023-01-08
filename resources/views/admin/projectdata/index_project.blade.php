@@ -83,6 +83,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.project-data.exportProjectDa
 								<tr>
 									<th>{{__('site.country')}}</th>
 									<th>{{__('site.project')}}</th>
+									<th>{{__('site.unit_name')}}</th>
 									<th>{{__('site.property_type')}}</th>
 									<th>{{__('site.bedroom')}}</th>
 									<th>{{__('site.price')}}</th>
@@ -98,6 +99,9 @@ $exportUrl = str_replace($exportUrl[0],route('admin.project-data.exportProjectDa
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$project->project ? $project->project->name : 'N/A'}}</span>
+									</td>
+									<td>
+										<span class="text-muted font-weight-bold">{{$project->unit_name}}</span></span>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$project->property_type}}</span>
