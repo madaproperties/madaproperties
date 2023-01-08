@@ -31,7 +31,7 @@ body#kt_body .contentArea{padding-left:0;width:100%;}
     padding-top: 30px;
     height:400px;
 }
-.projectdetails a{width: 150px;
+.projectdetails a{width: 160px;
     margin-right: 15px;
     margin-left: 15px;font-size:18px;}
 .projectdetails{justify-content: center;
@@ -62,7 +62,7 @@ div#units{padding:30px;}
     width: 170px;
     border-radius: 5px;
     font-size: 16px;
-    text-transform: uppercase !important;
+    /*text-transform: uppercase !important;*/
        }
        .availability-unit .bg-success .bg-danger .bg-primary
        {
@@ -91,6 +91,7 @@ div#units{padding:30px;}
     box-shadow: 0 0 5px #e2cece;
     margin: 20px 0px 20px 0px;
      border-radius:6px;
+     
 }
        .availability-unit .view{
          margin-top: 5px;
@@ -103,7 +104,7 @@ div#units{padding:30px;}
     padding: 10px;
     margin: auto;
        }
-       .card-header img{padding: 20px 0px 20px 0px;}
+       .card-header img{padding: 20px 0px 20px 0px;width:200px;height:auto;}
        .availability-unit .unitlist{
          padding-top:50px;
          padding-bottom:50px;
@@ -168,7 +169,44 @@ div#units{padding:30px;}
   margin-right: auto;
   width: 300px;
        }
-
+ 
+       
+     @media screen and (max-width: 979px) {
+ .unit_box {
+    margin-bottom: 10px;
+}
+.unitlist button {
+    padding: 7px;
+    width: 7px;
+    height: 7px;
+}
+.unitlist ul {
+    display: block;
+}
+      .floor_box .row{margin:auto;}
+        .availability-unit .floor {
+    text-align: center;
+}
+}
+      @media screen and (max-width: 768px) {
+          .unitlist .col-xl-4{display:block;}
+        .floor_box .row{margin:auto;}
+        .availability-unit .floor {
+    text-align: center;
+}
+ .unit_box {
+    margin-bottom: 10px;
+}
+.unitlist ul {
+    display: block;
+}
+.modal-open .modal{overflow:visible;}
+.unitlist button {
+    padding: 7px;
+    width: 7px;
+    height: 7px;
+}
+}
 </style>
 @endpush
 @extends('admin.layouts.main')
@@ -223,10 +261,10 @@ div#units{padding:30px;}
           </div>
                      @foreach($arr as $res)
            <div class="floor_box row">
-                      <h4 class="floor col-xl-3">Floor :{{$res->floor_no}}</h4>
-                      <div class="row col-xl-9">
+                      <h4 class="floor col-xs-12 col-sm-12 col-lg-3">Floor :{{$res->floor_no}}</h4>
+                      <div class="row col-xs-12 col-sm-12 col-lg-9">
                       @foreach($res['unit_name'] as $unit_name)
-            <div class="col-xl-3 unit_box">
+            <div class="col-xs-12 col-sm-4 col-lg-4 unit_box unit_box">
                             <!--begin::Tiles Widget 2-->
                             @if($unit_name->status== 'Available')
                             <div class="text-center card card-custom bg-available" >
@@ -238,7 +276,7 @@ div#units{padding:30px;}
                             <!--begin::Body-->
                            <div class="card-body d-flex flex-column p-0">
                             <!--begin::Stats-->
-                            <a href="" class="view" data-toggle="modal" data-target="#assign-leads-{{$unit_name->id}}">
+                            <a href="#" class="view" data-toggle="modal" data-target="#assign-leads-{{$unit_name->id}}">
                   <div class="flex-grow-1">
                   <div class="font-weight-bold">
                   {{$unit_name->unit_name}}
@@ -307,11 +345,13 @@ div#units{padding:30px;}
                       <p class="reserved"> Sorry the unit is reserved </p>
                       @endif
                      </div>
-                      <div class="modal-footer">
-                        @if($unit_name->status == 'Available')
+                     
+                     @if($unit_name->status == 'Available')
                         <a href="{{ route('project.brochure',$unit_name->id) }}" target="_blank"  class="btn btn-info btn-xs brochureinf  " >Download Offer</a>
                         @endif
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                      <div class="modal-footer">
+                        
                       </div>
                     </div>
                   </div>
