@@ -43,9 +43,9 @@ class ProjectDataController extends Controller
       })->orderBy('id','desc');
 
       if(!checkLeader()){
-        $data = $data->where('unit_country',1);
+        $data = $data->where('country_id',1);
       }elseif(!checkLeaderUae()){
-        $data = $data->where('unit_country',2);
+        $data = $data->where('country_id',2);
       }
       $data_count = $data->count();
       $data = $data->paginate(20);
