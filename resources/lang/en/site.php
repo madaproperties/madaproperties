@@ -525,4 +525,8 @@ return [
   'down_payment_percentage'=>'Down Payment Percentage',
   'campaign_country' => 'Campaign Country',
   'project availability'=>'Project Availability',
+  'sales_director' => 'Sales Director',
+  'sales_director_commission_received' => 'Sales Director Commission Received',
+  'sales_director_commission_percent' => 'Sales Director Commission Percent',
+  'sales_director_commission_amount' => 'Sales Director Commission Amount',
 ];
