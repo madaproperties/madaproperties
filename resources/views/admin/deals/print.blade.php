@@ -79,8 +79,8 @@
 						<td>Type:</td>
 						<td colspan="2">{{$deal->project_type}}</td>
 					
-                    </tr>
-                   	<tr>
+                    </tr>                   
+					<tr>
 						<td>Source:</td>
 						<td colspan="2">{{isset($deal->source->name) ? $deal->source->name : 'N/A'}}</td>
 					
@@ -155,6 +155,24 @@
 						      @endif
 						      </td>
 						<td>{{number_format($deal->agent2_commission_amount, 2)}}</td>
+						
+                    </tr>
+					@endif
+					@if(isset($deal->salesDirector))
+					<tr>
+						<td>Sales Director Name</td>
+						<td>{{isset($deal->salesDirector) ? explode('@',$deal->salesDirector->name)[0] : 'N/A'}}</td>
+						
+                    </tr>
+					<tr>
+						<td>
+						    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						    Sales Director Amount (SAR)
+						    @else
+						    Sales Director Amount (AED)
+						    @endif
+						    </td>
+						<td>{{$deal->sales_director_commission_amount}}</td>
 						
                     </tr>
 					@endif

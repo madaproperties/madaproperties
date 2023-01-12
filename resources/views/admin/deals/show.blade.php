@@ -513,7 +513,7 @@
 																			<select class="form-control"  name="sales_director_id">
 																			<option value="">{{ __('site.choose') }}</option>
 																			@foreach($salesDirectors as $salesDirector)
-																				<option {{$deal->agent_id == $salesDirector->id ? 'selected' : ''}} value="{{$salesDirector->id}}">{{$salesDirector->name}}</option>
+																				<option {{$deal->sales_director_id == $salesDirector->id ? 'selected' : ''}} value="{{$salesDirector->id}}">{{$salesDirector->name}}</option>
 																			@endforeach
 																			</select>
 																		</div>
