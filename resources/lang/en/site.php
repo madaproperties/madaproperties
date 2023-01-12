@@ -529,4 +529,10 @@ return [
   'sales_director_commission_received' => 'Sales Director Commission Received',
   'sales_director_commission_percent' => 'Sales Director Commission Percent',
   'sales_director_commission_amount' => 'Sales Director Commission Amount',
+  'residential'=>'Residential',
+  'commercial'=>'Commercial',
+  'sale'=>'Sale',
+  'Rent'=>'Rent',
+  
+  
 ];
