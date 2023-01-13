@@ -287,7 +287,8 @@ class ContactController extends Controller
           "last_mile_conversion"   => "nullable|max:255",
           "unit_zone"             => "nullable|max:255",
           'content' => 'nullable|max:255',
-          'lead_category' => 'nullable'
+          'lead_category' => 'nullable',
+          'campaign_country' => 'nullable'
         ]);
 
 
@@ -464,7 +465,8 @@ class ContactController extends Controller
         "unit_city"             => "nullable|max:255",
         "unit_zone"             => "nullable|max:255",
         'content' => 'nullable|max:255',
-        'lead_category' => 'nullable'
+        'lead_category' => 'nullable',
+        'campaign_country' => 'nullable'
       ]);
 
 

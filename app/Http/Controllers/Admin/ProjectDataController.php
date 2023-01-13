@@ -43,9 +43,9 @@ class ProjectDataController extends Controller
       })->orderBy('id','desc');
 
       if(!checkLeader()){
-        $data = $data->where('unit_country',1);
+        $data = $data->where('country_id',1);
       }elseif(!checkLeaderUae()){
-        $data = $data->where('unit_country',2);
+        $data = $data->where('country_id',2);
       }
       $data_count = $data->count();
       $data = $data->paginate(20);
@@ -288,43 +288,56 @@ class ProjectDataController extends Controller
   // added by fazal
   public function newWeb(){
     if(auth()->id()){
-      if(!checkLeader()){
-        $data = ProjectData::where('country_id',1)->orderBy('id','desc')->groupBy('project_id')->paginate(20);
-        $data_count = ProjectData::where('country_id',1)->groupBy('project_id')->count();
-      }elseif(!checkLeaderUae()){
-        $data = ProjectData::where('country_id',2)->orderBy('id','desc')->groupBy('project_id')->paginate(20);
-        $data_count = ProjectData::where('country_id',2)->groupBy('project_id')->count();
-      }elseif(userRole()=='sales director'){
-        $user_loc=User::where('id',auth()->id())->first();
-        if($user_loc->time_zone=='Asia/Riyadh')
-        {
-        $data = ProjectData::where('country_id',1)->orderBy('id','desc')->paginate(20);
-        $data_count = ProjectData::where('country_id',1)->count();
-        }
-        else
-        {
-        $data = ProjectData::where('country_id',2)->orderBy('id','desc')->paginate(20);
-        $data_count = ProjectData::where('country_id',2)->count();  
+        if(!checkLeader()){
+          $data = ProjectData::where('country_id',1)->orderBy('id','desc')->groupBy('project_id')->paginate(20);
+          $data_count = ProjectData::where('country_id',1)->groupBy('project_id')->count();
+        }elseif(!checkLeaderUae()){
+          $data = ProjectData::where('country_id',2)->orderBy('id','desc')->groupBy('project_id')->paginate(20);
+          $data_count = ProjectData::where('country_id',2)->groupBy('project_id')->count();
+        }elseif(userRole()=='sales director'){
+          $user_loc=User::where('id',auth()->id())->first();
+          if($user_loc->time_zone=='Asia/Riyadh')
+          {
+          $data = ProjectData::where('country_id',1)->orderBy('id','desc')->paginate(20);
+          $data_count = ProjectData::where('country_id',1)->count();
+          }
+          else
+          {
+          $data = ProjectData::where('country_id',2)->orderBy('id','desc')->paginate(20);
+          $data_count = ProjectData::where('country_id',2)->count();  
+          }
+        }else{
+          $data = ProjectData::orderBy('id','desc')->groupBy('project_id')->paginate(20);
+          $data_count = ProjectData::count();
         }
       }else{
         $data = ProjectData::orderBy('id','desc')->groupBy('project_id')->paginate(20);
         $data_count = ProjectData::count();
       }
-    }else{
-      $data = ProjectData::orderBy('id','desc')->groupBy('project_id')->paginate(20);
-      $data_count = ProjectData::count();
+      return view('admin.projectdata.webindex',compact('data','data_count'));
     }
-    return view('admin.projectdata.webindex',compact('data','data_count'));
-  }
-  
-  public function View($id){
-    $unit_count=ProjectData::where('project_id',$id)->count();
-    $project_id=$id;
-    $arr= ProjectData::where('project_id',$id)->where('floor_no','!=', " " )->groupBy('floor_no')->get();
-    foreach($arr as $key=>$data){
+
+    public function View($id)
+    {
+     
+     $unit_count=ProjectData::where('project_id',$id)->count();
+     $project_id=$id;
+     $arr= ProjectData::where('project_id',$id)->where('floor_no','!=', " " )->orderBy('floor_no','asc')->groupBy('floor_no')->get();
+     foreach($arr as $key=>$data){
       $arr[$key]['unit_name']=ProjectData::where('project_id',$id)->where('floor_no',$data->floor_no)->get();
-    }
-    $project_name=ProjectName::where('id',$id)->first();
-    return view('admin.projectdata.view',compact('unit_count','project_id','arr','project_name'));
-  }
+     }
+     $project_name=ProjectName::where('id',$id)->first();
+     $available=ProjectData::where('project_id',$id)->where('status','=','Available')->count();
+     $sold_out=ProjectData::where('project_id',$id)->where('status','Sold out')->count();
+     $reserved=ProjectData::where('project_id',$id)->where('status','Reserved')->count();
+     $total=ProjectData::where('project_id',$id)->count();
+     $image=ProjectData::where('project_id',$id)->first();
+     return view('admin.projectdata.view',compact('unit_count','project_id','arr','project_name','available','sold_out','reserved','total','image'));
+   }  
+
+  public function getPupUpByAjax(Request $request){
+    $unit_name=ProjectData::find($request->get('id'));
+    return view('admin.projectdata.viewModal',compact('unit_name'));
+  }  
+
 }

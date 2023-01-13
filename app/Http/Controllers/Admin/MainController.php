@@ -478,6 +478,7 @@ class MainController extends Controller
           ->where('user_id', auth()->id())
           ->where(function ($q){
               $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
+                ->OrWhere('id','LIKE','%'. Request('search') .'%')
                 ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
                 ->OrWhere('email','LIKE','%'. Request('search') .'%')
                 ->OrWhere('phone','LIKE','%'. Request('search') .'%')
@@ -494,6 +495,7 @@ class MainController extends Controller
       return $q->where('status_id',Request('filter_status'))
         ->where(function ($q){
           $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
+            ->OrWhere('id','LIKE','%'. Request('search') .'%')
             ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
             ->OrWhere('email','LIKE','%'. Request('search') .'%')
             ->OrWhere('phone','LIKE','%'. Request('search') .'%')
@@ -521,6 +523,7 @@ class MainController extends Controller
         return $q->where('user_id',auth()->id())
           ->where(function ($q){
             $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
+              ->OrWhere('id','LIKE','%'. Request('search') .'%')
               ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
               ->OrWhere('phone','LIKE','%'. Request('search') .'%')
               ->OrWhere('email','LIKE','%'. Request('search') .'%')
@@ -584,6 +587,7 @@ class MainController extends Controller
       $uri = Request()->fullUrl();
       session()->put('start_filter_url',$uri);
       return $q->where('first_name','LIKE','%'. Request('search') .'%')
+              ->OrWhere('id','LIKE','%'. Request('search') .'%')              
               ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
               ->OrWhere('phone','LIKE','%'. Request('search') .'%')
               ->OrWhere('email','LIKE','%'. Request('search') .'%')

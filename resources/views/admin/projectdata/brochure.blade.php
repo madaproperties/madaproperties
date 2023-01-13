@@ -132,6 +132,7 @@ margin: 0px;
 .features{
     list-style: none;
 }
+.mada_table tr th{font-size:16px;}
 
 p{	
 font-size:14px !important; line-height:12px; font-family: Arial, Helvetica, sans-serif !important; line-height:17px; margin-top:17px; color:#000 !important;
@@ -311,7 +312,7 @@ td.center span {
         					
         						<th style="color:#000;font-weight:bold;width: 200px; background-color: #9FCE31;padding: 5px;" >Down Payment {{$project->down_payment_percentage}}%</th>
         						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">{{$project->down_payment}}*</th>
-        						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">دفعة أولى  {{$project->down_payment_percentage}}%</th
+        						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;direction:rtl;padding: 5px;">دفعة أولى  {{$project->down_payment_percentage}}%</th
         						
         						
         						>

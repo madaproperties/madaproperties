@@ -159,7 +159,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 												  </div>
 								      </div>
 								      <div class="modal-footer">
-												<button type="submit" form="import-data-form" class="btn btn-primary">Uplode</button>
+												<button type="submit" form="import-data-form" class="btn btn-primary">Upload</button>
 								        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 								      </div>
 								    </div>
@@ -232,7 +232,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button style="margin: 5px;" class="btn btn-info btn-xs assign-all" data-url="">
-                          Assing
+                          Assign
                         </button>
                       </div>
                     </div>
@@ -269,6 +269,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
                     @if(userRole() != 'sales')
 										<th><input type="checkbox" id="check_all"></th>
                     @endif
+										<th>ID</th>
 										<th>{{__('site.Name')}}</th>
 										<th>{{__('site.Phone')}}</th>
 										<th>{{__('site.country')}} </th>
@@ -296,6 +297,9 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
     <td><input type="checkbox" class="checkbox" data-id="{{$contact->id}}"></td>
     @endif
 
+											<td><a class="text-dark" href="{{route('admin.contact.show',$contact->id)}}">
+                        {{$contact->id}}</a>
+                      </td>
 											<td><a class="text-dark" href="{{route('admin.contact.show',$contact->id)}}">
                         {{$contact->fullname}}</a>
                       </td>

@@ -115,13 +115,13 @@
 @push('js')
 <script>
 	$(`#from-date,#lastupdatefrom-date`).datepicker({
-    //format: 'dd/mm/yyyy',
+    format: 'dd/mm/yyyy',
     todayHighlight:'TRUE',
     autoclose: true,
   });
 
   $(`#to-date,#lastupdateto-date`).datepicker({
-		//format: 'dd/mm/yyyy',
+	format: 'dd/mm/yyyy',
     todayHighlight:'TRUE',
     autoclose: true,
   });

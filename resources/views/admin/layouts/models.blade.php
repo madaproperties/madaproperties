@@ -527,6 +527,23 @@
                       </div>
                     </div>
                     <!--end::Group-->
+
+                            <!--begin::Group-->
+                            <div class="form-group row fv-plugins-icon-container">
+                                <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.campaign_country')}}</label>
+                                <div class="col-lg-9 col-xl-9">
+                                  <select class="form-control"  name="campaign_country" tabindex="-1" aria-hidden="true">
+                                    <option value="">{{ __('site.choose') }}</option>
+                                    @foreach($countries as $country)
+                                      <option data-code="{{$country->code}}" {{$contact->campaign_country == $country->id ? 'selected' : ''}}
+                                      value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>
+                                    @endforeach
+                                  </select>
+
+                                </div>
+                              </div>
+																			<!--end::Group-->
+
                     <!--begin::Group-->
                     <div class="form-group row fv-plugins-icon-container">
                       <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.source')}}</label>

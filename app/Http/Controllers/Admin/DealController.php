@@ -117,16 +117,16 @@ class DealController extends Controller
 
     if(!checkLeader()){
       $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
-        $q->where('rule','sales')->orWhere('rule','leader');
+        $q->whereIn('rule',['sales','leader','sales director']);
       })
     ->where('active','1')->get();
     }elseif(!checkLeaderUae()){
       $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
-        $q->where('rule','sales')->orWhere('rule','leader');
+        $q->whereIn('rule',['sales','leader','sales director']);
       })
     ->where('active','1')->get();
     }else{
-      $sellers = User::where('rule','sales')->orWhere('rule','leader')
+      $sellers = User::whereIn('rule',['sales','leader','sales director'])
     ->where('active','1')->get();
     }
 
@@ -242,6 +242,10 @@ class DealController extends Controller
       __('site.agent2_leader_commission_percent'),
       __('site.agent2_leader_commission_amount'),
       __('site.agent2_leader_commission_received'),
+      __('site.sales_director'),
+      __('site.sales_director_commission_percent'),
+      __('site.sales_director_commission_amount'),
+      __('site.sales_director_commission_received'),
       __('site.third_party'),
       __('site.third_party_amount'),
       __('site.third_party_name'),
@@ -322,18 +326,36 @@ class DealController extends Controller
 
       if(!checkLeader()){
         $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
-          $q->where('rule','sales')->orWhere('rule','leader');
+          $q->whereIn('rule',['sales','leader','sales director']);
         })
       ->where('active','1')->orderBy('email')->get();
-      }elseif(!checkLeaderUae()){
+      
+      $salesDirectors = User::where('time_zone','Asia/Riyadh')->where(function($q){
+        $q->whereIn('rule',['sales director']);
+      })
+      ->where('active','1')->orderBy('email')->get();
+
+    }elseif(!checkLeaderUae()){
         $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
-          $q->where('rule','sales')->orWhere('rule','leader');
+          $q->whereIn('rule',['sales','leader','sales director']);
         })
       ->where('active','1')->orderBy('email')->get();
-      }else{
-        $sellers = User::where('rule','sales')->orWhere('rule','leader')
+
+      $salesDirectors = User::where('time_zone','Asia/Dubai')->where(function($q){
+        $q->whereIn('rule',['sales director']);
+      })
       ->where('active','1')->orderBy('email')->get();
-      }
+
+    }else{
+        $sellers = User::whereIn('rule',['sales','leader','sales director'])
+      ->where('active','1')->orderBy('email')->get();
+
+      $salesDirectors = User::where(function($q){
+        $q->whereIn('rule',['sales director']);
+      })
+      ->where('active','1')->orderBy('email')->get();
+
+    }
   
       if(!checkLeader()){
         $leaders = User::where('rule','leader')
@@ -356,7 +378,7 @@ class DealController extends Controller
 
 
       return view('admin.deals.create',
-      compact('projects','miles','countries','currencies','purpose','purposetype','campaigns','contents','sources','mediums','sellers','leaders','developer'));
+      compact('salesDirectors','projects','miles','countries','currencies','purpose','purposetype','campaigns','contents','sources','mediums','sellers','leaders','developer'));
   }
 
   /**
@@ -415,6 +437,10 @@ class DealController extends Controller
         "agent2_commission_received"       => "nullable",
         "agent_leader_commission_received"       => "nullable",
         "agent2_leader_commission_received"       => "nullable",
+        "sales_director_id"       => "nullable",
+        "sales_director_commission_percent" => "nullable",
+        "sales_director_commission_amount"  => "nullable",
+        "sales_director_commission_received"  => "nullable",
         "mada_commission_received"       => "nullable",
         "third_party_commission_received"=>"nullable",
         "notes"       => "nullable",
@@ -501,6 +527,10 @@ class DealController extends Controller
       "agent2_commission_received"       => "nullable",
       "agent_leader_commission_received"       => "nullable",
       "agent2_leader_commission_received"       => "nullable",
+      "sales_director_id"       => "nullable",
+      "sales_director_commission_percent" => "nullable",
+      "sales_director_commission_amount"  => "nullable",
+      "sales_director_commission_received"  => "nullable",
       "mada_commission_received"       => "nullable",
       "third_party_commission_received" => "nullable",
       "notes"       => "nullable",
@@ -577,21 +607,39 @@ class DealController extends Controller
         $purpose[0] = 'buy';
     }
 
+   
     if(!checkLeader()){
       $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
-        $q->where('rule','sales')->orWhere('rule','leader');
+        $q->whereIn('rule',['sales','leader','sales director']);
       })
     ->where('active','1')->orderBy('email')->get();
-    }elseif(!checkLeaderUae()){
-      $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
-        $q->where('rule','sales')->orWhere('rule','leader');
-      })
+    
+    $salesDirectors = User::where('time_zone','Asia/Riyadh')->where(function($q){
+      $q->whereIn('rule',['sales director']);
+    })
     ->where('active','1')->orderBy('email')->get();
-    }else{
-      $sellers = User::where('rule','sales')->orWhere('rule','leader')
-    ->where('active','1')->orderBy('email')->get();
-    }
 
+  }elseif(!checkLeaderUae()){
+      $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
+        $q->whereIn('rule',['sales','leader','sales director']);
+      })
+    ->where('active','1')->orderBy('email')->get();
+
+    $salesDirectors = User::where('time_zone','Asia/Dubai')->where(function($q){
+      $q->whereIn('rule',['sales director']);
+    })
+    ->where('active','1')->orderBy('email')->get();
+
+  }else{
+      $sellers = User::whereIn('rule',['sales','leader','sales director'])
+    ->where('active','1')->orderBy('email')->get();
+
+    $salesDirectors = User::where(function($q){
+      $q->whereIn('rule',['sales director']);
+    })
+    ->where('active','1')->orderBy('email')->get();
+
+  }
     if(!checkLeader()){
       $leaders = User::where('rule','leader')
       ->where('active','1')->where('time_zone','Asia/Riyadh')->orderBy('email')->get();
@@ -615,7 +663,7 @@ class DealController extends Controller
 
 
     return view('admin.deals.show',
-    compact('deal','projects','miles','countries','currencies','purpose','purposetype','sellers','leaders','developer','sources'));
+    compact('salesDirectors','deal','projects','miles','countries','currencies','purpose','purposetype','sellers','leaders','developer','sources'));
 
   }  
 
@@ -758,16 +806,16 @@ class DealController extends Controller
 
     if(!checkLeader()){
       $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
-        $q->where('rule','sales')->orWhere('rule','leader');
+        $q->whereIn('rule',['sales','leader','sales director']);
       })
     ->where('active','1')->get();
     }elseif(!checkLeaderUae()){
       $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
-        $q->where('rule','sales')->orWhere('rule','leader');
+        $q->whereIn('rule',['sales','leader','sales director']);
       })
     ->where('active','1')->get();
     }else{
-      $sellers = User::where('rule','sales')->orWhere('rule','leader')
+      $sellers = User::whereIn('rule',['sales','leader','sales director'])
     ->where('active','1')->get();
     }
 
@@ -839,6 +887,10 @@ class DealController extends Controller
       __('site.agent2_leader_commission_percent'),
       __('site.agent2_leader_commission_amount'),
       __('site.agent2_leader_commission_received'),
+      __('site.sales_director'),
+      __('site.sales_director_commission_percent'),
+      __('site.sales_director_commission_amount'),
+      __('site.sales_director_commission_received'),
       __('site.third_party'),
       __('site.third_party_amount'),
       __('site.third_party_name'),

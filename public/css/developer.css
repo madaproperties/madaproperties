@@ -76,3 +76,6 @@ div.span,label,h3,button,a, .menu-text, .dropdown-menu{
 .page-button{
 	margin-top:5px;
 }
+.blue-label{
+	color:blue !important;
+}

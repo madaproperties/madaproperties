@@ -58,6 +58,10 @@ class Deal extends Model
     {
       return $this->belongsTo(DealDeveloper::class,'developer_id');
     }
+    public function salesDirector()
+    {
+      return $this->belongsTo(User::class,'sales_director_id');
+    }
 
 
 }

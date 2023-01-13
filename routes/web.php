@@ -41,6 +41,7 @@ Route::get('employee','EmployeeController@index')->name('employee.index');
 // unit listing :added by fazal
 Route::get('new-web','Admin\ProjectDataController@newWeb')->name('projcets.newweb'); 
 Route::get('projectdata/view/{id}','Admin\ProjectDataController@View')->name('projectdata.view');
+Route::post('projectdata/getPupUpByAjax','Admin\ProjectDataController@getPupUpByAjax')->name('projectdata.getPupUpByAjax');
 // end
 
 use App\Contact;

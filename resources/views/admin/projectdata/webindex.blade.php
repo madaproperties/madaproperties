@@ -13,10 +13,10 @@
 .card:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
-
+.content .flex-column-fluid{flex:1;}
 img {
   border-radius: 5px 5px 0 0;
-  style="width:100%;height: 100%;
+  width:100%;height:auto;
 }
 .web-project{
     font-size: 22px;
@@ -32,6 +32,18 @@ img {
   {
     margin-bottom: 20px;
   }
+  
+       @media screen and (max-width: 979px) {
+img {
+  width:100%;height:auto;
+}
+}
+  
+      @media screen and (max-width: 768px) {
+img {
+  width:100%;height:auto;
+}
+}
 
     </style>
 @endpush
@@ -46,7 +58,7 @@ img {
        <div class="container">
         <div class="row">
        @foreach($data as $datas)
-      <div class="col-md-4 webcard">
+      <div class="col-xs-12 col-sm-4 col-lg-4 webcard">
         <div class="card" >
           @if(($datas->project) && !empty($datas->project->image))
   <img src="{{ asset('public/uploads/projectData/'.$datas->project->image)}}" alt="Avatar">

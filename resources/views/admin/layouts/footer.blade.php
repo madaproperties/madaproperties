@@ -87,6 +87,7 @@
   </div>
 </div>
 </div>
+  <div class="modal fade" id="assign-leads" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
 
   <!--end::Demo Panel-->
 
