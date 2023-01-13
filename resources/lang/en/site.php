@@ -434,7 +434,7 @@ return [
   "treason" => 'treason',
   "tdate" => 'tdate',
   "passport_emirates_id" => 'passport emirates',
-  "title_deed" => 'title deed',
+  "title_deed" => 'Title deed',
   "forma_noc_slform" => 'forma noc slform',
   'description'   => 'description',
   'basic'   => 'basic',
@@ -533,6 +533,14 @@ return [
   'commercial'=>'Commercial',
   'sale'=>'Sale',
   'Rent'=>'Rent',
+  'property_details'=>'Property details',
+  'media'=>'Media',
+  'Specifications'=>'Specifications',
+  'Select Amenities'=>'Select Amenities',
+  'Furnishing_type'=>'Furnishing type',
+  'property_developer'=>'Property developer',
+  'SQFT'=>'SQFT',
+  'others'=>'others',
   
   
 ];

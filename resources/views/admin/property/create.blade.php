@@ -2,7 +2,7 @@
 @section('content')
 
 <!--begin::Content-->
-<div class="d-flex flex-column flex-column-fluid" id="kt_content">
+<div class="d-flex flex-column flex-column-fluid property_form" id="kt_content">
 	<!--begin::Entry-->
 	<div class="d-flex flex-column-fluid">
 		<div class="container">
@@ -82,14 +82,6 @@
 																<span class="nav-text">{{__('site.verification')}}</span>
 															</a>
 														</li>
-														<li class="nav-item">
-															<a class="nav-link" id="others-tab" data-toggle="tab" href="#others" aria-controls="verification">
-																<span class="nav-icon">
-																	<i class="fa fa-barcode"></i>
-																</span>
-																<span class="nav-text">{{__('site.others')}}</span>
-															</a>
-														</li>
 													</ul>
 													
 												<div class="col-xl-12 col-xxl-12">
@@ -112,8 +104,10 @@
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">	
 																				<div class="col-xl-2 text-center">
-																				<i class="fa fa-check"><input class="form-control" name="vat_received" type="radio" value="0" checked>
-																				</i>
+																				<label class="col-form-label w-100 text-center">
+																				<span class="check">
+																				<input class="form-control radio" name="vat_received" type="radio" value="0" checked>
+<i class="fa fa-check"></i></span>
 																				<svg class="property_icons w-100" fill="#000000" height="60px" width="60px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 	 viewBox="0 0 512.213 512.213" xml:space="preserve">
 <g transform="translate(0 1)">
@@ -149,19 +143,26 @@
 	</g>
 </g>
 </svg>
-<label class="col-form-label w-100 text-center">{{__('site.residential')}}</label>
+{{__('site.residential')}}</label>
+
 </div>
 																				
 																				<div class="col-xl-2 text-center">
-																				<i class="fa fa-check"><input class="form-control" name="vat_received" type="radio" value="1">
-																				</i>
+																				<label class="col-form-label w-100 text-center">
+																				<span class="check">
+																				<input class="form-control radio" name="vat_received" type="radio" value="1">
+																				<i class="fa fa-check"></i></span>
 																				<svg class="w-100" fill="#000000" width="60px" height="60px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M 10 3.8828125 L 3 7.3828125 L 3 28 L 17 28 L 29 28 L 29 10 L 17 10 L 17 7.3828125 L 10 3.8828125 z M 10 6.1171875 L 15 8.6171875 L 15 26 L 5 26 L 5 8.6171875 L 10 6.1171875 z M 7 10 L 7 12 L 9 12 L 9 10 L 7 10 z M 11 10 L 11 12 L 13 12 L 13 10 L 11 10 z M 17 12 L 27 12 L 27 26 L 17 26 L 17 12 z M 7 14 L 7 16 L 9 16 L 9 14 L 7 14 z M 11 14 L 11 16 L 13 16 L 13 14 L 11 14 z M 19 14 L 19 16 L 21 16 L 21 14 L 19 14 z M 23 14 L 23 16 L 25 16 L 25 14 L 23 14 z M 7 18 L 7 20 L 9 20 L 9 18 L 7 18 z M 11 18 L 11 20 L 13 20 L 13 18 L 11 18 z M 19 18 L 19 20 L 21 20 L 21 18 L 19 18 z M 23 18 L 23 20 L 25 20 L 25 18 L 23 18 z M 7 22 L 7 24 L 9 24 L 9 22 L 7 22 z M 11 22 L 11 24 L 13 24 L 13 22 L 11 22 z M 19 22 L 19 24 L 21 24 L 21 22 L 19 22 z M 23 22 L 23 24 L 25 24 L 25 22 L 23 22 z"/></svg>
-																				<label class="col-form-label w-100 text-center">{{__('site.commercial')}}</label>
-																				</div>
+																				{{__('site.commercial')}}
+																				</label>	
+																			</div>
 																			
 																				<div class="col-xl-2 text-center">
-																				<i class="fa fa-check">	<input class="form-control" name="sale_rent" type="radio" value="1" checked>
-</i>
+																				<label class="col-form-label w-100 text-center">
+																				<span class="check">
+<input class="form-control radio" name="sale_rent" type="radio" value="1" checked>
+<i class="fa fa-check">	
+</i></span>
 																				<svg class="w-100" fill="#000000" height="60px" width="60px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 	 viewBox="0 0 285 285" xml:space="preserve">
 <g>
@@ -191,11 +192,16 @@
 	</g>
 </g>
 </svg>
-																				<label class="col-form-label w-100 text-center">{{__('site.sale')}}</label>
+{{__('site.sale')}}
+
+																				</label>
 																				</div>
 																				<div class="col-xl-2 text-center">
-																				<i class="fa fa-check"><input class="form-control" name="sale_rent" type="radio" value="2">
-</i>
+																				<label class="col-form-label w-100 text-center">
+																				<span class="check">
+																				<input class="form-control radio" name="sale_rent" type="radio" value="2">
+																				<i class="fa fa-check">
+																				</i></span>
 																				<svg class="w-100" fill="#000000" height="60px" width="60px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 	 viewBox="0 0 512 512" xml:space="preserve">
 <g>
@@ -234,13 +240,14 @@
 			H435.2v38.4H179.191V64z M486.4,128v204.8H128V128H486.4z"/>
 	</g>
 </g>
-</svg>
-																				<label class="col-form-label w-100 text-center">{{__('site.rent')}}</label>
+</svg>			
+{{__('site.rent')}}
+																</label>
 																				</div>
 																			</div>
-																			<!--end::Group-->
 																		</div>
 																	</div>
+																	
 																</div>
 																<div class="row col-xl-12 card mt-5">
 																	<div class="col-xl-12">
@@ -255,127 +262,100 @@
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.title_deed')}}</label>
-																				<div class="col-lg-10 col-xl-10">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<input class="form-control form-control-solid form-control-lg" 	name="title_deed" type="text" value="{{old('title_deed')}}" placeholder="{{__('site.title_deed')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
-																			</div>
-																			<!--end::Group-->		
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.category')}}</label>
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select class="form-control"  name="category_id" required>
-																						<option value="" >{{ __('site.choose') }}</option>
+																						<option value="" >{{ __('site.category') }}</option>
 																						@foreach($categories as $category)
 																						<option {{ old('category_id') == $category->id ? 'selected' : ''}} value="{{$category->id}}">{{$category->category_name}}</option>
 																						@endforeach
 																					</select>
 																				</div>
-
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.plot')}}</label>
-																				<div class="col-lg-4 col-xl-4">
-																					<input class="form-control form-control-solid form-control-lg" 	name="plot_size" type="text" value="{{old('plot_size')}}" placeholder="{{__('site.SQFT')}}">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<input class="form-control form-control-solid form-control-lg" 	name="plot_size" type="text" value="{{old('plot_size')}}" placeholder="{{__('site.plot')}}">
+																					<span class="suffix-text">sqft</span>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
-																			<!--end::Group-->		
+														
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.bedrooms')}}</label>
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="bedrooms" id="bedrooms" class="form-control">
+																					<option value="" >{{ __('site.bedrooms') }}</option>
 																						{!! selectOptions(__('config.bedrooms'),old('bedrooms')) !!}	
 																					</select>
 																				</div>
-																			
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.Baths')}}</label>
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="bathrooms" id="bathrooms" class="form-control">
+																					<option value="" >{{ __('site.Baths') }}</option>
 																						{!! selectOptions(__('config.bathrooms'),old('bathrooms')) !!}	
 																					</select>
 																				</div>
-																			</div>
-																			<!--end::Group-->
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.parking')}}</label>
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="parking_areas" id="parking_areas" class="form-control">
+																					<option value="" >{{ __('site.parking') }}</option>
 																						{!! selectOptions(__('config.parking_areas'),old('parking_areas')) !!}
 																					</select>
 																				</div>
-																			
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.parking_type')}}</label>
-																				<div class="col-lg-4 col-xl-4">
+																			</div>
+																			<!--end::Group-->
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="parking_type" id="parking_type" class="form-control">
+																					<option value="" >{{ __('site.parking_type') }}</option>
 																						{!! selectOptions(__('config.parking_type'),old('parking_type')) !!}
 																					</select>
 																				</div>
-																			</div>
-																			<!--end::Group-->		
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																			
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.furnishing_type')}}</label>
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="fitted" id="fitted" class="form-control">
+																					<option value="" >{{ __('site.Furnishing_type') }}</option>
 																						{!! selectOptions(__('config.fitted'),old('fitted')) !!}
 																					</select>
 																				</div>
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.property_developer')}}</label>
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<input class="form-control form-control-solid form-control-lg" 	name="developer" type="text" value="{{old('developer')}}" placeholder="{{__('site.developer')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
-																			
-																				
 																			</div>
-																			<!--end::Group-->	
+																			<!--end::Group-->		
                                                                             <!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.floor')}}</label>
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<input class="form-control form-control-solid form-control-lg" 	name="floor" type="text" value="{{old('floor')}}" placeholder="{{__('site.floor')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
-																			
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.stage')}}</label>
-																				<div class="col-lg-4 col-xl-4">
-																					<select name="stage" id="stage" class="form-control">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<select name="stage" id="stage" class="form-control">	
+																					<option value="" >{{ __('site.stage') }}</option>
 																					{!! selectOptions(__('config.stage'),old('stage')) !!}	
+																					</select>
+																				</div>
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<select name="project_status" id="project_status" class="form-control">
+																					<option value="" >{{ __('site.offplan') }}</option>
+																						{!! selectOptions(__('config.project_status'),old('project_status')) !!}
 																					</select>
 																				</div>
 																			</div>
 																			<!--end::Group-->	
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.offplan')}}</label>
-																				<div class="col-lg-4 col-xl-4">
-																					<select name="project_status" id="project_status" class="form-control">
-																						{!! selectOptions(__('config.project_status'),old('project_status')) !!}
-																					</select>
-																				</div>
-																			
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.Furnished')}}</label>
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="furnished" id="furnished" class="form-control">
+																					<option value="" >{{ __('site.Furnished') }}</option>
 																						{!! selectOptions(__('config.furnished'),old('furnished')) !!}																					
 																					</select>
 																				</div>
-																			</div>
-																			<!--end::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.dewa')}}</label>
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<input class="form-control form-control-solid form-control-lg" 	name="dewa" type="text" value="{{old('dewa')}}" placeholder="{{__('site.dewa')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.maint_fee')}}</label>
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<input class="form-control form-control-solid form-control-lg" 	name="maint_fee" type="text" value="{{old('maint_fee')}}" placeholder="{{__('site.maint_fee')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
@@ -384,30 +364,48 @@
 																			
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.unit_meas')}}</label>
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="measure_unit" id="measure_unit" class="form-control">
+																					<option value="" >{{ __('site.unit_meas') }}</option>
 																						{!! selectOptions(__('config.measure_unit'),old('measure_unit')) !!}
 																					</select>
 																				</div>
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.bua')}}</label>
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<input class="form-control form-control-solid form-control-lg" 	name="buildup_area" type="text" value="{{old('buildup_area')}}" placeholder="{{__('site.bua')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
-																			</div>
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.managed')}}</label>
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="is_managed" id="is_managed" class="form-control">
+																					<option value="" >{{ __('site.managed') }}</option>
 																						{!! selectOptions(__('config.yes_no'),old('is_managed')) !!}
 																					</select>
 																				</div>
 																			</div>
-																			<!--end::Group-->
-																			<!--end::Group-->
-																			<!--end::Group-->																							
+																			<!--end::Group-->		
+																			<!--start::Group-->	
+																			<div class="form-group row fv-plugins-icon-container">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<select class="form-control" name="source_id">
+																						<option value="">{{ __('site.source') }}</option>
+																						@foreach($sources as $source)
+																						<option {{old('source_id') == $source->id ? 'selected' : ''}} value="{{$source->id}}">{{$source->name}}</option>
+																						@endforeach      
+																					</select>
+																				</div>
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<select class="form-control" name="campaign_id">
+																						<option value="">{{__('site.campaign')}}</option>
+																						@foreach($campaigns as $campaign)
+																						<option {{ old('campaign_id') == $campaign->id ? 'selected' : ''}} value="{{$campaign->id}}">{{$campaign->name}}</option>
+																						@endforeach
+																					</select>
+																				</div>
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<input class="form-control form-control-solid form-control-lg" 	name="deposit" type="text" value="{{old('deposit')}}" placeholder="{{__('site.Deposit')}}">
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																			</div>		
+																			<!--end::Group-->																				
 																		</div>
 																	</div>
 																</div>
@@ -422,14 +420,16 @@
 																			<!--end::Group-->					
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.price')}}</label>
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<input class="form-control form-control-solid form-control-lg" 	name="price" type="text" value="{{old('price')}}" placeholder="{{__('site.price')}}" required>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.rent_price')}}</label>
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<input class="form-control form-control-solid form-control-lg" 	name="rent_price" type="text" value="{{old('rent_price')}}" placeholder="{{__('site.rent_price')}}">
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<input class="form-control form-control-solid form-control-lg" 	name="price_unit" type="text" value="{{old('price_unit')}}" placeholder="{{__('site.price_unit')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -437,14 +437,10 @@
 																			
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.Price_Area')}}</label>
-																				<div class="col-lg-4 col-xl-4">
-																					<input class="form-control form-control-solid form-control-lg" 	name="price_unit" type="text" value="{{old('price_unit')}}" placeholder="{{__('site.price_unit')}}">
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.Cheques')}}</label>
-																				<div class="col-lg-4 col-xl-4">
+																				
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="cheques" id="cheques" class="form-control">
+																					<option value="" >{{ __('site.Cheques') }}</option>
 																						{!! selectOptions(__('config.cheques'),old('cheques')) !!}		
 																					</select>
 																				</div>
@@ -465,18 +461,18 @@
 																			<!--end::Group-->					
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#features_modal_unit">
 																					{{__('site.unit_features')}} <i class="fa fa-menu"></i>
                   																	</button>
 																				</div>
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#features_modal_dev">
 																					{{__('site.dev_feature')}} <i class="fa fa-menu"></i>
                   																	</button>
 																				</div>
 																			
-																				<div class="col-lg-4 col-xl-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#features_modal_life_style">
 																					{{__('site.lifestyle')}} <i class="fa fa-menu"></i>
                   																	</button>
@@ -502,9 +498,8 @@
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.title')}}(English)</label>
 																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="title" type="text" value="{{old('title')}}" placeholder="{{__('site.title')}}" required>
+																					<input class="form-control form-control-solid form-control-lg" 	name="title" type="text" value="{{old('title')}}" placeholder="{{__('site.title')}}(English)" required>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -512,18 +507,16 @@
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.description')}}(English)</label>
 																				<div class="col-lg-9 col-xl-9">
-																					<textarea class="form-control form-control-solid form-control-lg" id="description" rows="10" name="description" type="text" placeholder="{{__('site.description')}}">{!!old('description')!!}</textarea>
+																					<textarea class="form-control form-control-solid form-control-lg" id="description" rows="10" name="description" type="text" placeholder="{{__('site.description')}}(English)">{!!old('description')!!}</textarea>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
 																			<!--end::Group-->
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.title')}}(Arabic)</label>
 																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="title" type="text" value="{{old('title')}}" placeholder="{{__('site.title')}}" required>
+																					<input class="form-control form-control-solid form-control-lg" 	name="title" type="text" value="{{old('title')}}" placeholder="{{__('site.title')}}(Arabic)" required>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -531,9 +524,8 @@
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.description')}}(Arabic)</label>
 																				<div class="col-lg-9 col-xl-9">
-																					<textarea class="form-control form-control-solid form-control-lg" id="description2" rows="10" name="description" type="text" placeholder="{{__('site.description')}}">{!!old('description')!!}</textarea>
+																					<textarea class="form-control form-control-solid form-control-lg" id="description2" rows="10" name="description" type="text" placeholder="{{__('site.description')}}(Arabic)">{!!old('description')!!}</textarea>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -551,8 +543,9 @@
 																		
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-8 col-lg-8 col-form-label">{{__('site.photos')}} ({{__('site.can attach more than one')}})</label>
-																				<div class="col-lg-4 col-xl-4">
+																				
+																				<label class="col-xs-12 col-sm-3 col-lg-3 col-form-label">{{__('site.photos')}} ({{__('site.can attach more than one')}})</label>
+																				<div class="col-xs-12 col-sm-3 col-lg-3">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#image_uploader">
                     																	Add Images <i class="fa fa-image"></i>
                   																	</button>
@@ -560,13 +553,8 @@
 																					<!-- <input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="photos[]" multiple>
 																					<div class="fv-plugins-message-container"></div> -->
 																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-8 col-lg-8 col-form-label">{{__('site.documents')}} ({{__('site.can attach more than one')}})</label>
-																				<div class="col-lg-4 col-xl-4">
+																				<label class="col-xs-12 col-sm-3 col-lg-3 col-form-label">{{__('site.documents')}} ({{__('site.can attach more than one')}})</label>
+																				<div class="col-xs-12 col-sm-3 col-lg-3">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#document_uploader">
                     																	Add Documents <i class="fa fa-folder"></i>
                   																	</button>
@@ -609,64 +597,6 @@
 																			
 																		</div>
 																	</div>
-
-																	<div class="col-xl-6">
-																		<!--begin::Wizard Step 1-->
-																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-																		
-																			
-																		@if(userRole() == 'admin' || userRole() == 'sales admin uae')
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.agent')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<select class="form-control" name="user_id">
-																						<option value="">{{__('site.choose')}}</option>
-																						@foreach($sellers as $seller)
-																						<option {{ old('user_id') == $seller->id ? 'selected':  '' }} value="{{$seller->id}}">{{$seller->name}}</option>
-																						@endforeach
-																					</select>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-																		@endif
-
-
-																			
-
-																			
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.portals')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#portals_modal">
-                    																	Add portals <i class="fa fa-menu"></i>
-                  																	</button>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			
-																		</div>
-																	</div>
-																	<div class="col-xl-6">
-																		<!--begin::Wizard Step 1-->
-																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.featured')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<select name="is_featured" id="is_featured" class="form-control">
-																						{!! selectOptions(__('config.featured'),old('featured')) !!}
-																					</select>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			
-
-																		</div>
-																	</div>
 																</div>
 															</div>
 															<div class="tab-pane fade" id="additional" role="tabpanel" aria-labelledby="additional-tab">
@@ -677,7 +607,7 @@
 																		<!--begin::Group-->
 																		<div class="form-group row fv-plugins-icon-container">
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.city')}}</label>
-																			<div class="col-lg-4 col-xl-4">
+																			<div class="col-xs-12 col-sm-4 col-lg-4">
 																				<select name="city_id" id="city_id" class="form-control">
 																					<option value="">{{ __('site.choose') }}</option>
 																					@foreach($cities as $city)
@@ -687,7 +617,7 @@
 																			</div>
 
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.community')}}</label>
-																			<div class="col-lg-4 col-xl-4">
+																			<div class="col-xs-12 col-sm-4 col-lg-4">
 																				<select name="community" id="community" class="form-control">
 																					<option value="">{{ __('site.choose') }}</option>
 																					@foreach($community as $comm)
@@ -701,13 +631,13 @@
 																		<!--begin::Group-->
 																		<div class="form-group row fv-plugins-icon-container">
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sub_community')}}</label>
-																			<div class="col-lg-4 col-xl-4">
+																			<div class="col-xs-12 col-sm-4 col-lg-4">
 																				<select name="sub_community" id="sub_community" class="form-control">
 																					
 																				</select>
 																			</div>
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.location')}}</label>
-																			<div class="col-lg-4 col-xl-4">
+																			<div class="col-xs-12 col-sm-4 col-lg-4">
 																				<input class="form-control form-control-solid form-control-lg" 	name="area_name" type="text" value="{{old('area_name')}}">
 																				<div class="fv-plugins-message-container"></div>
 																			</div>
@@ -716,16 +646,31 @@
 																		<!--begin::Group-->
 																		<div class="form-group row fv-plugins-icon-container">
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sub_location')}}</label>
-																			<div class="col-lg-4 col-xl-4">
+																			<div class="col-xs-12 col-sm-4 col-lg-4">
 																				<input class="form-control form-control-solid form-control-lg" 	name="project_name" type="text" value="{{old('project_name')}}">
 																				<div class="fv-plugins-message-container"></div>
 																			</div>
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.building')}}</label>
-																			<div class="col-lg-4 col-xl-4">
+																			<div class="col-xs-12 col-sm-4 col-lg-4">
 																				<input class="form-control form-control-solid form-control-lg" 	name="building_name" type="text" value="{{old('building_name')}}" placeholder="">
 																				<div class="fv-plugins-message-container"></div>
 																			</div>
 																		</div>
+
+																		<div class="form-group row fv-plugins-icon-container">
+
+																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.unit')}}</label>
+																			<div class="col-xs-12 col-sm-4 col-lg-4">
+																				<input class="form-control form-control-solid form-control-lg" 	name="unitno" type="text" value="{{old('unitno')}}" placeholder="{{__('site.unit')}}">
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.street')}}</label>
+																			<div class="col-xs-12 col-sm-4 col-lg-4">
+																				<input class="form-control form-control-solid form-control-lg" 	name="street" type="text" value="{{old('street')}}" placeholder="{{__('site.street')}}">
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																		</div>
+
 																		<!--end::Group-->
 																	</div>
 																</div>
@@ -750,7 +695,7 @@
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mobile')}}</label>
 																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="mobile" type="text" value="{{old('mobile')}}" placeholder="{{__('site.mobile')}}">
+																					<input class="form-control form-control-solid form-control-lg" 	name="mobile" type="text" value="{{old('mobile')}}" placeholder="{{__('site.mobile')}}" required>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -760,7 +705,7 @@
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.owner_name')}}</label>
 																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="owner_name" type="text" value="{{old('owner_name')}}" placeholder="{{__('site.owner_name')}}">
+																					<input class="form-control form-control-solid form-control-lg" 	name="owner_name" type="text" value="{{old('owner_name')}}" placeholder="{{__('site.owner_name')}}" required>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -786,24 +731,50 @@
 																	<div class="col-xl-12">
 																		<!--begin::Wizard Step 1-->
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-
+																		<div class="col-xs-12">
+																		<!--begin::Wizard Step 1-->
+																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">	
+@if(userRole() == 'admin' || userRole() == 'sales admin uae')
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.verified')}}</label>
-																				<div class="col-lg-9 col-xl-9">
+																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.agent')}}</label>
+																				<div class="col-xs-12 col-sm-6 col-lg-3">
+																					<select class="form-control" name="user_id">
+																						<option value="">{{__('site.choose')}}</option>
+																						@foreach($sellers as $seller)
+																						<option {{ old('user_id') == $seller->id ? 'selected':  '' }} value="{{$seller->id}}">{{$seller->name}}</option>
+																						@endforeach
+																					</select>
+																				</div>
+																			
+																			<!--end::Group-->
+																		@endif
+	<!--begin::Group-->
+																		
+																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.portals')}}</label>
+																				<div class="col-xs-12 col-sm-6 col-lg-3">
+																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#portals_modal">
+                    																	Add portals <i class="fa fa-menu"></i>
+                  																	</button>
+																				</div>
+																			</div>
+																			<!--end::Group-->
+																			</div>
+																	</div>
+																	
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.verified')}}</label>
+																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<select name="verified" id="verified" class="form-control">
 																						{!! selectOptions(__('config.yes_no'),old('verified')) !!}
 																					</select>
 																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.unver_reas')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<select name="unverified_reason" id="unverified_reason" class="form-control">
-																						{!! selectOptions(__('config.unverified_reason'),old('unverified_reason')) !!}
+																				
+																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.featured')}}</label>
+																				<div class="col-xs-12 col-sm-6 col-lg-3">
+																					<select name="is_featured" id="is_featured" class="form-control">
+																						{!! selectOptions(__('config.featured'),old('featured')) !!}
 																					</select>
 																				</div>
 																			</div>
@@ -811,8 +782,14 @@
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.date')}}</label>
-																				<div class="col-lg-9 col-xl-9">
+																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.unver_reas')}}</label>
+																				<div class="col-xs-12 col-sm-6 col-lg-3">
+																					<select name="unverified_reason" id="unverified_reason" class="form-control">
+																						{!! selectOptions(__('config.unverified_reason'),old('unverified_reason')) !!}
+																					</select>
+																				</div>
+																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.date')}}</label>
+																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<input class="form-control form-control-solid form-control-lg" 	name="verified_date" type="date" value="{{old('verified_date')}}" placeholder="{{__('site.date')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
@@ -821,24 +798,25 @@
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.pass_p_eid')}}</label>
-																				<div class="col-lg-9 col-xl-9">
+																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.pass_p_eid')}}</label>
+																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<input class="form-control form-control-solid form-control-lg" 	name="passport_emirates_id" type="text" value="{{old('passport_emirates_id')}}" placeholder="{{__('site.pass_p_eid')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.from_a_noc_sl_form')}}</label>
-																				<div class="col-lg-9 col-xl-9">
+																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.from_a_noc_sl_form')}}</label>
+																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<input class="form-control form-control-solid form-control-lg" 	name="forma_noc_slform" type="text" value="{{old('forma_noc_slform')}}" placeholder="{{__('site.from_a_noc_sl_form')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
+																			<div class="form-group row fv-plugins-icon-container">
+																			
+																			<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.permit')}}</label>
+																			<div class="col-xs-12 col-sm-6 col-lg-3">
+																				<input class="form-control form-control-solid form-control-lg" 	name="str_no" type="text" value="{{old('str_no')}}" placeholder="{{__('site.permit_no')}}">
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																		</div>
 																			<!--end::Group-->
 
 
@@ -847,67 +825,7 @@
 
 																</div>
 															</div>	
-															<div class="tab-pane fade" id="others" role="tabpanel" aria-labelledby="others-tab">
-																<div class="row col-xl-12 card">
-																	<!--begin::Wizard Step 1-->
-																	<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-
-																		<!--begin::Group-->
-																		<div class="form-group row fv-plugins-icon-container">
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.unit')}}</label>
-																			<div class="col-lg-4 col-xl-4">
-																				<input class="form-control form-control-solid form-control-lg" 	name="unitno" type="text" value="{{old('unitno')}}" placeholder="{{__('site.unit')}}">
-																				<div class="fv-plugins-message-container"></div>
-																			</div>
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.permit')}}</label>
-																			<div class="col-lg-4 col-xl-4">
-																				<input class="form-control form-control-solid form-control-lg" 	name="str_no" type="text" value="{{old('str_no')}}" placeholder="{{__('site.permit_no')}}">
-																				<div class="fv-plugins-message-container"></div>
-																			</div>
-																		</div>
-																		<!--end::Group-->
-
-																		<!--begin::Group-->
-																		<div class="form-group row fv-plugins-icon-container">
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.street')}}</label>
-																			<div class="col-lg-4 col-xl-4">
-																				<input class="form-control form-control-solid form-control-lg" 	name="street" type="text" value="{{old('street')}}" placeholder="{{__('site.street')}}">
-																				<div class="fv-plugins-message-container"></div>
-																			</div>
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.source')}}</label>
-																			<div class="col-lg-4 col-xl-4">
-																				<select class="form-control" name="source_id">
-																					<option value="">{{ __('site.source') }}</option>
-																					@foreach($sources as $source)
-																					<option {{old('source_id') == $source->id ? 'selected' : ''}} value="{{$source->id}}">{{$source->name}}</option>
-																					@endforeach      
-																				</select>
-																			</div>
-																		</div>
-																		<!--end::Group-->
-
-																		<!--begin::Group-->
-																		<div class="form-group row fv-plugins-icon-container">
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.campaign')}}</label>
-																			<div class="col-lg-4 col-xl-4">
-																				<select class="form-control" name="campaign_id">
-																					<option value="">{{__('site.choose')}}</option>
-																					@foreach($campaigns as $campaign)
-																					<option {{ old('campaign_id') == $campaign->id ? 'selected' : ''}} value="{{$campaign->id}}">{{$campaign->name}}</option>
-																					@endforeach
-																				</select>
-																			</div>
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.Deposit')}}</label>
-																			<div class="col-lg-4 col-xl-4">
-																				<input class="form-control form-control-solid form-control-lg" 	name="deposit" type="text" value="{{old('deposit')}}" placeholder="{{__('site.Deposit')}}">
-																				<div class="fv-plugins-message-container"></div>
-																			</div>
-																		</div>
-																		<!--end::Group-->
-
-																	</div>
-																</div>
-															</div>															
+																														
 														</div>
 														<div class="row col-xl-12 card mt-5">																				
 															<!--begin::Wizard Actions-->
