@@ -79,3 +79,10 @@ div.span,label,h3,button,a, .menu-text, .dropdown-menu{
 .blue-label{
 	color:blue !important;
 }
+.fl{
+	float: left;
+}
+.mt10{
+	margin-top: 10px;
+	margin-left: 40px;
+}

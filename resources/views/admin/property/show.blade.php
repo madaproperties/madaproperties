@@ -14,7 +14,7 @@
 						<!--begin::Details-->
 						<div class="d-flex align-items-center flex-wrap mr-2 ">
 							<!--begin::Title-->
-							<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">{{__('site.New property')}}</h5>
+							<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5"></h5>
 							<!--end::Title-->
 						</div>
 						<!--end::Details-->
@@ -107,7 +107,7 @@
 																				<div class="col-xl-2 text-center">
 																				<label class="col-form-label w-100 text-center">
 																				<span class="check">
-																				<input class="form-control radio" name="vat_received" type="radio" value="0" checked>
+																				<input class="form-control radio" name="property_type" type="radio" value="1" {{$property->property_type == 1 ? 'checked' : ''}}>
 																					<i class="fa fa-check"></i></span>
 																																									<svg class="property_icons w-100" fill="#000000" height="60px" width="60px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 																						viewBox="0 0 512.213 512.213" xml:space="preserve">
@@ -151,7 +151,7 @@
 																																											<div class="col-xl-2 text-center">
 																																											<label class="col-form-label w-100 text-center">
 																																											<span class="check">
-																																											<input class="form-control radio" name="vat_received" type="radio" value="1">
+																																											<input class="form-control radio" name="property_type" type="radio" value="2" {{$property->property_type == 2 ? 'checked' : ''}}>
 																																											<i class="fa fa-check"></i></span>
 																																											<svg class="w-100" fill="#000000" width="60px" height="60px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M 10 3.8828125 L 3 7.3828125 L 3 28 L 17 28 L 29 28 L 29 10 L 17 10 L 17 7.3828125 L 10 3.8828125 z M 10 6.1171875 L 15 8.6171875 L 15 26 L 5 26 L 5 8.6171875 L 10 6.1171875 z M 7 10 L 7 12 L 9 12 L 9 10 L 7 10 z M 11 10 L 11 12 L 13 12 L 13 10 L 11 10 z M 17 12 L 27 12 L 27 26 L 17 26 L 17 12 z M 7 14 L 7 16 L 9 16 L 9 14 L 7 14 z M 11 14 L 11 16 L 13 16 L 13 14 L 11 14 z M 19 14 L 19 16 L 21 16 L 21 14 L 19 14 z M 23 14 L 23 16 L 25 16 L 25 14 L 23 14 z M 7 18 L 7 20 L 9 20 L 9 18 L 7 18 z M 11 18 L 11 20 L 13 20 L 13 18 L 11 18 z M 19 18 L 19 20 L 21 20 L 21 18 L 19 18 z M 23 18 L 23 20 L 25 20 L 25 18 L 23 18 z M 7 22 L 7 24 L 9 24 L 9 22 L 7 22 z M 11 22 L 11 24 L 13 24 L 13 22 L 11 22 z M 19 22 L 19 24 L 21 24 L 21 22 L 19 22 z M 23 22 L 23 24 L 25 24 L 25 22 L 23 22 z"/></svg>
 																																											{{__('site.commercial')}}
@@ -161,7 +161,7 @@
 																																											<div class="col-xl-2 text-center">
 																																											<label class="col-form-label w-100 text-center">
 																																											<span class="check">
-																							<input class="form-control radio" name="sale_rent" type="radio" value="1" checked>
+																							<input class="form-control radio" name="sale_rent" type="radio" value="1" {{$property->sale_rent == 1 ? 'checked' : ''}}>
 																							<i class="fa fa-check">	
 																							</i></span>
 																																											<svg class="w-100" fill="#000000" height="60px" width="60px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
@@ -200,7 +200,7 @@
 																																											<div class="col-xl-2 text-center">
 																																											<label class="col-form-label w-100 text-center">
 																																											<span class="check">
-																																											<input class="form-control radio" name="sale_rent" type="radio" value="2">
+																																											<input class="form-control radio" name="sale_rent" type="radio" value="2"  {{$property->sale_rent == 2 ? 'checked' : ''}}>
 																																											<i class="fa fa-check">
 																																											</i></span>
 																																											<svg class="w-100" fill="#000000" height="60px" width="60px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
@@ -420,45 +420,46 @@
 																			</div>
 																			<!--end::Group-->					
 																			<!--begin::Group-->
+																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<div class="col-xs-3 col-sm-3 col-lg-3">
-																					<input class="form-control form-control-solid form-control-lg" 	name="price" type="text" value="{{$property->price}}" placeholder="Yearly {{__('site.price')}}" required>
+																					<input class="form-control form-control-solid form-control-lg" 	name="yprice" type="text" value="{{$property->yprice}}" placeholder="{{__('site.yearly_price')}}">
 																					<div class="fv-plugins-message-container"></div>
-																					<div class="col-xs-3 col-sm-3 col-lg-3">
-																						<input class="form-control" name="default_price" type="radio" value="{{$property->price}}" placeholder="{{__('site.price')}}" required>
+																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
+																						<input class="form-control" name="default_price" type="radio" value="year">
 																					</div>
-																					<div class="col-xs-9 col-sm-9 col-lg-9">
-																					default price
+																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
+																						<span>{{__('site.default_price')}}</span>
 																					</div>
 																				</div>
 																				<div class="col-xs-3 col-sm-3 col-lg-3">
-																					<input class="form-control form-control-solid form-control-lg" 	name="price" type="text" value="{{$property->price}}" placeholder="Mountly {{__('site.price')}}" required>
+																					<input class="form-control form-control-solid form-control-lg" 	name="mprice" type="text" value="{{$property->mprice}}" placeholder="{{__('site.monthly_price')}}">
 																					<div class="fv-plugins-message-container"></div>
-																					<div class="col-xs-3 col-sm-3 col-lg-3">
-																						<input class="form-control" name="default_price" type="radio" value="{{$property->price}}" placeholder="{{__('site.price')}}" required>
+																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
+																						<input class="form-control" name="default_price" type="radio" value="month">
 																					</div>
-																					<div class="col-xs-9 col-sm-9 col-lg-9">
-																					default price
+																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
+																					<span>{{__('site.default_price')}}</span>
 																					</div>
 																				</div>
 																				<div class="col-xs-3 col-sm-3 col-lg-3">
-																					<input class="form-control form-control-solid form-control-lg" 	name="price" type="text" value="{{$property->price}}" placeholder="Weekly {{__('site.price')}}" required>
+																					<input class="form-control form-control-solid form-control-lg" 	name="wprice" type="text" value="{{$property->wprice}}" placeholder="{{__('site.weekly_price')}}">
 																					<div class="fv-plugins-message-container"></div>
-																					<div class="col-xs-3 col-sm-3 col-lg-3">
-																						<input class="form-control" name="default_price" type="radio" value="{{$property->price}}" placeholder="{{__('site.price')}}" required>
+																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
+																						<input class="form-control" name="default_price" type="radio" value="week">
 																					</div>
-																					<div class="col-xs-9 col-sm-9 col-lg-9">
-																					default price
+																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
+																					<span>{{__('site.default_price')}}</span>
 																					</div>
 																				</div>
 																				<div class="col-xs-3 col-sm-3 col-lg-3">
-																					<input class="form-control form-control-solid form-control-lg" 	name="price" type="text" value="{{$property->price}}" placeholder="Day {{__('site.price')}}" required>
+																					<input class="form-control form-control-solid form-control-lg" 	name="dprice" type="text" value="{{$property->dprice}}" placeholder="{{__('site.day_price')}}">
 																					<div class="fv-plugins-message-container"></div>
-																					<div class="col-xs-3 col-sm-3 col-lg-3">
-																						<input class="form-control" name="default_price" type="radio" value="{{$property->price}}" placeholder="{{__('site.price')}}" required>
+																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
+																						<input class="form-control" name="default_price" type="radio" value="day">
 																					</div>
-																					<div class="col-xs-9 col-sm-9 col-lg-9">
-																					default price
+																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
+																					<span>{{__('site.default_price')}}</span>
 																					</div>
 																				</div>																			
 																			</div>
@@ -551,7 +552,7 @@
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<div class="col-lg-9 col-xl-9">
-																					<textarea class="form-control form-control-solid form-control-lg" id="description" rows="10" name="description" type="text" placeholder="{{__('site.description')}}(English)">{!!$property->description!!}</textarea>
+																					<textarea class="form-control form-control-solid form-control-lg" id="description" rows="10" name="description" placeholder="{{__('site.description')}}(English)">{!!$property->description!!}</textarea>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -559,7 +560,7 @@
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="title" type="text" value="{{$property->title}}" placeholder="{{__('site.title')}}(Arabic)" required>
+																					<input class="form-control form-control-solid form-control-lg" 	name="title_ar" type="text" value="{{$property->title_ar}}" placeholder="{{__('site.title')}}(Arabic)">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -568,7 +569,7 @@
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<div class="col-lg-9 col-xl-9">
-																					<textarea class="form-control form-control-solid form-control-lg" id="description2" rows="10" name="description" type="text" placeholder="{{__('site.description')}}(Arabic)">{!!$property->description!!}</textarea>
+																					<textarea class="form-control form-control-solid form-control-lg" id="description2" rows="10" name="description_ar" placeholder="{{__('site.description')}}(Arabic)">{!!$property->description_ar!!}</textarea>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -619,10 +620,13 @@
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.floor_plan')}} url</label>
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.floor_plan')}}</label>
 																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="floorplan" type="text" value="{{$property->floorplan}}" placeholder="{{__('site.floorplan')}}">
+																					<input class="form-control form-control-solid form-control-lg" 	name="floorplan" type="file" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps">
 																					<div class="fv-plugins-message-container"></div>
+																					@if($property->floorplan)
+																					<a href="{{env('APP_URL').'/public/uploads/'.$property->floorplan}}" target="_blank" download>Download</a>
+																					@endif
 																				</div>
 																			</div>
 																			<!--end::Group-->

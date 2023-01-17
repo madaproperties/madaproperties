@@ -132,8 +132,10 @@ class PropertyController extends Controller
 
     $data = $request->validate([
       "title" => 'required',
+      "title_ar" => 'required',
       "unitno" => 'nullable',
       "str_no" => 'nullable',
+      "property_type" => 'nullable',
       "sale_rent" => 'nullable',
       "street" => 'nullable',
       "measure_unit" => 'nullable',
@@ -155,6 +157,11 @@ class PropertyController extends Controller
       "price" => 'required',
       "price_on_application" => 'nullable',
       "price_unit" => 'nullable',
+      "yprice" => 'nullable',
+      "mprice" => 'nullable',
+      "wprice" => 'nullable',
+      "dprice" => 'nullable',
+      "default_price" => 'nullable',
       "bedrooms" => 'nullable',
       "bathrooms" =>'nullable',
       "cheques" => 'nullable',
@@ -162,6 +169,7 @@ class PropertyController extends Controller
       "furnished" => 'nullable',
       "owner_id" => 'nullable',
       "description" => 'nullable',
+      "description_ar" => 'nullable',
       "user_id" => 'nullable',
       "tuser_id" => 'nullable',
       "created_by" => 'nullable',
@@ -197,7 +205,6 @@ class PropertyController extends Controller
       "passport_emirates_id" => 'nullable',
       "title_deed" => 'nullable',
       "forma_noc_slform" => 'nullable',
-      'description'   => 'nullable',
       'unverified_reason' => 'nullable',
       'is_managed' => 'nullable',
       'is_exclusive' => 'nullable',
@@ -245,6 +252,15 @@ class PropertyController extends Controller
         $data['longitude'] = $add['lng'];
       }
     }
+
+    if($request->file('floorplan')){
+      $md5Name = md5_file($request->file('floorplan')->getRealPath());
+      $guessExtension = $request->file('floorplan')->guessExtension();
+      $file = $request->file('floorplan')->move('public/uploads', $md5Name.'.'.$guessExtension);     
+      $data['floorplan'] = $md5Name.'.'.$guessExtension;
+    }
+
+
 
     addHistory('Property',0,'added',$data);
 
@@ -315,8 +331,10 @@ class PropertyController extends Controller
 
     $data = $request->validate([
       "title" => 'required',
+      "title_ar" => 'required',
       "unitno" => 'nullable',
       "str_no" => 'nullable',
+      "property_type" => 'nullable',
       "sale_rent" => 'nullable',
       "street" => 'nullable',
       "measure_unit" => 'nullable',
@@ -338,6 +356,11 @@ class PropertyController extends Controller
       "price" => 'required',
       "price_on_application" => 'nullable',
       "price_unit" => 'nullable',
+      "yprice" => 'nullable',
+      "mprice" => 'nullable',
+      "wprice" => 'nullable',
+      "dprice" => 'nullable',
+      "default_price" => 'nullable',
       "bedrooms" => 'nullable',
       "bathrooms" =>'nullable',
       "cheques" => 'nullable',
@@ -345,6 +368,7 @@ class PropertyController extends Controller
       "furnished" => 'nullable',
       "owner_id" => 'nullable',
       "description" => 'nullable',
+      "description_ar" => 'nullable',      
       "user_id" => 'nullable',
       "tuser_id" => 'nullable',
       "created_by" => 'nullable',
@@ -380,7 +404,6 @@ class PropertyController extends Controller
       "passport_emirates_id" => 'nullable',
       "title_deed" => 'nullable',
       "forma_noc_slform" => 'nullable',
-      'description'   => 'nullable',
       'unverified_reason' => 'nullable',
       'is_managed' => 'nullable',
       'is_exclusive' => 'nullable',
@@ -429,6 +452,13 @@ class PropertyController extends Controller
         $data['latitude'] = $add['lat'];
         $data['longitude'] = $add['lng'];
       }
+    }
+
+    if($request->file('floorplan')){
+      $md5Name = md5_file($request->file('floorplan')->getRealPath());
+      $guessExtension = $request->file('floorplan')->guessExtension();
+      $file = $request->file('floorplan')->move('public/uploads', $md5Name.'.'.$guessExtension);     
+      $data['floorplan'] = $md5Name.'.'.$guessExtension;
     }
 
     addHistory('Property',$id,'updated',$data,$property);

@@ -541,6 +541,11 @@ return [
   'property_developer'=>'Property developer',
   'SQFT'=>'SQFT',
   'others'=>'others',
+  'yearly_price'=>'yearly price',
+  'monthly_price'=>'monthly price',
+  'weekly_price'=>'weekly price',
+  'day_price'=>'Day price',
+  'default_price'=>'Default price',
   
   
 ];
