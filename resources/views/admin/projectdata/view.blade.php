@@ -323,13 +323,13 @@ function loadViewInPupUp(id){
     url: route,
     data:{_token:token,id:id},
     success: (res) => {
-      $('#assign-leads').html(res);
-      $('#assign-leads').modal();
+      $('#getPupUpByAjax').html(res);
+      $('#getPupUpByAjax').modal();
       $("#loadingHolder").hide();
     },
     error: function(res){
-      $('#assign-leads').html(res);
-      $('#assign-leads').modal();
+      $('#getPupUpByAjax').html(res);
+      $('#getPupUpByAjax').modal();
       $("#loadingHolder").hide();
     }
   });
