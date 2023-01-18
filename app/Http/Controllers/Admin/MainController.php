@@ -201,10 +201,14 @@ class MainController extends Controller
 
     }else if(userRole() == 'sales admin') { // sales admin
       
+      $subUserId=0;
+      if(isset(auth()->user()->leader)){
+        $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader)->get();
+      }
+
       $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
         $this->filterPrams($q);
-      })->where('created_by',auth()->id())
-        ->where('user_id',null)
+      })->whereIn('user_id',$subUserId)
         ->orderBy('created_at','DESC');
 
       $contactsCount = $contacts->count();
