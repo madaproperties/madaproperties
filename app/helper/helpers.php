@@ -919,8 +919,7 @@ function getSellers() {
 
       $leader = auth()->user()->leader;
       if($leader){
-        $sellers = User::where('leader',$leader)
-            ->where('active','1')
+        $sellers = User::where('active','1')
             ->where(function($q){
               $q->where('id','!=',auth()->id())
               ->orWhere('rule','sales admin saudi')

@@ -346,7 +346,7 @@
 							</li>
 						@endif
 
-						@if(userRole() != 'sales admin' && userRole() != 'other')
+						@if(userRole() != 'other')
 						<li class="menu-item menu-item-active" aria-haspopup="true">
 							<a
 							href="{{route('admin.home')}}?my-contacts=get&filter_status={{ App\Status::where('name_en','new')->first()->id }} "

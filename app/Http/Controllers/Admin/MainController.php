@@ -48,7 +48,6 @@ class MainController extends Controller
     if(userRole() == 'other'){
       return redirect()->route('admin.deal.index');      
     }
-    
 
     //Added by Javed
     $createdBy = User::where('active','1')->select('id','email');
@@ -56,7 +55,7 @@ class MainController extends Controller
 
     /********* Get Contacts By The Rule ***********/
     if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing'  || userRole() == 'ceo' ){ //Updated by Javed
-       
+
       if(Request()->has('duplicated')){
 
         if(userRole() == 'sales admin uae'){
@@ -69,7 +68,6 @@ class MainController extends Controller
                   ->havingRaw('COUNT(phone) > ?', [1])
                   ->get();
 
-            
           $contactsPhone = $contacts->pluck('phone');
 
           $contacts =   Contact::whereIn('phone',$contactsPhone->toArray())
@@ -111,7 +109,7 @@ class MainController extends Controller
                   ->groupBy('phone')
                   ->havingRaw('COUNT(phone) > ?', [1])
                   ->get();
-         
+
           $contactsPhone = $contacts->pluck('phone');
 
           $contacts =   Contact::whereIn('phone',$contactsPhone->toArray())
@@ -123,7 +121,7 @@ class MainController extends Controller
       }else{
 
         if(userRole() == 'sales admin uae'){
-         
+
           if(Request()->has('my-contacts')){
             $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
               $this->filterPrams($q);
@@ -201,10 +199,14 @@ class MainController extends Controller
 
     }else if(userRole() == 'sales admin') { // sales admin
       
+      $subUserId[]=auth()->id();
+      if(!Request()->has('my-contacts')  AND (isset(auth()->user()->leader))){
+        $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
+         $subUserId = $subUserId->pluck('id')->toArray();
+      }
       $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
         $this->filterPrams($q);
-      })->where('created_by',auth()->id())
-        ->where('user_id',null)
+      })->whereIn('user_id',$subUserId)
         ->orderBy('created_at','DESC');
 
       $contactsCount = $contacts->count();
