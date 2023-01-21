@@ -426,7 +426,7 @@
 																					<input class="form-control form-control-solid form-control-lg property-price" 	name="yprice" type="text" value="{{$property->yprice}}" placeholder="{{__('site.yearly_price')}}">
 																					<div class="fv-plugins-message-container"></div>
 																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
-																						<input class="form-control property-price-year" name="default_price" type="radio" value="year" {{ $property->default_price != 'year' ? 'disabled' : 'checked'}}>
+																						<input class="form-control property-price-year" name="default_price" type="radio" value="year" {{ (empty($property->yprice)) ? 'disabled' : ''}} {{ ($property->default_price == 'year') ? 'checked' : ''}}>
 																					</div>
 																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
 																						<span>{{__('site.default_price')}}</span>
@@ -436,7 +436,7 @@
 																					<input class="form-control form-control-solid form-control-lg property-price" 	name="mprice" type="text" value="{{$property->mprice}}" placeholder="{{__('site.monthly_price')}}">
 																					<div class="fv-plugins-message-container"></div>
 																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
-																						<input class="form-control property-price-month" name="default_price" type="radio" value="month" {{ $property->default_price != 'month' ? 'disabled' : 'checked'}}>
+																						<input class="form-control property-price-month" name="default_price" type="radio" value="month" {{ (empty($property->mprice)) ? 'disabled' : ''}} {{ ($property->default_price == 'month') ? 'checked' : ''}}>
 																					</div>
 																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
 																					<span>{{__('site.default_price')}}</span>
@@ -446,7 +446,7 @@
 																					<input class="form-control form-control-solid form-control-lg property-price" 	name="wprice" type="text" value="{{$property->wprice}}" placeholder="{{__('site.weekly_price')}}">
 																					<div class="fv-plugins-message-container"></div>
 																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
-																						<input class="form-control property-price-week" name="default_price" type="radio" value="week" {{ $property->default_price != 'week' ? 'disabled' : 'checked'}}>
+																						<input class="form-control property-price-week" name="default_price" type="radio" value="week" {{ (empty($property->wprice)) ? 'disabled' : ''}} {{ ($property->default_price == 'week') ? 'checked' : ''}}>
 																					</div>
 																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
 																					<span>{{__('site.default_price')}}</span>
@@ -456,7 +456,7 @@
 																					<input class="form-control form-control-solid form-control-lg property-price" 	name="dprice" type="text" value="{{$property->dprice}}" placeholder="{{__('site.day_price')}}">
 																					<div class="fv-plugins-message-container"></div>
 																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
-																						<input class="form-control property-price-day" name="default_price" type="radio" value="day" {{ $property->default_price != 'day' ? 'disabled' : 'checked'}}>
+																						<input class="form-control property-price-day" name="default_price" type="radio" value="day" {{ (empty($property->dprice)) ? 'disabled' : ''}} {{ ($property->default_price == 'day') ? 'checked' : ''}}>
 																					</div>
 																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
 																					<span>{{__('site.default_price')}}</span>
