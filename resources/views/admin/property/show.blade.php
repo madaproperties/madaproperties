@@ -86,7 +86,7 @@
 													
 												<div class="col-xl-12 col-xxl-12">
 													<!--begin::Wizard Form-->
-													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.property.update',$property->id)}}" id="kt_form" enctype="multipart/form-data">
+													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.property.update',$property->id)}}" id="property_form" enctype="multipart/form-data">
 														@csrf
 														@method('PATCH')
 														<div class="tab-content mt-5" id="myTabContent">
@@ -423,40 +423,40 @@
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<div class="col-xs-3 col-sm-3 col-lg-3">
-																					<input class="form-control form-control-solid form-control-lg" 	name="yprice" type="text" value="{{$property->yprice}}" placeholder="{{__('site.yearly_price')}}">
+																					<input class="form-control form-control-solid form-control-lg property-price" 	name="yprice" type="text" value="{{$property->yprice}}" placeholder="{{__('site.yearly_price')}}">
 																					<div class="fv-plugins-message-container"></div>
 																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
-																						<input class="form-control" name="default_price" type="radio" value="year">
+																						<input class="form-control property-price-year" name="default_price" type="radio" value="year" {{ $property->default_price != 'year' ? 'disabled' : 'checked'}}>
 																					</div>
 																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
 																						<span>{{__('site.default_price')}}</span>
 																					</div>
 																				</div>
 																				<div class="col-xs-3 col-sm-3 col-lg-3">
-																					<input class="form-control form-control-solid form-control-lg" 	name="mprice" type="text" value="{{$property->mprice}}" placeholder="{{__('site.monthly_price')}}">
+																					<input class="form-control form-control-solid form-control-lg property-price" 	name="mprice" type="text" value="{{$property->mprice}}" placeholder="{{__('site.monthly_price')}}">
 																					<div class="fv-plugins-message-container"></div>
 																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
-																						<input class="form-control" name="default_price" type="radio" value="month">
+																						<input class="form-control property-price-month" name="default_price" type="radio" value="month" {{ $property->default_price != 'month' ? 'disabled' : 'checked'}}>
 																					</div>
 																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
 																					<span>{{__('site.default_price')}}</span>
 																					</div>
 																				</div>
 																				<div class="col-xs-3 col-sm-3 col-lg-3">
-																					<input class="form-control form-control-solid form-control-lg" 	name="wprice" type="text" value="{{$property->wprice}}" placeholder="{{__('site.weekly_price')}}">
+																					<input class="form-control form-control-solid form-control-lg property-price" 	name="wprice" type="text" value="{{$property->wprice}}" placeholder="{{__('site.weekly_price')}}">
 																					<div class="fv-plugins-message-container"></div>
 																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
-																						<input class="form-control" name="default_price" type="radio" value="week">
+																						<input class="form-control property-price-week" name="default_price" type="radio" value="week" {{ $property->default_price != 'week' ? 'disabled' : 'checked'}}>
 																					</div>
 																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
 																					<span>{{__('site.default_price')}}</span>
 																					</div>
 																				</div>
 																				<div class="col-xs-3 col-sm-3 col-lg-3">
-																					<input class="form-control form-control-solid form-control-lg" 	name="dprice" type="text" value="{{$property->dprice}}" placeholder="{{__('site.day_price')}}">
+																					<input class="form-control form-control-solid form-control-lg property-price" 	name="dprice" type="text" value="{{$property->dprice}}" placeholder="{{__('site.day_price')}}">
 																					<div class="fv-plugins-message-container"></div>
 																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
-																						<input class="form-control" name="default_price" type="radio" value="day">
+																						<input class="form-control property-price-day" name="default_price" type="radio" value="day" {{ $property->default_price != 'day' ? 'disabled' : 'checked'}}>
 																					</div>
 																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
 																					<span>{{__('site.default_price')}}</span>
@@ -950,6 +950,41 @@ var KTCkeditor = function () {
 }();
 // Initialization
 KTCkeditor.init();
+
+
+$(document).ready(function(){
+	$(".property-price").on('input keyup keypress blur change',function(){
+		if($(this).attr('name') == 'yprice'){
+			if($(this).val() != ''){
+				$(".property-price-year").attr('disabled',false);
+			}else{
+				$(".property-price-year").attr('disabled',true);
+				$(".property-price-year")[0].checked = false;
+			}
+		}else if($(this).attr('name') == 'mprice'){
+			if($(this).val() != ''){
+				$(".property-price-month").attr('disabled',false);
+			}else{
+				$(".property-price-month").attr('disabled',true);
+				$(".property-price-month")[0].checked = false;
+			}
+		}else if($(this).attr('name') == 'wprice'){
+			if($(this).val() != ''){
+				$(".property-price-week").attr('disabled',false);
+			}else{
+				$(".property-price-week")[0].checked = false;
+				$(".property-price-week").attr('disabled',true);
+			}
+		}else if($(this).attr('name') == 'dprice'){
+			if($(this).val() != ''){
+				$(".property-price-day").attr('disabled',false);
+			}else{
+				$(".property-price-day")[0].checked = false;
+				$(".property-price-day").attr('disabled',true);
+			}
+		}
+	});
+});
 </script>
 @endpush
 

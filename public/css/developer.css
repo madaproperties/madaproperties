@@ -86,3 +86,7 @@ div.span,label,h3,button,a, .menu-text, .dropdown-menu{
 	margin-top: 10px;
 	margin-left: 40px;
 }
+
+#property_form select{
+    text-transform: capitalize;
+}
