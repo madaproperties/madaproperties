@@ -470,7 +470,7 @@ class ContactController extends Controller
       ]);
 
 
-     if(userRole() == 'sales')
+     if(userRole() == 'sales' || userRole() == 'sales admin')
      {
         $data['user_id'] = auth()->id();
      }

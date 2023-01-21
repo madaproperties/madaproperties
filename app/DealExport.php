@@ -220,6 +220,9 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         if(in_array('third_party_amount',$select)){
           $exportArray[++$i] = $deal->third_party_amount;
         }
+        if(in_array('third_party_commission_received',$select)){
+          $exportArray[++$i] = $deal->third_party_commission_received;
+        }
         if(in_array('third_party_name',$select)){
           $exportArray[++$i] = $deal->third_party_name;
         }
@@ -228,9 +231,6 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         }
         if(in_array('mada_commission_received',$select)){
           $exportArray[++$i] = $deal->mada_commission_received;
-        }
-        if(in_array('third_party_commission_received',$select)){
-          $exportArray[++$i] = $deal->third_party_commission_received;
         }
         if(in_array('notes',$select)){
           $exportArray[++$i] = $deal->notes;
@@ -318,10 +318,10 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $deal->sales_director_commission_received,
           $deal->third_party,
           ($deal->third_party_amount),
+          $deal->third_party_commission_received,
           $deal->third_party_name,
           $deal->mada_commission,
           $deal->mada_commission_received,
-          $deal->third_party_commission_received,
           $deal->notes,
           timeZone($deal->created_at),
           timeZone($deal->updated_at),
@@ -387,10 +387,10 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         __('site.sales_director_commission_received'),
           __('site.third_party'),
         __('site.third_party_amount'),
+        __('site.third_party_commission_received'),
         __('site.third_party_name'),
         __('site.mada_commission'),
         __('site.mada_commission_received'),
-        __('site.third_party_commission_received'),
         __('site.notes'),
         __('site.created_at'),
         __('site.updated_at'),
