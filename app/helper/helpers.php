@@ -863,7 +863,8 @@ function selectOptions($data,$form_value,$custom=0){
   if($custom){
     $html = "<option value=''>".__('site.choose')."</option>";
   }else{
-    $html = "<option value='0'>".__('site.choose')."</option>";
+    //$html = "<option value='0'>".__('site.choose')."</option>";
+    $html = "";
   }
   foreach($data as $key => $value){
     $selected = (($form_value == $key) ? 'selected' : '');
