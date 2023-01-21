@@ -42,6 +42,8 @@ Route::get('employee','EmployeeController@index')->name('employee.index');
 Route::get('new-web','Admin\ProjectDataController@newWeb')->name('projcets.newweb'); 
 Route::get('projectdata/view/{id}','Admin\ProjectDataController@View')->name('projectdata.view');
 // end
+// 
+Route::get('secondaryproject/brochure/{id}','Admin\SecondaryController@brochure')->name('secondaryproject.brochure');
 
 use App\Contact;
 use App\Country;

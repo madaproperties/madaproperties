@@ -453,6 +453,9 @@
 								@if(userRole()=='admin' || userRole()=='sales director' ||userRole()=='sales admin uae' || userRole()== 'sales admin saudi' )
 								<a class="dropdown-item" href="{{route('projcets.newweb')}}">{{__('site.project availability')}}</a>
 								@endif
+								@if(userRole()=='admin' || userRole()=='sales director' ||userRole()=='sales admin uae' || userRole()== 'sales admin saudi' )
+								<a class="dropdown-item" href="{{route('admin.secondary-project.index')}}">{{__('site.secondary project')}}</a>
+								@endif
 							</div>
 						</li>
 						@endif
