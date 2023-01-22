@@ -14,7 +14,6 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         require_once app_path() . DIRECTORY_SEPARATOR . 'helper' . DIRECTORY_SEPARATOR . 'helpers.php';
-        require_once app_path() . DIRECTORY_SEPARATOR . 'helper' . DIRECTORY_SEPARATOR . 'xmlFunctions.php';
     }
 
     /**

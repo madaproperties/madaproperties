@@ -64,8 +64,7 @@
 													<tr class="text-left">
 														<th style="min-width: 150px">{{ __('site.ID') }}</th>
 														<th style="min-width: 150px">{{ __('site.Name') }}</th>
-														<th style="min-width: 150px">{{ __('site.project') }}</th>
-														<th style="min-width: 150px">{{ __('site.cost') }}</th>
+														<th style="min-width: 150px">Cost</th>
 														<th style="min-width: 150px">{{ __('site.Status') }}</th>
 														<th class="pr-0 " style="min-width: 150px">{{ __('site.action') }}</th>
 													</tr>
@@ -78,9 +77,6 @@
 														</td>
 														<td class="pl-0">
 															<span class="text-muted font-weight-bold text-muted d-block">{{$statu->name}}</span>
-														</td>
-														<td class="pl-0">
-															<span class="text-muted font-weight-bold text-muted d-block">{{$statu->project?$statu->project->name : 'N/A'}}</span>
 														</td>
 														<td class="pl-0">
 															<span class="text-muted font-weight-bold text-muted d-block">{{$statu->cost}}</span>
@@ -150,17 +146,6 @@
 																		</div>
 																		<div class="separator separator-dashed my-5"></div>
 
-																		<div class="form-group">
-																			<label for="country">{{__('site.project')}}</label>
-																			<select class="form-control" name="project_id">
-																				<option value="">{{__('site.project')}}</option>
-																				@foreach($projects as $project)
-																					<option {{$statu->project_id == $project->id ? 'selected':  '' }}
-																					value="{{$project->id}}">{{$project->name}}</option>
-																				@endforeach
-																			</select>
-																		</div>
-
 																		<div class="separator separator-dashed my-5"></div>
 																		<div class="form-group">
 																			<label>{{__('site.status')}}:</label>
@@ -174,7 +159,6 @@
 																		<button type="submit" form="edit-{{$statu->id}}-form" class="btn btn-primary mr-2">{{__('site.save')}}</button>
 																	</div>
 																</form>
-																
 									            </div>
 
 									        </div>
@@ -231,16 +215,6 @@
 												<input type="number" name="cost" value="{{old('cost')}}" class="form-control" >
 											</div>
 											<div class="separator separator-dashed my-5"></div>
-											<div class="form-group">
-												<label for="country">{{__('site.project')}}</label>
-												<select class="form-control" name="project_id">
-													<option value="">{{__('site.project')}}</option>
-													@foreach($projects as $project)
-														<option {{old('project_id') == $project->id ? 'selected':  '' }}
-														value="{{$project->id}}">{{$project->name}}</option>
-													@endforeach
-												</select>
-											</div>
 
 											<div class="separator separator-dashed my-5"></div>
 										</div>

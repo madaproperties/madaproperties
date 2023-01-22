@@ -199,7 +199,7 @@
 					@endif
                 </tbody>
             </table>
-            <table style="text-align:center;margin-top:200px;border:0px;">
+            <table style=text-align:right;margin-top:200px;border:0px;">
                 <tbody>
 					<tr>
 						<td>_____________________________</td>

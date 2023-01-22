@@ -205,13 +205,7 @@
 												</select>
 											</div>
 										</div>
-										<div class="form-group">
-											<label>{{__('site.Rera Available')}}:</label>
-											<select class="form-control" name="is_rera_active" id="is_rera_active">
-											{!! selectOptions(__('config.yes_no'),$user->is_rera_active) !!}
-											</select>
-										</div>
-										
+
 										<div class="separator separator-dashed my-5"></div>
 										<div class="form-group">
 											<label>{{__('site.positions')}}: </label>
@@ -430,30 +424,27 @@
 												<label>{{__('site.user_pic')}}:</label>
 												<input type="file" class="form-control" name="user_pic">
 											</div>
-																
-											<div class="form-group">
-												<label class="text-alert">
-												{{ __('site.TimeZone') }}
-												</label>
-												<div class="">
-													<select name="time_zone" class="form-control form-control-lg form-control-solid mb-2" required>
 
-													<option value="en">{{__('site.choose')}}</option>
-													@foreach(timeZones() as $zone)
-													<option 
-													{{ old('time_zone') == $zone ? 'selected' : '' }}
-													value="{{ $zone }}">{{$zone }}</option>
-													@endforeach
-													</select>
-												</div>
-											</div>
+											
 
-											<div class="form-group">
-												<label>{{__('site.Rera Available')}}:</label>
-												<select class="form-control" name="is_rera_active" id="is_rera_active">
-												{!! selectOptions(__('config.yes_no'),old('is_rera_active')) !!}
-												</select>
-											</div>
+											
+							<div class="form-group">
+										<label class="text-alert">
+								{{ __('site.TimeZone') }}
+														    </label>
+							<div class="">
+                              <select name="time_zone" class="form-control form-control-lg form-control-solid mb-2" required>
+                                  
+  					<option value="en">{{__('site.choose')}}</option>
+  					@foreach(timeZones() as $zone)
+  					<option 
+  					{{ old('time_zone') == $zone ? 'selected' : '' }}
+  					value="{{ $zone }}">{{$zone }}</option>
+  					@endforeach
+  														</select>
+														</div>
+													</div>
+
 
 											<div class="separator separator-dashed my-5"></div>
 											<div class="form-group">

@@ -334,8 +334,7 @@ class ProjectDataController extends Controller
      $image=ProjectData::where('project_id',$id)->first();
      return view('admin.projectdata.view',compact('unit_count','project_id','arr','project_name','available','sold_out','reserved','total','image'));
    }  
-
-  public function getPupUpByAjax(Request $request){
+    public function getPupUpByAjax(Request $request){
     $unit_name=ProjectData::find($request->get('id'));
     return view('admin.projectdata.viewModal',compact('unit_name'));
   }  

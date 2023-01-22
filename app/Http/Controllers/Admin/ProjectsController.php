@@ -16,20 +16,19 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-
-      if(Request()->has('search')){
-        $project = Project::where(function ($q){
-          $this->filterPrams($q);
-        })->paginate(20);
-        $project_count = Project::where(function ($q){
-          $this->filterPrams($q);
-        })->count();
-      }else{
-        $project = Project::paginate(20);
-        $project_count = Project::count();
-      }
-  
+        if(Request()->has('search')){
+            $project = Project::where(function ($q){
+              $this->filterPrams($q);
+            })->paginate(20);
+            $project_count = Project::where(function ($q){
+              $this->filterPrams($q);
+            })->count();
+        }else{
+            $project = Project::paginate(20);
+            $project_count = Project::count();
+        }
         $countries = Country::all();
+        
         return view('admin.projects.index',[
           'projects' => $project,
           'countries' => $countries,
@@ -47,24 +46,20 @@ class ProjectsController extends Controller
           'country_id' => 'required'
         ]); 
 
-        addHistory('Project',0,'added',$data);   
-
         Project::create($data);
         return back()->withSuccess(__('site.success'));
     }
 
 
-    public function update(Request $request,  $id)
+    public function update(Request $request,  $project)
     {
-      $project = Project::findOrFail($id);
+      $project = Project::findOrFail($project);
       $data = $request->validate([
         'name_ar' => 'required|max:255|unique:projects,name_ar,'.$project->id,
         'name_en' => 'required|max:255|unique:projects,name_en,'.$project->id,
         'country_id' => 'required',
         'active' => 'required'
       ]);
-
-      addHistory('Project Developer',$id,'updated',$data,$project);
 
       $project->update($data);
       return back()->withSuccess(__('site.success'));
@@ -80,7 +75,6 @@ class ProjectsController extends Controller
     {
         $project = Project::findOrFail($project);
         $project->delete();
-        addHistory('Project',$id,'deleted');     
         return back()->withSuccess(__('site.success'));
     }
     
@@ -118,7 +112,7 @@ class ProjectsController extends Controller
         'countryCode' => $country->code
       ]);
     }
-
+    
     private function filterPrams($q){
 
       if(Request()->has('search')){

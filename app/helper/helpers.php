@@ -916,21 +916,21 @@ function getSellers() {
     }
 
   }elseif(userRole() == 'sales admin'){
+      $whereCountry = 'Asia/Riyadh';
+      $leader = auth()->user()->leader;
+      if($leader){
+        $sellers = User::where('active','1')
+        ->where('time_zone','like','%'.$whereCountry.'%')
+            ->where(function($q) use($leader){
+              $q->where('id','!=',auth()->id())
+               ->where('rule','sales')
+              ->orWhere('rule','sales admin saudi')
+              ->orWhere('id',$leader);
+            })->orderBy('email','asc')->get();
+      }else{
+          $sellers = [];
+      }
 
-    $whereCountry = 'Asia/Riyadh';
-    $leader = auth()->user()->leader;
-    if($leader){
-      $sellers = User::where('active','1')
-      ->where('time_zone','like','%'.$whereCountry.'%')
-          ->where(function($q) use($leader){
-            $q->where('id','!=',auth()->id())
-             ->where('rule','sales')
-            ->orWhere('rule','sales admin saudi')
-            ->orWhere('id',$leader);
-          })->orderBy('email','asc')->get();
-    }else{
-        $sellers = [];
-    }
 
   }elseif(userRole() == 'sales director'){
     $userloc=User::where('id',auth()->id())->first();

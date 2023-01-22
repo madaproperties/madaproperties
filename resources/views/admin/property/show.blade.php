@@ -576,6 +576,10 @@
 																	<div class="col-xl-12">
 																		<!--begin::Wizard Step 1-->
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+																		<!--begin::Group-->
+																		<div class="form-group row fv-plugins-icon-container">
+																			<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.owner_details')}}</label>
+																		</div>
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">

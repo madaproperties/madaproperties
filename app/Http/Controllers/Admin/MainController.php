@@ -202,7 +202,7 @@ class MainController extends Controller
       $subUserId[]=auth()->id();
       if(!Request()->has('my-contacts')  AND (isset(auth()->user()->leader))){
         $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
-         $subUserId = $subUserId->pluck('id')->toArray();
+        $subUserId = $subUserId->pluck('id')->toArray();
       }
       $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
         $this->filterPrams($q);

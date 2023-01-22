@@ -44,8 +44,6 @@ class PurposeTypeController extends Controller
           'type_ar' => 'required|max:255'
         ]);
 
-        addHistory('Purpose Type',0,'added',$data);   
-
         PurposeType::create($data);
         return back()->withSuccess(__('site.success'));
     }
@@ -87,8 +85,6 @@ class PurposeTypeController extends Controller
         'type_ar' => 'required|max:255'
       ]);
 
-      addHistory('Purpose Type',$id,'updated',$data,$purposeType);
-
       $purposeType->update($data);
       return back()->withSuccess(__('site.success'));
     }
@@ -103,7 +99,6 @@ class PurposeTypeController extends Controller
     {
         $purposeType = PurposeType::findOrFail($id);
         $purposeType->delete();
-        addHistory('Purpose Type',$id,'deleted');     
         return back()->withSuccess(__('site.success'));
     }
 }
