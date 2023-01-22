@@ -66,14 +66,7 @@
 																<span class="nav-text">{{__('site.location')}}</span>
 															</a>
 														</li>
-														<li class="nav-item">
-															<a class="nav-link" id="owner-tab" data-toggle="tab" href="#owner" aria-controls="owner">
-																<span class="nav-icon">
-																	<i class="fa fa-user"></i>
-																</span>
-																<span class="nav-text">{{__('site.owner_details')}}</span>
-															</a>
-														</li>
+														@if(userRole() == 'admin' || userRole() == 'sales admin uae')
 														<li class="nav-item">
 															<a class="nav-link" id="verification-tab" data-toggle="tab" href="#verification" aria-controls="verification">
 																<span class="nav-icon">
@@ -82,6 +75,7 @@
 																<span class="nav-text">{{__('site.verification')}}</span>
 															</a>
 														</li>
+														@endif
 													</ul>
 													
 												<div class="col-xl-12 col-xxl-12">
@@ -371,7 +365,7 @@
 																					</select>
 																				</div>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
-																					<input class="form-control form-control-solid form-control-lg" 	name="buildup_area" type="text" value="{{old('buildup_area')}}" placeholder="{{__('site.bua')}}">
+																					<input class="form-control form-control-solid form-control-lg" id="buildup_area" name="buildup_area" type="text" value="{{old('buildup_area')}}" placeholder="{{__('site.bua')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
@@ -419,7 +413,7 @@
 																			</div>
 																			<!--end::Group-->					
 																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
+																			<div class="form-group row fv-plugins-icon-container" id="priceInRent" style="display:none">
 																				<div class="col-xs-3 col-sm-3 col-lg-3">
 																					<input class="form-control form-control-solid form-control-lg property-price" 	name="yprice" type="text" value="{{old('yprice')}}" placeholder="{{__('site.yearly_price')}}">
 																					<div class="fv-plugins-message-container"></div>
@@ -461,9 +455,9 @@
 																					</div>
 																				</div>																			
 																			</div>
-																			<div class="form-group row fv-plugins-icon-container">
+																			<div class="form-group row fv-plugins-icon-container priceInSale">
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
-																					<input class="form-control form-control-solid form-control-lg" 	name="price" type="text" value="{{old('price')}}" placeholder="{{__('site.price')}}" required>
+																					<input class="form-control form-control-solid form-control-lg" id="price" name="price" type="text" value="{{old('price')}}" placeholder="{{__('site.price')}}" required>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
@@ -471,14 +465,14 @@
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
-																					<input class="form-control form-control-solid form-control-lg" 	name="price_unit" type="text" value="{{old('price_unit')}}" placeholder="{{__('site.price_unit')}}">
+																					<input class="form-control form-control-solid form-control-lg" id="price_unit" name="price_unit" type="text" value="{{old('price_unit')}}" placeholder="{{__('site.price_unit')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
 																			<!--end::Group-->
 																			
 																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
+																			<div class="form-group row fv-plugins-icon-container priceInSale">
 																				
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="cheques" id="cheques" class="form-control">
@@ -575,7 +569,60 @@
 																		</div>
 																	</div>
 																</div>	
-														
+																<div class="row col-xl-12 card mt-5">
+																	<div class="col-xl-12">
+																		<!--begin::Wizard Step 1-->
+																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+																		<!--begin::Group-->
+																		<div class="form-group row fv-plugins-icon-container">
+																			<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.owner_details')}}</label>
+																		</div>
+																		<!--end::Group-->	
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.contact_no')}}</label>
+																				<div class="col-lg-9 col-xl-9">
+																					<input class="form-control form-control-solid form-control-lg" 	name="contact_no" type="text" value="{{old('contact_no')}}" placeholder="{{__('site.contact_no')}}">
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																			</div>
+																			<!--end::Group-->
+
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mobile')}}</label>
+																				<div class="col-lg-9 col-xl-9">
+																					<input class="form-control form-control-solid form-control-lg" 	name="mobile" type="text" value="{{old('mobile')}}" placeholder="{{__('site.mobile')}}" required>
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																			</div>
+																			<!--end::Group-->
+
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.owner_name')}}</label>
+																				<div class="col-lg-9 col-xl-9">
+																					<input class="form-control form-control-solid form-control-lg" 	name="owner_name" type="text" value="{{old('owner_name')}}" placeholder="{{__('site.owner_name')}}" required>
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																			</div>
+																			<!--end::Group-->
+
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.email')}}</label>
+																				<div class="col-lg-9 col-xl-9">
+																					<input class="form-control form-control-solid form-control-lg" 	name="email" type="text" value="{{old('email')}}" placeholder="{{__('site.email')}}">
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																			</div>
+																			<!--end::Group-->
+
+																			
+																		</div>
+																	</div>
+																</div>
+													
 															</div>
 															<div class="tab-pane fade" id="files" role="tabpanel" aria-labelledby="files-tab">
 																<div class="row col-xl-12 card">
@@ -717,57 +764,7 @@
 																	</div>
 																</div>
 															</div>
-															<div class="tab-pane fade" id="owner" role="tabpanel" aria-labelledby="owner-tab">
-																<div class="row col-xl-12 card">
-																	<div class="col-xl-12">
-																		<!--begin::Wizard Step 1-->
-																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.contact_no')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="contact_no" type="text" value="{{old('contact_no')}}" placeholder="{{__('site.contact_no')}}">
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mobile')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="mobile" type="text" value="{{old('mobile')}}" placeholder="{{__('site.mobile')}}" required>
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.owner_name')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="owner_name" type="text" value="{{old('owner_name')}}" placeholder="{{__('site.owner_name')}}" required>
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.email')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="email" type="text" value="{{old('email')}}" placeholder="{{__('site.email')}}">
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			
-																		</div>
-																	</div>
-																</div>
-															</div>
+															@if(userRole() == 'admin' || userRole() == 'sales admin uae')
 															<div class="tab-pane fade" id="verification" role="tabpanel" aria-labelledby="verification-tab">
 																<div class="row col-xl-12 card">
 																	<div class="col-xl-12">
@@ -868,6 +865,7 @@
 
 																</div>
 															</div>	
+															@endif
 																														
 														</div>
 														<div class="row col-xl-12 card mt-5">																				
@@ -914,6 +912,7 @@
 @endsection
 
 @push('js')
+<script src="{{ asset('public/js/developer.js') }}"></script>
 <script>
 var KTCkeditor = function () {    
 	var demos = function () {
@@ -945,40 +944,6 @@ var KTCkeditor = function () {
 }();
 // Initialization
 KTCkeditor.init();
-
-$(document).ready(function(){
-	$(".property-price").on('input keyup keypress blur change',function(){
-		if($(this).attr('name') == 'yprice'){
-			if($(this).val() != ''){
-				$(".property-price-year").attr('disabled',false);
-			}else{
-				$(".property-price-year").attr('disabled',true);
-				$(".property-price-year")[0].checked = false;
-			}
-		}else if($(this).attr('name') == 'mprice'){
-			if($(this).val() != ''){
-				$(".property-price-month").attr('disabled',false);
-			}else{
-				$(".property-price-month").attr('disabled',true);
-				$(".property-price-month")[0].checked = false;
-			}
-		}else if($(this).attr('name') == 'wprice'){
-			if($(this).val() != ''){
-				$(".property-price-week").attr('disabled',false);
-			}else{
-				$(".property-price-week")[0].checked = false;
-				$(".property-price-week").attr('disabled',true);
-			}
-		}else if($(this).attr('name') == 'dprice'){
-			if($(this).val() != ''){
-				$(".property-price-day").attr('disabled',false);
-			}else{
-				$(".property-price-day")[0].checked = false;
-				$(".property-price-day").attr('disabled',true);
-			}
-		}
-	});
-});
 </script>
 @endpush
 
