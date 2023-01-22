@@ -780,6 +780,18 @@
 																		<!--begin::Wizard Step 1-->
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">	
 																			@if(userRole() == 'admin' || userRole() == 'sales admin uae')
+																				<!--begin::Group-->
+																				<div class="form-group row fv-plugins-icon-container">
+																					<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.status')}}</label>
+																					<div class="col-lg-9 col-xl-9">
+																						<select name="status" id="status" class="form-control">
+																							{!! selectOptions(__('config.status'),$property->status) !!}
+																						</select>
+																					</div>
+																				</div>
+																				<!--end::Group-->
+
+
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.agent')}}</label>
