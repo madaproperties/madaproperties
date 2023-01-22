@@ -546,6 +546,18 @@ return [
   'weekly_price'=>'weekly price',
   'day_price'=>'Day price',
   'default_price'=>'Default price',
-  
-  
+  'zone'=>'Zone',
+  'district'=>'District',
+  'assign to' =>'Assign To',
+  'bathroom' =>'Bathroom',
+  'livingroom'=>'Living Room',
+  'guestroom'=>'Guest Room',
+  'no of floor' =>'No of floor',
+  'floor_no'=>'Floor No',
+  'furniture' =>'Furniture',
+  'facing' =>'Facing',
+  'street width' =>'Street Width',
+  'length'=>'Length',
+  'depth' =>'Width',
+  'secondary project'=>'Secondary Projects',
 ];

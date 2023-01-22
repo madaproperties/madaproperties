@@ -19,6 +19,7 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
         Route::resource('sources','SourcesController');
         Route::resource('mediums','MediumsController');
         Route::resource('contents','ContentsController');
+        Route::resource('secondary','SecondaryController');
         Route::get('dashboard','MainController@statics')->name('statics');
       });
       /********* End Mnager Only ***************************/
@@ -157,7 +158,14 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::post('fetch-agent', 'ReportController@fetchAgent')->name('fetch-agent');
       // end
       Route::resource('features','FeaturesController');
-    
+      // added by fazal
+      Route::get('secondaryprojects','SecondaryController@index')->name('secondary-project.index');
+      Route::get('secondaryprojectscreate','SecondaryController@create')->name('secondary-create');
+      Route::post('fetch-district', 'SecondaryController@fetchDistrict')->name('fetch-project');
+      Route::post('secondary/upload/store','SecondaryController@imageStore')->name('secondary.imageStore');
+      Route::post('delete-floorplan', 'SecondaryController@deleteFloorplan')->name('delete-floorplan');
+      Route::post('delete-images', 'SecondaryController@deleteImages')->name('delete-images');
+
 });
 
 
