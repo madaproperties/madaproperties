@@ -474,7 +474,7 @@
 																			<!--end::Group-->
 																			
 																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
+																			<div class="form-group row fv-plugins-icon-container priceInSale" style="{{$property->sale_rent == 2 ? 'display:none' : ''}}">
 																				
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="cheques" id="cheques" class="form-control">
@@ -728,7 +728,10 @@
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sub_community')}}</label>
 																			<div class="col-xs-12 col-sm-4 col-lg-4">
 																				<select name="sub_community" id="sub_community" class="form-control">
-																					
+																					<option value="">{{ __('site.choose') }}</option>
+																					@foreach($subCommunity as $comm)
+																					<option {{$property->sub_community == $comm->id ? 'selected' : ''}} value="{{$comm->id}}">{{$comm->name_en}}</option>
+																					@endforeach 
 																				</select>
 																			</div>
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.location')}}</label>
@@ -929,6 +932,9 @@
 @endsection
 
 @push('js')
+<script>
+	var getSubCommunityUrl = "{{route('admin.property.getSubCommunityUrl')}}";
+</script>
 <script src="{{ asset('public/js/developer.js') }}"></script>
 <script>
 var KTCkeditor = function () {    

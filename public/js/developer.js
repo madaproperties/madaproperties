@@ -47,3 +47,27 @@ $(document).ready(function(){
 	});
 
 });
+
+    $(document).ready(function(){
+        $("#community").change(function(e) {
+            e.preventDefault();    
+			var community_id = $(this).val();
+			var csrf_token = $('meta[name=csrf-token]').attr('content');
+            $.ajax({
+                headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                        },                    
+                url: getSubCommunityUrl+'?community_id='+community_id,
+                type: 'GET',
+                data:{community_id:community_id},
+                success: function (data) {
+                    $("#loadingHolder").hide();
+                    $('#sub_community').html(data);
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });      
+
+    });

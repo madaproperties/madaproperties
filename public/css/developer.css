@@ -64,3 +64,13 @@ div.span,label,h3,button,a, .menu-text{
 .blue-label{
 	color:blue !important;
 }
+.fl{
+	float: left;
+}
+.mt10{
+	margin-top: 10px;
+	margin-left: 40px;
+}
+#property_form select{
+    text-transform: capitalize;
+}

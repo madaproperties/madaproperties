@@ -80,11 +80,14 @@
   evt.preventDefault();
 }, false);
 @endif
-
+    $("form").submit(function(){
+      $("#loadingHolder").show();
+    });
   </script>
 
 
   @stack('js')
+
 </body>
 <!--end::Body-->
 </html>

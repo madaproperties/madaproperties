@@ -14,7 +14,7 @@
 						<!--begin::Details-->
 						<div class="d-flex align-items-center flex-wrap mr-2 ">
 							<!--begin::Title-->
-							<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">{{__('site.New property')}}</h5>
+							<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5"></h5>
 							<!--end::Title-->
 						</div>
 						<!--end::Details-->
@@ -912,6 +912,9 @@
 @endsection
 
 @push('js')
+<script>
+	var getSubCommunityUrl = "{{route('admin.property.getSubCommunityUrl')}}";
+</script>
 <script src="{{ asset('public/js/developer.js') }}"></script>
 <script>
 var KTCkeditor = function () {    

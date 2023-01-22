@@ -118,7 +118,7 @@ class PropertyController extends Controller
     $devFeatures = Features::where('feature_type',2)->get();
     $lifeStyleFeatures = Features::where('feature_type',3)->get();
     $categories = Categories::get(); 
-    $community = Community::get(); 
+    $community = Community::where('parent_id',0)->get(); 
     return view('admin.property.create',compact('community','cities','countries','campaigns','sources','purposeType','sellers','lifeStyleFeatures','categories','devFeatures','unitFeatures'));
   }
 
@@ -205,6 +205,8 @@ class PropertyController extends Controller
       'geopoints' => 'nullable',
       'latitude' => 'nullable',
       'longitude' => 'nullable',
+      'community' => 'nullable',
+      'sub_community' => 'nullable',
     ]);
 
     // if(isset($data['is_managed'])){
@@ -388,6 +390,8 @@ class PropertyController extends Controller
       'geopoints' => 'nullable',
       'latitude' => 'nullable',
       'longitude' => 'nullable',
+      'community' => 'nullable',
+      'sub_community' => 'nullable',      
     ]);
 
     // if(isset($data['is_managed'])){
@@ -495,8 +499,9 @@ class PropertyController extends Controller
     $lifeStyleFeatures = Features::where('feature_type',3)->get();
     
     $categories = Categories::get(); 
-    $community = Community::get();     
-    return view('admin.property.show',compact('community','property','cities','countries','campaigns','sources','purposeType','sellers','unitFeatures','propertyFeatures','propertyPortals','categories','lifeStyleFeatures','devFeatures'));
+    $community = Community::where('parent_id',0)->get();      
+    $subCommunity = Community::where('parent_id',$property->community)->get();      
+    return view('admin.property.show',compact('community','subCommunity','property','cities','countries','campaigns','sources','purposeType','sellers','unitFeatures','propertyFeatures','propertyPortals','categories','lifeStyleFeatures','devFeatures'));
 
   }  
 
@@ -855,4 +860,15 @@ class PropertyController extends Controller
     }
     return $data;
   }
+
+  function getSubCommunityUrl(Request $request){
+    $subCommunity = Community::where('parent_id',$request->community_id)->get();
+
+    $data = '<option value="">'. __('site.choose').'</option>';
+    foreach($subCommunity as $comm){
+      $data .= '<option value="'.$comm->id.'">'.$comm->name_en.'</option>';
+    }
+    return $data;
+  }
+
 }
