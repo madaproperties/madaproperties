@@ -157,6 +157,10 @@ return [
     '1' => 'Yes',
     '2' => 'No'
   ],
+  'financial_status' => [
+    '1' => 'Mortgaged',
+    '2' => 'Cash'
+  ],
   'unverified_reason' => [
     '1' => 'Company Signatory Documents Missing',
     '2' => 'Documents Expired',

@@ -438,7 +438,7 @@ return [
   'unit_meas'   => 'unit meas',
   'Price_Area'   => 'Price / Area',
   'bua'   => 'bua',
-  'plot'   => 'plot',
+  'plot'   => 'size',
   'Baths'   => 'Baths',
   'managed'   => 'managed',
   'offplan'   => 'offplan',

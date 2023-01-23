@@ -634,6 +634,10 @@ pre code {
     bottom: 13px;
     right: 20px;
 }
+#priceInRent span.suffix-text {
+    top: 55px;
+    right: 36px;
+}
 .property_form .form-control.form-control-solid, .property_form select {
     border-bottom: 1px solid rgba(0,0,0,.12) !important;
     border-radius: 0;
@@ -6750,7 +6754,9 @@ a.close.disabled {
   border-top-left-radius: calc(0.25rem - 1px);
   border-top-right-radius: calc(0.25rem - 1px);
 }
-
+body#kt_body {
+    background: #f7f7f7;
+}
 .toast-body {
   padding: 0.75rem;
 }
@@ -6761,6 +6767,7 @@ a.close.disabled {
 .modal-open .modal {
   z-index:9999;
   opacity:1;
+  overflow:scroll;
 }
 
 .modal {
@@ -57920,6 +57927,9 @@ button {
 }
 .btn.btn-success:not(:disabled):not(.disabled):active:not(.btn-text).dropdown-toggle:after, .btn.btn-success:not(:disabled):not(.disabled).active.dropdown-toggle:after, .show > .btn.btn-success.dropdown-toggle.dropdown-toggle:after, .show .btn.btn-success.btn-dropdown.dropdown-toggle:after {
   color: #ffffff;
+}
+input.form-control.form-control-solid.form-control-lg.property-price {
+    background: #EBEDF3;
 }
 .btn.btn-outline-success {
   color: #1BC5BD;

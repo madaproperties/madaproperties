@@ -14,7 +14,7 @@
 						<!--begin::Details-->
 						<div class="d-flex align-items-center flex-wrap mr-2 ">
 							<!--begin::Title-->
-							<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">{{__('site.New property')}}</h5>
+							<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5"></h5>
 							<!--end::Title-->
 						</div>
 						<!--end::Details-->
@@ -332,7 +332,7 @@
 																				</div>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="project_status" id="project_status" class="form-control">
-																					<option value="" >{{ __('site.offplan') }}</option>
+																					<option value="" >{{ __('site.project_status') }}</option>
 																						{!! selectOptions(__('config.project_status'),old('project_status')) !!}
 																					</select>
 																				</div>
@@ -342,38 +342,16 @@
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="furnished" id="furnished" class="form-control">
 																					<option value="" >{{ __('site.Furnished') }}</option>
-																						{!! selectOptions(__('config.furnished'),old('furnished')) !!}																					
-																					</select>
+																						{!! selectOptions(__('config.furnished'),old('furnished')) !!}						</select>
 																				</div>
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
-																					<input class="form-control form-control-solid form-control-lg" 	name="dewa" type="text" value="{{old('dewa')}}" placeholder="{{__('site.dewa')}}">
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
-																					<input class="form-control form-control-solid form-control-lg" 	name="maint_fee" type="text" value="{{old('maint_fee')}}" placeholder="{{__('site.maint_fee')}}">
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
+																				<div class="col-xs-12 col-sm-4 col-lg-4">																					<select name="measure_unit" id="measure_unit" class="form-control">																					<option value="" >{{ __('site.unit_meas') }}</option>																						{!! selectOptions(__('config.measure_unit'),old('measure_unit')) !!}																					</select>																				</div>																				<div class="col-xs-12 col-sm-4 col-lg-4">																					<input class="form-control form-control-solid form-control-lg" id="buildup_area" name="buildup_area" type="text" value="{{old('buildup_area')}}" placeholder="{{__('site.bua')}}">																					<div class="fv-plugins-message-container"></div>																				</div>
 																			</div>
 																			<!--end::Group-->
 																			
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
-																					<select name="measure_unit" id="measure_unit" class="form-control">
-																					<option value="" >{{ __('site.unit_meas') }}</option>
-																						{!! selectOptions(__('config.measure_unit'),old('measure_unit')) !!}
-																					</select>
-																				</div>
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
-																					<input class="form-control form-control-solid form-control-lg" id="buildup_area" name="buildup_area" type="text" value="{{old('buildup_area')}}" placeholder="{{__('site.bua')}}">
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
-																					<select name="is_managed" id="is_managed" class="form-control">
-																					<option value="" >{{ __('site.managed') }}</option>
-																						{!! selectOptions(__('config.yes_no'),old('is_managed')) !!}
-																					</select>
-																				</div>
+																				
+																			
 																			</div>
 																			<!--end::Group-->		
 																			<!--start::Group-->	
@@ -394,10 +372,6 @@
 																						@endforeach
 																					</select>
 																				</div>
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
-																					<input class="form-control form-control-solid form-control-lg" 	name="deposit" type="text" value="{{old('deposit')}}" placeholder="{{__('site.Deposit')}}">
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
 																			</div>		
 																			<!--end::Group-->																				
 																		</div>
@@ -414,8 +388,8 @@
 																			<!--end::Group-->					
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container" id="priceInRent" style="display:none">
-																				<div class="col-xs-3 col-sm-3 col-lg-3">
-																					<input class="form-control form-control-solid form-control-lg property-price" 	name="yprice" type="text" value="{{old('yprice')}}" placeholder="{{__('site.yearly_price')}}">
+																				<div class="col-xs-3 col-sm-3 col-lg-3">																				<div class="border p-5">																					<label class="w-100 text-center">YEAR</label>
+																					<input class="form-control form-control-solid form-control-lg property-price" 	name="yprice" type="text" value="{{old('yprice')}}" placeholder="{{__('site.yearly_price')}}">																					<span class="suffix-text">AED</span>
 																					<div class="fv-plugins-message-container"></div>
 																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
 																						<input class="form-control property-price-year" name="default_price" type="radio" value="year" disabled>
@@ -423,9 +397,9 @@
 																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
 																						<span>{{__('site.default_price')}}</span>
 																					</div>
-																				</div>
-																				<div class="col-xs-3 col-sm-3 col-lg-3">
-																					<input class="form-control form-control-solid form-control-lg property-price" 	name="mprice" type="text" value="{{old('mprice')}}" placeholder="{{__('site.monthly_price')}}">
+																				</div>																				</div>
+																				<div class="col-xs-3 col-sm-3 col-lg-3">																				<div class="border p-5">																					<label class="w-100 text-center">MONTH</label>
+																					<input class="form-control form-control-solid form-control-lg property-price" 	name="mprice" type="text" value="{{old('mprice')}}" placeholder="{{__('site.monthly_price')}}">																					<span class="suffix-text">AED</span>
 																					<div class="fv-plugins-message-container"></div>
 																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
 																						<input class="form-control property-price-month" name="default_price" type="radio" value="month" disabled>
@@ -433,9 +407,9 @@
 																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
 																					<span>{{__('site.default_price')}}</span>
 																					</div>
-																				</div>
-																				<div class="col-xs-3 col-sm-3 col-lg-3">
-																					<input class="form-control form-control-solid form-control-lg property-price" 	name="wprice" type="text" value="{{old('wprice')}}" placeholder="{{__('site.weekly_price')}}">
+																				</div>																				</div>
+																				<div class="col-xs-3 col-sm-3 col-lg-3">																				<div class="border p-5">																					<label class="w-100 text-center">WEEK</label>
+																					<input class="form-control form-control-solid form-control-lg property-price" 	name="wprice" type="text" value="{{old('wprice')}}" placeholder="{{__('site.weekly_price')}}"><span class="suffix-text">AED</span>
 																					<div class="fv-plugins-message-container"></div>
 																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
 																						<input class="form-control property-price-week" name="default_price" type="radio" value="week" disabled>
@@ -443,9 +417,9 @@
 																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
 																					<span>{{__('site.default_price')}}</span>
 																					</div>
-																				</div>
-																				<div class="col-xs-3 col-sm-3 col-lg-3">
-																					<input class="form-control form-control-solid form-control-lg property-price" name="dprice" type="text" value="{{old('dprice')}}" placeholder="{{__('site.day_price')}}">
+																				</div>																				</div>
+																				<div class="col-xs-3 col-sm-3 col-lg-3 border">																				<div class="border p-5">																					<label class="w-100 text-center">DAILY</label>
+																					<input class="form-control form-control-solid form-control-lg property-price" name="dprice" type="text" value="{{old('dprice')}}" placeholder="{{__('site.day_price')}}"><span class="suffix-text">AED</span>
 																					<div class="fv-plugins-message-container"></div>
 																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
 																						<input class="form-control property-price-day" name="default_price" type="radio" value="day" disabled>
@@ -453,36 +427,40 @@
 																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
 																					<span>{{__('site.default_price')}}</span>
 																					</div>
-																				</div>																			
+																				</div>																																									</div>																				<div class="col-xs-12 col-sm-3 col-lg-3">																					<select name="cheques" id="cheques" class="form-control">																					<option value="" >{{ __('site.Cheques') }}</option>																						{!! selectOptions(__('config.cheques'),old('cheques')) !!}																							</select>																				</div>
 																			</div>
-																			<div class="form-group row fv-plugins-icon-container priceInSale">
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																			<div class="form-group row fv-plugins-icon-container">
+																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale">
 																					<input class="form-control form-control-solid form-control-lg" id="price" name="price" type="text" value="{{old('price')}}" placeholder="{{__('site.price')}}" required>
 																					<div class="fv-plugins-message-container"></div>
-																				</div>
+																				</div>																				<!--
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<input class="form-control form-control-solid form-control-lg" 	name="rent_price" type="text" value="{{old('rent_price')}}" placeholder="{{__('site.rent_price')}}">
 																					<div class="fv-plugins-message-container"></div>
-																				</div>
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																				</div> -->
+																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale">
 																					<input class="form-control form-control-solid form-control-lg" id="price_unit" name="price_unit" type="text" value="{{old('price_unit')}}" placeholder="{{__('site.price_unit')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
+																				<!--<div class="col-xs-12 col-sm-3 col-lg-3">																					
+																				<input class="form-control form-control-solid form-control-lg" 	name="dewa" type="text" value="{{old('dewa')}}" placeholder="{{__('site.dewa')}}">																					
+																				<div class="fv-plugins-message-container"></div>	
+																				</div>-->																				
+																				<div class="col-xs-12 col-sm-3 col-lg-3">
+																					<input class="form-control form-control-solid form-control-lg" 	name="maint_fee" type="text" value="{{old('maint_fee')}}" placeholder="{{__('site.maint_fee')}}">																					
+																					<div class="fv-plugins-message-container"></div>																				
+																				</div>																				<!--																				
+																					<div class="col-xs-12 col-sm-3 col-lg-3">																					
+																					<input class="form-control form-control-solid form-control-lg" 	name="deposit" type="text" value="{{old('deposit')}}" placeholder="{{__('site.Deposit')}}">																					
+																					<div class="fv-plugins-message-container"></div>																				</div>-->																					
+																				<div class="col-xs-12 col-sm-3 col-lg-3">																					
+																					<select name="financial_status" id="financial_status" class="form-control">		
+																					<option value="" >{{ __('site.financial_status') }}</option>	
+																					{!! selectOptions(__('config.financial_status'),old('financial_status')) !!}
+																					</select>																				
+																				</div>																				
 																			</div>
 																			<!--end::Group-->
-																			
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container priceInSale">
-																				
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
-																					<select name="cheques" id="cheques" class="form-control">
-																					<option value="" >{{ __('site.Cheques') }}</option>
-																						{!! selectOptions(__('config.cheques'),old('cheques')) !!}		
-																					</select>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-																			
 																		</div>
 																	</div>
 																</div>	
@@ -579,13 +557,13 @@
 																		</div>
 																		<!--end::Group-->	
 																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
+																			<!-- <div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.contact_no')}}</label>
 																				<div class="col-lg-9 col-xl-9">
 																					<input class="form-control form-control-solid form-control-lg" 	name="contact_no" type="text" value="{{old('contact_no')}}" placeholder="{{__('site.contact_no')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
-																			</div>
+																			</div> -->
 																			<!--end::Group-->
 
 																			<!--begin::Group-->
@@ -870,7 +848,7 @@
 														</div>
 														<div class="row col-xl-12 card mt-5">																				
 															<!--begin::Wizard Actions-->
-															<div class="d-flex justify-content-between border-top pt-10 mt-15">
+															<div class="d-flex justify-content-between border-top pt-5 pb-5 m-auto">
 																<div>
 																	<input type="submit" class="btn btn-primary font-weight-bolder px-9 py-4" value="{{__('site.save')}}"/>
 																</div>
@@ -912,6 +890,9 @@
 @endsection
 
 @push('js')
+<script>
+	var getSubCommunityUrl = "{{route('admin.property.getSubCommunityUrl')}}";
+</script>
 <script src="{{ asset('public/js/developer.js') }}"></script>
 <script>
 var KTCkeditor = function () {    

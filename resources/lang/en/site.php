@@ -419,7 +419,7 @@ return [
   "dname" => 'dname',
   "rented_till" => 'rented till',
   "next_available" => 'next available',
-  "maint_fee" => 'maint fee',
+  "maint_fee" => 'Service Charges',
   "dewa" => 'dewa',
   "postal_code" => 'postal code',
   "reminder" => 'reminder',
@@ -546,6 +546,7 @@ return [
   'weekly_price'=>'weekly price',
   'day_price'=>'Day price',
   'default_price'=>'Default price',
+  'financial_status'=>'financial status',
   
   
 ];
