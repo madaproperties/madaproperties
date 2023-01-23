@@ -332,7 +332,7 @@
 																				</div>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="project_status" id="project_status" class="form-control">
-																					<option value="" >{{ __('site.offplan') }}</option>
+																					<option value="" >{{ __('site.project_status') }}</option>
 																						{!! selectOptions(__('config.project_status'),old('project_status')) !!}
 																					</select>
 																				</div>
