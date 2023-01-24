@@ -293,8 +293,7 @@
   </div>
   <hr />
   @endif
-  <!--
-  @if(isset($contact->investmentcountry_id))
+  <!--@if(isset($contact->investmentcountry_id))
   <div class="d-flex align-items-center justify-content-between mb-2">
     <span class="font-weight-bold mr-2">{{ __('site.Investment Country')}}:</span>
     <span class="text-muted">{{ $contact->investmentcountry_id }}</span>
@@ -308,6 +307,7 @@
   </div>
   <hr />
  @endif
+  
 
 </div>
 <!--end::sidebar-->

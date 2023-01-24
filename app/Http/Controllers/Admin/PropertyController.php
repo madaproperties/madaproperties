@@ -207,6 +207,7 @@ class PropertyController extends Controller
       'longitude' => 'nullable',
       'community' => 'nullable',
       'sub_community' => 'nullable',
+      'financial_status' => 'nullable',
     ]);
 
     // if(isset($data['is_managed'])){
@@ -392,6 +393,7 @@ class PropertyController extends Controller
       'longitude' => 'nullable',
       'community' => 'nullable',
       'sub_community' => 'nullable',      
+      'financial_status' => 'nullable',      
     ]);
 
     // if(isset($data['is_managed'])){

@@ -1,5 +1,5 @@
 @component('mail::message')
-#  Hi {{ $data['user_name'] }}, 
+#  Hi, 
 
 <p>You got a new lead.</p>
 

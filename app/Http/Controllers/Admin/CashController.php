@@ -78,16 +78,14 @@ class CashController extends Controller
     }
     $data['created_at'] = Carbon::now();
 
-    addHistory('Cheque',0,'added',$data);
-
     $deal = Cash::create($data);
     return redirect(route('admin.cash.index'))->withSuccess(__('site.success'));
   }
 
-  public function update(Request $request,  $id)
+  public function update(Request $request,  $deal)
   {
 
-    $deal = Cash::findOrFail($id);
+    $deal = Cash::findOrFail($deal);
 
     $data = $request->validate([
       "cheque_date"   => "nullable",
@@ -103,8 +101,6 @@ class CashController extends Controller
       $data['documents'] = $md5Name.'.'.$guessExtension;
     }
     $data['updated_at'] = Carbon::now();
-    addHistory('Cheque',$id,'updated',$data,$deal);
-
     $deal->update($data);
     return redirect(route('admin.cash.index'))->withSuccess(__('site.success'));
   }
@@ -114,7 +110,6 @@ class CashController extends Controller
   {
     $data = Cash::findOrFail($id);
     $data->delete();
-    addHistory('Cheque',$id,'deleted');    
     return back()->withSuccess(__('site.success'));
   }
 

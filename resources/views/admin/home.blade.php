@@ -326,6 +326,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 									@endforeach
 
 								</tbody>
+								{{ $contacts->withQueryString()->links() }}
 							</table>
 							</div>
 							{{ $contacts->withQueryString()->links() }}

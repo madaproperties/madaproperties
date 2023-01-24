@@ -80,7 +80,7 @@ class PropertyFinderXmlController extends Controller
       }
 
       $price=str_replace(".00","",$price);
-      $city_text = $property->city->name_en;
+      $city_text = isset($property->city) ? $property->city->name_en : 'N/A';
       $community=$property->area_name;
       $project_name=$property->project_name;
       $building_name=$property->bname;

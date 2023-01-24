@@ -66586,7 +66586,7 @@ code {
   position: relative;
   text-align: left;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0rem;
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
   margin: 0;

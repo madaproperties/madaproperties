@@ -128,16 +128,14 @@ class DealDeveloperController extends Controller
 
 
       $data['created_at'] = Carbon::now();
-      
-      addHistory('Deal Developer',0,'added',$data);   
 
       $deal = DealDeveloper::create($data);
       return redirect(route('admin.deal-developer.index'))->withSuccess(__('site.success'));
   }
 
-  public function update(Request $request,  $id)
+  public function update(Request $request,  $deal)
   {
-    $deal = DealDeveloper::findOrFail($id);
+    $deal = DealDeveloper::findOrFail($deal);
 
     $data = $request->validate([
       "country_id"          => "required",
@@ -145,9 +143,6 @@ class DealDeveloperController extends Controller
       "company_address"     => "required",
       "trn"     => "required",
     ]);
-
-
-    addHistory('Deal Developer',$id,'updated',$data,$deal);
 
     $data['updated_at'] = Carbon::now();
 
@@ -160,7 +155,6 @@ class DealDeveloperController extends Controller
   {
     $data = DealDeveloper::findOrFail($id);
     $data->delete();
-    addHistory('Deal Developer',$id,'deleted');    
     return back()->withSuccess(__('site.success'));
   }
 

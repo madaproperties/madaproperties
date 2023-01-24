@@ -80,9 +80,6 @@ class AccountController extends Controller
         {
           $data['password'] = Hash::make($request->password);
         }
-
-
-        addHistory('User',auth()->id(),'updated');
         
         $user->update($data);
         return back()->withSuccess(__('site.success'));

@@ -2,6 +2,50 @@
 @section('content')
 
 <!--begin::Content-->
+<style>
+.property_form span.suffixPlot {
+    bottom: 17px;
+    right: 20px;
+}
+	@media(max-width:767px){
+	.rowCrtt{
+    margin:0px !important;
+	margin-bottom:15px !important;
+	}
+	.property_form span.suffixPlot {
+    
+    right: 15px;
+}
+	.rowCrtt .form-control{
+		padding:8px 0px !important;
+	}
+
+	.tabRoleSec li{
+		width:50% !important;
+		margin:0px !important;
+	}
+	.tabRoleSec li a{
+		text-align:center;
+		width:100%;
+		display:block !important;
+		margin:auto !important;
+	}
+	.btnCatt .btn{
+		padding: 5px 3px;
+    font-size: 10px;
+    display: block;
+	text-align:center;
+	}
+	.formRdo .radio{
+		justify-content:center;
+		margin:5px auto !important;
+	}
+	.property_form span.check{
+		width:100% !important;
+		text-align:center;
+	}
+}
+</style>
 <div class="d-flex flex-column flex-column-fluid property_form" id="kt_content">
 	<!--begin::Entry-->
 	<div class="d-flex flex-column-fluid">
@@ -39,8 +83,8 @@
 									<div class="card-custom card-shadowless rounded-top-0">
 										<!--begin::Body-->
 										<div class="card-body p-0">
-											<div class="row px-8 px-lg-10">
-											<ul class="nav nav-tabs " id="myTab" role="tablist">
+											<div class="row px-lg-10">
+											<ul class="nav nav-tabs tabRoleSec" id="myTab" role="tablist">
 														<li class="nav-item">
 															<a class="nav-link active" id="basic-tab" data-toggle="tab" href="#basic">
 																<span class="nav-icon">
@@ -84,7 +128,7 @@
 														@csrf
 														<div class="tab-content mt-5" id="myTabContent">
 															<div class="tab-pane fade active show" id="basic" role="tabpanel" aria-labelledby="basic-tab">
-																<div class="row col-xl-12 card mt-5">
+																<div class="row col-xl-12 card mt-5 rowCrtt">
 																	<div class="col-xl-12">
 																		<!--begin::Group-->
 																		<div class="form-group row fv-plugins-icon-container">
@@ -96,12 +140,12 @@
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
 
 																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">	
-																				<div class="col-xl-2 text-center">
+																			<div class="form-group row fv-plugins-icon-container ">	
+																				<div class="col-xl-2 text-center col-6 formRdo">
 																				<label class="col-form-label w-100 text-center">
 																				<span class="check">
 																				<input class="form-control radio" name="property_type" type="radio" value="1" checked>
-																					<i class="fa fa-check"></i></span>
+																					</span>
 																																									<svg class="property_icons w-100" fill="#000000" height="60px" width="60px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 																						viewBox="0 0 512.213 512.213" xml:space="preserve">
 																					<g transform="translate(0 1)">
@@ -141,22 +185,21 @@
 
 																							</div>
 																																											
-																																											<div class="col-xl-2 text-center">
+																																											<div class="col-xl-2 text-center col-6 formRdo">
 																																											<label class="col-form-label w-100 text-center">
 																																											<span class="check">
 																																											<input class="form-control radio" name="property_type" type="radio" value="2">
-																																											<i class="fa fa-check"></i></span>
+																																											</span>
 																																											<svg class="w-100" fill="#000000" width="60px" height="60px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M 10 3.8828125 L 3 7.3828125 L 3 28 L 17 28 L 29 28 L 29 10 L 17 10 L 17 7.3828125 L 10 3.8828125 z M 10 6.1171875 L 15 8.6171875 L 15 26 L 5 26 L 5 8.6171875 L 10 6.1171875 z M 7 10 L 7 12 L 9 12 L 9 10 L 7 10 z M 11 10 L 11 12 L 13 12 L 13 10 L 11 10 z M 17 12 L 27 12 L 27 26 L 17 26 L 17 12 z M 7 14 L 7 16 L 9 16 L 9 14 L 7 14 z M 11 14 L 11 16 L 13 16 L 13 14 L 11 14 z M 19 14 L 19 16 L 21 16 L 21 14 L 19 14 z M 23 14 L 23 16 L 25 16 L 25 14 L 23 14 z M 7 18 L 7 20 L 9 20 L 9 18 L 7 18 z M 11 18 L 11 20 L 13 20 L 13 18 L 11 18 z M 19 18 L 19 20 L 21 20 L 21 18 L 19 18 z M 23 18 L 23 20 L 25 20 L 25 18 L 23 18 z M 7 22 L 7 24 L 9 24 L 9 22 L 7 22 z M 11 22 L 11 24 L 13 24 L 13 22 L 11 22 z M 19 22 L 19 24 L 21 24 L 21 22 L 19 22 z M 23 22 L 23 24 L 25 24 L 25 22 L 23 22 z"/></svg>
 																																											{{__('site.commercial')}}
 																																											</label>	
 																																										</div>
 																																										
-																																											<div class="col-xl-2 text-center">
+																																											<div class="col-xl-2 text-center col-6 formRdo">
 																																											<label class="col-form-label w-100 text-center">
 																																											<span class="check">
 																							<input class="form-control radio" name="sale_rent" type="radio" value="1" checked>
-																							<i class="fa fa-check">	
-																							</i></span>
+																							</span>
 																																											<svg class="w-100" fill="#000000" height="60px" width="60px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 																								viewBox="0 0 285 285" xml:space="preserve">
 																							<g>
@@ -190,12 +233,11 @@
 
 																																											</label>
 																																											</div>
-																																											<div class="col-xl-2 text-center">
+																																											<div class="col-xl-2 text-center col-6 formRdo">
 																																											<label class="col-form-label w-100 text-center">
 																																											<span class="check">
 																																											<input class="form-control radio" name="sale_rent" type="radio" value="2">
-																																											<i class="fa fa-check">
-																																											</i></span>
+																																											</span>
 																																											<svg class="w-100" fill="#000000" height="60px" width="60px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 																								viewBox="0 0 512 512" xml:space="preserve">
 																							<g>
@@ -243,7 +285,7 @@
 																	</div>
 																	
 																</div>
-																<div class="row col-xl-12 card mt-5">
+																<div class="row col-xl-12 card mt-5 rowCrtt">
 																	<div class="col-xl-12">
 																		<!--begin::Group-->
 																		<div class="form-group row fv-plugins-icon-container">
@@ -262,15 +304,15 @@
 																				</div>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select class="form-control"  name="category_id" required>
-																						<option value="" >{{ __('site.category') }}</option>
+																						<option value="" >{{ __('site.property_type') }}</option>
 																						@foreach($categories as $category)
 																						<option {{ old('category_id') == $category->id ? 'selected' : ''}} value="{{$category->id}}">{{$category->category_name}}</option>
 																						@endforeach
 																					</select>
 																				</div>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
-																					<input class="form-control form-control-solid form-control-lg" 	name="plot_size" type="text" value="{{old('plot_size')}}" placeholder="{{__('site.plot')}}">
-																					<span class="suffix-text">sqft</span>
+																					<input class="form-control form-control-solid form-control-lg" 	name="plot_size" type="text" value="{{old('plot_size')}}" placeholder="{{__('site.plot')}}" required>
+																					<span class="suffix-text suffixPlot">sqft</span>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -348,12 +390,7 @@
 																			</div>
 																			<!--end::Group-->
 																			
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
 																				
-																			
-																			</div>
-																			<!--end::Group-->		
 																			<!--start::Group-->	
 																			<div class="form-group row fv-plugins-icon-container">
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
@@ -377,7 +414,7 @@
 																		</div>
 																	</div>
 																</div>
-																<div class="row col-xl-12 card mt-5">
+																<div class="row col-xl-12 card mt-5 rowCrtt">
 																	<div class="col-xl-12">
 																		<!--begin::Wizard Step 1-->
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
@@ -387,47 +424,60 @@
 																			</div>
 																			<!--end::Group-->					
 																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container" id="priceInRent" style="display:none">
-																				<div class="col-xs-3 col-sm-3 col-lg-3">																				<div class="border p-5">																					<label class="w-100 text-center">YEAR</label>
-																					<input class="form-control form-control-solid form-control-lg property-price" 	name="yprice" type="text" value="{{old('yprice')}}" placeholder="{{__('site.yearly_price')}}">																					<span class="suffix-text">AED</span>
-																					<div class="fv-plugins-message-container"></div>
-																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
-																						<input class="form-control property-price-year" name="default_price" type="radio" value="year" disabled>
-																					</div>
-																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
+																			<div class="form-group row fv-plugins-icon-container priceInRent" style="display:none">
+																				<div class="col-xs-3 col-sm-3 col-lg-3">																				
+																					<div class="border p-5">																					
+																					<label class="w-100 text-center">YEAR</label>
+																						<input class="form-control form-control-solid form-control-lg property-price" 	name="yprice" type="text" value="{{old('yprice')}}" placeholder="{{__('site.yearly_price')}}">																					<span class="suffix-text">AED</span>
+																						<div class="fv-plugins-message-container"></div>
+																						<div class="col-xs-3 col-sm-3 col-lg-3 fl col-3">
+																							<input class="form-control property-price-year" name="default_price" type="radio" value="year" disabled>
+																						</div>
+																						<div class="col-xs-9 col-sm-9 col-lg-9 mt10 col-9">
+																							<span>{{__('site.default_price')}}</span>
+																						</div>
+																					</div>																				
+																				</div>
+																				<div class="col-xs-3 col-sm-3 col-lg-3">																				
+																					<div class="border p-5">																					
+																					<label class="w-100 text-center">MONTH</label>
+																						<input class="form-control form-control-solid form-control-lg property-price" 	name="mprice" type="text" value="{{old('mprice')}}" placeholder="{{__('site.monthly_price')}}">																					<span class="suffix-text">AED</span>
+																						<div class="fv-plugins-message-container"></div>
+																						<div class="col-xs-3 col-sm-3 col-lg-3 fl col-3">
+																							<input class="form-control property-price-month" name="default_price" type="radio" value="month" disabled>
+																						</div>
+																						<div class="col-xs-9 col-sm-9 col-lg-9 mt10 col-9">
 																						<span>{{__('site.default_price')}}</span>
-																					</div>
-																				</div>																				</div>
-																				<div class="col-xs-3 col-sm-3 col-lg-3">																				<div class="border p-5">																					<label class="w-100 text-center">MONTH</label>
-																					<input class="form-control form-control-solid form-control-lg property-price" 	name="mprice" type="text" value="{{old('mprice')}}" placeholder="{{__('site.monthly_price')}}">																					<span class="suffix-text">AED</span>
-																					<div class="fv-plugins-message-container"></div>
-																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
-																						<input class="form-control property-price-month" name="default_price" type="radio" value="month" disabled>
-																					</div>
-																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
-																					<span>{{__('site.default_price')}}</span>
-																					</div>
-																				</div>																				</div>
-																				<div class="col-xs-3 col-sm-3 col-lg-3">																				<div class="border p-5">																					<label class="w-100 text-center">WEEK</label>
-																					<input class="form-control form-control-solid form-control-lg property-price" 	name="wprice" type="text" value="{{old('wprice')}}" placeholder="{{__('site.weekly_price')}}"><span class="suffix-text">AED</span>
-																					<div class="fv-plugins-message-container"></div>
-																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
-																						<input class="form-control property-price-week" name="default_price" type="radio" value="week" disabled>
-																					</div>
-																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
-																					<span>{{__('site.default_price')}}</span>
-																					</div>
-																				</div>																				</div>
-																				<div class="col-xs-3 col-sm-3 col-lg-3 border">																				<div class="border p-5">																					<label class="w-100 text-center">DAILY</label>
-																					<input class="form-control form-control-solid form-control-lg property-price" name="dprice" type="text" value="{{old('dprice')}}" placeholder="{{__('site.day_price')}}"><span class="suffix-text">AED</span>
-																					<div class="fv-plugins-message-container"></div>
-																					<div class="col-xs-3 col-sm-3 col-lg-3 fl">
-																						<input class="form-control property-price-day" name="default_price" type="radio" value="day" disabled>
-																					</div>
-																					<div class="col-xs-9 col-sm-9 col-lg-9 mt10">
-																					<span>{{__('site.default_price')}}</span>
-																					</div>
-																				</div>																																									</div>																				<div class="col-xs-12 col-sm-3 col-lg-3">																					<select name="cheques" id="cheques" class="form-control">																					<option value="" >{{ __('site.Cheques') }}</option>																						{!! selectOptions(__('config.cheques'),old('cheques')) !!}																							</select>																				</div>
+																						</div>
+																					</div>																				
+																				</div>
+																				<div class="col-xs-3 col-sm-3 col-lg-3">																				
+																					<div class="border p-5">																					
+																					<label class="w-100 text-center">WEEK</label>
+																						<input class="form-control form-control-solid form-control-lg property-price" 	name="wprice" type="text" value="{{old('wprice')}}" placeholder="{{__('site.weekly_price')}}"><span class="suffix-text">AED</span>
+																						<div class="fv-plugins-message-container"></div>
+																						<div class="col-xs-3 col-sm-3 col-lg-3 fl col-3">
+																							<input class="form-control property-price-week" name="default_price" type="radio" value="week" disabled>
+																						</div>
+																						<div class="col-xs-9 col-sm-9 col-lg-9 mt10 col-9">
+																						<span>{{__('site.default_price')}}</span>
+																						</div>
+																					</div>																				
+																				</div>
+																				<div class="col-xs-3 col-sm-3 col-lg-3">																				
+																					<div class="border p-5">																					
+																					<label class="w-100 text-center">DAILY</label>
+																						<input class="form-control form-control-solid form-control-lg property-price" name="dprice" type="text" value="{{old('dprice')}}" placeholder="{{__('site.day_price')}}"><span class="suffix-text">AED</span>
+																						<div class="fv-plugins-message-container"></div>
+																						<div class="col-xs-3 col-sm-3 col-lg-3 fl col-3">
+																							<input class="form-control property-price-day" name="default_price" type="radio" value="day" disabled>
+																						</div>
+																						<div class="col-xs-9 col-sm-9 col-lg-9 mt10 col-9">
+																						<span>{{__('site.default_price')}}</span>
+																						</div>
+																					</div>	
+																				</div>																				
+																				
 																			</div>
 																			<div class="form-group row fv-plugins-icon-container">
 																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale">
@@ -445,7 +495,13 @@
 																				<!--<div class="col-xs-12 col-sm-3 col-lg-3">																					
 																				<input class="form-control form-control-solid form-control-lg" 	name="dewa" type="text" value="{{old('dewa')}}" placeholder="{{__('site.dewa')}}">																					
 																				<div class="fv-plugins-message-container"></div>	
-																				</div>-->																				
+																				</div>-->			
+																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInRent" style="display:none">																					
+																					<select name="cheques" id="cheques" class="form-control">
+																						<option value="" >{{ __('site.Cheques') }}</option>
+																						{!! selectOptions(__('config.cheques'),old('cheques')) !!}		
+																					</select>																				
+																				</div>																																					
 																				<div class="col-xs-12 col-sm-3 col-lg-3">
 																					<input class="form-control form-control-solid form-control-lg" 	name="maint_fee" type="text" value="{{old('maint_fee')}}" placeholder="{{__('site.maint_fee')}}">																					
 																					<div class="fv-plugins-message-container"></div>																				
@@ -464,7 +520,7 @@
 																		</div>
 																	</div>
 																</div>	
-																<div class="row col-xl-12 card mt-5">
+																<div class="row col-xl-12 card mt-5 rowCrtt btnCatt">
 																	<div class="col-xl-12">
 																		<!--begin::Wizard Step 1-->
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
@@ -475,18 +531,18 @@
 																			<!--end::Group-->					
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																				<div class="col-sm-4 col-lg-4 col-4">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#features_modal_unit">
 																					{{__('site.unit_features')}} <i class="fa fa-menu"></i>
                   																	</button>
 																				</div>
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																				<div class="col-sm-4 col-lg-4 col-4">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#features_modal_dev">
 																					{{__('site.dev_feature')}} <i class="fa fa-menu"></i>
                   																	</button>
 																				</div>
 																			
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																				<div class="col-sm-4 col-lg-4 col-4">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#features_modal_life_style">
 																					{{__('site.lifestyle')}} <i class="fa fa-menu"></i>
                   																	</button>
@@ -500,7 +556,7 @@
 																</div>	
 
 
-																<div class="row col-xl-12 card mt-5">
+																<div class="row col-xl-12 card mt-5 rowCrtt">
 																	<div class="col-xl-12">
 																		<!--begin::Wizard Step 1-->
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
@@ -512,7 +568,7 @@
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<div class="col-lg-9 col-xl-9">
+																				<div class="col-lg-12 col-xl-12">
 																					<input class="form-control form-control-solid form-control-lg" 	name="title" type="text" value="{{old('title')}}" placeholder="{{__('site.title')}}(English)" required>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
@@ -521,16 +577,16 @@
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<div class="col-lg-9 col-xl-9">
-																					<textarea class="form-control form-control-solid form-control-lg" id="description" rows="10" name="description" type="text" placeholder="{{__('site.description')}}(English)">{!!old('description')!!}</textarea>
+																				<div class="col-lg-12 col-xl-12">
+																					<textarea class="form-control form-control-solid form-control-lg" id="description" rows="10" name="description" type="text" placeholder="{{__('site.description')}}(English)" required="required">{!!old('description')!!}</textarea>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
 																			<!--end::Group-->
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="title_ar" type="text" value="{{old('title_ar')}}" placeholder="{{__('site.title')}}(Arabic)">
+																				<div class="col-lg-12 col-xl-12">
+																					<input class="form-control form-control-solid form-control-lg" 	name="title_ar" type="text" value="{{old('title_ar')}}" placeholder="{{__('site.title')}}(Arabic)" required>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -538,8 +594,8 @@
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<div class="col-lg-9 col-xl-9">
-																					<textarea class="form-control form-control-solid form-control-lg" id="description2" rows="10" name="description_ar" placeholder="{{__('site.description')}}(Arabic)">{!!old('description_ar')!!}</textarea>
+																				<div class="col-lg-12 col-xl-12">
+																					<textarea class="form-control form-control-solid form-control-lg" id="description2" rows="10" name="description_ar" placeholder="{{__('site.description')}}(Arabic)" required>{!!old('description_ar')!!}</textarea>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -547,7 +603,7 @@
 																		</div>
 																	</div>
 																</div>	
-																<div class="row col-xl-12 card mt-5">
+																<div class="row col-xl-12 card mt-5 rowCrtt">
 																	<div class="col-xl-12">
 																		<!--begin::Wizard Step 1-->
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
@@ -846,7 +902,7 @@
 															@endif
 																														
 														</div>
-														<div class="row col-xl-12 card mt-5">																				
+														<div class="row col-xl-12 card mt-5 rowCrtt">																				
 															<!--begin::Wizard Actions-->
 															<div class="d-flex justify-content-between border-top pt-5 pb-5 m-auto">
 																<div>
@@ -893,8 +949,12 @@
 <script>
 	var getSubCommunityUrl = "{{route('admin.property.getSubCommunityUrl')}}";
 </script>
-<script src="{{ asset('public/js/developer.js') }}"></script>
+<script src="{{ asset('public/js/developer.js').'?t='.time() }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"> </script>
 <script>
+$(document).ready (function () {  
+  $("#property_form").validate();
+});  
 var KTCkeditor = function () {    
 	var demos = function () {
 		ClassicEditor

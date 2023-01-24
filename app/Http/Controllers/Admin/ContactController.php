@@ -27,6 +27,7 @@ use App\Medium;
 use Mail;
 use App\Mail\LeadAssigned;
 
+
 class ContactController extends Controller
 {
 
@@ -124,10 +125,8 @@ class ContactController extends Controller
       $purposetype = PurposeType::orderBy('type')->get();
       $currencies = Currency::orderBy($currencyName)->get();
 
-
-      $sellers = getSellers(); // Added by Lokesh on 15-11-2022
-
-
+        $sellers = $this->getSellers();
+      
       $activities = Activity::where('contact_id',$contact->id)->orderBy('id','DESC')->get();
       $tasks = Task::where('contact_id',$contact->id)->orderBy('created_at','DESC')->get();
       $notes = Note::where('contact_id',$contact->id)->orderBy('created_at','DESC')->get();
@@ -141,7 +140,7 @@ class ContactController extends Controller
         '30',
         '45',
       ];
-      $durations = [];
+      $dturations = [];
       for($i =0;$i<=8;$i++)
       {
         foreach($minutes as $minute)
@@ -247,7 +246,9 @@ class ContactController extends Controller
         $contents = Content::where('active','1')->orderBy('name')->get();
         $sources = Source::where('active','1')->orderBy('name')->get();
         $mediums = Medium::where('active','1')->get();
-        $sellers = getSellers();
+
+        $sellers = $this->getSellers();
+      
 
         return view('admin.contacts.create',
         compact('projects','miles','countries','currencies','purpose','purposetype','campaigns','contents','sources','mediums','sellers'));
@@ -375,7 +376,7 @@ class ContactController extends Controller
             {
                 $data['user_id'] = $request->user_id;
             }else{
-               $data['user_id'] = null;
+               $data['user_id'] = auth()->id();
             }
 
         }
@@ -384,9 +385,6 @@ class ContactController extends Controller
          $data['created_by'] = auth()->id(); // set user to cuurunt user\
         $data['created_from'] = 'website';
         $data['status_changed_at'] = Carbon::now();
-
-        addHistory('Contact',0,'added',$data);
-
 
         $contact = Contact::create($data);
         $action = __('site.contact created');
@@ -433,9 +431,9 @@ class ContactController extends Controller
     }
 
 
-    public function update(Request $request,  $id)
+    public function update(Request $request,  $contact)
     {
-      $contact = Contact::findOrFail($id);
+      $contact = Contact::findOrFail($contact);
 
 
 
@@ -470,7 +468,7 @@ class ContactController extends Controller
       ]);
 
 
-     if(userRole() == 'sales' || userRole() == 'sales admin')
+     if(userRole() == 'sales')
      {
         $data['user_id'] = auth()->id();
      }
@@ -523,9 +521,6 @@ class ContactController extends Controller
 
      $data['updated_at'] = Carbon::now();
 
-     
-     addHistory('Contact',$id,'updated',$data,$contact);
-
       $contact->update($data);
 
 
@@ -545,67 +540,62 @@ class ContactController extends Controller
 
         $contact = Contact::findOrFail($id);
         $contact->delete();
-        addHistory('Contact',$id,'deleted');    
         return back()->withSuccess(__('site.success'));
     }
 
     public function multiple_assign()
     {
-      $other_details ='';
-      $data = [];
+        $data = [];
       if(!request()->ids OR !request()->id) return false;
       $user = User::where('id',request()->id)->first();
       $contacts = explode(',',request()->ids);
-      //$contacts = Contact::select('id','user_id','updated_at','status_id')->whereIn('id',$contacts)->get();
+      //$contacts = Contact::select('*')->whereIn('id',$contacts)->get();
       $contacts = Contact::whereIn('id',$contacts)->get();
       if(!$contacts OR !$user) return false;
 
       foreach($contacts as $contact)
       {
+        
+        //Added by Lokesh on 13-09-2022  
         $mailData = [
           'user_name' => $contact->user ? $contact->user->name : '',
           'project_name' => $contact->project ? $contact->project->name : ''
-        ];
+        ];          
+        //end
+          
         // create new history if he not the same user !
         if($contact->user_id != $user->id)
         {
-          $other_details = $action = __('site.assigned to') .' '.$user->name;
+          $action = __('site.assigned to') .' '.User::where('id',$user->id)->first()->name;
           $this->newActivity($contact->id,auth()->id(),$action,null,null, null,true);
         }
         
         
         if($user->id != $contact->user_id)
         {
-            $other_details = $action = __('site.assigned to') .' '.$user->name;
+            $action = __('site.assigned to') .' '.User::where('id',$user->id)->first()->name;
             $this->newActivity($contact->id,auth()->id(),$action,null,null, null,true);
 
             // Change Startus to new if its not
-            if($contact->status_id != newStatus()->id){
+            if(isset($contact->status_id)){
                 $data['status_id'] = newStatus()->id;
 
-                $data['status_changed_at'] = Carbon::now();
-                
+                 $data['status_changed_at'] = Carbon::now();
                 $action = __('site.status changed to').' '.newStatus()->name;
-                $other_details .= ' and '.$action;
                 $this->newActivity($contact->id,auth()->id(),$action,null,null, null,true);
             }
 
         }
-
+        
         if(isset($data['status_id'])){ //added by Javed on 07-09-2022
-          addHistory('Contact',$contact->id,'updated',[
-            'user_id' => $user->id,
-            'status_id' => $data['status_id'],
-            'updated_at' => Carbon::now()
-          ],$contact,$other_details);
-          
-          $contact->update([
-            'user_id' => $user->id,
-            'status_id' => $data['status_id'],
-            'updated_at' => Carbon::now()
-          ]);
+            $contact->update([
+              'user_id' => $user->id,
+              'status_id' => $data['status_id']
+             // 'updated_at' => Carbon::now()
+            ]);
+            Mail::to($user->name)->send(new LeadAssigned($mailData));
+            
         }
-        Mail::to($user->name)->send(new LeadAssigned($mailData));
       }
 
       return response()->json([
@@ -623,5 +613,57 @@ class ContactController extends Controller
         'status' => true,
       ]);
     }
+    
+    function getSellers(){
+    if(userRole() == 'leader'){
+      $id = auth()->id();
+      $sellers = User::where(function($q) use($id){
+                        $q->where('leader',$id);
+                        $q->OrWhere('id',$id);
+                      })
+                      ->where('active','1')->get();
+    }elseif(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing' || userRole() == 'ceo'){ //Updated by Javed
+
+      if(userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' ){
+        $whereCountry = '';
+        if(userRole() == 'sales admin uae'){
+          $whereCountry = 'Asia/Dubai';
+          $sellers = User::where(function($q){
+            $q->where('rule','sales');
+            $q->orWhere('rule','leader');
+          })
+          ->where('active','1')
+          ->where('time_zone','like','%'.$whereCountry.'%')
+    		  ->orderBy('email','asc')
+          ->get();
+        }else{
+          $whereCountry = 'Asia/Riyadh';
+          $sellers = User::where('time_zone','like','%'.$whereCountry.'%')
+          ->where('active','1')
+		      ->orderBy('email','asc')
+          ->get();
+        }        	
+      }else{
+        $sellers = User::where('active','1')->orderBy('email','asc')->get();
+      }
+    }elseif(userRole() == 'sales admin'){
+
+        $leader = auth()->user()->leader;
+        if($leader){
+    			$sellers = User::where('leader',$leader)
+							->where('active','1')
+							->where('id','!=',auth()->id())
+							->orWhere('rule','sales admin saudi')->orWhere('id',$leader)->orderBy('email','asc')->get();
+        }else{
+            $sellers = [];
+        }
+
+    }else {
+      $sellers = [];
+    }
+
+    return $sellers;
+  }
+
 
 }

@@ -83,7 +83,7 @@ class AccountsController extends Controller
           'designation' => 'nullable',
           'user_pic' => 'nullable',
           'position_types' => 'required|array',
-          
+          'is_rera_active' => 'nullable'
         ]);
 
         unset($data['position_types']);
@@ -119,7 +119,7 @@ class AccountsController extends Controller
           'position_types' => $request->position_types
         ]);
         try {
-            Mail::to($data['email'])->send(new SetPassword($data));
+            //Mail::to($data['email'])->send(new SetPassword($data));
         } catch (\Exception $e) {
             return back()->withErrors($e->getMessage());
         }
@@ -151,7 +151,7 @@ class AccountsController extends Controller
           'department' => 'nullable',
           'designation' => 'nullable',
           'user_pic' => 'nullable',
-          
+          'is_rera_active' => 'nullable',
         ]);
         
         
