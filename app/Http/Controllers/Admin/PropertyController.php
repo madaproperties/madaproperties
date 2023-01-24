@@ -132,6 +132,7 @@ class PropertyController extends Controller
 
     $data = $request->validate([
       "title" => 'required',
+      "title_ar" => 'required',
       "unitno" => 'nullable',
       "str_no" => 'nullable',
       "sale_rent" => 'nullable',
@@ -162,6 +163,7 @@ class PropertyController extends Controller
       "furnished" => 'nullable',
       "owner_id" => 'nullable',
       "description" => 'nullable',
+      "description_ar" => 'nullable',
       "user_id" => 'nullable',
       "tuser_id" => 'nullable',
       "created_by" => 'nullable',
@@ -197,7 +199,6 @@ class PropertyController extends Controller
       "passport_emirates_id" => 'nullable',
       "title_deed" => 'nullable',
       "forma_noc_slform" => 'nullable',
-      'description'   => 'nullable',
       'unverified_reason' => 'nullable',
       'is_managed' => 'nullable',
       'is_exclusive' => 'nullable',
@@ -318,6 +319,7 @@ class PropertyController extends Controller
 
     $data = $request->validate([
       "title" => 'required',
+      "title_ar" => 'required',
       "unitno" => 'nullable',
       "str_no" => 'nullable',
       "sale_rent" => 'nullable',
@@ -348,6 +350,7 @@ class PropertyController extends Controller
       "furnished" => 'nullable',
       "owner_id" => 'nullable',
       "description" => 'nullable',
+      "description_ar" => 'nullable',
       "user_id" => 'nullable',
       "tuser_id" => 'nullable',
       "created_by" => 'nullable',
@@ -383,7 +386,6 @@ class PropertyController extends Controller
       "passport_emirates_id" => 'nullable',
       "title_deed" => 'nullable',
       "forma_noc_slform" => 'nullable',
-      'description'   => 'nullable',
       'unverified_reason' => 'nullable',
       'is_managed' => 'nullable',
       'is_exclusive' => 'nullable',
