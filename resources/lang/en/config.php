@@ -150,8 +150,10 @@ return [
     '3' => 'Shell and Core'
   ],
   'project_status' => [
-    '1' => 'Offplan',
-    '2' => 'Completed'
+    '1' => 'Ready Secondary',
+    '2' => 'Off-Plan Secondary',
+    '3' => 'Ready Primary',
+    '4' => 'Off-Plan Primary'
   ],
   'featured' => [
     '1' => 'Yes',

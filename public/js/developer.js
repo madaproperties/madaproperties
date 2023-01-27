@@ -57,29 +57,47 @@ $(document).ready(function(){
 			$("#price_unit").val($("#price").val()/$("#buildup_area").val());
 		}
 	});
+	$('#title_count').html($('[name="title"]').val().length);
+	$('#title_ar_count').html($('[name="title_ar"]').val().length);
+	$('[name="title"]').on('input keyup keypress blur change',function(){
+		$('#title_count').html($('[name="title"]').val().length);
+	});
+	$('[name="title_ar"]').on('input keyup keypress blur change',function(){
+		$('#title_ar_count').html($('[name="title_ar"]').val().length);
+	});
+	$('#description').on('input keyup keypress blur change',function(){
+		$('#description_count').html($('[name="description"]').value.length);
+	});
+	$('[name="description_ar"]').on('input keyup keypress blur change',function(){
+		$('#description_ar_count').html($('[name="description_ar"]').val().length);
+	});
 
 });
 
-    $(document).ready(function(){
-        $("#community").change(function(e) {
-            e.preventDefault();    
-			var community_id = $(this).val();
-			var csrf_token = $('meta[name=csrf-token]').attr('content');
-            $.ajax({
-                headers: {
-                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                        },                    
-                url: getSubCommunityUrl+'?community_id='+community_id,
-                type: 'GET',
-                data:{community_id:community_id},
-                success: function (data) {
-                    $("#loadingHolder").hide();
-                    $('#sub_community').html(data);
-                },
-                cache: false,
-                contentType: false,
-                processData: false
-            });
-        });      
+$(document).ready(function(){
+	$("#community").change(function(e) {
+		e.preventDefault();    
+		var community_id = $(this).val();
+		var csrf_token = $('meta[name=csrf-token]').attr('content');
+		$.ajax({
+			headers: {
+						'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+					},                    
+			url: getSubCommunityUrl+'?community_id='+community_id,
+			type: 'GET',
+			data:{community_id:community_id},
+			success: function (data) {
+				$("#loadingHolder").hide();
+				$('#sub_community').html(data);
+			},
+			cache: false,
+			contentType: false,
+			processData: false
+		});
+	});     
+});
 
-    });
+function countChar(val,description='description') {
+	var len = val.value.length;
+	$('#'+description+'_count').html(len);
+};

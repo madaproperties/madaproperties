@@ -570,6 +570,7 @@
 																			<div class="form-group row fv-plugins-icon-container">
 																				<div class="col-lg-12 col-xl-12">
 																					<input class="form-control form-control-solid form-control-lg" 	name="title" type="text" value="{{old('title')}}" placeholder="{{__('site.title')}}(English)" required>
+																					<span class="redCount" id="title_count">0</span>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -578,7 +579,7 @@
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<div class="col-lg-12 col-xl-12">
-																					<textarea class="form-control form-control-solid form-control-lg" id="description" rows="10" name="description" type="text" placeholder="{{__('site.description')}}(English)" required="required">{!!old('description')!!}</textarea>
+																					<textarea class="form-control form-control-solid form-control-lg" rows="5" name="description" id="description"  placeholder="{{__('site.description')}}(English)" required>{!!old('description')!!}</textarea>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -586,7 +587,8 @@
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<div class="col-lg-12 col-xl-12">
-																					<input class="form-control form-control-solid form-control-lg" 	name="title_ar" type="text" value="{{old('title_ar')}}" placeholder="{{__('site.title')}}(Arabic)" required>
+																					<input class="form-control form-control-solid form-control-lg" 	name="title_ar" type="text" value="{{old('title_ar')}}" placeholder="{{__('site.title')}}(Arabic)">
+																					<span class="redCount" id="title_ar_count">0</span>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -595,7 +597,7 @@
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<div class="col-lg-12 col-xl-12">
-																					<textarea class="form-control form-control-solid form-control-lg" id="description2" rows="10" name="description_ar" placeholder="{{__('site.description')}}(Arabic)" required>{!!old('description_ar')!!}</textarea>
+																					<textarea class="form-control form-control-solid form-control-lg" rows="5" name="description_ar" id="description2"  placeholder="{{__('site.description')}}(Arabic)">{!!old('description_ar')!!}</textarea>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>

@@ -92,3 +92,7 @@ div.span,label,h3,button,a, .menu-text, .dropdown-menu{
 .error{
 	color:red !important;
 }
+.redCount{
+	color:red !important;
+	float: right;
+}
