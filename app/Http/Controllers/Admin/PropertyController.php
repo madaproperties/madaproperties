@@ -136,6 +136,7 @@ class PropertyController extends Controller
       "unitno" => 'nullable',
       "str_no" => 'nullable',
       "sale_rent" => 'nullable',
+      "property_type" => 'nullable',
       "street" => 'nullable',
       "measure_unit" => 'nullable',
       "buildup_area" => 'nullable',
@@ -162,6 +163,7 @@ class PropertyController extends Controller
       "deposit" => 'nullable',
       "furnished" => 'nullable',
       "owner_id" => 'nullable',
+      "developer" => 'nullable',
       "description" => 'nullable',
       "description_ar" => 'nullable',
       "user_id" => 'nullable',
@@ -325,6 +327,7 @@ class PropertyController extends Controller
       "unitno" => 'nullable',
       "str_no" => 'nullable',
       "sale_rent" => 'nullable',
+      "property_type" => 'nullable',
       "street" => 'nullable',
       "measure_unit" => 'nullable',
       "buildup_area" => 'nullable',
@@ -352,6 +355,7 @@ class PropertyController extends Controller
       "furnished" => 'nullable',
       "owner_id" => 'nullable',
       "description" => 'nullable',
+      "developer" => 'nullable',
       "description_ar" => 'nullable',
       "user_id" => 'nullable',
       "tuser_id" => 'nullable',
@@ -585,7 +589,8 @@ class PropertyController extends Controller
             $img->insert($watermark, 'center');
             $img->save($destinationPath.'/'.$filename);
             
-            Storage::disk('s3')->put('uploads/property/'.$property_id.'/images', $filename);
+            $res = Storage::disk('s3')->put('uploads/property/'.$property_id.'/images', $filename);
+            dd($res);
             PropertyImages::create([
             'property_id' => $property_id,
             'images_link' => $filename
