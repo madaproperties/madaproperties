@@ -110,6 +110,14 @@
 																<span class="nav-text">{{__('site.location')}}</span>
 															</a>
 														</li>
+														<li class="nav-item">
+															<a class="nav-link" id="notes-tab" data-toggle="tab" href="#notes" aria-controls="notes">
+																<span class="nav-icon">
+																	<i class="fa fa-edit"></i>
+																</span>
+																<span class="nav-text">{{__('site.notes')}}</span>
+															</a>
+														</li>
 														@if(userRole() == 'admin' || userRole() == 'sales admin uae')
 														<li class="nav-item">
 															<a class="nav-link" id="verification-tab" data-toggle="tab" href="#verification" aria-controls="verification">
@@ -796,6 +804,24 @@
 																			</div>
 																		</div>
 
+																		<!--end::Group-->
+																	</div>
+																</div>
+															</div>
+															<div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
+																<div class="row col-xl-12 card">
+																	<!--begin::Wizard Step 1-->
+																	<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+																		<!--begin::Group-->
+																		<div class="form-group row fv-plugins-icon-container">
+																			<div class="col-lg-12 col-xl-12">
+																				<textarea class="form-control form-control-solid form-control-lg" rows="5" name="notes" placeholder="{{__('site.notes')}}" required>{!!old('notes')!!}</textarea>
+																				<span class="redCount" id="notes_count">0</span>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																		</div>
+																		<!--end::Group-->
+																		
 																		<!--end::Group-->
 																	</div>
 																</div>

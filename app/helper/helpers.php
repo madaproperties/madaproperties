@@ -967,5 +967,5 @@ function getSalesDirectorCountryId(){
 }
 
 function s3AssetUrl($url){
-  return env('S3_URL').$url;
+  return env('APP_URL').'/public/'.$url;
 }

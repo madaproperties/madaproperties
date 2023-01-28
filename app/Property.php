@@ -71,6 +71,9 @@ class Property extends Model
     {
       return $this->belongsTo(Categories::class,'category_id');
     }
-
+    public function notes()
+    {
+      return $this->hasMany(PropertyNotes::class,'property_id')->orderBy('id','desc');
+    }
 
 }

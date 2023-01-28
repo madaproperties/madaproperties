@@ -110,6 +110,14 @@
 																<span class="nav-text">{{__('site.location')}}</span>
 															</a>
 														</li>
+														<li class="nav-item">
+															<a class="nav-link" id="notes-tab" data-toggle="tab" href="#notes" aria-controls="notes">
+																<span class="nav-icon">
+																	<i class="fa fa-edit"></i>
+																</span>
+																<span class="nav-text">{{__('site.notes')}}</span>
+															</a>
+														</li>
 														@if(userRole() == 'admin' || userRole() == 'sales admin uae')
 														<li class="nav-item">
 															<a class="nav-link" id="verification-tab" data-toggle="tab" href="#verification" aria-controls="verification">
@@ -557,18 +565,18 @@
 																			<div class="form-group row fv-plugins-icon-container">
 																				<div class="col-xs-12 col-sm-4 col-lg-4 col-4">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#features_modal_unit">
-																					{{__('site.unit_features')}} <i class="fa fa-menu"></i>
+																					{{__('site.unit_features')}} <i class="fa fa-menu"></i> ({{count($property->unitFeatures)}})
                   																	</button>
 																				</div>
 																				<div class="col-xs-12 col-sm-4 col-lg-4 col-4">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#features_modal_dev">
-																					{{__('site.dev_feature')}} <i class="fa fa-menu"></i>
+																					{{__('site.dev_feature')}} <i class="fa fa-menu"></i> ({{count($property->devFeatures)}})
                   																	</button>
 																				</div>
 																			
 																				<div class="col-xs-12 col-sm-4 col-lg-4 col-4">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#features_modal_life_style">
-																					{{__('site.lifestyle')}} <i class="fa fa-menu"></i>
+																					{{__('site.lifestyle')}} <i class="fa fa-menu"></i> ({{count($property->lifeStyleFeatures)}})
                   																	</button>
 																				</div>
 																			</div>
@@ -687,7 +695,7 @@
 																				<label class="col-xs-12 col-sm-3 col-lg-3 col-form-label">{{__('site.photos')}} ({{__('site.can attach more than one')}})</label>
 																				<div class="col-xs-12 col-sm-3 col-lg-3">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#image_uploader">
-                    																	Add Images <i class="fa fa-image"></i>
+                    																	Add Images <i class="fa fa-image"></i> ({{count($property->images)}})
                   																	</button>
 																					
 																					<!-- <input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="photos[]" multiple>
@@ -696,7 +704,7 @@
 																				<label class="col-xs-12 col-sm-3 col-lg-3 col-form-label">{{__('site.documents')}} ({{__('site.can attach more than one')}})</label>
 																				<div class="col-xs-12 col-sm-3 col-lg-3">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#document_uploader">
-                    																	Add Documents <i class="fa fa-folder"></i>
+                    																	Add Documents <i class="fa fa-folder"></i> ({{count($property->documents)}})
                   																	</button>
 																				</div>
 																			</div>
@@ -817,6 +825,31 @@
 																			</div>
 																		</div>
 
+																		<!--end::Group-->
+																	</div>
+																</div>
+															</div>
+															<div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
+																<div class="row col-xl-12 card">
+																	<!--begin::Wizard Step 1-->
+																	<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+																		<!--begin::Group-->
+																		<div class="form-group row fv-plugins-icon-container">
+																			<div class="col-lg-12 col-xl-12">
+																				<textarea class="form-control form-control-solid form-control-lg" rows="5" name="notes" placeholder="{{__('site.notes')}}" required>{!!old('notes')!!}</textarea>
+																				<span class="redCount" id="notes_count">0</span>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<div class="col-lg-12 col-xl-12">
+																				@if(count($property->notes))
+																					@foreach($property->notes as $rs)
+																						<p>{!! $rs->description. ' added by <b>'.(isset($rs->user->email) ? $rs->user->email : 'N/A'). '</b> at '.$rs->created_at !!}</p>
+																					@endforeach
+																				@endif
+																			</div>
+																		</div>
+																		<!--end::Group-->
+																		
 																		<!--end::Group-->
 																	</div>
 																</div>

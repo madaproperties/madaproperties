@@ -26,6 +26,7 @@ use Mail;
 use App\Mail\PropertyNotification;
 use Illuminate\Support\Facades\Storage;
 use App\Community;
+use App\PropertyNotes;
 
 
 class PropertyController extends Controller
@@ -54,6 +55,15 @@ class PropertyController extends Controller
       $property = Property::where(function ($q){
         $this->filterPrams($q);
       })->orderBy('last_updated','desc');
+    }else if(userRole() == 'sales admin') { // sales admin     
+      $subUserId[]=auth()->id();
+      if(isset(auth()->user()->leader)){
+        $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
+        $subUserId = $subUserId->pluck('id')->toArray();
+      }
+      $property = Property::where(function ($q){
+        $this->filterPrams($q);
+      })->whereIn('user_id',$subUserId)->orderBy('last_updated','desc');
     }else{
       $property = Property::where(function ($q){
         $this->filterPrams($q);
@@ -62,6 +72,7 @@ class PropertyController extends Controller
     $properties = $property->paginate(20);
     $property_count = $property->count();
     $categories = Categories::get(); 
+
 
     $sellers = [];
     if(userRole() == 'leader'){
@@ -132,7 +143,7 @@ class PropertyController extends Controller
 
     $data = $request->validate([
       "title" => 'required',
-      "title_ar" => 'required',
+      "title_ar" => 'nullable',
       "unitno" => 'nullable',
       "str_no" => 'nullable',
       "sale_rent" => 'nullable',
@@ -305,6 +316,18 @@ class PropertyController extends Controller
     } 
     Property::where('id',$property->id)->update(['crm_id'=>'MADA-'.$property->id]);
 
+    if($request->get('notes')){
+      PropertyNotes::create([
+        'property_id' => $property->id,
+        'description' => $request->get('notes'),
+        'user_id' => auth()->id(),
+        'ip_address' => $request->ip(),
+        'created_at' => Carbon::now(),
+        'updated_at' => Carbon::now() 
+      ]);
+    }
+    
+
     //Send notifiction to users whos role is sales admin uae
     $users = User::where('rule','sales admin uae')->where('active',1)->get()->pluck(['email'])->toArray();
     $mailData = [
@@ -323,7 +346,7 @@ class PropertyController extends Controller
 
     $data = $request->validate([
       "title" => 'required',
-      "title_ar" => 'required',
+      "title_ar" => 'nullable',
       "unitno" => 'nullable',
       "str_no" => 'nullable',
       "sale_rent" => 'nullable',
@@ -449,6 +472,19 @@ class PropertyController extends Controller
 
     addHistory('Property',$id,'updated',$data,$property);
     $property->update($data);
+
+    if($request->get('notes')){
+      PropertyNotes::create([
+        'property_id' => $property->id,
+        'description' => $request->get('notes'),
+        'user_id' => auth()->id(),
+        'ip_address' => $request->ip(),
+        'created_at' => Carbon::now(),
+        'updated_at' => Carbon::now() 
+      ]);
+    }
+    
+
 
     return redirect(route('admin.property.index'))->withSuccess(__('site.success'));
   }
@@ -589,8 +625,7 @@ class PropertyController extends Controller
             $img->insert($watermark, 'center');
             $img->save($destinationPath.'/'.$filename);
             
-            $res = Storage::disk('s3')->put('uploads/property/'.$property_id.'/images', $filename);
-            dd($res);
+            //Storage::disk('s3')->put('uploads/property/'.$property_id.'/images', $filename);
             PropertyImages::create([
             'property_id' => $property_id,
             'images_link' => $filename
@@ -678,7 +713,7 @@ class PropertyController extends Controller
             $property_id = Request('property_id');
             $file = $file->move('public/uploads/property/'.$property_id.'/documents', $md5Name.'.'.$guessExtension);     
             $filename = $md5Name.'.'.$guessExtension;
-            Storage::disk('s3')->put('uploads/property/'.$property_id.'/documents', $filename);
+            //Storage::disk('s3')->put('uploads/property/'.$property_id.'/documents', $filename);
             PropertyDocuments::create([
             'property_id' => $property_id,
             'document_link' => $filename

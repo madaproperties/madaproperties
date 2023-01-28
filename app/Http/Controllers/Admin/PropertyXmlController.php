@@ -24,6 +24,7 @@ use App\Categories;
 use Image;
 use Mail;
 use App\Mail\PropertyNotification;
+use App\Community;
 
 class PropertyXmlController extends Controller
 {
@@ -168,7 +169,7 @@ class PropertyXmlController extends Controller
       if($property->images && count($property->images)){
         foreach($property->images as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
-          $xml.="<url last_updated='".$image->date."' watermark='yes'>".env('S3_URL').'uploads/property/'.$property->id.'/images/'.$image->images_link."</url>";          
+          $xml.="<url last_updated='".$image->date."' watermark='yes'>".s3AssetUrl('uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
         }
       }
       $xml.="</photo>";
@@ -182,4 +183,333 @@ class PropertyXmlController extends Controller
     echo $xml;  
     die;
   }
+
+
+  public function readXml(){
+    // Loading the XML file
+    $xml = simplexml_load_file(url("public/property-finder-xml-28012023.xml")); //Staging 
+    //$xml = simplexml_load_file("public\property-finder.xml"); //Local
+
+    echo "<h2>".$xml->attributes()->last_update."</h2><br />";
+    $propertArray = [];
+    $i=0;
+    foreach ($xml->children() as $row) {
+      $property = [];
+      $property['updated_at'] = $row->attributes()->updated_at;
+      $property['crm_id'] = $row->reference_number;
+      $property['str_no'] = $row->permit_number;
+      $offering_type = strpos($row->offering_type, '-', strpos($row->offering_type, '-') + 1);
+      if($offering_type == 'S'){
+        $property['sale_rent'] = '1';
+      }else{
+        $property['sale_rent'] = '2';
+      }
+      if(isset(Categories::where('pfix',$row->property_type)->first()->id)){
+        $property['category_id'] = Categories::where('pfix',$row->property_type)->first()->id;
+      }
+      $city_id = 0;
+      if(isset(City::where('name_en','LIKE', '%'.trim($row->city).'%')->first()->id)){
+        $city_id = City::where('name_en','LIKE', '%'.trim($row->city).'%')->first()->id;
+      }
+      $community=0;
+      if(isset(Community::where('name_en','LIKE', '%'.trim($row->community).'%')->first()->id)){
+        $community = Community::where('name_en','LIKE', '%'.trim($row->community).'%')->first()->id;
+      }
+      $sub_community=0;
+      if(isset(Community::where('name_en','LIKE', '%'.trim($row->sub_community).'%')->first()->id)){
+        $sub_community = Community::where('name_en','LIKE', '%'.trim($row->sub_community).'%')->first()->id;
+      }
+
+      $property['price_on_application'] = $row->price_on_application;
+      $property['price'] = $row->price;
+      $property['yprice'] = $row->price->yearly;
+      $property['mprice'] = $row->price->monthly;
+      $property['city_id'] = $city_id;
+      $property['community'] = $community;
+      $property['sub_community'] = $sub_community;
+      $property['area_name'] = $row->community;
+      $property['project_name'] = $row->sub_community;
+      $property['building_name'] = $row->property_name;
+      //$property['location_id'] = $row->location_id;
+      $property['title'] = $row->title_en;
+      $property['description'] = $row->description_en;
+      $property['buildup_area'] = $row->size;
+      $property['bedrooms'] = $row->bedroom;
+      $property['bathrooms'] = $row->bathroom;
+      $property['user_id'] = $row->agent->id;
+      $property['parking_areas'] = $row->parking;
+      $property['furnished'] = $row->furnished;
+      if(!empty($row->geopoints)){
+        $property['geopoints'] = $row->geopoints;
+        $loc = explode(",",$row->geopoints);
+        if(isset($loc[0]) && isset($loc[1])){
+          $property['latitude'] = $loc[0];
+          $property['longitude'] = $loc[1];
+        }
+      }
+
+      $property['virtual_360'] = $row->view360;
+      $property['developer'] = $row->developer;
+      $property['video'] = $row->video_tour_url;
+
+      $property = Property::create($property);
+
+      if($row->photo){
+        $urls = (((array)$row->photo)['url']);
+        if(count($urls)){
+          for($i=0; $i < count($urls); $i++){
+            $fileName = $urls[$i];
+            $nameArray = explode('/',$fileName);
+            $destinationPath = 'public/uploads/property/'.$property->id.'/images';
+            if (!is_dir($destinationPath)){ 
+              mkdir($destinationPath, 0777, true);
+            }
+            copy($fileName,$destinationPath.'/'.end($nameArray));
+
+            PropertyImages::create([
+              'property_id' => $property->id,
+              'images_link' => end($nameArray),
+              'temp_image' => $urls[$i]
+            ]);
+          }          
+        }
+      }
+      $temp = [];
+      if($row->private_amenities){
+        $features = explode(",",$row->private_amenities);
+        for($j=0; $j < count($features); $j++) {
+          if($tempFea = Features::where('feature_prefix','LIKE','%'.$features[$j].'%')->first()){
+            $temp[$i]['property_id'] = $property->id;
+            $temp[$i++]['feature_id'] = $tempFea->id;
+          }
+        }
+      }
+      \DB::table("property_features")->insert($temp);
+
+      \DB::table("property_portals")->insert(['property_id'=>$property->id,'portal_id'=>1]);  
+
+    }
+    echo "<pre>";
+    print_r($propertArray);
+    die;
+  }
+
+  public function readBayutXml(){
+    // Loading the XML file
+    $xml = simplexml_load_file(url("public/bayut-xml-28012023.xml")); //Staging 
+    //$xml = simplexml_load_file("public\property-finder.xml"); //Local
+
+    $propertArray = [];
+    $i=0;
+    foreach ($xml->children() as $row) {
+      $property = [];
+      $property['updated_at'] = $row->Last_Updated;
+      $property['crm_id'] = $row->Property_Ref_No;
+      $property['str_no'] = $row->Permit_Id;
+      if($row->Ad_Type == 'Rent'){
+        $property['sale_rent'] = '2';
+      }else{
+        $property['sale_rent'] = '1';
+      }
+      if(isset(Categories::where('category_name',$row->Unit_Type)->first()->id)){
+        $property['category_id'] = Categories::where('category_name',$row->Unit_Type)->first()->id;
+      }
+      $property['price'] = $row->Price;
+      if($row->Frequency == 'yearly'){
+        $property['yprice'] = $row->Price;
+        $property['price'] = 0;
+      }else if($row->Frequency == 'monthly'){
+        $property['mprice'] = $row->Price;
+        $property['yprice'] = 0;
+        $property['price'] = 0;
+      }
+
+      $city_id = 0;
+      if(isset(City::where('name_en','LIKE', '%'.trim($row->Emirate).'%')->first()->id)){
+        $city_id = City::where('name_en','LIKE', '%'.trim($row->Emirate).'%')->first()->id;
+      }
+      $community=0;
+      if(isset(Community::where('name_en','LIKE', '%'.trim($row->Community).'%')->first()->id)){
+        $community = Community::where('name_en','LIKE', '%'.trim($row->Community).'%')->first()->id;
+      }
+      
+
+      $property['city_id'] = $city_id;
+      $property['community'] = $community;
+      $property['area_name'] = $community;
+      $property['project_name'] = $row->Property_Name;
+      //$property['location_id'] = $row->location_id;
+      $property['title'] = $row->Property_Title;
+      $property['description'] = $row->Web_Remarks;
+      $property['measure_unit'] = $row->unit_measure;
+      $property['bedrooms'] = $row->No_of_Rooms;
+      $property['bathrooms'] = $row->No_of_Bathrooms;
+      $property['user_id'] = 43;
+      $property['cheques'] = $row->Cheques;
+      $property['latitude'] = $row->Geopoints->Latitude;
+      $property['longitude'] = $row->Geopoints->Longitude;
+      $property['is_exclusive'] = $row->Off_Plan == 'YES' ? 1 : 0;
+      $property['developer'] = $row->developer;
+      $property['virtual_360'] = $row->view360;
+      $property['video'] = $row->video_url;
+
+      $property = Property::create($property);
+
+      if($row->Images){
+        $urls = (((array)$row->Images)['ImageUrl']);
+        if(count($urls)){
+          for($i=0; $i < count($urls); $i++){
+            $fileName = $urls[$i];
+            $nameArray = explode('/',$fileName);
+            $firstNameArray = explode('?',$fileName);
+            $destinationPath = 'public/uploads/property/'.$property->id.'/images';
+            if (!is_dir($destinationPath)){ 
+              mkdir($destinationPath, 0777, true);
+            }
+            if(isset($firstNameArray[0]) && !empty($firstNameArray[0])){
+              $nameArray = explode('/',$firstNameArray[0]);
+              copy(trim($firstNameArray[0]),$destinationPath.'/'.trim(end($nameArray)));
+            }else{
+              copy(trim($fileName),$destinationPath.'/'.trim(end($nameArray)));
+            }
+            PropertyImages::create([
+              'property_id' => $property->id,
+              'images_link' => trim(end($nameArray)),
+              'temp_image' => $urls[$i]
+            ]);
+          }          
+        }
+      }
+      if($row->Facilities){
+        if(isset((((array)$row->Facilities)['Facility']))){
+          $facilities = (((array)$row->Facilities)['Facility']);
+          if(count($facilities)){
+            for($i=0; $i < count($facilities); $i++){
+              $feature = Features::where('feature_name',$facilities[$i])->first();
+              if($feature){
+                $data = ['property_id'=>$property->id,'feature_id'=>$feature->id];
+                PropertyFeatures::create($data);
+              }
+            }
+          }
+        }
+      }
+
+      \DB::table("property_portals")->insert(['property_id'=>$property->id,'portal_id'=>2]);  
+
+    }
+    echo "<pre>";
+    print_r($propertArray);
+    die;
+  }  
+
+  public function readDubizzleXml(){
+    // Loading the XML file
+    $xml = simplexml_load_file(url("public/dubizzle-xml-29012023.xml")); //Staging 
+    //$xml = simplexml_load_file("public\property-finder.xml"); //Local
+
+    $propertArray = [];
+    $i=0;
+    foreach ($xml->children() as $row) {
+      $property = [];
+      $property['updated_at'] = $row->lastupdated;
+      $property['crm_id'] = $row->refno;
+      $property['str_no'] = $row->permit_number;
+      if($row->type == 'SP'){
+        $property['sale_rent'] = '1';
+      }else{
+        $property['sale_rent'] = '2';
+      }
+      if(isset(Categories::where('pfix',$row->subtype)->first()->id)){
+        $property['category_id'] = Categories::where('pfix',$row->subtype)->first()->id;
+      }
+      $property['price'] = $row->price;
+      if($row->Frequency == 'yearly'){
+        $property['yprice'] = $row->price;
+        $property['price'] = 0;
+      }else if($row->Frequency == 'monthly'){
+        $property['mprice'] = $row->price;
+        $property['yprice'] = 0;
+        $property['price'] = 0;
+      }
+      $property['price'] = $row->price;
+      $property['city_id'] = $row->city;
+      $property['area_name'] = $row->community;
+      $property['project_name'] = $row->sub_community;
+      $property['building_name'] = $row->building;
+      //$property['location_id'] = $row->location_id;
+      $property['title'] = $row->title;
+      $property['description'] = $row->description;
+      $property['buildup_area'] = $row->size;
+      $property['measure_unit'] = $row->sizeunits;
+      $property['bedrooms'] = $row->bedrooms;
+      $property['bathrooms'] = $row->bathrooms;
+      $property['user_id'] = 43;
+      if(!empty($row->geopoint)){
+        $property['geopoints'] = $row->geopoint;
+        $loc = explode(",",$row->geopoint);
+        if(isset($loc[0]) && isset($loc[1])){
+          $property['latitude'] = $loc[0];
+          $property['longitude'] = $loc[1];
+        }
+      }
+      $property['developer'] = $row->developer;
+      $property['virtual_360'] = $row->view360;
+      $property['video'] = $row->video_url;
+
+      $property = Property::create($property);
+
+      if($row->photos){
+        $urls = explode("|",$row->photos);
+        if(count($urls)){
+          for($i=0; $i < count($urls); $i++){
+            $fileName = $urls[$i];
+            $nameArray = explode('/',$fileName);
+            $firstNameArray = explode('?',$fileName);
+            $destinationPath = 'public/uploads/property/'.$property->id.'/images';
+            if (!is_dir($destinationPath)){ 
+              mkdir($destinationPath, 0777, true);
+            }
+            if(isset($firstNameArray[0]) && !empty($firstNameArray[0])){
+              $nameArray = explode('/',$firstNameArray[0]);
+              copy(trim($firstNameArray[0]),$destinationPath.'/'.trim(end($nameArray)));
+            }else{
+              copy(trim($fileName),$destinationPath.'/'.trim(end($nameArray)));
+            }
+            PropertyImages::create([
+              'property_id' => $property->id,
+              'images_link' => trim(end($nameArray)),
+              'temp_image' => $urls[$i]
+            ]);
+          }          
+        }      
+      }
+      $temp = [];
+      if($row->privateamenities){
+        $features = explode("|",$row->privateamenities);
+        for($j=0; $j < count($features); $j++) {
+          if($tempFea = Features::where('feature_prefix','LIKE','%'.$features[$j].'%')->first()){
+            $temp[$i]['property_id'] = $property->id;
+            $temp[$i++]['feature_id'] = $tempFea->id;
+          }
+        }
+      }
+      $temp = [];
+      if($row->commercialamenities){
+        $features = explode("|",$row->commercialamenities);
+        for($j=0; $j < count($features); $j++) {
+          if($tempFea = Features::where('feature_prefix','LIKE','%'.$features[$j].'%')->first()){
+            $temp[$i]['property_id'] = $property->id;
+            $temp[$i++]['feature_id'] = $tempFea->id;
+          }
+        }
+      }
+
+      \DB::table("property_portals")->insert(['property_id'=>$property->id,'portal_id'=>3]);  
+
+    }
+    echo "<pre>";
+    print_r($propertArray);
+    die;
+  }   
 }

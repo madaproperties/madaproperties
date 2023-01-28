@@ -180,7 +180,7 @@ class PropertyBayutXmlController extends Controller
           xmlwriter_start_element($xw, 'Images');
           foreach($property->images as $image){
             xmlwriter_start_element($xw, 'ImageUrl');
-              xmlwriter_write_cdata($xw, env('S3_URL').'uploads/property/'.$property->id.'/images/'.$image->images_link);
+              xmlwriter_write_cdata($xw, s3AssetUrl('uploads/property/'.$property->id.'/images/'.$image->images_link));
               //xmlwriter_write_cdata($xw, $image->temp_image);
             xmlwriter_end_element($xw); // ImageUrl
           }

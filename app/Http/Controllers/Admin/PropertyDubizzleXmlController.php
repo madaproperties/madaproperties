@@ -166,7 +166,7 @@ class PropertyDubizzleXmlController extends Controller
       $xml .="<lastupdated>".($property->last_updated)."</lastupdated>";
       
       if($property->developer){
-        $xml .="<developer>".($property->developer)."</developer>";
+       // $xml .="<developer>".($property->developer)."</developer>";
       }
       if($property->virtual_360){
         $xml .="<view360>".($property->virtual_360)."</view360>";
@@ -180,7 +180,7 @@ class PropertyDubizzleXmlController extends Controller
         $photo=[];
         foreach($property->images as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
-          $photo[]= env('S3_URL').'uploads/property/'.$property->id.'/images/'.$image->images_link;          
+          $photo[]= s3AssetUrl('uploads/property/'.$property->id.'/images/'.$image->images_link);          
         }
         $xml.= implode("|",$photo);
         $xml.="</photos>";
@@ -358,7 +358,7 @@ class PropertyDubizzleXmlController extends Controller
         $photo=[];
         foreach($property->images as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
-          $photo[]= env('S3_URL').'uploads/property/'.$property->id.'/images/'.$image->images_link;          
+          $photo[]= s3AssetUrl('uploads/property/'.$property->id.'/images/'.$image->images_link);          
         }
         $xml.= implode("|",$photo);
         $xml.="</photos>";
