@@ -211,6 +211,10 @@
 											{!! selectOptions(__('config.yes_no'),$user->is_rera_active) !!}
 											</select>
 										</div>
+										<div class="form-group">
+											<label>{{__('site.Rera Number')}}:</label>
+											<input type="text" class="form-control" name="rera_number" value="{{$user->rera_number}}" autocomplete="off">
+										</div>
 										
 										<div class="separator separator-dashed my-5"></div>
 										<div class="form-group">
@@ -454,6 +458,11 @@
 												{!! selectOptions(__('config.yes_no'),old('is_rera_active')) !!}
 												</select>
 											</div>
+											<div class="form-group">
+												<label>{{__('site.Rera Number')}}:</label>
+												<input type="text" class="form-control" name="rera_number" value="{{old('rera_number')}}" autocomplete="off">
+											</div>
+											
 
 											<div class="separator separator-dashed my-5"></div>
 											<div class="form-group">
