@@ -520,12 +520,12 @@
 																					</div>	
 																				</div>																				
 																			</div>
-																			<div class="form-group row fv-plugins-icon-container" style="{{$property->sale_rent == 2 ? 'display:none' : ''}}">
-																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale">
+																			<div class="form-group row fv-plugins-icon-container">
+																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale" style="{{$property->sale_rent == 2 ? 'display:none' : ''}}">
 																					<input class="form-control form-control-solid form-control-lg" id="price" name="price" type="text" value="{{$property->price}}" placeholder="{{__('site.price')}}" required>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
-																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale">
+																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale" style="{{$property->sale_rent == 2 ? 'display:none' : ''}}">
 																					<input class="form-control form-control-solid form-control-lg" id="price_unit" 	name="price_unit" type="text" value="{{$property->price_unit}}" placeholder="{{__('site.price_unit')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
@@ -611,7 +611,7 @@
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<div class="col-lg-12 col-xl-12">
-																					<textarea class="form-control form-control-solid form-control-lg" rows="10" name="description" id="description" placeholder="{{__('site.description')}}(English)" required>{!!$property->description!!}</textarea>
+																					<textarea class="form-control form-control-solid form-control-lg" rows="10" name="description" id="description" placeholder="{{__('site.description')}}(English)">{!!$property->description!!}</textarea>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -836,7 +836,7 @@
 																		<!--begin::Group-->
 																		<div class="form-group row fv-plugins-icon-container">
 																			<div class="col-lg-12 col-xl-12">
-																				<textarea class="form-control form-control-solid form-control-lg" rows="5" name="notes" placeholder="{{__('site.notes')}}" required>{!!old('notes')!!}</textarea>
+																				<textarea class="form-control form-control-solid form-control-lg" rows="5" name="notes" placeholder="{{__('site.notes')}}">{!!old('notes')!!}</textarea>
 																				<span class="redCount" id="notes_count">0</span>
 																				<div class="fv-plugins-message-container"></div>
 																			</div>

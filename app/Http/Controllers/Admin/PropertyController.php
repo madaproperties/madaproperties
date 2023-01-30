@@ -54,7 +54,21 @@ class PropertyController extends Controller
     if(userRole() == 'admin' || userRole() == 'sales admin uae'){ //Updated by Javed
       $property = Property::where(function ($q){
         $this->filterPrams($q);
-      })->orderBy('last_updated','desc');
+      });
+    }elseif(userRole() == 'leader'){
+      // get leader group
+      $leaderId = auth()->id();
+      // get leader , and sellers reltedt to that leader
+      $users = User::select('id','leader')
+      ->where('active','1')
+      ->where('leader',$leaderId)
+      ->Orwhere('id',$leaderId)
+      ->get();
+      $usersIds = $users->pluck('id')->toArray();
+      $property = Property::where(function ($q){
+        $this->filterPrams($q);
+      })->whereIn('user_id',$usersIds);
+
     }else if(userRole() == 'sales admin') { // sales admin     
       $subUserId[]=auth()->id();
       if(isset(auth()->user()->leader)){
@@ -63,37 +77,18 @@ class PropertyController extends Controller
       }
       $property = Property::where(function ($q){
         $this->filterPrams($q);
-      })->whereIn('user_id',$subUserId)->orderBy('last_updated','desc');
+      })->whereIn('user_id',$subUserId);
     }else{
       $property = Property::where(function ($q){
         $this->filterPrams($q);
-      })->where('user_id',auth()->id())->orderBy('last_updated','desc');
+      })->where('user_id',auth()->id());
     }
-    $properties = $property->paginate(20);
+    $properties = $property->orderBy('last_updated','desc')->paginate(20);
     $property_count = $property->count();
     $categories = Categories::get(); 
 
 
-    $sellers = [];
-    if(userRole() == 'leader'){
-      $id = auth()->id();
-      $sellers = User::where('active','1')->where('leader',$id)
-                      ->OrWhere('id',$id)
-                      ->orderBy('email')->get();
-    }elseif(userRole() == 'admin' || userRole() == 'sales admin uae') {
-      $sellers = User::where('active','1')->where('rule','sales')
-                      ->orWhere('rule','leader')
-                      ->orderBy('email')->get();
-    }elseif(userRole() == 'sales admin'){
-      $leader = auth()->user()->leader;
-      if($leader) {
-         $sellers = User::where('active','1')->where('leader',$leader)
-                           ->where('id','!=',auth()->id())
-                          ->Orwhere('id',$leader)
-                          ->orderBy('email')->get();
-      }
-    }    
-
+    $sellers = getSellers();
     return view('admin.property.index',compact('properties','property_count','categories','sellers'));
   }
 
@@ -106,25 +101,7 @@ class PropertyController extends Controller
     $sources = Source::where('active','1')->orderBy('name')->get();
     $purposeType = PurposeType::orderBy('type')->get();
 
-    $sellers = [];
-    if(userRole() == 'leader'){
-      $id = auth()->id();
-      $sellers = User::where('active','1')->where('leader',$id)
-                      ->OrWhere('id',$id)
-                      ->orderBy('email')->get();
-    }elseif(userRole() == 'admin' || userRole() == 'sales admin uae') {
-      $sellers = User::where('active','1')->where('rule','sales')
-                      ->orWhere('rule','leader')
-                      ->orderBy('email')->get();
-    }elseif(userRole() == 'sales admin'){
-      $leader = auth()->user()->leader;
-      if($leader) {
-         $sellers = User::where('active','1')->where('leader',$leader)
-                           ->where('id','!=',auth()->id())
-                          ->Orwhere('id',$leader)
-                          ->orderBy('email')->get();
-      }
-    }
+    $sellers = getSellers();
     $unitFeatures = Features::where('feature_type',1)->get();
     $devFeatures = Features::where('feature_type',2)->get();
     $lifeStyleFeatures = Features::where('feature_type',3)->get();
@@ -165,7 +142,7 @@ class PropertyController extends Controller
       //"view" => 'nullable',
       "category_id" => 'required',
       "price_type" => 'nullable',
-      "price" => 'required',
+      "price" => 'nullable',
       "price_on_application" => 'nullable',
       "price_unit" => 'nullable',
       "bedrooms" => 'nullable',
@@ -222,6 +199,10 @@ class PropertyController extends Controller
       'community' => 'nullable',
       'sub_community' => 'nullable',
       'financial_status' => 'nullable',
+      'yprice' => 'nullable',      
+      'mprice' => 'nullable',      
+      'wprice' => 'nullable',      
+      'dprice' => 'nullable',      
     ]);
 
     // if(isset($data['is_managed'])){
@@ -229,6 +210,10 @@ class PropertyController extends Controller
     // }else{
     //   $data['is_managed']=0;
     // }
+
+    if(!(userRole() == 'admin') && !(userRole() == 'sales admin uae')){
+      $data['user_id']=auth()->id();
+    }    
 
     if(isset($data['is_exclusive'])){
       $data['is_exclusive']=1;
@@ -239,7 +224,6 @@ class PropertyController extends Controller
     
     $data['created_at'] = Carbon::now();
     $data['created_by'] = auth()->id();
-    $data['user_id'] = auth()->id();
     $data['updated_at'] = Carbon::now();
     $data['last_updated'] = Carbon::now();
     
@@ -330,11 +314,13 @@ class PropertyController extends Controller
 
     //Send notifiction to users whos role is sales admin uae
     $users = User::where('rule','sales admin uae')->where('active',1)->get()->pluck(['email'])->toArray();
-    $mailData = [
-      'id' => $property->id,
-      'agent' => $property->agent->name
-    ];
-    Mail::to($users)->send(new PropertyNotification($mailData));
+    if(isset($property->agent->name)){
+      $mailData = [
+        'id' => $property->id,
+        'agent' => $property->agent->name
+      ];
+      Mail::to($users)->send(new PropertyNotification($mailData));
+    }
 
     return redirect(route('admin.property.index'))->withSuccess(__('site.success'));
   }
@@ -368,7 +354,7 @@ class PropertyController extends Controller
       //"view" => 'nullable',
       "category_id" => 'required',
       "price_type" => 'nullable',
-      "price" => 'required',
+      "price" => 'nullable',
       "price_on_application" => 'nullable',
       "price_unit" => 'nullable',
       "bedrooms" => 'nullable',
@@ -425,6 +411,10 @@ class PropertyController extends Controller
       'community' => 'nullable',
       'sub_community' => 'nullable',      
       'financial_status' => 'nullable',      
+      'yprice' => 'nullable',      
+      'mprice' => 'nullable',      
+      'wprice' => 'nullable',      
+      'dprice' => 'nullable',      
     ]);
 
     // if(isset($data['is_managed'])){
@@ -445,6 +435,8 @@ class PropertyController extends Controller
       if($property->status != 1 && $data['status'] == 1){
         $data['publishing_date'] = Carbon::now();
       }
+    }else{
+      $data['user_id']=auth()->id();
     }
 
 
@@ -502,6 +494,22 @@ class PropertyController extends Controller
   {
     if(userRole() == 'admin' || userRole() == 'sales admin uae'){ //Updated by Javed
       $property = Property::findOrFail($id);
+    }elseif(userRole() == 'leader'){
+      $leaderId = auth()->id();
+      $users = User::select('id','leader')
+      ->where('active','1')
+      ->where('leader',$leaderId)
+      ->Orwhere('id',$leaderId)
+      ->get();
+      $usersIds = $users->pluck('id')->toArray();
+      $property = Property::where('id',$id)->whereIn('user_id',$usersIds)->first();
+    }else if(userRole() == 'sales admin') { // sales admin     
+      $subUserId[]=auth()->id();
+      if(isset(auth()->user()->leader)){
+        $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
+        $subUserId = $subUserId->pluck('id')->toArray();
+      }
+      $property = Property::where('id',$id)->whereIn('user_id',$subUserId)->first();
     }else{
       $property = Property::where('id',$id)->where('user_id',auth()->id())->first();
     }    
@@ -515,25 +523,7 @@ class PropertyController extends Controller
     $sources = Source::where('active','1')->orderBy('name')->get();
     $purposeType = PurposeType::orderBy('type')->get();
 
-    $sellers = [];
-    if(userRole() == 'leader'){
-      $id = auth()->id();
-      $sellers = User::where('active','1')->where('leader',$id)
-                      ->OrWhere('id',$id)
-                      ->orderBy('email')->get();
-    }elseif(userRole() == 'admin' || userRole() == 'sales admin uae') {
-      $sellers = User::where('active','1')->where('rule','sales')
-                      ->orWhere('rule','leader')
-                      ->orderBy('email')->get();
-    }elseif(userRole() == 'sales admin'){
-      $leader = auth()->user()->leader;
-      if($leader) {
-         $sellers = User::where('active','1')->where('leader',$leader)
-                           ->where('id','!=',auth()->id())
-                          ->Orwhere('id',$leader)
-                          ->orderBy('email')->get();
-      }
-    }    
+    $sellers = getSellers();
     $features = Features::get();
     $propertyFeatures = [];
     $propertyPortals = [];

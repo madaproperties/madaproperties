@@ -48,6 +48,7 @@ return [
     '12' => '12 Baths',
   ],
   'bedrooms' => [
+    '-1' => '-1',
     '25' => 'Studio',
     '1' => '1 Bed',
     '13' => '1 Bed + Study',

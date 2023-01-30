@@ -587,7 +587,7 @@
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<div class="col-lg-12 col-xl-12">
-																					<textarea class="form-control form-control-solid form-control-lg" rows="5" name="description" id="description"  placeholder="{{__('site.description')}}(English)" required>{!!old('description')!!}</textarea>
+																					<textarea class="form-control form-control-solid form-control-lg" rows="5" name="description" id="description"  placeholder="{{__('site.description')}}(English)">{!!old('description')!!}</textarea>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -815,7 +815,7 @@
 																		<!--begin::Group-->
 																		<div class="form-group row fv-plugins-icon-container">
 																			<div class="col-lg-12 col-xl-12">
-																				<textarea class="form-control form-control-solid form-control-lg" rows="5" name="notes" placeholder="{{__('site.notes')}}" required>{!!old('notes')!!}</textarea>
+																				<textarea class="form-control form-control-solid form-control-lg" rows="5" name="notes" placeholder="{{__('site.notes')}}">{!!old('notes')!!}</textarea>
 																				<span class="redCount" id="notes_count">0</span>
 																				<div class="fv-plugins-message-container"></div>
 																			</div>

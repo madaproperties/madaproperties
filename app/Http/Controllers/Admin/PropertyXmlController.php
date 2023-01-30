@@ -254,26 +254,26 @@ class PropertyXmlController extends Controller
 
       $property = Property::create($property);
 
-      if($row->photo){
-        $urls = (((array)$row->photo)['url']);
-        if(count($urls)){
-          for($i=0; $i < count($urls); $i++){
-            $fileName = $urls[$i];
-            $nameArray = explode('/',$fileName);
-            $destinationPath = 'public/uploads/property/'.$property->id.'/images';
-            if (!is_dir($destinationPath)){ 
-              mkdir($destinationPath, 0777, true);
-            }
-            copy($fileName,$destinationPath.'/'.end($nameArray));
+      // if($row->photo){
+        //   if(count($urls)){
+          //   $urls = (((array)$row->photo)['url']);
+      //     for($i=0; $i < count($urls); $i++){
+      //       $fileName = $urls[$i];
+      //       $nameArray = explode('/',$fileName);
+      //       $destinationPath = 'public/uploads/property/'.$property->id.'/images';
+      //       if (!is_dir($destinationPath)){ 
+      //         mkdir($destinationPath, 0777, true);
+      //       }
+      //       copy($fileName,$destinationPath.'/'.end($nameArray));
 
-            PropertyImages::create([
-              'property_id' => $property->id,
-              'images_link' => end($nameArray),
-              'temp_image' => $urls[$i]
-            ]);
-          }          
-        }
-      }
+      //       PropertyImages::create([
+      //         'property_id' => $property->id,
+      //         'images_link' => end($nameArray),
+      //         'temp_image' => $urls[$i]
+      //       ]);
+      //     }          
+      //   }
+      // }
       $temp = [];
       if($row->private_amenities){
         $features = explode(",",$row->private_amenities);

@@ -59,6 +59,7 @@ $(document).ready(function(){
 	});
 	$('#title_count').html($('[name="title"]').val().length);
 	$('#title_ar_count').html($('[name="title_ar"]').val().length);
+	$('#notes_count').html($('[name="notes"]').val().length);
 	$('[name="title"]').on('input keyup keypress blur change',function(){
 		$('#title_count').html($('[name="title"]').val().length);
 	});
@@ -70,6 +71,9 @@ $(document).ready(function(){
 	});
 	$('[name="description_ar"]').on('input keyup keypress blur change',function(){
 		$('#description_ar_count').html($('[name="description_ar"]').val().length);
+	});
+	$('[name="notes"]').on('input keyup keypress blur change',function(){
+		$('#notes_count').html($('[name="notes"]').val().length);
 	});
 
 });
