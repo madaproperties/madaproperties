@@ -199,13 +199,13 @@ class PropertyXmlController extends Controller
       $property['crm_id'] = $row->reference_number;
       $property['str_no'] = $row->permit_number;
       $offering_type = strpos($row->offering_type, '-', strpos($row->offering_type, '-') + 1);
-      if($offering_type == 'S'){
+      if($row->offering_type == 'RS'){
         $property['sale_rent'] = '1';
       }else{
         $property['sale_rent'] = '2';
       }
-      if(isset(Categories::where('pfix',$row->property_type)->first()->id)){
-        $property['category_id'] = Categories::where('pfix',$row->property_type)->first()->id;
+      if(isset(Categories::where('pfix',trim($row->property_type))->first()->id)){
+        $property['category_id'] = Categories::where('pfix',trim($row->property_type))->first()->id;
       }
       $city_id = 0;
       if(isset(City::where('name_en','LIKE', '%'.trim($row->city).'%')->first()->id)){
@@ -220,6 +220,7 @@ class PropertyXmlController extends Controller
         $sub_community = Community::where('name_en','LIKE', '%'.trim($row->sub_community).'%')->first()->id;
       }
 
+      $property['title_deed'] = $row->title_deed;
       $property['price_on_application'] = $row->price_on_application;
       $property['price'] = $row->price;
       $property['yprice'] = $row->price->yearly;
@@ -238,7 +239,7 @@ class PropertyXmlController extends Controller
       $property['bathrooms'] = $row->bathroom;
       $property['user_id'] = $row->agent->id;
       $property['parking_areas'] = $row->parking;
-      $property['furnished'] = $row->furnished;
+      $property['furnished'] = ($row->furnished == 'Yes' ? '1' : '0');
       if(!empty($row->geopoints)){
         $property['geopoints'] = $row->geopoints;
         $loc = explode(",",$row->geopoints);
@@ -254,26 +255,26 @@ class PropertyXmlController extends Controller
 
       $property = Property::create($property);
 
-      // if($row->photo){
-        //   if(count($urls)){
-          //   $urls = (((array)$row->photo)['url']);
-      //     for($i=0; $i < count($urls); $i++){
-      //       $fileName = $urls[$i];
-      //       $nameArray = explode('/',$fileName);
-      //       $destinationPath = 'public/uploads/property/'.$property->id.'/images';
-      //       if (!is_dir($destinationPath)){ 
-      //         mkdir($destinationPath, 0777, true);
-      //       }
-      //       copy($fileName,$destinationPath.'/'.end($nameArray));
+      if($row->photo){
+        $urls = (((array)$row->photo)['url']);
+        if(count($urls)){
+          for($i=0; $i < count($urls); $i++){
+            $fileName = $urls[$i];
+            $nameArray = explode('/',$fileName);
+            $destinationPath = 'public/uploads/property/'.$property->id.'/images';
+            if (!is_dir($destinationPath)){ 
+              mkdir($destinationPath, 0777, true);
+            }
+            copy($fileName,$destinationPath.'/'.end($nameArray));
 
-      //       PropertyImages::create([
-      //         'property_id' => $property->id,
-      //         'images_link' => end($nameArray),
-      //         'temp_image' => $urls[$i]
-      //       ]);
-      //     }          
-      //   }
-      // }
+            PropertyImages::create([
+              'property_id' => $property->id,
+              'images_link' => end($nameArray),
+              'temp_image' => $urls[$i]
+            ]);
+          }          
+        }
+      }
       $temp = [];
       if($row->private_amenities){
         $features = explode(",",$row->private_amenities);
@@ -311,8 +312,8 @@ class PropertyXmlController extends Controller
       }else{
         $property['sale_rent'] = '1';
       }
-      if(isset(Categories::where('category_name',$row->Unit_Type)->first()->id)){
-        $property['category_id'] = Categories::where('category_name',$row->Unit_Type)->first()->id;
+      if(isset(Categories::where('category_name',trim($row->Unit_Type))->first()->id)){
+        $property['category_id'] = Categories::where('category_name',trim($row->Unit_Type))->first()->id;
       }
       $property['price'] = $row->Price;
       if($row->Frequency == 'yearly'){
@@ -352,6 +353,7 @@ class PropertyXmlController extends Controller
       $property['developer'] = $row->developer;
       $property['virtual_360'] = $row->view360;
       $property['video'] = $row->video_url;
+      $property['buildup_area'] = $row->Unit_Builtup_Area;
 
       $property = Property::create($property);
 
@@ -420,19 +422,14 @@ class PropertyXmlController extends Controller
       }else{
         $property['sale_rent'] = '2';
       }
-      if(isset(Categories::where('pfix',$row->subtype)->first()->id)){
-        $property['category_id'] = Categories::where('pfix',$row->subtype)->first()->id;
+      if(isset(Categories::where('pfix',trim($row->subtype))->first()->id)){
+        $property['category_id'] = Categories::where('pfix',trim($row->subtype))->first()->id;
       }
       $property['price'] = $row->price;
-      if($row->Frequency == 'yearly'){
+      if($row->type == 'RP'){
         $property['yprice'] = $row->price;
         $property['price'] = 0;
-      }else if($row->Frequency == 'monthly'){
-        $property['mprice'] = $row->price;
-        $property['yprice'] = 0;
-        $property['price'] = 0;
       }
-      $property['price'] = $row->price;
       $property['city_id'] = $row->city;
       $property['area_name'] = $row->community;
       $property['project_name'] = $row->sub_community;
@@ -456,6 +453,7 @@ class PropertyXmlController extends Controller
       $property['developer'] = $row->developer;
       $property['virtual_360'] = $row->view360;
       $property['video'] = $row->video_url;
+      $property['furnished'] = $row->furnished;
 
       $property = Property::create($property);
 

@@ -953,12 +953,19 @@
 																			</div>
 																			<div class="form-group row fv-plugins-icon-container">
 																			
-																			<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.permit')}}</label>
-																			<div class="col-xs-12 col-sm-6 col-lg-3">
-																				<input class="form-control form-control-solid form-control-lg" 	name="str_no" type="text" value="{{$property->str_no}}" placeholder="{{__('site.permit_no')}}">
-																				<div class="fv-plugins-message-container"></div>
+																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.permit')}}</label>
+																				<div class="col-xs-12 col-sm-6 col-lg-3">
+																					<input class="form-control form-control-solid form-control-lg" 	name="str_no" type="text" value="{{$property->str_no}}" placeholder="{{__('site.permit_no')}}">
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+
+																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.furnished')}}</label>
+																				<div class="col-xs-12 col-sm-6 col-lg-3">
+																					<select name="furnished" id="furnished" class="form-control">
+																						{!! selectOptions(__('config.yes_no'),$property->furnished) !!}
+																					</select>
+																				</div>
 																			</div>
-																		</div>
 																			<!--end::Group-->
 
 

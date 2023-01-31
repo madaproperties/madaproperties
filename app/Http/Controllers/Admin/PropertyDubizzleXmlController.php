@@ -25,7 +25,7 @@ class PropertyDubizzleXmlController extends Controller
 
   function propertyDubizzleXml(){
     $properties = Property::join('property_portals','property_portals.property_id','=','properties.id')
-    ->where('property_portals.portal_id',3)
+    ->whereIn('property_portals.portal_id',[2,3])
     ->where('status',1)
     ->get();
     
