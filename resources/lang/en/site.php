@@ -563,5 +563,6 @@ return [
   'length'=>'Length',
   'depth' =>'Width',
   'secondary project'=>'Secondary Projects',
+  'furnished'=>'Furnished',
   
 ];

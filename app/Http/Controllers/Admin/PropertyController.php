@@ -231,11 +231,17 @@ class PropertyController extends Controller
     if($data['building_name']){
       $address .= $data['building_name'].',';
     }
-    if($data['project_name']){
-      $address .= $data['project_name'].',';
+    if(!empty($data['sub_community'])){
+      $sub_community = Community::where('id',$data['sub_community'])->first();
+      if($sub_community){
+        $address .= $sub_community->name_en.',';
+      }
     }
-    if($data['area_name']){
-      $address .= $data['area_name'].',';
+    if(!empty($data['community'])){
+      $community = Community::where('id',$data['community'])->first();
+      if($community){
+        $address .= $community->name_en.',';
+      }
     }
     if($data['city_id']){
       $address .= City::where('id',$data['city_id'])->first()->name_en;
@@ -444,11 +450,17 @@ class PropertyController extends Controller
     if($data['building_name']){
       $address .= $data['building_name'].',';
     }
-    if($data['project_name']){
-      $address .= $data['project_name'].',';
+    if(!empty($data['sub_community'])){
+      $sub_community = Community::where('id',$data['sub_community'])->first();
+      if($sub_community){
+        $address .= $sub_community->name_en.',';
+      }
     }
-    if($data['area_name']){
-      $address .= $data['area_name'].',';
+    if(!empty($data['community'])){
+      $community = Community::where('id',$data['community'])->first();
+      if($community){
+        $address .= $community->name_en.',';
+      }
     }
     if($data['city_id']){
       $address .= City::where('id',$data['city_id'])->first()->name_en;
@@ -846,7 +858,8 @@ class PropertyController extends Controller
       $allowedFeilds =[
         "status" ,
         "category_id" ,
-        "user_id"
+        "user_id",
+        "sale_rent",
       ];
 
       foreach($feilds as $feild => $value){

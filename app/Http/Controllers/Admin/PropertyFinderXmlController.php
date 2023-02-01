@@ -30,9 +30,7 @@ class PropertyFinderXmlController extends Controller
     $properties = Property::join('property_portals','property_portals.property_id','=','properties.id')
     ->where('property_portals.portal_id',1)
     ->where('status',1)->get();
-    $count = Property::join('property_portals','property_portals.property_id','=','properties.id')
-    ->where('property_portals.portal_id',1)
-    ->where('status',1)->count();
+    $count = count($properties);
     $last_update = Property::join('property_portals','property_portals.property_id','=','properties.id')
     ->where('property_portals.portal_id',1)
     ->where('status',1)->orderBy('last_updated','desc')->first();
@@ -80,8 +78,9 @@ class PropertyFinderXmlController extends Controller
       }
 
       $price=str_replace(".00","",$price);
-      $city_text = isset($property->city) ? $property->city->name_en : 'N/A';
-      $community=$property->area_name;
+      $city_text = isset($property->city) ? $property->city->name_en : 'Dubai';
+      $community = isset($property->communityId) ? $property->communityId->name_en : 'N/A';
+      $sub_community = isset($property->subCommunity) ? $property->subCommunity->name_en : 'N/A';
       $project_name=$property->project_name;
       $building_name=$property->bname;
       
@@ -132,7 +131,7 @@ class PropertyFinderXmlController extends Controller
 
       $xml.="<city><![CDATA[".$city_text."]]></city>
       <community><![CDATA[".$community."]]></community>
-      <sub_community><![CDATA[".$property->project_name."]]></sub_community>
+      <sub_community><![CDATA[".$sub_community."]]></sub_community>
       <property_name><![CDATA[".$property->building_name."]]></property_name>
       <title_en><![CDATA[".$property->title."]]></title_en>
       <description_en><![CDATA[".$property->description."]]></description_en>";
@@ -145,7 +144,7 @@ class PropertyFinderXmlController extends Controller
       $xml.="<features>".$features."</features>
       <plot_size>".$property->plot_size."</plot_size>
       <size>".$property->buildup_area."</size>
-      <bedroom>".__('config.bedrooms.'.$property->bedrooms)."</bedroom>
+      <bedroom>".$property->bedrooms."</bedroom>
       <bathroom>".$property->bathrooms."</bathroom>";
       if($property->agent && $property->agent->is_rera_active){
         $xml .="<agent>
@@ -153,6 +152,7 @@ class PropertyFinderXmlController extends Controller
           <name><![CDATA[".$property->agent->name."]]></name>
           <email>".$property->agent->name."</email>
           <phone>".$property->agent->mobile_no."</phone>
+          <license_no>".$property->agent->rera_number."</license_no>
         </agent>";
       }else{
         if($defaultAgent){
@@ -161,6 +161,7 @@ class PropertyFinderXmlController extends Controller
             <name><![CDATA[".$defaultAgent->username."]]></name>
             <email>".$defaultAgent->name."</email>
             <phone>".$defaultAgent->mobile_no."</phone>
+            <license_no>".$defaultAgent->rera_number."</license_no>
           </agent>";
         }
       }
@@ -180,6 +181,9 @@ class PropertyFinderXmlController extends Controller
         }
       }
       $xml.="</photo>";
+      if($property->geopoints){
+        $xml.="<floor_plan><url last_updated='".$property->last_updated."'>".s3AssetUrl('uploads/property/'.$property->id.'/images/'.$image->images_link)."</url></floor_plan>"; 
+      }
       if($property->geopoints){
         $xml.="<geopoints>".$property->geopoints."</geopoints>";
       }

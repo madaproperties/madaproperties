@@ -631,8 +631,8 @@ pre code {
 /*  - Property Section -  */
 .property_form span.suffix-text {
     position: absolute;
-    bottom: 13px;
-    right: 20px;
+    bottom: 58px;
+    right: 36px;
 }
 #priceInRent span.suffix-text {
     top: 55px;
@@ -66590,6 +66590,7 @@ code {
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
   margin: 0;
+  margin-bottom:5px;
 }
 .radio > span {
   border-radius: 50%;
@@ -87846,6 +87847,9 @@ width: 100%;
   .card-toolbar{
     overflow-x: auto;
   }
+  .menuSideView{
+    z-index: 999 !important;
+  }
   .page-link{
     padding: 7px 6px;
     font-size: 10px;
@@ -87913,7 +87917,8 @@ width: 100%;
 }
 .dropdown-menu.dropdown-menu-sm{
   width:auto !important;
-  right:0px !important;
+  right:inherit !important;
+  left:0px !important;
 }
 .offcanvas-mobile{
   z-index:1 !important;
@@ -87924,9 +87929,83 @@ width: 100%;
 }
 
 }
+.btn.btn-primary{
+  border:none !important;
+}
+.rowCrtt .blue-label{
+color:#9fc538 !important;
+}
+.rowCrtt .col-form-label svg{
+  margin-bottom: 5px !important;
+}
 
+.custCheck{
+  background-color:#f1f1f1 ;
+  border-radius: 4px;
+  padding:10px;
+}
+.custCheck svg{
+  margin-bottom: 10px !important;
+}
+.lblCust input{
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.lblCust:hover input ~ .custCheck{
+  background-color: #9fc538;
+
+}
+.lblCust input:checked ~ .custCheck{
+background-color: #9fc538;
+color:#fff !important;
+}
+.rowTextView{
+  width: 100%;
+}
+.rowTextView .col-md-6:first-child{
+  border-right:1px solid #ccc;
+}
+#from-date .dropdown-menu, #to-date .dropdown-menu{
+  top:inherit !important;
+  left:inherit !important;
+  position: absolute;
+}
 @media(max-width:775px){
   .container{
     margin-top:0px !important;
+  }
+  .search-from .btn {
+    padding: 6px 12px;
+}
+.rowTextView .col-md-6:first-child{
+  border-bottom:1px solid #ccc;
+  border-right: none;
+  }
+.table-responsive nav{
+  overflow-x: auto;
+  max-width:100%;
+  }
+  .pagination{
+    justify-content: left;
+  }
+  .rowCrtt .form-group{
+    margin-bottom: 0px !important;
+  }
+  #property_form select{
+    height: 45px !important;
+  }
+  .rowTextView {
+    width: fit-content;
+}
+.formSecCust{
+  margin: 0px !important;
+}
+}
+@media(max-width:375px){
+  .page-link{
+    padding:5px 4px !important;
   }
 }

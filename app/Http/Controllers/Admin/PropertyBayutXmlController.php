@@ -87,15 +87,15 @@ class PropertyBayutXmlController extends Controller
           xmlwriter_end_element($xw); // Count
         }
 
-        if($property->area_name){
+        if($property->communityId){
           xmlwriter_start_element($xw, 'Locality');
-          xmlwriter_write_cdata($xw, $property->area_name);
+          xmlwriter_write_cdata($xw, $property->communityId->name_en);
           xmlwriter_end_element($xw); // Count
         }
 
-        if($property->project_name){
+        if($property->subCommunity){
           xmlwriter_start_element($xw, 'Sub_Locality');
-          xmlwriter_write_cdata($xw, $property->project_name);
+          xmlwriter_write_cdata($xw, $property->subCommunity->name_en);
           xmlwriter_end_element($xw); // Count
         }
 
@@ -120,7 +120,7 @@ class PropertyBayutXmlController extends Controller
         xmlwriter_end_element($xw); // Count
 
         xmlwriter_start_element($xw, 'Bedrooms');
-        xmlwriter_write_cdata($xw, !empty($property->bedrooms) ? __('config.bedrooms.'.$property->bedrooms) : 0);
+        xmlwriter_write_cdata($xw, !empty($property->bedrooms) ? $property->bedrooms : 0);
         xmlwriter_end_element($xw); // Count
 
         xmlwriter_start_element($xw, 'Bathroom');

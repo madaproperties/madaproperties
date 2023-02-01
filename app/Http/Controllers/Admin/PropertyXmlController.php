@@ -72,6 +72,9 @@ class PropertyXmlController extends Controller
 
       $price=str_replace(".00","",$price);
       $city_text = isset($property->city->name_en) ? $property->city->name_en : "Dubai";
+      $community = isset($property->community) ? $property->community->name_en : 'N/A';
+      $sub_community = isset($property->subCommunity) ? $property->subCommunity->name_en : 'N/A';
+
       $community=$property->area_name;
       $project_name=$property->project_name;
       $building_name=$property->bname;
@@ -110,7 +113,7 @@ class PropertyXmlController extends Controller
       $xml.="<features>".$features."</features>
       <plot_size>".$property->plot_size."</plot_size>
       <size>".$property->buildup_area."</size>
-      <bedroom>".__('config.bedrooms.'.$property->bedrooms)."</bedroom>
+      <bedroom>".$property->bedrooms."</bedroom>
       <bathroom>".$property->bathrooms."</bathroom>";
 
       $xml.="<city><![CDATA[".$city_text."]]></city>
@@ -199,7 +202,7 @@ class PropertyXmlController extends Controller
       $property['crm_id'] = $row->reference_number;
       $property['str_no'] = $row->permit_number;
       $offering_type = strpos($row->offering_type, '-', strpos($row->offering_type, '-') + 1);
-      if($row->offering_type == 'RS'){
+      if($row->offering_type == 'RS' || $row->offering_type == 'CS'){
         $property['sale_rent'] = '1';
       }else{
         $property['sale_rent'] = '2';

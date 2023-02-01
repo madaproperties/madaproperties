@@ -152,7 +152,7 @@ class PropertyDubizzleXmlController extends Controller
 
       $xml.="<size>".$property->buildup_area."</size>
       <sizeunits>".$measure_unit."</sizeunits>
-      <bedrooms>".__('config.bedrooms.'.$property->bedrooms)."</bedrooms>
+      <bedrooms>".$property->bedrooms."</bedrooms>
       <bathrooms>".$property->bathrooms."</bathrooms>";
       if($property->agent && $property->agent->is_rera_active){
         $xml .="<contactemail>".$property->agent->name."</contactemail>
@@ -331,7 +331,7 @@ class PropertyDubizzleXmlController extends Controller
 
       $xml.="<size>".$property->buildup_area."</size>
       <sizeunits>".$measure_unit."</sizeunits>
-      <bedrooms>".__('config.bedrooms.'.$property->bedrooms)."</bedrooms>
+      <bedrooms>".$property->bedrooms."</bedrooms>
       <bathrooms>".$property->bathrooms."</bathrooms>";
       if($property->agent && $property->agent->is_rera_active){
         $xml .="<contactemail>".$property->agent->name."</contactemail>

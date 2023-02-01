@@ -31,9 +31,9 @@
 		<!--begin::Container-->
 		<div class="container">
 			<!--begin::Profile Change Password-->
-			<div class="d-flex flex-row">
+			<div class="w-100">
 				<!--begin::Content-->
-				<div class="flex-row-fluid ml-lg-8">
+				<div class="w-100">
 					<!--begin::Card-->
 					<div class="card card-custom gutter-b">
 				<!--begin::Header-->
@@ -60,7 +60,7 @@
 				</div>
 				<!--end::Header-->
 				<!--end::Page Title-->
-				<form class="ml-5" action="">
+				<form class="ml-5 formSearchh" action="">
 					@foreach(request()->all() as $pram => $val)
 						@if($pram != 'search')
 							<input type="hidden" name="{{$pram}}" value="{{$val}}" />
@@ -103,26 +103,27 @@
 								@foreach($properties as $property)
 								<tr>
 									<td>
-										<span class="text-muted font-weight-bold">{{$property->id}}</span>
+										<span>{{$property->id}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$property->crm_id}}</span>
+										<span>{{$property->crm_id}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$property->str_no}}</span>
+										<span>{{$property->str_no}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{__('config.status.'.$property->status)}}</span>
+										<span>{{__('config.status.'.$property->status)}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$property->title}}</span>
+										<span>{{$property->title}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{($property->last_updated)}}</span>
+										<span>{{($property->last_updated)}}</span>
 									</td>																		
 									<td>
+									<div class="editPro">
 										@can('property-edit')
-											<a href="{{ route('admin.property.show',$property->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
+										<a href="{{ route('admin.property.show',$property->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details in english"><i class="fa fa-edit"></i></a>																						
 										@endif
 										<a href="{{ route('property.brochure',$property->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Brochure"><i class="fa fa-print"></i></a>																						
 										@can('property-delete')
@@ -135,6 +136,7 @@
 												<button type="submit" style="display:none"></button>
 											</form>
 										@endif
+	</div>
 									</td>
 								</tr>
 								@endforeach

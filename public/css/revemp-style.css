@@ -1,0 +1,132 @@
+.contentArea {
+    padding-left: 250px;
+}
+
+.menuSideView {
+    position: fixed;
+}
+
+.container {
+    width: 100%;
+}
+
+.menuSideView .menu-link span.menu-text {
+    background: transparent !important;
+}
+
+.menuSideView .menu-link.dropdown-toggle.active {
+    background: #9fc538 !important;
+}
+
+.menuSideView .menu-link:focus {
+    color: #fff !important;
+}
+
+.btn.btn-primary {
+    background: #fff !important;
+    color: #000 !important;
+}
+
+.btn.btn-primary:hover {
+    background: #000 !important;
+    color: #fff !important;
+}
+
+.btn.btn-primary i {
+    color: #000 !important;
+    font-size: 13px;
+}
+
+.btn.btn-primary:hover i {
+    color: #fff !important;
+}
+
+.modal-header {
+    background: #9fc538;
+    border-radius: 4px 4px 0 0;
+}
+
+.btn.btn-info {
+    background: #9fc538;
+    border: 1px solid #fff;
+    color: #fff;
+    border-radius: 15px;
+}
+
+.btn.btn-info:hover, .btn.btn-info:focus {
+    background: #000 !important;
+}
+
+.dropdown.dropdown-inline .btn-light-primary {
+    background: #fff !important;
+    color: #000 !important;
+    border: 1px solid !important;
+}
+
+.dropdown.dropdown-inline .btn-light-primary:hover {
+    background: #000 !important;
+    color: #fff !important;
+}
+
+.dropdown.dropdown-inline .btn-light-primary .svg-icon svg g [fill] {
+    fill: #000 !important;
+}
+
+.dropdown.dropdown-inline .btn-light-primary:hover .svg-icon svg g [fill] {
+    fill: #fff !important;
+}
+
+.dropdown.dropdown-inline .btn-light-primary i {
+    color: #000 !important;
+}
+
+.dropdown.dropdown-inline .btn.btn-light-primary.dropdown-toggle:after {
+    border-color: #000 !important;
+    color: #000 !important;
+}
+
+.dropdown.dropdown-inline .btn.btn-light-primary.dropdown-toggle:hover:after {
+    border-color: #fff !important;
+    color: #fff !important;
+}
+
+.dropdown.dropdown-inline .btn-light-primary:hover i {
+    color: #fff !important;
+}
+
+
+  .card-toolbar .btn {
+    background-color: #9fc538 !important;
+    border-color: #9fc538 !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+}
+.dropdown.dropdown-inline .btn-light-primary{
+    background-color: #9fc538 !important;
+    border-color: #9fc538 !important;
+    color: #fff !important;
+}
+
+@media screen and (max-width: 991px) {
+.menuSideView {
+    width: 0;
+    z-index: 2;
+    background: #e8afaf;
+}
+.contentArea {
+    padding-left: 0;
+}
+.header-menu-mobile {
+    background-color: #000000;
+    height: 100%;
+}
+.menuSideView .header-navs .tab-content .tab-pane {
+    padding: 0 0 !important;
+}
+.header-tabs {
+    padding-bottom: 0 !important;
+}
+.header-mobile {
+    background: #000;
+}	
+}

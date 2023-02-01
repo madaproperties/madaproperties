@@ -26,7 +26,11 @@ input#portals {
                                 @foreach(__('config.portals') as $key =>$value)
                                 <div class="col-xl-3">
                                     <span>{{$value}}</span>
-                                    <input type="checkbox" value="{{$key}}" id="portals" name="portals[]" {{ (isset($property->portals) && in_array($key,$propertyPortals)) ? 'checked' : '' }} multiple >
+                                    @if(isset($property->id))
+                                    <input type="checkbox" value="{{$key}}" id="portals" name="portals[]" {{ (isset($property->portals) && in_array($key,$propertyPortals)) ? 'checked' : '' }} multiple>
+                                    @else
+                                    <input type="checkbox" value="{{$key}}" id="portals" name="portals[]" {{ ($key == '4')  ? 'checked' : '' }} multiple>
+                                    @endif
                                     <div class="fv-plugins-message-container"></div>    
                                 </div>
                                 @endforeach

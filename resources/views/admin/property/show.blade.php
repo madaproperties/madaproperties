@@ -149,13 +149,17 @@
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
 
 																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">	
-																				<div class="col-xl-2 text-center col-6 formRdo">
-																				<label class="col-form-label w-100 text-center">
-																				<span class="check">
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container w-100 formSecCust">
+																			<div class="row rowTextView">
+																				<div class="col-md-6 col-lg-5 col-xxl-3 col-xl-4">
+																					<div class="row">
+																					<div class="col-xl-6 text-center col-6 formRdo">
+																				<label class="col-form-label w-100 text-center lblCust">
+																					
 																				<input class="form-control radio" name="property_type" type="radio" value="1" {{$property->property_type == 1 ? 'checked' : ''}}>
-																					</span>
-																																									<svg class="property_icons w-100" fill="#000000" height="60px" width="60px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+																				<div class="custCheck">
+																				<svg class="property_icons w-100" fill="#000000" height="60px" width="60px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 																						viewBox="0 0 512.213 512.213" xml:space="preserve">
 																					<g transform="translate(0 1)">
 																						<g>
@@ -190,25 +194,34 @@
 																								</g>
 																							</g>
 																							</svg>
-																							{{__('site.residential')}}</label>
+                                                                                          
+																							{{__('site.residential')}}
+																							</div></label>
 
 																							</div>
+																							<div class="col-xl-6 text-center col-6 formRdo">
+																																											<label class="col-form-label w-100 text-center lblCust">
 																																											
-																																											<div class="col-xl-2 text-center col-6 formRdo">
-																																											<label class="col-form-label w-100 text-center">
-																																											<span class="check">
 																																											<input class="form-control radio" name="property_type" type="radio" value="2" {{$property->property_type == 2 ? 'checked' : ''}}>
-																																											</span>
+																																											<div class="custCheck">
 																																											<svg class="w-100" fill="#000000" width="60px" height="60px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M 10 3.8828125 L 3 7.3828125 L 3 28 L 17 28 L 29 28 L 29 10 L 17 10 L 17 7.3828125 L 10 3.8828125 z M 10 6.1171875 L 15 8.6171875 L 15 26 L 5 26 L 5 8.6171875 L 10 6.1171875 z M 7 10 L 7 12 L 9 12 L 9 10 L 7 10 z M 11 10 L 11 12 L 13 12 L 13 10 L 11 10 z M 17 12 L 27 12 L 27 26 L 17 26 L 17 12 z M 7 14 L 7 16 L 9 16 L 9 14 L 7 14 z M 11 14 L 11 16 L 13 16 L 13 14 L 11 14 z M 19 14 L 19 16 L 21 16 L 21 14 L 19 14 z M 23 14 L 23 16 L 25 16 L 25 14 L 23 14 z M 7 18 L 7 20 L 9 20 L 9 18 L 7 18 z M 11 18 L 11 20 L 13 20 L 13 18 L 11 18 z M 19 18 L 19 20 L 21 20 L 21 18 L 19 18 z M 23 18 L 23 20 L 25 20 L 25 18 L 23 18 z M 7 22 L 7 24 L 9 24 L 9 22 L 7 22 z M 11 22 L 11 24 L 13 24 L 13 22 L 11 22 z M 19 22 L 19 24 L 21 24 L 21 22 L 19 22 z M 23 22 L 23 24 L 25 24 L 25 22 L 23 22 z"/></svg>
-																																											{{__('site.commercial')}}
-																																											</label>	
+																																											{{__('site.commercial')}} </div>
+																																											
+																																										</label>	
 																																										</div>
 																																										
-																																											<div class="col-xl-2 text-center col-6 formRdo">
-																																											<label class="col-form-label w-100 text-center">
-																																											<span class="check">
+																																																																													</div>
+</div>
+
+
+<div class="col-md-6 col-lg-5 col-xxl-3 col-xl-4">
+	<div class="row">
+
+	<div class="col-xl-6 text-center col-6 formRdo">
+																																											<label class="col-form-label w-100 text-center lblCust">
+																																											
 																							<input class="form-control radio" name="sale_rent" type="radio" value="1" {{$property->sale_rent == 1 ? 'checked' : ''}}>
-																							</span>
+																							<div class="custCheck">
 																																											<svg class="w-100" fill="#000000" height="60px" width="60px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 																								viewBox="0 0 285 285" xml:space="preserve">
 																							<g>
@@ -238,15 +251,18 @@
 																								</g>
 																							</g>
 																							</svg>
-																							{{__('site.sale')}}
+																							{{__('site.sale')}} </div>
 
 																																											</label>
 																																											</div>
-																																											<div class="col-xl-2 text-center col-6 formRdo">
-																																											<label class="col-form-label w-100 text-center">
-																																											<span class="check">
-																																											<input class="form-control radio" name="sale_rent" type="radio" value="2"  {{$property->sale_rent == 2 ? 'checked' : ''}}>
-																																											</span>
+										
+
+
+
+	<div class="col-xl-6 text-center col-6 formRdo">
+																																											<label class="col-form-label w-100 text-center lblCust">
+																																											<input class="form-control radio" name="sale_rent" type="radio" value="2" {{$property->sale_rent == 2 ? 'checked' : ''}}>
+																																											<div class="custCheck">
 																																											<svg class="w-100" fill="#000000" height="60px" width="60px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 																								viewBox="0 0 512 512" xml:space="preserve">
 																							<g>
@@ -286,10 +302,21 @@
 																								</g>
 																							</g>
 																							</svg>			
-																							{{__('site.rent')}}
+																							{{__('site.rent')}} </div>
 																					</label>
+																				
 																				</div>
-																			</div>
+										
+	</div>
+</div>
+																			</div>	
+																			
+
+
+
+
+																																											
+																																																				</div>
 																		</div>
 																	</div>
 																	
@@ -320,7 +347,7 @@
 																					</select>
 																				</div>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
-																					<input class="form-control form-control-solid form-control-lg" 	name="plot_size" type="text" value="{{$property->plot_size}}" placeholder="{{__('site.plot')}}" required>
+																					<input class="form-control form-control-solid form-control-lg" 	name="plot_size" type="text" value="{{$property->plot_size}}" placeholder="{{__('site.plot')}}">
 																					<span class="suffix-text suffixPlot">sqft</span>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
@@ -416,7 +443,7 @@
 																					</select>
 																				</div>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
-																					<input class="form-control form-control-solid form-control-lg" id="buildup_area" name="buildup_area" type="text" value="{{$property->buildup_area}}" placeholder="{{__('site.bua')}}">
+																					<input class="form-control form-control-solid form-control-lg" id="buildup_area" name="buildup_area" type="text" value="{{$property->buildup_area}}" placeholder="{{__('site.bua')}}" required>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
@@ -536,12 +563,12 @@
 																					</select>																				
 																				</div>
 
-																				<div class="col-xs-12 col-sm-3 col-lg-3">
+																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale" style="{{$property->sale_rent == 2 ? 'display:none' : ''}}">
 																					<input class="form-control form-control-solid form-control-lg" 	name="maint_fee" type="text" value="{{$property->maint_fee}}" placeholder="{{__('site.maint_fee')}}">																					
 																					<div class="fv-plugins-message-container"></div>																				
 																				</div>	
 
-																				<div class="col-xs-12 col-sm-3 col-lg-3">																					
+																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale" style="{{$property->sale_rent == 2 ? 'display:none' : ''}}">																					
 																					<select name="financial_status" id="financial_status" class="form-control">		
 																					<option value="" >{{ __('site.financial_status') }}</option>	
 																					{!! selectOptions(__('config.financial_status'),$property->financial_status) !!}
@@ -790,26 +817,14 @@
 																					@endforeach 
 																				</select>
 																			</div>
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.location')}}</label>
-																			<div class="col-xs-12 col-sm-4 col-lg-4">
-																				<input class="form-control form-control-solid form-control-lg" 	name="area_name" type="text" value="{{$property->area_name}}">
-																				<div class="fv-plugins-message-container"></div>
-																			</div>
-																		</div>
-																		<!--end::Group-->
-																		<!--begin::Group-->
-																		<div class="form-group row fv-plugins-icon-container">
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sub_location')}}</label>
-																			<div class="col-xs-12 col-sm-4 col-lg-4">
-																				<input class="form-control form-control-solid form-control-lg" 	name="project_name" type="text" value="{{$property->project_name}}">
-																				<div class="fv-plugins-message-container"></div>
-																			</div>
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.building')}}</label>
 																			<div class="col-xs-12 col-sm-4 col-lg-4">
 																				<input class="form-control form-control-solid form-control-lg" 	name="building_name" type="text" value="{{$property->building_name}}" placeholder="">
 																				<div class="fv-plugins-message-container"></div>
 																			</div>
 																		</div>
+																		<!--end::Group-->
+																		
 
 																		<div class="form-group row fv-plugins-icon-container">
 
@@ -953,19 +968,18 @@
 																			</div>
 																			<div class="form-group row fv-plugins-icon-container">
 																			
-																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.permit')}}</label>
-																				<div class="col-xs-12 col-sm-6 col-lg-3">
-																					<input class="form-control form-control-solid form-control-lg" 	name="str_no" type="text" value="{{$property->str_no}}" placeholder="{{__('site.permit_no')}}">
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
-
-																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.furnished')}}</label>
+																			<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.permit')}}</label>
+																			<div class="col-xs-12 col-sm-6 col-lg-3">
+																				<input class="form-control form-control-solid form-control-lg" 	name="str_no" type="text" value="{{$property->str_no}}" placeholder="{{__('site.permit_no')}}">
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																			<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.furnished')}}</label>
 																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<select name="furnished" id="furnished" class="form-control">
 																						{!! selectOptions(__('config.yes_no'),$property->furnished) !!}
 																					</select>
 																				</div>
-																			</div>
+																		</div>
 																			<!--end::Group-->
 
 
