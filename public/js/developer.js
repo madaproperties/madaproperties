@@ -46,9 +46,11 @@ $(document).ready(function(){
 		if($(this).val() == 1){
 			$(".priceInRent").hide();
 			$(".priceInSale").show();
+			$("#price").attr('required',true);
 		}else{
 			$(".priceInRent").show();
 			$(".priceInSale").hide();
+			$("#price").attr('required',false);
 		}
 	});
 

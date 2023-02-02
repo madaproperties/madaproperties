@@ -891,6 +891,7 @@
 																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.verified')}}</label>
 																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<select name="verified" id="verified" class="form-control">
+																						<option value="">{{__('site.choose')}}</option>
 																						{!! selectOptions(__('config.yes_no'),old('verified')) !!}
 																					</select>
 																				</div>
@@ -898,6 +899,7 @@
 																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.featured')}}</label>
 																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<select name="is_featured" id="is_featured" class="form-control">
+																						<option value="">{{__('site.choose')}}</option>
 																						{!! selectOptions(__('config.featured'),old('featured')) !!}
 																					</select>
 																				</div>
@@ -909,6 +911,7 @@
 																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.unver_reas')}}</label>
 																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<select name="unverified_reason" id="unverified_reason" class="form-control">
+																						<option value="">{{__('site.choose')}}</option>
 																						{!! selectOptions(__('config.unverified_reason'),old('unverified_reason')) !!}
 																					</select>
 																				</div>
@@ -943,7 +946,8 @@
 																			<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.furnished')}}</label>
 																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<select name="furnished" id="furnished" class="form-control">
-																						{!! selectOptions(__('config.yes_no'),old('furnished')) !!}
+																						<option value="">{{__('site.choose')}}</option>
+																						{!! selectOptions(__('config.furnished'),old('furnished')) !!}
 																					</select>
 																				</div>
 																		</div>

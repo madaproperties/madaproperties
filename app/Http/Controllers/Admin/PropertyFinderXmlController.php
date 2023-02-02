@@ -181,8 +181,8 @@ class PropertyFinderXmlController extends Controller
         }
       }
       $xml.="</photo>";
-      if($property->geopoints){
-        $xml.="<floor_plan><url last_updated='".$property->last_updated."'>".s3AssetUrl('uploads/property/'.$property->id.'/images/'.$image->images_link)."</url></floor_plan>"; 
+      if($property->floorplan){
+        $xml.="<floor_plan><url last_updated='".$property->last_updated."'>".s3AssetUrl('uploads/'.$image->floorplan)."</url></floor_plan>"; 
       }
       if($property->geopoints){
         $xml.="<geopoints>".$property->geopoints."</geopoints>";

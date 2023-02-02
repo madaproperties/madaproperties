@@ -254,6 +254,13 @@ class PropertyController extends Controller
         $data['longitude'] = $add['lng'];
       }
     }
+    if($request->file('floorplan')){
+      $md5Name = md5_file($request->file('floorplan')->getRealPath());
+      $guessExtension = $request->file('floorplan')->guessExtension();
+      $file = $request->file('floorplan')->move('public/uploads', $md5Name.'.'.$guessExtension);     
+      $data['floorplan'] = $md5Name.'.'.$guessExtension;
+    }
+
 
     addHistory('Property',0,'added',$data);
 
@@ -282,10 +289,14 @@ class PropertyController extends Controller
     if(\Session::get('tempFeatures')){
       $temp = [];
       $i = 0;
+      $tempId = [];
       foreach(\Session::get('tempFeatures') as $key => $value){
         foreach($value as $rs){
-          $temp[$i]['property_id'] = $property->id;
-          $temp[$i++]['feature_id'] = $rs;
+          if(!in_array($rs,$tempId)){
+            $temp[$i]['property_id'] = $property->id;
+            $temp[$i++]['feature_id'] = $rs;
+            $tempId[] = $rs;
+          }
         }
       }
       \DB::table("property_features")->insert($temp); 
@@ -295,10 +306,14 @@ class PropertyController extends Controller
     if(\Session::get('tempPortals')){
       $temp = [];
       $i = 0;
+      $tempId = [];
       foreach(\Session::get('tempPortals') as $key => $value){
         foreach($value as $rs){
-          $temp[$i]['property_id'] = $property->id;
-          $temp[$i++]['portal_id'] = $rs;
+          if(!in_array($rs,$tempId)){
+            $temp[$i]['property_id'] = $property->id;
+            $temp[$i++]['portal_id'] = $rs;
+            $tempId[] = $rs;
+          }
         }
       }
       \DB::table("property_portals")->insert($temp); 
@@ -441,8 +456,6 @@ class PropertyController extends Controller
       if($property->status != 1 && $data['status'] == 1){
         $data['publishing_date'] = Carbon::now();
       }
-    }else{
-      $data['user_id']=auth()->id();
     }
 
 
@@ -472,6 +485,13 @@ class PropertyController extends Controller
         $data['latitude'] = $add['lat'];
         $data['longitude'] = $add['lng'];
       }
+    }
+
+    if($request->file('floorplan')){
+      $md5Name = md5_file($request->file('floorplan')->getRealPath());
+      $guessExtension = $request->file('floorplan')->guessExtension();
+      $file = $request->file('floorplan')->move('public/uploads', $md5Name.'.'.$guessExtension);     
+      $data['floorplan'] = $md5Name.'.'.$guessExtension;
     }
 
     addHistory('Property',$id,'updated',$data,$property);
@@ -843,7 +863,7 @@ class PropertyController extends Controller
 
         Property::where('id',$property_id)->update(['updated_at'=>Carbon::now(),'last_updated'=>Carbon::now()]);
       }else{
-        $portals = Request('portals');
+        $portals = Request('portals');        
         \Session::push('tempPortals', $portals);
       }
     }

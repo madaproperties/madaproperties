@@ -143,9 +143,10 @@ return [
     '3' => 'Ready Primary',
     '4' => 'Off-Plan Primary'
   ],
-  'featured' => [
+  'furnished' => [
+    '0' => 'No',
     '1' => 'Yes',
-    '2' => 'No'
+    '2' => 'Partly'
   ],
   'financial_status' => [
     '1' => 'Mortgaged',

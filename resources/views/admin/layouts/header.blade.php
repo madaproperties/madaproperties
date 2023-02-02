@@ -170,7 +170,7 @@
 <!--end::Head-->
 <!--begin::Body-->
 
-<body id="kt_body" class=" header-bottom-enabled page-loading">
+<body id="kt_body" class=" header-bottom-enabled page-loading {{app()->getLocale() == 'ar' ? 'ar-lang' : ''}}">
     <div class="d-flex w-100">
         <div class="menuSideView" style="{{ !auth()->id() ? 'height:71px' : '' }}">
             <div class="d-none d-lg-flex align-items-center mr-3 navTop_logo">

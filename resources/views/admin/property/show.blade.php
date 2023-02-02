@@ -423,39 +423,38 @@
 																						{!! selectOptions(__('config.furnished'),$property->furnished) !!}																					
 																					</select>
 																				</div>
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																				<!-- <div class="col-xs-12 col-sm-4 col-lg-4">
 																					<input class="form-control form-control-solid form-control-lg" 	name="dewa" type="text" value="{{$property->dewa}}" placeholder="{{__('site.dewa')}}">
 																					<div class="fv-plugins-message-container"></div>
-																				</div>
+																				</div> -->
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<input class="form-control form-control-solid form-control-lg" 	name="maint_fee" type="text" value="{{$property->maint_fee}}" placeholder="{{__('site.maint_fee')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
-																			</div>
-																			<!--end::Group-->
-																			
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
+
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="measure_unit" id="measure_unit" class="form-control">
 																					<option value="" >{{ __('site.unit_meas') }}</option>
 																						{!! selectOptions(__('config.measure_unit'),$property->measure_unit) !!}
 																					</select>
 																				</div>
+																			</div>
+																			<!--end::Group-->
+																			
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<input class="form-control form-control-solid form-control-lg" id="buildup_area" name="buildup_area" type="text" value="{{$property->buildup_area}}" placeholder="{{__('site.bua')}}" required>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																				<!-- <div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="is_managed" id="is_managed" class="form-control">
 																					<option value="" >{{ __('site.managed') }}</option>
 																						{!! selectOptions(__('config.yes_no'),$property->is_managed) !!}
 																					</select>
-																				</div>
-																			</div>
-																			<!--end::Group-->		
-																			<!--start::Group-->	
-																			<div class="form-group row fv-plugins-icon-container">
+																				</div> -->
+
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select class="form-control" name="source_id">
 																						<option value="">{{ __('site.source') }}</option>
@@ -472,12 +471,10 @@
 																						@endforeach
 																					</select>
 																				</div>
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
-																					<input class="form-control form-control-solid form-control-lg" 	name="deposit" type="text" value="{{$property->deposit}}" placeholder="{{__('site.Deposit')}}">
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
-																			</div>		
-																			<!--end::Group-->																				
+																			</div>
+																			<!--end::Group-->		
+																			<!--start::Group-->	
+																																					
 																		</div>
 																	</div>
 																</div>
@@ -549,7 +546,7 @@
 																			</div>
 																			<div class="form-group row fv-plugins-icon-container">
 																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale" style="{{$property->sale_rent == 2 ? 'display:none' : ''}}">
-																					<input class="form-control form-control-solid form-control-lg" id="price" name="price" type="text" value="{{$property->price}}" placeholder="{{__('site.price')}}" required>
+																					<input class="form-control form-control-solid form-control-lg" id="price" name="price" type="text" value="{{$property->price}}" placeholder="{{__('site.price')}}" style="{{$property->sale_rent == 1 ? 'required' : ''}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale" style="{{$property->sale_rent == 2 ? 'display:none' : ''}}">
@@ -910,7 +907,7 @@
 																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.portals')}}</label>
 																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#portals_modal">
-                    																	Add portals <i class="fa fa-menu"></i>
+                    																	Add portals <i class="fa fa-menu"></i>  ({{count($property->portals)}})
                   																	</button>
 																				</div>
 																			</div>
@@ -924,6 +921,7 @@
 																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.verified')}}</label>
 																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<select name="verified" id="verified" class="form-control">
+																					<option value="">{{__('site.choose')}}</option>
 																						{!! selectOptions(__('config.yes_no'),$property->verified) !!}
 																					</select>
 																				</div>
@@ -931,6 +929,7 @@
 																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.featured')}}</label>
 																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<select name="is_featured" id="is_featured" class="form-control">
+																					<option value="">{{__('site.choose')}}</option>
 																						{!! selectOptions(__('config.featured'),$property->featured) !!}
 																					</select>
 																				</div>
@@ -942,6 +941,7 @@
 																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.unver_reas')}}</label>
 																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<select name="unverified_reason" id="unverified_reason" class="form-control">
+																					<option value="">{{__('site.choose')}}</option>
 																						{!! selectOptions(__('config.unverified_reason'),$property->unverified_reason) !!}
 																					</select>
 																				</div>
@@ -976,7 +976,8 @@
 																			<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.furnished')}}</label>
 																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<select name="furnished" id="furnished" class="form-control">
-																						{!! selectOptions(__('config.yes_no'),$property->furnished) !!}
+																					<option value="">{{__('site.choose')}}</option>
+																						{!! selectOptions(__('config.furnished'),$property->furnished) !!}
 																					</select>
 																				</div>
 																		</div>

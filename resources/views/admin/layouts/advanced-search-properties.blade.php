@@ -37,6 +37,7 @@
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.status')}}</label>
       <select class="form-control" name="status">
+        <option value="">{{__('site.choose')}}</option>
         {!! selectOptions(__('config.status'),Request('status')) !!}
       </select>
     </div>
@@ -54,7 +55,8 @@
     <!--begin::Group-->
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.type')}}</label>
-      <select class="form-control" name="sale_rent" required>
+      <select class="form-control" name="sale_rent">
+        <option value="">{{__('site.choose')}}</option>
         {!! selectOptions(__('config.sale_rent'),Request('sale_rent')) !!}
       </select>																					
     </div>
