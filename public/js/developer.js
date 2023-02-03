@@ -47,10 +47,12 @@ $(document).ready(function(){
 			$(".priceInRent").hide();
 			$(".priceInSale").show();
 			$("#price").attr('required',true);
+			$('[name="yprice"]').attr('required',false);
 		}else{
 			$(".priceInRent").show();
 			$(".priceInSale").hide();
 			$("#price").attr('required',false);
+			$('[name="yprice"]').attr('required',true);
 		}
 	});
 

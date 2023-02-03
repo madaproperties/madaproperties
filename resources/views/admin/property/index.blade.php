@@ -107,6 +107,7 @@
 									</td>
 									<td>
 										<span>{{$property->crm_id}}</span>
+										<p><b>Type : {{$property->sale_rent == 1 ? 'Sale' : 'Rent'}}</b></p>
 									</td>
 									<td>
 										<span>{{$property->str_no}}</span>

@@ -61,7 +61,15 @@
       </select>																					
     </div>
     <!--end::Group-->
-
+    <!--begin::Group-->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.portals')}}</label>
+      <select class="form-control" name="portals">
+        <option value="">{{__('site.choose')}}</option>
+        {!! selectOptions(__('config.portals'),Request('portals')) !!}
+      </select>																					
+    </div>
+    <!--end::Group-->
     <!--begin::Group-->
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.category')}}</label>

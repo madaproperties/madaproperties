@@ -471,7 +471,7 @@
 																				<div class="col-xs-3 col-sm-3 col-lg-3">																				
 																					<div class="border p-5">																					
 																					<label class="w-100 text-center">YEAR</label>
-																						<input class="form-control form-control-solid form-control-lg property-price" 	name="yprice" type="text" value="{{old('yprice')}}" placeholder="{{__('site.yearly_price')}}">																					<span class="suffix-text">AED</span>
+																						<input class="form-control form-control-solid form-control-lg property-price" 	name="yprice" type="text" value="{{old('yprice')}}" placeholder="{{__('site.yearly_price')}}" required>																					<span class="suffix-text">AED</span>
 																						<div class="fv-plugins-message-container"></div>
 																						<div class="col-xs-3 col-sm-3 col-lg-3 fl col-3">
 																							<input class="form-control property-price-year" name="default_price" type="radio" value="year" disabled>

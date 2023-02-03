@@ -83,6 +83,12 @@ class PropertyController extends Controller
         $this->filterPrams($q);
       })->where('user_id',auth()->id());
     }
+
+    if(Request()->has('portals')){
+      $property->join('property_portals','property_portals.property_id','=','properties.id')
+      ->where('property_portals.portal_id',Request('portals'));
+    }
+    
     $properties = $property->orderBy('last_updated','desc')->paginate(20);
     $property_count = $property->count();
     $categories = Categories::get(); 

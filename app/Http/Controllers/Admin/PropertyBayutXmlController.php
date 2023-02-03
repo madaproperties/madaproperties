@@ -89,17 +89,21 @@ class PropertyBayutXmlController extends Controller
           xmlwriter_end_element($xw); // Count
         }
 
+        xmlwriter_start_element($xw, 'Locality');
         if($property->communityId){
-          xmlwriter_start_element($xw, 'Locality');
           xmlwriter_write_cdata($xw, $property->communityId->name_en);
-          xmlwriter_end_element($xw); // Count
+        }else{
+          xmlwriter_write_cdata($xw, $property->area_name);          
         }
+        xmlwriter_end_element($xw); // Count
 
+        xmlwriter_start_element($xw, 'Sub_Locality');
         if($property->subCommunity){
-          xmlwriter_start_element($xw, 'Sub_Locality');
           xmlwriter_write_cdata($xw, $property->subCommunity->name_en);
-          xmlwriter_end_element($xw); // Count
+        }else{
+          xmlwriter_write_cdata($xw, $property->area_name);          
         }
+        xmlwriter_end_element($xw); // Count
 
         if($property->building_name){
           xmlwriter_start_element($xw, 'Tower_Name');
@@ -131,7 +135,7 @@ class PropertyBayutXmlController extends Controller
 
         xmlwriter_start_element($xw, 'Price');
         $price = $property->price;
-        if($property->yprice){
+        if($property->sale_rent == '2' && $property->yprice){
           $price = $property->yprice;
         }
         xmlwriter_write_cdata($xw, $price);
@@ -234,8 +238,16 @@ class PropertyBayutXmlController extends Controller
         xmlwriter_write_cdata($xw, $property->title);
         xmlwriter_end_element($xw); // Count
 
+        xmlwriter_start_element($xw, 'Property_Title_AR');
+        xmlwriter_write_cdata($xw, $property->title_ar);
+        xmlwriter_end_element($xw); // Count
+
         xmlwriter_start_element($xw, 'Property_Description');
         xmlwriter_write_cdata($xw, $property->description);
+        xmlwriter_end_element($xw); // Count
+
+        xmlwriter_start_element($xw, 'Property_Description_AR');
+        xmlwriter_write_cdata($xw, $property->description_ar);
         xmlwriter_end_element($xw); // Count
 
 
@@ -310,7 +322,11 @@ class PropertyBayutXmlController extends Controller
         // xmlwriter_end_element($xw); // Exclusive_Rights
 
         xmlwriter_start_element($xw, 'furnished');
-        xmlwriter_write_cdata($xw, __('config.furnished.'.$property->furnished));
+        if($property->furnished){
+          xmlwriter_write_cdata($xw, __('config.furnished.'.$property->furnished));
+        } else {
+          xmlwriter_write_cdata($xw, '0');
+        }
         xmlwriter_end_element($xw); // furnished
           
       
