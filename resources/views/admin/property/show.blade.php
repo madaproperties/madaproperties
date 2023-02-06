@@ -427,10 +427,10 @@
 																					<input class="form-control form-control-solid form-control-lg" 	name="dewa" type="text" value="{{$property->dewa}}" placeholder="{{__('site.dewa')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div> -->
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																				<!-- <div class="col-xs-12 col-sm-4 col-lg-4">
 																					<input class="form-control form-control-solid form-control-lg" 	name="maint_fee" type="text" value="{{$property->maint_fee}}" placeholder="{{__('site.maint_fee')}}">
 																					<div class="fv-plugins-message-container"></div>
-																				</div>
+																				</div> -->
 
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="measure_unit" id="measure_unit" class="form-control">
@@ -438,16 +438,17 @@
 																						{!! selectOptions(__('config.measure_unit'),$property->measure_unit) !!}
 																					</select>
 																				</div>
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<input class="form-control form-control-solid form-control-lg" id="buildup_area" name="buildup_area" type="text" value="{{$property->buildup_area}}" placeholder="{{__('site.bua')}}" required>
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
 																			</div>
 																			<!--end::Group-->
 																			
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
-																					<input class="form-control form-control-solid form-control-lg" id="buildup_area" name="buildup_area" type="text" value="{{$property->buildup_area}}" placeholder="{{__('site.bua')}}" required>
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
+																				
 																				<!-- <div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="is_managed" id="is_managed" class="form-control">
 																					<option value="" >{{ __('site.managed') }}</option>
@@ -553,7 +554,7 @@
 																					<input class="form-control form-control-solid form-control-lg" id="price_unit" 	name="price_unit" type="text" value="{{$property->price_unit}}" placeholder="{{__('site.price_unit')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
-																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInRent" style="{{$property->sale_rent == 1 ? 'display:none' : ''}}">																					
+																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale" style="{{$property->sale_rent == 2 ? 'display:none' : ''}}">																					
 																					<select name="cheques" id="cheques" class="form-control">
 																						<option value="" >{{ __('site.Cheques') }}</option>
 																						{!! selectOptions(__('config.cheques'),$property->cheques) !!}		

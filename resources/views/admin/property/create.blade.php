@@ -539,7 +539,7 @@
 																				<input class="form-control form-control-solid form-control-lg" 	name="dewa" type="text" value="{{old('dewa')}}" placeholder="{{__('site.dewa')}}">																					
 																				<div class="fv-plugins-message-container"></div>	
 																				</div>-->			
-																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInRent" style="display:none">																					
+																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale">																					
 																					<select name="cheques" id="cheques" class="form-control">
 																						<option value="" >{{ __('site.Cheques') }}</option>
 																						{!! selectOptions(__('config.cheques'),old('cheques')) !!}		
