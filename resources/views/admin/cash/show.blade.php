@@ -81,8 +81,7 @@
 																			<option {{$cash->paid == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
 																			<option {{$cash->paid == 'yes' ? 'selected' : ''}} value="yes">{{__('site.yes')}}</option>
 																			<option {{$cash->paid == 'no' ? 'selected' : ''}} value="no">{{__('site.no')}}</option>
-																				<option {{$cash->paid == 'cancel' ? 'selected' : ''}} value="cancel">{{__('site.cancel')}}</option>
-
+																			<option {{$cash->paid == 'cancel' ? 'selected' : ''}} value="cancel">{{__('site.cancel')}}</option>
 																			</select>
 																		</div>
 																	</div>

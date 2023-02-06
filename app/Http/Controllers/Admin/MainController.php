@@ -199,15 +199,17 @@ class MainController extends Controller
 
     }else if(userRole() == 'sales admin') { // sales admin
       
-      $subUserId[]=auth()->id();
-      if(!Request()->has('my-contacts')  AND (isset(auth()->user()->leader))){
-        $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
-        $subUserId = $subUserId->pluck('id')->toArray();
-      }
-      $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
-        $this->filterPrams($q);
-      })->whereIn('user_id',$subUserId)
-        ->orderBy('created_at','DESC');
+    //   $subUserId[]=auth()->id();
+    //   if(!Request()->has('my-contacts')  AND (isset(auth()->user()->leader))){
+    //     $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
+    //      $subUserId = $subUserId->pluck('id')->toArray();
+    //   }
+    //   $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
+    //     $this->filterPrams($q);
+    //   })->whereIn('user_id',$subUserId)
+    //     ->orderBy('created_at','DESC');
+    $contacts = Contact::select($this->selectedAttruibutes)->where('user_id',auth()->id())
+            ->orderBy('created_at','DESC');
 
       $contactsCount = $contacts->count();
       $contacts = $contacts->paginate(20);

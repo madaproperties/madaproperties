@@ -141,7 +141,7 @@
   					                     <label class="">{{ __('site.country') }}</label>
   					                     <div class="">
   					                       <div class="input-group input-group-solid to-date-el" data-target-input="nearest">
-  					                        <select class="form-	control" id="country" name="country_id">
+  					                        <select class="form-control" id="country" name="country_id">
   					                        	<option value="">Choose</option>
   					                        	@foreach($countries as $country)
                                                  

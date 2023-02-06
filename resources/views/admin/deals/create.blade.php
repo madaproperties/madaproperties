@@ -293,11 +293,11 @@
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-form-label">{{__('site.vat_received')}}</label>
-																		<div class="col-xl-1">
+																		<div class="col-xl-1 col-2">
 																			<input class="form-control" name="vat_received" type="radio" value="no" checked>
 																		</div>
 																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1">
+																		<div class="col-xl-1 col-2">
 																			<input class="form-control" name="vat_received" type="radio" value="yes">
 																		</div>
 																		<label class="col-form-label">{{__('site.yes')}}</label>
@@ -401,11 +401,11 @@
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-form-label">{{__('site.mada_commission_received')}}</label>
-																		<div class="col-xl-1">
+																		<div class="col-xl-1 col-2">
 																			<input class="form-control" name="mada_commission_received" type="radio" value="no" checked>
 																		</div>
 																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1">
+																		<div class="col-xl-1 col-2">
 																			<input class="form-control" name="mada_commission_received" type="radio" value="yes">
 																		</div>
 																		<label class="col-form-label">{{__('site.yes')}}</label>
@@ -416,7 +416,7 @@
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-form-label">{{__('site.third_party')}}</label>
-																		<div class="col-xl-1">
+																		<div class="col-xl-1 col-2">
 																			<input class="form-control third_party" id="third_party" name="third_party" type="checkbox" value="{{old('third_party')}}">
 																		</div>
 																	</div>
@@ -445,11 +445,11 @@
 																	
 																	<div class="form-group row fv-plugins-icon-container third_party_div">
 																		<label class="col-xl-3 col-form-label">{{__('Third party commission received')}}</label>
-																		<div class="col-xl-1">
+																		<div class="col-xl-1 col-2">
 																			<input class="form-control" name="third_party_commission_received" type="radio" value="no" checked>
 																		</div>
 																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1">
+																		<div class="col-xl-1 col-2">
 																			<input class="form-control" name="third_party_commission_received" type="radio" value="yes">
 																		</div>
 																		<label class="col-form-label">{{__('site.yes')}}</label>
@@ -497,11 +497,11 @@
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-form-label">{{__('site.agent_commission_received')}}</label>
-																		<div class="col-xl-1">
+																		<div class="col-xl-1 col-2">
 																			<input class="form-control" name="agent_commission_received" type="radio" value="no" checked>
 																		</div>
 																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1">
+																		<div class="col-xl-1 col-2">
 																			<input class="form-control" name="agent_commission_received" type="radio" value="yes">
 																		</div>
 																		<label class="col-form-label">{{__('site.yes')}}</label>
@@ -546,11 +546,11 @@
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-form-label">{{__('site.sales_director_commission_received')}}</label>
-																		<div class="col-xl-1">
+																		<div class="col-xl-1 col-2">
 																			<input class="form-control" name="sales_director_commission_received" type="radio" value="no" checked>
 																		</div>
 																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1">
+																		<div class="col-xl-1 col-2">
 																			<input class="form-control" name="sales_director_commission_received" type="radio" value="yes">
 																		</div>
 																		<label class="col-form-label">{{__('site.yes')}}</label>
@@ -597,11 +597,11 @@
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-form-label">{{__('site.agent_leader_commission_received')}}</label>
-																		<div class="col-xl-1">
+																		<div class="col-xl-1 col-2">
 																			<input class="form-control" name="agent_leader_commission_received" type="radio" value="no" checked>
 																		</div>
 																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1">
+																		<div class="col-xl-1 col-2">
 																			<input class="form-control" name="agent_leader_commission_received" type="radio" value="yes">
 																		</div>
 																		<label class="col-form-label">{{__('site.yes')}}</label>
@@ -647,11 +647,11 @@
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-form-label">{{__('site.agent2_commission_received')}}</label>
-																		<div class="col-xl-1">
+																		<div class="col-xl-1 col-2">
 																			<input class="form-control" name="agent2_commission_received" type="radio" value="no" checked>
 																		</div>
 																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1">
+																		<div class="col-xl-1 col-2">
 																			<input class="form-control" name="agent2_commission_received" type="radio" value="yes">
 																		</div>
 																		<label class="col-form-label">{{__('site.yes')}}</label>
@@ -697,11 +697,11 @@
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-form-label">{{__('site.agent2_leader_commission_received')}}</label>
-																		<div class="col-xl-1">
+																		<div class="col-xl-1 col-2">
 																			<input class="form-control" name="agent2_leader_commission_received" type="radio" value="no" checked>
 																		</div>
 																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1">
+																		<div class="col-xl-1 col-2">
 																			<input class="form-control" name="agent2_leader_commission_received" type="radio" value="yes">
 																		</div>
 																		<label class="col-form-label">{{__('site.yes')}}</label>

@@ -1,4 +1,9 @@
 @foreach($activities as $activity)
+<style>
+  .textChnge{
+    color:#aaca4f !important;
+  }
+</style>
 <div class="card card-custom gutter-b">
   <div class="card-body">
     <!--begin::Top-->
@@ -15,7 +20,7 @@
             @endphp
             <a
             data-toggle="tab" href="#" onclick="document.getElementById('{{$tabID}}').click()"
-             class="d-flex align-items-center text-dark  font-size-h5 font-weight-bold mr-3">
+             class="d-flex align-items-center text-dark font-size-h5 font-weight-bold mr-3 textChnge">
               {{$activity->action}}</a>
             <!--end::Name-->
             <!--begin::Contacts-->

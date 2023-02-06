@@ -43,6 +43,9 @@ class CurrencyController extends Controller
           "currency" => "required|max:255",
           "currency_ar" => "required|max:255",
         ]);
+
+        addHistory('Currency',0,'added',$data);
+
         Currency::create($data);
         return back()->withSuccess(__('site.success'));
     }
@@ -76,13 +79,16 @@ class CurrencyController extends Controller
      * @param  \App\Currency  $currency
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,  $currency)
+    public function update(Request $request,  $id)
     {
-      $currency = Currency::findOrFail($currency);
+      $currency = Currency::findOrFail($id);
       $data =$request->validate([
         "currency" => "required|max:255",
         "currency_ar" => "required|max:255",
       ]);
+
+      addHistory('Currency',$id,'updated',$data,$currency);
+
       $currency->update($data);
       return back()->withSuccess(__('site.success'));
     }
@@ -97,6 +103,7 @@ class CurrencyController extends Controller
     {
         $currency = Currency::findOrFail($currency);
         $currency->delete();
+        addHistory('Currency',$id,'deleted');     
         return back()->withSuccess(__('site.success'));
     }
 }

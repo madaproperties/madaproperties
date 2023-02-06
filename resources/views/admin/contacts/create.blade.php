@@ -312,25 +312,23 @@ name="unit_zone" type="text" value="{{old('unit_zone')}}" placeholder="{{__('sit
 																			</div>
 																			<!--end::Group-->
 
-                                      <!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
+									                                      <!--begin::Group-->
+																		  <div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.campaign')}}</label>
 																				<div class="col-lg-9 col-xl-9">
+																					<select class="form-control"  name="campaign" tabindex="-1" aria-hidden="true">
+																																<option value="">{{ __('site.choose') }}</option>
+																					@foreach($campaigns as $campaign)
+																						<option
+																						{{old('campaign') == $campaign->name ? 'selected' : ''}}
+																						value="{{$campaign->name}}">{{$campaign->name}}</option>
+																						@endforeach
+																					</select>
 
-
-                                          <select class="form-control"  name="campaign" tabindex="-1" aria-hidden="true">
-																					<option value="">{{ __('site.choose') }}</option>
-                                           @foreach($campaigns as $campaign)
-                                            <option
-                                            {{old('campaign') == $campaign->name ? 'selected' : ''}}
-                                            value="{{$campaign->name}}">{{$campaign->name}}</option>
-                                            @endforeach
-                                          </select>
-
-                                        </div>
+																				</div>
 																			</div>
 																			<!--end::Group-->
-<!--begin::Group-->
+																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.campaign_country')}}</label>
 																				<div class="col-lg-9 col-xl-9">
@@ -344,8 +342,7 @@ name="unit_zone" type="text" value="{{old('unit_zone')}}" placeholder="{{__('sit
 
 																				</div>
 																			</div>
-																			<!--end::Group-->																			
-																			
+																			<!--end::Group-->
                                       <!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.source')}}</label>

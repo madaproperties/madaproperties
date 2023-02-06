@@ -133,8 +133,6 @@ class AdvanceCampaignReportController extends Controller
 						->first();
 
 		$project_id = $reportData->project_id;
-		$from = date('Y-m-d 00:00:00', strtotime($reportData->start_from));
-		$to = date('Y-m-d 23:59:59', strtotime($reportData->end_to));
 
 		if(Request('project_id') && Request('last_update_from') && Request('last_update_to')){
 			$project_id = Request('project_id');
@@ -148,10 +146,12 @@ class AdvanceCampaignReportController extends Controller
 							->orderBy('id','desc')
 							->first();
 			if(!$reportData){
-				//$reportData = [];
+				$reportData = [];
 			}
 		}
 
+		$from = date('Y-m-d 00:00:00', strtotime($reportData->start_from));
+		$to = date('Y-m-d 23:59:59', strtotime($reportData->end_to));
 		
 		$countriesIds = Contact::where('project_id',$project_id)->whereBetween('created_at',[ $from,$to ])->distinct('campaign_country')->get()->pluck('campaign_country');
 
