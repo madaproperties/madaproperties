@@ -40,6 +40,7 @@
 			img{
 				max-height:80px;
 			}
+            td.line{padding-top:50px;}
         </style>
     </head>
     <body onload="window.print()">
@@ -284,12 +285,13 @@
                 </tbody>
             </table>
 
-            <table class="" style="border:0px;margin-top:20px">
+           <table class="" style="border:0px;margin-top:20px">
                 <tbody>
-					<tr>
+				
+                    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+                    	<tr>
 						<td>__________________</td>
                     </tr>
-                    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
 					<tr>
 						<td>Mr. Abdullah Al-Qahtani.</td>
                     </tr>
@@ -302,6 +304,16 @@
                     </tr>
 					<tr>
 						<td>(Managing Director)</td>
+                    </tr>
+                    
+                    	<tr>
+						<td class="line">__________________</td>
+                    </tr>
+                    	<tr>
+						<td>Mr. Omar Ali:</td>
+                    </tr>
+					<tr>
+						<td>(Sales Director)</td>
                     </tr>
                     		@endif
                 </tbody>
