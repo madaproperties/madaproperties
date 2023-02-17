@@ -1,11 +1,16 @@
 .contentArea {
     padding-left: 250px;
 }
-
+body.ar-lang .contentArea {
+    padding-left: 0;
+    padding-right: 220px;
+}
 .menuSideView {
     position: fixed;
 }
-
+.menu-text .fa {
+    margin-left: 10px;
+}
 .container {
     width: 100%;
 }
@@ -116,6 +121,7 @@
 .contentArea {
     padding-left: 0;
 }
+body.ar-lang .contentArea{ padding-right: 0;}
 .header-menu-mobile {
     background-color: #000000;
     height: 100%;

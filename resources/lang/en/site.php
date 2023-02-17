@@ -564,5 +564,17 @@ return [
   'depth' =>'Width',
   'secondary project'=>'Secondary Projects',
   'furnished'=>'Furnished',
-  
+  'living_room'=>'Living Room',
+  'property_width'=>'Property Width',
+  'property_length'=>'Property Length',
+  'street_width' =>'Street Width',
+  'guest_room'=>'Guest Room',
+  'age'=>'Age',
+  'street_information'=>'Street Information',
+  'Property_in_UAE'=>'Property in UAE',
+  'Property_in_KSA'=>'Property in KSA',
+  'street_information_one'=>'Street Information One',
+  'street_information_two'=>'Street Information Two',
+  'street_information_three'=>'Street Information Three',
+  'street_information_four'=>'Street Information Four',
 ];

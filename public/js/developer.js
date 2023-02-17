@@ -102,10 +102,30 @@ $(document).ready(function(){
 			contentType: false,
 			processData: false
 		});
-	});     
-});
+	}); 
+	
+	$('#zone_id').on('change', function () {
+		var id = this.value;
+		$.ajax({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+			},      
+			url: fetchDistrict,
+			type: "POST",
+			data: {
+				zone_id: id,
+				_token: csrfToken
+			},
+			dataType: 'json',
+			success: function (result) {
+				$('#district_id').html('<option value="">Select</option>');
 
-function countChar(val,description='description') {
-	var len = val.value.length;
-	$('#'+description+'_count').html(len);
-};
+				$.each(result.districts, function (key, value) {
+					$("#district_id").append('<option value="' + value
+						.id + '">' + value.name + '</option>');
+				});
+			}
+		});
+		
+	}); 
+});

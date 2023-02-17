@@ -30,6 +30,8 @@ class PropertyBayutXmlController extends Controller
     $properties = Property::join('property_portals','property_portals.property_id','=','properties.id')
     ->whereIn('property_portals.portal_id',[2,3])
     ->where('status',1)
+    ->groupBy('properties.id')
+    ->select('properties.*')
     ->get();
     
     header('Content-Type: text/xml');
@@ -97,13 +99,15 @@ class PropertyBayutXmlController extends Controller
         }
         xmlwriter_end_element($xw); // Count
 
-        xmlwriter_start_element($xw, 'Sub_Locality');
         if($property->subCommunity){
+          xmlwriter_start_element($xw, 'Sub_Locality');
           xmlwriter_write_cdata($xw, $property->subCommunity->name_en);
-        }else{
-          xmlwriter_write_cdata($xw, $property->area_name);          
+          xmlwriter_end_element($xw); // Count
+        }else if($property->project_name){
+          xmlwriter_start_element($xw, 'Sub_Locality');
+          xmlwriter_write_cdata($xw, $property->project_name);          
+          xmlwriter_end_element($xw); // Count
         }
-        xmlwriter_end_element($xw); // Count
 
         if($property->building_name){
           xmlwriter_start_element($xw, 'Tower_Name');
@@ -325,7 +329,7 @@ class PropertyBayutXmlController extends Controller
         if($property->furnished){
           xmlwriter_write_cdata($xw, __('config.furnished.'.$property->furnished));
         } else {
-          xmlwriter_write_cdata($xw, '0');
+          xmlwriter_write_cdata($xw, 'No');
         }
         xmlwriter_end_element($xw); // furnished
           

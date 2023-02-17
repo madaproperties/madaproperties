@@ -27,6 +27,8 @@ use App\Mail\PropertyNotification;
 use Illuminate\Support\Facades\Storage;
 use App\Community;
 use App\PropertyNotes;
+use App\Zones;
+use App\Districts;
 
 
 class PropertyController extends Controller
@@ -48,13 +50,34 @@ class PropertyController extends Controller
    
 
   // index 
-  public function index(){
+  public function index(Request $request){
 
 
     if(userRole() == 'admin' || userRole() == 'sales admin uae'){ //Updated by Javed
-      $property = Property::where(function ($q){
-        $this->filterPrams($q);
-      });
+
+      if($request->get('pt') == 'dubai'){
+        $users = User::select('id')
+        ->where('active','1')
+        ->where('time_zone','Asia/Dubai')
+        ->get();
+        $usersIds = $users->pluck('id')->toArray();
+        $property = Property::where(function ($q){
+          $this->filterPrams($q);
+        })->whereIn('user_id',$usersIds);
+      }elseif($request->get('pt') == 'saudi'){
+        $users = User::select('id')
+        ->where('active','1')
+        ->where('time_zone','Asia/Riyadh')
+        ->get();
+        $usersIds = $users->pluck('id')->toArray();
+        $property = Property::where(function ($q){
+          $this->filterPrams($q);
+        })->whereIn('user_id',$usersIds);
+      }else{     
+        $property = Property::where(function ($q){
+          $this->filterPrams($q);
+        });
+      }
     }elseif(userRole() == 'leader'){
       // get leader group
       $leaderId = auth()->id();
@@ -84,13 +107,15 @@ class PropertyController extends Controller
       })->where('user_id',auth()->id());
     }
 
-    if(Request()->has('portals')){
+    if(Request()->has('portals') && Request()->get('portals')){
       $property->join('property_portals','property_portals.property_id','=','properties.id')
       ->where('property_portals.portal_id',Request('portals'));
     }
+    $property = $property->select('properties.*');
     
-    $properties = $property->orderBy('last_updated','desc')->paginate(20);
     $property_count = $property->count();
+    $property = $property->groupBy('properties.id');
+    $properties = $property->orderBy('last_updated','desc')->paginate(20);
     $categories = Categories::get(); 
 
 
@@ -108,12 +133,14 @@ class PropertyController extends Controller
     $purposeType = PurposeType::orderBy('type')->get();
 
     $sellers = getSellers();
-    $unitFeatures = Features::where('feature_type',1)->get();
-    $devFeatures = Features::where('feature_type',2)->get();
-    $lifeStyleFeatures = Features::where('feature_type',3)->get();
+    $unitFeatures = Features::where('feature_type',1)->orderBy('feature_name','asc')->get();
+    $devFeatures = Features::where('feature_type',2)->orderBy('feature_name','asc')->get();
+    $lifeStyleFeatures = Features::where('feature_type',3)->orderBy('feature_name','asc')->get();
     $categories = Categories::get(); 
     $community = Community::where('city_id','84')->where('parent_id',0)->orderBy('name_en','asc')->get(); 
-    return view('admin.property.create',compact('community','cities','countries','campaigns','sources','purposeType','sellers','lifeStyleFeatures','categories','devFeatures','unitFeatures'));
+    $zones=Zones::get();
+    $districts=Districts::get();
+    return view('admin.property.create',compact('zones','districts','community','cities','countries','campaigns','sources','purposeType','sellers','lifeStyleFeatures','categories','devFeatures','unitFeatures'));
   }
 
   /**
@@ -209,6 +236,19 @@ class PropertyController extends Controller
       'mprice' => 'nullable',      
       'wprice' => 'nullable',      
       'dprice' => 'nullable',      
+      'zone_id' => 'nullable',      
+      'district_id' => 'nullable',      
+      'facing' => 'nullable',      
+      'street_width' => 'nullable',      
+      'border_length' => 'nullable',      
+      'border_width' => 'nullable',     
+      'living_room' => 'nullable',              
+      'guest_room' => 'nullable',              
+      'age' => 'nullable',              
+      'street_information_one' => 'nullable',              
+      'street_information_two' => 'nullable',              
+      'street_information_three' => 'nullable',              
+      'street_information_four' => 'nullable',              
     ]);
 
     // if(isset($data['is_managed'])){
@@ -349,7 +389,7 @@ class PropertyController extends Controller
       Mail::to($users)->send(new PropertyNotification($mailData));
     }
 
-    return redirect(route('admin.property.index'))->withSuccess(__('site.success'));
+    return redirect(route('admin.property.index').'?'.http_build_query(['pt'=>request()->get('pt')]) )->withSuccess(__('site.success'));
   }
 
   public function update(Request $request,  $id)
@@ -441,7 +481,21 @@ class PropertyController extends Controller
       'yprice' => 'nullable',      
       'mprice' => 'nullable',      
       'wprice' => 'nullable',      
-      'dprice' => 'nullable',      
+      'dprice' => 'nullable',   
+      'zone_id' => 'nullable',      
+      'district_id' => 'nullable',      
+      'facing' => 'nullable',      
+      'street_width' => 'nullable',      
+      'border_length' => 'nullable',      
+      'border_width' => 'nullable',              
+      'living_room' => 'nullable',              
+      'guest_room' => 'nullable',       
+      'age' => 'nullable',              
+      'street_information' => 'nullable',         
+      'street_information_one' => 'nullable',              
+      'street_information_two' => 'nullable',              
+      'street_information_three' => 'nullable',              
+      'street_information_four' => 'nullable',              
     ]);
 
     // if(isset($data['is_managed'])){
@@ -516,7 +570,7 @@ class PropertyController extends Controller
     
 
 
-    return redirect(route('admin.property.index'))->withSuccess(__('site.success'));
+    return redirect(route('admin.property.index').'?'.http_build_query(['pt'=>request()->get('pt')]) )->withSuccess(__('site.success'));
   }
 
 
@@ -577,14 +631,16 @@ class PropertyController extends Controller
       }
     }
 
-    $unitFeatures = Features::where('feature_type',1)->get();
-    $devFeatures = Features::where('feature_type',2)->get();
-    $lifeStyleFeatures = Features::where('feature_type',3)->get();
+    $unitFeatures = Features::where('feature_type',1)->orderBy('feature_name','asc')->get();
+    $devFeatures = Features::where('feature_type',2)->orderBy('feature_name','asc')->get();
+    $lifeStyleFeatures = Features::where('feature_type',3)->orderBy('feature_name','asc')->get();
     
     $categories = Categories::get(); 
     $community = Community::where('city_id','84')->where('parent_id',0)->orderBy('name_en','asc')->get();      
     $subCommunity = Community::where('city_id','84')->where('parent_id',$property->community)->orderBy('name_en','asc')->get();      
-    return view('admin.property.show',compact('community','subCommunity','property','cities','countries','campaigns','sources','purposeType','sellers','unitFeatures','propertyFeatures','propertyPortals','categories','lifeStyleFeatures','devFeatures'));
+    $zones=Zones::get();
+    $districts=Districts::get();   
+    return view('admin.property.show',compact('zones','districts','community','subCommunity','property','cities','countries','campaigns','sources','purposeType','sellers','unitFeatures','propertyFeatures','propertyPortals','categories','lifeStyleFeatures','devFeatures'));
 
   }  
 
@@ -920,6 +976,8 @@ class PropertyController extends Controller
       $uri = Request()->fullUrl();
       session()->put('start_filter_url',$uri);
       return $q->where('title','LIKE','%'. Request('search') .'%')
+              ->orWhere('crm_id','LIKE','%'. Request('search') .'%')
+              ->orWhere('str_no','LIKE','%'. Request('search') .'%')
               ->get();
     }
   }

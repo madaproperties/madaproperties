@@ -19,7 +19,7 @@
           Advanced Search <i class="fas fa-compress"></i>
           
           @if(request('ADVANCED'))
-            <a href="{{route('admin.property.index')}}">
+            <a href="{{route('admin.property.index').'?'.http_build_query(['pt'=>request()->get('pt')]) }}">
                 Remove Filter
             </a>
           @endif
@@ -31,6 +31,7 @@
 <form method="GET" action="" class="search-from" >
   <h3 class="text-center">advanced Search</h2> <hr />
   <input type="hidden" name="ADVANCED" value="search">
+  <input type="hidden" name="pt" value="{{request()->get('pt')}}">
 
   <div class="row"> <!--- row -->
     @if(userRole() == 'admin' || userRole() == 'sales admin uae')
@@ -46,7 +47,7 @@
       <select class="form-control" name="user_id">
         <option value="">{{__('site.choose')}}</option>
         @foreach($sellers as $seller)
-        <option {{ old('user_id') == $seller->id ? 'selected':  '' }} value="{{$seller->id}}">{{$seller->name}}</option>
+        <option {{ Request('user_id') == $seller->id ? 'selected':  '' }} value="{{$seller->id}}">{{$seller->name}}</option>
         @endforeach
       </select>
     </div>

@@ -193,8 +193,12 @@
                         <ul class="header-tabs p-5 p-lg-0 d-flex d-lg-none nav nav-bold nav-tabs" role="tablist">
                             <!--begin::Item-->
                             <li class="nav-item mr-2">
-                                <a href="#" class="nav-link btn btn-clean" data-toggle="tab" data-target="#kt_header_tab_1" role="tab">{{__('site.contacts')}}</a>
-                            </li>
+                            @if(auth()->id())
+                <!--begin::Logo--> @if(userRole() == 'other') <a href="{{route('admin.deal.index')}}" class="w-100"> @else <a href="{{route('admin.')}}" class="w-100"> @endif <img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo p-0 mx-auto d-block" />
+                    </a>
+				@else
+					<a href="{{route('projcets.newweb')}}" class="w-100"><img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo p-0 mx-auto d-block" /></a>
+				@endif                            </li>
                             <!--end::Item-->
                         </ul>
                         <!--begin::Tab Navs-->
@@ -272,12 +276,28 @@
                                             <a href="{{route('admin.database-records.index')}}" class="menu-link {{ active_nav('database-records') ? 'active' : ''}}">
                                                 <span class="menu-text"><i class="fa fa-database"></i> {{__('site.database_records')}}</span>
                                             </a>
-                                        </li> @endcan @can('property-list') <li class="menu-item menu-item-active text-dark {{ (request()->routeIs('admin.property.*') || request()->routeIs('admin.features.*')) ? 'active' : '' }}">
+                                        </li> 
+                                        @endcan @can('property-list') 
+                                        <li class="menu-item menu-item-active text-dark {{ (request()->routeIs('admin.property.*') || request()->routeIs('admin.features.*')) ? 'active' : '' }}">
                                             <a class="menu-link menu-toggle menu-link text-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <span class="menu-text"><i class="fa fa-building"></i> {{__('site.property')}}</span>
                                             </a>
-                                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2"> @can('property-list') <a class="dropdown-item {{(request()->routeIs('admin.property.*')) ? 'active' : '' }}" href="{{route('admin.property.index')}}">{{__('site.property')}}</a> @endcan @can('feature-list') <a class="dropdown-item {{(request()->routeIs('admin.features.*')) ? 'active' : '' }}" href="{{route('admin.features.index')}}">{{__('site.features')}}</a> @endcan </div>
-                                        </li> @endcan </ul>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2"> 
+                                                @can('property-list') 
+                                                    @if(userRole() == 'admin'  || userRole() == 'sales admin uae')
+                                                    <a class="dropdown-item {{(request()->routeIs('admin.property.*')) ? ( request()->get('pt') == 'dubai' ? 'active' : '' ) : '' }}" href="{{route('admin.property.index').'?pt=dubai'}}">{{__('site.Property_in_UAE')}}</a> 
+                                                    <a class="dropdown-item {{(request()->routeIs('admin.property.*')) ? ( request()->get('pt') == 'saudi' ? 'active' : '' ) : '' }}" href="{{route('admin.property.index').'?pt=saudi'}}">{{__('site.Property_in_KSA')}}</a> 
+                                                    @else
+                                                    <a class="dropdown-item {{(request()->routeIs('admin.property.*')) ? 'active' : '' }}" href="{{route('admin.property.index')}}">{{__('site.property')}}</a> 
+                                                    @endif
+                                                @endcan 
+                                                @can('feature-list') 
+                                                <a class="dropdown-item {{(request()->routeIs('admin.features.*')) ? 'active' : '' }}" href="{{route('admin.features.index')}}">{{__('site.features')}}</a> 
+                                                @endcan 
+                                            </div>
+                                        </li> 
+                                        @endcan 
+                                        </ul>
                                     <!--end::Nav-->
                                 </div>
                                 <!--end::Menu-->

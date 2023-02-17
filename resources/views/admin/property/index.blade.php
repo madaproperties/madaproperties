@@ -53,7 +53,7 @@
 						</a>
                         @endcan						
 						@can('property-create')
-							<a href="{{route('admin.property.create')}}" id="kt_quick_user_toggle" class="btn btn-success font-weight-bolder font-size-sm">
+							<a href="{{route('admin.property.create',array_merge(request()->all()))}}" id="kt_quick_user_toggle" class="btn btn-success font-weight-bolder font-size-sm">
 							<span class="fa fa-plus"></span> {{__('site.New property')}}</a>
                         @endcan						
 					</div>
@@ -93,8 +93,10 @@
 									<th>{{__('site.id')}}</th>
 									<th>{{__('site.ref')}}</th>
 									<th>{{__('site.permit_no')}}</th>
+									<th>{{__('site.category')}}</th>
 									<th>{{__('site.status')}}</th>
 									<th>{{__('site.title')}}</th>
+									<th>{{__('site.Agent')}}</th>
 									<th>{{__('site.updated_at')}}</th>
 									<th style="min-width:150px">{{__('site.action')}}</th>
 								</tr>
@@ -113,10 +115,17 @@
 										<span>{{$property->str_no}}</span>
 									</td>
 									<td>
+										<span>{{$property->category ? $property->category->category_name : 'N/A'}}</span>
+									</td>
+									<td>
 										<span>{{__('config.status.'.$property->status)}}</span>
+										<p><b>Price : {{$property->price ? $property->price : $property->yprice}}</b></p>
 									</td>
 									<td>
 										<span>{{$property->title}}</span>
+									</td>
+									<td>
+										<span>{{$property->agent ? $property->agent->name : 'N/A'}}</span>
 									</td>
 									<td>
 										<span>{{($property->last_updated)}}</span>
@@ -124,7 +133,11 @@
 									<td>
 									<div class="editPro">
 										@can('property-edit')
-										<a href="{{ route('admin.property.show',$property->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details in english"><i class="fa fa-edit"></i></a>																						
+											@if(userRole() == 'admin'  || userRole() == 'sales admin uae')
+												<a href="{{ route('admin.property.show',$property->id).'?'.http_build_query(['pt'=>request()->get('pt')]) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details in english"><i class="fa fa-edit"></i></a>																						
+											@else
+												<a href="{{ route('admin.property.show',$property->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details in english"><i class="fa fa-edit"></i></a>																						
+											@endif
 										@endif
 										<a href="{{ route('property.brochure',$property->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Brochure"><i class="fa fa-print"></i></a>																						
 										@can('property-delete')

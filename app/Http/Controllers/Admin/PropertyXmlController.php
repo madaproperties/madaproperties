@@ -300,7 +300,7 @@ class PropertyXmlController extends Controller
 
   public function readBayutXml(){
     // Loading the XML file
-    $xml = simplexml_load_file(url("public/bayut-xml-28012023.xml")); //Staging 
+    $xml = simplexml_load_file(url("public/bayut-xml-10022023.xml")); //Staging 
     //$xml = simplexml_load_file("public\property-finder.xml"); //Local
 
     $propertArray = [];
@@ -321,9 +321,11 @@ class PropertyXmlController extends Controller
       $property['price'] = $row->Price;
       if($row->Frequency == 'yearly'){
         $property['yprice'] = $row->Price;
+        $property['default_price'] = 'year';
         $property['price'] = 0;
       }else if($row->Frequency == 'monthly'){
         $property['mprice'] = $row->Price;
+        $property['default_price'] = 'month';
         $property['yprice'] = 0;
         $property['price'] = 0;
       }
@@ -340,7 +342,7 @@ class PropertyXmlController extends Controller
 
       $property['city_id'] = $city_id;
       $property['community'] = $community;
-      $property['area_name'] = $community;
+      $property['area_name'] = $row->Community;
       $property['project_name'] = $row->Property_Name;
       //$property['location_id'] = $row->location_id;
       $property['title'] = $row->Property_Title;
