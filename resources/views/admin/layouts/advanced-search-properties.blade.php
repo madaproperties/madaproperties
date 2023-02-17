@@ -19,7 +19,7 @@
           Advanced Search <i class="fas fa-compress"></i>
           
           @if(request('ADVANCED'))
-            <a href="{{route('admin.property.index')}}">
+            <a href="{{route('admin.property.index').'?'.http_build_query(['pt'=>request()->get('pt')]) }}">
                 Remove Filter
             </a>
           @endif
@@ -31,12 +31,14 @@
 <form method="GET" action="" class="search-from" >
   <h3 class="text-center">advanced Search</h2> <hr />
   <input type="hidden" name="ADVANCED" value="search">
+  <input type="hidden" name="pt" value="{{request()->get('pt')}}">
 
   <div class="row"> <!--- row -->
     @if(userRole() == 'admin' || userRole() == 'sales admin uae')
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.status')}}</label>
       <select class="form-control" name="status">
+        <option value="">{{__('site.choose')}}</option>
         {!! selectOptions(__('config.status'),Request('status')) !!}
       </select>
     </div>
@@ -45,7 +47,7 @@
       <select class="form-control" name="user_id">
         <option value="">{{__('site.choose')}}</option>
         @foreach($sellers as $seller)
-        <option {{ old('user_id') == $seller->id ? 'selected':  '' }} value="{{$seller->id}}">{{$seller->name}}</option>
+        <option {{ Request('user_id') == $seller->id ? 'selected':  '' }} value="{{$seller->id}}">{{$seller->name}}</option>
         @endforeach
       </select>
     </div>
@@ -54,12 +56,21 @@
     <!--begin::Group-->
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.type')}}</label>
-      <select class="form-control" name="sale_rent" required>
+      <select class="form-control" name="sale_rent">
+        <option value="">{{__('site.choose')}}</option>
         {!! selectOptions(__('config.sale_rent'),Request('sale_rent')) !!}
       </select>																					
     </div>
     <!--end::Group-->
-
+    <!--begin::Group-->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.portals')}}</label>
+      <select class="form-control" name="portals">
+        <option value="">{{__('site.choose')}}</option>
+        {!! selectOptions(__('config.portals'),Request('portals')) !!}
+      </select>																					
+    </div>
+    <!--end::Group-->
     <!--begin::Group-->
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.category')}}</label>

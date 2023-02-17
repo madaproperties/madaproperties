@@ -84,7 +84,9 @@
 									<div class="card-body py-0">
 										<!--begin::Table-->
 										<div class="table-responsive">
-											<table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+										{{ $users->withQueryString()->links() }}
+										<div class="custom-table-responsive">							
+											<table class="table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
 												<thead>
 													<tr class="text-left">
 				<th style="">{{__('site.ID')}}</th>
@@ -205,7 +207,17 @@
 												</select>
 											</div>
 										</div>
-
+										<div class="form-group">
+											<label>{{__('site.Rera Available')}}:</label>
+											<select class="form-control" name="is_rera_active" id="is_rera_active">
+											{!! selectOptions(__('config.yes_no'),$user->is_rera_active) !!}
+											</select>
+										</div>
+										<div class="form-group">
+											<label>{{__('site.Rera Number')}}:</label>
+											<input type="text" class="form-control" name="rera_number" value="{{$user->rera_number}}" autocomplete="off">
+										</div>
+										
 										<div class="separator separator-dashed my-5"></div>
 										<div class="form-group">
 											<label>{{__('site.positions')}}: </label>
@@ -328,24 +340,25 @@
 													
 													
 														@if(auth()->user()->rule == 'admin')
+														<div class="editPro">
 															<form id="destory-{{$user->id}}" class="delete" onsubmit="return confirm('{{__('site.confirm')}}');"
 															  action="{{ route('admin.accounts.destroy',$user->id) }}" method="POST" >
 																@csrf
 																@method('DELETE')
-															   <button type="submit" class="btn btn-danger">
-																  {{__('site.delete')}}
-															   </button>
+																<a href="javascript:void(0)" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Delete">
+																<i class="fa fa-trash" onclick="submitForm('{{$user->id}}')"></i></a>
+																<button type="submit" style="display:none"></button>
 															</form>
+														</div>
 														@endif
 													
 														</td>
 													</tr>
 													@endforeach
 												</tbody>
-												{{ $users->withQueryString()->links() }}
 											</table>
+											</div>
 											{{ $users->withQueryString()->links() }}
-
 										</div>
 										<!--end::Table-->
 									</div>
@@ -445,6 +458,17 @@
 														</div>
 													</div>
 
+											<div class="form-group">
+												<label>{{__('site.Rera Available')}}:</label>
+												<select class="form-control" name="is_rera_active" id="is_rera_active">
+												{!! selectOptions(__('config.yes_no'),old('is_rera_active')) !!}
+												</select>
+											</div>
+											<div class="form-group">
+												<label>{{__('site.Rera Number')}}:</label>
+												<input type="text" class="form-control" name="rera_number" value="{{old('rera_number')}}" autocomplete="off">
+											</div>
+											
 
 											<div class="separator separator-dashed my-5"></div>
 											<div class="form-group">
@@ -533,5 +557,9 @@
 
 
 			});
+
+function submitForm(id){
+	$("#destory-"+id).submit();
+}			
 	</script>
 @endpush

@@ -26,6 +26,9 @@ use Mail;
 use App\Mail\PropertyNotification;
 use Illuminate\Support\Facades\Storage;
 use App\Community;
+use App\PropertyNotes;
+use App\Zones;
+use App\Districts;
 
 
 class PropertyController extends Controller
@@ -47,79 +50,97 @@ class PropertyController extends Controller
    
 
   // index 
-  public function index(){
+  public function index(Request $request){
 
 
     if(userRole() == 'admin' || userRole() == 'sales admin uae'){ //Updated by Javed
+
+      if($request->get('pt') == 'dubai'){
+        $users = User::select('id')
+        ->where('active','1')
+        ->where('time_zone','Asia/Dubai')
+        ->get();
+        $usersIds = $users->pluck('id')->toArray();
+        $property = Property::where(function ($q){
+          $this->filterPrams($q);
+        })->whereIn('user_id',$usersIds);
+      }elseif($request->get('pt') == 'saudi'){
+        $users = User::select('id')
+        ->where('active','1')
+        ->where('time_zone','Asia/Riyadh')
+        ->get();
+        $usersIds = $users->pluck('id')->toArray();
+        $property = Property::where(function ($q){
+          $this->filterPrams($q);
+        })->whereIn('user_id',$usersIds);
+      }else{     
+        $property = Property::where(function ($q){
+          $this->filterPrams($q);
+        });
+      }
+    }elseif(userRole() == 'leader'){
+      // get leader group
+      $leaderId = auth()->id();
+      // get leader , and sellers reltedt to that leader
+      $users = User::select('id','leader')
+      ->where('active','1')
+      ->where('leader',$leaderId)
+      ->Orwhere('id',$leaderId)
+      ->get();
+      $usersIds = $users->pluck('id')->toArray();
       $property = Property::where(function ($q){
         $this->filterPrams($q);
-      })->orderBy('last_updated','desc');
+      })->whereIn('user_id',$usersIds);
+
+    }else if(userRole() == 'sales admin') { // sales admin     
+      $subUserId[]=auth()->id();
+      if(isset(auth()->user()->leader)){
+        $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
+        $subUserId = $subUserId->pluck('id')->toArray();
+      }
+      $property = Property::where(function ($q){
+        $this->filterPrams($q);
+      })->whereIn('user_id',$subUserId);
     }else{
       $property = Property::where(function ($q){
         $this->filterPrams($q);
-      })->where('user_id',auth()->id())->orderBy('last_updated','desc');
+      })->where('user_id',auth()->id());
     }
-    $properties = $property->paginate(20);
+
+    if(Request()->has('portals') && Request()->get('portals')){
+      $property->join('property_portals','property_portals.property_id','=','properties.id')
+      ->where('property_portals.portal_id',Request('portals'));
+    }
+    $property = $property->select('properties.*');
+    
     $property_count = $property->count();
+    $property = $property->groupBy('properties.id');
+    $properties = $property->orderBy('last_updated','desc')->paginate(20);
     $categories = Categories::get(); 
 
-    $sellers = [];
-    if(userRole() == 'leader'){
-      $id = auth()->id();
-      $sellers = User::where('active','1')->where('leader',$id)
-                      ->OrWhere('id',$id)
-                      ->orderBy('email')->get();
-    }elseif(userRole() == 'admin' || userRole() == 'sales admin uae') {
-      $sellers = User::where('active','1')->where('rule','sales')
-                      ->orWhere('rule','leader')
-                      ->orderBy('email')->get();
-    }elseif(userRole() == 'sales admin'){
-      $leader = auth()->user()->leader;
-      if($leader) {
-         $sellers = User::where('active','1')->where('leader',$leader)
-                           ->where('id','!=',auth()->id())
-                          ->Orwhere('id',$leader)
-                          ->orderBy('email')->get();
-      }
-    }    
 
+    $sellers = getSellers();
     return view('admin.property.index',compact('properties','property_count','categories','sellers'));
   }
 
   public function create()
   {
 
-    $cities = City::orderBy('name_en')->where('country_id',2)->get();
+    $cities = City::orderBy('name_en')->where('country_id',2)->where('name_en','Dubai')->get();
     $countries = Country::orderBy('name_en')->get();	
     $campaigns =Campaing::where('active','1')->orderBy('name')->get();	    
     $sources = Source::where('active','1')->orderBy('name')->get();
     $purposeType = PurposeType::orderBy('type')->get();
 
-    $sellers = [];
-    if(userRole() == 'leader'){
-      $id = auth()->id();
-      $sellers = User::where('active','1')->where('leader',$id)
-                      ->OrWhere('id',$id)
-                      ->orderBy('email')->get();
-    }elseif(userRole() == 'admin' || userRole() == 'sales admin uae') {
-      $sellers = User::where('active','1')->where('rule','sales')
-                      ->orWhere('rule','leader')
-                      ->orderBy('email')->get();
-    }elseif(userRole() == 'sales admin'){
-      $leader = auth()->user()->leader;
-      if($leader) {
-         $sellers = User::where('active','1')->where('leader',$leader)
-                           ->where('id','!=',auth()->id())
-                          ->Orwhere('id',$leader)
-                          ->orderBy('email')->get();
-      }
-    }
-    $unitFeatures = Features::where('feature_type',1)->get();
-    $devFeatures = Features::where('feature_type',2)->get();
-    $lifeStyleFeatures = Features::where('feature_type',3)->get();
+    $sellers = getSellers();
+    $unitFeatures = Features::where('feature_type',1)->orderBy('feature_name','asc')->get();
+    $devFeatures = Features::where('feature_type',2)->orderBy('feature_name','asc')->get();
+    $lifeStyleFeatures = Features::where('feature_type',3)->orderBy('feature_name','asc')->get();
     $categories = Categories::get(); 
-    $community = Community::where('parent_id',0)->get(); 
-    return view('admin.property.create',compact('community','cities','countries','campaigns','sources','purposeType','sellers','lifeStyleFeatures','categories','devFeatures','unitFeatures'));
+    $community = Community::where('city_id','84')->where('parent_id',0)->orderBy('name_en','asc')->get(); 
+    $zones=Zones::get();
+    $districts=Districts::get();
+    return view('admin.property.create',compact('zones','districts','community','cities','countries','campaigns','sources','purposeType','sellers','lifeStyleFeatures','categories','devFeatures','unitFeatures'));
   }
 
   /**
@@ -132,9 +153,11 @@ class PropertyController extends Controller
 
     $data = $request->validate([
       "title" => 'required',
+      "title_ar" => 'nullable',
       "unitno" => 'nullable',
       "str_no" => 'nullable',
       "sale_rent" => 'nullable',
+      "property_type" => 'nullable',
       "street" => 'nullable',
       "measure_unit" => 'nullable',
       "buildup_area" => 'nullable',
@@ -152,7 +175,7 @@ class PropertyController extends Controller
       //"view" => 'nullable',
       "category_id" => 'required',
       "price_type" => 'nullable',
-      "price" => 'required',
+      "price" => 'nullable',
       "price_on_application" => 'nullable',
       "price_unit" => 'nullable',
       "bedrooms" => 'nullable',
@@ -161,7 +184,9 @@ class PropertyController extends Controller
       "deposit" => 'nullable',
       "furnished" => 'nullable',
       "owner_id" => 'nullable',
+      "developer" => 'nullable',
       "description" => 'nullable',
+      "description_ar" => 'nullable',
       "user_id" => 'nullable',
       "tuser_id" => 'nullable',
       "created_by" => 'nullable',
@@ -197,7 +222,6 @@ class PropertyController extends Controller
       "passport_emirates_id" => 'nullable',
       "title_deed" => 'nullable',
       "forma_noc_slform" => 'nullable',
-      'description'   => 'nullable',
       'unverified_reason' => 'nullable',
       'is_managed' => 'nullable',
       'is_exclusive' => 'nullable',
@@ -207,6 +231,24 @@ class PropertyController extends Controller
       'longitude' => 'nullable',
       'community' => 'nullable',
       'sub_community' => 'nullable',
+      'financial_status' => 'nullable',
+      'yprice' => 'nullable',      
+      'mprice' => 'nullable',      
+      'wprice' => 'nullable',      
+      'dprice' => 'nullable',      
+      'zone_id' => 'nullable',      
+      'district_id' => 'nullable',      
+      'facing' => 'nullable',      
+      'street_width' => 'nullable',      
+      'border_length' => 'nullable',      
+      'border_width' => 'nullable',     
+      'living_room' => 'nullable',              
+      'guest_room' => 'nullable',              
+      'age' => 'nullable',              
+      'street_information_one' => 'nullable',              
+      'street_information_two' => 'nullable',              
+      'street_information_three' => 'nullable',              
+      'street_information_four' => 'nullable',              
     ]);
 
     // if(isset($data['is_managed'])){
@@ -214,6 +256,10 @@ class PropertyController extends Controller
     // }else{
     //   $data['is_managed']=0;
     // }
+
+    if(!(userRole() == 'admin') && !(userRole() == 'sales admin uae')){
+      $data['user_id']=auth()->id();
+    }    
 
     if(isset($data['is_exclusive'])){
       $data['is_exclusive']=1;
@@ -224,17 +270,24 @@ class PropertyController extends Controller
     
     $data['created_at'] = Carbon::now();
     $data['created_by'] = auth()->id();
-    $data['user_id'] = auth()->id();
-
+    $data['updated_at'] = Carbon::now();
+    $data['last_updated'] = Carbon::now();
+    
     $address='';
     if($data['building_name']){
       $address .= $data['building_name'].',';
     }
-    if($data['project_name']){
-      $address .= $data['project_name'].',';
+    if(!empty($data['sub_community'])){
+      $sub_community = Community::where('id',$data['sub_community'])->first();
+      if($sub_community){
+        $address .= $sub_community->name_en.',';
+      }
     }
-    if($data['area_name']){
-      $address .= $data['area_name'].',';
+    if(!empty($data['community'])){
+      $community = Community::where('id',$data['community'])->first();
+      if($community){
+        $address .= $community->name_en.',';
+      }
     }
     if($data['city_id']){
       $address .= City::where('id',$data['city_id'])->first()->name_en;
@@ -247,6 +300,13 @@ class PropertyController extends Controller
         $data['longitude'] = $add['lng'];
       }
     }
+    if($request->file('floorplan')){
+      $md5Name = md5_file($request->file('floorplan')->getRealPath());
+      $guessExtension = $request->file('floorplan')->guessExtension();
+      $file = $request->file('floorplan')->move('public/uploads', $md5Name.'.'.$guessExtension);     
+      $data['floorplan'] = $md5Name.'.'.$guessExtension;
+    }
+
 
     addHistory('Property',0,'added',$data);
 
@@ -275,10 +335,14 @@ class PropertyController extends Controller
     if(\Session::get('tempFeatures')){
       $temp = [];
       $i = 0;
+      $tempId = [];
       foreach(\Session::get('tempFeatures') as $key => $value){
         foreach($value as $rs){
-          $temp[$i]['property_id'] = $property->id;
-          $temp[$i++]['feature_id'] = $rs;
+          if(!in_array($rs,$tempId)){
+            $temp[$i]['property_id'] = $property->id;
+            $temp[$i++]['feature_id'] = $rs;
+            $tempId[] = $rs;
+          }
         }
       }
       \DB::table("property_features")->insert($temp); 
@@ -288,10 +352,14 @@ class PropertyController extends Controller
     if(\Session::get('tempPortals')){
       $temp = [];
       $i = 0;
+      $tempId = [];
       foreach(\Session::get('tempPortals') as $key => $value){
         foreach($value as $rs){
-          $temp[$i]['property_id'] = $property->id;
-          $temp[$i++]['portal_id'] = $rs;
+          if(!in_array($rs,$tempId)){
+            $temp[$i]['property_id'] = $property->id;
+            $temp[$i++]['portal_id'] = $rs;
+            $tempId[] = $rs;
+          }
         }
       }
       \DB::table("property_portals")->insert($temp); 
@@ -299,15 +367,29 @@ class PropertyController extends Controller
     } 
     Property::where('id',$property->id)->update(['crm_id'=>'MADA-'.$property->id]);
 
+    if($request->get('notes')){
+      PropertyNotes::create([
+        'property_id' => $property->id,
+        'description' => $request->get('notes'),
+        'user_id' => auth()->id(),
+        'ip_address' => $request->ip(),
+        'created_at' => Carbon::now(),
+        'updated_at' => Carbon::now() 
+      ]);
+    }
+    
+
     //Send notifiction to users whos role is sales admin uae
     $users = User::where('rule','sales admin uae')->where('active',1)->get()->pluck(['email'])->toArray();
-    $mailData = [
-      'id' => $property->id,
-      'agent' => $property->agent->name
-    ];
-    Mail::to($users)->send(new PropertyNotification($mailData));
+    if(isset($property->agent->name)){
+      $mailData = [
+        'id' => $property->id,
+        'agent' => $property->agent->name
+      ];
+      Mail::to($users)->send(new PropertyNotification($mailData));
+    }
 
-    return redirect(route('admin.property.index'))->withSuccess(__('site.success'));
+    return redirect(route('admin.property.index').'?'.http_build_query(['pt'=>request()->get('pt')]) )->withSuccess(__('site.success'));
   }
 
   public function update(Request $request,  $id)
@@ -317,9 +399,11 @@ class PropertyController extends Controller
 
     $data = $request->validate([
       "title" => 'required',
+      "title_ar" => 'nullable',
       "unitno" => 'nullable',
       "str_no" => 'nullable',
       "sale_rent" => 'nullable',
+      "property_type" => 'nullable',
       "street" => 'nullable',
       "measure_unit" => 'nullable',
       "buildup_area" => 'nullable',
@@ -337,7 +421,7 @@ class PropertyController extends Controller
       //"view" => 'nullable',
       "category_id" => 'required',
       "price_type" => 'nullable',
-      "price" => 'required',
+      "price" => 'nullable',
       "price_on_application" => 'nullable',
       "price_unit" => 'nullable',
       "bedrooms" => 'nullable',
@@ -347,6 +431,8 @@ class PropertyController extends Controller
       "furnished" => 'nullable',
       "owner_id" => 'nullable',
       "description" => 'nullable',
+      "developer" => 'nullable',
+      "description_ar" => 'nullable',
       "user_id" => 'nullable',
       "tuser_id" => 'nullable',
       "created_by" => 'nullable',
@@ -382,7 +468,6 @@ class PropertyController extends Controller
       "passport_emirates_id" => 'nullable',
       "title_deed" => 'nullable',
       "forma_noc_slform" => 'nullable',
-      'description'   => 'nullable',
       'unverified_reason' => 'nullable',
       'is_managed' => 'nullable',
       'is_exclusive' => 'nullable',
@@ -392,6 +477,25 @@ class PropertyController extends Controller
       'longitude' => 'nullable',
       'community' => 'nullable',
       'sub_community' => 'nullable',      
+      'financial_status' => 'nullable',      
+      'yprice' => 'nullable',      
+      'mprice' => 'nullable',      
+      'wprice' => 'nullable',      
+      'dprice' => 'nullable',   
+      'zone_id' => 'nullable',      
+      'district_id' => 'nullable',      
+      'facing' => 'nullable',      
+      'street_width' => 'nullable',      
+      'border_length' => 'nullable',      
+      'border_width' => 'nullable',              
+      'living_room' => 'nullable',              
+      'guest_room' => 'nullable',       
+      'age' => 'nullable',              
+      'street_information' => 'nullable',         
+      'street_information_one' => 'nullable',              
+      'street_information_two' => 'nullable',              
+      'street_information_three' => 'nullable',              
+      'street_information_four' => 'nullable',              
     ]);
 
     // if(isset($data['is_managed'])){
@@ -408,8 +512,10 @@ class PropertyController extends Controller
 
     $data['updated_at'] = Carbon::now();
     $data['last_updated'] = Carbon::now();
-    if($property->status != 1 && $data['status'] == 1){
-      $data['publishing_date'] = Carbon::now();
+    if(userRole() == 'admin' || userRole() == 'sales admin uae'){
+      if($property->status != 1 && $data['status'] == 1){
+        $data['publishing_date'] = Carbon::now();
+      }
     }
 
 
@@ -417,11 +523,17 @@ class PropertyController extends Controller
     if($data['building_name']){
       $address .= $data['building_name'].',';
     }
-    if($data['project_name']){
-      $address .= $data['project_name'].',';
+    if(!empty($data['sub_community'])){
+      $sub_community = Community::where('id',$data['sub_community'])->first();
+      if($sub_community){
+        $address .= $sub_community->name_en.',';
+      }
     }
-    if($data['area_name']){
-      $address .= $data['area_name'].',';
+    if(!empty($data['community'])){
+      $community = Community::where('id',$data['community'])->first();
+      if($community){
+        $address .= $community->name_en.',';
+      }
     }
     if($data['city_id']){
       $address .= City::where('id',$data['city_id'])->first()->name_en;
@@ -435,10 +547,30 @@ class PropertyController extends Controller
       }
     }
 
+    if($request->file('floorplan')){
+      $md5Name = md5_file($request->file('floorplan')->getRealPath());
+      $guessExtension = $request->file('floorplan')->guessExtension();
+      $file = $request->file('floorplan')->move('public/uploads', $md5Name.'.'.$guessExtension);     
+      $data['floorplan'] = $md5Name.'.'.$guessExtension;
+    }
+
     addHistory('Property',$id,'updated',$data,$property);
     $property->update($data);
 
-    return redirect(route('admin.property.index'))->withSuccess(__('site.success'));
+    if($request->get('notes')){
+      PropertyNotes::create([
+        'property_id' => $property->id,
+        'description' => $request->get('notes'),
+        'user_id' => auth()->id(),
+        'ip_address' => $request->ip(),
+        'created_at' => Carbon::now(),
+        'updated_at' => Carbon::now() 
+      ]);
+    }
+    
+
+
+    return redirect(route('admin.property.index').'?'.http_build_query(['pt'=>request()->get('pt')]) )->withSuccess(__('site.success'));
   }
 
 
@@ -452,33 +584,38 @@ class PropertyController extends Controller
 
   public function show($id)
   {
-    $property = Property::findOrFail($id);
+    if(userRole() == 'admin' || userRole() == 'sales admin uae'){ //Updated by Javed
+      $property = Property::findOrFail($id);
+    }elseif(userRole() == 'leader'){
+      $leaderId = auth()->id();
+      $users = User::select('id','leader')
+      ->where('active','1')
+      ->where('leader',$leaderId)
+      ->Orwhere('id',$leaderId)
+      ->get();
+      $usersIds = $users->pluck('id')->toArray();
+      $property = Property::where('id',$id)->whereIn('user_id',$usersIds)->first();
+    }else if(userRole() == 'sales admin') { // sales admin     
+      $subUserId[]=auth()->id();
+      if(isset(auth()->user()->leader)){
+        $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
+        $subUserId = $subUserId->pluck('id')->toArray();
+      }
+      $property = Property::where('id',$id)->whereIn('user_id',$subUserId)->first();
+    }else{
+      $property = Property::where('id',$id)->where('user_id',auth()->id())->first();
+    }    
+    if(!$property){
+      return back()->withError(__('Property not found. Please try again.'));
+    }
 
-    $cities = City::orderBy('name_en')->where('country_id',2)->get();
+    $cities = City::orderBy('name_en')->where('country_id',2)->where('name_en','Dubai')->get();
     $countries = Country::orderBy('name_en')->get();	
     $campaigns =Campaing::where('active','1')->orderBy('name')->get();	    
     $sources = Source::where('active','1')->orderBy('name')->get();
     $purposeType = PurposeType::orderBy('type')->get();
 
-    $sellers = [];
-    if(userRole() == 'leader'){
-      $id = auth()->id();
-      $sellers = User::where('active','1')->where('leader',$id)
-                      ->OrWhere('id',$id)
-                      ->orderBy('email')->get();
-    }elseif(userRole() == 'admin' || userRole() == 'sales admin uae') {
-      $sellers = User::where('active','1')->where('rule','sales')
-                      ->orWhere('rule','leader')
-                      ->orderBy('email')->get();
-    }elseif(userRole() == 'sales admin'){
-      $leader = auth()->user()->leader;
-      if($leader) {
-         $sellers = User::where('active','1')->where('leader',$leader)
-                           ->where('id','!=',auth()->id())
-                          ->Orwhere('id',$leader)
-                          ->orderBy('email')->get();
-      }
-    }    
+    $sellers = getSellers();
     $features = Features::get();
     $propertyFeatures = [];
     $propertyPortals = [];
@@ -494,14 +631,16 @@ class PropertyController extends Controller
       }
     }
 
-    $unitFeatures = Features::where('feature_type',1)->get();
-    $devFeatures = Features::where('feature_type',2)->get();
-    $lifeStyleFeatures = Features::where('feature_type',3)->get();
+    $unitFeatures = Features::where('feature_type',1)->orderBy('feature_name','asc')->get();
+    $devFeatures = Features::where('feature_type',2)->orderBy('feature_name','asc')->get();
+    $lifeStyleFeatures = Features::where('feature_type',3)->orderBy('feature_name','asc')->get();
     
     $categories = Categories::get(); 
-    $community = Community::where('parent_id',0)->get();      
-    $subCommunity = Community::where('parent_id',$property->community)->get();      
-    return view('admin.property.show',compact('community','subCommunity','property','cities','countries','campaigns','sources','purposeType','sellers','unitFeatures','propertyFeatures','propertyPortals','categories','lifeStyleFeatures','devFeatures'));
+    $community = Community::where('city_id','84')->where('parent_id',0)->orderBy('name_en','asc')->get();      
+    $subCommunity = Community::where('city_id','84')->where('parent_id',$property->community)->orderBy('name_en','asc')->get();      
+    $zones=Zones::get();
+    $districts=Districts::get();   
+    return view('admin.property.show',compact('zones','districts','community','subCommunity','property','cities','countries','campaigns','sources','purposeType','sellers','unitFeatures','propertyFeatures','propertyPortals','categories','lifeStyleFeatures','devFeatures'));
 
   }  
 
@@ -570,7 +709,7 @@ class PropertyController extends Controller
             $img->insert($watermark, 'center');
             $img->save($destinationPath.'/'.$filename);
             
-            Storage::disk('s3')->put('uploads/property/'.$property_id.'/images', $filename);
+            //Storage::disk('s3')->put('uploads/property/'.$property_id.'/images', $filename);
             PropertyImages::create([
             'property_id' => $property_id,
             'images_link' => $filename
@@ -658,7 +797,7 @@ class PropertyController extends Controller
             $property_id = Request('property_id');
             $file = $file->move('public/uploads/property/'.$property_id.'/documents', $md5Name.'.'.$guessExtension);     
             $filename = $md5Name.'.'.$guessExtension;
-            Storage::disk('s3')->put('uploads/property/'.$property_id.'/documents', $filename);
+            //Storage::disk('s3')->put('uploads/property/'.$property_id.'/documents', $filename);
             PropertyDocuments::create([
             'property_id' => $property_id,
             'document_link' => $filename
@@ -786,7 +925,7 @@ class PropertyController extends Controller
 
         Property::where('id',$property_id)->update(['updated_at'=>Carbon::now(),'last_updated'=>Carbon::now()]);
       }else{
-        $portals = Request('portals');
+        $portals = Request('portals');        
         \Session::push('tempPortals', $portals);
       }
     }
@@ -801,7 +940,8 @@ class PropertyController extends Controller
       $allowedFeilds =[
         "status" ,
         "category_id" ,
-        "user_id"
+        "user_id",
+        "sale_rent",
       ];
 
       foreach($feilds as $feild => $value){
@@ -836,6 +976,8 @@ class PropertyController extends Controller
       $uri = Request()->fullUrl();
       session()->put('start_filter_url',$uri);
       return $q->where('title','LIKE','%'. Request('search') .'%')
+              ->orWhere('crm_id','LIKE','%'. Request('search') .'%')
+              ->orWhere('str_no','LIKE','%'. Request('search') .'%')
               ->get();
     }
   }
@@ -862,7 +1004,7 @@ class PropertyController extends Controller
   }
 
   function getSubCommunityUrl(Request $request){
-    $subCommunity = Community::where('parent_id',$request->community_id)->get();
+    $subCommunity = Community::where('city_id','84')->where('parent_id',$request->community_id)->orderBy('name_en','asc')->get();
 
     $data = '<option value="">'. __('site.choose').'</option>';
     foreach($subCommunity as $comm){

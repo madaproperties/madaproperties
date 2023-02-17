@@ -23,8 +23,8 @@ input#features {
                             <div class="row col-xl-12">
                                 @foreach($lifeStyleFeatures as $rs)
                                 <div class="col-xl-3">
-                                    <span>{{$rs->feature_name}}</span>
                                     <input type="checkbox" value="{{$rs->id}}" id="features" name="features[]" {{ (isset($property->features) && in_array($rs->id,$propertyFeatures)) ? 'checked' : '' }} multiple >
+                                    <span>{{ucwords($rs->feature_name)}}</span>
                                     <div class="fv-plugins-message-container"></div>    
                                 </div>
                                 @endforeach

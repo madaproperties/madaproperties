@@ -1,5 +1,9 @@
 
-
+<style>
+  .btnSuccc .btn.btn-success{
+    background:#9fc538 !important;
+  }
+</style>
 <div class="flex-row-auto offcanvas-mobile w-300px w-xl-350px" id="kt_profile_aside">
   <!--begin::Profile Card-->
   
@@ -48,7 +52,7 @@
   <div>
     <p class="font-weight-bolder font-size-h5 text-dark-75 ">{{$contact->fullname}}</p>
     <div class="text-muted">{{$contact->project ? $contact->project->name : ''}}</div>
-    <div class="mt-2">
+    <div class="mt-2 btnSuccc">
       <a href="#" class="btn btn-sm btn-success  py-2"  data-toggle="modal" data-target="#add-task">{{__('site.Task')}}</a>
       <a href="#" class="btn btn-sm btn-success  py-2"  data-toggle="modal" data-target="#add-note">{{__('site.Note')}}</a>
       <a href="#" class="btn btn-sm btn-success  py-2"  data-toggle="modal" data-target="#add-new-meeting">{{__('site.meeting')}}</a>
@@ -293,7 +297,8 @@
   </div>
   <hr />
   @endif
-  <!--@if(isset($contact->investmentcountry_id))
+  <!--
+  @if(isset($contact->investmentcountry_id))
   <div class="d-flex align-items-center justify-content-between mb-2">
     <span class="font-weight-bold mr-2">{{ __('site.Investment Country')}}:</span>
     <span class="text-muted">{{ $contact->investmentcountry_id }}</span>
@@ -307,7 +312,6 @@
   </div>
   <hr />
  @endif
-  
 
 </div>
 <!--end::sidebar-->

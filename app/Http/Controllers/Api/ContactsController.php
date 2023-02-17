@@ -53,7 +53,6 @@ class ContactsController extends Controller
           'campaign_country'           => "nullable",
           'deal_ip'           => "nullable",
           'scound_phone'           => "nullable",
-          'message'           => "nullable",
         ];
         
       
@@ -276,7 +275,7 @@ class ContactsController extends Controller
 
 			//Added by Javed on 28-03-2022
             if(isset($contact['unit_country']) && $contact['unit_country'] == 1){
-              $contact['user_id'] = '262';
+              $contact['user_id'] = '19';
             }
 			//End
             //Added by Javed on 10-04-2022
@@ -286,13 +285,13 @@ class ContactsController extends Controller
                 $contact['unit_country'] = $projectData->country_id;
               }
               if(isset($projectData->country_id) && $projectData->country_id == 1){
-                $contact['user_id'] = '262';
+                $contact['user_id'] = '19';
                 $contact['created_by'] = '32';
               }
             }
             //End
           
-			if(isset($contact['user_id']) && $contact['user_id'] == '262'){
+			if(isset($contact['user_id']) && $contact['user_id'] == '19'){
 			  $contact['created_by'] = '32'; // lead-admin-ksa@madaproperties.com
 			}else if(isset($contact['user_id']) && $contact['user_id'] == '68'){
 			  $contact['created_by'] = '33'; // lead-admin-uae@madaproperties.com

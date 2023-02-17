@@ -43,6 +43,8 @@ Route::get('new-web','Admin\ProjectDataController@newWeb')->name('projcets.newwe
 Route::get('projectdata/view/{id}','Admin\ProjectDataController@View')->name('projectdata.view');
 Route::post('projectdata/getPupUpByAjax','Admin\ProjectDataController@getPupUpByAjax')->name('projectdata.getPupUpByAjax');
 // end
+// 
+Route::get('secondaryproject/brochure/{id}','Admin\SecondaryController@brochure')->name('secondaryproject.brochure');
 
 use App\Contact;
 use App\Country;

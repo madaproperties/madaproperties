@@ -20,6 +20,11 @@ class CampaignReportExport implements FromQuery, WithHeadings, ShouldAutoSize, W
     public function query()
     {		
         $projects_data = Project::orderBy('name_en','asc');	
+        if(userRole() == 'sales admin uae') {
+            $projects_data =  $projects_data->where('country_id','2');
+        }else if(userRole() == 'sales admin saudi'){
+            $projects_data =  $projects_data->where('country_id','1');
+        }
         if(Request('project_id') && !empty(request('project_id'))){
             $projects_data = $projects_data->where('id',request('project_id'));
         }
@@ -30,8 +35,7 @@ class CampaignReportExport implements FromQuery, WithHeadings, ShouldAutoSize, W
             $tempIds = Contact::where('campaign',request('campaing_id'))->get()->pluck('project_id');
             $projects_data = $projects_data->whereIn('id',$tempIds);
         }
-                
-
+            
         return $projects_data;	
     }
 
@@ -89,8 +93,6 @@ class CampaignReportExport implements FromQuery, WithHeadings, ShouldAutoSize, W
         if(Request('project_id') && !empty(request('project_id'))){
             $tempOne = $tempOne->where('project_id',request('project_id'));
         }
-        
-
 
         if(Request('from') && Request('to')){
             $from = date('Y-m-d 00:00:00', strtotime(Request('from')));

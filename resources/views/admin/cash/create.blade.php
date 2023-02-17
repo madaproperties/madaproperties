@@ -86,7 +86,6 @@
 																			<option {{old('paid') == 'yes' ? 'selected' : ''}} value="yes">{{__('site.yes')}}</option>
 																			<option {{old('paid') == 'no' ? 'selected' : ''}} value="no">{{__('site.no')}}</option>
 																			<option {{old('paid') == 'cancel' ? 'selected' : ''}} value="cancel">{{__('site.cancel')}}</option>
-										
 																			</select>
 																		</div>
 																	</div>

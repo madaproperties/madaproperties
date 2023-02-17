@@ -211,6 +211,8 @@
     </div>
 </div>
 <!--- Eit Note Model -->
+
+
 <!-- Button trigger modal-->
 <!-- Modal-->
 <div class="modal fade" id="edit-contact" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
@@ -317,7 +319,7 @@
 																								<i class="la la-phone"></i>
 																							</span>
 																						</div>
-																						<input type="text"
+																						<input type="number"
 																						value="{{$contact->phone}}"
 																{{ userRole() != 'admin' ? 'disabled' : ''}}						class="form-control form-control-solid form-control-lg" required name="phone" placeholder="{{__('site.contact phone')}}">
 																					</div>
@@ -404,7 +406,7 @@
   <div class="col-lg-9 col-xl-9">
     <select class="form-control other-select" id="" name="project_id" style="width:100%">
 
-      @if($contact->project_id)
+      @if(isset($contact->project->country_id) && $contact->project_id)
       <option
       id="project-value-{{$contact->project->id}}"
       data-text="{{$contact->project->name}}"
@@ -525,7 +527,8 @@
                       </div>
                     </div>
                     <!--end::Group-->
-<!--begin::Group-->
+
+                            <!--begin::Group-->
                             <div class="form-group row fv-plugins-icon-container">
                                 <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.campaign_country')}}</label>
                                 <div class="col-lg-9 col-xl-9">
@@ -539,8 +542,8 @@
 
                                 </div>
                               </div>
-																			<!--end::Group-->					
-					
+																			<!--end::Group-->
+
                     <!--begin::Group-->
                     <div class="form-group row fv-plugins-icon-container">
                       <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.source')}}</label>
@@ -1582,6 +1585,14 @@ var KTCkeditor = function () {
       } );
     ClassicEditor
       .create( document.querySelector( '#log-call-description' ) )
+      .then( editor => {
+
+      } )
+      .catch( error => {
+        console.error( error );
+      } );
+    ClassicEditor
+      .create( document.querySelector( '.description' ) )
       .then( editor => {
 
       } )

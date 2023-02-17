@@ -28,8 +28,10 @@ class PropertyBayutXmlController extends Controller
 
   public function propertyBayutXml(Request $request){
     $properties = Property::join('property_portals','property_portals.property_id','=','properties.id')
-    ->where('property_portals.portal_id',2)
+    ->whereIn('property_portals.portal_id',[2,3])
     ->where('status',1)
+    ->groupBy('properties.id')
+    ->select('properties.*')
     ->get();
     
     header('Content-Type: text/xml');
@@ -64,11 +66,13 @@ class PropertyBayutXmlController extends Controller
         xmlwriter_write_cdata($xw, $sale_rent);
         xmlwriter_end_element($xw); // Count
         
+        xmlwriter_start_element($xw, 'Property_Type');
         if($property->category){
-          xmlwriter_start_element($xw, 'Property_Type');
           xmlwriter_write_cdata($xw, $property->category->category_name);
-          xmlwriter_end_element($xw); // Count
+        }else{
+          xmlwriter_write_cdata($xw, 'Other');          
         }
+        xmlwriter_end_element($xw); // Count
         
         $status=''; 
         if($property->status == '1'){
@@ -87,15 +91,21 @@ class PropertyBayutXmlController extends Controller
           xmlwriter_end_element($xw); // Count
         }
 
-        if($property->area_name){
-          xmlwriter_start_element($xw, 'Locality');
-          xmlwriter_write_cdata($xw, $property->area_name);
-          xmlwriter_end_element($xw); // Count
+        xmlwriter_start_element($xw, 'Locality');
+        if($property->communityId){
+          xmlwriter_write_cdata($xw, $property->communityId->name_en);
+        }else{
+          xmlwriter_write_cdata($xw, $property->area_name);          
         }
+        xmlwriter_end_element($xw); // Count
 
-        if($property->project_name){
+        if($property->subCommunity){
           xmlwriter_start_element($xw, 'Sub_Locality');
-          xmlwriter_write_cdata($xw, $property->project_name);
+          xmlwriter_write_cdata($xw, $property->subCommunity->name_en);
+          xmlwriter_end_element($xw); // Count
+        }else if($property->project_name){
+          xmlwriter_start_element($xw, 'Sub_Locality');
+          xmlwriter_write_cdata($xw, $property->project_name);          
           xmlwriter_end_element($xw); // Count
         }
 
@@ -120,7 +130,7 @@ class PropertyBayutXmlController extends Controller
         xmlwriter_end_element($xw); // Count
 
         xmlwriter_start_element($xw, 'Bedrooms');
-        xmlwriter_write_cdata($xw, !empty($property->bedrooms) ? __('config.bedrooms.'.$property->bedrooms) : 0);
+        xmlwriter_write_cdata($xw, !empty($property->bedrooms) ? $property->bedrooms : 0);
         xmlwriter_end_element($xw); // Count
 
         xmlwriter_start_element($xw, 'Bathroom');
@@ -129,7 +139,7 @@ class PropertyBayutXmlController extends Controller
 
         xmlwriter_start_element($xw, 'Price');
         $price = $property->price;
-        if($property->yprice){
+        if($property->sale_rent == '2' && $property->yprice){
           $price = $property->yprice;
         }
         xmlwriter_write_cdata($xw, $price);
@@ -180,17 +190,28 @@ class PropertyBayutXmlController extends Controller
           xmlwriter_start_element($xw, 'Images');
           foreach($property->images as $image){
             xmlwriter_start_element($xw, 'ImageUrl');
-              xmlwriter_write_cdata($xw, env('S3_URL').'uploads/property/'.$property->id.'/images/'.$image->images_link);
+              xmlwriter_write_cdata($xw, s3AssetUrl('uploads/property/'.$property->id.'/images/'.$image->images_link));
               //xmlwriter_write_cdata($xw, $image->temp_image);
             xmlwriter_end_element($xw); // ImageUrl
           }
           xmlwriter_end_element($xw); // Images
         }
                   
-        if($property->floorplan){
-          xmlwriter_start_element($xw, 'Floor_Plans');
-          xmlwriter_write_cdata($xw, $property->floorplan);
-          xmlwriter_end_element($xw); // Count
+        // if($property->floorplan){
+        //   xmlwriter_start_element($xw, 'Floor_Plans');
+        //   xmlwriter_write_cdata($xw, $property->floorplan);
+        //   xmlwriter_end_element($xw); // Count
+        // }
+
+       
+        if($property->portals && count($property->portals)){
+          xmlwriter_start_element($xw, 'portals');
+          foreach($property->portals as $rs){
+            xmlwriter_start_element($xw, 'portal');
+              xmlwriter_write_cdata($xw, __('config.portals.'.$rs->portal_id));
+            xmlwriter_end_element($xw); // Facility
+          }
+          xmlwriter_end_element($xw); // Facilities
         }
 
         xmlwriter_start_element($xw, 'Last_Updated');
@@ -209,11 +230,9 @@ class PropertyBayutXmlController extends Controller
           xmlwriter_end_element($xw); // Video
         }
 
-        if($property->is_exclusive){
-          xmlwriter_start_element($xw, 'Off_plan');
-          xmlwriter_write_cdata($xw, $property->is_exclusive == '1' ? 'Yes' : 'No');
-          xmlwriter_end_element($xw); // Count
-        }
+        xmlwriter_start_element($xw, 'Off_plan');
+        xmlwriter_write_cdata($xw, $property->is_exclusive == '1' ? 'Yes' : 'No');
+        xmlwriter_end_element($xw); // Count
 
         xmlwriter_start_element($xw, 'Rent_Frequency');
         xmlwriter_write_cdata($xw, 'yearly');
@@ -223,14 +242,22 @@ class PropertyBayutXmlController extends Controller
         xmlwriter_write_cdata($xw, $property->title);
         xmlwriter_end_element($xw); // Count
 
+        xmlwriter_start_element($xw, 'Property_Title_AR');
+        xmlwriter_write_cdata($xw, $property->title_ar);
+        xmlwriter_end_element($xw); // Count
+
         xmlwriter_start_element($xw, 'Property_Description');
         xmlwriter_write_cdata($xw, $property->description);
         xmlwriter_end_element($xw); // Count
 
+        xmlwriter_start_element($xw, 'Property_Description_AR');
+        xmlwriter_write_cdata($xw, $property->description_ar);
+        xmlwriter_end_element($xw); // Count
 
-        // xmlwriter_start_element($xw, 'No_of_Rooms');
-        // xmlwriter_write_cdata($xw, $property->rooms);
-        // xmlwriter_end_element($xw); // Count
+
+        xmlwriter_start_element($xw, 'Developer');
+        xmlwriter_write_cdata($xw, $property->developer);
+        xmlwriter_end_element($xw); // Count
 
         // xmlwriter_start_element($xw, 'No_of_Bathrooms');
         // xmlwriter_write_cdata($xw, $property->bathrooms);
@@ -254,24 +281,35 @@ class PropertyBayutXmlController extends Controller
         // xmlwriter_start_element($xw, 'Last_Updated');
         // xmlwriter_write_cdata($xw, $property->updated_at);
         // xmlwriter_end_element($xw); // Last_Updated
+        xmlwriter_start_element($xw, 'Geopoints');  
+          xmlwriter_start_element($xw, 'Latitude');
+          xmlwriter_write_cdata($xw, $property->latitude);
+          xmlwriter_end_element($xw); // unit_measure
+
+          xmlwriter_start_element($xw, 'Longitude');
+          xmlwriter_write_cdata($xw, $property->longitute);
+          xmlwriter_end_element($xw); // unit_measure
+        xmlwriter_end_element($xw); // Images
           
+        xmlwriter_start_element($xw, 'unit_measure');
+        xmlwriter_write_cdata($xw, $property->measure_unit);
+        xmlwriter_end_element($xw); // unit_measure
+          
+        xmlwriter_start_element($xw, 'Permit_Id');
+        xmlwriter_write_cdata($xw, $property->str_no);
+        xmlwriter_end_element($xw); // Permit_Id
+          
+        xmlwriter_start_element($xw, 'featured_on_companywebsite');
+        xmlwriter_write_cdata($xw, $property->forma_noc_slform);
+        xmlwriter_end_element($xw); // featured_on_companywebsite
         
-          
-        // xmlwriter_start_element($xw, 'unit_measure');
-        // xmlwriter_write_cdata($xw, $property->measure_unit);
-        // xmlwriter_end_element($xw); // unit_measure
-          
-        // xmlwriter_start_element($xw, 'Permit_Id');
-        // xmlwriter_write_cdata($xw, $property->str_no);
-        // xmlwriter_end_element($xw); // Permit_Id
-          
-        // xmlwriter_start_element($xw, 'featured_on_companywebsite');
-        // xmlwriter_write_cdata($xw, $property->forma_noc_slform);
-        // xmlwriter_end_element($xw); // featured_on_companywebsite
-          
-        // xmlwriter_start_element($xw, 'under_construction');
-        // xmlwriter_write_cdata($xw, $property->updated_at);
-        // xmlwriter_end_element($xw); // under_construction
+        xmlwriter_start_element($xw, 'Cheques');
+        xmlwriter_write_cdata($xw, $property->cheques);
+        xmlwriter_end_element($xw); // Cheques  
+        
+        xmlwriter_start_element($xw, 'under_construction');
+        xmlwriter_write_cdata($xw, ($property->is_exclusive == '1' ? 'true' : 'false'));
+        xmlwriter_end_element($xw); // under_construction
           
         // xmlwriter_start_element($xw, 'Off_Plan');
         // if($property->project_status=='1'){ 
@@ -281,13 +319,19 @@ class PropertyBayutXmlController extends Controller
         // }
         // xmlwriter_end_element($xw); // Off_Plan
           
-        // xmlwriter_start_element($xw, 'Cheques');
-        // xmlwriter_write_cdata($xw, $property->cheques);
-        // xmlwriter_end_element($xw); // Cheques
+        
           
         // xmlwriter_start_element($xw, 'Exclusive_Rights');
         // xmlwriter_write_cdata($xw, $property->is_exclusive ? 'Yes' : 'No');
         // xmlwriter_end_element($xw); // Exclusive_Rights
+
+        xmlwriter_start_element($xw, 'furnished');
+        if($property->furnished){
+          xmlwriter_write_cdata($xw, __('config.furnished.'.$property->furnished));
+        } else {
+          xmlwriter_write_cdata($xw, 'No');
+        }
+        xmlwriter_end_element($xw); // furnished
           
       
       

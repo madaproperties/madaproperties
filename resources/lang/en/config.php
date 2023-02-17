@@ -48,31 +48,19 @@ return [
     '12' => '12 Baths',
   ],
   'bedrooms' => [
-    '25' => 'Studio',
+    '-1' => '-1',
     '1' => '1 Bed',
-    '13' => '1 Bed + Study',
     '2' => '2 Beds',
-    '14' => '2 Beds + Study',
     '3' => '3 Beds',
-    '15' => '3 Beds + Study',
     '4' => '4 Beds',
-    '16' => '4 Beds + Study',
     '5' => '5 Beds',
-    '17' => '5 Beds + Study',
     '6' => '6 Beds',
-    '18' => '6 Beds + Study',
     '7' => '7 Beds',
-    '19' => '7 Beds + Study',
     '8' => '8 Beds',
-    '20' => '8 Beds + Study',
     '9' => '9 Beds',
-    '21' => '9 Beds + Study',
     '10' => '10 Beds',
-    '22' => '10 Beds + Study',
     '11' => '11 Beds',
-    '23' => '11 Beds + Study',
     '12' => '12 Beds',
-    '24' => '12 Beds + Study',
   ],
   'price_type' => [
     '1' => 'Fixed Price',
@@ -150,12 +138,19 @@ return [
     '3' => 'Shell and Core'
   ],
   'project_status' => [
-    '1' => 'Offplan',
-    '2' => 'Completed'
+    '1' => 'Ready Secondary',
+    '2' => 'Off-Plan Secondary',
+    '3' => 'Ready Primary',
+    '4' => 'Off-Plan Primary'
   ],
-  'featured' => [
+  'furnished' => [
+    '0' => 'No',
     '1' => 'Yes',
-    '2' => 'No'
+    '2' => 'Partly'
+  ],
+  'financial_status' => [
+    '1' => 'Mortgaged',
+    '2' => 'Cash'
   ],
   'unverified_reason' => [
     '1' => 'Company Signatory Documents Missing',
@@ -170,7 +165,8 @@ return [
   'portals' => [
     '1' => 'Property Finder',
     '2' => 'Bayut',
-    '3' => 'Dubizzle'
+    '3' => 'Dubizzle',
+    '4' => 'Website',
   ],
   'sale_rent' => [
     '1' => 'Sale',

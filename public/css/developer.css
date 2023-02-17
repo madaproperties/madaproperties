@@ -1,4 +1,4 @@
-div.span,label,h3,button,a, .menu-text{
+div.span,label,h3,button,a, .menu-text, .dropdown-menu{
 	text-transform: capitalize !important;
 }
 .modal .modal-header .close span{
@@ -61,6 +61,20 @@ div.span,label,h3,button,a, .menu-text{
 	from{ bottom:-100px; opacity:0 } 
 	to{ bottom:0; opacity:1 }
 }
+.assign-delete-buttons{
+	justify-content:left !important;
+	margin-bottom: 0px !important;
+	margin-top: 5px;
+    padding-bottom: 5px;
+}
+.btn.btn-primary {
+    background: #9fc538 !important;
+	color: #fff !important;
+	text-transform: capitalize;
+}
+.page-button{
+	margin-top:5px;
+}
 .blue-label{
 	color:blue !important;
 }
@@ -73,4 +87,11 @@ div.span,label,h3,button,a, .menu-text{
 }
 #property_form select{
     text-transform: capitalize;
+}
+.error{
+	color:red !important;
+}
+.redCount{
+	color:red !important;
+	float: right;
 }

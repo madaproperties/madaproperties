@@ -71,6 +71,19 @@ class Property extends Model
     {
       return $this->belongsTo(Categories::class,'category_id');
     }
+    public function notes()
+    {
+      return $this->hasMany(PropertyNotes::class,'property_id')->orderBy('id','desc');
+    }
 
+    public function communityId()
+    {
+      return $this->belongsTo(Community::class,'community');
+    }
+
+    public function subCommunity()
+    {
+      return $this->belongsTo(Community::class,'sub_community');
+    }
 
 }

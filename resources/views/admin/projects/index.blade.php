@@ -40,7 +40,7 @@
 									<div class="card-header border-0 py-5">
 										<h3 class="card-title align-items-start flex-column">
 											<span class="card-label font-weight-bolder text-dark">{{__('site.Projects')}}</span>
-											<span class="text-muted mt-3 font-weight-bold font-size-sm">{{($project_count)}} {{__('site.Projects')}}</span>
+											<span class="text-muted mt-3 font-weight-bold font-size-sm">{{$project_count}} {{__('site.Projects')}}</span>
 										</h3>
 										<div class="card-toolbar">
 											<a href="#" id="kt_quick_user_toggle" class="btn btn-success font-weight-bolder font-size-sm">
@@ -58,12 +58,14 @@
 										<div class="input-group input-group-sm input-group-solid" style="max-width:260px">
 											<input type="text" name="search" style="" class="form-control" id="kt_subheader_search_form" value="{{request('search')}}" placeholder="{{ __('site.search') }}">
 										</div><br>
-									</form>	
+									</form>		
 									<!--begin::Body-->
 									<div class="card-body py-0">
 										<!--begin::Table-->
 										<div class="table-responsive">
-											<table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+										<div class="custom-table-responsive">							
+
+											<table class="table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
 												<thead>
 													<tr class="text-left">
 														<th style="min-width: 150px">{{__('site.ID')}}</th>
@@ -163,8 +165,9 @@
 													</tr>
 													@endforeach
 												</tbody>
-												{{$projects->links()}}
 											</table>
+											</div>
+											{{$projects->links()}}
 										</div>
 										<!--end::Table-->
 									</div>

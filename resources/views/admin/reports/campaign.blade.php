@@ -3,8 +3,13 @@
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
    <div class="container">
+   
+    <div class="card card-custom gutter-b">
+    <div class="card-body table-responsive">
    @include('admin.reports.advance_search')
-<table class="table">
+   {{$projects_data->withQueryString()->links()}}
+   <div class="custom-table-responsive">
+<table class=" text-center table table-separate table-head-custom table-checkable table-striped">
     <thead>
     <tr>
         <th scope="col">#</th>
@@ -90,11 +95,13 @@
 @endforeach
 
             </tbody>
-            {{$projects_data->withQueryString()->links()}}
             </table>
+            </div>
         {{$projects_data->withQueryString()->links()}}
             
         </div>
 </div>
 <!--end::Entry-->
+</div>
+</div>
 </div>

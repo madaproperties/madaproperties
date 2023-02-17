@@ -25,7 +25,7 @@ class PropertyDubizzleXmlController extends Controller
 
   function propertyDubizzleXml(){
     $properties = Property::join('property_portals','property_portals.property_id','=','properties.id')
-    ->where('property_portals.portal_id',3)
+    ->whereIn('property_portals.portal_id',[2,3])
     ->where('status',1)
     ->get();
     
@@ -152,7 +152,7 @@ class PropertyDubizzleXmlController extends Controller
 
       $xml.="<size>".$property->buildup_area."</size>
       <sizeunits>".$measure_unit."</sizeunits>
-      <bedrooms>".__('config.bedrooms.'.$property->bedrooms)."</bedrooms>
+      <bedrooms>".$property->bedrooms."</bedrooms>
       <bathrooms>".$property->bathrooms."</bathrooms>";
       if($property->agent && $property->agent->is_rera_active){
         $xml .="<contactemail>".$property->agent->name."</contactemail>
@@ -166,7 +166,7 @@ class PropertyDubizzleXmlController extends Controller
       $xml .="<lastupdated>".($property->last_updated)."</lastupdated>";
       
       if($property->developer){
-        $xml .="<developer>".($property->developer)."</developer>";
+       // $xml .="<developer>".($property->developer)."</developer>";
       }
       if($property->virtual_360){
         $xml .="<view360>".($property->virtual_360)."</view360>";
@@ -180,7 +180,7 @@ class PropertyDubizzleXmlController extends Controller
         $photo=[];
         foreach($property->images as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
-          $photo[]= env('S3_URL').'uploads/property/'.$property->id.'/images/'.$image->images_link;          
+          $photo[]= s3AssetUrl('uploads/property/'.$property->id.'/images/'.$image->images_link);          
         }
         $xml.= implode("|",$photo);
         $xml.="</photos>";
@@ -331,7 +331,7 @@ class PropertyDubizzleXmlController extends Controller
 
       $xml.="<size>".$property->buildup_area."</size>
       <sizeunits>".$measure_unit."</sizeunits>
-      <bedrooms>".__('config.bedrooms.'.$property->bedrooms)."</bedrooms>
+      <bedrooms>".$property->bedrooms."</bedrooms>
       <bathrooms>".$property->bathrooms."</bathrooms>";
       if($property->agent && $property->agent->is_rera_active){
         $xml .="<contactemail>".$property->agent->name."</contactemail>
@@ -358,7 +358,7 @@ class PropertyDubizzleXmlController extends Controller
         $photo=[];
         foreach($property->images as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
-          $photo[]= env('S3_URL').'uploads/property/'.$property->id.'/images/'.$image->images_link;          
+          $photo[]= s3AssetUrl('uploads/property/'.$property->id.'/images/'.$image->images_link);          
         }
         $xml.= implode("|",$photo);
         $xml.="</photos>";

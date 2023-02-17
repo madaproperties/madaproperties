@@ -100,7 +100,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
                 
 
 				<!--begin::Body-->
-				<div class="card-body py-0">
+				<div class="card-body table-responsive">
 
 
 						<!-- Modal -->
@@ -134,16 +134,20 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 						</div>
 						<br />
 
-                @if(userRole() != 'sales')
-                <button type="button" class="btn btn-primary"
-                data-toggle="modal" data-target="#assign-leads">
-                    Assing <i class="fa fa-users"></i>
-                  </button>
-
-                @endif
+                
 
 					<!--begin::Table-->
-					<div class="table-responsive">
+				<div class="table-responsive">
+					@if(userRole() != 'sales')
+					<div class="{{$data->withQueryString()->links() == ''? 'assign-delete-buttons' : 'page-button'}}">
+						<button type="button" class="btn btn-primary"
+						data-toggle="modal" data-target="#assign-leads">
+						Assing <i class="fa fa-users"></i>
+						</button>
+					</div>
+					@endif					
+					{{$data->withQueryString()->links()}}
+					<div class="custom-table-responsive">							
 						<table class="text-center table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
 							<thead>
 								<tr>
@@ -204,6 +208,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 										<span class="text-muted font-weight-bold">{{$rs->creator ? explode('@',$rs->creator->name)[0] : ''}}</span>
 									</td>
 									<td>
+									<div class="editPro">
 									@can('database-records-edit')
 									<a href="{{ route('admin.database-records.show',$rs->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
 									@endcan
@@ -217,14 +222,14 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 												<button type="submit" style="display:none"></button>
 											</form>
 										@endcan
+									</div>
 									</td>
 								</tr>
 								@endforeach
 							</tbody>
-							{{$data->withQueryString()->links()}}
 						</table>
+						</div>
 						{{$data->withQueryString()->links()}}
-					</div>
 					<!--end::Table-->
 				</div>
 				<!--end::Body-->

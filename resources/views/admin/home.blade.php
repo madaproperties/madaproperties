@@ -1,9 +1,5 @@
 @push('css')
     <style>
-        .dataTables_info,.dataTables_paginate ,#DataTables_Table_0_filter
-        {
-            display:none;
-        }
         .dt-button
         {
                 padding: 5px;
@@ -64,20 +60,16 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 										<ul class="navi flex-column navi-hover py-2">
 
 										    <li class="navi-item">
-												<a href="{{ request()->has('my-contacts') ? '?my-contacts=get&' : '?'}}"
-	class=" navi-link">
-	<span  class="{{ !request('filter_status')  ? 'text-warning': ''}} navi-text">{{ __('site.all') }}</span>
+												<a href="{{ request()->has('my-contacts') ? '?my-contacts=get&' : '?'}}" class=" navi-link">
+													<span  class="{{ !request('filter_status')  ? 'text-warning': ''}} navi-text">{{ __('site.all') }}</span>
 												</a>
 											</li>
 
 
 											@foreach($status as $state)
 											<li class="navi-item">
-												<a href="{{ request()->has('my-contacts') ? '?my-contacts=get&' : '?'}}filter_status={{$state->id}}"
-	class="  navi-link">
-				<span
-
-				class="{{ request('filter_status') == $state->id  ? 'text-warning': ''}} navi-text">{{$state->name}}</span>
+												<a href="{{ request()->has('my-contacts') ? '?my-contacts=get&' : '?'}}filter_status={{$state->id}}" class="navi-link">
+													<span	class="{{ request('filter_status') == $state->id  ? 'text-warning': ''}} navi-text">{{$state->name}}</span>
 												</a>
 											</li>
 											@endforeach
@@ -179,7 +171,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 
 
                        <!--end::Page Title-->
-                      <form class="ml-5" action="">
+                      <form class="ml-5 formSearchh" action="" >
 
 
                           @foreach(request()->all() as $pram => $val)
@@ -217,55 +209,31 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 
 
 
-                <!-- Modal -->
-                <div class="modal fade" id="assign-leads" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="form-group">
-                          <label for="exampleFormControlSelect1">users</label>
-                          <select class="form-control" id="assigned-seller" name="seller">
-                            @foreach($sellers as $seller)
-                            <option value="{{$seller->id}}">{{$seller->name}}</option>
-                            @endforeach
-                          </select>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button style="margin: 5px;" class="btn btn-info btn-xs assign-all" data-url="">
-                          Assign
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                
                 <br />
 
 
                 @include('admin.layouts.advanced-search')
 
-                <br />
-                @if(userRole() != 'sales')
-                <button type="button" class="btn btn-primary"
-                data-toggle="modal" data-target="#assign-leads">
-                    Assign <i class="fa fa-users"></i>
-                  </button>
-				@can('contact-delete')
-
-					<button type="button" class="btn btn-primary delete-all">
-                    Delete <i class="fa fa-trash"></i>
-					</button>
-				@endcan
-
-                @endif
+               
 							<!--begin: Datatable-->
+				<!--begin::Body-->
+				<div class="table-responsive pt-5">
+							@if(userRole() != 'sales')
+								<div class="{{$contacts->withQueryString()->links() == ''? 'assign-delete-buttons' : 'page-button'}}">
+									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#assign-leads">
+															Assing <i class="fa fa-users"></i></button>
+									@can('contact-delete')
+										<button type="button" class="btn btn-primary delete-all">
+															Delete <i class="fa fa-trash"></i>
+										</button>
+									@endcan
+								</div>
+                			@endif
+
+
+							{{ $contacts->withQueryString()->links() }}
+						<div class="custom-table-responsive">							
 							<table class="{{ request()->has('export') ? 'table-export' : ''}} text-center table table-separate table-head-custom table-checkable table-striped" id="" style="padding:20px">
 
                 <thead>
@@ -335,16 +303,18 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 
 
 											<td>
+											<div class="editPro">
 											@can('contact-delete')
 											<form id="destory-{{$contact->id}}" class="delete"
 											onsubmit="return confirm('{{__('site.confirm')}}');"
 											action="{{ route('admin.contact.destroy',$contact->id) }}" method="POST" >
 											@csrf
 											@method('DELETE')
-												<button type="submit" class="btn btn-danger">
-												{{__('site.delete')}}
-												</button>
+											<a href="javascript:void(0)" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Delete">
+												<i class="fa fa-trash" onclick="submitForm('{{$contact->id}}')"></i></a>
+												<button type="submit" style="display:none"></button>
 											</form>
+											</div>
 
 
 											@endcan
@@ -356,11 +326,12 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 									@endforeach
 
 								</tbody>
-								{{ $contacts->withQueryString()->links() }}
 							</table>
+							</div>
 							{{ $contacts->withQueryString()->links() }}
 							<!--end: Datatable-->
 						</div>
+					</div>
 					</div>
 					<!--end::Card-->
        </div>
@@ -371,38 +342,10 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 
 @endsection
 @push('js')
-<script src="{{ asset('public/assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
-<script src="{{ asset('public/assets/js/pages/crud/datatables/basic/scrollable.js') }}"></script>
-
-
-<script  src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-
-<script  src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
-<script  src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
-<script  src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script  src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script  src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script  src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
-
-<script>
-    dataTable();
-
-function dataTable()
-{
-  $('.table-export').DataTable({
-      dom: 'Bfrtip',
-      buttons: [
-        { extend: 'copy' },
-        { extend: 'excel' },
-        { extend: 'print' },
-      ],
-
-    "pageLength": 500000,
-  "pagingType": "full_numbers",
-  });
-};
-</script>
 <script type="text/javascript">
+function submitForm(id){
+	$("#destory-"+id).submit();
+}
 $(document).ready(function () {
 	$('#check_all').on('click', function(e) {
 		if($(this).is(':checked',true)){
@@ -505,4 +448,5 @@ $(document).ready(function () {
     autoclose: true,
   });
 </script>
+
 @endpush
