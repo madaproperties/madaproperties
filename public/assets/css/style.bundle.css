@@ -3924,8 +3924,8 @@ input[type=button].btn-block {
 }
 
 .dropdown-menu {
-  top: inherit !important;
-  left: inherit !important;
+  top: inherit;
+  left: inherit;
   width: 100%;
   display: none;
   z-index: 96;
