@@ -95,3 +95,7 @@ div.span,label,h3,button,a, .menu-text, .dropdown-menu{
 	color:red !important;
 	float: right;
 }
+.datepicker-orient-bottom, .datepicker-orient-left{
+	position: absolute !important;
+	background-color: #fff;
+}
