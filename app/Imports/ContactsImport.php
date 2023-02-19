@@ -60,7 +60,7 @@ class ContactsImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
         foreach($this->validateAttribute as $key => $val)
         {
             $key = str_replace('.*','',$key);
-            $find = str_contains($val,'required',0);
+            $find = str_contains($val,'required');
             if($find)
             {
                 $key = str_replace('.*','',$key);

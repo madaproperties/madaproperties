@@ -551,61 +551,57 @@ class ContactController extends Controller
 
     public function multiple_assign()
     {
-      $other_details ='';
-      $data = [];
+        $data = [];
       if(!request()->ids OR !request()->id) return false;
       $user = User::where('id',request()->id)->first();
       $contacts = explode(',',request()->ids);
-      //$contacts = Contact::select('id','user_id','updated_at','status_id')->whereIn('id',$contacts)->get();
+      //$contacts = Contact::select('*')->whereIn('id',$contacts)->get();
       $contacts = Contact::whereIn('id',$contacts)->get();
       if(!$contacts OR !$user) return false;
 
       foreach($contacts as $contact)
       {
+        
+        //Added by Lokesh on 13-09-2022  
         $mailData = [
           'user_name' => $contact->user ? $contact->user->name : '',
           'project_name' => $contact->project ? $contact->project->name : ''
-        ];
+        ];          
+        //end
+          
         // create new history if he not the same user !
         if($contact->user_id != $user->id)
         {
-          $other_details = $action = __('site.assigned to') .' '.$user->name;
+          $action = __('site.assigned to') .' '.User::where('id',$user->id)->first()->name;
           $this->newActivity($contact->id,auth()->id(),$action,null,null, null,true);
         }
         
         
         if($user->id != $contact->user_id)
         {
-            $other_details = $action = __('site.assigned to') .' '.$user->name;
+            $action = __('site.assigned to') .' '.User::where('id',$user->id)->first()->name;
             $this->newActivity($contact->id,auth()->id(),$action,null,null, null,true);
 
             // Change Startus to new if its not
-            if($contact->status_id != newStatus()->id){
+            if(isset($contact->status_id)){
                 $data['status_id'] = newStatus()->id;
 
-                $data['status_changed_at'] = Carbon::now();
-                
+                 $data['status_changed_at'] = Carbon::now();
                 $action = __('site.status changed to').' '.newStatus()->name;
-                $other_details .= ' and '.$action;
                 $this->newActivity($contact->id,auth()->id(),$action,null,null, null,true);
             }
 
         }
-
+        
         if(isset($data['status_id'])){ //added by Javed on 07-09-2022
-          addHistory('Contact',$contact->id,'updated',[
-            'user_id' => $user->id,
-            'status_id' => $data['status_id'],
-            'updated_at' => Carbon::now()
-          ],$contact,$other_details);
-          
-          $contact->update([
-            'user_id' => $user->id,
-            'status_id' => $data['status_id'],
-            'updated_at' => Carbon::now()
-          ]);
+            $contact->update([
+              'user_id' => $user->id,
+              'status_id' => $data['status_id']
+             // 'updated_at' => Carbon::now()
+            ]);
+            Mail::to($user->name)->send(new LeadAssigned($mailData));
+            
         }
-        Mail::to($user->name)->send(new LeadAssigned($mailData));
       }
 
       return response()->json([

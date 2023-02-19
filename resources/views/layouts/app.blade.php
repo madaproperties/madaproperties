@@ -6,6 +6,8 @@
   <base href="../../../../">
 		<meta charset="utf-8" />
 		<title>MADA - Login</title>
+		<!--<meta name="viewport" content="width=device-width, height=device-height,  initial-scale=1.0, user-scalable=no;user-scalable=0;"/>-->
+		<meta name='viewport' content='user-scalable=0'>
 		<meta name="description" content="Login page example" />
 		<link rel="shortcut icon" href="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -22,6 +24,12 @@
         .bgi-position-top{
           background-image: url("{{asset('public/assets/media/bg/bg-3.jpg')}}")
         }
+        .form-control:focus {
+    outline: 0;
+    -webkit-appearance: none;
+    -webkit-transition: none;
+    box-shadow: none;
+}
     </style>
 		@include('admin.layouts.msgs')
 		@stack('css')

@@ -22,16 +22,15 @@
     <link href="{{ asset('public/assets/plugins/custom/prismjs/prismjs.bundle.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/assets/css/style.bundle.css?t='.time())}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/css/custom.css?t='.time())}}" rel="stylesheet" type="text/css" /> @php //Updated by Javed @endphp
-    @if(app()->getLocale() == 'ar')
     <link href="{{ asset('public/css/revemp-style.css?t='.time())}}" rel="stylesheet" type="text/css" />
-    @endif
     <link href="{{ asset('public/css/developer.css?t='.time())}}" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ asset('public/assets/plugins/custom/ckeditor/ckeditor-classic.bundle.js') }}"></script>
     <script src="{{ asset('public/assets/js/pages/crud/forms/editors/ckeditor-classic.js') }}"></script>
     <script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
-    <script src="{{ asset('public/assets/js/pages/crud/forms/widgets/bootstrap-datetimepicker.js') }}"></script> @include('admin.layouts.msgs') @stack('css')
+    <!--<script src="{{ asset('public/assets/js/pages/crud/forms/widgets/bootstrap-datetimepicker.js') }}"></script>-->
     <link rel="shortcut icon" href="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" />
+    @include('admin.layouts.msgs') @stack('css')
     <style>
         @if(Request::root()=='https://lmsstaging.madaproperties.com') body {
             background: #e8afaf;

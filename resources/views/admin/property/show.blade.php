@@ -46,24 +46,20 @@
 
 </style>
 <!--begin::Content-->
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+<div class="d-flex flex-column flex-column-fluid property_form" id="kt_content">
 	<!--begin::Entry-->
 	<div class="d-flex flex-column-fluid">
 		<div class="container">
 
-         	<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+         	<div>
 				<!--begin::Subheader-->
-				<div class="subheader py-2 py-lg-4 subheader-transparent" id="kt_subheader">
+				<div class="subheader subheader-transparent" id="kt_subheader">
 					<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 						<!--begin::Details-->
-						<div class="d-flex align-items-center flex-wrap mr-2">
+						<div class="d-flex align-items-center flex-wrap mr-2 ">
 							<!--begin::Title-->
-							<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">{{__('site.edit_property')}}</h5>
+							<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5"></h5>
 							<!--end::Title-->
-							<!--begin::Separator-->
-							<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
-							<!--end::Separator-->
-
 						</div>
 						<!--end::Details-->
 						<!--begin::Toolbar-->
@@ -78,13 +74,13 @@
 					<!--begin::Container-->
 					<div class="container">
 						<!--begin::Card-->
-						<div class="card card-custom card-transparent">
+						<div class="card-custom card-transparent">
 							<div class="card-body p-0">
 								<!--begin::Wizard-->
 								<div class="wizard wizard-4" id="kt_wizard" data-wizard-state="first" data-wizard-clickable="true">
 
 									<!--begin::Card-->
-									<div class="card card-custom card-shadowless rounded-top-0">
+									<div class="card-custom card-shadowless rounded-top-0">
 										<!--begin::Body-->
 										<div class="card-body p-0">
 											<div class="row px-lg-10">
@@ -94,7 +90,7 @@
 																<span class="nav-icon">
 																	<i class="fa fa-building"></i>
 																</span>
-																<span class="nav-text">{{__('site.basic')}}</span>
+																<span class="nav-text">{{__('site.property_details')}}</span>
 															</a>
 														</li>
 														<li class="nav-item">
@@ -102,7 +98,7 @@
 																<span class="nav-icon">
 																	<i class="fa fa-image"></i>
 																</span>
-																<span class="nav-text">{{__('site.files and other')}}</span>
+																<span class="nav-text">{{__('site.media')}}</span>
 															</a>
 														</li>
 														
@@ -111,15 +107,7 @@
 																<span class="nav-icon">
 																	<i class="fa fa-edit"></i>
 																</span>
-																<span class="nav-text">{{__('site.additional')}}</span>
-															</a>
-														</li>
-														<li class="nav-item">
-															<a class="nav-link" id="owner-tab" data-toggle="tab" href="#owner" aria-controls="owner">
-																<span class="nav-icon">
-																	<i class="fa fa-user"></i>
-																</span>
-																<span class="nav-text">{{__('site.owner_details')}}</span>
+																<span class="nav-text">{{__('site.location')}}</span>
 															</a>
 														</li>
 														<li class="nav-item">
@@ -139,9 +127,12 @@
 																<span class="nav-text">{{__('site.verification')}}</span>
 															</a>
 														</li>
+														@endif
 													</ul>
+													
+												<div class="col-xl-12 col-xxl-12">
 													<!--begin::Wizard Form-->
-													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.property.update',$property->id)}}" id="kt_form" enctype="multipart/form-data">
+													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.property.update',$property->id)}}" id="property_form" enctype="multipart/form-data">
 														@csrf
 														@method('PATCH')
 														<input type="hidden" name="pt" value="{{request()->get('pt')}}">
@@ -149,6 +140,12 @@
 															<div class="tab-pane fade active show" id="basic" role="tabpanel" aria-labelledby="basic-tab">
 																<div class="row col-xl-12 card mt-5 rowCrtt">
 																	<div class="col-xl-12">
+																		<!--begin::Group-->
+																		<div class="form-group row fv-plugins-icon-container">
+																			<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.type')}}</label>
+																		</div>
+																		<!--end::Group-->					
+
 																		<!--begin::Wizard Step 1-->
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
 
@@ -383,90 +380,21 @@
 																			@else		
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.unit')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="unitno" type="text" value="{{$property->unitno}}" placeholder="{{__('site.unit')}}">
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.permit')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="str_no" type="text" value="{{$property->str_no}}" placeholder="{{__('site.permit_no')}}">
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.type')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<select class="form-control" name="sale_rent" required>
-																						{!! selectOptions(__('config.sale_rent'),$property->sale_rent) !!}
-																					</select>																					
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.street')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="street" type="text" value="{{$property->street}}" placeholder="{{__('site.street')}}">
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.unit_meas')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<select name="measure_unit" id="measure_unit" class="form-control">
-																						{!! selectOptions(__('config.measure_unit'),$property->measure_unit) !!}
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<select name="bedrooms" id="bedrooms" class="form-control">
+																					<option value="" >{{ __('site.bedrooms') }}</option>
+																						{!! selectOptions(__('config.bedrooms'),$property->bedrooms) !!}	
 																					</select>
 																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.bua')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="buildup_area" type="text" value="{{$property->buildup_area}}" placeholder="{{__('site.bua')}}">
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.plot')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="plot_size" type="text" value="{{$property->plot_size}}" placeholder="{{__('site.plot')}}">
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.parking_type')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<select name="parking_type" id="parking_type" class="form-control">
-																						{!! selectOptions(__('config.parking_type'),$property->parking_type) !!}
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<select name="bathrooms" id="bathrooms" class="form-control">
+																					<option value="" >{{ __('site.Baths') }}</option>
+																						{!! selectOptions(__('config.bathrooms'),$property->bathrooms) !!}	
 																					</select>
 																				</div>
-																			</div>
-																			<!--end::Group-->
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.parking')}}</label>
-																				<div class="col-lg-9 col-xl-9">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select name="parking_areas" id="parking_areas" class="form-control">
+																					<option value="" >{{ __('site.parking') }}</option>
 																						{!! selectOptions(__('config.parking_areas'),$property->parking_areas) !!}
 																					</select>
 																				</div>
@@ -475,8 +403,27 @@
 																			<!--end::Group-->
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.floor')}}</label>
-																				<div class="col-lg-9 col-xl-9">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<select name="parking_type" id="parking_type" class="form-control">
+																					<option value="" >{{ __('site.parking_type') }}</option>
+																						{!! selectOptions(__('config.parking_type'),$property->parking_type) !!}
+																					</select>
+																				</div>
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<select name="fitted" id="fitted" class="form-control">
+																					<option value="" >{{ __('site.Furnishing_type') }}</option>
+																						{!! selectOptions(__('config.fitted'),$property->fitted) !!}
+																					</select>
+																				</div>
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<input class="form-control form-control-solid form-control-lg" 	name="developer" type="text" value="{{$property->developer}}" placeholder="{{__('site.developer')}}">
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																			</div>
+																			<!--end::Group-->		
+                                                                            <!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<input class="form-control form-control-solid form-control-lg" 	name="floor" type="text" value="{{$property->floor}}" placeholder="{{__('site.floor')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
@@ -542,15 +489,9 @@
 																						@endforeach      
 																					</select>
 																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.campaign')}}</label>
-																				<div class="col-lg-9 col-xl-9">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select class="form-control" name="campaign_id">
-																						<option value="">{{__('site.choose')}}</option>
+																						<option value="">{{__('site.campaign')}}</option>
 																						@foreach($campaigns as $campaign)
 																						<option {{ $property->campaign_id == $campaign->id ? 'selected' : ''}} value="{{$campaign->id}}">{{$campaign->name}}</option>
 																						@endforeach
@@ -668,26 +609,11 @@
 																	<div class="col-xl-12">
 																		<!--begin::Wizard Step 1-->
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.description')}}</label>
-																				<div class="col-lg-10 col-xl-10">
-																					<textarea class="form-control form-control-solid form-control-lg" id="description" rows="10" name="description" type="text" placeholder="{{__('site.description')}}">{!!$property->description!!}</textarea>
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
+																				<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.Select Amenities')}}</label>
 																			</div>
-																			<!--end::Group-->
-																		</div>
-																	</div>
-																</div>	
-																
-																<div class="row col-xl-12">
-																	<div class="col-xl-6">
-																		<!--begin::Wizard Step 1-->
-																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-
-																		@if(userRole() == 'admin' || userRole() == 'sales admin uae')
+																			<!--end::Group-->					
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<div class="col-xs-12 col-sm-4 col-lg-4 col-4">
@@ -709,105 +635,6 @@
 																			</div>
 																			<!--end::Group-->
 
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.portals')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#portals_modal">
-																					{{__('site.portals')}} {{isset($property->portals) ? count($property->portals) : 0 }} <i class="fa fa-menu"></i>
-                  																	</button>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.photos')}} (can attach more than one)</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#image_uploader">
-                    																	Images {{isset($property->images) ? count($property->images) : 0 }} <i class="fa fa-image"></i>
-                  																	</button>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-																		</div>
-																	</div>
-																	<div class="col-xl-6">
-																		<!--begin::Wizard Step 1-->
-																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.featured')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<select name="is_featured" id="is_featured" class="form-control">
-																						{!! selectOptions(__('config.featured'),$property->is_featured) !!}
-																					</select>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.fitted')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<select name="fitted" id="fitted" class="form-control">
-																						{!! selectOptions(__('config.fitted'),$property->fitted) !!}
-																					</select>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-																		
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.tenanted')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<select name="tenanted" id="tenanted" class="form-control">
-																						{!! selectOptions(__('config.yes_no'),$property->tenanted) !!}
-																					</select>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.rent_price')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="rent_price" type="text" value="{{$property->rent_price}}" placeholder="{{__('site.rent_price')}}">
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.project_status')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<select name="project_status" id="project_status" class="form-control">
-																						{!! selectOptions(__('config.project_status'),$property->project_status) !!}
-																					</select>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.developer')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="developer" type="text" value="{{$property->developer}}" placeholder="{{__('site.developer')}}">
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.documents')}} (can attach more than one)</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#document_uploader">
-                    																	Documents {{isset($property->documents) ? count($property->documents) : 0 }}  <i class="fa fa-folder"></i>
-                  																	</button>
-																				</div>
-																			</div>
-																			<!--end::Group-->
 																			
 																		</div>
 																	</div>
@@ -818,6 +645,11 @@
 																	<div class="col-xl-12">
 																		<!--begin::Wizard Step 1-->
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+																		<!--begin::Group-->
+																		<div class="form-group row fv-plugins-icon-container">
+																			<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.description')}}</label>
+																		</div>
+																		<!--end::Group-->					
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
@@ -863,12 +695,16 @@
 																	<div class="col-xl-12">
 																		<!--begin::Wizard Step 1-->
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+																		<!--begin::Group-->
+																		<div class="form-group row fv-plugins-icon-container">
+																			<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.owner_details')}}</label>
+																		</div>
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mobile')}}</label>
 																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="mobile" type="text" value="{{$property->mobile}}" placeholder="{{__('site.mobile')}}">
+																					<input class="form-control form-control-solid form-control-lg" 	name="mobile" type="text" value="{{$property->mobile}}" placeholder="{{__('site.mobile')}}" required>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -878,7 +714,7 @@
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.owner_name')}}</label>
 																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="owner_name" type="text" value="{{$property->owner_name}}" placeholder="{{__('site.owner_name')}}">
+																					<input class="form-control form-control-solid form-control-lg" 	name="owner_name" type="text" value="{{$property->owner_name}}" placeholder="{{__('site.owner_name')}}" required>
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
@@ -928,6 +764,41 @@
 																			<!--end::Group-->
 
 
+																		
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.virtual_360')}} url</label>
+																				<div class="col-lg-9 col-xl-9">
+																					<input class="form-control form-control-solid form-control-lg" 	name="virtual_360" type="text" value="{{$property->virtual_360}}" placeholder="{{__('site.virtual_360')}}">
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																			</div>
+																			<!--end::Group-->
+
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.floor_plan')}}</label>
+																				<div class="col-lg-9 col-xl-9">
+																					<input class="form-control form-control-solid form-control-lg" 	name="floorplan" type="file" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps">
+																					<div class="fv-plugins-message-container"></div>
+																					@if($property->floorplan)
+																					<a href="{{env('APP_URL').'/public/uploads/'.$property->floorplan}}" target="_blank" download>Download</a>
+																					@endif
+																				</div>
+																			</div>
+																			<!--end::Group-->
+
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.video')}} url</label>
+																				<div class="col-lg-9 col-xl-9">
+																					<input class="form-control form-control-solid form-control-lg" 	name="video" type="text" value="{{$property->video}}" placeholder="{{__('site.video')}}">
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																			</div>
+																			<!--end::Group-->
+																																					
+																			
 																		</div>
 																	</div>
 																</div>
@@ -1137,10 +1008,25 @@
 															</div>
 															@if(userRole() == 'admin' || userRole() == 'sales admin uae')
 															<div class="tab-pane fade" id="verification" role="tabpanel" aria-labelledby="verification-tab">
-																<div class="row">
+																<div class="row col-xl-12 card">
 																	<div class="col-xl-12">
 																		<!--begin::Wizard Step 1-->
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+																		<div class="col-xs-12">
+																		<!--begin::Wizard Step 1-->
+																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">	
+																			@if(userRole() == 'admin' || userRole() == 'sales admin uae')
+																				<!--begin::Group-->
+																				<div class="form-group row fv-plugins-icon-container">
+																					<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.status')}}</label>
+																					<div class="col-lg-9 col-xl-9">
+																						<select name="status" id="status" class="form-control">
+																							{!! selectOptions(__('config.status'),$property->status) !!}
+																						</select>
+																					</div>
+																				</div>
+																				<!--end::Group-->
+
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
@@ -1209,42 +1095,23 @@
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.pass_p_eid')}}</label>
-																				<div class="col-lg-9 col-xl-9">
+																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.pass_p_eid')}}</label>
+																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<input class="form-control form-control-solid form-control-lg" 	name="passport_emirates_id" type="text" value="{{$property->passport_emirates_id}}" placeholder="{{__('site.pass_p_eid')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.title_deed')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg" 	name="title_deed" type="text" value="{{$property->title_deed}}" placeholder="{{__('site.title_deed')}}">
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
-																			</div>
-																			<!--end::Group-->
-
-																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.from_a_noc_sl_form')}}</label>
-																				<div class="col-lg-9 col-xl-9">
+																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.from_a_noc_sl_form')}}</label>
+																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<input class="form-control form-control-solid form-control-lg" 	name="forma_noc_slform" type="text" value="{{$property->forma_noc_slform}}" placeholder="{{__('site.from_a_noc_sl_form')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
-																			<!--end::Group-->
-
-
-																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.published_date')}}</label>
-																				<div class="col-lg-9 col-xl-9">
-																					<input class="form-control form-control-solid form-control-lg"  type="text" value="{{$property->publishing_date}}" disabled>
-																					<div class="fv-plugins-message-container"></div>
-																				</div>
+																			
+																			<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.permit')}}</label>
+																			<div class="col-xs-12 col-sm-6 col-lg-3">
+																				<input class="form-control form-control-solid form-control-lg" 	name="str_no" type="text" value="{{$property->str_no}}" placeholder="{{__('site.permit_no')}}">
+																				<div class="fv-plugins-message-container"></div>
 																			</div>
 																			
 																		</div>
@@ -1255,7 +1122,8 @@
 																	</div>
 
 																</div>
-															</div>
+															</div>	
+															@endif															
 														</div>
 														<div class="row col-xl-12 card mt-5 rowCrtt">																				
 															<!--begin::Wizard Actions-->
@@ -1266,9 +1134,11 @@
 															</div>
 															<!--end::Wizard Actions-->
 														</div>
-						                            </form>
+													
+													</form>
 													<!--end::Wizard Form-->
 												</div>
+												
 											</div>
 										</div>
 										<!--end::Body-->
@@ -1297,6 +1167,7 @@
 @include('admin.property.life_style_features')
 @include('admin.property.portals')
 @endsection
+
 @push('js')
 <script>
 	var getSubCommunityUrl = "{{route('admin.property.getSubCommunityUrl')}}";
@@ -1322,11 +1193,21 @@ var KTCkeditor = function () {
 				console.error( error );
 			});
     }
+	var demos2 = function () {
+		ClassicEditor
+			.create( document.querySelector( '#description2' ) )
+			.then( editor => {
+			})
+			.catch( error => {
+				console.error( error );
+			});
+    }
 
     return {
         // public functions
         init: function() {
             demos();
+            demos2();
         }
     };
 }();
@@ -1334,3 +1215,4 @@ var KTCkeditor = function () {
 KTCkeditor.init();
 </script>
 @endpush
+
