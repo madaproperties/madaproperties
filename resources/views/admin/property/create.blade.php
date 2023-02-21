@@ -545,7 +545,20 @@
 																						<span>{{__('site.default_price')}}</span>
 																						</div>
 																					</div>	
-																				</div>																				
+																				</div>
+																				<!---->
+																				<div class="col-xs-3 col-sm-3 col-lg-3" style="padding-top:10px;">																				
+																																										
+																																										
+	                                                                                 <select name="cheques" id="cheques" class="form-control">
+																						<option value="" >{{ __('site.Cheques') }}</option>
+																						{!! selectOptions(__('config.cheques'),old('cheques')) !!}		
+																					</select>																				
+																				
+																						
+																																								
+																				</div>
+																				<!---->
 																				
 																			</div>
 																			<div class="form-group row fv-plugins-icon-container">
@@ -565,12 +578,6 @@
 																				<input class="form-control form-control-solid form-control-lg" 	name="dewa" type="text" value="{{old('dewa')}}" placeholder="{{__('site.dewa')}}">																					
 																				<div class="fv-plugins-message-container"></div>	
 																				</div>-->			
-																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale">																					
-																					<select name="cheques" id="cheques" class="form-control">
-																						<option value="" >{{ __('site.Cheques') }}</option>
-																						{!! selectOptions(__('config.cheques'),old('cheques')) !!}		
-																					</select>																				
-																				</div>																																					
 																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale">
 																					<input class="form-control form-control-solid form-control-lg" 	name="maint_fee" type="text" value="{{old('maint_fee')}}" placeholder="{{__('site.maint_fee')}}">																					
 																					<div class="fv-plugins-message-container"></div>																				
@@ -578,15 +585,26 @@
 																					<div class="col-xs-12 col-sm-3 col-lg-3">																					
 																					<input class="form-control form-control-solid form-control-lg" 	name="deposit" type="text" value="{{old('deposit')}}" placeholder="{{__('site.Deposit')}}">																					
 																					<div class="fv-plugins-message-container"></div>																				</div>-->																					
-																			</div>
-																			<div class="form-group row fv-plugins-icon-container">
-																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale">																					
+																			     <!---->
+																			     <div class="col-xs-12 col-sm-3 col-lg-3 priceInSale">																					
 																					<select name="financial_status" id="financial_status" class="form-control">		
 																					<option value="" >{{ __('site.financial_status') }}</option>	
 																					{!! selectOptions(__('config.financial_status'),old('financial_status')) !!}
 																					</select>																				
-																				</div>																				
+																				</div>
+																			     <!---->
+																			
+																			
+																			
 																			</div>
+																			<!--<div class="form-group row fv-plugins-icon-container">-->
+																			<!--	<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale">																					-->
+																			<!--		<select name="financial_status" id="financial_status" class="form-control">		-->
+																			<!--		<option value="" >{{ __('site.financial_status') }}</option>	-->
+																			<!--		{!! selectOptions(__('config.financial_status'),old('financial_status')) !!}-->
+																			<!--		</select>																				-->
+																			<!--	</div>																				-->
+																			<!--</div>-->
 																			<!--end::Group-->
 																		</div>
 																	</div>
