@@ -167,6 +167,11 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::post('delete-images', 'SecondaryController@deleteImages')->name('delete-images');
       Route::get('getSubCommunityUrl', 'PropertyController@getSubCommunityUrl')->name('property.getSubCommunityUrl');
       
+      //added by fazal
+      Route::post('fetch-city', 'DatabaseRecordsController@fetchCity')->name('fetch-city');
+       Route::post('databasefetch-district', 'DatabaseRecordsController@fetchDistrict')->name('databasefetch-project');
+       
+       Route::post('databasefetch-subcommunity', 'DatabaseRecordsController@fetchCommunity')->name('databasefetch-subcommunity'); 
 
 });
 
