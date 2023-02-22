@@ -339,7 +339,7 @@
 																				</div>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select class="form-control"  name="category_id" required>
-																						<option value="" >{{ __('site.property_type') }} <span class="error">*</span></option>
+																						<option value="" >{{ __('site.property_type') }}</option>
 																						@foreach($categories as $category)
 																						<option {{ old('category_id') == $category->id ? 'selected' : ''}} value="{{$category->id}}">{{$category->category_name}}</option>
 																						@endforeach
@@ -454,7 +454,7 @@
 																				</div>
 																																								
 																				<div class="col-xs-12 col-sm-4 col-lg-4">																					
-																				<input class="form-control form-control-solid form-control-lg" id="buildup_area" name="buildup_area" type="text" value="{{old('buildup_area')}}" placeholder="{{__('site.bua')}} *" required>																					
+																				<input class="form-control form-control-solid form-control-lg" id="buildup_area" name="buildup_area" type="text" value="{{old('buildup_area')}}" placeholder="{{__('site.bua')}}" required>																					
 																				<div class="fv-plugins-message-container"></div>																				</div>
 																			</div>
 																			<!--end::Group-->
@@ -489,7 +489,7 @@
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.price')}} <span class="error">*</span></label>
+																				<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.price')}}</label>
 																			</div>
 																			<!--end::Group-->					
 																			<!--begin::Group-->
@@ -545,20 +545,7 @@
 																						<span>{{__('site.default_price')}}</span>
 																						</div>
 																					</div>	
-																				</div>
-																				<!---->
-																				<div class="col-xs-3 col-sm-3 col-lg-3" style="padding-top:10px;">																				
-																																										
-																																										
-	                                                                                 <select name="cheques" id="cheques" class="form-control">
-																						<option value="" >{{ __('site.Cheques') }}</option>
-																						{!! selectOptions(__('config.cheques'),old('cheques')) !!}		
-																					</select>																				
-																				
-																						
-																																								
-																				</div>
-																				<!---->
+																				</div>																				
 																				
 																			</div>
 																			<div class="form-group row fv-plugins-icon-container">
@@ -578,6 +565,12 @@
 																				<input class="form-control form-control-solid form-control-lg" 	name="dewa" type="text" value="{{old('dewa')}}" placeholder="{{__('site.dewa')}}">																					
 																				<div class="fv-plugins-message-container"></div>	
 																				</div>-->			
+																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale">																					
+																					<select name="cheques" id="cheques" class="form-control">
+																						<option value="" >{{ __('site.Cheques') }}</option>
+																						{!! selectOptions(__('config.cheques'),old('cheques')) !!}		
+																					</select>																				
+																				</div>																																					
 																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale">
 																					<input class="form-control form-control-solid form-control-lg" 	name="maint_fee" type="text" value="{{old('maint_fee')}}" placeholder="{{__('site.maint_fee')}}">																					
 																					<div class="fv-plugins-message-container"></div>																				
@@ -585,26 +578,15 @@
 																					<div class="col-xs-12 col-sm-3 col-lg-3">																					
 																					<input class="form-control form-control-solid form-control-lg" 	name="deposit" type="text" value="{{old('deposit')}}" placeholder="{{__('site.Deposit')}}">																					
 																					<div class="fv-plugins-message-container"></div>																				</div>-->																					
-																			     <!---->
-																			     <div class="col-xs-12 col-sm-3 col-lg-3 priceInSale">																					
+																			</div>
+																			<div class="form-group row fv-plugins-icon-container">
+																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale">																					
 																					<select name="financial_status" id="financial_status" class="form-control">		
 																					<option value="" >{{ __('site.financial_status') }}</option>	
 																					{!! selectOptions(__('config.financial_status'),old('financial_status')) !!}
 																					</select>																				
-																				</div>
-																			     <!---->
-																			
-																			
-																			
+																				</div>																				
 																			</div>
-																			<!--<div class="form-group row fv-plugins-icon-container">-->
-																			<!--	<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale">																					-->
-																			<!--		<select name="financial_status" id="financial_status" class="form-control">		-->
-																			<!--		<option value="" >{{ __('site.financial_status') }}</option>	-->
-																			<!--		{!! selectOptions(__('config.financial_status'),old('financial_status')) !!}-->
-																			<!--		</select>																				-->
-																			<!--	</div>																				-->
-																			<!--</div>-->
 																			<!--end::Group-->
 																		</div>
 																	</div>
@@ -651,7 +633,7 @@
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
 																		<!--begin::Group-->
 																		<div class="form-group row fv-plugins-icon-container">
-																			<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.description')}} <span class="error">*</span></label>
+																			<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.description')}}</label>
 																		</div>
 																		<!--end::Group-->					
 
@@ -715,7 +697,7 @@
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mobile')}} <span class="error">*</span></label>
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mobile')}}</label>
 																				<div class="col-lg-9 col-xl-9">
 																					<input class="form-control form-control-solid form-control-lg" 	name="mobile" type="text" value="{{old('mobile')}}" placeholder="{{__('site.mobile')}}" required>
 																					<div class="fv-plugins-message-container"></div>
@@ -725,7 +707,7 @@
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.owner_name')}} <span class="error">*</span></label>
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.owner_name')}}</label>
 																				<div class="col-lg-9 col-xl-9">
 																					<input class="form-control form-control-solid form-control-lg" 	name="owner_name" type="text" value="{{old('owner_name')}}" placeholder="{{__('site.owner_name')}}" required>
 																					<div class="fv-plugins-message-container"></div>
@@ -824,7 +806,7 @@
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.city')}}</label>
 																			<div class="col-xs-12 col-sm-4 col-lg-4">
 																				<select name="city_id" id="city_id" class="form-control" required>
-																					<option value="">{{ __('site.choose') }}</option>
+																					<!--<option value="">{{ __('site.choose') }}</option>-->
 																					@foreach($cities as $city)
 																					<option {{old('city_id') == $city->id ? 'selected' : ''}} value="{{$city->id}}">{{$city->name_en}}</option>
 																					@endforeach 
@@ -833,7 +815,7 @@
 
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.community')}}</label>
 																			<div class="col-xs-12 col-sm-4 col-lg-4">
-																				<select name="community" id="community" class="form-control">
+																				<select name="community" id="community" class="form-control" required>
 																					<option value="">{{ __('site.choose') }}</option>
 																					@foreach($community as $comm)
 																					<option {{old('community') == $comm->id ? 'selected' : ''}} value="{{$comm->id}}">{{$comm->name_en}}</option>
@@ -848,7 +830,7 @@
 																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.city_name')}} </label>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select class="form-control " id="city_id"
-																					name="city_id" data-select2-id="" tabindex="-1" aria-hidden="true" >
+																					name="city_id" data-select2-id="" tabindex="-1" aria-hidden="true" required>
 																						<option value="2">Riyadh</option>
 																					</select>
 																				</div>
@@ -856,7 +838,7 @@
 																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.zone')}} </label>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select class="form-control " id="zone_id"
-																					name="zone_id" data-select2-id="" tabindex="-1" aria-hidden="true" >
+																					name="zone_id" data-select2-id="" tabindex="-1" aria-hidden="true" required>
 																					@foreach($zones as $zone)
 																						<option {{old('zone_id') == $zone->id ? 'selected' : ''}} value="{{$zone->id}}" data-select2-id="{{$zone->id}}">{{$zone->zone_name}}</option>
 																					@endforeach
@@ -867,7 +849,7 @@
 																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.district')}} </label>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select class="form-control " id="district_id"
-																					name="district_id" data-select2-id="" tabindex="-1" aria-hidden="true" >
+																					name="district_id" data-select2-id="" tabindex="-1" aria-hidden="true" required>
 																					@foreach($districts as $district)
 																						<option {{old('district_id') == $district->id ? 'selected' : ''}} value="{{$district->id}}" data-select2-id="{{$district->id}}">{{$district->name}}</option>
 																					@endforeach																				
@@ -888,7 +870,7 @@
 																		<div class="form-group row fv-plugins-icon-container">
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sub_community')}}</label>
 																			<div class="col-xs-12 col-sm-4 col-lg-4">
-																				<select name="sub_community" id="sub_community" class="form-control">
+																				<select name="sub_community" id="sub_community" class="form-control" required>
 																					
 																				</select>
 																			</div>
