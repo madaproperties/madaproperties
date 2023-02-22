@@ -824,8 +824,8 @@
 																		<div class="form-group row fv-plugins-icon-container">
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.city')}}</label>
 																			<div class="col-xs-12 col-sm-4 col-lg-4">
-																				<select name="city_id" id="city_id" class="form-control">
-																					<option value="">{{ __('site.choose') }}</option>
+																				<select name="city_id" id="city_id" class="form-control" required>
+																					<!-- <option value="">{{ __('site.choose') }}</option> -->
 																					@foreach($cities as $city)
 																					<option {{$property->city_id == $city->id ? 'selected' : ''}} value="{{$city->id}}">{{$city->name_en}}</option>
 																					@endforeach 
@@ -834,7 +834,7 @@
 
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.community')}}</label>
 																			<div class="col-xs-12 col-sm-4 col-lg-4">
-																				<select name="community" id="community" class="form-control">
+																				<select name="community" id="community" class="form-control" required>
 																					<option value="">{{ __('site.choose') }}</option>
 																					@foreach($community as $comm)
 																					<option {{$property->community == $comm->id ? 'selected' : ''}} value="{{$comm->id}}">{{$comm->name_en}}</option>
@@ -849,7 +849,7 @@
 																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.city_name')}} </label>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select class="form-control " id="city_id"
-																					name="city_id" data-select2-id="" tabindex="-1" aria-hidden="true" >
+																					name="city_id" data-select2-id="" tabindex="-1" aria-hidden="true" required>
 																						<option value="2">Riyadh</option>
 																					</select>
 																				</div>
@@ -857,7 +857,7 @@
 																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.zone')}} </label>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select class="form-control " id="zone_id"
-																					name="zone_id" data-select2-id="" tabindex="-1" aria-hidden="true" >
+																					name="zone_id" data-select2-id="" tabindex="-1" aria-hidden="true" required>
 																					@foreach($zones as $zone)
 																						<option {{$property->zone_id == $zone->id ? 'selected' : ''}} value="{{$zone->id}}" data-select2-id="{{$zone->id}}">{{$zone->zone_name}}</option>
 																					@endforeach
@@ -868,7 +868,7 @@
 																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.district')}} </label>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select class="form-control " id="district_id"
-																					name="district_id" data-select2-id="" tabindex="-1" aria-hidden="true" >
+																					name="district_id" data-select2-id="" tabindex="-1" aria-hidden="true" required>
 																					@foreach($districts as $district)
 																						<option {{$property->district_id == $district->id ? 'selected' : ''}} value="{{$district->id}}" data-select2-id="{{$district->id}}">{{$district->name}}</option>
 																					@endforeach																				
@@ -889,7 +889,7 @@
 																		<div class="form-group row fv-plugins-icon-container">
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sub_community')}}</label>
 																			<div class="col-xs-12 col-sm-4 col-lg-4">
-																				<select name="sub_community" id="sub_community" class="form-control">
+																				<select name="sub_community" id="sub_community" class="form-control" required>
 																					<option value="">{{ __('site.choose') }}</option>
 																					@foreach($subCommunity as $comm)
 																					<option {{$property->sub_community == $comm->id ? 'selected' : ''}} value="{{$comm->id}}">{{$comm->name_en}}</option>
@@ -1188,12 +1188,6 @@
 <script src="{{ asset('public/js/developer.js').'?t='.time() }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"> </script>
 <script>
-$(document).ready (function () {  
-  $("#property_form").validate({
-	ignore: [],
-	debug: false,
-  });
-});    
 var KTCkeditor = function () {    
 	var demos = function () {
 		ClassicEditor

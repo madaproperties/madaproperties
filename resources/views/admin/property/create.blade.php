@@ -83,7 +83,7 @@
 									<div class="card-custom card-shadowless rounded-top-0">
 										<!--begin::Body-->
 										<div class="card-body p-0">
-											<div class="row px-lg-10" id="tabs">
+											<div class="row px-lg-10">
 												<ul class="nav nav-tabs tabRoleSec" id="myTab" role="tablist">
 													<li class="nav-item">
 														<a class="nav-link active" id="basic-tab" data-toggle="tab" href="#basic">
