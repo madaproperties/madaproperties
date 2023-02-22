@@ -129,3 +129,23 @@ $(document).ready(function(){
 		
 	}); 
 });
+$(function() {
+    
+    $('#property_form').validate({
+        ignore: [],
+        invalidHandler: function() {
+            setTimeout(function() {
+				$('.nav-tabs a small.error').remove();
+                var validatePane = $('.tab-content .tab-pane:has(input.error)').each(function() {
+					var id = $(this).attr('id');
+                    $('.nav-tabs').find('a[href^="#' + id + '"]').append(' <small class="error">***</small>');
+                });
+                var validatePane = $('.tab-content .tab-pane:has(select.error)').each(function() {
+					var id = $(this).attr('id');
+                    $('.nav-tabs').find('a[href^="#' + id + '"]').append(' <small class="error">***</small>');
+                });
+            });            
+        }
+    });
+    
+});

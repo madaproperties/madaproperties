@@ -83,52 +83,52 @@
 									<div class="card-custom card-shadowless rounded-top-0">
 										<!--begin::Body-->
 										<div class="card-body p-0">
-											<div class="row px-lg-10">
-											<ul class="nav nav-tabs tabRoleSec" id="myTab" role="tablist">
-														<li class="nav-item">
-															<a class="nav-link active" id="basic-tab" data-toggle="tab" href="#basic">
-																<span class="nav-icon">
-																	<i class="fa fa-building"></i>
-																</span>
-																<span class="nav-text">{{__('site.property_details')}}</span>
-															</a>
-														</li>
-														<li class="nav-item">
-															<a class="nav-link" id="files-tab" data-toggle="tab" href="#files" aria-controls="notes">
-																<span class="nav-icon">
-																	<i class="fa fa-image"></i>
-																</span>
-																<span class="nav-text">{{__('site.media')}}</span>
-															</a>
-														</li>
-														
-														<li class="nav-item">
-															<a class="nav-link" id="location-tab" data-toggle="tab" href="#location" aria-controls="location">
-																<span class="nav-icon">
-																	<i class="fa fa-edit"></i>
-																</span>
-																<span class="nav-text">{{__('site.location')}}</span>
-															</a>
-														</li>
-														<li class="nav-item">
-															<a class="nav-link" id="notes-tab" data-toggle="tab" href="#notes" aria-controls="notes">
-																<span class="nav-icon">
-																	<i class="fa fa-edit"></i>
-																</span>
-																<span class="nav-text">{{__('site.notes')}}</span>
-															</a>
-														</li>
-														@if(userRole() == 'admin' || userRole() == 'sales admin uae')
-														<li class="nav-item">
-															<a class="nav-link" id="verification-tab" data-toggle="tab" href="#verification" aria-controls="verification">
-																<span class="nav-icon">
-																	<i class="fa fa-barcode"></i>
-																</span>
-																<span class="nav-text">{{__('site.verification')}}</span>
-															</a>
-														</li>
-														@endif
-													</ul>
+											<div class="row px-lg-10" id="tabs">
+												<ul class="nav nav-tabs tabRoleSec" id="myTab" role="tablist">
+													<li class="nav-item">
+														<a class="nav-link active" id="basic-tab" data-toggle="tab" href="#basic">
+															<span class="nav-icon">
+																<i class="fa fa-building"></i>
+															</span>
+															<span class="nav-text">{{__('site.property_details')}}</span>
+														</a>
+													</li>
+													<li class="nav-item">
+														<a class="nav-link" id="files-tab" data-toggle="tab" href="#files" aria-controls="notes">
+															<span class="nav-icon">
+																<i class="fa fa-image"></i>
+															</span>
+															<span class="nav-text">{{__('site.media')}}</span>
+														</a>
+													</li>
+													
+													<li class="nav-item">
+														<a class="nav-link" id="location-tab" data-toggle="tab" href="#location" aria-controls="location">
+															<span class="nav-icon">
+																<i class="fa fa-edit"></i>
+															</span>
+															<span class="nav-text">{{__('site.location')}}</span>
+														</a>
+													</li>
+													<li class="nav-item">
+														<a class="nav-link" id="notes-tab" data-toggle="tab" href="#notes" aria-controls="notes">
+															<span class="nav-icon">
+																<i class="fa fa-edit"></i>
+															</span>
+															<span class="nav-text">{{__('site.notes')}}</span>
+														</a>
+													</li>
+													@if(userRole() == 'admin' || userRole() == 'sales admin uae')
+													<li class="nav-item">
+														<a class="nav-link" id="verification-tab" data-toggle="tab" href="#verification" aria-controls="verification">
+															<span class="nav-icon">
+																<i class="fa fa-barcode"></i>
+															</span>
+															<span class="nav-text">{{__('site.verification')}}</span>
+														</a>
+													</li>
+													@endif
+												</ul>
 													
 												<div class="col-xl-12 col-xxl-12">
 													<!--begin::Wizard Form-->
@@ -823,7 +823,7 @@
 																		<div class="form-group row fv-plugins-icon-container">
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.city')}}</label>
 																			<div class="col-xs-12 col-sm-4 col-lg-4">
-																				<select name="city_id" id="city_id" class="form-control">
+																				<select name="city_id" id="city_id" class="form-control" required>
 																					<option value="">{{ __('site.choose') }}</option>
 																					@foreach($cities as $city)
 																					<option {{old('city_id') == $city->id ? 'selected' : ''}} value="{{$city->id}}">{{$city->name_en}}</option>
@@ -1166,8 +1166,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"> </script>
 <script>
 $(document).ready (function () {  
-  $("#property_form").validate();
+  //$("#property_form").validate();
 });  
+
 var KTCkeditor = function () {    
 	var demos = function () {
 		ClassicEditor
