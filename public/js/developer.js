@@ -144,7 +144,7 @@ $(function() {
 					var id = $(this).attr('id');
                     $('.nav-tabs').find('a[href^="#' + id + '"]').append(' <small class="error"> Required</small>');
                 });
-            });            
+			}); 
         }
     });
     

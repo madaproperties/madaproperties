@@ -339,7 +339,7 @@
 																				</div>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select class="form-control"  name="category_id" required>
-																						<option value="" >{{ __('site.property_type') }}</option>
+																						<option value="" >{{ __('site.property_type') }} <span class="error">*</span></option>
 																						@foreach($categories as $category)
 																						<option {{ old('category_id') == $category->id ? 'selected' : ''}} value="{{$category->id}}">{{$category->category_name}}</option>
 																						@endforeach
@@ -454,7 +454,7 @@
 																				</div>
 																																								
 																				<div class="col-xs-12 col-sm-4 col-lg-4">																					
-																				<input class="form-control form-control-solid form-control-lg" id="buildup_area" name="buildup_area" type="text" value="{{old('buildup_area')}}" placeholder="{{__('site.bua')}}" required>																					
+																				<input class="form-control form-control-solid form-control-lg" id="buildup_area" name="buildup_area" type="text" value="{{old('buildup_area')}}" placeholder="{{__('site.bua')}} *" required>																					
 																				<div class="fv-plugins-message-container"></div>																				</div>
 																			</div>
 																			<!--end::Group-->
@@ -489,7 +489,7 @@
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.price')}}</label>
+																				<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.price')}} <span class="error">*</span></label>
 																			</div>
 																			<!--end::Group-->					
 																			<!--begin::Group-->
@@ -633,7 +633,7 @@
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
 																		<!--begin::Group-->
 																		<div class="form-group row fv-plugins-icon-container">
-																			<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.description')}}</label>
+																			<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.description')}} <span class="error">*</span></label>
 																		</div>
 																		<!--end::Group-->					
 
@@ -697,7 +697,7 @@
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mobile')}}</label>
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mobile')}} <span class="error">*</span></label>
 																				<div class="col-lg-9 col-xl-9">
 																					<input class="form-control form-control-solid form-control-lg" 	name="mobile" type="text" value="{{old('mobile')}}" placeholder="{{__('site.mobile')}}" required>
 																					<div class="fv-plugins-message-container"></div>
@@ -707,7 +707,7 @@
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.owner_name')}}</label>
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.owner_name')}} <span class="error">*</span></label>
 																				<div class="col-lg-9 col-xl-9">
 																					<input class="form-control form-control-solid form-control-lg" 	name="owner_name" type="text" value="{{old('owner_name')}}" placeholder="{{__('site.owner_name')}}" required>
 																					<div class="fv-plugins-message-container"></div>
