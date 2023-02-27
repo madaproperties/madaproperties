@@ -104,8 +104,8 @@
 												<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.country')}} </label>
 												<div class="col-lg-9 col-xl-9" data-select2-id="38">
 													<select class="form-control " id="user_country_id"
-													name="user_country_id" data-select2-id="" tabindex="-1" aria-hidden="true">
-														<option value="">{{ __('site.choose') }}</option>
+                                                      name="user_country_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+                                                      <option value="">{{ __('site.choose') }}</option>
 														@foreach($countries as $country)
 															<option {{$data->user_country_id == $country->id ? 'selected' : ''}} value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>
 														@endforeach
@@ -399,7 +399,9 @@
 												 <div class="col-lg-9 col-xl-9">
 												   <select class="form-control" id="district_id" name="district_id">
 													@foreach($districts as $district)
+
 													  <option {{$data->district_id == $district->id ? 'selected' : ''}} value="{{$district->id}}" data-select2-id="{{$district->id}}">{{$district->name}}</option>
+
                                                     @endforeach
 												   </select>
 											       <div class="fv-plugins-message-container"></div>

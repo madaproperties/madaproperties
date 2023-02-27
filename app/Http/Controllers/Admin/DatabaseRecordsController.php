@@ -23,6 +23,7 @@ use App\Community;
 use App\Imports\DatabaseImport;
 
 
+
 class DatabaseRecordsController extends Controller
 {
 
@@ -68,10 +69,8 @@ class DatabaseRecordsController extends Controller
           $paginationNo = 20;
           $data = $data->paginate($paginationNo);
 
-        }
-       
 
-        elseif(userRole()=='sales director')
+        }elseif(userRole()=='sales director')
         {
           // dd('hit');
           $user=User::where('id',auth()->id())->first();
@@ -639,9 +638,8 @@ private function filterPrams($q){
   }
 
   public function exportDatabaseRecords(){
-  
     if(Request()->has('exportData')){
-      return Excel::download(new DatabaseRecordsExport, 'DatabaseRecords_'.date('d-m-Y').'.xlsx');
+      return Excel::download(new DatabaseRecordsExport, 'exportDatabaseRecords'.date('d-m-Y').'.xlsx');
     }  
   }
 

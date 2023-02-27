@@ -53,10 +53,11 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
       'user_id' => 'nullable' ,
       'zone_id'=>'nullable',
       'district_id'=>'nullable',
-      
-
-          
-      ];
+      'assign_to' => 'nullable' ,
+      'user_country_id'=>'nullable' ,
+      'zone_id'=>'nullable',
+      'district_id'=>'nullable',
+       ];
 
     public function collection(Collection $rows)
     {
@@ -72,6 +73,7 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
         $contact['country_id'] = $country_id;
         $user_country_id = $this->getID($index,'Country','name_en',$contact['user_country_id']);
         $contact['user_country_id'] = $user_country_id;
+
         $agent_id = $this->getID($index,'Agent','email',$contact['user_id']);
         $contact['user_id'] = $agent_id;
         // 
@@ -96,13 +98,14 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
           $contact['zone_id'] = '';
           // $district_id = $this->getID($index,'Districts','name',$contact['district_id']);
         $contact['district_id'] = '';
-
         $community_id = $this->getID($index,'Community','name_en',$contact['community_id']);
         $contact['community_id'] = $community_id;
          $subcommunity_id = $this->getID($index,'Community','name_en',$contact['subcommunity_id']);
         $contact['subcommunity_id'] = $subcommunity_id;
+
         }
       
+
         $contact['project_id'] = $contact['project_name'];
         $contact['created_by']=auth()->id();
         // $contact['user_id']=auth()->id();
@@ -132,7 +135,10 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
           $ID =  User::where($search_feild,'LIKE','%'.$value)->first();
           $customMsg = __('site.user not found: recode').'['.$index.'] ' ;
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9ad51063a1df0cf182fc76a5682ddd4552c0b7ca
         else if($model == 'Zones') {
           $ID = Zones::where($search_feild,'LIKE','%'. $value )->first();
           $customMsg = __('site.zone not foud: recode').$value.' #['.$index.']';
