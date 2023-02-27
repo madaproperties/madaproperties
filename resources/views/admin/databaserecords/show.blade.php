@@ -77,7 +77,7 @@
 <!-- Add Database Note Modal-->
 <div class="modal fade" id="edit-database" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 900px">
             <div class="modal-header">
                 <h5 class="modal-title">{{__('site.edit')}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -103,11 +103,11 @@
 											<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
 												<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.country')}} </label>
 												<div class="col-lg-9 col-xl-9" data-select2-id="38">
-													<select class="form-control " id="country_id"
-													name="country_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+													<select class="form-control " id="user_country_id"
+													name="user_country_id" data-select2-id="" tabindex="-1" aria-hidden="true">
 														<option value="">{{ __('site.choose') }}</option>
 														@foreach($countries as $country)
-															<option {{$data->country_id == $country->id ? 'selected' : ''}} value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>
+															<option {{$data->user_country_id == $country->id ? 'selected' : ''}} value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>
 														@endforeach
 													</select>
 												</div>
@@ -139,16 +139,148 @@
 												</div>
 											</div>
 											<!--end::Group-->
-
 											<!--begin::Group-->
-											<div class="form-group row fv-plugins-icon-container">
-												<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.city')}}</label>
-												<div class="col-lg-9 col-xl-9">
-													<input class="form-control form-control-solid form-control-lg" 	name="city" type="text" value="{{$data->city}}" placeholder="{{__('site.city')}}">
-													<div class="fv-plugins-message-container"></div>
-												</div>
-											</div>
-											<!--end::Group-->
+
+											                @if(auth()->user()->rule =='sales' && auth()->user()->time_zone == 'Asia/Riyadh')
+											                <!--  -->
+											                <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.country')}} </label>
+																		<div class="col-lg-9 col-xl-9" data-select2-id="38">
+																			<select class="form-control " id="country_id"
+																			name="country_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+																				
+																				@foreach($dbcountries as $country)
+																					<option value="{{$country->id}}">{{$country->name}}</option>
+																				@endforeach
+                                                                         </select>
+																		</div>
+																	</div>
+																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.zone')}} </label>
+																		<div class="col-lg-9 col-xl-9" data-select2-id="38">
+																			<select class="form-control " id="zone_id"
+																			name="zone_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+																				
+																				@foreach($zones as $zone)
+																					<option {{$data->zone_id == $zone->id ? 'selected' : ''}} value="{{$zone->id}}" data-select2-id="{{$zone->id}}">{{$zone->zone_name}}</option>
+																				@endforeach
+																			</select>
+																		</div>
+																	</div>
+											                <!--  -->
+											                @elseif(auth()->user()->rule =='sales' && auth()->user()->time_zone == 'Asia/Dubai')
+											                <!--  -->
+											                <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.country')}} </label>
+																		<div class="col-lg-9 col-xl-9" data-select2-id="38">
+																			<select class="form-control " id="country_id"
+																			name="country_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+																				
+																				@foreach($dbcountries as $country)
+																					<option value="{{$country->id}}">{{$country->name}}</option>
+																				@endforeach
+                                                                         </select>
+																		</div>
+																	</div>
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.community')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<select class="form-control" id="community_id" name="community_id">	
+                                                                            <!--  -->
+                                                                            @foreach($communities as $community)
+                                                                            <option {{$data->community_id == $community->id ? 'selected' : ''}} value="{{$community->id}}" data-select2-id="{{$community->id}}">{{$community->name_en}}</option>
+                                                                            <!--  -->
+
+                                                                                @endforeach
+																			</select>
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+											                <!--  -->
+											                @else
+																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.country')}} </label>
+																		<div class="col-lg-9 col-xl-9" data-select2-id="38">
+																			<select class="form-control " id="country_id"
+																			name="country_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+																				<option value="">{{ __('site.choose') }}</option>
+																				@foreach($dbcountries as $country)
+																					<option {{$data->country_id == $country->id ? 'selected' : ''}} value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>
+																				@endforeach
+                                                                         </select>
+																		</div>
+																	</div>
+											
+																	@if($data->country_id==1)
+																	<!--begin::Group-->
+																	<div id="zone" >
+
+																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.zone')}} </label>
+																		<div class="col-lg-9 col-xl-9" data-select2-id="38">
+																			<select class="form-control " id="zone_id"
+																			name="zone_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+																				
+																				@foreach($zones as $zone)
+																					<option {{$data->zone_id == $zone->id ? 'selected' : ''}} value="{{$zone->id}}" data-select2-id="{{$zone->id}}">{{$zone->zone_name}}</option>
+																				@endforeach
+																			</select>
+																		</div>
+																	</div>
+																</div>
+																<div id="community" style="display:none;" >
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.community')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<select class="form-control" id="community_id" name="community_id">
+																				<option value="">choose</option>
+                                                                                @foreach($communities as $community)
+                                                                                <option value="{{$community->id}}">{{$community->name_en}}</option>
+                                                                                @endforeach
+																			</select>
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																    </div>
+																	<!--end::Group-->
+																	@else
+																	<!--  -->
+																	<div id="zone" style="display:none;" >
+
+																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.zone')}} </label>
+																		<div class="col-lg-9 col-xl-9" data-select2-id="38">
+																			<select class="form-control " id="zone_id"
+																			name="zone_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+																				
+																				@foreach($zones as $zone)
+                                                                           <option value="{{$zone->id}}">{{$zone->zone_name}}</option>
+
+                                                                           @endforeach
+																			</select>
+																		</div>
+																	</div>
+																</div>
+																	<!--  -->
+																	<div id="community" >
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.community')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<select class="form-control" id="community_id" name="community_id">	
+                                                                            <!--  -->
+                                                                            @foreach($communities as $community)
+                                                                            <option {{$data->community_id == $community->id ? 'selected' : ''}} value="{{$community->id}}" data-select2-id="{{$community->id}}">{{$community->name_en}}</option>
+                                                                            <!--  -->
+
+                                                                                @endforeach
+																			</select>
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																    </div>
+																	@endif
+                                                                    @endif
+											
 
 											<!--begin::Group-->
 											<div class="form-group row fv-plugins-icon-container">
@@ -179,15 +311,7 @@
 											</div>
 											<!--end::Group-->
 
-											<!--begin::Group-->
-											<div class="form-group row fv-plugins-icon-container">
-												<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.unit_name')}}</label>
-												<div class="col-lg-9 col-xl-9">
-													<input class="form-control form-control-solid form-control-lg" 	name="unit_name" type="text" value="{{$data->unit_name}}" placeholder="{{__('site.unit_name')}}">
-													<div class="fv-plugins-message-container"></div>
-												</div>
-											</div>
-											<!--end::Group-->
+											
 
 											<!--begin::Group-->
 											<div class="form-group row fv-plugins-icon-container">
@@ -219,7 +343,7 @@
 											<!--end::Group-->
 											<!--begin::Group-->
 											<div class="form-group row fv-plugins-icon-container">
-												<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.local_phone_no_or_reference')}}</label>
+												<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.phone or ref')}}</label>
 												<div class="col-lg-9 col-xl-9">
 													<input class="form-control form-control-solid form-control-lg" id="local_phone_no_or_reference" name="local_phone_no_or_reference" type="text" value="{{$data->local_phone_no_or_reference}}" placeholder="{{__('site.local_phone_no_or_reference')}}" autocomplete="off">
 													<div class="fv-plugins-message-container"></div>
@@ -255,25 +379,71 @@
 												</div>
 											</div>
 											<!--end::Group-->
+											<!-- begin -->
+																	<!--begin::Group-->
+											<div class="form-group row fv-plugins-icon-container">
+												<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.city')}}</label>
+												<div class="col-lg-9 col-xl-9">
+													<input class="form-control form-control-solid form-control-lg" 	name="city" id="city" type="text" value="{{$data->city}}" placeholder="{{__('site.city')}}">
+													<div class="fv-plugins-message-container"></div>
+												</div>
+											</div>
+											<!--end::Group-->
+											<!-- end -->
 											
 											<!--begin::Group-->
-											<div class="form-group row fv-plugins-icon-container">
-												<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.community')}}</label>
-												<div class="col-lg-9 col-xl-9">
-													<input class="form-control form-control-solid form-control-lg" 	name="community" type="text" value="{{$data->community}}" placeholder="{{__('site.community')}}">
-													<div class="fv-plugins-message-container"></div>
+											@if($data->country_id==1)
+											<div id="district">
+											   <div class="form-group row fv-plugins-icon-container">
+												 <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.district')}}</label>
+												 <div class="col-lg-9 col-xl-9">
+												   <select class="form-control" id="district_id" name="district_id">
+													@foreach($districts as $district)
+													  <option {{$data->district_id == $district->id ? 'selected' : ''}} value="{{$district->id}}" data-select2-id="{{$district->id}}">{{$district->name}}</option>
+                                                    @endforeach
+												   </select>
+											       <div class="fv-plugins-message-container"></div>
 												</div>
-											</div>
+											   </div>
+										    </div>
 											<!--end::Group-->
-											<!--begin::Group-->
-											<div class="form-group row fv-plugins-icon-container">
+											<div id="subcommunity" style="display:none;" >
+											  <div class="form-group row fv-plugins-icon-container">
 												<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.sub_community')}}</label>
-												<div class="col-lg-9 col-xl-9">
-													<input class="form-control form-control-solid form-control-lg" 	name="sub_community" type="text" value="{{$data->sub_community}}" placeholder="{{__('site.sub_community')}}">
+												 <div class="col-lg-9 col-xl-9">
+													<select class="form-control" id="subcommunity_id" name="subcommunity_id">
+													</select>
 													<div class="fv-plugins-message-container"></div>
-												</div>
+												  </div>
+											  </div>
 											</div>
 											<!--end::Group-->
+												<!--begin::Group-->
+											@else
+											<div id="district" style="display: none;">
+											   <div class="form-group row fv-plugins-icon-container">
+												 <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.district')}}</label>
+												 <div class="col-lg-9 col-xl-9">
+												  <select class="form-control" id="district_id" name="district_id"></select>
+											      <div class="fv-plugins-message-container"></div>
+												 </div>
+											   </div>
+											</div>
+											<div id="subcommunity" >
+											   <div class="form-group row fv-plugins-icon-container">
+												<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.sub_community')}}</label>
+												  <div class="col-lg-9 col-xl-9">
+												   	<select class="form-control" id="subcommunity_id" name="subcommunity_id">
+												   		@foreach($subcommunities as $subcommunity)
+                                                          <option {{$data->subcommunity_id == $subcommunity->id ? 'selected' : ''}} value="{{$subcommunity->id}}" data-select2-id="{{$subcommunity->id}}">{{$subcommunity->name_en}}</option>
+												   		@endforeach
+													</select>
+													<div class="fv-plugins-message-container"></div>
+												  </div>
+											   </div>
+											</div>
+													<!--end::Group-->
+											@endif
 											<!--begin::Group-->
 											<div class="form-group row fv-plugins-icon-container">
 												<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.developer')}}</label>
@@ -293,6 +463,15 @@
 															<option {{$data->status == $sta->id ? 'selected' : ''}} value="{{$sta->id}}" data-select2-id="{{$sta->id}}">{{$sta->name_en}}</option>
 														@endforeach	
 													</select>
+												</div>
+											</div>
+											<!--end::Group-->
+											<!--begin::Group-->
+											<div class="form-group row fv-plugins-icon-container">
+												<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.unit_name')}}</label>
+												<div class="col-lg-9 col-xl-9">
+													<input class="form-control form-control-solid form-control-lg" 	name="unit_name" type="text" value="{{$data->unit_name}}" placeholder="{{__('site.unit_name')}}">
+													<div class="fv-plugins-message-container"></div>
 												</div>
 											</div>
 											<!--end::Group-->
@@ -361,5 +540,83 @@ var KTCkeditor = function () {
 }();
 // Initialization
 KTCkeditor.init();
+// 
+$('#country_id').on('change', function () {
+            var id = this.value;
+            if(id==1)
+            {
+             $("#zone").show();
+             $("#district").show();	
+             $("#community").hide();
+             $("#subcommunity").hide();
+            }
+            else
+            {
+            $("#zone").hide();
+            $("#district").hide();
+             $("#community").show();
+             $("#subcommunity").show();	
+            }
+            $.ajax({
+                    url: "{{url('fetch-city')}}",
+                    type: "POST",
+                    data: {
+                        id: id,
+                        _token: '{{csrf_token()}}'
+                    },
+                    dataType: 'json',
+                    success: function (city) {
+                       $("#city").val(city)
+                       
+
+                    }
+                });
+                
+            });
+// 
+$('#zone_id').on('change', function () {
+            var id = this.value;
+            $.ajax({
+                    url: "{{url('databasefetch-district')}}",
+                    type: "POST",
+                    data: {
+                        zone_id: id,
+                        _token: '{{csrf_token()}}'
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                        $('#district_id').html('<option value="">Select</option>');
+
+                        $.each(result.districts, function (key, value) {
+                            $("#district_id").append('<option value="' + value
+                                .id + '">' + value.name + '</option>');
+                        });
+                    }
+                });
+                
+            });
+$('#community_id').on('change', function () {
+            var id = this.value;
+            $.ajax({
+                    url: "{{url('databasefetch-subcommunity')}}",
+                    type: "POST",
+                    data: {
+                        id: id,
+                        _token: '{{csrf_token()}}'
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                        $('#subcommunity_id').html('<option value="">Select</option>');
+
+                        $.each(result.subCommunity, function (key, value) {
+                            $("#subcommunity_id").append('<option value="' + value
+                                .id + '">' + value.name_en + '</option>');
+                        });
+                    }
+                });
+                
+            });
+
+
 </script>
 @endpush

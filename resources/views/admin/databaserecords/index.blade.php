@@ -103,8 +103,8 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 				<div class="card-body table-responsive">
 
 
-						<!-- Modal -->
-						<div class="modal fade" id="assign-leads" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<!-- Modal --> 
+						<!-- <div class="modal fade" id="assign-leads" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 							<div class="modal-header">
@@ -131,7 +131,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 							</div>
 							</div>
 						</div>
-						</div>
+						</div> -->
 						<br />
 
                 
@@ -247,7 +247,14 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 		<div class="modal-body">
 					@csrf
 					<div class="form-group">
+						@if(auth()->user()->rule != 'admin' && auth()->user()->time_zone =='Asia/Riyadh' )
+					<label for="exampleInputEmail1">File <a href="{{ url('public/files/database-import-sample-ksa.xlsx') }}" target="_blank"> Download example file</a></label>
+					@elseif(auth()->user()->rule != 'admin' && auth()->user()->time_zone =='Asia/Dubai' )
+					<label for="exampleInputEmail1">File <a href="{{ url('public/files/database-import-sample-uae.xlsx') }}" target="_blank"> Download example file</a></label>
+					@else
 					<label for="exampleInputEmail1">File <a href="{{ url('public/files/database-import-sample.xlsx') }}" target="_blank"> Download example file</a></label>
+					@endif
+
 					<input type="file" name="file"
 						class="form-control" required>
 					</div>

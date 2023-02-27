@@ -12,11 +12,14 @@ use App\City;
 use App\Country;
 use App\User;
 use Carbon\Carbon;
+use App\Zones;
 use Maatwebsite\Excel\Facades\Excel;
 use App\DatabaseRecords;
 use App\DatabaseRecordsExport;
 use App\DatabaseNote;
 use App\Status;
+use App\Districts;
+use App\Community;
 use App\Imports\DatabaseImport;
 
 
@@ -41,13 +44,14 @@ class DatabaseRecordsController extends Controller
     
     
     /********* Get Contacts By The Rule ***********/
-    if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing'  || userRole() == 'ceo' ){ //Updated by Javed
-
+    if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing'  || userRole() == 'ceo'|| userRole() == 'sales director' ){ //Updated by Javed
+         
         if(userRole() == 'sales admin uae'){
 
-          $data = DatabaseRecords::where(function ($q){
+          $data = DatabaseRecords::where('country_id',2)->where(function ($q){
             $this->filterPrams($q);
           })->orderBy('created_at','DESC');
+
 
           $data_count = $data->count();
 
@@ -55,7 +59,7 @@ class DatabaseRecordsController extends Controller
           $data = $data->paginate($paginationNo);
           
         }else if(userRole() == 'sales admin saudi'){
-          $data = DatabaseRecords::where('unit_country',1)->where(function ($q){
+          $data = DatabaseRecords::where('country_id',1)->where(function ($q){
             $this->filterPrams($q);
           })->orderBy('created_at','DESC');
 
@@ -64,7 +68,35 @@ class DatabaseRecordsController extends Controller
           $paginationNo = 20;
           $data = $data->paginate($paginationNo);
 
-        }else{
+        }
+       
+
+        elseif(userRole()=='sales director')
+        {
+          // dd('hit');
+          $user=User::where('id',auth()->id())->first();
+          if($user->time_zone=='Asia/Riyadh')
+          {
+           $data = DatabaseRecords::where('country_id',1)
+          ->orderBy('created_at','DESC');
+
+          $data_count = $data->count();
+
+          $paginationNo = 20;
+          $data = $data->paginate($paginationNo);
+          }
+          else
+          {
+          $data = DatabaseRecords::where('country_id',2)->orderBy('created_at','DESC');
+
+          $data_count = $data->count();
+
+          $paginationNo = 20;
+          $data = $data->paginate($paginationNo);
+          }
+        }
+
+        else{
 
           $data = DatabaseRecords::where(function ($q){
                 $this->filterPrams($q);
@@ -98,6 +130,7 @@ class DatabaseRecordsController extends Controller
       })->where('user_id',null)
         ->orderBy('created_at','DESC');
        }
+
        else{
          $data = DatabaseRecords::where('unit_country',1)->where(function ($q){
         $this->filterPrams($q);
@@ -139,20 +172,38 @@ class DatabaseRecordsController extends Controller
 
     }
     $sellers = getSellers();
-    $countries = Country::orderBy('name_en')->get();
-    // $countries = Country::orderBy('name_en')->get();
-     $createdBy = User::where('active','1')->select('id','email')->get();
-     $status = Status::where('active','1')->orderBy('weight','ASC')->get();
-
-   
-    return view('admin.databaserecords.index',compact('data','data_count','sellers','countries','createdBy','status'));
+    $countries = Country::orderBy('name_en')->get(); //added by fazal -26-02
+    $project_country=Country::whereIn('id',[1,2])->get();//added by fazal -26-02
+    $createdBy = User::where('active','1')->select('id','email')->get();
+    $status = Status::where('active','1')->orderBy('weight','ASC')->get();
+    $zones=Zones::get(); //added by fazal -26-02
+    $districts=Districts::get(); //added by fazal -26-02
+    $communities = Community::where('parent_id',0)->orderBy('name_en','asc')->get(); //added by fazal -26-02
+    $subcommunities = Community::where('parent_id','!=', 0)->orderBy('name_en','asc')->get();  //added by fazal -26-02
+    return view('admin.databaserecords.index',compact('data','data_count','sellers','countries','createdBy','status','zones','districts','communities','subcommunities','project_country'));
   }
 
   public function create() {
-    $countries = $this->getCuntoryList();
+    $user=User::where('id',auth()->id())->first();
+    if($user->time_zone=='Asia/Riyadh' && $user->rule!= 'admin')
+    {
+     $dbcountries = Country::where('id',1)->get();
+    }
+    elseif($user->time_zone=='Asia/Dubai' && $user->rule != 'admin')
+    {
+     $dbcountries = Country::where('id',2)->get();
+    }
+    else
+    {
+    $dbcountries = Country::whereIn('id',[1,2])->get();  
+    }
+    $countries= Country::get();
     $sellers = getSellers();
     $status=Status::get();
-    return view('admin.databaserecords.create',compact('countries','sellers','status'));
+    $zones=Zones::get();
+    $communities = Community::where('city_id','84')->where('parent_id',0)->orderBy('name_en','asc')->get();      
+    
+    return view('admin.databaserecords.create',compact('countries','sellers','status','dbcountries','zones','communities'));
   }
 
   /**
@@ -162,12 +213,13 @@ class DatabaseRecordsController extends Controller
     * @return \Illuminate\Http\Response
     */
   public function store(Request $request)
-  {
+  {   
+
       $data = $request->validate([
-        "country_id"            => "nullable",
-        "name"          => "nullable",
+        "country_id"            => "required",
+        "name"          => "required",
         "email"          => "nullable",
-        "phone"          => "nullable",
+        "phone"          => "required",
         "city"          => "nullable",
         "area"          => "nullable",
         "project_id"          => "nullable",
@@ -179,18 +231,22 @@ class DatabaseRecordsController extends Controller
         'local_phone_no_or_reference' => 'nullable',
         'options' => 'nullable',
         'response' => 'nullable',
-        'community' => 'nullable',
-        'sub_community' => 'nullable',
+        'community_id' => 'nullable',
+        'subcommunity_id' => 'nullable',
         'developer' => 'nullable',
         'status' => 'nullable',        
         'comment' => 'nullable',
-        'user_to' => 'nullable'           
+        'user_to' => 'nullable',
+        'user_country_id'=>'nullable',
+        'zone_id'=>'nullable',
+        'district_id'=>'nullable',           
       ]);
 
 
       $data['created_at'] = Carbon::now();
       $data['created_by'] =auth()->id();
       $data['user_id']=auth()->id();
+      $data['status']=2;
 
       addHistory('Database Records',0,'added',$data);   
 
@@ -219,32 +275,35 @@ class DatabaseRecordsController extends Controller
 
   public function update(Request $request,  $id)
   {
-
+       
     $deal = DatabaseRecords::findOrFail($id);
 
     $data = $request->validate([
-      "country_id"            => "nullable",
-      "name"          => "nullable",
-      "email"          => "nullable",
-      "phone"          => "nullable",
-      "city"          => "nullable",
-      "area"          => "nullable",
-      "project_id"          => "nullable",
-      "unit_country"  => "nullable",
-      "building_name"          => "nullable",
-      "unit_name"             => "nullable",
-      "price"          => "nullable",
-      "bedroom"          => "nullable",
-      'local_phone_no_or_reference' => 'nullable',
-      'options' => 'nullable',
-      'response' => 'nullable',
-      'community' => 'nullable',
-      'sub_community' => 'nullable',
-      'developer' => 'nullable',
-      'status' => 'nullable',        
-      'comment' => 'nullable',
-      'assign_to' => 'nullable'  
-  ]);
+        "country_id"            => "nullable",
+        "name"          => "nullable",
+        "email"          => "nullable",
+        "phone"          => "nullable",
+        "city"          => "nullable",
+        "area"          => "nullable",
+        "project_id"          => "nullable",
+        "unit_country"  => "nullable",
+        "building_name"          => "nullable",
+        "unit_name"             => "nullable",
+        "price"          => "nullable",
+        "bedroom"          => "nullable",
+        'local_phone_no_or_reference' => 'nullable',
+        'options' => 'nullable',
+        'response' => 'nullable',
+        'community_id' => 'nullable',
+        'subcommunity_id' => 'nullable',
+        'developer' => 'nullable',
+        'status' => 'nullable',        
+        'comment' => 'nullable',
+        'user_to' => 'nullable',
+        'user_country_id'=>'nullable',
+        'zone_id'=>'nullable',
+        'district_id'=>'nullable',           
+      ]);
 
     $data['updated_at'] = Carbon::now();
 
@@ -270,13 +329,30 @@ class DatabaseRecordsController extends Controller
   public function show($deal)
   {
     $data = DatabaseRecords::findOrFail($deal);
-
+     $user=User::where('id',auth()->id())->first();
+    if($user->time_zone=='Asia/Riyadh' && $user->rule=='sales')
+    {
+     $dbcountries = Country::where('id',1)->get();
+    }
+    elseif($user->time_zone=='Asia/Dubai' && $user->rule=='sales')
+    {
+     $dbcountries = Country::where('id',2)->get();
+    }
+    else
+    {
+    $dbcountries = Country::whereIn('id',[1,2])->get();  
+    }
     $countries = $this->getCuntoryList();
     $sellers = getSellers();
-   $status=Status::get();
+    $status=Status::get();
+    $districts=Districts::get();
+    $zones=Zones::get();
+    $districts=Districts::where('zone_id',$data->zone_id)->get();
+    $communities = Community::where('city_id','84')->where('parent_id',0)->orderBy('name_en','asc')->get();
+    $subcommunities = Community::where('city_id','84')->where('parent_id',$data->community_id)->get();
     $notes = DatabaseNote::where('database_id',$data->id)->orderBy('created_at','DESC')->get();
 
-    return view('admin.databaserecords.show',compact('data','status','countries','sellers','notes'));
+    return view('admin.databaserecords.show',compact('data','status','countries','sellers','notes','dbcountries','zones','communities','subcommunities','districts'));
   }
 
 private function filterPrams($q){
@@ -302,6 +378,11 @@ private function filterPrams($q){
         "is_meeting", //Added by Javed,
         "lead_category", //Added by Javed,
         "campaign_country", //Added by Javed,
+        "zone_id",   //added by fazal-25-02
+        "district_id" ,//added by faza -25-02
+        "community_id",//added by faza -25-02
+        "subcommunity_id",//added by faza -25-02
+        "user_country_id" //added by faza -26-02
       ];
       $user_id = 0;
       foreach($feilds as $feild => $value){
@@ -309,11 +390,42 @@ private function filterPrams($q){
           if($feild == 'user_id'){
             $user_id = $value;
           }
+          if($feild == 'email'){
+            $email = $value;
+          }
           if($feild == 'project_country_id'){
             $q->whereHas('project', function($q2) use($value) {
               $q2->where('projects.country_id',$value);
             });
-          }else if($feild == 'is_meeting' && $value == 1){
+          }
+
+            if($feild == 'user_country_id'){
+            $q->whereHas('usercountry', function($q2) use($value) {
+              $q2->where('countries.id',$value);
+            });
+          }
+          if($feild == 'zone_id'){
+            $q->whereHas('zone', function($q2) use($value) {
+              $q2->where('zone.id',$value);
+            });
+          }
+           if($feild == 'district_id'){
+            $q->whereHas('district', function($q2) use($value) {
+              $q2->where('districts.id',$value);
+            });
+          }
+           if($feild == 'community_id'){
+            $q->whereHas('community', function($q2) use($value) {
+              $q2->where('community.id',$value);
+            });
+          }
+
+           if($feild == 'subcommunity_id'){
+            $q->whereHas('subcommunity', function($q2) use($value) {
+              $q2->where('community.id',$value);
+            });
+          }
+          else if($feild == 'is_meeting' && $value == 1){
               $q->whereHas('logs', function($q2) use($value,$user_id) {
                 $q2->where('logs.type','meeting');
                 if($user_id){
@@ -592,4 +704,33 @@ private function filterPrams($q){
 
     return back();
   }
+
+  // added by fazal
+  public function fetchCity(Request $request)
+  {
+    $country_id=$request->get('id');
+     if($country_id==1)
+     {
+      $city='Riyadh';
+     }
+     else{
+      $city='Dubai';
+     } 
+      return response()->json($city);        
+  }
+  public function fetchDistrict(Request $request)
+  {
+    $zone_id=$request->get('zone_id');
+       $data['districts']=Districts::where('zone_id',$zone_id)->get();
+       return response()->json($data);
+  }
+  
+  public function fetchCommunity(Request $request)
+  {
+    $id=$request->get('id');
+    //dd($id);
+       $data['subCommunity'] = Community::where('city_id','84')->where('parent_id',$id)->orderBy('name_en','asc')->get();
+       return response()->json($data);
+  }
+
 }

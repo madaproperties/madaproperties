@@ -18,6 +18,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Carbon\Carbon;
 use App\DatabaseRecords;
+use App\Community;
+use App\Zones;
+
+use App\Districts;
 
 
 class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChunkReading 
@@ -25,10 +29,11 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
 
     private $errors = [];
     private $validateAttribute = [
-      "country_id"            => "nullable",
-      "name"          => "nullable",
+      'user_country_id'=>'required' ,
+      "country_id" => "nullable",
+      "name"          => "required",
       "email"          => "nullable",
-      "phone"          => "nullable",
+      "phone"          => "required",
       "city"          => "nullable",
       "area"          => "nullable",
       "project_id"          => "nullable",
@@ -40,12 +45,17 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
       'local_phone_no_or_reference' => 'nullable',
       'options' => 'nullable',
       'response' => 'nullable',
-      'community' => 'nullable',
-      'sub_community' => 'nullable',
+      'community_id' => 'nullable',
+      'subcommunity_id' => 'nullable',
       'developer' => 'nullable',
       'status' => 'nullable',        
       'comment' => 'nullable',
-      'assign_to' => 'nullable'       
+      'user_id' => 'nullable' ,
+      'zone_id'=>'nullable',
+      'district_id'=>'nullable',
+      
+
+          
       ];
 
     public function collection(Collection $rows)
@@ -58,15 +68,44 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
         $index++;
         $contact = $contact->toArray();
         // get new status 
-        $country_id = $this->getID($index,'Country','name_en',$contact['country_name']);
+        $country_id = $this->getID($index,'Country','name_en',$contact['country_id']);
         $contact['country_id'] = $country_id;
-        $unit_country = $this->getID($index,'Country','name_en',$contact['unit_country']);
-        $contact['unit_country'] = $unit_country;
-        $developer_id = $this->getID($index,'Agent','email',$contact['agent_email']);
-        $contact['developer_id'] = $developer_id;
+        $user_country_id = $this->getID($index,'Country','name_en',$contact['user_country_id']);
+        $contact['user_country_id'] = $user_country_id;
+        $agent_id = $this->getID($index,'Agent','email',$contact['user_id']);
+        $contact['user_id'] = $agent_id;
+        // 
+
+        if($country_id==1)
+        {
+
+          $zone_id = $this->getID($index,'Zones','zone_name',$contact['zone_id']);
+          $contact['zone_id'] = $zone_id;
+          $district_id = $this->getID($index,'Districts','name',$contact['district_id']);
+        $contact['district_id'] = $district_id;
+
+        // $community_id = $this->getID($index,'Community','name_en',$contact['community_id']);
+        $contact['community_id'] = '';
+         // $subcommunity_id = $this->getID($index,'Community','name_en',$contact['subcommunity_id']);
+        $contact['subcommunity_id'] = '';
+
+        }
+        else
+        {
+          // $zone_id = $this->getID($index,'Zones','zone_name',$contact['zone_id']);
+          $contact['zone_id'] = '';
+          // $district_id = $this->getID($index,'Districts','name',$contact['district_id']);
+        $contact['district_id'] = '';
+
+        $community_id = $this->getID($index,'Community','name_en',$contact['community_id']);
+        $contact['community_id'] = $community_id;
+         $subcommunity_id = $this->getID($index,'Community','name_en',$contact['subcommunity_id']);
+        $contact['subcommunity_id'] = $subcommunity_id;
+        }
+      
         $contact['project_id'] = $contact['project_name'];
         $contact['created_by']=auth()->id();
-        $contact['user_id']=auth()->id();
+        // $contact['user_id']=auth()->id();
         $contact['status']=2;
         unset($contact['country_name']); // remove asssigned to => replaced with user_id
         unset($contact['agent_email']);
@@ -93,6 +132,20 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
           $ID =  User::where($search_feild,'LIKE','%'.$value)->first();
           $customMsg = __('site.user not found: recode').'['.$index.'] ' ;
         }
+
+        else if($model == 'Zones') {
+          $ID = Zones::where($search_feild,'LIKE','%'. $value )->first();
+          $customMsg = __('site.zone not foud: recode').$value.' #['.$index.']';
+        }
+        else if($model == 'Districts') {
+          $ID = Districts::where($search_feild,'LIKE','%'. $value )->first();
+          $customMsg = __('site.district not found: recode').$value.' #['.$index.']';
+        }
+        else if($model == 'Community') {
+          $ID = Community::where($search_feild,'LIKE','%'. $value )->first();
+          $customMsg = __('site.community not foud: recode').$value.' #['.$index.']';
+        }
+
         // check if therer is result found or make an errors messge
         if(!$ID){
           $this->errors[] = $customMsg;
