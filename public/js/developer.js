@@ -135,17 +135,19 @@ $(function() {
         ignore: [],
         invalidHandler: function() {
             setTimeout(function() {
+				var tempVar = 1;
 				$('.nav-tabs a small.error').remove();
-                var validatePane = $('.tab-content .tab-pane:has(input.error)').each(function() {
+                var validatePane = $('.tab-content .tab-pane:has(.form-control.error)').each(function() {
 					var id = $(this).attr('id');
 					$('.nav-tabs').find('a[href^="#' + id + '"]').append(' <small class="error"> Required</small>');
+					$('a[href^="#' + id + '"]').click();
+					return false;
                 });
-                var validatePane = $('.tab-content .tab-pane:has(select.error)').each(function() {
-					var id = $(this).attr('id');
-                    $('.nav-tabs').find('a[href^="#' + id + '"]').append(' <small class="error"> Required</small>');
-                });
+               
 			}); 
         }
-    });
+	});
+	
+	
     
 });
