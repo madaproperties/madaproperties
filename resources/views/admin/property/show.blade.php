@@ -521,7 +521,8 @@
 																				<div class="col-xs-3 col-sm-3 col-lg-3">																				
 																					<div class="border p-5">																					
 																					<label class="w-100 text-center">YEAR</label>
-																						<input class="form-control form-control-solid form-control-lg property-price" 	name="yprice" type="text" value="{{$property->yprice}}" placeholder="{{__('site.yearly_price')}}">																					<span class="suffix-text">AED</span>
+																						<input class="form-control form-control-solid form-control-lg property-price" name="yprice" type="text" value="{{$property->yprice}}" placeholder="{{__('site.yearly_price')}}"  style="{{$property->sale_rent == 2 ? 'required' : ''}}">																					
+																						<span class="suffix-text">AED</span>
 																						<div class="fv-plugins-message-container"></div>
 																						<div class="col-xs-3 col-sm-3 col-lg-3 fl col-3">
 																							<input class="form-control property-price-year" name="default_price" type="radio" value="year" {{ (empty($property->yprice)) ? 'disabled' : ''}} {{ ($property->default_price == 'year') ? 'checked' : ''}}>
@@ -534,7 +535,7 @@
 																				<div class="col-xs-3 col-sm-3 col-lg-3">																				
 																					<div class="border p-5">																					
 																					<label class="w-100 text-center">MONTH</label>
-																						<input class="form-control form-control-solid form-control-lg property-price" 	name="mprice" type="text" value="{{$property->mprice}}" placeholder="{{__('site.monthly_price')}}">																					<span class="suffix-text">AED</span>
+																						<input class="form-control form-control-solid form-control-lg property-price" name="mprice" type="text" value="{{$property->mprice}}" placeholder="{{__('site.monthly_price')}}">																					<span class="suffix-text">AED</span>
 																						<div class="fv-plugins-message-container"></div>
 																						<div class="col-xs-3 col-sm-3 col-lg-3 fl col-3">
 																							<input class="form-control property-price-month" name="default_price" type="radio" value="month" {{ (empty($property->mprice)) ? 'disabled' : ''}} {{ ($property->default_price == 'month') ? 'checked' : ''}}>
