@@ -190,7 +190,7 @@ class PropertyXmlController extends Controller
 
   public function readXml(){
     // Loading the XML file
-    $xml = simplexml_load_file(url("public/property-finder-xml-28012023.xml")); //Staging 
+    $xml = simplexml_load_file(url("public/property-finder-xml-21022023.xml")); //Staging 
     //$xml = simplexml_load_file("public\property-finder.xml"); //Local
 
     echo "<h2>".$xml->attributes()->last_update."</h2><br />";
@@ -207,6 +207,12 @@ class PropertyXmlController extends Controller
       }else{
         $property['sale_rent'] = '2';
       }
+      if(substr($row->offering_type, 0, 1) == 'R'){
+        $property['property_type'] = '1';
+      }else{
+        $property['property_type'] = '2';
+      }
+
       if(isset(Categories::where('pfix',trim($row->property_type))->first()->id)){
         $property['category_id'] = Categories::where('pfix',trim($row->property_type))->first()->id;
       }
@@ -227,7 +233,13 @@ class PropertyXmlController extends Controller
       $property['price_on_application'] = $row->price_on_application;
       $property['price'] = $row->price;
       $property['yprice'] = $row->price->yearly;
+      if($row->price->yearly){
+        $property['default_price'] = 'year';
+      }
       $property['mprice'] = $row->price->monthly;
+      if($row->price->monthly){
+        $property['default_price'] = 'month';
+      }
       $property['city_id'] = $city_id;
       $property['community'] = $community;
       $property['sub_community'] = $sub_community;
@@ -240,7 +252,11 @@ class PropertyXmlController extends Controller
       $property['buildup_area'] = $row->size;
       $property['bedrooms'] = $row->bedroom;
       $property['bathrooms'] = $row->bathroom;
-      $property['user_id'] = $row->agent->id;
+      if($userData = User::where('email',$row->agent->email)->first()){
+        $property['user_id'] = $userData->id;
+      }else{
+        $property['user_id'] = $row->agent->id;
+      }
       $property['parking_areas'] = $row->parking;
       $property['furnished'] = ($row->furnished == 'Yes' ? '1' : '0');
       if(!empty($row->geopoints)){
@@ -256,6 +272,7 @@ class PropertyXmlController extends Controller
       $property['developer'] = $row->developer;
       $property['video'] = $row->video_tour_url;
 
+      //dd($property);
       $property = Property::create($property);
 
       if($row->photo){

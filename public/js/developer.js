@@ -129,3 +129,29 @@ $(document).ready(function(){
 		
 	}); 
 });
+$(function() {
+    
+    $('#property_form').validate({
+        ignore: [],
+        invalidHandler: function() {
+            setTimeout(function() {
+				var tempVar = 1;
+				$('.nav-tabs a small.error').remove();
+                var validatePane = $('.tab-content .tab-pane:has(.form-control.error)').each(function() {
+					var id = $(this).attr('id');
+					$('.nav-tabs').find('a[href^="#' + id + '"]').append(' <small class="error"> Required</small>');
+					$('a[href^="#' + id + '"]').click();
+					return false;
+                });
+               
+			}); 
+        }
+	});
+	
+	
+    
+});
+
+function changeTab(tabId){
+	$(tabId+'-tab').click();
+}

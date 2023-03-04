@@ -84,51 +84,51 @@
 										<!--begin::Body-->
 										<div class="card-body p-0">
 											<div class="row px-lg-10">
-											<ul class="nav nav-tabs tabRoleSec" id="myTab" role="tablist">
-														<li class="nav-item">
-															<a class="nav-link active" id="basic-tab" data-toggle="tab" href="#basic">
-																<span class="nav-icon">
-																	<i class="fa fa-building"></i>
-																</span>
-																<span class="nav-text">{{__('site.property_details')}}</span>
-															</a>
-														</li>
-														<li class="nav-item">
-															<a class="nav-link" id="files-tab" data-toggle="tab" href="#files" aria-controls="notes">
-																<span class="nav-icon">
-																	<i class="fa fa-image"></i>
-																</span>
-																<span class="nav-text">{{__('site.media')}}</span>
-															</a>
-														</li>
-														
-														<li class="nav-item">
-															<a class="nav-link" id="location-tab" data-toggle="tab" href="#location" aria-controls="location">
-																<span class="nav-icon">
-																	<i class="fa fa-edit"></i>
-																</span>
-																<span class="nav-text">{{__('site.location')}}</span>
-															</a>
-														</li>
-														<li class="nav-item">
-															<a class="nav-link" id="notes-tab" data-toggle="tab" href="#notes" aria-controls="notes">
-																<span class="nav-icon">
-																	<i class="fa fa-edit"></i>
-																</span>
-																<span class="nav-text">{{__('site.notes')}}</span>
-															</a>
-														</li>
-														@if(userRole() == 'admin' || userRole() == 'sales admin uae')
-														<li class="nav-item">
-															<a class="nav-link" id="verification-tab" data-toggle="tab" href="#verification" aria-controls="verification">
-																<span class="nav-icon">
-																	<i class="fa fa-barcode"></i>
-																</span>
-																<span class="nav-text">{{__('site.verification')}}</span>
-															</a>
-														</li>
-														@endif
-													</ul>
+												<ul class="nav nav-tabs tabRoleSec" id="myTab" role="tablist">
+													<li class="nav-item">
+														<a class="nav-link active" id="basic-tab" data-toggle="tab" href="#basic">
+															<span class="nav-icon">
+																<i class="fa fa-building"></i>
+															</span>
+															<span class="nav-text">{{__('site.property_details')}}</span>
+														</a>
+													</li>
+													<li class="nav-item">
+														<a class="nav-link" id="files-tab" data-toggle="tab" href="#files" aria-controls="files">
+															<span class="nav-icon">
+																<i class="fa fa-image"></i>
+															</span>
+															<span class="nav-text">{{__('site.media')}}</span>
+														</a>
+													</li>
+													
+													<li class="nav-item">
+														<a class="nav-link" id="location-tab" data-toggle="tab" href="#location" aria-controls="location">
+															<span class="nav-icon">
+																<i class="fa fa-edit"></i>
+															</span>
+															<span class="nav-text">{{__('site.location')}}</span>
+														</a>
+													</li>
+													<li class="nav-item">
+														<a class="nav-link" id="notes-tab" data-toggle="tab" href="#notes" aria-controls="notes">
+															<span class="nav-icon">
+																<i class="fa fa-edit"></i>
+															</span>
+															<span class="nav-text">{{__('site.notes')}}</span>
+														</a>
+													</li>
+													@if(userRole() == 'admin' || userRole() == 'sales admin uae')
+													<li class="nav-item">
+														<a class="nav-link" id="verification-tab" data-toggle="tab" href="#verification" aria-controls="verification">
+															<span class="nav-icon">
+																<i class="fa fa-barcode"></i>
+															</span>
+															<span class="nav-text">{{__('site.verification')}}</span>
+														</a>
+													</li>
+													@endif
+												</ul>
 													
 												<div class="col-xl-12 col-xxl-12">
 													<!--begin::Wizard Form-->
@@ -339,7 +339,7 @@
 																				</div>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select class="form-control"  name="category_id" required>
-																						<option value="" >{{ __('site.property_type') }}</option>
+																						<option value="" >{{ __('site.property_type') }} <span class="error">*</span></option>
 																						@foreach($categories as $category)
 																						<option {{ old('category_id') == $category->id ? 'selected' : ''}} value="{{$category->id}}">{{$category->category_name}}</option>
 																						@endforeach
@@ -454,7 +454,7 @@
 																				</div>
 																																								
 																				<div class="col-xs-12 col-sm-4 col-lg-4">																					
-																				<input class="form-control form-control-solid form-control-lg" id="buildup_area" name="buildup_area" type="text" value="{{old('buildup_area')}}" placeholder="{{__('site.bua')}}" required>																					
+																				<input class="form-control form-control-solid form-control-lg" id="buildup_area" name="buildup_area" type="text" value="{{old('buildup_area')}}" placeholder="{{__('site.bua')}} *" required>																					
 																				<div class="fv-plugins-message-container"></div>																				</div>
 																			</div>
 																			<!--end::Group-->
@@ -489,7 +489,7 @@
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.price')}}</label>
+																				<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.price')}} <span class="error">*</span></label>
 																			</div>
 																			<!--end::Group-->					
 																			<!--begin::Group-->
@@ -497,7 +497,7 @@
 																				<div class="col-xs-3 col-sm-3 col-lg-3">																				
 																					<div class="border p-5">																					
 																					<label class="w-100 text-center">YEAR</label>
-																						<input class="form-control form-control-solid form-control-lg property-price" 	name="yprice" type="text" value="{{old('yprice')}}" placeholder="{{__('site.yearly_price')}}" required>																					<span class="suffix-text">AED</span>
+																						<input class="form-control form-control-solid form-control-lg property-price" 	name="yprice" type="text" value="{{old('yprice')}}" placeholder="{{__('site.yearly_price')}}">																					<span class="suffix-text">AED</span>
 																						<div class="fv-plugins-message-container"></div>
 																						<div class="col-xs-3 col-sm-3 col-lg-3 fl col-3">
 																							<input class="form-control property-price-year" name="default_price" type="radio" value="year" disabled>
@@ -633,7 +633,7 @@
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
 																		<!--begin::Group-->
 																		<div class="form-group row fv-plugins-icon-container">
-																			<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.description')}}</label>
+																			<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.description')}} <span class="error">*</span></label>
 																		</div>
 																		<!--end::Group-->					
 
@@ -697,7 +697,7 @@
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mobile')}}</label>
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mobile')}} <span class="error">*</span></label>
 																				<div class="col-lg-9 col-xl-9">
 																					<input class="form-control form-control-solid form-control-lg" 	name="mobile" type="text" value="{{old('mobile')}}" placeholder="{{__('site.mobile')}}" required>
 																					<div class="fv-plugins-message-container"></div>
@@ -707,7 +707,7 @@
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.owner_name')}}</label>
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.owner_name')}} <span class="error">*</span></label>
 																				<div class="col-lg-9 col-xl-9">
 																					<input class="form-control form-control-solid form-control-lg" 	name="owner_name" type="text" value="{{old('owner_name')}}" placeholder="{{__('site.owner_name')}}" required>
 																					<div class="fv-plugins-message-container"></div>
@@ -728,6 +728,20 @@
 																			
 																		</div>
 																	</div>
+																</div>
+																<div class="row col-xl-12 card mt-5 rowCrtt">																				
+																	<!--begin::Wizard Actions-->
+																	<div class="d-flex justify-content-between border-top pt-5 pb-5 m-auto">
+																		<div>
+																			<a href="#files" data-target="#files" data-toggle="tab" aria-controls="files" class="btn btn-primary font-weight-bolder px-9 py-4 nav-link" onclick="changeTab('#files')">
+																				{{__('site.next')}}
+																				<span class="nav-icon ml-5">
+																					<i class="fa fa-arrow-right"></i>
+																				</span>
+																			</a>
+																		</div>
+																	</div>
+																	<!--end::Wizard Actions-->
 																</div>
 													
 															</div>
@@ -794,6 +808,28 @@
 																		</div>
 																	</div>
 																</div>
+																<div class="row col-xl-12 card mt-5 rowCrtt">																				
+																	<!--begin::Wizard Actions-->
+																	<div class="d-flex justify-content-between border-top pt-5 pb-5 m-auto">
+																		<div>
+																			<a href="#basic" data-target="#basic" data-toggle="tab" class="btn btn-primary font-weight-bolder px-9 py-4" onclick="changeTab('#basic')">
+																			<span class="nav-icon mr-5">
+																					<i class="fa fa-arrow-left"></i>
+																				</span>
+																			{{__('site.previous')}}
+																				
+																			</a>
+																			<a href="#location" data-target="#location" data-toggle="tab" class="btn btn-primary font-weight-bolder px-9 py-4" onclick="changeTab('#location')">
+																			{{__('site.next')}}
+																				<span class="nav-icon ml-5">
+																					<i class="fa fa-arrow-right"></i>
+																				</span>
+																			</a>
+																		</div>
+																	</div>
+																	<!--end::Wizard Actions-->
+																</div>
+
 															</div>
 															<div class="tab-pane fade" id="location" role="tabpanel" aria-labelledby="location-tab">
 																<div class="row col-xl-12 card">
@@ -805,17 +841,17 @@
 																		<div class="form-group row fv-plugins-icon-container">
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.city')}}</label>
 																			<div class="col-xs-12 col-sm-4 col-lg-4">
-																				<select name="city_id" id="city_id" class="form-control">
-																					<option value="">{{ __('site.choose') }}</option>
+																				<select name="city_id" id="city_id" class="form-control" required>
+																					<!--<option value="">{{ __('site.choose') }}</option>-->
 																					@foreach($cities as $city)
 																					<option {{old('city_id') == $city->id ? 'selected' : ''}} value="{{$city->id}}">{{$city->name_en}}</option>
 																					@endforeach 
 																				</select>
 																			</div>
 
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.community')}}</label>
+																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.community')}} <span class="error">*</span></label>
 																			<div class="col-xs-12 col-sm-4 col-lg-4">
-																				<select name="community" id="community" class="form-control">
+																				<select name="community" id="community" class="form-control" required>
 																					<option value="">{{ __('site.choose') }}</option>
 																					@foreach($community as $comm)
 																					<option {{old('community') == $comm->id ? 'selected' : ''}} value="{{$comm->id}}">{{$comm->name_en}}</option>
@@ -830,7 +866,7 @@
 																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.city_name')}} </label>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select class="form-control " id="city_id"
-																					name="city_id" data-select2-id="" tabindex="-1" aria-hidden="true" >
+																					name="city_id" data-select2-id="" tabindex="-1" aria-hidden="true" required>
 																						<option value="2">Riyadh</option>
 																					</select>
 																				</div>
@@ -838,7 +874,7 @@
 																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.zone')}} </label>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select class="form-control " id="zone_id"
-																					name="zone_id" data-select2-id="" tabindex="-1" aria-hidden="true" >
+																					name="zone_id" data-select2-id="" tabindex="-1" aria-hidden="true" required>
 																					@foreach($zones as $zone)
 																						<option {{old('zone_id') == $zone->id ? 'selected' : ''}} value="{{$zone->id}}" data-select2-id="{{$zone->id}}">{{$zone->zone_name}}</option>
 																					@endforeach
@@ -849,7 +885,7 @@
 																				<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.district')}} </label>
 																				<div class="col-xs-12 col-sm-4 col-lg-4">
 																					<select class="form-control " id="district_id"
-																					name="district_id" data-select2-id="" tabindex="-1" aria-hidden="true" >
+																					name="district_id" data-select2-id="" tabindex="-1" aria-hidden="true" required>
 																					@foreach($districts as $district)
 																						<option {{old('district_id') == $district->id ? 'selected' : ''}} value="{{$district->id}}" data-select2-id="{{$district->id}}">{{$district->name}}</option>
 																					@endforeach																				
@@ -868,9 +904,9 @@
 																		@if((auth()->user()->time_zone == 'Asia/Dubai' && userRole() != 'admin' && userRole() != 'sales admin uae') || request()->get('pt') == 'dubai')
 																		<!--begin::Group-->
 																		<div class="form-group row fv-plugins-icon-container">
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sub_community')}}</label>
+																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sub_community')}} <span class="error">*</span></label>
 																			<div class="col-xs-12 col-sm-4 col-lg-4">
-																				<select name="sub_community" id="sub_community" class="form-control">
+																				<select name="sub_community" id="sub_community" class="form-control" required>
 																					
 																				</select>
 																			</div>
@@ -968,6 +1004,27 @@
 																		@endif
 																	</div>
 																</div>
+																<div class="row col-xl-12 card mt-5 rowCrtt">																				
+																	<!--begin::Wizard Actions-->
+																	<div class="d-flex justify-content-between border-top pt-5 pb-5 m-auto">
+																		<div>
+																			<a href="#files" data-target="#files" data-toggle="tab"  class="btn btn-primary font-weight-bolder px-9 py-4" onclick="changeTab('#files')">
+																			<span class="nav-icon mr-5">
+																					<i class="fa fa-arrow-left"></i>
+																				</span>
+																			{{__('site.previous')}}
+																			</a>
+																			<a href="#notes" data-target="#notes" data-toggle="tab"  class="btn btn-primary font-weight-bolder px-9 py-4" onclick="changeTab('#notes')">
+																			{{__('site.next')}}
+																			<span class="nav-icon ml-5">
+																					<i class="fa fa-arrow-right"></i>
+																				</span>
+																			</a>
+																		</div>
+																	</div>
+																	<!--end::Wizard Actions-->
+																</div>
+
 															</div>
 															<div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
 																<div class="row col-xl-12 card">
@@ -986,6 +1043,31 @@
 																		<!--end::Group-->
 																	</div>
 																</div>
+																<div class="row col-xl-12 card mt-5 rowCrtt">																				
+																	<!--begin::Wizard Actions-->
+																	<div class="d-flex justify-content-between border-top pt-5 pb-5 m-auto">
+																		<div>
+																			<a href="#location" data-target="#location" data-toggle="tab" class="btn btn-primary font-weight-bolder px-9 py-4" onclick="changeTab('#location')">
+																			<span class="nav-icon mr-5">
+																					<i class="fa fa-arrow-left"></i>
+																				</span>
+																			{{__('site.previous')}}
+																			</a>																	
+																			@if(userRole() == 'admin' || userRole() == 'sales admin uae')
+																				<a href="#verification" data-target="#verification" data-toggle="tab" class="btn btn-primary font-weight-bolder px-9 py-4" onclick="changeTab('#verification')">
+																				{{__('site.next')}}
+																				<span class="nav-icon ml-5">
+																					<i class="fa fa-arrow-right"></i>
+																				</span>
+																				</a>
+																			@else
+																				<input type="submit" class="btn btn-primary font-weight-bolder px-9 py-4" value="{{__('site.save')}}"/>
+																			@endif
+																		</div>
+																	</div>
+																	<!--end::Wizard Actions-->
+																</div>
+
 															</div>
 															@if(userRole() == 'admin' || userRole() == 'sales admin uae')
 															<div class="tab-pane fade" id="verification" role="tabpanel" aria-labelledby="verification-tab">
@@ -1091,19 +1173,28 @@
 																	</div>
 
 																</div>
+																<div class="row col-xl-12 card mt-5 rowCrtt">																				
+																	<!--begin::Wizard Actions-->
+																	<div class="d-flex justify-content-between border-top pt-5 pb-5 m-auto">
+																		<div>
+																			<a href="#notes" data-target="#notes" data-toggle="tab" class="btn btn-primary font-weight-bolder px-9 py-4" onclick="changeTab('#notes')">
+																			<span class="nav-icon mr-5">
+																					<i class="fa fa-arrow-left"></i>
+																				</span>
+																			{{__('site.previous')}}
+																			</a>
+																			<input type="submit" class="btn btn-primary font-weight-bolder px-9 py-4" value="{{__('site.save')}}"/>
+																		</div>
+																	</div>
+																	<!--end::Wizard Actions-->
+																</div>
+
 															</div>	
 															@endif
+															
 																														
 														</div>
-														<div class="row col-xl-12 card mt-5 rowCrtt">																				
-															<!--begin::Wizard Actions-->
-															<div class="d-flex justify-content-between border-top pt-5 pb-5 m-auto">
-																<div>
-																	<input type="submit" class="btn btn-primary font-weight-bolder px-9 py-4" value="{{__('site.save')}}"/>
-																</div>
-															</div>
-															<!--end::Wizard Actions-->
-														</div>
+														
 													
 													</form>
 													<!--end::Wizard Form-->
@@ -1144,12 +1235,13 @@
 	var fetchDistrict = "{{url('fetch-district')}}";
 	var csrfToken = "{{csrf_token()}}";
 </script>
-<script src="{{ asset('public/js/developer.js').'?t='.time() }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"> </script>
+<script src="{{ asset('public/js/developer.js').'?t='.time() }}"></script>
 <script>
 $(document).ready (function () {  
-  $("#property_form").validate();
+  //$("#property_form").validate();
 });  
+
 var KTCkeditor = function () {    
 	var demos = function () {
 		ClassicEditor

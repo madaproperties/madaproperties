@@ -1,4 +1,13 @@
-	<div class="modal fade" id="image_uploader" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<style type="text/css">	
+#uploadedImage img:hover, #uploadedImage img:focus, #uploadedImage img:active {
+    cursor: move;
+}
+
+</style>
+
+
+
+    <div class="modal fade" id="image_uploader" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-xl">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -28,7 +37,7 @@
                                         <div class="col-xl-4" style="float:left" id='{{str_replace(".","-",$image)}}'>
                                             <!--begin::Wizard Step 1-->
                                             <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">                                        
-                                                <img src="{{asset('public/uploads/temp/images/'.$image) }}"  style="width:215px;height:147px">
+                                                <img src="{{asset('public/uploads/temp/images/'.$image) }}"  style="width:215px;height:147px" >
                                             </div>
                                             <a href="javascript:void(0)" class="checkbox deleteImage" data-value="{{$image}}">Delete</a>
                                             <a href="{{asset('public/uploads/temp/images/'.$image) }}" target="_blank">View</a>
@@ -36,16 +45,22 @@
                                         @endforeach 
                                     @endif
                                     @if(isset($property->images) && count($property->images) > 0)
+                                    <ul class="reorder-gallery">
                                         @foreach($property->images as $image)
+                                       
                                         <div class="col-xl-4" style="float:left" id='{{str_replace(".","-",$image->images_link)}}'>
                                             <!--begin::Wizard Step 1-->
                                             <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-                                                <img src="{{asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link) }}"  style="width:215px;height:147px">
+                                                <img src="{{asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link) }}" id="{{$image->id}}" style="width:215px;height:147px" >
                                             </div> 
                                             <a href="javascript:void(0)" class="checkbox deleteImage" data-value="{{$image->images_link}}">Delete</a>
                                             <a href="{{asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link) }}" target="_blank">View</a>
-                                        </div>   
-                                        @endforeach    
+                                            <input type="hidden" name="property_id" id="property_id" value="{{$image->property_id}}">
+                                        </div>
+                                         
+
+                                        @endforeach   
+                                        </ul> 
                                     @endif
                                 </div>
                                    
@@ -56,11 +71,13 @@
 				</div>
                 <div class="card-footer">
                     <button data-dismiss="modal" form="add-task-form"  class="btn btn-secondary">{{__('site.close')}}</button>
+                    
                 </div>
 			</div>
 		</div>
 	</div>
 @push('js')
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<script type="text/javascript">
     $(document).ready(function(){
         $(document).on("change","#photos", function(){
@@ -111,6 +128,65 @@
 
             }
         });
+
+     function getImages(){
+        $.ajax({
+            headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    },                    
+            url: "{{url('image/get-project-image')}}",
+            type: 'GET',
+            success: function (data) {
+                if(data.success){
+                    $("#uploadedImage").append(data.images);
+                }
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    }
+
+
+
+
+        // 
+
+    $("ul.reorder-gallery").sortable({      
+        update: function( event, ui ) {
+            updateOrder();
+        }
+    });  
+
+function updateOrder() {    
+    var item_order = new Array();
+    $('ul.reorder-gallery img').each(function() {
+        item_order.push($(this).attr("id"));
+    });
+   var ids = item_order;
+    
+    $.ajax({
+      url: "{{url('property.imgreorder')}}",
+                    type: "POST",
+                    data: {
+                        ids: ids,
+                        _token: '{{csrf_token()}}'
+                    },
+                    dataType: 'json',
+        success: function(data){ 
+            alert(data);
+        //location.reload();           
+        }
+    });
+}
+   
+        // 
+
+
+
+
+
+
     });
 
 
@@ -131,6 +207,10 @@
             processData: false
         });
     }
+
+
+
+
 
 </script>
 @endpush

@@ -678,10 +678,12 @@ class PropertyController extends Controller
 
   public function imageStore(Request $request)
   {
+
     $html = '';
     if($request->hasFile('photos')) {
       $allowedfileExtension=['gif','jpg','jpeg','png'];
       $files = $request->file('photos');
+      $i=0;
       foreach($files as $file){
         $filename = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
@@ -710,14 +712,18 @@ class PropertyController extends Controller
             $img->save($destinationPath.'/'.$filename);
             
             //Storage::disk('s3')->put('uploads/property/'.$property_id.'/images', $filename);
+            
             PropertyImages::create([
             'property_id' => $property_id,
-            'images_link' => $filename
+            'images_link' => $filename,
+            'order' =>$i
             ]);
+            $i++;
             $publicPath='public/uploads/property/'.$property_id.'/images/';
+            
           }else{
             //$file = $file->move('public/uploads/temp/images', $md5Name.'.'.$guessExtension);   
-
+            
             $filename = $md5Name.'.'.$guessExtension;
             $destinationPath = 'public/uploads/temp/images';
             if (!is_dir($destinationPath)){ 
@@ -855,6 +861,7 @@ class PropertyController extends Controller
 
   public function getPropertyImages(Request $request)
   {
+
     $html = '';
     if(Request('property_id')){
       $property_id = Request('property_id');
@@ -1012,5 +1019,11 @@ class PropertyController extends Controller
     }
     return $data;
   }
-
+  public function imgReorder(Request $request)
+  {
+    $ids = $request->get('ids');
+    foreach ($ids as $position => $id) {
+        $data=PropertyImages::where('id', $id)->update(['order' => $position]);
+    }
+  }
 }

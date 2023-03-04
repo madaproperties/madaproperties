@@ -135,12 +135,13 @@
   <!--begin::Global Theme Bundle(used by all pages)-->
 
   <script src="{{ asset('public/assets/plugins/global/plugins.bundle.js') }}"></script>
+  <script src="{{ asset('public/plugins/select2/js/select2.js') }}"></script>
 
   <script src="{{ asset('public/assets/plugins/custom/prismjs/prismjs.bundle.js') }}"></script>
 
   <script src="{{ asset('public/assets/js/scripts.bundle.js') }}"></script>
 
-  <script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
+  
 
   <!--end::Global Theme Bundle-->
 

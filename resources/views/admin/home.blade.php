@@ -39,7 +39,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 							</div>
 
 							<div class="card-toolbar">
-								<div class="dropdown dropdown-inline mr-2">
+								<div class="dropdown dropdown-inline">
 									<button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<span class="svg-icon svg-icon-md">
 										<!--begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg-->
@@ -114,7 +114,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 								<!--end::Button-->
 
 								@can('contact-import')
-								<div class="dropdown dropdown-inline mr-2">
+								<div class="dropdown dropdown-inline">
 									<button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<span class="svg-icon svg-icon-md" style="color:#fff">
 										<!--begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg-->
@@ -434,7 +434,7 @@ $(document).ready(function () {
 </script>
 
 <!-- Added By javed -->
-<script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
+
 <script>
 	$(`#from-date,#lastupdatefrom-date,#meeting-from-date`).datepicker({
     //format: 'dd/mm/yyyy',

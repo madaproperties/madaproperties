@@ -786,7 +786,7 @@
 @endsection
 @push('js')
  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
-<script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
+
 <script>
 
   $(document).on('submit','#search-form', function (e){

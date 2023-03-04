@@ -28,7 +28,7 @@
     <script src="{{ asset('public/assets/plugins/custom/ckeditor/ckeditor-classic.bundle.js') }}"></script>
     <script src="{{ asset('public/assets/js/pages/crud/forms/editors/ckeditor-classic.js') }}"></script>
     <script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
-    <!--<script src="{{ asset('public/assets/js/pages/crud/forms/widgets/bootstrap-datetimepicker.js') }}"></script>-->
+    <script src="{{ asset('public/assets/js/pages/crud/forms/widgets/bootstrap-datetimepicker.js') }}"></script>
     <link rel="shortcut icon" href="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" />
     @include('admin.layouts.msgs') @stack('css')
     <style>
@@ -57,7 +57,7 @@
     <!--- HUNDEL AR DIRECTION ---> @if(app()->getLocale() == 'ar') <style>
         .flex-row-fluid {
             margin-left: unset;
-            margin-right: 2rem !important
+            /* margin-right: 2rem !important */
         }
 
         .t-ar-right {
