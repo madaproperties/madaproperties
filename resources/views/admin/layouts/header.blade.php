@@ -57,7 +57,7 @@
     <!--- HUNDEL AR DIRECTION ---> @if(app()->getLocale() == 'ar') <style>
         .flex-row-fluid {
             margin-left: unset;
-            margin-right: 2rem !important
+            /* margin-right: 2rem !important */
         }
 
         .t-ar-right {

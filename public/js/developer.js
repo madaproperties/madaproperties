@@ -151,3 +151,7 @@ $(function() {
 	
     
 });
+
+function changeTab(tabId){
+	$(tabId+'-tab').click();
+}

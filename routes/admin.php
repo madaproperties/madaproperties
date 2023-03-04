@@ -56,7 +56,7 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
 
       Route::post('get-projects','ProjectsController@getProjects')
                         ->name('get.projects');
-
+      
 
       Route::get('home', "MainController@index")->name('home');
 
@@ -172,7 +172,9 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
        Route::post('databasefetch-district', 'DatabaseRecordsController@fetchDistrict')->name('databasefetch-project');
        
        Route::post('databasefetch-subcommunity', 'DatabaseRecordsController@fetchCommunity')->name('databasefetch-subcommunity'); 
-
+       // 27-02
+       
+       Route::post('property.imgreorder', 'PropertyController@imgReorder')->name('property.imgreorder'); 
 });
 
 

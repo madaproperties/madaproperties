@@ -94,7 +94,7 @@
 														</a>
 													</li>
 													<li class="nav-item">
-														<a class="nav-link" id="files-tab" data-toggle="tab" href="#files" aria-controls="notes">
+														<a class="nav-link" id="files-tab" data-toggle="tab" href="#files" aria-controls="files">
 															<span class="nav-icon">
 																<i class="fa fa-image"></i>
 															</span>
@@ -729,6 +729,20 @@
 																		</div>
 																	</div>
 																</div>
+																<div class="row col-xl-12 card mt-5 rowCrtt">																				
+																	<!--begin::Wizard Actions-->
+																	<div class="d-flex justify-content-between border-top pt-5 pb-5 m-auto">
+																		<div>
+																			<a href="#files" data-target="#files" data-toggle="tab" aria-controls="files" class="btn btn-primary font-weight-bolder px-9 py-4 nav-link" onclick="changeTab('#files')">
+																				{{__('site.next')}}
+																				<span class="nav-icon ml-5">
+																					<i class="fa fa-arrow-right"></i>
+																				</span>
+																			</a>
+																		</div>
+																	</div>
+																	<!--end::Wizard Actions-->
+																</div>
 													
 															</div>
 															<div class="tab-pane fade" id="files" role="tabpanel" aria-labelledby="files-tab">
@@ -794,6 +808,28 @@
 																		</div>
 																	</div>
 																</div>
+																<div class="row col-xl-12 card mt-5 rowCrtt">																				
+																	<!--begin::Wizard Actions-->
+																	<div class="d-flex justify-content-between border-top pt-5 pb-5 m-auto">
+																		<div>
+																			<a href="#basic" data-target="#basic" data-toggle="tab" class="btn btn-primary font-weight-bolder px-9 py-4" onclick="changeTab('#basic')">
+																			<span class="nav-icon mr-5">
+																					<i class="fa fa-arrow-left"></i>
+																				</span>
+																			{{__('site.previous')}}
+																				
+																			</a>
+																			<a href="#location" data-target="#location" data-toggle="tab" class="btn btn-primary font-weight-bolder px-9 py-4" onclick="changeTab('#location')">
+																			{{__('site.next')}}
+																				<span class="nav-icon ml-5">
+																					<i class="fa fa-arrow-right"></i>
+																				</span>
+																			</a>
+																		</div>
+																	</div>
+																	<!--end::Wizard Actions-->
+																</div>
+
 															</div>
 															<div class="tab-pane fade" id="location" role="tabpanel" aria-labelledby="location-tab">
 																<div class="row col-xl-12 card">
@@ -813,7 +849,7 @@
 																				</select>
 																			</div>
 
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.community')}}</label>
+																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.community')}} <span class="error">*</span></label>
 																			<div class="col-xs-12 col-sm-4 col-lg-4">
 																				<select name="community" id="community" class="form-control" required>
 																					<option value="">{{ __('site.choose') }}</option>
@@ -868,7 +904,7 @@
 																		@if((auth()->user()->time_zone == 'Asia/Dubai' && userRole() != 'admin' && userRole() != 'sales admin uae') || request()->get('pt') == 'dubai')
 																		<!--begin::Group-->
 																		<div class="form-group row fv-plugins-icon-container">
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sub_community')}}</label>
+																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sub_community')}} <span class="error">*</span></label>
 																			<div class="col-xs-12 col-sm-4 col-lg-4">
 																				<select name="sub_community" id="sub_community" class="form-control" required>
 																					
@@ -968,6 +1004,27 @@
 																		@endif
 																	</div>
 																</div>
+																<div class="row col-xl-12 card mt-5 rowCrtt">																				
+																	<!--begin::Wizard Actions-->
+																	<div class="d-flex justify-content-between border-top pt-5 pb-5 m-auto">
+																		<div>
+																			<a href="#files" data-target="#files" data-toggle="tab"  class="btn btn-primary font-weight-bolder px-9 py-4" onclick="changeTab('#files')">
+																			<span class="nav-icon mr-5">
+																					<i class="fa fa-arrow-left"></i>
+																				</span>
+																			{{__('site.previous')}}
+																			</a>
+																			<a href="#notes" data-target="#notes" data-toggle="tab"  class="btn btn-primary font-weight-bolder px-9 py-4" onclick="changeTab('#notes')">
+																			{{__('site.next')}}
+																			<span class="nav-icon ml-5">
+																					<i class="fa fa-arrow-right"></i>
+																				</span>
+																			</a>
+																		</div>
+																	</div>
+																	<!--end::Wizard Actions-->
+																</div>
+
 															</div>
 															<div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
 																<div class="row col-xl-12 card">
@@ -986,6 +1043,31 @@
 																		<!--end::Group-->
 																	</div>
 																</div>
+																<div class="row col-xl-12 card mt-5 rowCrtt">																				
+																	<!--begin::Wizard Actions-->
+																	<div class="d-flex justify-content-between border-top pt-5 pb-5 m-auto">
+																		<div>
+																			<a href="#location" data-target="#location" data-toggle="tab" class="btn btn-primary font-weight-bolder px-9 py-4" onclick="changeTab('#location')">
+																			<span class="nav-icon mr-5">
+																					<i class="fa fa-arrow-left"></i>
+																				</span>
+																			{{__('site.previous')}}
+																			</a>																	
+																			@if(userRole() == 'admin' || userRole() == 'sales admin uae')
+																				<a href="#verification" data-target="#verification" data-toggle="tab" class="btn btn-primary font-weight-bolder px-9 py-4" onclick="changeTab('#verification')">
+																				{{__('site.next')}}
+																				<span class="nav-icon ml-5">
+																					<i class="fa fa-arrow-right"></i>
+																				</span>
+																				</a>
+																			@else
+																				<input type="submit" class="btn btn-primary font-weight-bolder px-9 py-4" value="{{__('site.save')}}"/>
+																			@endif
+																		</div>
+																	</div>
+																	<!--end::Wizard Actions-->
+																</div>
+
 															</div>
 															@if(userRole() == 'admin' || userRole() == 'sales admin uae')
 															<div class="tab-pane fade" id="verification" role="tabpanel" aria-labelledby="verification-tab">
@@ -1091,19 +1173,28 @@
 																	</div>
 
 																</div>
+																<div class="row col-xl-12 card mt-5 rowCrtt">																				
+																	<!--begin::Wizard Actions-->
+																	<div class="d-flex justify-content-between border-top pt-5 pb-5 m-auto">
+																		<div>
+																			<a href="#notes" data-target="#notes" data-toggle="tab" class="btn btn-primary font-weight-bolder px-9 py-4" onclick="changeTab('#notes')">
+																			<span class="nav-icon mr-5">
+																					<i class="fa fa-arrow-left"></i>
+																				</span>
+																			{{__('site.previous')}}
+																			</a>
+																			<input type="submit" class="btn btn-primary font-weight-bolder px-9 py-4" value="{{__('site.save')}}"/>
+																		</div>
+																	</div>
+																	<!--end::Wizard Actions-->
+																</div>
+
 															</div>	
 															@endif
+															
 																														
 														</div>
-														<div class="row col-xl-12 card mt-5 rowCrtt">																				
-															<!--begin::Wizard Actions-->
-															<div class="d-flex justify-content-between border-top pt-5 pb-5 m-auto">
-																<div>
-																	<input type="submit" class="btn btn-primary font-weight-bolder px-9 py-4" value="{{__('site.save')}}"/>
-																</div>
-															</div>
-															<!--end::Wizard Actions-->
-														</div>
+														
 													
 													</form>
 													<!--end::Wizard Form-->
@@ -1144,8 +1235,8 @@
 	var fetchDistrict = "{{url('fetch-district')}}";
 	var csrfToken = "{{csrf_token()}}";
 </script>
-<script src="{{ asset('public/js/developer.js').'?t='.time() }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"> </script>
+<script src="{{ asset('public/js/developer.js').'?t='.time() }}"></script>
 <script>
 $(document).ready (function () {  
   //$("#property_form").validate();

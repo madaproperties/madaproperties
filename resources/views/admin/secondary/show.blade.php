@@ -522,9 +522,6 @@
 <!-- modal -->
 
 @endsection
-@push('js')
-<script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
-@endpush
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function () {

@@ -358,7 +358,7 @@ $to = date('Y-m-d 23:59:59', strtotime($reportData->end_to));
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
-   <div class="container">
+   <div class="container" style="overflow: scroll;max-height: 1000px;">
 <table class="table">
     <thead>
     <tr>

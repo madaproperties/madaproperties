@@ -529,4 +529,6 @@ return [
   'street_information_two'=>'Street Information Two',
   'street_information_three'=>'Street Information Three',
   'street_information_four'=>'Street Information Four',
+  'previous'=>'Previous',
+  'next'=>'Next',
 ];
