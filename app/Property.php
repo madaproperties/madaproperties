@@ -85,5 +85,14 @@ class Property extends Model
     {
       return $this->belongsTo(Community::class,'sub_community');
     }
+    public function zone()
+    {
+      return $this->belongsTo(Zones::class,'zone_id');
+    }
+
+    public function district()
+    {
+      return $this->belongsTo(Districts::class,'district_id');
+    }
 
 }

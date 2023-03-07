@@ -46,6 +46,9 @@ Route::post('projectdata/getPupUpByAjax','Admin\ProjectDataController@getPupUpBy
 // 
 Route::get('secondaryproject/brochure/{id}','Admin\SecondaryController@brochure')->name('secondaryproject.brochure');
 
+Route::get('property-xml-dubai','Admin\PropertyXmlController@propertyXmlDubai')->name('propertyXmlDubai');
+Route::get('property-xml-saudi','Admin\PropertyXmlController@propertyXmlSaudi')->name('propertyXmlSaudi');
+
 use App\Contact;
 use App\Country;
 use App\City;
