@@ -36,38 +36,38 @@ class Controller extends BaseController
         }
         
   
-        
-    if(!$createdContact){ // check if he just created contact
-        if($contact->status_id == $newStatus->id)
-        {
-            $state = Status::where('name_en','No Answer')->first();
+        //commente by fazal 
+    // if(!$createdContact){ // check if he just created contact
+    //     if($contact->status_id == $newStatus->id)
+    //     {
+    //         $state = Status::where('name_en','No Answer')->first();
             
-            if(!$state) // create if not exsist 
-            {
-                $state = Status::create([
-                    "name_ar" => "متواصل",
-                    "name_en" => "No Answer",
-                    "active" => "1",
-                ]);
-            }
+    //         if(!$state) // create if not exsist 
+    //         {
+    //             $state = Status::create([
+    //                 "name_ar" => "متواصل",
+    //                 "name_en" => "No Answer",
+    //                 "active" => "1",
+    //             ]);
+    //         }
             
-            $contact = Contact::where('id',$contactID)->update([
-                'status_id' =>  $state->id   
-            ]);
+    //         $contact = Contact::where('id',$contactID)->update([
+    //             'status_id' =>  $state->id   
+    //         ]);
  
-            $scoundAction = __('site.status changed to').' '.$openStatus->name;
+    //         $scoundAction = __('site.status changed to').' '.$openStatus->name;
             
-            $scoundData = [
-            'contact_id' => $contactID,
-            'user_id' => $userID,
-            'action' => $scoundAction,
-            'related_model' => $model,
-            'related_model_id' => $relatedModelID,
-          ];
+    //         $scoundData = [
+    //         'contact_id' => $contactID,
+    //         'user_id' => $userID,
+    //         'action' => $scoundAction,
+    //         'related_model' => $model,
+    //         'related_model_id' => $relatedModelID,
+    //       ];
       
-            Activity::create($scoundData);
-        }
-    }
+    //         Activity::create($scoundData);
+    //     }
+    // }
         // 
       $activityDate = str_replace('/','-',$activityDate);
       $activityDate = $activityDate ? Carbon::createFromFormat('d-m-Y', $activityDate)->format('d-m-Y') : $activityDate;

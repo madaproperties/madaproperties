@@ -52,7 +52,9 @@ class MainController extends Controller
     //Added by Javed
     $createdBy = User::where('active','1')->select('id','email');
     //End
-
+    // added by fazal -7-3-23
+    $leaders= User::where('rule','leader')->select('id','email')->get(); 
+    // 
     /********* Get Contacts By The Rule ***********/
     if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing'  || userRole() == 'ceo' ){ //Updated by Javed
 
@@ -319,7 +321,7 @@ class MainController extends Controller
 
     $purposetype = PurposeType::orderBy('type')->get();    
     return view('admin.home',
-    compact('purposetype','sources','miles','purpose','projects','campaigns','contacts','status','contactsCount','sellers','countries','createdBy'));
+    compact('purposetype','sources','miles','purpose','projects','campaigns','contacts','status','contactsCount','sellers','countries','createdBy','leaders'));
   }
   // get only the attributes that i want
 
@@ -464,9 +466,17 @@ class MainController extends Controller
         }            
       }
       //End
-
-
-      if(Request()->has('challenge_lead') && request('challenge_lead')){
+      // added by fazal 09-03-23
+      if(Request()->has('leader') && request('leader')){
+        $uri = Request()->fullUrl();
+        session()->put('start_filter_url',$uri);
+        $leaderId=request('leader');
+        $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+        $usersIds = $users->pluck('id')->toArray();
+        $q->whereIn('user_id',$usersIds);
+      }
+      // end
+     if(Request()->has('challenge_lead') && request('challenge_lead')){
         $uri = Request()->fullUrl();
         session()->put('start_filter_url',$uri);
         return $q->whereIn('status_id', ['1','4','7'])

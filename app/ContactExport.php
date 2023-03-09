@@ -33,7 +33,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
 
     public function query()
     {
-      if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' ){ //Updated by Javed
+      if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole()== 'digital marketing' ){ //Updated by Javed added role digital markting by fazal 3-3-23
 
         if(Request()->has('duplicated')){
 
