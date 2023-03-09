@@ -45,6 +45,7 @@ class PropertyXmlController extends Controller
     $xml.="<list last_update='".$last_update->last_updated."' listing_count='".$count."'>";
     $i = 1;
     $defaultAgent = User::where('email','omar.ali@madaproperties.com')->first();
+    $tempArray=[];
     foreach ($properties as $property) {
       $amenities = get_amenities($property->id);
       $privateamenities = $amenities['privateamenities'];
@@ -102,18 +103,22 @@ class PropertyXmlController extends Controller
       $xml.="
       <property last_update='".$property->last_updated."'>";
       if($property->crm_id){
+        $tempArray['crm_id'] = $property->crm_id;
         $xml.="<reference_number>".$property->crm_id."</reference_number>";
       }
 
       if($permit_number){
+        $tempArray['str_no'] = $property->str_no;
         $xml.="<permit_number>".$permit_number."</permit_number>";
       }
 
       if($offering_type){
+        $tempArray['sale_rent'] = $property->sale_rent;
         $xml.="<offering_type>".$offering_type."</offering_type>";
       }
 
       if($get_property_type){
+        $tempArray['get_property_type'] = $property->get_property_type;
         $xml.="<property_type>".$get_property_type."</property_type>";
       }
       $xml.="<price_on_application>".($property->price_on_application == 1 ? 'Yes' : 'No' )."</price_on_application>";
@@ -129,6 +134,9 @@ class PropertyXmlController extends Controller
         $xml.=$property->price;
       }
       $xml.="</price>";
+      $tempArray['price'] = $property->price;
+      $tempArray['yprice'] = $property->yprice;
+      $tempArray['mprice'] = $property->mprice;
 
 
 
@@ -149,6 +157,18 @@ class PropertyXmlController extends Controller
       <size>".$property->buildup_area."</size>
       <bedroom>".$property->bedrooms."</bedroom>
       <bathroom>".$property->bathrooms."</bathroom>";
+
+      $tempArray['city_text'] = $property->city;
+      $tempArray['communityId'] = $community;
+      $tempArray['subCommunity'] = $sub_community;
+      $tempArray['building_name'] = $property->building_name;
+      $tempArray['title'] = $property->title;
+      $tempArray['description'] = $property->description;
+      $tempArray['plot_size'] = $property->plot_size;
+      $tempArray['buildup_area'] = $property->buildup_area;
+      $tempArray['bedrooms'] = $property->bedrooms;
+      $tempArray['bathrooms'] = $property->bathrooms;
+
       if($property->agent && $property->agent->is_rera_active){
         $xml .="<agent>
           <id>".$property->agent->id."</id>
@@ -171,8 +191,12 @@ class PropertyXmlController extends Controller
       $xml .="<parking>".$property->parking_areas."</parking>
       <furnished>".($property->furnished == 1 ? 'Yes' : 'No')."</furnished>";
 
+      $tempArray['parking_areas'] = $property->parking_areas;
+      $tempArray['furnished'] = $property->furnished;
+
       if($property->virtual_360){
         $xml .="<view360>".($property->virtual_360)."</view360>";
+        $tempArray['virtual_360'] = $property->virtual_360;
       }
       $xml .="<photo>";
       $x=0;
@@ -185,13 +209,42 @@ class PropertyXmlController extends Controller
       }
       $xml.="</photo>";
       if($property->floorplan){
+        $tempArray['floorplan'] = $property->floorplan;        
         $xml.="<floor_plan><url last_updated='".$property->last_updated."'>".s3AssetUrl('uploads/'.$image->floorplan)."</url></floor_plan>"; 
       }
       if($property->geopoints){
+        $tempArray['geopoints'] = $property->geopoints;        
         $xml.="<geopoints>".$property->geopoints."</geopoints>";
+      }
+      $tempArray['id'] = $property->id;        
+      $tempArray['status'] = $property->status;        
+      $tempArray['property_type'] = $property->property_type;        
+      $tempArray['created_by'] = $property->created_by;        
+      $tempArray['user_id'] = $property->user_id;        
+      $tempArray['category_id'] = $property->category_id;        
+      $tempArray['city_id'] = $property->city_id;        
+      $tempArray['country_id'] = $property->country_id;        
+      $tempArray['currency'] = $property->currency;        
+      $tempArray['price_type'] = $property->price_type;        
+      $tempArray['status_photographer'] = $property->status_photographer;        
+      $tempArray['community'] = $property->community;        
+      $tempArray['latitude'] = $property->latitude;        
+      $tempArray['longitude'] = $property->longitude;        
+      $tempArray['created_at'] = $property->created_at;        
+      $tempArray['last_updated'] = $property->last_updated;        
+      $tempArray['area_name'] = $property->area_name;        
+      $tempArray['project_name'] = $property->project_name;        
+      $tempArray['video'] = $property->video;        
+      $temp = $property->toArray();
+      foreach ($temp as $key=>$value) {
+        if(!is_array($value) && !array_key_exists($key,$tempArray)){
+          $xml.= "<".trim($key).">".(!empty($temp[$key]) ? (($temp[$key] == 0)? '0' : $temp[$key]) : 'N/A')."</".trim($key).">";
+          //$xml.= "<".trim($key).">".$temp[$key]."</".trim($key).">";
+        }
       }
       $xml.="</property>";
     }
+
 
     
     $xml.="</list>";    
@@ -284,18 +337,22 @@ class PropertyXmlController extends Controller
       $xml.="
       <property last_update='".$property->last_updated."'>";
       if($property->crm_id){
+        $tempArray['crm_id'] = $property->crm_id;
         $xml.="<reference_number>".$property->crm_id."</reference_number>";
       }
 
       if($permit_number){
+        $tempArray['str_no'] = $property->str_no;
         $xml.="<permit_number>".$permit_number."</permit_number>";
       }
 
       if($offering_type){
+        $tempArray['sale_rent'] = $property->sale_rent;
         $xml.="<offering_type>".$offering_type."</offering_type>";
       }
 
       if($get_property_type){
+        $tempArray['get_property_type'] = $property->get_property_type;
         $xml.="<property_type>".$get_property_type."</property_type>";
       }
       $xml.="<price_on_application>".($property->price_on_application == 1 ? 'Yes' : 'No' )."</price_on_application>";
@@ -311,12 +368,15 @@ class PropertyXmlController extends Controller
         $xml.=$property->price;
       }
       $xml.="</price>";
+      $tempArray['price'] = $property->price;
+      $tempArray['yprice'] = $property->yprice;
+      $tempArray['mprice'] = $property->mprice;
 
 
 
       $xml.="<city><![CDATA[".$city_text."]]></city>
-      <zone><![CDATA[".$community."]]></zone>
-      <district><![CDATA[".$sub_community."]]></district>
+      <community><![CDATA[".$community."]]></community>
+      <sub_community><![CDATA[".$sub_community."]]></sub_community>
       <property_name><![CDATA[".$property->building_name."]]></property_name>
       <title_en><![CDATA[".$property->title."]]></title_en>
       <description_en><![CDATA[".$property->description."]]></description_en>";
@@ -331,6 +391,18 @@ class PropertyXmlController extends Controller
       <size>".$property->buildup_area."</size>
       <bedroom>".$property->bedrooms."</bedroom>
       <bathroom>".$property->bathrooms."</bathroom>";
+
+      $tempArray['city_text'] = $property->city;
+      $tempArray['communityId'] = $community;
+      $tempArray['subCommunity'] = $sub_community;
+      $tempArray['building_name'] = $property->building_name;
+      $tempArray['title'] = $property->title;
+      $tempArray['description'] = $property->description;
+      $tempArray['plot_size'] = $property->plot_size;
+      $tempArray['buildup_area'] = $property->buildup_area;
+      $tempArray['bedrooms'] = $property->bedrooms;
+      $tempArray['bathrooms'] = $property->bathrooms;
+
       if($property->agent && $property->agent->is_rera_active){
         $xml .="<agent>
           <id>".$property->agent->id."</id>
@@ -353,8 +425,12 @@ class PropertyXmlController extends Controller
       $xml .="<parking>".$property->parking_areas."</parking>
       <furnished>".($property->furnished == 1 ? 'Yes' : 'No')."</furnished>";
 
+      $tempArray['parking_areas'] = $property->parking_areas;
+      $tempArray['furnished'] = $property->furnished;
+
       if($property->virtual_360){
         $xml .="<view360>".($property->virtual_360)."</view360>";
+        $tempArray['virtual_360'] = $property->virtual_360;
       }
       $xml .="<photo>";
       $x=0;
@@ -367,11 +443,41 @@ class PropertyXmlController extends Controller
       }
       $xml.="</photo>";
       if($property->floorplan){
+        $tempArray['floorplan'] = $property->floorplan;        
         $xml.="<floor_plan><url last_updated='".$property->last_updated."'>".s3AssetUrl('uploads/'.$image->floorplan)."</url></floor_plan>"; 
       }
       if($property->geopoints){
+        $tempArray['geopoints'] = $property->geopoints;        
         $xml.="<geopoints>".$property->geopoints."</geopoints>";
       }
+      $tempArray['id'] = $property->id;        
+      $tempArray['status'] = $property->status;        
+      $tempArray['property_type'] = $property->property_type;        
+      $tempArray['created_by'] = $property->created_by;        
+      $tempArray['user_id'] = $property->user_id;        
+      $tempArray['category_id'] = $property->category_id;        
+      $tempArray['city_id'] = $property->city_id;        
+      $tempArray['country_id'] = $property->country_id;        
+      $tempArray['currency'] = $property->currency;        
+      $tempArray['price_type'] = $property->price_type;        
+      $tempArray['status_photographer'] = $property->status_photographer;        
+      $tempArray['community'] = $property->community;        
+      $tempArray['latitude'] = $property->latitude;        
+      $tempArray['longitude'] = $property->longitude;        
+      $tempArray['created_at'] = $property->created_at;        
+      $tempArray['last_updated'] = $property->last_updated;        
+      $tempArray['area_name'] = $property->area_name;        
+      $tempArray['project_name'] = $property->project_name;        
+      $tempArray['video'] = $property->video;        
+      $temp = $property->toArray();
+      foreach ($temp as $key=>$value) {
+        if(!is_array($value) && !array_key_exists($key,$tempArray)){
+          $xml.= "<".trim($key).">".(!empty($temp[$key]) ? (($temp[$key] == 0)? '0' : $temp[$key]) : 'N/A')."</".trim($key).">";
+          //$xml.= "<".trim($key).">".$temp[$key]."</".trim($key).">";
+        }
+      }
+
+
       $xml.="</property>";
     }    
     $xml.="</list>";    
