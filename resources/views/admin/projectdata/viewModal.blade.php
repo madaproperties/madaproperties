@@ -89,7 +89,8 @@
       </div>
       
       <div class="modal-footer">
-      @if($unit_name->status == 'Available')
+        @if($unit_name->status == 'Available')
+        <a href="{{ route('projectPayment.payment',$unit_name->id) }}" target="_blank"  class="btn btn-info btn-xs brochureinf" >Book Now</a>
         <a href="{{ route('project.brochure',$unit_name->id) }}" target="_blank"  class="btn btn-info btn-xs brochureinf  " >Download Offer</a>
         @endif
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>

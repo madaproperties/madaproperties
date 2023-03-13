@@ -531,4 +531,5 @@ return [
   'street_information_four'=>'معلومات الشارع أربعة',
   'previous'=>'سابق',
   'next'=>'التالي',
+  'Team'=>'فريق',
 ];

@@ -584,4 +584,5 @@ return [
   'street_information_four'=>'Street Information Four',
   'previous'=>'Previous',
   'next'=>'Next',
+  'Team'=>'Team',
 ];
