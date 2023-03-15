@@ -235,6 +235,25 @@ class PropertyXmlController extends Controller
       $tempArray['area_name'] = $property->area_name;        
       $tempArray['project_name'] = $property->project_name;        
       $tempArray['video'] = $property->video;        
+      $tempArray['zone_id'] = $property->zone_id;        
+      $tempArray['district_id'] = $property->district_id;        
+      $tempArray['facing'] = $property->facing;        
+      $tempArray['border_length'] = $property->border_length;        
+      $tempArray['border_width'] = $property->border_width;     
+      $tempArray['living_room'] = $property->living_room;     
+      $tempArray['guest_room'] = $property->guest_room;     
+      $tempArray['age'] = $property->age;     
+      $tempArray['street_information_one'] = $property->street_information_one;     
+      $tempArray['street_information_two'] = $property->street_information_two;     
+      $tempArray['street_information_three'] = $property->street_information_three;     
+      $tempArray['street_information_four'] = $property->street_information_four;
+      $tempArray['owner_name'] = $property->owner_name;        
+      $tempArray['contact_no'] = $property->contact_no;        
+      $tempArray['mobile'] = $property->mobile;        
+      $tempArray['email'] = $property->email;       
+      $tempArray['street_width'] = $property->street_width;       
+      $tempArray['passport_emirates_id'] = $property->passport_emirates_id;     
+      $tempArray['deleted_at'] = $property->deleted_at;          
       $temp = $property->toArray();
       foreach ($temp as $key=>$value) {
         if(!is_array($value) && !array_key_exists($key,$tempArray)){
@@ -469,6 +488,14 @@ class PropertyXmlController extends Controller
       $tempArray['area_name'] = $property->area_name;        
       $tempArray['project_name'] = $property->project_name;        
       $tempArray['video'] = $property->video;        
+      $tempArray['zone_id'] = $property->zone_id;        
+      $tempArray['district_id'] = $property->district_id;        
+      $tempArray['owner_name'] = $property->owner_name;        
+      $tempArray['contact_no'] = $property->contact_no;        
+      $tempArray['mobile'] = $property->mobile;        
+      $tempArray['email'] = $property->email;    
+      $tempArray['passport_emirates_id'] = $property->passport_emirates_id;          
+      $tempArray['deleted_at'] = $property->deleted_at;          
       $temp = $property->toArray();
       foreach ($temp as $key=>$value) {
         if(!is_array($value) && !array_key_exists($key,$tempArray)){
