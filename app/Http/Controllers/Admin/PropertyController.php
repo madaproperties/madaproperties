@@ -120,7 +120,11 @@ class PropertyController extends Controller
 
 
     $sellers = getSellers();
-    return view('admin.property.index',compact('properties','property_count','categories','sellers'));
+    // added by fazal -7-3-23
+    $leaders= User::where('rule','leader')->select('id','email')->get(); 
+    // 
+    
+    return view('admin.property.index',compact('properties','property_count','categories','sellers','leaders'));
   }
 
   public function create()
@@ -979,6 +983,17 @@ class PropertyController extends Controller
       //End
     }
 
+    // added by fazal 09-03-23
+    if(Request()->has('leader') && request('leader')){
+      $uri = Request()->fullUrl();
+      session()->put('start_filter_url',$uri);
+      $leaderId=request('leader');
+      $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+      $usersIds = $users->pluck('id')->toArray();
+      $q->whereIn('user_id',$usersIds);
+    }
+    // end
+    
     if(Request()->has('search')){
       $uri = Request()->fullUrl();
       session()->put('start_filter_url',$uri);

@@ -44,7 +44,10 @@ Route::get('projectdata/view/{id}','Admin\ProjectDataController@View')->name('pr
 Route::post('projectdata/getPupUpByAjax','Admin\ProjectDataController@getPupUpByAjax')->name('projectdata.getPupUpByAjax');
 // end
 
-Route::get('project/payment/{id}','Admin\ProjectPaymentController@payment')->name('projectPayment.payment');
+Route::post('project/payment','Admin\ProjectPaymentController@payment')->name('projectPayment.payment');
+Route::get('payment/checkoutPage/{id}','Admin\ProjectPaymentController@checkoutPage')->name('projectPayment.checkoutPage');
+Route::get('payment/success','Admin\ProjectPaymentController@success')->name('projectPayment.success');
+Route::get('payment/error','Admin\ProjectPaymentController@error')->name('projectPayment.error');
 // 
 Route::get('secondaryproject/brochure/{id}','Admin\SecondaryController@brochure')->name('secondaryproject.brochure');
 

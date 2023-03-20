@@ -118,7 +118,7 @@
 															<span class="nav-text">{{__('site.notes')}}</span>
 														</a>
 													</li>
-													@if(userRole() == 'admin' || userRole() == 'sales admin uae')
+													@can('property-verification-tab') 
 													<li class="nav-item">
 														<a class="nav-link" id="verification-tab" data-toggle="tab" href="#verification" aria-controls="verification">
 															<span class="nav-icon">
@@ -127,7 +127,7 @@
 															<span class="nav-text">{{__('site.verification')}}</span>
 														</a>
 													</li>
-													@endif
+													@endcan
 												</ul>
 													
 												<div class="col-xl-12 col-xxl-12">
@@ -1069,7 +1069,7 @@
 																</div>
 
 															</div>
-															@if(userRole() == 'admin' || userRole() == 'sales admin uae')
+															@can('property-verification-tab') 
 															<div class="tab-pane fade" id="verification" role="tabpanel" aria-labelledby="verification-tab">
 																<div class="row col-xl-12 card">
 																	<div class="col-xl-12">
@@ -1078,7 +1078,7 @@
 																		<div class="col-xs-12">
 																		<!--begin::Wizard Step 1-->
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">	
-																			@if(userRole() == 'admin' || userRole() == 'sales admin uae')
+																			
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.agent')}}</label>
@@ -1092,7 +1092,7 @@
 																				</div>
 																			
 																			<!--end::Group-->
-																		
+																			@if(userRole() == 'admin' || userRole() == 'sales admin uae')
 	<!--begin::Group-->
 																		
 																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.portals')}}</label>
@@ -1101,12 +1101,13 @@
                     																	Add portals <i class="fa fa-menu"></i>
                   																	</button>
 																				</div>
-																			</div>
 																			@endif
+																			</div>
+																			
 																			<!--end::Group-->
 																			</div>
 																	</div>
-																	
+																		@if(userRole() == 'admin' || userRole() == 'sales admin uae')
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.verified')}}</label>
@@ -1157,7 +1158,8 @@
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
-																			<div class="form-group row fv-plugins-icon-container">
+																		@endif
+																		<div class="form-group row fv-plugins-icon-container">
 																			
 																			<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.permit')}}</label>
 																			<div class="col-xs-12 col-sm-6 col-lg-3">
@@ -1190,7 +1192,7 @@
 																</div>
 
 															</div>	
-															@endif
+															@endcan
 															
 																														
 														</div>

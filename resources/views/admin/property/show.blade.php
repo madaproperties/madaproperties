@@ -1097,7 +1097,7 @@
 																	<!--end::Wizard Actions-->
 																</div>
 															</div>
-															@if(userRole() == 'admin' || userRole() == 'sales admin uae')
+															@can('property-verification-tab') 
 															<div class="tab-pane fade" id="verification" role="tabpanel" aria-labelledby="verification-tab">
 																<div class="row col-xl-12 card">
 																	<div class="col-xl-12">
@@ -1117,7 +1117,7 @@
 																					</div>
 																				</div>
 																				<!--end::Group-->
-
+																			@endif
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
@@ -1133,20 +1133,21 @@
 																			
 																			<!--end::Group-->
 																		
-	<!--begin::Group-->
-																		
+																			<!--begin::Group-->
+																			@if(userRole() == 'admin' || userRole() == 'sales admin uae')
 																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.portals')}}</label>
 																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#portals_modal">
                     																	Add portals <i class="fa fa-menu"></i>  ({{count($property->portals)}})
                   																	</button>
 																				</div>
-																			</div>
 																			@endif
+																			</div>
+																			
 																			<!--end::Group-->
 																			</div>
 																	</div>
-																	
+																			@if(userRole() == 'admin' || userRole() == 'sales admin uae')
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.verified')}}</label>
@@ -1197,7 +1198,8 @@
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
 																			</div>
-																			<div class="form-group row fv-plugins-icon-container">
+																		@endif
+																		<div class="form-group row fv-plugins-icon-container">
 																			
 																			<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.permit')}}</label>
 																			<div class="col-xs-12 col-sm-6 col-lg-3">
@@ -1229,7 +1231,7 @@
 																	<!--end::Wizard Actions-->
 																</div>
 															</div>	
-															@endif															
+															@endcan															
 														</div>
 													</form>
 													<!--end::Wizard Form-->

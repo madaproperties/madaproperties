@@ -175,6 +175,9 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
        // 27-02
        
        Route::post('property.imgreorder', 'PropertyController@imgReorder')->name('property.imgreorder'); 
+
+       Route::resource('bookings','BookingsController');
+
 });
 
 

@@ -122,6 +122,21 @@
         </div>
     </div>
 
+    @if(userRole() != 'sales')
+      @if(isset($leaders) && count($leaders)>0)
+      <div class="form-group col-md-4 col-sm-12">
+        <label for="country">{{__('site.Team')}}</label>
+        <select class="form-control" name="leader"  data-select2-id="" tabindex="-1" aria-hidden="true">
+          <option value="">{{ __('site.choose') }}</option>
+            @foreach($leaders as $leader)
+              <option {{request('leader') == $leader->id ? 'selected' : ''}}
+                      value="{{$leader->id}}">{{ explode('@',$leader->email)[0]}}</option>
+            @endforeach
+        </select>
+      </div>
+      @endif
+    @endif
+
   </div> <!-- end row -->
 <button type="submit" class="btn btn-primary">{{__('site.search')}}</button>
 </form>

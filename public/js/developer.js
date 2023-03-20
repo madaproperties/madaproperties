@@ -57,9 +57,7 @@ $(document).ready(function(){
 	});
 
 	$('#buildup_area,#price').on('input keyup keypress blur change',function(){
-		if($("#price").val() != '' && $("#buildup_area").val() != ''){
-			$("#price_unit").val($("#price").val()/$("#buildup_area").val());
-		}
+		updatePrice();
 	});
 	$('#title_count').html($('[name="title"]').val().length);
 	$('#title_ar_count').html($('[name="title_ar"]').val().length);
@@ -83,6 +81,7 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
+	updatePrice();
 	$("#community").change(function(e) {
 		e.preventDefault();    
 		var community_id = $(this).val();
@@ -154,4 +153,9 @@ $(function() {
 
 function changeTab(tabId){
 	$(tabId+'-tab').click();
+}
+function updatePrice(){
+	if($("#price").val() != '' && $("#buildup_area").val() != ''){
+		$("#price_unit").val(($("#price").val()/$("#buildup_area").val()).toFixed(2));
+	}
 }
