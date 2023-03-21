@@ -97,6 +97,7 @@
 									<th>{{__('site.status')}}</th>
 									<th>{{__('site.title')}}</th>
 									<th>{{__('site.Agent')}}</th>
+									<th>{{__('site.created_at')}}</th>
 									<th>{{__('site.updated_at')}}</th>
 									<th style="min-width:150px">{{__('site.action')}}</th>
 								</tr>
@@ -126,7 +127,11 @@
 									</td>
 									<td>
 										<span>{{$property->agent ? $property->agent->name : 'N/A'}}</span>
+										<span>Created By : {{$property->createdBy ? $property->createdBy->name : 'N/A'}}</span>
 									</td>
+									<td>
+										<span>{{($property->created_at)}}</span>
+									</td>																		
 									<td>
 										<span>{{($property->last_updated)}}</span>
 									</td>																		

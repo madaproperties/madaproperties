@@ -42,6 +42,8 @@
         {!! selectOptions(__('config.status'),Request('status')) !!}
       </select>
     </div>
+    @endif
+    @if(count($sellers))
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.agent')}}</label>
       <select class="form-control" name="user_id">
@@ -55,13 +57,34 @@
 
     <!--begin::Group-->
     <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.category')}}</label>
+      <select class="form-control"  name="category_id">
+        <option value="" >{{ __('site.choose') }}</option>
+        @foreach($categories as $category)
+        <option {{ Request('category_id') == $category->id ? 'selected' : ''}} value="{{$category->id}}">{{$category->category_name}}</option>
+        @endforeach
+      </select>																				
+    </div>
+    <!--end::Group-->
+    <!--begin::Group-->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.property_type')}}</label>
+      <select class="form-control" name="property_type">
+        <option value="">{{__('site.choose')}}</option>
+        <option value="1">{{__('site.residential')}}</option>
+        <option value="2">{{__('site.commercial')}}</option>
+      </select>																					
+    </div>
+    <!--end::Group-->
+    <!--begin::Group-->
+    <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.type')}}</label>
       <select class="form-control" name="sale_rent">
         <option value="">{{__('site.choose')}}</option>
         {!! selectOptions(__('config.sale_rent'),Request('sale_rent')) !!}
       </select>																					
     </div>
-    <!--end::Group-->
+    <!--end::Group-->    
     <!--begin::Group-->
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.portals')}}</label>

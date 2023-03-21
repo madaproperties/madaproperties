@@ -27,7 +27,7 @@ class PropertyBayutXmlController extends Controller
 {
 
   public function propertyBayutXml(Request $request){
-    $properties = Property::join('property_portals','property_portals.property_id','=','properties.id')
+    $properties = Property::select('properties.*')->join('property_portals','property_portals.property_id','=','properties.id')
     ->whereIn('property_portals.portal_id',[2,3])
     ->where('status',1)
     ->groupBy('properties.id')

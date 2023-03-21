@@ -94,5 +94,9 @@ class Property extends Model
     {
       return $this->belongsTo(Districts::class,'district_id');
     }
+    public function createdBy()
+    {
+      return $this->belongsTo(User::class,'created_by');
+    }
 
 }

@@ -27,11 +27,11 @@ class PropertyFinderXmlController extends Controller
 {
 
   function propertyFinderXml(){
-    $properties = Property::join('property_portals','property_portals.property_id','=','properties.id')
+    $properties = Property::select('properties.*')->join('property_portals','property_portals.property_id','=','properties.id')
     ->where('property_portals.portal_id',1)
     ->where('status',1)->get();
     $count = count($properties);
-    $last_update = Property::join('property_portals','property_portals.property_id','=','properties.id')
+    $last_update = Property::select('properties.*')->join('property_portals','property_portals.property_id','=','properties.id')
     ->where('property_portals.portal_id',1)
     ->where('status',1)->orderBy('last_updated','desc')->first();
 

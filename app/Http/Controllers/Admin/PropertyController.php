@@ -115,7 +115,7 @@ class PropertyController extends Controller
     
     $property_count = $property->count();
     $property = $property->groupBy('properties.id');
-    $properties = $property->orderBy('last_updated','desc')->paginate(20);
+    $properties = $property->orderBy('created_at','desc')->paginate(20);
     $categories = Categories::get(); 
 
 
@@ -316,26 +316,63 @@ class PropertyController extends Controller
 
     $property = Property::create($data);
 
+    // if(\Session::get('tempImages')){
+    //   foreach(\Session::get('tempImages') as $image){
+    //     PropertyImages::create([
+    //       'property_id' => $property->id,
+    //       'images_link' => $image
+    //     ]);
+    //   }
+    //   session()->forget('tempImages');  
+    // } 
+
+
+    // if(\Session::get('tempDocuments')){
+    //   foreach(\Session::get('tempDocuments') as $document){
+    //     PropertyDocuments::create([
+    //       'property_id' => $property->id,
+    //       'document_link' => $document
+    //     ]);
+    //   }
+    //   session()->forget('tempDocuments');  
+    // } 
     if(\Session::get('tempImages')){
+
+      $destinationPath =  'public/uploads/property/'.$property->id.'/images';
+      if (!is_dir($destinationPath)){ 
+        mkdir($destinationPath, 0777, true);
+      }
+
       foreach(\Session::get('tempImages') as $image){
         PropertyImages::create([
           'property_id' => $property->id,
           'images_link' => $image
         ]);
+
+        $fromPath = 'public/uploads/temp/images/'.$image;
+        copy($fromPath,$destinationPath.'/'.$image);
       }
       session()->forget('tempImages');  
-    } 
-
-
+    }
+    
     if(\Session::get('tempDocuments')){
+      $destinationPath =  'public/uploads/property/'.$property->id.'/documents';
+      if (!is_dir($destinationPath)){ 
+        mkdir($destinationPath, 0777, true);
+      }
       foreach(\Session::get('tempDocuments') as $document){
         PropertyDocuments::create([
           'property_id' => $property->id,
           'document_link' => $document
         ]);
+        $fromPath = 'public/uploads/temp/documents/'.$document;
+        copy($fromPath,$destinationPath.'/'.$document);
       }
       session()->forget('tempDocuments');  
     } 
+    
+    
+    
     if(\Session::get('tempFeatures')){
       $temp = [];
       $i = 0;
@@ -953,6 +990,7 @@ class PropertyController extends Controller
         "category_id" ,
         "user_id",
         "sale_rent",
+        "property_type"
       ];
 
       foreach($feilds as $feild => $value){
