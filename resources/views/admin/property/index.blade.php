@@ -117,6 +117,9 @@
 									</td>
 									<td>
 										<span>{{$property->category ? $property->category->category_name : 'N/A'}}</span>
+										@if($property->building_name)
+											<p><b>Location : {{$property->building_name}}</b></p>
+										@endif
 									</td>
 									<td>
 										<span>{{__('config.status.'.$property->status)}}</span>

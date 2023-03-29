@@ -597,4 +597,5 @@ return [
   'customer details'=>'customer details',
   'project details'=>'project details',
   'mobile no.'=>'Mobile No.',
+  'National Id'=>'National Id',  
 ];

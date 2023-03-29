@@ -140,10 +140,10 @@ class PropertyController extends Controller
     $unitFeatures = Features::where('feature_type',1)->orderBy('feature_name','asc')->get();
     $devFeatures = Features::where('feature_type',2)->orderBy('feature_name','asc')->get();
     $lifeStyleFeatures = Features::where('feature_type',3)->orderBy('feature_name','asc')->get();
-    $categories = Categories::get(); 
+    $categories = Categories::orderBy('category_name','asc')->get(); 
     $community = Community::where('city_id','84')->where('parent_id',0)->orderBy('name_en','asc')->get(); 
-    $zones=Zones::get();
-    $districts=Districts::get();
+    $zones=Zones::orderBy('zone_name','asc')->get();
+    $districts=Districts::orderBy('name','asc')->get();
     return view('admin.property.create',compact('zones','districts','community','cities','countries','campaigns','sources','purposeType','sellers','lifeStyleFeatures','categories','devFeatures','unitFeatures'));
   }
 
@@ -676,11 +676,11 @@ class PropertyController extends Controller
     $devFeatures = Features::where('feature_type',2)->orderBy('feature_name','asc')->get();
     $lifeStyleFeatures = Features::where('feature_type',3)->orderBy('feature_name','asc')->get();
     
-    $categories = Categories::get(); 
+    $categories = Categories::orderBy('category_name','asc')->get(); 
     $community = Community::where('city_id','84')->where('parent_id',0)->orderBy('name_en','asc')->get();      
     $subCommunity = Community::where('city_id','84')->where('parent_id',$property->community)->orderBy('name_en','asc')->get();      
-    $zones=Zones::get();
-    $districts=Districts::get();   
+    $zones=Zones::orderBy('zone_name','asc')->get();
+    $districts=Districts::orderBy('name','asc')->get();
     return view('admin.property.show',compact('zones','districts','community','subCommunity','property','cities','countries','campaigns','sources','purposeType','sellers','unitFeatures','propertyFeatures','propertyPortals','categories','lifeStyleFeatures','devFeatures'));
 
   }  
@@ -1000,23 +1000,46 @@ class PropertyController extends Controller
       }
 
       //Added by Javed
+      if(Request('updated_from') && Request('updated_to')){
+        $uri = Request()->fullUrl();
+        $updated_from = date('Y-m-d 00:00:00', strtotime(Request('updated_from')));
+        $updated_to = date('Y-m-d 23:59:59', strtotime(Request('updated_to')));
+        $q->whereBetween('last_updated',[$updated_from,$updated_to]);
+      }else{   
+        if(Request('updated_from')){
+          $uri = Request()->fullUrl();
+          $updated_from = date('Y-m-d 00:00:00', strtotime(Request('updated_from')));
+          $q->where('last_updated','>=', $updated_from);
+        }   
+        if(Request('updated_to')){
+          $uri = Request()->fullUrl();
+          $updated_to = date('Y-m-d 23:59:59', strtotime(Request('updated_to')));
+          $q->where('last_updated','<=',$updated_to);
+        }            
+      }
+
+      //Added by Javed
       if(Request('from') && Request('to')){
         $uri = Request()->fullUrl();
+        session()->put('start_filter_url',$uri);
         $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
         $to = date('Y-m-d 23:59:59', strtotime(Request('to')));
-        $q->whereBetween('last_updated',[$from,$to]);
+        $q->whereBetween('created_at',[$from,$to]);
       }else{   
         if(Request('from')){
           $uri = Request()->fullUrl();
+          session()->put('start_filter_url',$uri);
           $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
-          $q->where('last_updated','>=', $from);
+          $q->where('created_at','>=', $from);
         }   
         if(Request('to')){
           $uri = Request()->fullUrl();
+          session()->put('start_filter_url',$uri);
           $to = date('Y-m-d 23:59:59', strtotime(Request('to')));
-          $q->where('last_updated','<=',$to);
+          $q->where('created_at','<=',$to);
         }            
       }
+      //End
       session()->put('start_filter_url',$uri);
       //End
     }

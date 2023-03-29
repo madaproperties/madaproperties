@@ -149,13 +149,21 @@ class PropertyFinderXmlController extends Controller
       if($property->agent && $property->agent->is_rera_active){
         $xml .="<agent>
           <id>".$property->agent->id."</id>
-          <name><![CDATA[".$property->agent->name."]]></name>
+          <name><![CDATA[".$property->agent->username."]]></name>
           <email>".$property->agent->name."</email>
           <phone>".$property->agent->mobile_no."</phone>
           <license_no>".$property->agent->rera_number."</license_no>
         </agent>";
       }else{
-        if($defaultAgent){
+        if($property->agent && $defaultAgent){
+            $xml .="<agent>
+            <id>".$defaultAgent->id."</id>
+            <name><![CDATA[".$property->agent->username."]]></name>
+            <email>".$property->agent->name."</email>
+            <phone>".$property->agent->mobile_no."</phone>
+            <license_no>".$defaultAgent->rera_number."</license_no>
+          </agent>";
+        }else if($defaultAgent){
           $xml .="<agent>
             <id>".$defaultAgent->id."</id>
             <name><![CDATA[".$defaultAgent->username."]]></name>

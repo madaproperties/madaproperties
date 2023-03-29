@@ -42,6 +42,7 @@ Route::get('employee','EmployeeController@index')->name('employee.index');
 Route::get('new-web','Admin\ProjectDataController@newWeb')->name('projcets.newweb'); 
 Route::get('projectdata/view/{id}','Admin\ProjectDataController@View')->name('projectdata.view');
 Route::post('projectdata/getPupUpByAjax','Admin\ProjectDataController@getPupUpByAjax')->name('projectdata.getPupUpByAjax');
+Route::get('projectdata/terms-and-conditions','Admin\ProjectDataController@termsAndConditions')->name('projectdata.termsAndConditions');
 // end
 
 Route::post('project/payment','Admin\ProjectPaymentController@payment')->name('projectPayment.payment');

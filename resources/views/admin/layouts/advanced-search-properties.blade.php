@@ -34,7 +34,7 @@
   <input type="hidden" name="pt" value="{{request()->get('pt')}}">
 
   <div class="row"> <!--- row -->
-    @if(userRole() == 'admin' || userRole() == 'sales admin uae')
+    @if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'leader')
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.status')}}</label>
       <select class="form-control" name="status">
@@ -106,18 +106,57 @@
     </div>
     <!--end::Group-->
 
+
+    <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.Created')}} {{ __('site.from') }} </label>
+          <div class="">
+            <div class="input-group input-group-solid date"
+            id="from-date" data-target-input="nearest">
+              <input value="{{request('from')}}" type="text"
+              max="{{date('d-m-Y')}}"
+              class="form-control form-control-solid datetimepicker-input"
+              data-toggle="datetimepicker"
+              name="from" data-target="#from-date" autocomplete="off">
+              <div class="input-group-append" data-target="#from-date" data-toggle="datetimepicker">
+                <span class="input-group-text">
+                  <i class="ki ki-calendar"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.Created')}} {{ __('site.to') }}</label>
+          <div class="">
+            <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+              <input value="{{request('to')}}" type="text" class="form-control form-control-solid datetimepicker-input"
+              data-toggle="datetimepicker"
+              min="{{date('d-m-Y')}}"
+              name="to" data-target="#to-date" autocomplete="off">
+              <div class="input-group-append" data-target="#to-date" data-toggle="datetimepicker">
+                <span class="input-group-text">
+                  <i class="ki ki-calendar"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
     <div class="form-group col-md-4 col-sm--12">
       <div class="form-group ">
           <label class="">{{__('site.updated')}} {{ __('site.from') }} </label>
           <div class="">
             <div class="input-group input-group-solid date"
-            id="from" data-target-input="nearest">
-              <input value="{{request('from')}}" type="text"
+            id="updated_from" data-target-input="nearest">
+              <input value="{{request('updated_from')}}" type="text"
               max="{{date('d-m-Y')}}"
               class="form-control form-control-solid datetimepicker-input datepicker"
               data-toggle="datetimepicker"
-              name="from" data-target="#from" autocomplete="off">
-              <div class="input-group-append" data-target="#from" data-toggle="datetimepicker">
+              name="updated_from" data-target="#updated_from" autocomplete="off">
+              <div class="input-group-append" data-target="#updated_from" data-toggle="datetimepicker">
                 <span class="input-group-text">
                   <i class="ki ki-calendar"></i>
                 </span>
@@ -131,11 +170,11 @@
           <label class="">{{__('site.updated')}} {{ __('site.to') }}</label>
           <div class="">
             <div class="input-group input-group-solid date to-date-el"  data-target-input="nearest">
-              <input value="{{request('to')}}" type="text" id="to" class="form-control form-control-solid datetimepicker-input datepicker"
+              <input value="{{request('updated_to')}}" type="text" id="updated_to" class="form-control form-control-solid datetimepicker-input datepicker"
               data-toggle="datetimepicker"
               min="{{date('d-m-Y')}}"
-              name="to" data-target="#to" autocomplete="off">
-              <div class="input-group-append" data-target="#to" data-toggle="datetimepicker">
+              name="updated_to" data-target="#updated_to" autocomplete="off">
+              <div class="input-group-append" data-target="#updated_to" data-toggle="datetimepicker">
                 <span class="input-group-text">
                   <i class="ki ki-calendar"></i>
                 </span>
@@ -145,7 +184,7 @@
         </div>
     </div>
 
-    @if(userRole() != 'sales')
+    @if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales director' || userRole() == 'sales admin saudi')
       @if(isset($leaders) && count($leaders)>0)
       <div class="form-group col-md-4 col-sm-12">
         <label for="country">{{__('site.Team')}}</label>

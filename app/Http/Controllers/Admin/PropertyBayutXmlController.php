@@ -158,7 +158,21 @@ class PropertyBayutXmlController extends Controller
           xmlwriter_write_cdata($xw, $property->agent->email);
           xmlwriter_end_element($xw); // Count
         }else{
-          if($defaultAgent){
+          if($property->agent && $defaultAgent){
+
+             xmlwriter_start_element($xw, 'Listing_Agent');
+            xmlwriter_write_cdata($xw, $property->agent->username);
+            xmlwriter_end_element($xw); // Count
+              
+            xmlwriter_start_element($xw, 'Listing_Agent_Phone');
+            xmlwriter_write_cdata($xw, $property->agent->mobile_no);
+            xmlwriter_end_element($xw); // Count
+              
+            xmlwriter_start_element($xw, 'Listing_Agent_Email');
+            xmlwriter_write_cdata($xw, $property->agent->email);
+            xmlwriter_end_element($xw); // Count
+
+          }else if($defaultAgent){
             xmlwriter_start_element($xw, 'Listing_Agent');
             xmlwriter_write_cdata($xw, $defaultAgent->username);
             xmlwriter_end_element($xw); // Count

@@ -213,6 +213,20 @@
 											{!! selectOptions(__('config.yes_no'),$user->is_rera_active) !!}
 											</select>
 										</div>
+
+										<div class="form-group rera-user" style="display:none">
+											<label>{{__('site.rera_user')}}:</label>
+											<select name="leader" class="form-control form-control-lg form-control-solid mb-2 ">
+												<option value="" class="selcted-default-leader" selected>{{__('site.select option')}}</option>
+												@foreach($reraUsers as $reraUser)
+													<option
+													{{$reraUser->id == $user->reraUserId ? 'selected' : ''}}
+													 value="{{$reraUserId->id}}">{{$reraUserId->name}}</option>
+												@endforeach
+											</select>
+										</div>
+
+
 										<div class="form-group">
 											<label>{{__('site.Rera Number')}}:</label>
 											<input type="text" class="form-control" name="rera_number" value="{{$user->rera_number}}" autocomplete="off">
