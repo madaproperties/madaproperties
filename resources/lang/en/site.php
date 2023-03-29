@@ -598,4 +598,5 @@ return [
   'project details'=>'project details',
   'mobile no.'=>'Mobile No.',
   'National Id'=>'National Id',  
+  'InvoiceAmount'=>'Invoice Amount',
 ];
