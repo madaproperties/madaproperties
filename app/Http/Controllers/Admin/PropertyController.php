@@ -338,35 +338,46 @@ class PropertyController extends Controller
     // } 
     if(\Session::get('tempImages')){
 
-      $destinationPath =  'public/uploads/property/'.$property->id.'/images';
-      if (!is_dir($destinationPath)){ 
-        mkdir($destinationPath, 0777, true);
-      }
+      // $destinationPath =  'public/uploads/property/'.$property->id.'/images';
+      // if (!is_dir($destinationPath)){ 
+      //   mkdir($destinationPath, 0777, true);
+      // }
 
       foreach(\Session::get('tempImages') as $image){
-        PropertyImages::create([
-          'property_id' => $property->id,
-          'images_link' => $image
-        ]);
+        $destinationPath = 'public/uploads/temp/images/'.$image;
+        if(file_exists(public_path('uploads/temp/images/'.$image))){
+          PropertyImages::create([
+            'property_id' => $property->id,
+            'images_link' => $image
+          ]);
 
-        $fromPath = 'public/uploads/temp/images/'.$image;
-        copy($fromPath,$destinationPath.'/'.$image);
+          //copy($fromPath,$destinationPath.'/'.$image);
+
+          Storage::disk('s3')->put('uploads/property/'.$property->id.'/images/'.$image, file_get_contents($destinationPath));
+          unlink($destinationPath);
+        }
+
       }
       session()->forget('tempImages');  
     }
     
     if(\Session::get('tempDocuments')){
-      $destinationPath =  'public/uploads/property/'.$property->id.'/documents';
-      if (!is_dir($destinationPath)){ 
-        mkdir($destinationPath, 0777, true);
-      }
+      // $destinationPath =  'public/uploads/property/'.$property->id.'/documents';
+      // if (!is_dir($destinationPath)){ 
+      //   mkdir($destinationPath, 0777, true);
+      // }
       foreach(\Session::get('tempDocuments') as $document){
-        PropertyDocuments::create([
-          'property_id' => $property->id,
-          'document_link' => $document
-        ]);
-        $fromPath = 'public/uploads/temp/documents/'.$document;
-        copy($fromPath,$destinationPath.'/'.$document);
+        $destinationPath = 'public/uploads/temp/documents/'.$document;
+        if(file_exists(public_path('uploads/temp/documents/'.$document))){
+          PropertyDocuments::create([
+            'property_id' => $property->id,
+            'document_link' => $document
+          ]);
+          //copy($fromPath,$destinationPath.'/'.$document);
+
+          Storage::disk('s3')->put('uploads/property/'.$property->id.'/documents/'.$document, file_get_contents($destinationPath));
+          unlink($destinationPath);
+        }
       }
       session()->forget('tempDocuments');  
     } 
@@ -752,7 +763,6 @@ class PropertyController extends Controller
             $img->insert($watermark, 'center');
             $img->save($destinationPath.'/'.$filename);
             
-            //Storage::disk('s3')->put('uploads/property/'.$property_id.'/images', $filename);
             
             PropertyImages::create([
             'property_id' => $property_id,
@@ -760,8 +770,18 @@ class PropertyController extends Controller
             'order' =>$i
             ]);
             $i++;
-            $publicPath='public/uploads/property/'.$property_id.'/images/';
-            
+            $publicPath='uploads/property/'.$property_id.'/images/';
+
+            Storage::disk('s3')->put('uploads/property/'.$property_id.'/images/'.$filename, file_get_contents($destinationPath.'/'.$filename));
+
+            unlink($destinationPath.'/'.$filename);
+
+            $html .= '<div class="col-xl-4" style="float:left" id="'.str_replace(".","-",$filename).'">
+            <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">                        
+              <img src="'.s3AssetUrl($publicPath.$filename).'" style="width:215px;height:147px">
+          </div><a href="javascript:void(0)" class="checkbox deleteImage" data-value="'.$filename.'">Delete</a>
+          <a href="'.s3AssetUrl($publicPath.$filename).'" target="_blank">View</a></div>';
+  
           }else{
             //$file = $file->move('public/uploads/temp/images', $md5Name.'.'.$guessExtension);   
             
@@ -778,12 +798,14 @@ class PropertyController extends Controller
 
             \Session::push('tempImages', $filename);
             $publicPath='public/uploads/temp/images/';
+
+            $html .= '<div class="col-xl-4" style="float:left" id="'.str_replace(".","-",$filename).'">
+            <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">                        
+              <img src="'.asset($publicPath.$filename).'" style="width:215px;height:147px">
+          </div><a href="javascript:void(0)" class="checkbox deleteImage" data-value="'.$filename.'">Delete</a>
+          <a href="'.asset($publicPath.$filename).'" target="_blank">View</a></div>';
+  
           }
-          $html .= '<div class="col-xl-4" style="float:left" id="'.str_replace(".","-",$filename).'">
-          <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">                        
-            <img src="'.asset($publicPath.$filename).'" style="width:215px;height:147px">
-        </div><a href="javascript:void(0)" class="checkbox deleteImage" data-value="'.$filename.'">Delete</a>
-        <a href="'.asset($publicPath.$filename).'" target="_blank">View</a></div>';
 
         }
       }    
@@ -844,23 +866,38 @@ class PropertyController extends Controller
             $property_id = Request('property_id');
             $file = $file->move('public/uploads/property/'.$property_id.'/documents', $md5Name.'.'.$guessExtension);     
             $filename = $md5Name.'.'.$guessExtension;
+            $destinationPath = 'public/uploads/property/'.$property_id.'/documents/'.$filename;
             //Storage::disk('s3')->put('uploads/property/'.$property_id.'/documents', $filename);
+
+            Storage::disk('s3')->put('uploads/property/'.$property_id.'/documents/'.$filename, file_get_contents($destinationPath));
+
+            unlink($destinationPath);
+
             PropertyDocuments::create([
             'property_id' => $property_id,
             'document_link' => $filename
             ]);
-            $publicPath='public/uploads/property/'.$property_id.'/documents/';
+            $publicPath='uploads/property/'.$property_id.'/documents/';
+
+            $html .= '<div class="col-xl-4" id="'.str_replace(".","-",$filename).'">
+            <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">                        
+              <p>'.$filename.'<a href="javascript:void(0)" class="checkbox deleteDocument" data-value="'.$filename.'">Delete</a>
+              <a href="'.s3AssetUrl($publicPath.$filename).'" target="_blank">View</a></div></p>
+          </div>';
+
           }else{
             $file = $file->move('public/uploads/temp/documents', $md5Name.'.'.$guessExtension);     
             $filename = $md5Name.'.'.$guessExtension;
             \Session::push('tempDocuments', $filename);
             $publicPath='public/uploads/temp/documents/';
+
+            $html .= '<div class="col-xl-4" id="'.str_replace(".","-",$filename).'">
+            <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">                        
+              <p>'.$filename.'<a href="javascript:void(0)" class="checkbox deleteDocument" data-value="'.$filename.'">Delete</a>
+              <a href="'.asset($publicPath.$filename).'" target="_blank">View</a></div></p>
+          </div>';
+  
           }
-          $html .= '<div class="col-xl-4" id="'.str_replace(".","-",$filename).'">
-          <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">                        
-            <p>'.$filename.'<a href="javascript:void(0)" class="checkbox deleteDocument" data-value="'.$filename.'">Delete</a>
-            <a href="'.asset($publicPath.$filename).'" target="_blank">View</a></div></p>
-        </div>';
 
         }
       }    

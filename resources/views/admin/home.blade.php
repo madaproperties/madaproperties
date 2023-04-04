@@ -434,7 +434,7 @@ $(document).ready(function () {
 </script>
 
 <!-- Added By javed -->
-
+<script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
 <script>
 	$(`#from-date,#lastupdatefrom-date,#meeting-from-date`).datepicker({
     //format: 'dd/mm/yyyy',

@@ -104,7 +104,7 @@
   @if($data->status)
   <div class="d-flex align-items-center justify-content-between mb-2">
     <span class="font-weight-bold mr-2">{{__('site.status')}}:</span>
-    <span class="text-muted">{{$data->status}}</span>
+    <span class="text-muted">{{$data->statusName ? $data->statusName->name_en : ''}}</span>
   </div>
   <hr />
   @endif

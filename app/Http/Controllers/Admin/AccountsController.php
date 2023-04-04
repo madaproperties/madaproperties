@@ -53,7 +53,7 @@ class AccountsController extends Controller
 
         $leaders = User::whereIn('rule',['leader','sales director'])->where('active','1')->get();
 
-        $sellersRera = getSellersWithRera();
+        $reraUsers = User::where('active','1')->where('is_rera_active','1')->get();
 
         $positions = ['rent','buy','sell','management','handover'];
         $roles = Role::pluck('name','name')->all();
@@ -63,7 +63,8 @@ class AccountsController extends Controller
           'positions' => $positions,
           'roles' => $roles,
           'users_count' => $users_count,
-          'countries' => $countries
+          'countries' => $countries,
+          'reraUsers' => $reraUsers
         ]);
     }
 
@@ -88,6 +89,7 @@ class AccountsController extends Controller
           'position_types' => 'required|array',
           'is_rera_active' => 'nullable',
           'rera_number' => 'nullable',
+          'rera_user_id' => 'nullable',
         ]);
 
         unset($data['position_types']);
@@ -157,6 +159,7 @@ class AccountsController extends Controller
           'user_pic' => 'nullable',
           'is_rera_active' => 'nullable',
           'rera_number' => 'nullable',
+          'rera_user_id' => 'nullable',
         ]);
         
         

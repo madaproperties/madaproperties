@@ -150,9 +150,14 @@
             </table>
             <table class="table table-bordered" style="width: 50%;margin-top: 35px;">
                 <tbody>
+
 					<tr>
-						<td colspan="2" style="text-align:left"><b>Bank Details</b></td>
+						<td colspan="2" style="text-align:center"><b>Bank Details</b></td>
 						
+                    </tr>
+                    <tr>
+						<td><b>Account Name</b></td>
+						<td>Mada Properties LLC</td>
                     </tr>
 					@if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
 					<tr>
@@ -199,7 +204,7 @@
 					@endif
                 </tbody>
             </table>
-            <table style="text-align:center;margin-top:200px;border:0px;">
+            <table style="text-align:right;margin-top:200px;border:0px;">
                 <tbody>
 					<tr>
 						<td>_____________________________</td>

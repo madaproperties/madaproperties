@@ -1511,7 +1511,7 @@ function renderDescriptionStatus()
     let descEl = $('#log-call-description-parent');
     let textArea  = $('#log-call-description-parent textarea');
 
-    if(selected_val.val() == 'connected')
+    if(selected_val.val() == 'connected' || selected_val.val() == 'busy' ||selected_val.val() == 'no answer')
     {
         descEl.css('display','block');
     }else{

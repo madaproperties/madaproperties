@@ -74,6 +74,18 @@
 																		</div>
 																	</div>
 																	<!-- end added by fazal -->
+																	<!-- added by fazal 29-03-2023  -->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.project logo')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			@if($deal->project_logo)
+																				<a href="{{env('APP_URL').'/public/uploads/projectData/'.$deal->project_logo}}" target="_blank" download="download">Download</a>
+																			@endif
+																			<input class="form-control form-control-solid form-control-lg" 	name="project_logo" type="file">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!-- end added by fazal -->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.brochure')}}</label>
 																		<div class="col-lg-9 col-xl-9">
@@ -147,5 +159,5 @@
 
 @endsection
 @push('js')
-
+<script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
 @endpush

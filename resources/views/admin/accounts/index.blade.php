@@ -209,25 +209,26 @@
 										</div>
 										<div class="form-group">
 											<label>{{__('site.Rera Available')}}:</label>
-											<select class="form-control" name="is_rera_active" id="is_rera_active">
+											<select class="form-control is_rera_active" name="is_rera_active" id="is_rera_active">
+											<option value="">{{__('site.choose')}}</option>
 											{!! selectOptions(__('config.yes_no'),$user->is_rera_active) !!}
 											</select>
 										</div>
 
-										<div class="form-group rera-user" style="display:none">
+										<div class="form-group rera-user" style="{{$user->is_rera_active == '2' ? 'display:block' : 'display:none'}}">
 											<label>{{__('site.rera_user')}}:</label>
-											<select name="leader" class="form-control form-control-lg form-control-solid mb-2 ">
+											<select name="rera_user_id" class="form-control form-control-lg form-control-solid mb-2 ">
 												<option value="" class="selcted-default-leader" selected>{{__('site.select option')}}</option>
 												@foreach($reraUsers as $reraUser)
 													<option
-													{{$reraUser->id == $user->reraUserId ? 'selected' : ''}}
-													 value="{{$reraUserId->id}}">{{$reraUserId->name}}</option>
+													{{$reraUser->id == $user->rera_user_id ? 'selected' : ''}}
+													 value="{{$reraUser->id}}">{{$reraUser->name}}</option>
 												@endforeach
 											</select>
 										</div>
 
 
-										<div class="form-group">
+										<div class="form-group rera_number" style="{{$user->is_rera_active == '1' ? 'display:block' : 'display:none'}}">
 											<label>{{__('site.Rera Number')}}:</label>
 											<input type="text" class="form-control" name="rera_number" value="{{$user->rera_number}}" autocomplete="off">
 										</div>
@@ -474,11 +475,23 @@
 
 											<div class="form-group">
 												<label>{{__('site.Rera Available')}}:</label>
-												<select class="form-control" name="is_rera_active" id="is_rera_active">
+												<select class="form-control is_rera_active" name="is_rera_active" id="is_rera_active">
+												<option value="">{{__('site.choose')}}</option>
 												{!! selectOptions(__('config.yes_no'),old('is_rera_active')) !!}
 												</select>
 											</div>
-											<div class="form-group">
+											<div class="form-group rera-user" style="display:none">
+												<label>{{__('site.rera_user')}}:</label>
+												<select name="rera_user_id" class="form-control form-control-lg form-control-solid mb-2 ">
+													<option value="" class="selcted-default-leader" selected>{{__('site.select option')}}</option>
+													@foreach($reraUsers as $reraUser)
+														<option
+														{{$reraUser->id == old('rera_user_id') ? 'selected' : ''}}
+														value="{{$reraUser->id}}">{{$reraUser->name}}</option>
+													@endforeach
+												</select>
+											</div>
+											<div class="form-group rera_number" style="display:none">
 												<label>{{__('site.Rera Number')}}:</label>
 												<input type="text" class="form-control" name="rera_number" value="{{old('rera_number')}}" autocomplete="off">
 											</div>
@@ -563,6 +576,15 @@
 				$('.select-rule').on('change', function (){
 					
 					selectLeader($(this).attr('id'));
+				});
+				$(".is_rera_active").on('change', function(){
+					if($(this).val() == '2'){ // yes
+						$(".rera-user").show();
+						$(".rera_number").hide();
+					}else{
+						$(".rera-user").hide();
+						$(".rera_number").show();
+					}
 				});
 				// select all rule and work with them
 				document.querySelectorAll('.select-rule').forEach(el => {

@@ -292,7 +292,7 @@
 </div>
 @push('js')
 <!-- Added By javed -->
-
+<script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
 <script>
 	$('.date').datepicker({
     //format: 'dd/mm/yyyy',

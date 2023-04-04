@@ -63,6 +63,12 @@
                 <td>Unit name</td>
                 <td>{{$unit_name->unit_name}}</td>
               </tr>
+              <!--added by fazal 29-3-->
+              <tr>
+                <td>Bedroom</td>
+                <td>{{$unit_name->bedroom}}</td>
+              </tr>
+              <!--end-->
               <tr>
                 <td>Floor No</td>
                 <td>{{$unit_name->floor_no}}</td>
@@ -73,7 +79,7 @@
               </tr>
               <tr>
                 <td>Price</td>
-                <td>{{$unit_name->price}}</td>
+                <td> {{number_format(intval($unit_name->price), 2)}} </td>
               </tr>
               <tr>
                 <td>Downpayment</td>
@@ -89,7 +95,7 @@
       </div>
       
       <div class="modal-footer">
-        @if($unit_name->status == 'Available')
+      @if($unit_name->status == 'Available')
         <a href="{{ route('projectPayment.checkoutPage',$unit_name->id) }}" class="btn btn-info btn-xs brochureinf" >Book Now</a>
         <a href="{{ route('project.brochure',$unit_name->id) }}" target="_blank"  class="btn btn-info btn-xs brochureinf  " >Download Offer</a>
         @endif

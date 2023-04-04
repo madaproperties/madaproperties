@@ -597,6 +597,9 @@ return [
   'customer details'=>'customer details',
   'project details'=>'project details',
   'mobile no.'=>'Mobile No.',
-  'National Id'=>'National Id',  
+  'National Id'=>'National Id', 
+  'project logo'=>'Project Logo',
   'InvoiceAmount'=>'Invoice Amount',
+  'Rera Number'=>'Rera Number',  
+  'rera_user'=>'Rera User',
 ];

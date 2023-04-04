@@ -94,7 +94,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Assign</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
           </button>
@@ -135,13 +135,12 @@
   <!--begin::Global Theme Bundle(used by all pages)-->
 
   <script src="{{ asset('public/assets/plugins/global/plugins.bundle.js') }}"></script>
-  <script src="{{ asset('public/plugins/select2/js/select2.js') }}"></script>
 
   <script src="{{ asset('public/assets/plugins/custom/prismjs/prismjs.bundle.js') }}"></script>
 
   <script src="{{ asset('public/assets/js/scripts.bundle.js') }}"></script>
 
-  
+  <script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
 
   <!--end::Global Theme Bundle-->
 

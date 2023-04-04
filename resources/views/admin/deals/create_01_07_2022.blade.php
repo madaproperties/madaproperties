@@ -686,7 +686,7 @@
 
 @endsection
 @push('js')
-
+<script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
 <script>
 
 	function getCountryCities(country,city,changeCode = false)

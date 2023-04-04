@@ -145,22 +145,10 @@ class PropertyBayutXmlController extends Controller
         xmlwriter_write_cdata($xw, $price);
         xmlwriter_end_element($xw); // Count
 
-        if($property->agent && $property->agent->is_rera_active){
-          xmlwriter_start_element($xw, 'Listing_Agent');
-          xmlwriter_write_cdata($xw, $property->agent->username);
-          xmlwriter_end_element($xw); // Count
-            
-          xmlwriter_start_element($xw, 'Listing_Agent_Phone');
-          xmlwriter_write_cdata($xw, $property->agent->mobile_no);
-          xmlwriter_end_element($xw); // Count
-            
-          xmlwriter_start_element($xw, 'Listing_Agent_Email');
-          xmlwriter_write_cdata($xw, $property->agent->email);
-          xmlwriter_end_element($xw); // Count
-        }else{
-          if($property->agent && $defaultAgent){
+        if($property->agent){
 
-             xmlwriter_start_element($xw, 'Listing_Agent');
+          if($property->agent->is_rera_active == 1){
+            xmlwriter_start_element($xw, 'Listing_Agent');
             xmlwriter_write_cdata($xw, $property->agent->username);
             xmlwriter_end_element($xw); // Count
               
@@ -171,21 +159,44 @@ class PropertyBayutXmlController extends Controller
             xmlwriter_start_element($xw, 'Listing_Agent_Email');
             xmlwriter_write_cdata($xw, $property->agent->email);
             xmlwriter_end_element($xw); // Count
-
-          }else if($defaultAgent){
+          }else if($property->agent->reraUser){
+            xmlwriter_start_element($xw, 'Listing_Agent');
+            xmlwriter_write_cdata($xw, $property->agent->reraUser->username);
+            xmlwriter_end_element($xw); // Count
+              
+            xmlwriter_start_element($xw, 'Listing_Agent_Phone');
+            xmlwriter_write_cdata($xw, $property->agent->mobile_no);
+            xmlwriter_end_element($xw); // Count
+              
+            xmlwriter_start_element($xw, 'Listing_Agent_Email');
+            xmlwriter_write_cdata($xw, $property->agent->email);
+            xmlwriter_end_element($xw); // Count
+          }else{
             xmlwriter_start_element($xw, 'Listing_Agent');
             xmlwriter_write_cdata($xw, $defaultAgent->username);
             xmlwriter_end_element($xw); // Count
               
             xmlwriter_start_element($xw, 'Listing_Agent_Phone');
-            xmlwriter_write_cdata($xw, $defaultAgent->mobile_no);
+            xmlwriter_write_cdata($xw, env('RERA_USER_NUMBER',$defaultAgent->mobile_no));
             xmlwriter_end_element($xw); // Count
               
             xmlwriter_start_element($xw, 'Listing_Agent_Email');
             xmlwriter_write_cdata($xw, $defaultAgent->email);
             xmlwriter_end_element($xw); // Count
           }
-        }  
+        }else{
+          xmlwriter_start_element($xw, 'Listing_Agent');
+          xmlwriter_write_cdata($xw, $defaultAgent->username);
+          xmlwriter_end_element($xw); // Count
+            
+          xmlwriter_start_element($xw, 'Listing_Agent_Phone');
+          xmlwriter_write_cdata($xw, env('RERA_USER_NUMBER',$defaultAgent->mobile_no));
+          xmlwriter_end_element($xw); // Count
+            
+          xmlwriter_start_element($xw, 'Listing_Agent_Email');
+          xmlwriter_write_cdata($xw, $defaultAgent->email);
+          xmlwriter_end_element($xw); // Count
+        }
 
         
 

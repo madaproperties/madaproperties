@@ -224,7 +224,7 @@ div#units{padding:30px;}
            
         </div>
          <div class="bottom_header">
-        <img class="developer-logo" src="{{ asset('public/uploads/projectData/'.$image->developer->developer_logo) }}">
+        <img class="developer-logo" src="{{ asset('public/uploads/projectData/'.$project_name['project_logo']) }}">
          <h2 align="center" >{{$project_name['name']}}</h2>  
           <div class="developer_detail">
                   

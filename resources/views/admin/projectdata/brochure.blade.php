@@ -214,9 +214,9 @@ td.center span {
 					
 						<table cellpadding="0" cellspacing="0" border="0"  width="800">
 							<tr>
-							    
-								<td><img class="jood_logo" src="{{ asset('public/uploads/projectData/'.$project->developer->developer_logo) }}"/></td>
-                                  								
+							   <!-- updated by fazal 29-.3--> 
+								<td><img class="jood_logo" src="{{ asset('public/uploads/projectData/'.$project->project->project_logo) }}"/></td>
+                                  								<!--end-->
 							</tr>
 							<tr>
 								<td align="center" style="font-size:22px;word-spacing:0px;letter-spacing: 0px; font-family: inherit;font-weight:bold; color:#000;"></td>
@@ -263,7 +263,7 @@ td.center span {
 										</tr>
 										<tr class="bottom-line">
 											<td style="text-align:left">Price in SAR</td>
-											<td class="center" valign="top"><span>{{$project->price}}</span></td>
+											<td class="center" valign="top"><span>{{number_format(intval($project->price), 2)}}</span></td>
 											<td style="text-align:right">السعر بالريال السعودي</td>
 										</tr>
                                   </table>
@@ -287,7 +287,7 @@ td.center span {
     							<td>IBAN </td>
     							@if(isset($project->project) && $project->project->name=='Judya')
     							<td style="width: 250px;">SA6410000026100000337206</td>
-    							@else
+    						    @else
     							<td style="width: 250px;">SA9060100033795022281001</td>
     							@endif
     							
@@ -297,6 +297,8 @@ td.center span {
     							<td>Bank Name</td>
     							@if(isset($project->project) && $project->project->name=='Judya')
     						<td>Al Ahli Bank</td>
+    							@elseif(isset($project->project) && $project->project->name=='Royal Residence')
+    						<td>AlJazira Bank</td>
     							@else
     							<td>بنك الجزيرة</td>
     							@endif
@@ -311,7 +313,7 @@ td.center span {
         					<table class="mada_table">
         					
         						<th style="color:#000;font-weight:bold;width: 200px; background-color: #9FCE31;padding: 5px;" >Down Payment {{$project->down_payment_percentage}}%</th>
-        						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">{{$project->down_payment}}*</th>
+        						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">{{number_format((str_replace(",","",$project->down_payment)))}}*</th>
         						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;direction:rtl;padding: 5px;">دفعة أولى  {{$project->down_payment_percentage}}%</th
         						
         						

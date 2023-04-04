@@ -110,7 +110,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.project-data.exportProjectDa
 										<span class="text-muted font-weight-bold">{{$project->bedroom}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{$project->price}}</span>
+										<span class="text-muted font-weight-bold">{{number_format(intval($project->price), 2)}}</span>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$project->created_at}}</span>

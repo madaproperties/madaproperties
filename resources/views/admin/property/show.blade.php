@@ -118,7 +118,8 @@
 																<span class="nav-text">{{__('site.notes')}}</span>
 															</a>
 														</li>
-														@if(userRole() == 'admin' || userRole() == 'sales admin uae')
+														<!--edited by fazal-->
+														 @if(userRole() == 'admin' || userRole() == 'sales admin uae') 
 														<li class="nav-item">
 															<a class="nav-link" id="verification-tab" data-toggle="tab" href="#verification" aria-controls="verification">
 																<span class="nav-icon">
@@ -854,7 +855,7 @@
 																<div class="row col-xl-12 card">
 																	<!--begin::Wizard Step 1-->
 																	<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-
+                                                                         
 																		@if((auth()->user()->time_zone == 'Asia/Dubai' && userRole() != 'admin' && userRole() != 'sales admin uae') || request()->get('pt') == 'dubai')
 																		<!--begin::Group-->
 																		<div class="form-group row fv-plugins-icon-container">
@@ -919,8 +920,8 @@
 																			</div>
 																			<!--end::Group-->
 																		@endif
-
-																		@if((auth()->user()->time_zone == 'Asia/Dubai' && userRole() != 'admin' && userRole() != 'sales admin uae') || request()->get('pt') == 'dubai')
+                                                                        
+																	@if((auth()->user()->time_zone == 'Asia/Dubai' && userRole() != 'admin' && userRole() != 'sales admin uae')|| userRole()== 'other' || request()->get('pt') == 'dubai')
 																		<!--begin::Group-->
 																		<div class="form-group row fv-plugins-icon-container">
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sub_community')}} <span class="error">*</span></label>
@@ -1081,8 +1082,9 @@
 																					<i class="fa fa-arrow-left"></i>
 																				</span>
 																			{{__('site.previous')}}
-																			</a>																	
-																			@if(userRole() == 'admin' || userRole() == 'sales admin uae')
+																			</a>	
+																		
+																			@if(userRole() == 'admin' || userRole() == 'sales admin uae'  )
 																				<a href="#verification" data-target="#verification" data-toggle="tab" class="btn btn-primary font-weight-bolder px-9 py-4" onclick="changeTab('#verification')">
 																				{{__('site.next')}}
 																				<span class="nav-icon ml-5">
@@ -1106,6 +1108,7 @@
 																		<div class="col-xs-12">
 																		<!--begin::Wizard Step 1-->
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">	
+																	
 																			@if(userRole() == 'admin' || userRole() == 'sales admin uae')
 																				<!--begin::Group-->
 																				<div class="form-group row fv-plugins-icon-container">
@@ -1134,7 +1137,8 @@
 																			<!--end::Group-->
 																		
 																			<!--begin::Group-->
-																			@if(userRole() == 'admin' || userRole() == 'sales admin uae')
+																			
+																			@if(userRole() == 'admin' || userRole() == 'sales admin uae') 
 																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.portals')}}</label>
 																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#portals_modal">
@@ -1147,7 +1151,7 @@
 																			<!--end::Group-->
 																			</div>
 																	</div>
-																			@if(userRole() == 'admin' || userRole() == 'sales admin uae')
+																			@if(userRole() == 'admin' || userRole() == 'sales admin uae' )
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.verified')}}</label>

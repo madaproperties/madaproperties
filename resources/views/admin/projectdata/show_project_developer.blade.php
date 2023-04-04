@@ -133,5 +133,5 @@
 
 @endsection
 @push('js')
-
+<script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
 @endpush

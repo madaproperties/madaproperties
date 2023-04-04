@@ -98,7 +98,7 @@
 						      @else
 						    Price (AED):
 						    @endif</td>
-						<td>{{number_format($deal->price, 2)}}</td>
+						<td>{{number_format($deal->price, 2)}} @ {{$deal->commission}} %</td>
 						<td>Date of Signing: {{date('d-m-Y',strtotime($deal->deal_date))}}</td>
                     </tr>
                 </tbody>

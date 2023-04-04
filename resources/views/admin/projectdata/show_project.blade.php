@@ -168,13 +168,12 @@
 																	<!-- added by fazal -->
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.down_payment_percentage')}}</label>
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.completion_date')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="down_payment_percentage" type="text" value="{{$projectdata->down_payment_percentage}}" placeholder="{{__('site.down_payment_percentage')}}">
+																			<input class="form-control form-control-solid form-control-lg" 	name="completion_date" type="date" value="{{$projectdata->completion_date}}" placeholder="{{__('site.completion_date')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
-																
 																	<!--end::Group-->
 																	<!-- end added by fazal -->
 																
@@ -232,24 +231,32 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.price')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="price" type="text" value="{{$projectdata->price}}" placeholder="{{__('site.price')}}">
+																			<input class="form-control form-control-solid form-control-lg" id="price" 	name="price" type="text" value="{{$projectdata->price}}" placeholder="{{__('site.price')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
 																	<!--end::Group-->
+                                                                     <!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.down_payment_percentage')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" id="down_payment_percentage" 	name="down_payment_percentage" type="text" value="{{$projectdata->down_payment_percentage}}" placeholder="{{__('site.down_payment_percentage')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																
+																	<!--end::Group-->
+  
 
-
-
-																	<!--begin::Group-->
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.completion_date')}}</label>
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.down_payment')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="completion_date" type="text" value="{{$projectdata->completion_date}}" placeholder="{{__('site.completion_date')}}">
+																			<input class="form-control form-control-solid form-control-lg" 	name="down_payment" type="text" value="{{$projectdata->down_payment}}" id="down_payment" placeholder="{{__('site.down_payment')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
-																	<!--end::Group-->
+																	
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.payment_status')}}</label>
@@ -264,13 +271,7 @@
 																	<!--end::Group-->
 																	
 																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.down_payment')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="down_payment" type="text" value="{{$projectdata->down_payment}}" placeholder="{{__('site.down_payment')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
+																	
 																	<!--end::Group-->
 
 																	<!--begin::Group-->
@@ -326,5 +327,15 @@
 
 @endsection
 @push('js')
-
+<script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script type="text/javascript">
+$( "#down_payment_percentage" ).keyup(function() {
+	
+   var comi = $(this).val();
+   var price=  $("#price").val();
+   $("#down_payment").val(((price*comi)/100).toFixed(2));
+ 
+});
+</script>
 @endpush

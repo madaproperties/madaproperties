@@ -1,7 +1,7 @@
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 <!--begin::Entry-->
-<div class="d-flex flex-column-fluid" style="overflow: scroll;max-height: 1000px;">
+<div class="d-flex flex-column-fluid" style="overflow: scroll;">
    <div class="container">
     <table class="table" style="background:#fff">
       <thead>

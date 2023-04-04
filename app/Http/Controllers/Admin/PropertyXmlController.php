@@ -169,33 +169,43 @@ class PropertyXmlController extends Controller
       $tempArray['bedrooms'] = $property->bedrooms;
       $tempArray['bathrooms'] = $property->bathrooms;
 
-      if($property->agent && $property->agent->is_rera_active){
-        $xml .="<agent>
+      if($property->agent){
+
+        if($property->agent->is_rera_active == 1){
+          $xml .="<agent>
           <id>".$property->agent->id."</id>
           <name><![CDATA[".$property->agent->username."]]></name>
           <email>".$property->agent->name."</email>
           <phone>".$property->agent->mobile_no."</phone>
           <license_no>".$property->agent->rera_number."</license_no>
         </agent>";
-      }else{
-        if($property->agent && $defaultAgent){
+        }else if($property->agent->reraUser){
           $xml .="<agent>
-            <id>".$defaultAgent->id."</id>
-            <name><![CDATA[".$property->agent->username."]]></name>
+            <id>".$property->agent->id."</id>
+            <name><![CDATA[".$property->agent->reraUser->username."]]></name>
             <email>".$property->agent->name."</email>
             <phone>".$property->agent->mobile_no."</phone>
-            <license_no>".$defaultAgent->rera_number."</license_no>
+            <license_no>".$property->agent->reraUser->rera_number."</license_no>
           </agent>";
-        }else if($defaultAgent){
+        }else{
           $xml .="<agent>
             <id>".$defaultAgent->id."</id>
             <name><![CDATA[".$defaultAgent->username."]]></name>
             <email>".$defaultAgent->name."</email>
-            <phone>".$defaultAgent->mobile_no."</phone>
+            <phone>".env('RERA_USER_NUMBER',$defaultAgent->mobile_no)."</phone>
             <license_no>".$defaultAgent->rera_number."</license_no>
           </agent>";
         }
+      }else{
+          $xml .="<agent>
+            <id>".$defaultAgent->id."</id>
+            <name><![CDATA[".$defaultAgent->username."]]></name>
+            <email>".$defaultAgent->name."</email>
+            <phone>".env('RERA_USER_NUMBER',$defaultAgent->mobile_no)."</phone>
+            <license_no>".$defaultAgent->rera_number."</license_no>
+          </agent>";
       }
+
       $xml .="<parking>".$property->parking_areas."</parking>
       <furnished>".($property->furnished == 1 ? 'Yes' : 'No')."</furnished>";
 
@@ -261,11 +271,12 @@ class PropertyXmlController extends Controller
       $tempArray['email'] = $property->email;       
       $tempArray['street_width'] = $property->street_width;       
       $tempArray['passport_emirates_id'] = $property->passport_emirates_id;     
-      $tempArray['deleted_at'] = $property->deleted_at;          
+      $tempArray['deleted_at'] = $property->deleted_at;   
+             
       $temp = $property->toArray();
       foreach ($temp as $key=>$value) {
         if(!is_array($value) && !array_key_exists($key,$tempArray)){
-          $xml.= "<".trim($key).">".(!empty($temp[$key]) ? (($temp[$key] == 0)? '0' : $temp[$key]) : 'N/A')."</".trim($key).">";
+          //$xml.= "<".trim($key).">".(!empty($temp[$key]) ? (($temp[$key] == 0)? '0' : $temp[$key]) : 'N/A')."</".trim($key).">";
           //$xml.= "<".trim($key).">".$temp[$key]."</".trim($key).">";
         }
       }
@@ -430,33 +441,43 @@ class PropertyXmlController extends Controller
       $tempArray['bedrooms'] = $property->bedrooms;
       $tempArray['bathrooms'] = $property->bathrooms;
 
-      if($property->agent && $property->agent->is_rera_active){
-        $xml .="<agent>
+      if($property->agent){
+
+        if($property->agent->is_rera_active == 1){
+          $xml .="<agent>
           <id>".$property->agent->id."</id>
-          <name><![CDATA[".$property->agent->name."]]></name>
+          <name><![CDATA[".$property->agent->username."]]></name>
           <email>".$property->agent->name."</email>
           <phone>".$property->agent->mobile_no."</phone>
           <license_no>".$property->agent->rera_number."</license_no>
         </agent>";
-      }else{
-        if($property->agent && $defaultAgent){
+        }else if($property->agent->reraUser){
           $xml .="<agent>
-            <id>".$defaultAgent->id."</id>
-            <name><![CDATA[".$property->agent->username."]]></name>
+            <id>".$property->agent->id."</id>
+            <name><![CDATA[".$property->agent->reraUser->username."]]></name>
             <email>".$property->agent->name."</email>
             <phone>".$property->agent->mobile_no."</phone>
-            <license_no>".$defaultAgent->rera_number."</license_no>
+            <license_no>".$property->agent->reraUser->rera_number."</license_no>
           </agent>";
-        }else if($defaultAgent){
+        }else{
           $xml .="<agent>
             <id>".$defaultAgent->id."</id>
             <name><![CDATA[".$defaultAgent->username."]]></name>
             <email>".$defaultAgent->name."</email>
-            <phone>".$defaultAgent->mobile_no."</phone>
+            <phone>".env('RERA_USER_NUMBER',$defaultAgent->mobile_no)."</phone>
             <license_no>".$defaultAgent->rera_number."</license_no>
           </agent>";
         }
+      }else{
+          $xml .="<agent>
+            <id>".$defaultAgent->id."</id>
+            <name><![CDATA[".$defaultAgent->username."]]></name>
+            <email>".$defaultAgent->name."</email>
+            <phone>".env('RERA_USER_NUMBER',$defaultAgent->mobile_no)."</phone>
+            <license_no>".$defaultAgent->rera_number."</license_no>
+          </agent>";
       }
+
       $xml .="<parking>".$property->parking_areas."</parking>
       <furnished>".($property->furnished == 1 ? 'Yes' : 'No')."</furnished>";
 
@@ -642,32 +663,44 @@ class PropertyXmlController extends Controller
       if($commercialamenities){
         $xml.="<commercial_amenities>".$commercialamenities."</commercial_amenities>";
       }
-      if($property->agent && $property->agent->is_rera_active){
-        $xml .="<agent>
+      
+      if($property->agent){
+
+        if($property->agent->is_rera_active == 1){
+          $xml .="<agent>
           <id>".$property->agent->id."</id>
           <name><![CDATA[".$property->agent->username."]]></name>
           <email>".$property->agent->name."</email>
           <phone>".$property->agent->mobile_no."</phone>
+          <license_no>".$property->agent->rera_number."</license_no>
         </agent>";
-      }else{
-        if($property->agent && $defaultAgent){
+        }else if($property->agent->reraUser){
           $xml .="<agent>
-            <id>".$defaultAgent->id."</id>
-            <name><![CDATA[".$property->agent->username."]]></name>
+            <id>".$property->agent->id."</id>
+            <name><![CDATA[".$property->agent->reraUser->username."]]></name>
             <email>".$property->agent->name."</email>
             <phone>".$property->agent->mobile_no."</phone>
-            <license_no>".$defaultAgent->rera_number."</license_no>
+            <license_no>".$property->agent->reraUser->rera_number."</license_no>
           </agent>";
-        }else if($defaultAgent){
+        }else{
           $xml .="<agent>
             <id>".$defaultAgent->id."</id>
             <name><![CDATA[".$defaultAgent->username."]]></name>
             <email>".$defaultAgent->name."</email>
-            <phone>".$defaultAgent->mobile_no."</phone>
+            <phone>".env('RERA_USER_NUMBER',$defaultAgent->mobile_no)."</phone>
             <license_no>".$defaultAgent->rera_number."</license_no>
           </agent>";
         }
+      }else{
+          $xml .="<agent>
+            <id>".$defaultAgent->id."</id>
+            <name><![CDATA[".$defaultAgent->username."]]></name>
+            <email>".$defaultAgent->name."</email>
+            <phone>".env('RERA_USER_NUMBER',$defaultAgent->mobile_no)."</phone>
+            <license_no>".$defaultAgent->rera_number."</license_no>
+          </agent>";
       }
+
       $xml .="<parking>".$property->parking_areas."</parking>
       <furnished>".($property->furnished == 1 ? 'Yes' : 'No')."</furnished>";
 
