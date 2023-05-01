@@ -99,4 +99,9 @@ class Property extends Model
       return $this->belongsTo(User::class,'created_by');
     }
 
+    public function floorPlans()
+    {
+      return $this->hasMany(PropertyFloorPlans::class,'property_id')->orderBy('id','desc');
+    }
+
 }

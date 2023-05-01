@@ -602,4 +602,7 @@ return [
   'InvoiceAmount'=>'Invoice Amount',
   'Rera Number'=>'Rera Number',  
   'rera_user'=>'Rera User',
+  'availability'=>'Availability',
+  'exclusive'=>'Exclusive',
+  'available_from'=>'Available From',
 ];

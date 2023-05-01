@@ -43,7 +43,7 @@
                                             <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
                                                 <p>{{ $document->document_link }}
                                                     <a href="javascript:void(0)" class="checkbox deleteDocument" data-value="{{$document->document_link}}">Delete</a>
-                                                    <a href="{{asset('public/uploads/property/'.$property->id.'/documents/'.$document->document_link) }}" target="_blank">View</a>
+                                                    <a href="{{s3AssetUrl('uploads/property/'.$property->id.'/documents/'.$document->document_link) }}" target="_blank">View</a>
                                                 </p>
                                             </div> 
                                         </div>   

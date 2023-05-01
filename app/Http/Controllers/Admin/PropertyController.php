@@ -29,6 +29,7 @@ use App\Community;
 use App\PropertyNotes;
 use App\Zones;
 use App\Districts;
+use App\PropertyFloorPlans;
 
 
 class PropertyController extends Controller
@@ -129,7 +130,7 @@ class PropertyController extends Controller
 
   public function create()
   {
-
+    \Session::forget('tempFloorPlan');
     $cities = City::orderBy('name_en')->where('country_id',2)->where('name_en','Dubai')->get();
     $countries = Country::orderBy('name_en')->get();	
     $campaigns =Campaing::where('active','1')->orderBy('name')->get();	    
@@ -248,11 +249,15 @@ class PropertyController extends Controller
       'border_width' => 'nullable',     
       'living_room' => 'nullable',              
       'guest_room' => 'nullable',              
-      'age' => 'nullable',              
+      'age' => 'nullable',      
+      'street_information' => 'nullable',         
       'street_information_one' => 'nullable',              
       'street_information_two' => 'nullable',              
       'street_information_three' => 'nullable',              
       'street_information_four' => 'nullable',              
+      'availability' => 'nullable',              
+      'is_exclusive' => 'nullable',              
+      'next_available' => 'nullable',              
     ]);
 
     // if(isset($data['is_managed'])){
@@ -380,6 +385,27 @@ class PropertyController extends Controller
         }
       }
       session()->forget('tempDocuments');  
+    } 
+    
+    if(\Session::get('tempFloorPlan')){
+      // $destinationPath =  'public/uploads/property/'.$property->id.'/documents';
+      // if (!is_dir($destinationPath)){ 
+      //   mkdir($destinationPath, 0777, true);
+      // }
+      foreach(\Session::get('tempFloorPlan') as $document){
+        $destinationPath = 'public/uploads/temp/floor_plan/'.$document;
+        if(file_exists(public_path('uploads/temp/floor_plan/'.$document))){
+          PropertyFloorPlans::create([
+            'property_id' => $property->id,
+            'document_link' => $document
+          ]);
+          //copy($fromPath,$destinationPath.'/'.$document);
+
+          Storage::disk('s3')->put('uploads/property/'.$property->id.'/floor_plan/'.$document, file_get_contents($destinationPath));
+          unlink($destinationPath);
+        }
+      }
+      session()->forget('tempFloorPlan');  
     } 
     
     
@@ -547,7 +573,10 @@ class PropertyController extends Controller
       'street_information_one' => 'nullable',              
       'street_information_two' => 'nullable',              
       'street_information_three' => 'nullable',              
-      'street_information_four' => 'nullable',              
+      'street_information_four' => 'nullable',     
+      'availability' => 'nullable',              
+      'is_exclusive' => 'nullable',              
+      'next_available' => 'nullable',              
     ]);
 
     // if(isset($data['is_managed'])){
@@ -636,6 +665,7 @@ class PropertyController extends Controller
 
   public function show($id)
   {
+    \Session::forget('tempFloorPlan');
     if(userRole() == 'admin' || userRole() == 'sales admin uae'){ //Updated by Javed
       $property = Property::findOrFail($id);
     }elseif(userRole() == 'leader'){
@@ -1103,7 +1133,7 @@ class PropertyController extends Controller
   }
     
   function getGeoCode($address){
-    $key = 'AIzaSyC-Fb4qyExl4P-2mK01YEj_TmfyXJ5ljYQ';
+    $key = env('GoogleApiKey');
     // geocoding api url
     //$url = 'https://maps.googleapis.com/maps/api/geocode/json?address='.$address.'&key='.$key;
     // send api request
@@ -1139,4 +1169,93 @@ class PropertyController extends Controller
         $data=PropertyImages::where('id', $id)->update(['order' => $position]);
     }
   }
+
+  public function floorPlanStore(Request $request)
+  {
+    $html = '';
+    if($request->hasFile('floor_plan')) {
+      $allowedfileExtension=['pdf','xlsx','xls','doc', 'docx','ppt', 'pptx','txt','png','jpg','jpeg'];
+      $files = $request->file('floor_plan');
+      foreach($files as $file){
+        $filename = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        $check=in_array($extension,$allowedfileExtension);
+        if($check) {
+
+          $md5Name = md5_file($file->getRealPath());
+          $guessExtension = $file->guessExtension();
+          if(Request('property_id')){
+            $property_id = Request('property_id');
+            $file = $file->move('public/uploads/property/'.$property_id.'/floor_plan', $md5Name.'.'.$guessExtension);     
+            $filename = $md5Name.'.'.$guessExtension;
+            $destinationPath = 'public/uploads/property/'.$property_id.'/floor_plan/'.$filename;
+            //Storage::disk('s3')->put('uploads/property/'.$property_id.'/floor_plan', $filename);
+
+            Storage::disk('s3')->put('uploads/property/'.$property_id.'/floor_plan/'.$filename, file_get_contents($destinationPath));
+
+            unlink($destinationPath);
+
+            PropertyFloorPlans::create([
+            'property_id' => $property_id,
+            'document_link' => $filename
+            ]);
+            $publicPath='uploads/property/'.$property_id.'/floor_plan/';
+
+            $html .= '<div class="col-xl-4" id="'.str_replace(".","-",$filename).'">
+            <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">                        
+              <p><a href="javascript:void(0)" class="checkbox deleteFloorPlan" data-value="'.$filename.'">Delete</a>
+              <img src="'.s3AssetUrl($publicPath.$filename).'" target="_blank" style="height: 130px;"></div></p>
+          </div>';
+
+          }else{
+            $file = $file->move('public/uploads/temp/floor_plan', $md5Name.'.'.$guessExtension);     
+            $filename = $md5Name.'.'.$guessExtension;
+            \Session::push('tempFloorPlan', $filename);
+            $publicPath='public/uploads/temp/floor_plan/';
+
+            $html .= '<div class="col-xl-4" id="'.str_replace(".","-",$filename).'">
+            <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">                        
+              <p><a href="javascript:void(0)" class="checkbox deleteFloorPlan" data-value="'.$filename.'">Delete</a>
+              <img src="'.asset($publicPath.$filename).'" target="_blank" style="height: 130px;"></div></p>
+          </div>';
+  
+          }
+
+        }
+      }    
+      
+    }
+    return response()->json(['success'=>true,'images'=>$html]);
+  }
+
+  public function floorPlanDestroy(Request $request)
+  {
+    if(\Session::get('tempFloorPlan')){
+      $floor_plan = \Session::get('tempFloorPlan'); // Get the array
+      $floorPlanName =  $request->get('floorPlanName');
+      if(isset($floor_plan[$floorPlanName])){
+        unset($floor_plan[$floorPlanName]); // Unset the index you want
+        session()->put('tempFloorPlan', $floor_plan); // Set the array again      
+        $path=public_path().'/uploads/temp/floor_plan/'.$floorPlanName;
+        if (file_exists($path)) {
+            unlink($path);
+        }
+        return $floorPlanName;         
+      }
+    }
+    if(Request('property_id')){
+      $floorPlanName =  $request->get('floorPlanName');
+      $property_id =  $request->get('property_id');
+      $documents = PropertyDocuments::where('document_link',$floorPlanName)->delete();
+      if($documents){
+        $path=public_path().'public/uploads/property/'.$property_id.'/floor_plan/'.$floorPlanName;
+        if (file_exists($path)) {
+            unlink($path);
+        }
+        return $floorPlanName;  
+      }
+    } 
+    \Session::forget('tempFloorPlan');
+  }  
+
 }

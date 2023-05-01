@@ -533,4 +533,7 @@ return [
   'next'=>'التالي',
   'Team'=>'فريق',
   'Property_in_UAE'=>'',
+  'availability'=>'التوفر',
+  'exclusive'=>'حصري',
+  'available_from'=>'متاح من',
 ];

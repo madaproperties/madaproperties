@@ -143,14 +143,20 @@ return [
     '3' => 'Ready Primary',
     '4' => 'Off-Plan Primary'
   ],
-  'furnished' => [
-    '0' => 'No',
-    '1' => 'Yes',
-    '2' => 'Partly'
-  ],
+  // 'furnished' => [
+  //   '0' => 'No',
+  //   '1' => 'Yes',
+  //   '2' => 'Partly'
+  // ],
   'financial_status' => [
     '1' => 'Mortgaged',
     '2' => 'Cash'
+  ],
+  'layout_type' => [
+    '1' => 'Facing North',
+    '2' => 'Facing East',
+    '3' => 'Facing South',
+    '4' => 'Facing West'
   ],
   'unverified_reason' => [
     '1' => 'Company Signatory Documents Missing',
@@ -177,10 +183,11 @@ return [
     '2' => 'Featured',
     '3' => 'Hot'
   ],
-  'feature_type' => [
-    '1' => 'Unit Features',
-    '2' => 'Development Features',
-    '3' => 'Lifestyle'
+  'availability' => [
+    '1' => 'Available',
+    '2' => 'Under Offer',
+    '3' => 'Reserved',
+    '4' => 'Sold',
   ],
 
 ];

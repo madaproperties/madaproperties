@@ -51,10 +51,10 @@
                                         <div class="col-xl-4" style="float:left" id='{{str_replace(".","-",$image->images_link)}}'>
                                             <!--begin::Wizard Step 1-->
                                             <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-                                                <img src="{{asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link) }}" id="{{$image->id}}" style="width:215px;height:147px" >
+                                                <img src="{{s3AssetUrl('uploads/property/'.$property->id.'/images/'.$image->images_link) }}" id="{{$image->id}}" style="width:215px;height:147px" >
                                             </div> 
                                             <a href="javascript:void(0)" class="checkbox deleteImage" data-value="{{$image->images_link}}">Delete</a>
-                                            <a href="{{asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link) }}" target="_blank">View</a>
+                                            <a href="{{s3AssetUrl('uploads/property/'.$property->id.'/images/'.$image->images_link) }}" target="_blank">View</a>
                                             <input type="hidden" name="property_id" id="property_id" value="{{$image->property_id}}">
                                         </div>
                                          

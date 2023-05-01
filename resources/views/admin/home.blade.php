@@ -284,7 +284,6 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 
 											<td>{{$contact->country ? $contact->country->name : ''}}</td>
 											<td>{{$contact->project ? $contact->project->name : ''}}</td>
-											<!--<td>{{$contact->city ? $contact->city->name : ''}}</td>-->
 											<td>{{$contact->status?$contact->status->name : ''}}</td>
 											<td>
 			    {{ timeZone($contact->created_at) }}

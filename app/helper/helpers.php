@@ -882,6 +882,7 @@ function getSellers() {
                       $q->where('leader',$id);
                       $q->OrWhere('id',$id);
                     })
+                    ->orderBy('email','asc')
                     ->where('active','1')->get();
   }elseif(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing' || userRole() == 'ceo'){ //Updated by Javed
 
@@ -942,7 +943,9 @@ function getSellers() {
           $q->where('rule','sales')
           ->orWhere('rule','leader')
           ->orWhere('rule','sales director');
-        })->get();
+        })
+        ->orderBy('email','asc')
+        ->get();
     }else{
       $sellers = User::where('time_zone','Asia/Riyadh')
         ->where('active','1')
@@ -950,7 +953,7 @@ function getSellers() {
           $q->where('rule','sales')
           ->orWhere('rule','leader')
           ->orWhere('rule','sales director');
-        })->get();
+        })->orderBy('email','asc')->get();
     }
   }else {
     $sellers = [];

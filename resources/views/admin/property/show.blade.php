@@ -498,7 +498,26 @@
 																						@endforeach
 																					</select>
 																				</div>
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<select name="availability" id="availability" class="form-control">
+																						<option value="">{{ __('site.choose') }} {{__('site.availability')}}</option>
+																						{!! selectOptions(__('config.availability'),$property->availability) !!}
+																					</select>
+																				</div>
+																			</div>		
+																			<div class="form-group row fv-plugins-icon-container">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<select name="is_exclusive" id="is_exclusive" class="form-control">
+																						<option value="">{{ __('site.choose') }} {{__('site.exclusive')}}</option>
+																						{!! selectOptions(__('config.yes_no'),$property->is_exclusive) !!}
+																					</select>
+																				</div>
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<input class="form-control form-control-solid form-control-lg" 	name="next_available" type="date" value="{{$property->next_available}}" placeholder="{{__('site.available_from')}}">
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
 																			</div>
+
 																			<!--end::Group-->	
 
 																			<!--start::Group-->	
@@ -789,6 +808,18 @@
 																				</div>
 																			</div>
 																			<!--end::Group-->
+
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xs-12 col-sm-3 col-lg-3 col-form-label">{{__('site.floor_plan')}} ({{__('site.can attach more than one')}})</label>
+																				<div class="col-xs-12 col-sm-3 col-lg-3">
+																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#floor_plan_uploader">
+                    																	Add Images <i class="fa fa-folder"></i>
+                  																	</button>
+																				</div>
+																			</div>
+																			<!--end::Group-->
+
 
 
 																		
@@ -1264,6 +1295,7 @@
 <!--end::Content-->
 @include('admin.property.image_uploader')
 @include('admin.property.document_uploader')
+@include('admin.property.floor_plan_uploader')
 @include('admin.property.dev_features')
 @include('admin.property.unit_features')
 @include('admin.property.life_style_features')

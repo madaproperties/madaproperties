@@ -151,6 +151,9 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::post('document/upload/store','PropertyController@documentStore')->name('property.documentStore');
       Route::post('document/delete','PropertyController@documentDestroy')->name('property.documentDestroy');      
 
+      Route::post('floor-plan/upload/store','PropertyController@floorPlanStore')->name('property.floorPlanStore');
+      Route::post('floor-plan/delete','PropertyController@floorPlanDestroy')->name('property.floorPlanDestroy');      
+
       Route::post('property/save-features','PropertyController@saveFeatures')->name('property.saveFeatures');
       Route::post('property/save-portals','PropertyController@savePortals')->name('property.savePortals');
       // added by fazl

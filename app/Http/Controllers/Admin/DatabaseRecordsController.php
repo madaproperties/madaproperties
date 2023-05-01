@@ -393,9 +393,8 @@ private function filterPrams($q){
             $email = $value;
           }
           if($feild == 'project_country_id'){
-            $q->whereHas('project', function($q2) use($value) {
-              $q2->where('projects.country_id',$value);
-            });
+            $projectId = Project::where('country_id',$value)->pluck('id');
+            $q->whereIn('project_id',$projectId);
           }
 
             if($feild == 'user_country_id'){

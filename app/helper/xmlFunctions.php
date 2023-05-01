@@ -15,8 +15,10 @@ function get_amenities($property_id){
   $privateamenities="";
   $commercialamenities="";
   $features="";
+  $pre_features=[];
   foreach ($propertyFeature as $rs) {
     $features.= $rs->feature->feature_name.',';
+    $pre_features[]['name'] = $rs->feature->feature_prefix;
     switch ($rs->feature->feature_name) {
         case "Maid's room":
           if($y!=0) { $privateamenities.=",";}  
@@ -217,5 +219,6 @@ function get_amenities($property_id){
   $return['commercialamenities']=$commercialamenities;
   $return['privateamenities']=$privateamenities;
   $return['features']=$features;
+  $return['pre_features']=$pre_features;
   return $return;
 }

@@ -15,14 +15,18 @@
         </tr>
       </thead>
       <tbody>
-        @foreach($campaings as $campaing)
+        @foreach($campaings as $c)
         <tr>
-          <th scope="row">{{$campaing->name}}</th>
-          <td>{{$campaing->leadsCount}}</td>
-          <td>{{ number_format($campaing->cpl,2) }}$</td>
-          <td>{{$campaing->conversion}}</td>
-          <td>{{$campaing->cpc}}</td>
-          <td>{{ number_format($campaing->cost,2) }}$</td>
+          <th scope="row">{{$c->name}}</th>
+          <td>{{$c->leadsCount = \App\Contact::where('campaign','LIKE','%'.$c->name.'%')->count()}}</td>
+          <td>{{ number_format((!$c->leadsCount  ? 0 : $c->cost / $c->leadsCount),2) }}$</td>
+          @php($c->conversion = \App\Contact::where('status_id',8)->where('campaign',$c->name)->count())
+          @if($c->conversion > 0)
+            @php($c->cpc  = !$c->cpl ? 0 : $c->cost / $c->conversion)
+          @endif
+          <td>{{$c->conversion}}</td>
+          <td>{{$c->cpc}}</td>
+          <td>{{ number_format($c->cost,2) }}$</td>
         </tr>
         @endforeach
       </tbody>

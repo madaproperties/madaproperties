@@ -280,27 +280,53 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
               $q2->where('projects.country_id',$value);
             });
           }else if($feild == 'is_meeting' && $value == 1){
-              $q->whereHas('logs', function($q2) use($value,$user_id) {
-                $q2->where('logs.type','meeting');
-                if($user_id){
-                  $q2->where('logs.user_id',$user_id);
-                }
-                //Added by Javed
-                if(Request('meeting_from') && Request('meeting_to')){
+              // $q->whereHas('logs', function($q2) use($value,$user_id) {
+              //   $q2->where('logs.type','meeting');
+              //   if($user_id){
+              //     $q2->where('logs.user_id',$user_id);
+              //   }
+              //   //Added by Javed
+              //   if(Request('meeting_from') && Request('meeting_to')){
+              //     $from = date('Y-m-d', strtotime(Request('meeting_from')));
+              //     $to = date('Y-m-d', strtotime(Request('meeting_to')));
+              //     $q2->whereBetween('logs.log_date',[$from,$to]);
+              //   }else{   
+              //     if(Request('meeting_from')){
+              //       $from = date('Y-m-d', strtotime(Request('meeting_from')));
+              //       $q2->where('logs.log_date','>=', $from);
+              //     }   
+              //     if(Request('meeting_to')){
+              //       $to = date('Y-m-d', strtotime(Request('meeting_to')));
+              //       $q2->where('logs.log_date','<=',$to);
+              //     }            
+              //   }                
+              // });
+              
+              $logsIds = \App\Log::where('logs.type','meeting');
+              if($user_id){
+                $logsIds->where('logs.user_id',$user_id);
+              }
+              if(userRole() == 'sales'){
+                $logsIds->where('logs.user_id',auth()->id());
+              }
+              //Added by Javed
+              if(Request('meeting_from') && Request('meeting_to')){
+                $from = date('Y-m-d', strtotime(Request('meeting_from')));
+                $to = date('Y-m-d', strtotime(Request('meeting_to')));
+                $logsIds->whereBetween('logs.log_date',[$from,$to]);
+              }else{   
+                if(Request('meeting_from')){
                   $from = date('Y-m-d', strtotime(Request('meeting_from')));
+                  $logsIds->where('logs.log_date','>=', $from);
+                }   
+                if(Request('meeting_to')){
                   $to = date('Y-m-d', strtotime(Request('meeting_to')));
-                  $q2->whereBetween('logs.log_date',[$from,$to]);
-                }else{   
-                  if(Request('meeting_from')){
-                    $from = date('Y-m-d', strtotime(Request('meeting_from')));
-                    $q2->where('logs.log_date','>=', $from);
-                  }   
-                  if(Request('meeting_to')){
-                    $to = date('Y-m-d', strtotime(Request('meeting_to')));
-                    $q2->where('logs.log_date','<=',$to);
-                  }            
-                }                
-              });
+                  $logsIds->where('logs.log_date','<=',$to);
+                }            
+              } 
+              $contact_ids=$logsIds->pluck('contact_id');
+              $q->whereIn('id',$contact_ids);
+              
           }else if($feild == 'campaign_country'){
             $q->whereIn($feild,explode(",",$value));
           }else{

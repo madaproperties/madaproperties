@@ -27,11 +27,11 @@ class PropertyFinderXmlController extends Controller
 {
 
   function propertyFinderXml(){
-    $properties = Property::select('properties.*')->join('property_portals','property_portals.property_id','=','properties.id')
+    $properties = Property::select('properties.*')->with(['images','agent','category','city','communityId','subCommunity'])->join('property_portals','property_portals.property_id','=','properties.id')
     ->where('property_portals.portal_id',1)
     ->where('status',1)->get();
     $count = count($properties);
-    $last_update = Property::select('properties.*')->join('property_portals','property_portals.property_id','=','properties.id')
+    $last_update = Property::select('properties.last_updated','properties.id')->join('property_portals','property_portals.property_id','=','properties.id')
     ->where('property_portals.portal_id',1)
     ->where('status',1)->orderBy('last_updated','desc')->first();
 
@@ -114,8 +114,15 @@ class PropertyFinderXmlController extends Controller
         $xml.="<property_type>".$get_property_type."</property_type>";
       }
       $xml.="<price_on_application>".($property->price_on_application == 1 ? 'Yes' : 'No' )."</price_on_application>";
-      
-    $xml.="<price>";
+      $xml.="<available_from>".($property->next_available)."</available_from>";
+      $xml.="<exclusive>".($property->is_exclusive == 1 ? 'Yes' : 'No' )."</exclusive>";
+      if($property->availability == '1' || $property->availability == '2' || $property->availability == '3' || $property->availability == '4'){
+        $measure_unit=strtoupper(__('config.availability.'.$property->availability));
+      }else{
+        $xml.="<availability>".($property->availability)."</availability>";
+      }
+
+      $xml.="<price>";
       if($property->yprice){
         $xml.="<yearly>".$property->yprice."</yearly>";
       }

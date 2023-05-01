@@ -155,7 +155,7 @@ class ReportController extends Controller
 	public function reportCampaingAnalytics(){ // reportCampaingAnalytics
 
 		if(Request('type') AND request('type') == 'campaing-analytics'){   
-			$campaings = Campaing::where('active','1')->get();
+			$campaings = Campaing::where('active','1')->paginate(10);
 			$status = Status::where('active','1')->orderBy('weight','ASC')->get();
 			if(userRole() == 'leader'){
 				$users = User::select('id','leader')->where('leader',auth()->id())->orWhere('id', auth()->id())->get();
@@ -164,14 +164,14 @@ class ReportController extends Controller
 				$users = [];
 			}
 
-			foreach($campaings as $c){
-				$c->leadsCount = Contact::where('campaign','LIKE','%'.$c->name.'%')->count();
-				$c->cpl = !$c->leadsCount  ? 0 : $c->cost / $c->leadsCount;
-				$closedStatus = Status::where('name_en','Closed')->first();
-				$c->conversion = Contact::where('status_id',$closedStatus->id)->where('campaign',$c->name)->count();
-				if($c->conversion > 0)
-				$c->cpc  = !$c->cpl ? 0 : $c->cost / $c->conversion;
-			}
+			// foreach($campaings as $c){
+			// 	$c->leadsCount = Contact::where('campaign','LIKE','%'.$c->name.'%')->count();
+			// 	$c->cpl = !$c->leadsCount  ? 0 : $c->cost / $c->leadsCount;
+			// 	$closedStatus = Status::where('name_en','Closed')->first();
+			// 	$c->conversion = Contact::where('status_id',$closedStatus->id)->where('campaign',$c->name)->count();
+			// 	if($c->conversion > 0)
+			// 	$c->cpc  = !$c->cpl ? 0 : $c->cost / $c->conversion;
+			// }
 			return view('admin.reports.index',[
 					 'campaings' =>  $campaings,
 					 'status' =>  $status,

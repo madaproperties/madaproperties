@@ -3,6 +3,11 @@
 
 <!--begin::Content-->
 <style>
+#map {
+	height: 100%;
+	width: 100%;
+	z-index:9999;
+}
 .property_form span.suffixPlot {
     bottom: 17px;
     right: 20px;
@@ -478,7 +483,25 @@
 																						@endforeach
 																					</select>
 																				</div>
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<select name="availability" id="availability" class="form-control">
+																						<option value="">{{ __('site.choose') }} {{__('site.availability')}}</option>
+																						{!! selectOptions(__('config.availability'),old('availability')) !!}
+																					</select>
+																				</div>
 																			</div>		
+																			<div class="form-group row fv-plugins-icon-container">
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<select name="is_exclusive" id="is_exclusive" class="form-control">
+																						<option value="">{{ __('site.choose') }} {{__('site.exclusive')}}</option>
+																						{!! selectOptions(__('config.yes_no'),old('is_exclusive')) !!}
+																					</select>
+																				</div>
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<input class="form-control form-control-solid form-control-lg" 	name="next_available" type="date" value="{{old('next_available')}}" placeholder="{{__('site.available_from')}}">
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																			</div>
 																			<!--end::Group-->																																					
 																		</div>
 																	</div>
@@ -729,6 +752,18 @@
 																		</div>
 																	</div>
 																</div>
+																<div class="row col-xl-12 mt-5 card">
+																	<!--begin::Wizard Step 1-->
+																	<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+																		<div class="form-group row fv-plugins-icon-container">
+																			<div class="col-xs-12 col-sm-12 col-lg-12">
+																				<div id="map"></div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+
+
 																<div class="row col-xl-12 card mt-5 rowCrtt">																				
 																	<!--begin::Wizard Actions-->
 																	<div class="d-flex justify-content-between border-top pt-5 pb-5 m-auto">
@@ -767,6 +802,18 @@
 																				<div class="col-xs-12 col-sm-3 col-lg-3">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#document_uploader">
                     																	Add Documents <i class="fa fa-folder"></i>
+                  																	</button>
+																				</div>
+																			</div>
+																			<!--end::Group-->
+
+
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xs-12 col-sm-3 col-lg-3 col-form-label">{{__('site.floor_plan')}} ({{__('site.can attach more than one')}})</label>
+																				<div class="col-xs-12 col-sm-3 col-lg-3">
+																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#floor_plan_uploader">
+                    																	Add Images <i class="fa fa-folder"></i>
                   																	</button>
 																				</div>
 																			</div>
@@ -835,7 +882,6 @@
 																<div class="row col-xl-12 card">
 																	<!--begin::Wizard Step 1-->
 																	<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-
 																		<!--begin::Group-->
 																		@if((auth()->user()->time_zone == 'Asia/Dubai' && userRole() != 'admin' && userRole() != 'sales admin uae') || request()->get('pt') == 'dubai')
 																		<div class="form-group row fv-plugins-icon-container">
@@ -1002,6 +1048,7 @@
 
 																		<!--end::Group-->	
 																		@endif
+																		
 																	</div>
 																</div>
 																<div class="row col-xl-12 card mt-5 rowCrtt">																				
@@ -1225,6 +1272,7 @@
 <!--end::Content-->
 @include('admin.property.image_uploader')
 @include('admin.property.document_uploader')
+@include('admin.property.floor_plan_uploader')
 @include('admin.property.dev_features')
 @include('admin.property.unit_features')
 @include('admin.property.life_style_features')
@@ -1239,6 +1287,9 @@
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"> </script>
 <script src="{{ asset('public/js/developer.js').'?t='.time() }}"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script src="{{ asset('public/js/map.js').'?t='.time() }}"></script>
+<script src='https://maps.googleapis.com/maps/api/js?key={{env("GoogleApiKey")}}&callback=initMap&v=weekly'></script>
 <script>
 $(document).ready (function () {  
   //$("#property_form").validate();
