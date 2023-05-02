@@ -20,7 +20,13 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
         Route::resource('mediums','MediumsController');
         Route::resource('contents','ContentsController');
         Route::resource('secondary','SecondaryController');
+        Route::resource('employee','EmployeeController');
+        Route::resource('leave','LeaveController');
+        Route::resource('dateinfo','DateinfoController');
+        Route::resource('employeeleave','EmployeeLeaveController');
         Route::get('dashboard','MainController@statics')->name('statics');
+        // added by fazal 06-04
+         Route::resource('mada_board','MadaboardController');
       });
       /********* End Mnager Only ***************************/
       Route::resource('contact','ContactController');
@@ -177,6 +183,14 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
        Route::post('property.imgreorder', 'PropertyController@imgReorder')->name('property.imgreorder'); 
 
        Route::resource('bookings','BookingsController');
+       // added by fazal 29-03
+       Route::get('employee/employeedetails/{employee_id}','EmployeeController@employeeDetails')->name('employee.empdetails');
+      
+      Route::get('employee/employeeleave','EmployeeController@update')->name('employee.leaveshow');
+      Route::get('hr/notification','EmployeeController@Notification')->name('hr.notification');
+      Route::post('change-status', 'EmployeeController@changeStatus')->name('change-status');
+        Route::get('exportEmployeeRecords','EmployeeController@exportEmployeeData')->name('employee.exportRecords');
+         Route::post('emp-import-data','EmployeeController@import')->name('emp-importData');
 
 });
 

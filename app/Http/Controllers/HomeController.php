@@ -18,6 +18,14 @@ class HomeController extends Controller
       if(userRole() == 'other'){
         return redirect()->route('admin.deal.index');      
       }
+      elseif(userRole() == 'hr'){
+       
+        return redirect()->route('admin.employee.index');      
+      }
+       elseif(userRole() == 'it'){
+       
+        return redirect()->route('admin.mada_board.index');     
+      }
       
       return view('home');
     }
@@ -42,6 +50,14 @@ class HomeController extends Controller
           if(userRole() == 'other'){
             return redirect()->route('admin.deal.index');      
           }
+           elseif(userRole() == 'hr'){
+             
+            return redirect()->route('admin.employee.index');      
+          }
+            elseif(userRole() == 'it'){
+           
+       return redirect()->route('admin.mada_board.index');      
+      }
          
           return redirect()->route('admin.');
         }

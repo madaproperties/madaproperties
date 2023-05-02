@@ -911,4 +911,143 @@ class DealController extends Controller
       return Excel::download(new DealExport, 'DealsReport_'.date('d-m-Y').'.xlsx');
     }  
   }
+  // added by fazal
+   public function topAgentsUae()
+   {
+        $sums = DB::table('deals')->where('unit_country',2)
+            ->whereMonth('deals.deal_date', date('m'))
+            ->whereYear('deals.deal_date', date('Y'))
+            ->join('users','users.id','deals.agent_id')
+            ->select(DB::raw('SUM(price) as total_sum, agent_id'),'users.name','users.user_pic','users.email','users.username')
+            ->groupBy('agent_id')
+            ->orderByDesc('total_sum')
+             ->take(5)->get();
+              // dd($sums);
+       $count=$sums->count();
+        if($count == 1 )
+        { 
+          
+         $emp1=$sums[0];
+         $emp2='';
+         $emp3='';
+         $emp4='';
+         $emp5='';
+        }
+        elseif($count == 2 )
+        {
+         $emp1=$sums[0];
+         $emp2=$sums[1];
+         $emp3='';
+         $emp4='';
+         $emp5=''; 
+        }
+        elseif($count == 3)
+        {
+        $emp1=$sums[0];
+         $emp2=$sums[1];
+         $emp3=$sums[2];
+         $emp4='';
+         $emp5='';
+         
+        }
+        elseif($count == 4)
+        {
+        $emp1=$sums[0];
+         $emp2=$sums[1];
+         $emp3=$sums[2];
+         $emp4=$sums[3];
+         $emp5='';
+         
+        }
+        elseif($count == 5)
+        {
+        $emp1=$sums[0];
+         $emp2=$sums[1];
+         $emp3=$sums[2];
+         $emp4=$sums[3];
+         $emp5=$sums[4];
+         
+        }
+        else
+        {
+          $emp1='';
+          $emp2='';
+          $emp3='';
+          $emp4='';
+          $emp5='';
+        }
+     
+            
+   return view('admin.deals.topagentuae',compact('sums','emp1','emp2','emp3','emp4','emp5'));
+        
+        
+}
+public function topAgentsSaudi()
+{
+  $sums = DB::table('deals')->where('unit_country',1)
+            ->whereMonth('deals.deal_date', date('m'))
+            ->whereYear('deals.created_at', date('Y'))
+            ->join('users','users.id','deals.agent_id')
+            ->select(DB::raw('SUM(price) as total_sum, agent_id'),'users.name','users.user_pic','users.email')
+            ->groupBy('agent_id')
+            ->orderByDesc('total_sum')
+             ->take(3)->get();
+       $count=$sums->count();
+        if($count == 1 )
+        { 
+          
+         $emp1=$sums[0];
+         $emp2='';
+         $emp3='';
+         $emp4='';
+         $emp5='';
+        }
+        elseif($count == 2 )
+        {
+         $emp1=$sums[0];
+         $emp2=$sums[1];
+         $emp3='';
+         $emp4='';
+         $emp5=''; 
+        }
+        elseif($count == 3)
+        {
+        $emp1=$sums[0];
+         $emp2=$sums[1];
+         $emp3=$sums[2];
+         $emp4='';
+         $emp5='';
+         
+        }
+        elseif($count == 4)
+        {
+        $emp1=$sums[0];
+         $emp2=$sums[1];
+         $emp3=$sums[2];
+         $emp4=$sums[3];
+         $emp5='';
+         
+        }
+        elseif($count == 5)
+        {
+        $emp1=$sums[0];
+         $emp2=$sums[1];
+         $emp3=$sums[2];
+         $emp4=$sums[3];
+         $emp5=$sums[4];
+         
+        }
+        else
+        {
+          $emp1='';
+          $emp2='';
+          $emp3='';
+          $emp4='';
+          $emp5='';
+        }
+     
+            
+   return view('admin.deals.topagentsaudi',compact('sums','emp1','emp2','emp3','emp4','emp5'));
+  
+}
 }

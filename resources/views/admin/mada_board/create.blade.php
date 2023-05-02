@@ -14,7 +14,7 @@
 						<!--begin::Details-->
 						<div class="d-flex align-items-center flex-wrap mr-2">
 							<!--begin::Title-->
-							<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">{{__('site.new').' '.__('site.project')}}</h5>
+							<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">{{__('site.new').' '.__('site.Mada Board')}}</h5>
 							<!--end::Title-->
 							<!--begin::Separator-->
 							<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
@@ -46,7 +46,7 @@
 											<div class="row justify-content-center py-8 px-8 py-lg-15 px-lg-10">
 												<div class="col-xl-12 col-xxl-10">
 													<!--begin::Wizard Form-->
-													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.project-name.store')}}" id="kt_form" enctype="multipart/form-data">
+													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.mada_board.store')}}" id="kt_form" enctype="multipart/form-data">
 														@csrf
 														<div class="row justify-content-center">
 														<div class="col-xl-6">
@@ -55,9 +55,9 @@
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.name')}}</label>
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Title')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="name" type="text" value="{{old('name')}}" placeholder="{{__('site.name')}}">
+																			<input class="form-control form-control-solid form-control-lg" 	name="title" type="text" value="{{old('title')}}" placeholder="{{__('site.name')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -71,39 +71,7 @@
 																		</div>
 																	</div>
 																	<!--added by fazal 29-03-23-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.project logo')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="project_logo" type="file">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!-- end added by fazal -->
-																	<!-- end added by fazal -->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.brochure')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="brochure" type="file">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!-- end added by fazal -->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.video')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="video" type="file">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!-- end added by fazal -->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.payment_plan')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="payment_plan" type="file">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!-- end added by fazal -->
+																
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">

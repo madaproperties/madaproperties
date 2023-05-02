@@ -65,10 +65,9 @@ class ProjectDeveloperController extends Controller
       ]);
       $data['created_at'] = Carbon::now();
       if($request->file('developer_logo')){
-        $md5Name = md5_file($request->file('developer_logo')->getRealPath());
-        $guessExtension = $request->file('developer_logo')->guessExtension();
-        $file = $request->file('developer_logo')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
-        $data['developer_logo'] = $md5Name.'.'.$guessExtension;
+           $file = Storage::disk('s3')->putFile('uploads/developer_logo', $request->file('developer_logo'));
+           $path="https://mada-properties-staging.s3.eu-west-1.amazonaws.com/".$file;     
+           $data['developer_logo'] = $path;
       }
 
       addHistory('Project Developer',0,'added',$data);   

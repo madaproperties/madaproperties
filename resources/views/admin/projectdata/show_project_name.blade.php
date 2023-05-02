@@ -67,9 +67,21 @@
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.image')}}</label>
 																		<div class="col-lg-9 col-xl-9">
 																			@if($deal->image)
-																				<a href="{{env('APP_URL').'/public/uploads/projectData/'.$deal->image}}" target="_blank" download="download">Download</a>
+																				<a href="{{$deal->image}}" target="_blank" download="download">Download</a>
 																			@endif
 																			<input class="form-control form-control-solid form-control-lg" 	name="image" type="file" >
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!-- end added by fazal -->
+																	<!-- added by fazal 29-03-2023  -->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.project logo')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			@if($deal->project_logo)
+																				<a href="{{$deal->project_logo}}" target="_blank" download="download">Download</a>
+																			@endif
+																			<input class="form-control form-control-solid form-control-lg" 	name="project_logo" type="file">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -78,7 +90,7 @@
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.brochure')}}</label>
 																		<div class="col-lg-9 col-xl-9">
 																		@if($deal->brochure)
-																				<a href="{{env('APP_URL').'/public/uploads/projectData/'.$deal->brochure}}" target="_blank" download="download">Download</a>
+																				<a href="{{$deal->brochure}}" target="_blank" download="download">Download</a>
 																			@endif
 																		
 																			<input class="form-control form-control-solid form-control-lg" 	name="brochure" type="file">
@@ -98,7 +110,7 @@
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.payment_plan')}}</label>
 																		<div class="col-lg-9 col-xl-9">
 																		@if($deal->payment_plan)
-																				<a href="{{env('APP_URL').'/public/uploads/projectData/'.$deal->payment_plan}}" target="_blank" download="download">Download</a>
+																				<a href="{{$deal->payment_plan}}" target="_blank" download="download">Download</a>
 																			@endif
 																		
 																			<input class="form-control form-control-solid form-control-lg" 	name="payment_plan" type="file">
@@ -147,5 +159,5 @@
 
 @endsection
 @push('js')
-
+<script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
 @endpush
