@@ -11,6 +11,7 @@ use App\Mail\SetPassword;
 use App\Setting;
 use Spatie\Permission\Models\Role;
 use App\Country;
+use Illuminate\Support\Facades\Storage;
 
 class AccountsController extends Controller
 {
@@ -103,10 +104,9 @@ class AccountsController extends Controller
             $data['time_zone'] = timeZones()[0];
         }
         if($request->file('user_pic')){
-            $md5Name = md5_file($request->file('user_pic')->getRealPath());
-            $guessExtension = $request->file('user_pic')->guessExtension();
-            $file = $request->file('user_pic')->move('public/uploads/users', $md5Name.'.'.$guessExtension);     
-            $data['user_pic'] = $md5Name.'.'.$guessExtension;
+            $file = Storage::disk('s3')->putFile('uploads/project_name', $request->file('user_pic'));
+            $path="https://mada-properties-live.s3.eu-west-1.amazonaws.com/".$file;     
+            $data['user_pic'] = $path;
         }
      
         addHistory('User',0,'added',$data);
@@ -173,10 +173,9 @@ class AccountsController extends Controller
             $data['leader']  = null;
          }
         if($request->file('user_pic')){
-            $md5Name = md5_file($request->file('user_pic')->getRealPath());
-            $guessExtension = $request->file('user_pic')->guessExtension();
-            $file = $request->file('user_pic')->move('public/uploads/users', $md5Name.'.'.$guessExtension);     
-            $data['user_pic'] = $md5Name.'.'.$guessExtension;
+             $file = Storage::disk('s3')->putFile('uploads/user_pics', $request->file('user_pic'));
+            $path="https://mada-properties-staging.s3.eu-west-1.amazonaws.com/".$file;     
+            $data['user_pic'] = $path;
         }
 
 

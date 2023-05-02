@@ -215,7 +215,9 @@ td.center span {
 						<table cellpadding="0" cellspacing="0" border="0"  width="800">
 							<tr>
 							    
-								<td><img class="jood_logo" src="{{ asset('public/uploads/projectData/'.$project->developer->developer_logo) }}"/></td>
+									 <!-- updated by fazal 29-.3--> 
+								<td><img class="jood_logo" src="{{ asset('public/uploads/projectData/'.$project->project->project_logo) }}"/></td>
+                                  								<!--end-->
                                   								
 							</tr>
 							<tr>

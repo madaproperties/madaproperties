@@ -224,7 +224,7 @@ div#units{padding:30px;}
            
         </div>
          <div class="bottom_header">
-        <img class="developer-logo" src="{{ asset('public/uploads/projectData/'.$image->developer->developer_logo) }}">
+        <img class="developer-logo" src="{{ $project_name['project_logo'] }}">
          <h2 align="center" >{{$project_name['name']}}</h2>  
           <div class="developer_detail">
                   
@@ -232,10 +232,10 @@ div#units{padding:30px;}
           <div class="unit" id="demo">
               <div class="row projectdetails">
               @if($project_name['video'])
-              <embed type="video/webm" src="{{ asset('public/uploads/projectData/'.$project_name['video'])}}" width="400" height="300">
+              <embed type="video/webm" src="{{ $project_name['video']}}" width="400" height="300">
               @endif
-              <a href="{{ asset('public/uploads/projectData/'.$project_name['brochure'])}}" class="btn btn-info brochure"   target="_blank" >Brochure </a>
-              <a href="{{ asset('public/uploads/projectData/'.$project_name['payment_plan'])}}" class="btn btn-info" target="_blank">Payment plan </a>
+              <a href="{{$project_name['brochure']}}" class="btn btn-info brochure"   target="_blank" >Brochure </a>
+              <a href="{{$project_name['payment_plan']}}" class="btn btn-info" target="_blank">Payment plan </a>
               </div>
           </div>
           </div>

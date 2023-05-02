@@ -34,7 +34,7 @@
   <input type="hidden" name="pt" value="{{request()->get('pt')}}">
 
   <div class="row"> <!--- row -->
-    @if(userRole() == 'admin' || userRole() == 'sales admin uae')
+    @if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'leader' || userRole()=='sales')
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.status')}}</label>
       <select class="form-control" name="status">
@@ -42,6 +42,8 @@
         {!! selectOptions(__('config.status'),Request('status')) !!}
       </select>
     </div>
+    @endif
+    @if(count($sellers))
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.agent')}}</label>
       <select class="form-control" name="user_id">
@@ -55,46 +57,106 @@
 
     <!--begin::Group-->
     <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.category')}}</label>
+      <select class="form-control"  name="category_id">
+        <option value="" >{{ __('site.choose') }}</option>
+        @foreach($categories as $category)
+        <option {{ Request('category_id') == $category->id ? 'selected' : ''}} value="{{$category->id}}">{{$category->category_name}}</option>
+        @endforeach
+      </select>                                       
+    </div>
+    <!--end::Group-->
+    <!--begin::Group-->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.property_type')}}</label>
+      <select class="form-control" name="property_type">
+        <option value="">{{__('site.choose')}}</option>
+        <option value="1">{{__('site.residential')}}</option>
+        <option value="2">{{__('site.commercial')}}</option>
+      </select>                                         
+    </div>
+    <!--end::Group-->
+    <!--begin::Group-->
+    <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.type')}}</label>
       <select class="form-control" name="sale_rent">
         <option value="">{{__('site.choose')}}</option>
         {!! selectOptions(__('config.sale_rent'),Request('sale_rent')) !!}
-      </select>																					
+      </select>                                         
     </div>
-    <!--end::Group-->
+    <!--end::Group-->    
     <!--begin::Group-->
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.portals')}}</label>
       <select class="form-control" name="portals">
         <option value="">{{__('site.choose')}}</option>
         {!! selectOptions(__('config.portals'),Request('portals')) !!}
-      </select>																					
+      </select>                                         
     </div>
     <!--end::Group-->
     <!--begin::Group-->
-    <div class="form-group col-md-4 col-sm-12">
-      <label for="country">{{__('site.category')}}</label>
-      <select class="form-control"  name="category_id">
-        <option value="">{{ __('site.choose') }}</option>
-        @foreach($categories as $category)
-        <option {{ Request('category_id') == $category->id ? 'selected' : ''}} value="{{$category->id}}">{{$category->category_name}}</option>
-        @endforeach
-      </select>
-    </div>
+    <!--<div class="form-group col-md-4 col-sm-12">-->
+    <!--  <label for="country">{{__('site.category')}}</label>-->
+    <!--  <select class="form-control"  name="category_id">-->
+    <!--    <option value="">{{ __('site.choose') }}</option>-->
+    <!--    @foreach($categories as $category)-->
+    <!--    <option {{ Request('category_id') == $category->id ? 'selected' : ''}} value="{{$category->id}}">{{$category->category_name}}</option>-->
+    <!--    @endforeach-->
+    <!--  </select>-->
+    <!--</div>-->
     <!--end::Group-->
 
+
+    <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.Created')}} {{ __('site.from') }} </label>
+          <div class="">
+            <div class="input-group input-group-solid date"
+            id="from-date" data-target-input="nearest">
+              <input value="{{request('from')}}" type="text"
+              max="{{date('d-m-Y')}}"
+              class="form-control form-control-solid datetimepicker-input"
+              data-toggle="datetimepicker"
+              name="from" data-target="#from-date" autocomplete="off">
+              <div class="input-group-append" data-target="#from-date" data-toggle="datetimepicker">
+                <span class="input-group-text">
+                  <i class="ki ki-calendar"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="form-group col-md-4 col-sm--12">
+      <div class="form-group ">
+          <label class="">{{__('site.Created')}} {{ __('site.to') }}</label>
+          <div class="">
+            <div class="input-group input-group-solid date to-date-el" id="to-date" data-target-input="nearest">
+              <input value="{{request('to')}}" type="text" class="form-control form-control-solid datetimepicker-input"
+              data-toggle="datetimepicker"
+              min="{{date('d-m-Y')}}"
+              name="to" data-target="#to-date" autocomplete="off">
+              <div class="input-group-append" data-target="#to-date" data-toggle="datetimepicker">
+                <span class="input-group-text">
+                  <i class="ki ki-calendar"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
     <div class="form-group col-md-4 col-sm--12">
       <div class="form-group ">
           <label class="">{{__('site.updated')}} {{ __('site.from') }} </label>
           <div class="">
             <div class="input-group input-group-solid date"
-            id="from" data-target-input="nearest">
-              <input value="{{request('from')}}" type="text"
+            id="updated_from" data-target-input="nearest">
+              <input value="{{request('updated_from')}}" type="text"
               max="{{date('d-m-Y')}}"
               class="form-control form-control-solid datetimepicker-input datepicker"
               data-toggle="datetimepicker"
-              name="from" data-target="#from" autocomplete="off">
-              <div class="input-group-append" data-target="#from" data-toggle="datetimepicker">
+              name="updated_from" data-target="#updated_from" autocomplete="off">
+              <div class="input-group-append" data-target="#updated_from" data-toggle="datetimepicker">
                 <span class="input-group-text">
                   <i class="ki ki-calendar"></i>
                 </span>
@@ -108,11 +170,11 @@
           <label class="">{{__('site.updated')}} {{ __('site.to') }}</label>
           <div class="">
             <div class="input-group input-group-solid date to-date-el"  data-target-input="nearest">
-              <input value="{{request('to')}}" type="text" id="to" class="form-control form-control-solid datetimepicker-input datepicker"
+              <input value="{{request('updated_to')}}" type="text" id="updated_to" class="form-control form-control-solid datetimepicker-input datepicker"
               data-toggle="datetimepicker"
               min="{{date('d-m-Y')}}"
-              name="to" data-target="#to" autocomplete="off">
-              <div class="input-group-append" data-target="#to" data-toggle="datetimepicker">
+              name="updated_to" data-target="#updated_to" autocomplete="off">
+              <div class="input-group-append" data-target="#updated_to" data-toggle="datetimepicker">
                 <span class="input-group-text">
                   <i class="ki ki-calendar"></i>
                 </span>
@@ -122,7 +184,7 @@
         </div>
     </div>
 
-    @if(userRole() != 'sales')
+    @if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales director' || userRole() == 'sales admin saudi')
       @if(isset($leaders) && count($leaders)>0)
       <div class="form-group col-md-4 col-sm-12">
         <label for="country">{{__('site.Team')}}</label>
@@ -148,14 +210,14 @@
 <!-- Added By javed -->
 
 <script>
-	$('.date').datepicker({
+  $('.date').datepicker({
     //format: 'dd/mm/yyyy',
     todayHighlight:'TRUE',
     autoclose: true,
   });
 
   $('#to').datepicker({
-		//format: 'dd/mm/yyyy',
+    //format: 'dd/mm/yyyy',
     todayHighlight:'TRUE',
     autoclose: true,
   });

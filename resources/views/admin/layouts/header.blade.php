@@ -177,7 +177,9 @@
             <div class="d-none d-lg-flex align-items-center mr-3 navTop_logo">
 				@php $user = App\User::where('id',auth()->id())->first(); @endphp
 				@if(auth()->id())
-                <!--begin::Logo--> @if(userRole() == 'other') <a href="{{route('admin.deal.index')}}" class="w-100"> @else <a href="{{route('admin.')}}" class="w-100"> @endif <img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo p-0 mx-auto d-block" />
+                <!-- updated by fazal -->
+                <!--begin::Logo--> @if(userRole() == 'other') <a href="{{route('admin.deal.index')}}" class="w-100">
+                @elseif(userRole() == 'hr')<a href="{{route('admin.employee.index')}}" class="w-100">@elseif(userRole() == 'it')<a href="{{route('admin.mada_board.index')}}" class="w-100"> @else <a href="{{route('admin.')}}" class="w-100"> @endif <img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo p-0 mx-auto d-block" />
                     </a>
 				@else
 					<a href="{{route('projcets.newweb')}}" class="w-100"><img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo p-0 mx-auto d-block" /></a>
@@ -218,11 +220,13 @@
                                             <a href="{{route('admin.statics')}}" class="menu-link {{ active_nav('admin.statics') ? 'active' : ''}}">
                                                 <span class="menu-text"><i class="fa fa-th"></i> {{__('site.statics')}}</span>
                                             </a>
-                                        </li> @endif @if(userRole() != 'sales admin' && userRole() != 'other') <li class="menu-item menu-item-active {{ request()->has('my-contacts') ? 'active' : '' }}" aria-haspopup="true">
+                                            <!-- updated by fazl 06-04 -->
+                                        </li> @endif @if(userRole() != 'sales admin' && userRole() != 'other' && userRole() != 'hr' && userRole() !=='it') <li class="menu-item menu-item-active {{ request()->has('my-contacts') ? 'active' : '' }}" aria-haspopup="true">
                                             <a href="{{route('admin.home')}}?my-contacts=get&filter_status={{ App\Status::where('name_en','new')->first()->id }} " class="menu-link menuRouter {{ request()->has('my-contacts') ? 'active' : ''}}">
                                                 <span class="menu-text"><i class="fa fa-address-book"></i> {{__('site.my contacts')}}</span>
                                             </a>
-                                        </li> @endif @if(userRole() != 'sales' && userRole() != 'other') <li class="menu-item menu-item-active {{ (request()->routeIs('admin.home') && !request()->has('my-contacts'))  ? 'active' : '' }}" aria-haspopup="true">
+                                            <!-- updated by fazal 29-03 -->
+                                        </li> @endif @if(userRole() != 'sales' && userRole() != 'other'  && userRole()!='hr' && userRole() != 'hr' && userRole() !=='it') <li class="menu-item menu-item-active {{ (request()->routeIs('admin.home') && !request()->has('my-contacts'))  ? 'active' : '' }}" aria-haspopup="true">
                                             <a href="{{route('admin.home')}}?filter_status={{ App\Status::where('name_en','new')->first()->id }}" class="menu-link {{ (request()->routeIs('admin.home') && !request()->has('my-contacts')) ? 'active' : ''}}">
                                                 <span class="menu-text"><i class="fa fa-address-book"></i> {{__('site.contacts')}}</span>
                                             </a>
@@ -263,6 +267,42 @@
                                                 <span class="menu-text"><i class="fa fa-list"></i> {{__('site.Roles & Permissions')}}</span>
                                             </a>
                                         </li> @endcan 
+                                         <!-- added by fazal -->
+                                        @can('employee-list') <li class="menu-item menu-item-active {{ (request()->routeIs('admin.employee.*')) ? 'active' : '' }}" aria-haspopup="true">
+                                            <a href="{{route('admin.employee.index')}}" class="menu-link {{ active_nav('employee') ? 'active' : ''}}">
+                                                <span class="menu-text"><i class="fa fa-list-alt"></i> {{__('site.employee')}}</span>
+                                            </a>
+                                        </li> 
+                                        <!--  -->
+                                         <li class="menu-item menu-item-active {{ (request()->routeIs('admin.dateinfo.*')) ? 'active' : '' }}" aria-haspopup="true">
+                                            <a href="{{route('admin.dateinfo.index')}}" class="menu-link {{ active_nav('dateinfo') ? 'active' : ''}}">
+                                                <span class="menu-text"><i class="fa fa-list-alt"></i> {{__('site.date info')}}</span>
+                                            </a>
+                                        </li> 
+                                        @endcan
+                                        <!--  -->
+                                         @can('leave-list') <li class="menu-item menu-item-active {{ (request()->routeIs('admin.leave.*')) ? 'active' : '' }}" aria-haspopup="true">
+                                            <a href="{{route('admin.leave.index')}}" class="menu-link {{ active_nav('leave') ? 'active' : ''}}">
+                                                <span class="menu-text"><i class="fa fa-list-alt"></i> {{__('site.leave')}}</span>
+                                            </a>
+                                        </li> @endcan
+                                        @can('employee-leave-list') <li class="menu-item menu-item-active {{ (request()->routeIs('admin.employeeleave.*')) ? 'active' : '' }}" aria-haspopup="true">
+                                            <a href="{{route('admin.employeeleave.index')}}" class="menu-link {{ active_nav('leave') ? 'active' : ''}}">
+                                                <span class="menu-text"><i class="fa fa-list-alt"></i> {{__('site.employee leave')}}</span>
+                                            </a>
+                                        </li> @endcan
+                                        <!-- end added by fazal -->
+                                        <!-- added by fazal 06-04-23 -->
+                                         @can('mada-board-list')<li class="menu-item menu-item-active {{ (request()->routeIs('admin.mada_board.*')) ? 'active' : '' }}">
+                                            <a class="menu-link menu-toggle menu-link text-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="menu-text"><i class="fa fa-tags"></i> {{__('site.mada-board-list')}}</span>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">  <a class="dropdown-item {{(request()->routeIs('admin.mada_board.*')) ? 'active' : '' }}" href="{{route('admin.mada_board.create')}}">{{__('site.createnew')}}</a>  </div>
+                                        </li>
+                                       
+                                          
+                                        @endcan
+                                        <!-- end -->
                                         @if($user->can('project-list') || $user->can('project-name-list') || $user->can('project-developer-list')) <li class="menu-item menu-item-active text-dark {{ (request()->routeIs('admin.project-data.*') || request()->routeIs('admin.project-name.*')
 
 							|| request()->routeIs('admin.project-developer.*')) ? 'active' : '' }}">
@@ -389,10 +429,19 @@
                                             <div onclick="window.location = '{{app()->getLocale() == 'en' ? route('lang','ar') : route('lang','en') }}'" class="btn btn-icon btn-hover-transparent-white btn-dropdown btn-lg mr-1 ">
                                                 <span class="flaticon2-world" style="margin-right:2px"></span>
                                                 {{ app()->getLocale() == 'en' ? 'ع' : 'en'}}
-                                            </div> @if(userRole() != 'other') <div onclick="window.location = '{{route('admin.notofications.index')}}'" class="btn btn-icon btn-hover-transparent-white btn-dropdown btn-lg mr-1 {{ $notoficationCount ? 'pulse pulse-white' : ''}}">
+                                            </div> @if(userRole() != 'other' && userRole()!= 'hr') <div onclick="window.location = '{{route('admin.notofications.index')}}'" class="btn btn-icon btn-hover-transparent-white btn-dropdown btn-lg mr-1 {{ $notoficationCount ? 'pulse pulse-white' : ''}}">
                                                 <span class="flaticon-alert"></span> <span style="margin-left:5px;" class="bg-white badge badge-light notificationIcon">{{$notoficationCount}}</span>
                                                 <span class="pulse-ring"></span>
-                                            </div> @endif <div onclick="window.location = '{{route('admin.account.index')}}'" class="btn btn-icon btn-hover-transparent-white w-sm-auto d-flex align-items-center btn-lg px-2">
+                                            </div> @endif 
+                                            <!-- added  by fazal 29.3 -->
+                                              @if(userRole()=='hr')
+                                            <div onclick="window.location = '{{route('admin.hr.notification')}}'" class="btn btn-icon btn-hover-transparent-white btn-dropdown btn-lg mr-1 ">
+                                            <span class="flaticon-alert"></span> <span style="margin-left:5px;" class="bg-white badge badge-light notificationIcon">{{$notification_count}}</span>
+                                        </div>
+                                             @endif
+                                            <!-- end -->
+
+                                            <div onclick="window.location = '{{route('admin.account.index')}}'" class="btn btn-icon btn-hover-transparent-white w-sm-auto d-flex align-items-center btn-lg px-2">
                                                 <div class="d-flex flex-column text-right pr-sm-3">
                                                     <span class="text-white opacity-50 font-weight-bold font-size-sm d-none d-sm-inline">{{substr(auth()->user()->name,0,8)}}..</span>
                                                     <span class="text-white font-weight-bolder font-size-sm d-none d-sm-inline">{{auth()->user()->rule}}</span>

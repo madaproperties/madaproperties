@@ -64,6 +64,10 @@
                 <td>{{$unit_name->unit_name}}</td>
               </tr>
               <tr>
+                <td>Bedroom</td>
+                <td>{{$unit_name->bedroom}}</td>
+              </tr>
+              <tr>
                 <td>Floor No</td>
                 <td>{{$unit_name->floor_no}}</td>
               </tr>
@@ -75,10 +79,12 @@
                 <td>Price</td>
                 <td>{{$unit_name->price}}</td>
               </tr>
+              @if($unit_name->down_payment)
               <tr>
                 <td>Downpayment</td>
                 <td>{{$unit_name->down_payment}}</td>
               </tr>
+              @endif
             </table>
         </div>
         @elseif($unit_name->status == 'Sold out')

@@ -61,7 +61,7 @@ img {
       <div class="col-xs-12 col-sm-4 col-lg-4 webcard">
         <div class="card" >
           @if(($datas->project) && !empty($datas->project->image))
-  <img src="{{ asset('public/uploads/projectData/'.$datas->project->image)}}" alt="Avatar">
+  <img src="{{$datas->project->image}}" alt="Avatar">
   @else
   <img src="{{ asset('public/images/park3.jpg')}}" alt="Avatar">
   @endif

@@ -43,7 +43,10 @@ Route::get('new-web','Admin\ProjectDataController@newWeb')->name('projcets.newwe
 Route::get('projectdata/view/{id}','Admin\ProjectDataController@View')->name('projectdata.view');
 Route::post('projectdata/getPupUpByAjax','Admin\ProjectDataController@getPupUpByAjax')->name('projectdata.getPupUpByAjax');
 // end
-
+// added by fazal 20-03
+Route::get('madastars','Admin\DealController@topAgentsUae')->name('deal.agents');
+Route::get('topagentsaudideals','Admin\DealController@topAgentsSaudi')->name('deal.agentssaudi');
+// 
 Route::post('project/payment','Admin\ProjectPaymentController@payment')->name('projectPayment.payment');
 Route::get('payment/checkoutPage/{id}','Admin\ProjectPaymentController@checkoutPage')->name('projectPayment.checkoutPage');
 Route::get('payment/success','Admin\ProjectPaymentController@success')->name('projectPayment.success');
@@ -53,6 +56,9 @@ Route::get('secondaryproject/brochure/{id}','Admin\SecondaryController@brochure'
 
 Route::get('property-xml-dubai','Admin\PropertyXmlController@propertyXmlDubai')->name('propertyXmlDubai');
 Route::get('property-xml-saudi','Admin\PropertyXmlController@propertyXmlSaudi')->name('propertyXmlSaudi');
+// added byb fazal 07-04-23
+Route::get('madaslider','Admin\MadaboardController@slider')->name('mada.slider');
+
 
 use App\Contact;
 use App\Country;
