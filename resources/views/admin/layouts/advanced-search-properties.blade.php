@@ -34,7 +34,7 @@
   <input type="hidden" name="pt" value="{{request()->get('pt')}}">
 
   <div class="row"> <!--- row -->
-    @if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'leader')
+    @if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'leader' || userRole()=='sales')
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.status')}}</label>
       <select class="form-control" name="status">
@@ -63,7 +63,7 @@
         @foreach($categories as $category)
         <option {{ Request('category_id') == $category->id ? 'selected' : ''}} value="{{$category->id}}">{{$category->category_name}}</option>
         @endforeach
-      </select>																				
+      </select>                                       
     </div>
     <!--end::Group-->
     <!--begin::Group-->
@@ -73,7 +73,7 @@
         <option value="">{{__('site.choose')}}</option>
         <option value="1">{{__('site.residential')}}</option>
         <option value="2">{{__('site.commercial')}}</option>
-      </select>																					
+      </select>                                         
     </div>
     <!--end::Group-->
     <!--begin::Group-->
@@ -82,7 +82,7 @@
       <select class="form-control" name="sale_rent">
         <option value="">{{__('site.choose')}}</option>
         {!! selectOptions(__('config.sale_rent'),Request('sale_rent')) !!}
-      </select>																					
+      </select>                                         
     </div>
     <!--end::Group-->    
     <!--begin::Group-->
@@ -91,19 +91,19 @@
       <select class="form-control" name="portals">
         <option value="">{{__('site.choose')}}</option>
         {!! selectOptions(__('config.portals'),Request('portals')) !!}
-      </select>																					
+      </select>                                         
     </div>
     <!--end::Group-->
     <!--begin::Group-->
-    <div class="form-group col-md-4 col-sm-12">
-      <label for="country">{{__('site.category')}}</label>
-      <select class="form-control"  name="category_id">
-        <option value="">{{ __('site.choose') }}</option>
-        @foreach($categories as $category)
-        <option {{ Request('category_id') == $category->id ? 'selected' : ''}} value="{{$category->id}}">{{$category->category_name}}</option>
-        @endforeach
-      </select>
-    </div>
+    <!--<div class="form-group col-md-4 col-sm-12">-->
+    <!--  <label for="country">{{__('site.category')}}</label>-->
+    <!--  <select class="form-control"  name="category_id">-->
+    <!--    <option value="">{{ __('site.choose') }}</option>-->
+    <!--    @foreach($categories as $category)-->
+    <!--    <option {{ Request('category_id') == $category->id ? 'selected' : ''}} value="{{$category->id}}">{{$category->category_name}}</option>-->
+    <!--    @endforeach-->
+    <!--  </select>-->
+    <!--</div>-->
     <!--end::Group-->
 
 
@@ -210,14 +210,14 @@
 <!-- Added By javed -->
 
 <script>
-	$('.date').datepicker({
+  $('.date').datepicker({
     //format: 'dd/mm/yyyy',
     todayHighlight:'TRUE',
     autoclose: true,
   });
 
   $('#to').datepicker({
-		//format: 'dd/mm/yyyy',
+    //format: 'dd/mm/yyyy',
     todayHighlight:'TRUE',
     autoclose: true,
   });

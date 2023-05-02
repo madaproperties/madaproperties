@@ -214,9 +214,11 @@ td.center span {
 					
 						<table cellpadding="0" cellspacing="0" border="0"  width="800">
 							<tr>
-							   <!-- updated by fazal 29-.3--> 
+							    
+									 <!-- updated by fazal 29-.3--> 
 								<td><img class="jood_logo" src="{{ asset('public/uploads/projectData/'.$project->project->project_logo) }}"/></td>
                                   								<!--end-->
+                                  								
 							</tr>
 							<tr>
 								<td align="center" style="font-size:22px;word-spacing:0px;letter-spacing: 0px; font-family: inherit;font-weight:bold; color:#000;"></td>

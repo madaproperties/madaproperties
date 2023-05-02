@@ -135,10 +135,7 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
           $ID =  User::where($search_feild,'LIKE','%'.$value)->first();
           $customMsg = __('site.user not found: recode').'['.$index.'] ' ;
         }
-<<<<<<< HEAD
 
-=======
->>>>>>> 9ad51063a1df0cf182fc76a5682ddd4552c0b7ca
         else if($model == 'Zones') {
           $ID = Zones::where($search_feild,'LIKE','%'. $value )->first();
           $customMsg = __('site.zone not foud: recode').$value.' #['.$index.']';

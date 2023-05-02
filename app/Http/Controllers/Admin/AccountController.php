@@ -6,12 +6,26 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Hash;
+use App\Hrnotification;
+
 
 class AccountController extends Controller
 {
 
     public function index()
     {
+        if(userRole()=='hr')
+        {
+            if(auth()->user()->time_zone=='Asia/Dubai')
+            {
+            $notification_count=Hrnotification::where('status',1)->where('location','dubai')->count();    
+            }
+            else
+            {
+             $notification_count=Hrnotification::where('status',1)->where('location','saudi')->count();   
+            }
+            return view('admin.account.index',compact('notification_count'));    
+        }
         return view('admin.account.index');
     }
 
