@@ -117,20 +117,24 @@
 									</td>
 									<td>
 										<span>{{$property->category ? $property->category->category_name : 'N/A'}}</span>
+										<p><b>Location :{{$property->communityId ? $property->communityId->name_en : 'N/A'}}</b></p>
 										@if($property->building_name)
-											<p><b>Location : {{$property->building_name}}</b></p>
+											<p><b>
+												{{$property->building_name}}</b></p>
 										@endif
 									</td>
 									<td>
 										<span>{{__('config.status.'.$property->status)}}</span>
 										<p><b>Price : {{$property->price ? $property->price : $property->yprice}}</b></p>
+										{{$property->bedrooms}}
 									</td>
 									<td>
 										<span>{{$property->title}}</span>
 									</td>
 									<td>
-										<span>{{$property->agent ? $property->agent->name : 'N/A'}}</span>
-										<span>Created By : {{$property->createdBy ? $property->createdBy->name : 'N/A'}}</span>
+										<span>Agent :{{$property->agent ? explode('@',$property->agent->name)[0] : ''}}
+                                        </span>
+										<p><span>Created By : {{$property->createdBy ? explode('@',$property->agent->name)[0]  : 'N/A'}}</span></p>
 									</td>
 									<td>
 										<span>{{($property->created_at)}}</span>

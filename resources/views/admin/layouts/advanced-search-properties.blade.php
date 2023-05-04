@@ -34,7 +34,7 @@
   <input type="hidden" name="pt" value="{{request()->get('pt')}}">
 
   <div class="row"> <!--- row -->
-    @if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'leader')
+    @if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'leader' || userRole =='sales')
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.status')}}</label>
       <select class="form-control" name="status">
@@ -198,7 +198,61 @@
       </div>
       @endif
     @endif
-
+    <!-- added by fazal  -->
+    @if(isset($communities) && count($communities)>0)
+      <div class="form-group col-md-4 col-sm-12">
+        <label for="country">{{__('site.Community')}}</label>
+        <select class="form-control" name="community"  data-select2-id="" tabindex="-1" aria-hidden="true">
+          <option value="">{{ __('site.choose') }}</option>
+            @foreach($communities as $community)
+              <option {{request('community') == $community->id ? 'selected' : ''}}
+                      value="{{$community->id}}">{{$community->name_en}}</option>
+            @endforeach
+        </select>
+      </div>
+      @endif
+    <!--end  -->
+     <!-- added by fazal -->
+     <div class="form-group col-md-4 col-sm-12">
+      <div class="form-group ">
+          <label class="">{{__('site.min price')}}</label>
+          <div class="">
+            <div class="input-group input-group-solid">
+              <input value="{{request('min_price')}}" type="text" class="form-control form-control-solid"
+              name="min_price" autocomplete="off">
+            </div>
+          </div>
+        </div>
+    </div>
+     <!-- end  -->
+       <!-- added by fazal -->
+     <div class="form-group col-md-4 col-sm-12">
+      <div class="form-group ">
+          <label class="">{{__('site.max price')}}</label>
+          <div class="">
+            <div class="input-group input-group-solid">
+              <input value="{{request('max_price')}}" type="text" class="form-control form-control-solid"
+              name="max_price" autocomplete="off">
+            </div>
+          </div>
+        </div>
+    </div>
+     <!-- end  -->
+      <div class="form-group col-md-4 col-sm-12">
+        <label for="country">{{__('site.Bedroom')}}</label>
+        <select class="form-control" name="bedrooms"  data-select2-id="" tabindex="-1" aria-hidden="true">
+          <option value="">{{ __('site.choose') }}</option>
+          
+            @for($i=0;$i<=10;$i++)
+            @if($i==0)
+            <option value="0">Studio</option>
+            @else
+            <option value="{{$i}}">{{$i}}</option>
+            @endif
+             @endfor
+        </select>
+      </div>
+    
   </div> <!-- end row -->
 <button type="submit" class="btn btn-primary">{{__('site.search')}}</button>
 </form>
