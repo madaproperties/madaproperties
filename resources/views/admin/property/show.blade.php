@@ -516,7 +516,21 @@
 																					<input class="form-control form-control-solid form-control-lg" 	name="next_available" type="date" value="{{$property->next_available}}" placeholder="{{__('site.available_from')}}">
 																					<div class="fv-plugins-message-container"></div>
 																				</div>
+																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																					<select name="layout_type" id="layout_type" class="form-control">
+																						<option value="">{{ __('site.choose') }} {{__('site.layout_type')}}</option>
+																						{!! selectOptions(__('config.layout_type'),$property->layout_type) !!}
+																					</select>
+																				</div>
 																			</div>
+
+																			<div class="form-group row fv-plugins-icon-container">
+																				<div class="col-xs-12 col-sm-3 col-lg-3">
+																					<input class="form-control form-control-solid form-control-lg" 	name="no_of_floors" type="text" value="{{$property->no_of_floors}}" placeholder="{{__('site.no_of_floors')}}">																					
+																					<div class="fv-plugins-message-container"></div>																				
+																				</div>
+																			</div>
+																			
 
 																			<!--end::Group-->	
 
@@ -664,11 +678,15 @@
 																					{{__('site.lifestyle')}} <i class="fa fa-menu"></i> ({{count($property->lifeStyleFeatures)}})
                   																	</button>
 																				</div>
-																			</div>
+																			</div><br>
 																			<!--end::Group-->
 
-																			
+																			<div class="col-xs-12 col-sm-12 col-lg-12 col-12">
+																				<input type="text" class="form-control form-control-solid form-control-lg" data-role="tagsinput" name="nearest_facilities" placeholder="{{__('site.nearest_facilities')}}" value="{{$property->nearest_facilities}}">																					
+																			</div>
 																		</div>
+
+
 																	</div>
 																</div>	
 
@@ -814,7 +832,7 @@
 																				<label class="col-xs-12 col-sm-3 col-lg-3 col-form-label">{{__('site.floor_plan')}} ({{__('site.can attach more than one')}})</label>
 																				<div class="col-xs-12 col-sm-3 col-lg-3">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#floor_plan_uploader">
-                    																	Add Images <i class="fa fa-folder"></i>
+                    																	Add Images <i class="fa fa-folder"></i> ({{count($property->floorPlans)}})
                   																	</button>
 																				</div>
 																			</div>
@@ -834,7 +852,7 @@
 																			<!--end::Group-->
 
 																			<!--begin::Group-->
-																			<div class="form-group row fv-plugins-icon-container">
+																			<!-- <div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.floor_plan')}}</label>
 																				<div class="col-lg-9 col-xl-9">
 																					<input class="form-control form-control-solid form-control-lg" 	name="floorplan" type="file" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps">
@@ -843,7 +861,7 @@
 																					<a href="{{env('APP_URL').'/public/uploads/'.$property->floorplan}}" target="_blank" download>Download</a>
 																					@endif
 																				</div>
-																			</div>
+																			</div> -->
 																			<!--end::Group-->
 
 																			<!--begin::Group-->
@@ -1303,6 +1321,8 @@
 @endsection
 
 @push('js')
+<link href="{{ asset('public/js/tags/tagsinput.css?t='.time())}}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('public/js/tags/tagsinput.js').'?t='.time() }}"></script>
 <script>
 	var getSubCommunityUrl = "{{route('admin.property.getSubCommunityUrl')}}";
 	var fetchDistrict = "{{url('fetch-district')}}";

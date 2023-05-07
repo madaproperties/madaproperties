@@ -536,4 +536,7 @@ return [
   'availability'=>'التوفر',
   'exclusive'=>'حصري',
   'available_from'=>'متاح من',
+  'nearest_facilities'=>'أقرب المرافق (لعمل علامة ، انقر خارج المربع بعد الكتابة)',
+  'no_of_floors'=>'عدد الطوابق',
+  'layout_type'=>'نوع التخطيط',
 ];

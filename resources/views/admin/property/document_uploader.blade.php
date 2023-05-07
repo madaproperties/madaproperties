@@ -7,68 +7,67 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<form method="post" action="{{url('document/upload/store')}}" enctype="multipart/form-data" id="documentUploader">
-							@csrf
-                            <div class="row col-xl-12">
-                                <div class="col-xl-4">
-                                    <input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" id="documents" name="documents[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png"  multiple>
-                                    <div class="fv-plugins-message-container"></div>    
+                <form method="post" action="{{url('document/upload/store')}}" enctype="multipart/form-data" id="documentUploader">
+				@csrf
+                    <div class="modal-body">
+                        <div class="form-group propertyDocuments">
+                            @php($j=1)
+                            @if(isset($property->documents) && count($property->documents) > 0)
+                                @foreach($property->documents as $document)
+                                <div class="row col-xl-12">
+                                    <div class="col-xl-5 propertyVar">
+                                        <input type="hidden" name="document_id[]" value="{{$document->id}}">
+                                        <input class="form-control form-control-solid form-control-lg" value="{{$document->name}}" type="text" class="form-control" name="documentsName[]" placeholder="{{ucfirst(__('site.title'))}}">
+                                        <div class="fv-plugins-message-container"></div>    
+                                    </div>
+                                    <div class="col-xl-5">
+                                        <input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="documents[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png">
+                                        <div class="fv-plugins-message-container"></div>   
+                                        <p><a href="{{s3AssetUrl('uploads/property/'.$property->id.'/documents/'.$document->document_link) }}" target="_blank">{{ $document->document_link }}</a></p> 
+                                    </div>
+                                    @if($j==1)
+                                    <div class="col-xl-2">
+                                        <button type="button" class="btn btn-info addDocument">{{__('site.add_more')}}</button>
+                                    </div>
+                                    @else
+                                    <div class="col-xl-2">
+                                        <button type="button" class="btn btn-info removeDocument" value="{{$document->id}}">{{__('site.remove')}}</button>
+                                    </div>
+                                    @endif
                                 </div>
-                            </div>
-                            <div class="row col-xl-12">
-                                <!-- <p class="loader" style="display:none">Request in-process. please wait.</p>    -->
-                            </div>
-                            <div class="row col-xl-12">
+                                @php($j++)
+                                @endforeach    
+                            @endif
+                            @if(!isset($property->documents) || (isset($property->documents) && count($property->documents) == 0))
+                                <div class="row col-xl-12">
+                                    <div class="col-xl-5">
+                                        <input class="form-control form-control-solid form-control-lg" type="text" class="form-control" name="documentsNameNew[]" placeholder="{{ucfirst(__('site.title'))}}">
+                                        <div class="fv-plugins-message-container"></div>    
+                                    </div>
+                                    <div class="col-xl-5">
+                                        <input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="documentsNew[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png">
+                                        <div class="fv-plugins-message-container"></div>    
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <button type="button" class="btn btn-info addDocument">{{__('site.add_more')}}</button>
+                                    </div>
+                                </div>
+                            @endif
 
-                                <div id="uploadedDocument">
-                                    @if(Session::get('tempDocuments'))
-                                        @foreach(Session::get('tempDocuments') as $document)
-                                        <div class="col-xl-4" id='{{str_replace(".","-",$document)}}'>
-                                            <!--begin::Wizard Step 1-->
-                                            <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">                                        
-                                                <p>{{ $document }}
-                                                    <a href="javascript:void(0)" class="checkbox deleteDocument" data-value="{{$document}}">Delete</a>
-                                                    <a href="{{asset('public/uploads/temp/documents/'.$document) }}" target="_blank">View</a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        @endforeach 
-                                    @endif
-                                    @if(isset($property->documents) && count($property->documents) > 0)
-                                        @foreach($property->documents as $document)
-                                        <div class="col-xl-4" id='{{str_replace(".","-",$document->document_link)}}'>
-                                            <!--begin::Wizard Step 1-->
-                                            <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-                                                <p>{{ $document->document_link }}
-                                                    <a href="javascript:void(0)" class="checkbox deleteDocument" data-value="{{$document->document_link}}">Delete</a>
-                                                    <a href="{{s3AssetUrl('uploads/property/'.$property->id.'/documents/'.$document->document_link) }}" target="_blank">View</a>
-                                                </p>
-                                            </div> 
-                                        </div>   
-                                        @endforeach    
-                                    @endif
-                                </div>
-                                   
-                            </div>
                             <input type="hidden" name="property_id" value="{{isset($property->id) ? $property->id : '0'}}">
-						                            
-						</form>   
-					</div>
-				</div>
-                <div class="card-footer">
-                    <button data-dismiss="modal" form="add-task-form"  class="btn btn-secondary">{{__('site.close')}}</button>
-                </div>                
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">{{__('site.save')}}</button>
+                        <button data-dismiss="modal" form="add-task-form" id="document_uploader_close"  class="btn btn-secondary">{{__('site.close')}}</button>
+                    </div>                
+                </form>   
 			</div>
 		</div>
 	</div>
 @push('js')
 <script type="text/javascript">
 $(document).ready(function(){
-    $(document).on("change","#documents", function(){
-        $("#documentUploader").submit();        
-    });
     $("form#documentUploader").submit(function(e) {
         e.preventDefault();    
         var formData = new FormData(this);
@@ -83,7 +82,8 @@ $(document).ready(function(){
             success: function (data) {
                 $("#loadingHolder").hide();
                 if(data.success){
-                    $("#uploadedDocument").prepend(data.images);
+                    alert("Documents added successfully!");
+                    $("#document_uploader_close").click();
                 }
             },
             cache: false,
@@ -113,6 +113,15 @@ $(document).ready(function(){
             });
 
         }
+    });
+    $(".addDocument").click(function(){
+        $(".propertyDocuments").append('<div class="row col-xl-12"><div class="col-xl-5"><input class="form-control form-control-solid form-control-lg" type="text" class="form-control" name="documentsNameNew[]" placeholder="{{ucfirst(__('site.title'))}}"><div class="fv-plugins-message-container"></div></div><div class="col-xl-5"><input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="documentsNew[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png"><div class="fv-plugins-message-container"></div></div><div class="col-xl-2"><button type="button" class="btn btn-info removeDocument">{{__('site.remove')}}</button></div></div>');
+    });
+
+    $(document).on("click",".removeDocument", function(){ 
+        event.preventDefault();
+        $(this).parents('.row').remove();
+        $(".propertyVar").append('<input type="hidden" name="delete_document_id[]" value="'+($(this).val())+'">');
     });
 });        
 </script>

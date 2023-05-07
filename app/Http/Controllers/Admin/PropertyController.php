@@ -30,6 +30,7 @@ use App\PropertyNotes;
 use App\Zones;
 use App\Districts;
 use App\PropertyFloorPlans;
+use App\TempFloorPlansDocuments;
 
 
 class PropertyController extends Controller
@@ -258,6 +259,10 @@ class PropertyController extends Controller
       'availability' => 'nullable',              
       'is_exclusive' => 'nullable',              
       'next_available' => 'nullable',              
+      'no_of_floors' => 'nullable',              
+      'nearest_facilities' => 'nullable',              
+      'financial_status' => 'nullable',              
+      'layout_type' => 'nullable',              
     ]);
 
     // if(isset($data['is_managed'])){
@@ -366,46 +371,52 @@ class PropertyController extends Controller
       session()->forget('tempImages');  
     }
     
-    if(\Session::get('tempDocuments')){
+    if(\Session::get('tempDocIds')){
       // $destinationPath =  'public/uploads/property/'.$property->id.'/documents';
       // if (!is_dir($destinationPath)){ 
       //   mkdir($destinationPath, 0777, true);
       // }
-      foreach(\Session::get('tempDocuments') as $document){
-        $destinationPath = 'public/uploads/temp/documents/'.$document;
-        if(file_exists(public_path('uploads/temp/documents/'.$document))){
-          PropertyDocuments::create([
-            'property_id' => $property->id,
-            'document_link' => $document
-          ]);
-          //copy($fromPath,$destinationPath.'/'.$document);
+      foreach(\Session::get('tempDocIds') as $key => $value){
+        if($docData = TempFloorPlansDocuments::find($value->id)){
+          $destinationPath = 'public/uploads/temp/'.$docData->document_link;
+          if(file_exists(public_path('uploads/temp/'.$docData->document_link))){
+            PropertyDocuments::create([
+              'property_id' => $property->id,
+              'document_link' => $docData->document_link,
+              'name' => $docData->name
+            ]);
+            //copy($fromPath,$destinationPath.'/'.$document);
 
-          Storage::disk('s3')->put('uploads/property/'.$property->id.'/documents/'.$document, file_get_contents($destinationPath));
-          unlink($destinationPath);
+            Storage::disk('s3')->put('uploads/property/'.$property->id.'/documents/'.$docData->document_link, file_get_contents($destinationPath));
+            unlink($destinationPath);
+          }
         }
       }
-      session()->forget('tempDocuments');  
+      session()->forget('tempDocIds');  
     } 
     
-    if(\Session::get('tempFloorPlan')){
+    if(\Session::get('tepmFloorIds')){
       // $destinationPath =  'public/uploads/property/'.$property->id.'/documents';
       // if (!is_dir($destinationPath)){ 
       //   mkdir($destinationPath, 0777, true);
       // }
-      foreach(\Session::get('tempFloorPlan') as $document){
-        $destinationPath = 'public/uploads/temp/floor_plan/'.$document;
-        if(file_exists(public_path('uploads/temp/floor_plan/'.$document))){
-          PropertyFloorPlans::create([
-            'property_id' => $property->id,
-            'document_link' => $document
-          ]);
-          //copy($fromPath,$destinationPath.'/'.$document);
+      foreach(\Session::get('tepmFloorIds') as $key => $value){
+        if($floorData = TempFloorPlansDocuments::find($value->id)){
+          $destinationPath = 'public/uploads/temp/'.$floorData->document_link;
+          if(file_exists(public_path('uploads/temp/'.$floorData->document_link))){
+            PropertyFloorPlans::create([
+              'property_id' => $property->id,
+              'document_link' => $floorData->document_link,
+              'name' => $floorData->name
+            ]);
+            //copy($fromPath,$destinationPath.'/'.$document);
 
-          Storage::disk('s3')->put('uploads/property/'.$property->id.'/floor_plan/'.$document, file_get_contents($destinationPath));
-          unlink($destinationPath);
+            Storage::disk('s3')->put('uploads/property/'.$property->id.'/floor_plan/'.$floorData->document_link, file_get_contents($destinationPath));
+            unlink($destinationPath);
+          }
         }
       }
-      session()->forget('tempFloorPlan');  
+      session()->forget('tepmFloorIds');  
     } 
     
     
@@ -464,7 +475,7 @@ class PropertyController extends Controller
         'id' => $property->id,
         'agent' => $property->agent->name
       ];
-      Mail::to($users)->send(new PropertyNotification($mailData));
+      //Mail::to($users)->send(new PropertyNotification($mailData));
     }
 
     return redirect(route('admin.property.index').'?'.http_build_query(['pt'=>request()->get('pt')]) )->withSuccess(__('site.success'));
@@ -576,7 +587,11 @@ class PropertyController extends Controller
       'street_information_four' => 'nullable',     
       'availability' => 'nullable',              
       'is_exclusive' => 'nullable',              
-      'next_available' => 'nullable',              
+      'next_available' => 'nullable',    
+      'no_of_floors' => 'nullable',              
+      'nearest_facilities' => 'nullable',              
+      'financial_status' => 'nullable',              
+      'layout_type' => 'nullable',              
     ]);
 
     // if(isset($data['is_managed'])){
@@ -649,7 +664,6 @@ class PropertyController extends Controller
       ]);
     }
     
-
 
     return redirect(route('admin.property.index').'?'.http_build_query(['pt'=>request()->get('pt')]) )->withSuccess(__('site.success'));
   }
@@ -881,9 +895,16 @@ class PropertyController extends Controller
   public function documentStore(Request $request)
   {
     $html = '';
-    if($request->hasFile('documents')) {
+    $i=0;
+    $property_id = Request('property_id');
+    $documentsName = Request('documentsName');
+    $document_id = Request('document_id');
+
+    if($request->hasFile('documentsNew')) {
       $allowedfileExtension=['pdf','xlsx','xls','doc', 'docx','ppt', 'pptx','txt','png','jpg','jpeg'];
-      $files = $request->file('documents');
+      $files = $request->file('documentsNew');
+      $documentIds = [];
+      $tempDocIds = [];
       foreach($files as $file){
         $filename = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
@@ -892,6 +913,7 @@ class PropertyController extends Controller
 
           $md5Name = md5_file($file->getRealPath());
           $guessExtension = $file->guessExtension();
+          $documentsName = Request('documentsNameNew');
           if(Request('property_id')){
             $property_id = Request('property_id');
             $file = $file->move('public/uploads/property/'.$property_id.'/documents', $md5Name.'.'.$guessExtension);     
@@ -904,36 +926,82 @@ class PropertyController extends Controller
             unlink($destinationPath);
 
             PropertyDocuments::create([
-            'property_id' => $property_id,
-            'document_link' => $filename
+              'property_id' => $property_id,
+              'document_link' => $filename,
+              'name' => (isset($documentsName[$i]) ? $documentsName[$i] : '')
             ]);
-            $publicPath='uploads/property/'.$property_id.'/documents/';
-
-            $html .= '<div class="col-xl-4" id="'.str_replace(".","-",$filename).'">
-            <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">                        
-              <p>'.$filename.'<a href="javascript:void(0)" class="checkbox deleteDocument" data-value="'.$filename.'">Delete</a>
-              <a href="'.s3AssetUrl($publicPath.$filename).'" target="_blank">View</a></div></p>
-          </div>';
-
+            $i++;
           }else{
-            $file = $file->move('public/uploads/temp/documents', $md5Name.'.'.$guessExtension);     
+            $file = $file->move('public/uploads/temp', $md5Name.'.'.$guessExtension);     
             $filename = $md5Name.'.'.$guessExtension;
-            \Session::push('tempDocuments', $filename);
-            $publicPath='public/uploads/temp/documents/';
+            $destinationPath = 'public/uploads/temp/'.$filename;
 
-            $html .= '<div class="col-xl-4" id="'.str_replace(".","-",$filename).'">
-            <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">                        
-              <p>'.$filename.'<a href="javascript:void(0)" class="checkbox deleteDocument" data-value="'.$filename.'">Delete</a>
-              <a href="'.asset($publicPath.$filename).'" target="_blank">View</a></div></p>
-          </div>';
-  
+            $tempDocIds[] = TempFloorPlansDocuments::create([
+              'name' => (isset($documentsName[$i]) ? $documentsName[$i] : ''),
+              'document_link' => $filename,
+              'file_type' => '2' // document
+            ]);
+            $i++;
           }
-
         }
-      }    
+      }
+      if($tempDocIds){
+        session()->put('tempDocIds', $tempDocIds);
+      }
+    }
+
+    if($request->hasFile('documents')) {
+      $allowedfileExtension=['pdf','xlsx','xls','doc', 'docx','ppt', 'pptx','txt','png','jpg','jpeg'];
+      $files = $request->file('documents');
+      $documentIds = [];
+      $i=0;
+      foreach($files as $file){
+        $filename = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        $check=in_array($extension,$allowedfileExtension);
+        if($check) {
+
+          $md5Name = md5_file($file->getRealPath());
+          $guessExtension = $file->guessExtension();
+          if(Request('property_id')){
+            $file = $file->move('public/uploads/property/'.$property_id.'/documents', $md5Name.'.'.$guessExtension);     
+            $filename = $md5Name.'.'.$guessExtension;
+            $destinationPath = 'public/uploads/property/'.$property_id.'/documents/'.$filename;
+            //Storage::disk('s3')->put('uploads/property/'.$property_id.'/documents', $filename);
+
+            Storage::disk('s3')->put('uploads/property/'.$property_id.'/documents/'.$filename, file_get_contents($destinationPath));
+
+            unlink($destinationPath);
+
+            PropertyDocuments::where('id',$document_id[$i])->update([
+              'document_link' => $filename,
+            ]);
+            $i++;
+          }
+        }
+        
+      }
       
     }
-    return response()->json(['success'=>true,'images'=>$html]);
+    $i=0;
+    if($documentsName) {
+      foreach($documentsName as $name){
+          if(isset($document_id[$i])){
+            PropertyDocuments::where('id',$document_id[$i])->update([
+              'name' => (isset($documentsName[$i]) ? $documentsName[$i] : '')
+            ]);
+            $i++;
+          }
+      }
+    }
+
+    if($delete_document_id = $request->get('delete_document_id')) {
+      foreach($delete_document_id as $key=>$value){
+        PropertyDocuments::where('id',$value)->delete();
+      }
+    }
+
+    return response()->json(['success'=>true,'images'=>'']);
   }
   public function documentDestroy(Request $request)
   {
@@ -1173,9 +1241,16 @@ class PropertyController extends Controller
   public function floorPlanStore(Request $request)
   {
     $html = '';
-    if($request->hasFile('floor_plan')) {
+    $i=0;
+    $property_id = Request('property_id');
+    $floorPlansName = Request('floorPlansName');
+    $floor_plan_id = Request('floor_plan_id');
+
+    if($request->hasFile('floorPlansNew')) {
       $allowedfileExtension=['pdf','xlsx','xls','doc', 'docx','ppt', 'pptx','txt','png','jpg','jpeg'];
-      $files = $request->file('floor_plan');
+      $files = $request->file('floorPlansNew');
+      $documentIds = [];
+      $tepmFloorIds = [];
       foreach($files as $file){
         $filename = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
@@ -1184,6 +1259,7 @@ class PropertyController extends Controller
 
           $md5Name = md5_file($file->getRealPath());
           $guessExtension = $file->guessExtension();
+          $floorPlansNameNew = Request('floorPlansNameNew');
           if(Request('property_id')){
             $property_id = Request('property_id');
             $file = $file->move('public/uploads/property/'.$property_id.'/floor_plan', $md5Name.'.'.$guessExtension);     
@@ -1196,36 +1272,82 @@ class PropertyController extends Controller
             unlink($destinationPath);
 
             PropertyFloorPlans::create([
-            'property_id' => $property_id,
-            'document_link' => $filename
+              'property_id' => $property_id,
+              'document_link' => $filename,
+              'name' => (isset($floorPlansNameNew[$i]) ? $floorPlansNameNew[$i] : '')
             ]);
-            $publicPath='uploads/property/'.$property_id.'/floor_plan/';
-
-            $html .= '<div class="col-xl-4" id="'.str_replace(".","-",$filename).'">
-            <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">                        
-              <p><a href="javascript:void(0)" class="checkbox deleteFloorPlan" data-value="'.$filename.'">Delete</a>
-              <img src="'.s3AssetUrl($publicPath.$filename).'" target="_blank" style="height: 130px;"></div></p>
-          </div>';
-
+            $i++;
           }else{
-            $file = $file->move('public/uploads/temp/floor_plan', $md5Name.'.'.$guessExtension);     
+            $file = $file->move('public/uploads/temp', $md5Name.'.'.$guessExtension);     
             $filename = $md5Name.'.'.$guessExtension;
-            \Session::push('tempFloorPlan', $filename);
-            $publicPath='public/uploads/temp/floor_plan/';
+            $destinationPath = 'public/uploads/temp/'.$filename;
 
-            $html .= '<div class="col-xl-4" id="'.str_replace(".","-",$filename).'">
-            <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">                        
-              <p><a href="javascript:void(0)" class="checkbox deleteFloorPlan" data-value="'.$filename.'">Delete</a>
-              <img src="'.asset($publicPath.$filename).'" target="_blank" style="height: 130px;"></div></p>
-          </div>';
-  
+            $tepmFloorIds[] = TempFloorPlansDocuments::create([
+              'name' => (isset($floorPlansNameNew[$i]) ? $floorPlansNameNew[$i] : ''),
+              'document_link' => $filename,
+              'file_type' => '1', // floor plan
+            ]);
+            $i++;
           }
-
         }
-      }    
+      }
+      if($tepmFloorIds){
+        session()->put('tepmFloorIds', $tepmFloorIds);
+      }
+  
+    }
+
+
+    if($request->hasFile('floorPlans')) {
+      $allowedfileExtension=['pdf','xlsx','xls','doc', 'docx','ppt', 'pptx','txt','png','jpg','jpeg'];
+      $files = $request->file('floorPlans');
+      $documentIds = [];
+      $i=0;
+      foreach($files as $file){
+        $filename = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        $check=in_array($extension,$allowedfileExtension);
+        if($check) {
+
+          $md5Name = md5_file($file->getRealPath());
+          $guessExtension = $file->guessExtension();
+          if(Request('property_id')){
+            $file = $file->move('public/uploads/property/'.$property_id.'/floor_plan', $md5Name.'.'.$guessExtension);     
+            $filename = $md5Name.'.'.$guessExtension;
+            $destinationPath = 'public/uploads/property/'.$property_id.'/floor_plan/'.$filename;
+            //Storage::disk('s3')->put('uploads/property/'.$property_id.'/floor_plan', $filename);
+
+            Storage::disk('s3')->put('uploads/property/'.$property_id.'/floor_plan/'.$filename, file_get_contents($destinationPath));
+
+            unlink($destinationPath);
+
+            PropertyFloorPlans::where('id',$floor_plan_id[$i])->update([
+              'document_link' => $filename,
+            ]);
+            $i++;
+          }
+        }
+        
+      }
       
     }
-    return response()->json(['success'=>true,'images'=>$html]);
+    $i=0;
+    if($floorPlansName) {
+      foreach($floorPlansName as $name){
+          PropertyFloorPlans::where('id',$floor_plan_id[$i])->update([
+            'name' => (isset($floorPlansName[$i]) ? $floorPlansName[$i] : '')
+          ]);
+          $i++;
+      }
+    }
+
+    if($delete_floor_plan_id = $request->get('delete_floor_plan_id')) {
+      foreach($delete_floor_plan_id as $key=>$value){
+        PropertyFloorPlans::where('id',$value)->delete();
+      }
+    }
+
+    return response()->json(['success'=>true,'images'=>'']);
   }
 
   public function floorPlanDestroy(Request $request)

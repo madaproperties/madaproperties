@@ -280,9 +280,10 @@ class PropertyXmlController extends Controller
         $xml['dubai'][$k]['financial_status']="";
       }
 
-      $xml['saudi'][$k]['service_charge']=$property->maint_fee;
-      $xml['saudi'][$k]['security_deposits']=$property->security_deposits;
-      
+      $xml['dubai'][$k]['service_charge']=$property->maint_fee;
+      $xml['dubai'][$k]['security_deposits']=$property->security_deposits;
+      $xml['dubai'][$k]['nearest_facilities']=$property->nearest_facilities;
+
       $x=0;
       if($property->geopoints){
         $tempArray['geopoints'] = $property->geopoints;        
@@ -349,10 +350,21 @@ class PropertyXmlController extends Controller
           $xml['dubai'][$k]['images'][$x++]['url']=s3AssetUrl('uploads/property/'.$property->id.'/images/'.$image->images_link);          
         }
       }
+      $xml['dubai'][$k]['floor_plan'] = [];
       if($property->floorPlans && count($property->floorPlans)){
+        $x=0;
         foreach($property->floorPlans as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
+          $xml['dubai'][$k]['floor_plan'][$x]['title']=$image->name;        
           $xml['dubai'][$k]['floor_plan'][$x++]['url']=s3AssetUrl('uploads/property/'.$property->id.'/floor_plan/'.$image->document_link);          
+        }
+      }
+      $xml['dubai'][$k]['documents'] = [];
+      if($property->documents && count($property->documents)){
+        $x=0;
+        foreach($property->documents as $image){
+          $xml['dubai'][$k]['documents'][$x]['title']=$image->name;          
+          $xml['dubai'][$k]['documents'][$x++]['url']=s3AssetUrl('uploads/property/'.$property->id.'/documents/'.$image->document_link);          
         }
       }
       $k++;
@@ -635,6 +647,7 @@ class PropertyXmlController extends Controller
 
       $xml['saudi'][$k]['service_charge']=$property->maint_fee;
       $xml['saudi'][$k]['security_deposits']=$property->security_deposits;
+      $xml['saudi'][$k]['nearest_facilities']=$property->nearest_facilities;
       
 
       $tempArray['district'] = $property->district_id;        
@@ -723,10 +736,21 @@ class PropertyXmlController extends Controller
           $xml['saudi'][$k]['images'][$x++]['url']=s3AssetUrl('uploads/property/'.$property->id.'/images/'.$image->images_link);          
         }
       }
+      $xml['saudi'][$k]['floor_plan'] = [];
       if($property->floorPlans && count($property->floorPlans)){
+        $x=0;
         foreach($property->floorPlans as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
+          $xml['saudi'][$k]['floor_plan'][$x]['title']=$image->name;        
           $xml['saudi'][$k]['floor_plan'][$x++]['url']=s3AssetUrl('uploads/property/'.$property->id.'/floor_plan/'.$image->document_link);          
+        }
+      }
+      $xml['saudi'][$k]['documents'] = [];
+      if($property->documents && count($property->documents)){
+        $x=0;
+        foreach($property->documents as $image){
+          $xml['saudi'][$k]['documents'][$x]['title']=$image->name;          
+          $xml['saudi'][$k]['documents'][$x++]['url']=s3AssetUrl('uploads/property/'.$property->id.'/documents/'.$image->document_link);          
         }
       }
 

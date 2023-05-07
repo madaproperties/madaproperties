@@ -15,7 +15,7 @@ class Property extends Model
     
     public function documents()
     {
-      return $this->hasMany(PropertyDocuments::class,'property_id')->orderBy('id','desc');
+      return $this->hasMany(PropertyDocuments::class,'property_id');
     }
 
     public function images()
@@ -101,7 +101,7 @@ class Property extends Model
 
     public function floorPlans()
     {
-      return $this->hasMany(PropertyFloorPlans::class,'property_id')->orderBy('id','desc');
+      return $this->hasMany(PropertyFloorPlans::class,'property_id');
     }
 
 }

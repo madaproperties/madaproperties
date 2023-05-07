@@ -605,4 +605,9 @@ return [
   'availability'=>'Availability',
   'exclusive'=>'Exclusive',
   'available_from'=>'Available From',
+  'nearest_facilities'=>'Nearest Facilities (To make tag, click outside the box after type)',
+  'no_of_floors'=>'No of floors',
+  'layout_type'=>'Layout Type',
+  'add_more'=>'Add More',
+  'remove'=>'Remove',
 ];

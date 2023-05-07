@@ -7,68 +7,67 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<form method="post" action="{{url('floor-plan/upload/store')}}" enctype="multipart/form-data" id="floorPlanUploader">
-							@csrf
-                            <div class="row col-xl-12">
-                                <div class="col-xl-4">
-                                    <input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" id="floor_plan" name="floor_plan[]" accept="image/png, image/gif, image/jpeg, image/jpg"  multiple>
-                                    <div class="fv-plugins-message-container"></div>    
+                <form method="post" action="{{url('floor-plan/upload/store')}}" enctype="multipart/form-data" id="floorPlanUploader">
+				@csrf
+                    <div class="modal-body">
+                        <div class="form-group propertyFloors">
+                            @php($j=1)
+                            @if(isset($property->floorPlans) && count($property->floorPlans) > 0)
+                                @foreach($property->floorPlans as $document)
+                                <div class="row col-xl-12">
+                                    <div class="col-xl-5 propertyVar">
+                                        <input type="hidden" name="floor_plan_id[]" value="{{$document->id}}">
+                                        <input class="form-control form-control-solid form-control-lg" value="{{$document->name}}" type="text" class="form-control" name="floorPlansName[]" placeholder="{{ucfirst(__('site.title'))}}">
+                                        <div class="fv-plugins-message-container"></div>    
+                                    </div>
+                                    <div class="col-xl-5">
+                                        <input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="floorPlans[]" accept=".pdf,.jpg,.jpeg,.png">
+                                        <div class="fv-plugins-message-container"></div>   
+                                        <img src="{{s3AssetUrl('uploads/property/'.$property->id.'/floor_plan/'.$document->document_link) }}" target="_blank"  style="height: 130px;">
+                                    </div>
+                                    @if($j==1)
+                                    <div class="col-xl-2">
+                                        <button type="button" class="btn btn-info addFloor">{{__('site.add_more')}}</button>
+                                    </div>
+                                    @else
+                                    <div class="col-xl-2">
+                                        <button type="button" class="btn btn-info removeFloor" value="{{$document->id}}">{{__('site.remove')}}</button>
+                                    </div>
+                                    @endif
                                 </div>
-                            </div>
-                            <div class="row col-xl-12">
-                                <!-- <p class="loader" style="display:none">Request in-process. please wait.</p>    -->
-                            </div>
-                            <div class="row col-xl-12">
+                                @php($j++)
+                                @endforeach    
+                            @endif
+                            @if(!isset($property->floorPlans) || (isset($property->floorPlans) && count($property->floorPlans) == 0))
+                                <div class="row col-xl-12">
+                                    <div class="col-xl-5">
+                                        <input class="form-control form-control-solid form-control-lg" type="text" class="form-control" name="floorPlansNameNew[]" placeholder="{{ucfirst(__('site.title'))}}">
+                                        <div class="fv-plugins-message-container"></div>    
+                                    </div>
+                                    <div class="col-xl-5">
+                                        <input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="floorPlansNew[]" accept=".pdf,.jpg,.jpeg,.png">
+                                        <div class="fv-plugins-message-container"></div>    
+                                    </div>
+                                    <div class="col-xl-2">
+                                        <button type="button" class="btn btn-info addFloor">{{__('site.add_more')}}</button>
+                                    </div>
+                                </div>
+                            @endif
 
-                                <div id="uploadedFloorPlan">
-                                    @if(Session::get('tempFloorPlan'))
-                                        @foreach(Session::get('tempFloorPlan') as $document)
-                                        <div class="col-xl-4" id='{{str_replace(".","-",$document)}}'>
-                                            <!--begin::Wizard Step 1-->
-                                            <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">                                        
-                                                <p>
-                                                    <a href="javascript:void(0)" class="checkbox deleteFloorPlan" data-value="{{$document}}">Delete</a>
-                                                    <img src="{{asset('public/uploads/temp/floor_plan/'.$document) }}" target="_blank"  style="height: 130px;">
-                                                </p>
-                                            </div>
-                                        </div>
-                                        @endforeach 
-                                    @endif
-                                    @if(isset($property->floorPlans) && count($property->floorPlans) > 0)
-                                        @foreach($property->floorPlans as $document)
-                                        <div class="col-xl-4" id='{{str_replace(".","-",$document->document_link)}}'>
-                                            <!--begin::Wizard Step 1-->
-                                            <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-                                                <p>
-                                                    <a href="javascript:void(0)" class="checkbox deleteFloorPlan" data-value="{{$document->document_link}}">Delete</a>
-                                                    <img src="{{s3AssetUrl('uploads/property/'.$property->id.'/floor_plan/'.$document->document_link) }}" target="_blank"  style="height: 130px;">
-                                                </p>
-                                            </div> 
-                                        </div>   
-                                        @endforeach    
-                                    @endif
-                                </div>
-                                   
-                            </div>
                             <input type="hidden" name="property_id" value="{{isset($property->id) ? $property->id : '0'}}">
-						                            
-						</form>   
-					</div>
-				</div>
-                <div class="card-footer">
-                    <button data-dismiss="modal" form="add-task-form"  class="btn btn-secondary">{{__('site.close')}}</button>
-                </div>                
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">{{__('site.save')}}</button>
+                        <button data-dismiss="modal" form="add-task-form" id="floor_plan_uploader_close" class="btn btn-secondary">{{__('site.close')}}</button>
+                    </div>                
+                </form>   
 			</div>
 		</div>
 	</div>
 @push('js')
 <script type="text/javascript">
 $(document).ready(function(){
-    $(document).on("change","#floor_plan", function(){
-        $("#floorPlanUploader").submit();        
-    });
     $("form#floorPlanUploader").submit(function(e) {
         e.preventDefault();    
         var formData = new FormData(this);
@@ -83,7 +82,8 @@ $(document).ready(function(){
             success: function (data) {
                 $("#loadingHolder").hide();
                 if(data.success){
-                    $("#uploadedFloorPlan").prepend(data.images);
+                    alert("Floor plans added successfully!");
+                    $("#floor_plan_uploader_close").click();
                 }
             },
             cache: false,
@@ -113,6 +113,15 @@ $(document).ready(function(){
             });
 
         }
+    });
+    $(".addFloor").click(function(){
+        $(".propertyFloors").append('<div class="row col-xl-12"><div class="col-xl-5"><input class="form-control form-control-solid form-control-lg" type="text" class="form-control" name="floorPlansNameNew[]" placeholder="{{ucfirst(__('site.title'))}}"><div class="fv-plugins-message-container"></div></div><div class="col-xl-5"><input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="floorPlansNew[]" accept=".pdf,.jpg,.jpeg,.png"><div class="fv-plugins-message-container"></div></div><div class="col-xl-2"><button type="button" class="btn btn-info removeFloor">{{__('site.remove')}}</button></div></div>');
+    });
+
+    $(document).on("click",".removeFloor", function(){ 
+        event.preventDefault();
+        $(this).parents('.row').remove();
+        $(".propertyVar").append('<input type="hidden" name="delete_floor_plan_id[]" value="'+($(this).val())+'">');
     });
 });        
 </script>
