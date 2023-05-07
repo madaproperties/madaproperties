@@ -119,14 +119,12 @@ class PropertyController extends Controller
     $property = $property->groupBy('properties.id');
     $properties = $property->orderBy('created_at','desc')->paginate(20);
     $categories = Categories::get(); 
-
-
     $sellers = getSellers();
     // added by fazal -7-3-23
     $leaders= User::where('rule','leader')->select('id','email')->get(); 
-    // 
-    
-    return view('admin.property.index',compact('properties','property_count','categories','sellers','leaders'));
+    // added by fazal 04-05-23
+    $communities = Community::where('city_id','84')->where('parent_id',0)->orderBy('name_en','asc')->get(); 
+    return view('admin.property.index',compact('properties','property_count','categories','sellers','leaders','communities'));
   }
 
   public function create()
@@ -1116,21 +1114,23 @@ class PropertyController extends Controller
   }
 
   private function filterPrams($q){
-
+    
     if(request()->has('ADVANCED')){
       $uri = '';
       $feilds = request()->all();
-      $allowedFeilds =[
+    $allowedFeilds =[
         "status" ,
         "category_id" ,
         "user_id",
         "sale_rent",
-        "property_type"
+        "property_type",
+        "community",  //added by fazal 04-05-23
+        "bedrooms",   //added by fazal 04-05-23
       ];
 
       foreach($feilds as $feild => $value){
         if(in_array($feild,$allowedFeilds) AND !empty($value)){
-            $q->where($feild,$value);
+         $q->where($feild,$value);
         }
       }
 
@@ -1151,6 +1151,29 @@ class PropertyController extends Controller
           $updated_to = date('Y-m-d 23:59:59', strtotime(Request('updated_to')));
           $q->where('last_updated','<=',$updated_to);
         }            
+       }
+      //added by fazal 04-05-2023
+      if(Request('min_price') && Request('max_price')){
+        $uri = Request()->fullUrl();
+        session()->put('start_filter_url',$uri);
+        $min = Request('min_price');
+        $max =  Request('max_price');
+        $q->whereBetween('price',[$min,$max]);
+      } 
+      else{
+        if(Request('min_price')){
+          $uri = Request()->fullUrl();
+          session()->put('start_filter_url',$uri);
+          $min = Request('min_price') ;
+          $q->where('price','>=', $min);
+        }
+         if(Request('max_price')){
+          $uri = Request()->fullUrl();
+          session()->put('start_filter_url',$uri);
+          $max = Request('max_price');
+          $q->where('created_at','<=',$max);
+        }
+
       }
 
       //Added by Javed
