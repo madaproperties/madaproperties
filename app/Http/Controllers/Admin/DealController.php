@@ -124,10 +124,10 @@ class DealController extends Controller
       $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
         $q->whereIn('rule',['sales','leader','sales director']);
       })
-    ->where('active','1')->get();
+    ->where('active','1')->orderBy('email')->get();
     }else{
       $sellers = User::whereIn('rule',['sales','leader','sales director'])
-    ->where('active','1')->get();
+    ->where('active','1')->orderBy('email')->get();
     }
 
     if(!checkLeader()){
@@ -405,7 +405,7 @@ class DealController extends Controller
         "client_email"          => "nullable",
         "price"                 => "required",
         "commission_type"       => "nullable",
-        "commission"            => "required|numeric|between:1,100",
+        "commission"            => "required|numeric|between:0,100",
         "commission_amount"     => "required|numeric",
         "vat"                   => "nullable",
         "vat_amount"            => "nullable",
@@ -495,7 +495,7 @@ class DealController extends Controller
       "client_email"          => "nullable",
       "price"                 => "required",
       "commission_type"       => "nullable",
-      "commission"            => "required|numeric|between:1,100",
+      "commission"            => "required|numeric|between:0,100",
       "commission_amount"     => "required|numeric",
       "vat"                   => "nullable",
       "vat_amount"            => "nullable",
@@ -692,6 +692,7 @@ class DealController extends Controller
         "project_type" ,
         "developer_id",
         "agent_id",
+        "agent2_id",
         "leader_id",
         "vat_received",
         "agent_commission_received",
@@ -702,8 +703,12 @@ class DealController extends Controller
       ];
 
       foreach($feilds as $feild => $value){
-        if(in_array($feild,$allowedFeilds) AND !empty($value)){
-            $q->where($feild,$value);
+        if($feild == 'third_party' && $value == 'no'){
+          $q->whereNull($feild);
+        }else{
+          if(in_array($feild,$allowedFeilds) AND !empty($value)){
+              $q->where($feild,$value);
+          }
         }
       }
 
@@ -911,8 +916,8 @@ class DealController extends Controller
       return Excel::download(new DealExport, 'DealsReport_'.date('d-m-Y').'.xlsx');
     }  
   }
-  // added by fazal
-   public function topAgentsUae()
+//   added by fazal 04-04-23
+public function topAgentsUae()
    {
         $sums = DB::table('deals')->where('unit_country',2)
             ->whereMonth('deals.deal_date', date('m'))
@@ -922,7 +927,7 @@ class DealController extends Controller
             ->groupBy('agent_id')
             ->orderByDesc('total_sum')
              ->take(5)->get();
-              // dd($sums);
+            //   dd($sums);
        $count=$sums->count();
         if($count == 1 )
         { 
@@ -986,7 +991,7 @@ public function topAgentsSaudi()
 {
   $sums = DB::table('deals')->where('unit_country',1)
             ->whereMonth('deals.deal_date', date('m'))
-            ->whereYear('deals.created_at', date('Y'))
+            ->whereYear('deals.deal_date', date('Y'))
             ->join('users','users.id','deals.agent_id')
             ->select(DB::raw('SUM(price) as total_sum, agent_id'),'users.name','users.user_pic','users.email')
             ->groupBy('agent_id')
@@ -998,56 +1003,34 @@ public function topAgentsSaudi()
           
          $emp1=$sums[0];
          $emp2='';
-         $emp3='';
-         $emp4='';
-         $emp5='';
+          $emp3='';
+         
+        
         }
         elseif($count == 2 )
         {
          $emp1=$sums[0];
          $emp2=$sums[1];
          $emp3='';
-         $emp4='';
-         $emp5=''; 
+         
         }
         elseif($count == 3)
         {
         $emp1=$sums[0];
          $emp2=$sums[1];
          $emp3=$sums[2];
-         $emp4='';
-         $emp5='';
-         
-        }
-        elseif($count == 4)
-        {
-        $emp1=$sums[0];
-         $emp2=$sums[1];
-         $emp3=$sums[2];
-         $emp4=$sums[3];
-         $emp5='';
-         
-        }
-        elseif($count == 5)
-        {
-        $emp1=$sums[0];
-         $emp2=$sums[1];
-         $emp3=$sums[2];
-         $emp4=$sums[3];
-         $emp5=$sums[4];
-         
+          
         }
         else
         {
           $emp1='';
           $emp2='';
           $emp3='';
-          $emp4='';
-          $emp5='';
+         
         }
      
             
-   return view('admin.deals.topagentsaudi',compact('sums','emp1','emp2','emp3','emp4','emp5'));
-  
+   return view('admin.deals.topagentsaudi',compact('sums','emp1','emp2','emp3'));
 }
+// end
 }

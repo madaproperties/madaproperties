@@ -37,9 +37,9 @@ class PropertyXmlController extends Controller
       ->where('status',1)
       ->where('status','>=',$last_updated_from)
       ->whereIn('user_id',$usersIds)
-      ->get();
+      ->paginate(20);
     }else{
-      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->get();
+      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->paginate(20);
     }
     //header('Content-Type: text/xml');
     header('Content-Type: text/json');
@@ -48,6 +48,8 @@ class PropertyXmlController extends Controller
     $defaultAgent = User::where('email','omar.ali@madaproperties.com')->first();
     $tempArray=[];
     $xml = array();
+    $xml['dubai'] = array();
+    $xml['saudi'] = array();
       
     foreach ($properties as $property) {
       $amenities = get_amenities($property->id);
@@ -373,7 +375,17 @@ class PropertyXmlController extends Controller
     $users = User::where('active','1')
     ->where('time_zone','Asia/Riyadh');
     $usersIds = $users->pluck('id');
-    $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->get();
+
+    if($last_updated_from = $request->get('last_updated_from')){
+      $properties = Property::with(['agent','category','images'])
+      ->where('status',1)
+      ->where('status','>=',$last_updated_from)
+      ->whereIn('user_id',$usersIds)
+      ->paginate(20);
+    }else{
+      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->paginate(20);
+    }
+
     $i = 1;
     $k = 0;
     $tempArray=array();

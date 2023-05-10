@@ -103,6 +103,20 @@
 	@endif
     
 
+	@if(count($sellers))
+	<!--begin::Group-->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.Agent2')}}</label>
+	  <select class="form-control"  name="agent2_id">
+			<option value="">{{ __('site.select agent') }}</option>
+			@foreach($sellers as $seller)
+				<option {{Request('agent2_id') == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
+			@endforeach
+			</select>
+    </div>
+	@endif
+    
+
 	@if(count($leaders))
 	<!--begin::Group-->
     <div class="form-group col-md-4 col-sm-12">
@@ -233,7 +247,7 @@
       <select class="form-control"  name="third_party">
       <option {{Request('third_party') == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
       <option {{Request('third_party') == 'no' ? 'selected' : ''}} value="no">No</option>
-      <option {{Request('third_party') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
+      <option {{Request('third_party') == 'on' ? 'selected' : ''}} value="on">Yes</option>
 		</select>
     </div>
 
