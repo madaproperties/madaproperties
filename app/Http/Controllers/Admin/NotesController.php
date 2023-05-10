@@ -9,6 +9,7 @@ use App\Task;
 use App\Notofication;
 use App\User;
 use App\Contact;
+use App\Project;
 
 class NotesController extends Controller
 {
@@ -99,6 +100,30 @@ class NotesController extends Controller
               'user_id' => $admin->id
             ]);
           
+        }
+
+        $projectData = Project::find($lead->project_id);
+        if(isset($projectData->country_id)){
+          if($projectData->country_id == 1){
+            $admins = User::select('id','rule')->where('rule','sales admin saudi')->get();
+            foreach($admins as $admin){
+                Notofication::create([
+                  'description' => $description,
+                  'created_by' => auth()->id(),
+                  'user_id' => $admin->id
+                ]);
+            }
+
+          }elseif($projectData->country_id == 2){
+            $admins = User::select('id','rule')->where('rule','sales admin uae')->get();
+            foreach($admins as $admin){
+              Notofication::create([
+                'description' => $description,
+                'created_by' => auth()->id(),
+                'user_id' => $admin->id
+              ]);
+            }
+          }
         }
       }
       
