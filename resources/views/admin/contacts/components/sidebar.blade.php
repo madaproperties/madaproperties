@@ -196,8 +196,8 @@
   </div>
   <hr />
   @endif
-
-  @if($contact->city)
+  
+  @if($contact->city_id)
   <div class="d-flex align-items-center justify-content-between mb-2">
     <span class="font-weight-bold mr-2">{{__('site.city')}}:</span>
     <span class="text-muted">{{$contact->city ? $contact->city->name : ''}}</span>

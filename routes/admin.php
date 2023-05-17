@@ -179,12 +179,18 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       //added by fazal
       Route::post('fetch-city', 'DatabaseRecordsController@fetchCity')->name('fetch-city');
        Route::post('databasefetch-district', 'DatabaseRecordsController@fetchDistrict')->name('databasefetch-project');
+
+       //added by fazal 16/05/23
+       Route::post('contactsfetch-community', 'ContactController@fetchCommunities')->name('contactsfetch-community');
+       Route::post('contactsfetch-subcommunity', 'ContactController@fetchSubCommunities')->name('contactsfetch-subcommunity');
+       Route::post('contactsfetch-zone', 'ContactController@fetchZones')->name('contactsfetch-zone');
+       
+       Route::post('contactsfetch-district', 'ContactController@fetchDistricts')->name('contactsfetch-district');
        
        Route::post('databasefetch-subcommunity', 'DatabaseRecordsController@fetchCommunity')->name('databasefetch-subcommunity'); 
        // 27-02
        
        Route::post('property.imgreorder', 'PropertyController@imgReorder')->name('property.imgreorder'); 
-
        Route::resource('bookings','BookingsController');
        // added by fazal 29-03
        Route::get('employee/employeedetails/{employee_id}','EmployeeController@employeeDetails')->name('employee.empdetails');

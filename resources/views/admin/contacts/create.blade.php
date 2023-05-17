@@ -88,25 +88,22 @@
 																			</div>
 																			<!--end::Group-->
 
-				@if(count($sellers))
-				<!--begin::Group-->
-                                      <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
-                												<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.contact owner')}} </label>
-    <div class="col-lg-9 col-xl-9">
-                <select class="form-control"  name="user_id">
-		<option value="">{{ __('site.contact owner') }}</option>
-       @foreach($sellers as $seller)
-									<option
-
-        {{old('user_id') == $seller->id ? 'selected' : ''}}
-        value="{{$seller->id}}">{{$seller->name}}</option>
-        @endforeach
-								</select>
-							</div>
-  		               </div>
-  		               @endif
+												@if(count($sellers))
+													<!--begin::Group-->
+                        <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+                					<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.contact owner')}} </label>
+    												<div class="col-lg-9 col-xl-9">
+               								<select class="form-control"  name="user_id">
+																<option value="">{{ __('site.contact owner') }}</option>
+       													@foreach($sellers as $seller)
+															    <option {{old('user_id') == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
+       													 @endforeach
+															</select>
+														</div>
+  		               		</div>
+  		               		@endif
 										<!--end::Group-->
-																												<!--begin::Group-->
+										<!--begin::Group-->
                                       <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
                 												<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.country')}} </label>
                 												<div class="col-lg-9 col-xl-9" data-select2-id="38">
@@ -222,39 +219,97 @@
 								 											</div>
                                       <!--end::Group-->
                                        <!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		 		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.unit country')}} </label>
+																		 			<div class="col-lg-9 col-xl-9" data-select2-id="38">
+																		 				<select class="form-control " id="unit_country" name="unit_country" data-select2-id="" tabindex="-1" aria-hidden="true">
+																		 					<option value="">{{ __('site.choose') }}</option>
+																		           @foreach($countries as $country)
+																		 			      <option {{old('unit_country') == $country->id ? 'selected' : ''}}
+																		     value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>
+																		            @endforeach
+																		 				</select>
+																		 			</div>
+																		 	 </div>
+ 																			<!--end::Group-->
+																			<!--begin::Group-->
 
-																				 <!--begin::Group-->
-<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
- 						<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.unit country')}} </label>
- 						<div class="col-lg-9 col-xl-9" data-select2-id="38">
- 							<select class="form-control " id="unit_country"
-    name="unit_country" data-select2-id="" tabindex="-1" aria-hidden="true">
- 											 <option value="">{{ __('site.choose') }}</option>
-    @foreach($countries as $country)
- 			<option
-     {{old('unit_country') == $country->id ? 'selected' : ''}}
-     value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>
-     @endforeach
- 							</select>
- 						</div>
- 	  	 </div>
- 																				<!--end::Group-->
-                                      <!--begin::Group-->
-<!--begin::Group-->
+																			 <div class="form-group row prject-area">
+																			 	<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.project')}}</label>
+																			 	<div class="col-lg-9 col-xl-9">
+																			 		<select class="form-control other-select"  name="project_id">
+                                          </select>
+																			 	</div>
+																			 </div>
+																			<!--end::Group-->
+	                                  <!-- added by fazal 16-05-23 -->
+                                   <!--begin::Group-->
+                                    <div id="id_city" style="display: none;">
+                                      <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.city')}}</label>
+                                        <div class="col-lg-9 col-xl-9" data-select2-id="38">
+                                          <select id="city_id" class="form-control "
+                                           name="city"  tabindex="-1" aria-hidden="true">
+																					 <option value="">{{__('site.select country')}}</option>
+                                          </select>
+                                        </div>
+                                       </div>
+                                     </div>
+                                      <!--end::Group-->
+ 																		<!--begin::Group-->          
+         														<div id="id_community" style="display: none;">
+                                      <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.community')}}</label>
+                                        <div class="col-lg-9 col-xl-9" data-select2-id="38">
+                                          <select id="community_id" class="form-control "
+                                           name="community_id"  tabindex="-1" aria-hidden="true">
+																					 <option value="">{{__('site.select community')}}</option>
+                                          </select>
+                                        </div>
+                                       </div>
+                                     </div>
+                                      <!--end::Group-->
+                                      <!--begin::Group-->                                    
+                                      <div id="id_subcommunity" style="display: none;">
+                                      <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.sub_community')}}</label>
+                                        <div class="col-lg-9 col-xl-9" data-select2-id="38">
+                                          <select id="subcommunities_id" class="form-control "
+                                           name="subcommunities_id"  tabindex="-1" aria-hidden="true">
+																					 <option value="">{{__('site.select sub_community')}}</option>
+                                          </select>
+                                        </div>
+                                       </div>
+                                     </div>
+                                      <!--end::Group-->
+                                      <!--begin::Group-->          
+         														<div id="id_zone" style="display: none;">
+                                      <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.zone')}}</label>
+                                        <div class="col-lg-9 col-xl-9" data-select2-id="38">
+                                          <select id="zone_id" class="form-control "
+                                           name="zone_id"  tabindex="-1" aria-hidden="true">
+																					 <option value="">{{__('site.select zone')}}</option>
+                                          </select>
+                                        </div>
+                                       </div>
+                                     </div>
+                                      <!--end::Group-->
+                                      <!--begin::Group-->                                    
+                                      <div id="id_district" style="display: none;">
+                                      <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+                                        <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.district')}}</label>
+                                        <div class="col-lg-9 col-xl-9" data-select2-id="38">
+                                          <select id="district_id" class="form-control "
+                                           name="district_id"  tabindex="-1" aria-hidden="true">
+																					 <option value="">{{__('site.select district')}}</option>
+                                          </select>
+                                        </div>
+                                       </div>
+                                     </div>
+                                     <!--end::Group-->
+                                      <!-- end -->
 
- <div class="form-group row prject-area">
- 	<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.project')}}</label>
- 	<div class="col-lg-9 col-xl-9">
- 		<select class="form-control other-select"  name="project_id">
-
-
-
-
- 		</select>
- 	</div>
- </div>
-<!--end::Group-->
-	     <!--end::Group-->
  <div class="related-to-project" style="display:none">
 <!--begin::Group-->
 <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
@@ -498,7 +553,8 @@ name="unit_zone" type="text" value="{{old('unit_zone')}}" placeholder="{{__('sit
 
 @endsection
 @push('js')
-<script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
+<!-- <script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
 
 	function getCountryCities(country,city,changeCode = false)
@@ -548,16 +604,116 @@ name="unit_zone" type="text" value="{{old('unit_zone')}}" placeholder="{{__('sit
 	});
 
 	$('#unit_country').on('change', function (){
-		getCountryCities($('#unit_country').val(),$("#unit_city"));
+   $('#id_city').show(); // added by fazal 17/05/23
+		getCountryCities($('#unit_country').val(),$("#city_id"));
 		getProjects($('#unit_country').val());
 		$('.prject-area').css('height','auto');
 		$('.prject-area').css('opacity','1');
-	});
+		
+   });
 
 	$( document ).ready(function (){
 	   $('.prject-area').css('height','0');
 	   $('.prject-area').css('opacity','0');
-	});
+	   //added by fazal
+	   // fetch community
+	$('#city_id').on('change', function () {
+    var city_id = this.value;
+      $.ajax({
+        url: "{{url('contactsfetch-community')}}",
+        type: "POST",
+        data: {
+            city_id: city_id,
+            _token: '{{csrf_token()}}'
+        },
+        dataType: 'json',
+        success: function (result) {
+          $('#community_id').html('<option value="">Select</option>');
+          $.each(result.communities, function (key, value) {
+            $("#community_id").append('<option value="' + value
+                    .id + '">' + value.name_en + '</option>');
+          });
+        }
+      });
+  });
+	 //fetch subcommunity
+   $('#community_id').on('change', function () {
+    var community_id = this.value;
+      $.ajax({
+        url: "{{url('contactsfetch-subcommunity')}}",
+        type: "POST",
+        data: {
+            community_id: community_id,
+            _token: '{{csrf_token()}}'
+        },
+        dataType: 'json',
+        success: function (result) {
+          $('#subcommunities_id').html('<option value="">Select</option>');
+          $.each(result.subcommunities, function (key, value) {
+            $("#subcommunities_id").append('<option value="' + value
+                    .id + '">' + value.name_en + '</option>');
+          });
+        }
+      });
+    });
+    // fetch zone
+	$('#city_id').on('change', function () {
+		var country=$('#unit_country').val();
+		if(country == 1)
+    {
+    $('#id_zone').show();
+    $('#id_district').show();
+     $('#id_community').hide();
+    $('#id_subcommunity').hide();
+    }
+    if(country == 2)
+    {
+    $('#id_community').show();
+    $('#id_subcommunity').show();
+    $('#id_zone').hide();
+    $('#id_district').hide();
+    }
+
+    var city_id = this.value;
+    $.ajax({
+        url: "{{url('contactsfetch-zone')}}",
+        type: "POST",
+        data: {
+          city_id: city_id,
+          _token: '{{csrf_token()}}'
+        },
+        dataType: 'json',
+        success: function (result) {
+          $('#zone_id').html('<option value="">Select</option>');
+          $.each(result.zones, function (key, value) {
+            $("#zone_id").append('<option value="' + value
+                    .id + '">' + value.zone_name + '</option>');
+          });
+        }
+    });
+  });
+	//fetch district
+   $('#zone_id').on('change', function () {
+    var zone_id = this.value;
+    $.ajax({
+        url: "{{url('contactsfetch-district')}}",
+        type: "POST",
+        data: {
+            zone_id: zone_id,
+            _token: '{{csrf_token()}}'
+        },
+        dataType: 'json',
+        success: function (result) {
+          $('#district_id').html('<option value="">Select</option>');
+          $.each(result.districts, function (key, value) {
+           $("#district_id").append('<option value="' + value
+                    .id + '">' + value.name + '</option>');
+          });
+        }
+    });
+   });
+   // end added by fazal
+});
 
 
 	function getProjects(country)
