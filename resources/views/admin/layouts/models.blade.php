@@ -400,6 +400,173 @@
 </div>
 </div>
 <!--end::Group-->
+<!-- added by fazal -->
+<!--begin::Group-->
+<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.city')}}</label>
+<div class="col-lg-9 col-xl-9" data-select2-id="38">
+  <select class="form-control " id="city_id"
+   name="city" data-select2-id="" tabindex="-1" aria-hidden="true">
+   <option value="">{{__('site.choose')}} </option>
+   @foreach($cities as $city)
+    <option
+    {{$contact->city == $city->id ? 'selected' : ''}}
+    value="{{$city->id}}" data-select2-id="{{$city->id}}">{{$city->name_en}}</option>
+    @endforeach
+  </select>
+</div>
+</div>
+<!--end::Group-->
+@if($contact->unit_country==2)
+<!--begin::Group-->
+<div id="community-subcommunity">
+<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.community')}}</label>
+<div class="col-lg-9 col-xl-9" data-select2-id="38">
+  <select class="form-control " id="community_id"
+   name="community_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+   <option value="">{{__('site.choose')}} </option>
+   @foreach($communities as $community)
+    <option
+    {{$contact->community_id == $community->id ? 'selected' : ''}}
+    value="{{$community->id}}" data-select2-id="{{$community->id}}">{{$community->name_en}}</option>
+    @endforeach
+  </select>
+</div>
+</div>
+<!--end::Group-->
+<!--begin::Group-->
+<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.subcommunity')}}</label>
+<div class="col-lg-9 col-xl-9" data-select2-id="38">
+  <select class="form-control " id="subcommunities_id"
+   name="subcommunities_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+   <option value="">{{__('site.choose')}}</option>
+   @foreach($subcommunities as $subcommunity)
+    <option
+    {{$contact->subcommunities_id == $subcommunity->id ? 'selected' : ''}}
+    value="{{$subcommunity->id}}" data-select2-id="{{$subcommunity->id}}">{{$subcommunity->name_en}}</option>
+    @endforeach
+  </select>
+</div>
+</div>
+</div>
+<!--  -->
+
+<!--begin::Group-->
+<div id="zone-district" style="display:none;">
+<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.zone')}}</label>
+<div class="col-lg-9 col-xl-9" data-select2-id="38">
+  <select class="form-control " id="zone_id"
+   name="zone_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+   <option value="">{{__('site.choose')}}</option>
+   @foreach($zones as $zone)
+    <option
+    {{$contact->zone_id == $zone->id ? 'selected' : ''}}
+    value="{{$zone->id}}" data-select2-id="{{$zone->id}}">{{$zone->zone_name}}</option>
+    @endforeach
+  </select>
+</div>
+</div>
+<!--end::Group-->
+<!--begin::Group-->
+<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.district')}}</label>
+<div class="col-lg-9 col-xl-9" data-select2-id="38">
+  <select class="form-control " id="district_id"
+   name="district_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+   <option value="">{{__('site.choose')}}</option>
+   @foreach($districts as $district)
+    <option
+    {{$contact->district_id == $district->id ? 'selected' : ''}}
+    value="{{$district->id}}" data-select2-id="{{$district->id}}">{{$district->name}}</option>
+    @endforeach
+  </select>
+</div>
+</div>
+</div>
+
+
+<!--  -->
+<!--end::Group-->
+@endif
+@if($contact->unit_country==1)
+<!--begin::Group-->
+<div id="zone-district">
+<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.zone')}}</label>
+<div class="col-lg-9 col-xl-9" data-select2-id="38">
+  <select class="form-control " id="zone_id"
+   name="zone_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+   <option value="">{{__('site.choose')}}</option>
+   @foreach($zones as $zone)
+    <option
+    {{$contact->zone_id == $zone->id ? 'selected' : ''}}
+    value="{{$zone->id}}" data-select2-id="{{$zone->id}}">{{$zone->zone_name}}</option>
+    @endforeach
+  </select>
+</div>
+</div>
+<!--end::Group-->
+<!--begin::Group-->
+<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.district')}}</label>
+<div class="col-lg-9 col-xl-9" data-select2-id="38">
+  <select class="form-control " id="district_id"
+   name="district_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+   <option value="">{{__('site.choose')}}</option>
+   @foreach($districts as $district)
+    <option
+    {{$contact->district_id == $district->id ? 'selected' : ''}}
+    value="{{$district->id}}" data-select2-id="{{$district->id}}">{{$district->name}}</option>
+    @endforeach
+  </select>
+</div>
+</div>
+</div>
+<!--end::Group-->
+<!--  -->
+ <div id="community-subcommunity" style="display:none;">
+ <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.community')}}</label>
+<div class="col-lg-9 col-xl-9" data-select2-id="38">
+  <select class="form-control " id="community_id"
+   name="community_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+   <option value="">{{__('site.choose')}} </option>
+   @foreach($communities as $community)
+    <option
+    {{$contact->community_id == $community->id ? 'selected' : ''}}
+    value="{{$community->id}}" data-select2-id="{{$community->id}}">{{$community->name_en}}</option>
+    @endforeach
+  </select>
+</div>
+</div>
+<!--end::Group-->
+<!--begin::Group-->
+<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.subcommunity')}}</label>
+<div class="col-lg-9 col-xl-9" data-select2-id="38">
+  <select class="form-control " id="subcommunities_id"
+   name="subcommunities_id" data-select2-id="" tabindex="-1" aria-hidden="true">
+   <option value="">{{__('site.choose')}}</option>
+   @foreach($subcommunities as $subcommunity)
+    <option
+    {{$contact->subcommunities_id == $subcommunity->id ? 'selected' : ''}}
+    value="{{$subcommunity->id}}" data-select2-id="{{$subcommunity->id}}">{{$subcommunity->name_en}}</option>
+    @endforeach
+  </select>
+</div>
+</div>
+
+ </div>
+
+<!--  -->
+@endif
+<!-- end added by fazal -->
+
+
+
 <!--begin::Group-->
  <div class="form-group row {{ !$contact->project_id ? 'prject-area' : '' }}" id="project-area">
   <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.project')}}</label>
@@ -1610,5 +1777,119 @@ var KTCkeditor = function () {
 }();
 // Initialization
 KTCkeditor.init();
+ $( document ).ready(function (){
+$('#unit_country').on('change', function (){
+var country_id = this.value;
+getCountryCities($('#unit_country').val(),$("#city_id"));
+if(country_id==1)
+{
+  $('#community-subcommunity').hide();
+  $('#zone-district').show();
+   $.ajax({
+        url: "{{url('contactsfetch-')}}",
+        type: "POST",
+        data: {
+            community_id: community_id,
+            _token: '{{csrf_token()}}'
+        },
+        dataType: 'json',
+        success: function (result) {
+          $('#subcommunities_id').html('<option value="">Select</option>');
+          $.each(result.subcommunities, function (key, value) {
+            $("#subcommunities_id").append('<option value="' + value
+                    .id + '">' + value.name_en + '</option>');
+          });
+        }
+      });
+}
+if(country_id==2)
+{
+ $('#community-subcommunity').show();
+  $('#zone-district').hide();
+}
+
+});
+$('#city_id').on('change', function () {
+    var city_id = this.value;
+      $.ajax({
+        url: "{{url('contactsfetch-community')}}",
+        type: "POST",
+        data: {
+            city_id: city_id,
+            _token: '{{csrf_token()}}'
+        },
+        dataType: 'json',
+        success: function (result) {
+          $('#community_id').html('<option value="">Select</option>');
+          $.each(result.communities, function (key, value) {
+            $("#community_id").append('<option value="' + value
+                    .id + '">' + value.name_en + '</option>');
+          });
+        }
+      });
+  });
+   //fetch subcommunity
+   $('#community_id').on('change', function () {
+    var community_id = this.value;
+      $.ajax({
+        url: "{{url('contactsfetch-subcommunity')}}",
+        type: "POST",
+        data: {
+            community_id: community_id,
+            _token: '{{csrf_token()}}'
+        },
+        dataType: 'json',
+        success: function (result) {
+          $('#subcommunities_id').html('<option value="">Select</option>');
+          $.each(result.subcommunities, function (key, value) {
+            $("#subcommunities_id").append('<option value="' + value
+                    .id + '">' + value.name_en + '</option>');
+          });
+        }
+      });
+    });
+    // fetch zone
+  $('#city_id').on('change', function () {
+    var city_id = this.value;
+    alert(city_id);
+    $.ajax({
+        url: "{{url('contactsfetch-zone')}}",
+        type: "POST",
+        data: {
+          city_id: city_id,
+          _token: '{{csrf_token()}}'
+        },
+        dataType: 'json',
+        success: function (result) {
+          $('#zone_id').html('<option value="">Select</option>');
+          $.each(result.zones, function (key, value) {
+            $("#zone_id").append('<option value="' + value
+                    .id + '">' + value.zone_name + '</option>');
+          });
+        }
+    });
+  });
+  //fetch district
+   $('#zone_id').on('change', function () {
+    var zone_id = this.value;
+    $.ajax({
+        url: "{{url('contactsfetch-district')}}",
+        type: "POST",
+        data: {
+            zone_id: zone_id,
+            _token: '{{csrf_token()}}'
+        },
+        dataType: 'json',
+        success: function (result) {
+          $('#district_id').html('<option value="">Select</option>');
+          $.each(result.districts, function (key, value) {
+           $("#district_id").append('<option value="' + value
+                    .id + '">' + value.name + '</option>');
+          });
+        }
+    });
+   });
+ });
+// end added by fazal
 </script>
 @endpush

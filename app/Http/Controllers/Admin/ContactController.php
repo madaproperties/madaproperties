@@ -24,6 +24,9 @@ use App\Campaing;
 use App\Content;
 use App\Source;
 use App\Medium;
+use App\Community;
+use App\Zones;
+use App\Districts;
 use Mail;
 use App\Mail\LeadAssigned;
 
@@ -159,6 +162,11 @@ class ContactController extends Controller
        {
            $purpose[0] = 'buy';
        }
+       $cities =City::where('country_id',$contact->unit_country)->get();
+       $communities=Community::where('city_id',$contact->city)->where('parent_id',0)->get();
+       $subcommunities = Community::where('parent_id',$contact->community_id)->get();
+       $zones = Zones::where('city_id',$contact->city)->get();
+       $districts = Districts::where('zone_id',$contact->zone_id)->get();
 
       return view('admin.contacts.show',[
         'contact' => $contact,
@@ -180,6 +188,13 @@ class ContactController extends Controller
         'contents' => Content::where('active','1')->orderBy('name')->get(),
         'sources' => Source::where('active','1')->orderBy('name')->get(),
         'mediums' => Medium::where('active','1')->get(),
+        'cities'=>$cities,
+        'communities'=>$communities,
+        'subcommunities'=>$subcommunities,
+        'zones'=>$zones,
+        'districts' =>$districts,
+
+
 
       ]);
   }
@@ -288,9 +303,15 @@ class ContactController extends Controller
           "unit_zone"             => "nullable|max:255",
           'content' => 'nullable|max:255',
           'lead_category' => 'nullable',
-          'campaign_country' => 'nullable'
-        ]);
+          'campaign_country' => 'nullable',
+          "community_id" => "nullable", 
+          "subcommunities_id" => "nullable",
+          "zone_id" => "nullable" ,
+          "district_id"=>"nullable",
+          "city"=>"nullable",
 
+        ]);
+     
 
         if(userRole() == 'leader')
         {
@@ -466,7 +487,12 @@ class ContactController extends Controller
         "unit_zone"             => "nullable|max:255",
         'content' => 'nullable|max:255',
         'lead_category' => 'nullable',
-        'campaign_country' => 'nullable'
+        'campaign_country' => 'nullable',
+        "community_id" => "nullable", 
+        "subcommunities_id" => "nullable",
+        "zone_id" => "nullable" ,
+        "district_id"=>"nullable",
+        "city"=>"nullable",
       ]);
 
 
@@ -619,5 +645,31 @@ class ContactController extends Controller
         'status' => true,
       ]);
     }
+    //added by fazal 17/05/23
+    public function fetchCommunities(Request $request)
+    {
+     $city_id=$request->get('city_id');
+     $data['communities'] = Community::where('city_id',$city_id)->where('parent_id',0)->orderBy('name_en','asc')->get();
+     return response()->json($data);
+    }
+    public function fetchSubCommunities(Request $request)
+    {
+     $community_id=$request->get('community_id');
+     $data['subcommunities'] = Community::where('parent_id',$community_id)->orderBy('name_en','asc')->get();
+     return response()->json($data);
+    }
+    public function fetchZones(Request $request)
+    {
+      $city_id=$request->get('city_id'); 
+      $data['zones'] = Zones::where('city_id',$city_id)->orderBy('zone_name','asc')->get();
+      return response()->json($data);
+    }
+    public function fetchDistricts(Request $request)
+    {
+      $zone_id=$request->get('zone_id'); 
+      $data['districts'] = Districts::where('zone_id',$zone_id)->orderBy('name','asc')->get();
+      return response()->json($data);
+    }
+    // end added by fazal
 
 }
