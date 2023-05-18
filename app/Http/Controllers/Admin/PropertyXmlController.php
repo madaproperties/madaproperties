@@ -37,9 +37,10 @@ class PropertyXmlController extends Controller
       ->where('status',1)
       ->where('status','>=',$last_updated_from)
       ->whereIn('user_id',$usersIds)
+      ->orderBy('updated_at','desc')
       ->paginate(20);
     }else{
-      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->paginate(20);
+      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->orderBy('updated_at','desc')->paginate(20);
     }
     //header('Content-Type: text/xml');
     header('Content-Type: text/json');
@@ -104,6 +105,7 @@ class PropertyXmlController extends Controller
       }
       
 
+      $xml['dubai'][$k]['property_id']=$property->id;
 
       if($property->crm_id){
         $tempArray['crm_id'] = $property->crm_id;
@@ -255,7 +257,7 @@ class PropertyXmlController extends Controller
 
       $tempArray['floorplan'] = $property->floorplan;        
       // if($property->floorplan){
-      //   $xml['dubai'][$k]['floor_plan']=s3AssetUrl('uploads/'.$property->floorplan); 
+      //   $xml['dubai'][$k]['floor_plan']=('/uploads/'.$property->floorplan); 
       // }else{
       //   $xml['dubai'][$k]['floor_plan']=""; 
       // }
@@ -349,7 +351,7 @@ class PropertyXmlController extends Controller
       if($property->images && count($property->images)){
         foreach($property->images as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
-          $xml['dubai'][$k]['images'][$x++]['url']=s3AssetUrl('uploads/property/'.$property->id.'/images/'.$image->images_link);          
+          $xml['dubai'][$k]['images'][$x++]['url']=('/uploads/property/'.$property->id.'/images/'.$image->images_link);          
         }
       }
       $xml['dubai'][$k]['floor_plan'] = [];
@@ -358,7 +360,7 @@ class PropertyXmlController extends Controller
         foreach($property->floorPlans as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
           $xml['dubai'][$k]['floor_plan'][$x]['title']=$image->name;        
-          $xml['dubai'][$k]['floor_plan'][$x++]['url']=s3AssetUrl('uploads/property/'.$property->id.'/floor_plan/'.$image->document_link);          
+          $xml['dubai'][$k]['floor_plan'][$x++]['url']=('/uploads/property/'.$property->id.'/floor_plan/'.$image->document_link);          
         }
       }
       $xml['dubai'][$k]['documents'] = [];
@@ -366,7 +368,7 @@ class PropertyXmlController extends Controller
         $x=0;
         foreach($property->documents as $image){
           $xml['dubai'][$k]['documents'][$x]['title']=$image->name;          
-          $xml['dubai'][$k]['documents'][$x++]['url']=s3AssetUrl('uploads/property/'.$property->id.'/documents/'.$image->document_link);          
+          $xml['dubai'][$k]['documents'][$x++]['url']=('/uploads/property/'.$property->id.'/documents/'.$image->document_link);          
         }
       }
       $k++;
@@ -381,9 +383,10 @@ class PropertyXmlController extends Controller
       ->where('status',1)
       ->where('status','>=',$last_updated_from)
       ->whereIn('user_id',$usersIds)
+      ->orderBy('updated_at','desc')
       ->paginate(20);
     }else{
-      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->paginate(20);
+      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->orderBy('updated_at','desc')->paginate(20);
     }
 
     $i = 1;
@@ -454,6 +457,7 @@ class PropertyXmlController extends Controller
       }
       
 
+      $xml['saudi'][$k]['property_id']=$property->id;
 
       if($property->crm_id){
         $tempArray['crm_id'] = $property->crm_id;
@@ -605,7 +609,7 @@ class PropertyXmlController extends Controller
 
       $tempArray['floorplan'] = $property->floorplan;        
       // if($property->floorplan){
-      //   $xml['saudi'][$k]['floor_plan']=s3AssetUrl('uploads/'.$property->floorplan); 
+      //   $xml['saudi'][$k]['floor_plan']=('/uploads/'.$property->floorplan); 
       // }else{
       //   $xml['saudi'][$k]['floor_plan']=""; 
       // }
@@ -745,7 +749,7 @@ class PropertyXmlController extends Controller
       if($property->images && count($property->images)){
         foreach($property->images as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
-          $xml['saudi'][$k]['images'][$x++]['url']=s3AssetUrl('uploads/property/'.$property->id.'/images/'.$image->images_link);          
+          $xml['saudi'][$k]['images'][$x++]['url']=('/uploads/property/'.$property->id.'/images/'.$image->images_link);          
         }
       }
       $xml['saudi'][$k]['floor_plan'] = [];
@@ -754,7 +758,7 @@ class PropertyXmlController extends Controller
         foreach($property->floorPlans as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
           $xml['saudi'][$k]['floor_plan'][$x]['title']=$image->name;        
-          $xml['saudi'][$k]['floor_plan'][$x++]['url']=s3AssetUrl('uploads/property/'.$property->id.'/floor_plan/'.$image->document_link);          
+          $xml['saudi'][$k]['floor_plan'][$x++]['url']=('/uploads/property/'.$property->id.'/floor_plan/'.$image->document_link);          
         }
       }
       $xml['saudi'][$k]['documents'] = [];
@@ -762,7 +766,7 @@ class PropertyXmlController extends Controller
         $x=0;
         foreach($property->documents as $image){
           $xml['saudi'][$k]['documents'][$x]['title']=$image->name;          
-          $xml['saudi'][$k]['documents'][$x++]['url']=s3AssetUrl('uploads/property/'.$property->id.'/documents/'.$image->document_link);          
+          $xml['saudi'][$k]['documents'][$x++]['url']=('/uploads/property/'.$property->id.'/documents/'.$image->document_link);          
         }
       }
 
@@ -974,13 +978,13 @@ class PropertyXmlController extends Controller
       if($property->images && count($property->images)){
         foreach($property->images as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
-          $xml.="<url last_updated='".$image->date."' watermark='yes'>".s3AssetUrl('uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
+          $xml.="<url last_updated='".$image->date."' watermark='yes'>".('/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
         }
       }
       $xml.="</photo>";
       if($property->floorplan){
         $tempArray['floorplan'] = $property->floorplan;        
-        $xml.="<floor_plan><url last_updated='".$property->last_updated."'>".s3AssetUrl('uploads/'.$image->floorplan)."</url></floor_plan>"; 
+        $xml.="<floor_plan><url last_updated='".$property->last_updated."'>".('/uploads/'.$image->floorplan)."</url></floor_plan>"; 
       }
       if($property->geopoints){
         $tempArray['geopoints'] = $property->geopoints;        
@@ -1193,7 +1197,7 @@ class PropertyXmlController extends Controller
       if($property->images && count($property->images)){
         foreach($property->images as $image){
           //$xml.="<url last_updated='".$image->date."' watermark='yes'>".asset('public/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
-          $xml.="<url last_updated='".$image->date."' watermark='yes'>".s3AssetUrl('uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
+          $xml.="<url last_updated='".$image->date."' watermark='yes'>".('/uploads/property/'.$property->id.'/images/'.$image->images_link)."</url>";          
         }
       }
       $xml.="</photo>";
