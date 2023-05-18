@@ -55,24 +55,20 @@ class MainController extends Controller
     //End
     // added by fazal -7-3-23
     $cacheTime = '3600';
-   // added by fazal 18-05-23
-   if(userRole()== 'sales director')
-    {
-      if(auth()->id()->time_zone=='Asia/Riyadh')
-      {
-       $leaders=  User::where('rule','leader')->where('active',1)->where('time_zone','Asia/Riyadh')->select('id','email')->get();
+
+    // added by fazal 18-05-23
+    if(userRole()== 'sales director'){
+      $user=User::where('id',auth()->id())->first();
+      if($user->time_zone=='Asia/Riyadh') {
+        $leaders=  User::where('rule','leader')->where('active',1)->where('time_zone','Asia/Riyadh')->select('id','email')->get();
+      }else{
+        $leaders=  User::where('rule','leader')->where('active',1)->where('time_zone','Asia/Dubai')->select('id','email')->get();
       }
-      else
-      {
-       $leaders=  User::where('rule','leader')->where('active',1)->where('time_zone','Asia/Dubai')->select('id','email')->get();
-      }
-    }
-    else
-    {
-    $leaders=  User::where('rule','leader')->where('active',1)->select('id','email')->get();  
+    }else{
+        $leaders=  User::where('rule','leader')->where('active',1)->select('id','email')->get();  
     }
     // end added by fazal
-    // 
+
     /********* Get Contacts By The Rule ***********/
     if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing'  || userRole() == 'ceo'){ //Updated by Javed
 

@@ -35,12 +35,12 @@ class PropertyXmlController extends Controller
     if($last_updated_from = $request->get('last_updated_from')){
       $properties = Property::with(['agent','category','images'])
       ->where('status',1)
-      ->where('status','>=',$last_updated_from)
+      ->where('last_updated','>=',$last_updated_from)
       ->whereIn('user_id',$usersIds)
-      ->orderBy('updated_at','desc')
+      ->orderBy('last_updated','desc')
       ->paginate(20);
     }else{
-      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->orderBy('updated_at','desc')->paginate(20);
+      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->orderBy('last_updated','desc')->paginate(20);
     }
     //header('Content-Type: text/xml');
     header('Content-Type: text/json');
@@ -106,6 +106,8 @@ class PropertyXmlController extends Controller
       
 
       $xml['dubai'][$k]['property_id']=$property->id;
+      $xml['dubai'][$k]['updated_at']=$property->last_updated;
+      $xml['dubai'][$k]['created_at']=$property->created_at;
 
       if($property->crm_id){
         $tempArray['crm_id'] = $property->crm_id;
@@ -309,6 +311,7 @@ class PropertyXmlController extends Controller
       $tempArray['longitude'] = trim($property->longitude);        
       $tempArray['created_at'] = trim($property->created_at);        
       $tempArray['last_updated'] = trim($property->last_updated);        
+      $tempArray['updated_at'] = trim($property->updated_at);        
       $tempArray['area_name'] = trim($property->area_name);        
       $tempArray['project_name'] = trim($property->project_name);
       $tempArray['next_available'] = trim($property->next_available);   
@@ -381,12 +384,12 @@ class PropertyXmlController extends Controller
     if($last_updated_from = $request->get('last_updated_from')){
       $properties = Property::with(['agent','category','images'])
       ->where('status',1)
-      ->where('status','>=',$last_updated_from)
+      ->where('last_updated','>=',$last_updated_from)
       ->whereIn('user_id',$usersIds)
-      ->orderBy('updated_at','desc')
+      ->orderBy('last_updated','desc')
       ->paginate(20);
     }else{
-      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->orderBy('updated_at','desc')->paginate(20);
+      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->orderBy('last_updated','desc')->paginate(20);
     }
 
     $i = 1;
@@ -458,6 +461,8 @@ class PropertyXmlController extends Controller
       
 
       $xml['saudi'][$k]['property_id']=$property->id;
+      $xml['saudi'][$k]['updated_at']=$property->last_updated;
+      $xml['saudi'][$k]['created_at']=$property->created_at;
 
       if($property->crm_id){
         $tempArray['crm_id'] = $property->crm_id;
