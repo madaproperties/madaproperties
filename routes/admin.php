@@ -27,6 +27,7 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
         Route::get('dashboard','MainController@statics')->name('statics');
         // added by fazal 06-04
          Route::resource('mada_board','MadaboardController');
+         Route::post('accounts/getDetailsByAjax','AccountsController@getDetailsByAjax')->name('accounts.getDetailsByAjax');
       });
       /********* End Mnager Only ***************************/
       Route::resource('contact','ContactController');

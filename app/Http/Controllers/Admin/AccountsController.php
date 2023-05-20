@@ -204,4 +204,40 @@ class AccountsController extends Controller
         addHistory('User',$id,'deleted');        
         return back()->withSuccess(__('site.success'));
     }
+
+    public function getDetailsByAjax(Request $request){
+        $user=User::findOrFail($request->get('id'));
+        $countries = Country::orderBy('name_en')->get();
+        $collectCounties = [];
+        $collectCounties = collect($collectCounties);
+        foreach($countries as $index => $country) {
+            if(in_array($country->name_en,toCountriess()) ) {
+                $collectCounties->push($country);
+            }
+        }
+        $countries = $countries->filter(function($item) {
+          return !in_array($item->name_en,toCountriess());
+        });
+        foreach($collectCounties as $topCountry) {
+            $countries->prepend($topCountry);
+        }        
+
+        $leaders = User::whereIn('rule',['leader','sales director'])->where('active','1')->get();
+
+        $reraUsers = User::where('active','1')->where('is_rera_active','1')->get();
+
+        $positions = ['rent','buy','sell','management','handover'];
+        $roles = Role::pluck('name','name')->all();
+
+        return view('admin.accounts.viewModal',[
+            'user' => $user,
+            'leaders' => $leaders,
+            'positions' => $positions,
+            'roles' => $roles,
+            'countries' => $countries,
+            'reraUsers' => $reraUsers
+          ]);
+    }  
+    
+    
 }

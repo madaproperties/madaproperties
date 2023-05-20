@@ -38,9 +38,9 @@ class PropertyXmlController extends Controller
       ->where('last_updated','>=',$last_updated_from)
       ->whereIn('user_id',$usersIds)
       ->orderBy('last_updated','desc')
-      ->paginate(20);
+      ->get();
     }else{
-      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->orderBy('last_updated','desc')->paginate(20);
+      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->orderBy('last_updated','desc')->get();
     }
     //header('Content-Type: text/xml');
     header('Content-Type: text/json');
@@ -131,12 +131,15 @@ class PropertyXmlController extends Controller
       $xml['dubai'][$k]['price_on_application']=($property->price_on_application == 1 ? 'Yes' : 'No' );
       
       
-      if($property->yprice){
-        $xml['dubai'][$k]['price']['yearly']=$property->yprice;
-      }
-      if($property->mprice){
-        $xml['dubai'][$k]['price']['monthly']=$property->mprice;
-      }
+      $xml['dubai'][$k]['price']['sale_price']=$property->price ? $property->price : 0;
+      //if($property->yprice){
+        $xml['dubai'][$k]['price']['yearly']=$property->yprice ? $property->yprice : 0;
+        // }
+        // if($property->mprice){
+          $xml['dubai'][$k]['price']['monthly']=$property->mprice ? $property->mprice : 0;
+          $xml['dubai'][$k]['price']['weekly']=$property->wprice ? $property->wprice : 0;
+          $xml['dubai'][$k]['price']['daily']=$property->dprice ? $property->dprice : 0;
+      //}
       // if($property->price && $property->mprice ==0 && $property->yprice == 0){
       //   $xml['dubai'][$k]['price']=$property->price;
       // }
@@ -144,6 +147,8 @@ class PropertyXmlController extends Controller
       $tempArray['price'] = $property->price;
       $tempArray['yprice'] = $property->yprice;
       $tempArray['mprice'] = $property->mprice;
+      $tempArray['wprice'] = $property->wprice;
+      $tempArray['dprice'] = $property->dprice;
 
       $xml['dubai'][$k]['title']=$property->title;
       $xml['dubai'][$k]['title_ar']=$property->title_ar;
@@ -291,10 +296,10 @@ class PropertyXmlController extends Controller
       $xml['dubai'][$k]['nearest_facilities']=$property->nearest_facilities;
 
       $x=0;
-      if($property->geopoints){
         $tempArray['geopoints'] = $property->geopoints;        
         $xml['dubai'][$k]['geopoints']=$property->geopoints;
-      }
+      $xml['dubai'][$k]['latitude']=$property->latitude;
+      $xml['dubai'][$k]['longitude']=$property->longitude;
       $tempArray['id'] = trim($property->id);        
       $tempArray['status'] = trim($property->status);        
       $tempArray['property_type'] = trim($property->property_type);        
@@ -387,9 +392,9 @@ class PropertyXmlController extends Controller
       ->where('last_updated','>=',$last_updated_from)
       ->whereIn('user_id',$usersIds)
       ->orderBy('last_updated','desc')
-      ->paginate(20);
+      ->get();
     }else{
-      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->orderBy('last_updated','desc')->paginate(20);
+      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->orderBy('last_updated','desc')->get();
     }
 
     $i = 1;
@@ -486,20 +491,21 @@ class PropertyXmlController extends Controller
       $xml['saudi'][$k]['price_on_application']=($property->price_on_application == 1 ? 'Yes' : 'No' );
       
       
-      $xml['saudi'][$k]['price']=$property->price;
-      if($property->yprice){
-        $xml['saudi'][$k]['price']=$property->yprice;
-      }
-      if($property->mprice){
-        $xml['saudi'][$k]['price']=$property->mprice;
-      }
-      // if($property->price && $property->mprice ==0 && $property->yprice == 0){
-      //   $xml['saudi'][$k]['price']=$property->price;
+      $xml['saudi'][$k]['price']['sale_price']=$property->price ? $property->price : 0;
+      //if($property->yprice){
+        $xml['saudi'][$k]['price']['yearly']=$property->yprice ? $property->yprice : 0;
       // }
+      // if($property->mprice){
+        $xml['saudi'][$k]['price']['monthly']=$property->mprice ? $property->mprice : 0;
+        $xml['saudi'][$k]['price']['weekly']=$property->wprice ? $property->wprice : 0;
+        $xml['saudi'][$k]['price']['daily']=$property->dprice ? $property->dprice : 0;
+      //}
 
-      //$tempArray['price'] = $property->price;
+      $tempArray['price'] = $property->price;
       $tempArray['yprice'] = $property->yprice;
       $tempArray['mprice'] = $property->mprice;
+      $tempArray['wprice'] = $property->wprice;
+      $tempArray['dprice'] = $property->dprice;
 
 
       $xml['saudi'][$k]['title']=$property->title;
@@ -621,10 +627,11 @@ class PropertyXmlController extends Controller
 
       $x=0;
       $photos="";
-      if($property->geopoints){
         $tempArray['geopoints'] = $property->geopoints;        
         $xml['saudi'][$k]['geopoints']=$property->geopoints;
-      }
+      $xml['saudi'][$k]['latitude']=$property->latitude;
+      $xml['saudi'][$k]['longitude']=$property->longitude;
+
       if($property->zone){
         $xml['saudi'][$k]['zone']=$property->zone->zone_name;
       }
