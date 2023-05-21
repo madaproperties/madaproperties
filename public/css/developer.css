@@ -99,3 +99,9 @@ div.span,label,h3,button,a, .menu-text, .dropdown-menu{
 	position: absolute !important;
 	background-color: #fff;
 }
+#last_update_from .dropdown-menu, #last_update_to .dropdown-menu{
+	top:inherit !important;
+	left:inherit !important;
+	position: absolute;
+  }
+  

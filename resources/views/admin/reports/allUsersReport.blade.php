@@ -24,6 +24,11 @@
 								$from = date('Y-m-d 00:00:00', strtotime(Request('from')));
 								$to = date('Y-m-d 23:59:59', strtotime(Request('to')));
 							}
+							
+							if(!empty(Request('last_update_from')) && !empty(Request('last_update_to'))){
+								$last_update_from = date('Y-m-d 00:00:00', strtotime(Request('last_update_from')));
+								$last_update_to = date('Y-m-d 23:59:59', strtotime(Request('last_update_to')));
+							}
 						@endphp
 
 						@foreach($userReport as $rs)
@@ -34,11 +39,14 @@
 								<th>{{$rs->name}}</th>
 								@foreach($status as $state)
 								<th scope="row">
-									<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id={{$state->id}}&from={{Request('from')}}&to={{Request('to')}}&project_id={{Request('project_id')}}&country_id={{Request('country_id')}}">
+									<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id={{$state->id}}&from={{Request('from')}}&to={{Request('to')}}&project_id={{Request('project_id')}}&country_id={{Request('country_id')}}&last_update_from={{Request('last_update_from')}}&last_update_to={{Request('last_update_to')}}">
 										@php
 										$leadTotal = App\Contact::where('status_id',$state->id)->where('user_id',$rs->id);
 										if(!empty(Request('from')) && !empty(Request('to'))){
 											$leadTotal = $leadTotal->whereBetween('created_at',[ $from,$to ]);
+										}
+										if(!empty(Request('last_update_from')) && !empty(Request('last_update_to'))){
+											$leadTotal = $leadTotal->whereBetween('updated_at',[ $last_update_from,$last_update_to ]);
 										}
 										if(!empty(Request('country_id'))){
 											$leadTotal = $leadTotal->where('country_id',Request('country_id'));
