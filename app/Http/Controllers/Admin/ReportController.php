@@ -155,7 +155,7 @@ class ReportController extends Controller
 	public function reportCampaingAnalytics(){ // reportCampaingAnalytics
 
 		if(Request('type') AND request('type') == 'campaing-analytics'){   
-			$campaings = Campaing::where('active','1')->paginate(10);
+			$campaings = Campaing::where('active','1')->get();
 			$status = Status::where('active','1')->orderBy('weight','ASC')->get();
 			if(userRole() == 'leader'){
 				$users = User::select('id','leader')->where('leader',auth()->id())->orWhere('id', auth()->id())->get();
@@ -164,14 +164,14 @@ class ReportController extends Controller
 				$users = [];
 			}
 
-			// foreach($campaings as $c){
-			// 	$c->leadsCount = Contact::where('campaign','LIKE','%'.$c->name.'%')->count();
-			// 	$c->cpl = !$c->leadsCount  ? 0 : $c->cost / $c->leadsCount;
-			// 	$closedStatus = Status::where('name_en','Closed')->first();
-			// 	$c->conversion = Contact::where('status_id',$closedStatus->id)->where('campaign',$c->name)->count();
-			// 	if($c->conversion > 0)
-			// 	$c->cpc  = !$c->cpl ? 0 : $c->cost / $c->conversion;
-			// }
+			foreach($campaings as $c){
+				$c->leadsCount = Contact::where('campaign','LIKE','%'.$c->name.'%')->count();
+				$c->cpl = !$c->leadsCount  ? 0 : $c->cost / $c->leadsCount;
+				$closedStatus = Status::where('name_en','Closed')->first();
+				$c->conversion = Contact::where('status_id',$closedStatus->id)->where('campaign',$c->name)->count();
+				if($c->conversion > 0)
+				$c->cpc  = !$c->cpl ? 0 : $c->cost / $c->conversion;
+			}
 			return view('admin.reports.index',[
 					 'campaings' =>  $campaings,
 					 'status' =>  $status,
@@ -195,7 +195,7 @@ class ReportController extends Controller
 		$userReport = [];
 		$two_week_report = [];
 		$leader=0;
-		if(userRole()!='sales director' && request('users_id') && request()->has('from') && request()->has('to')){
+		if(userRole()!='sales director' && request('users_id') && ((request()->has('from') && request()->has('to')) || (request()->has('last_update_from') && request()->has('last_update_to')))){
 		  $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
 			$to = date('Y-m-d 23:59:59', strtotime(Request('to')));
 
@@ -390,7 +390,7 @@ class ReportController extends Controller
      { 
 
        $country_id=$request->get('country_id');
-       $data['project']=Project::where('country_id',$country_id)->get();
+       $data['project']=Project::where('country_id',$country_id)->orderBy('name_en','asc')->get();
 
        if($country_id==1)
        {
@@ -673,5 +673,11 @@ class ReportController extends Controller
 	  addHistory('Campain Report',$id,'deleted');
 	  return back()->withSuccess(__('site.success'));
 	}
-  
+	// added by fazal on 24-05-23
+	public function fetchCampaign(Request $request)
+	{
+   		$data['campaign']=Campaing::where('project_id',$request->get('project_id'))->get();
+		return response()->json($data); 
+	}
+
 }

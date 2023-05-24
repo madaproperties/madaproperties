@@ -177,9 +177,24 @@
 
   								   </div>
   								   <div class="row">
+                                    <!-- added by fazl -->
+                                    <div class="col-md-6 col-sm--12">
+                                      <div class="form-group ">
+                                         <label class="">{{ __('site.campaign') }}</label>
+                                         <div class="">
+                                           <div class="input-group input-group-solid to-date-el" data-target-input="nearest">
+                                           <select class="form-control" id="campaign_id" name="campaign_id">
+
+                                            
+                                           </select>
+                                           </div>
+                                         </div>
+                                       </div>
+                                    </div>
+                                    <!-- end -->
   								   <div class="col-md-6 col-sm--12">
   					                  <div class="form-group ">
-  					                     <label class="">{{ __('site.Leaders') }}</label>
+  					                     <label class="">{{ __('site.leaders') }}</label>
   					                     <div class="">
   					                       <div class="input-group input-group-solid to-date-el" data-target-input="nearest">
   					                       <select class="form-control" id="leader" name="leader_id">
@@ -236,7 +251,7 @@
   								   
   								   <div class="col-md-6 col-sm--12">
   					                  <div class="form-group ">
-  					                     <label class="">{{ __('site.Leaders') }}</label>
+  					                     <label class="">{{ __('site.leaders') }}</label>
   					                     <div class="">
   					                       <div class="input-group input-group-solid to-date-el"  data-target-input="nearest">
   					                       <select class="form-control" id="leader" name="leader_id" >
@@ -292,7 +307,7 @@
   								   
   								   <div class="col-md-6 col-sm--12">
   					                  <div class="form-group ">
-  					                     <label class="">{{ __('site.Leaders') }}</label>
+  					                     <label class="">{{ __('site.leaders') }}</label>
   					                     <div class="">
   					                       <div class="input-group input-group-solid to-date-el" data-target-input="nearest">
   					                       <select class="form-control" id="leader" name="leader_id" >
@@ -346,7 +361,7 @@
   								   
   								   <div class="col-md-6 col-sm--12">
   					                  <div class="form-group ">
-  					                     <label class="">{{ __('site.Leaders') }}</label>
+  					                     <label class="">{{ __('site.leaders') }}</label>
   					                     <div class="">
   					                       <div class="input-group input-group-solid to-date-el" data-target-input="nearest">
   					                       <select class="form-control" id="leader" name="leader_id" >
@@ -439,6 +454,7 @@
   					                </div>
 
   								   </div>
+  								   
   								   <div class="row">
   								   	<div class="col-md-6 col-sm--12">
   					                  <div class="form-group ">
@@ -480,6 +496,7 @@
   					                </div>
 
   								   </div>
+  								   
 
   							   		<button type="submit" class="btn btn-primary mr-2">{{__('site.Search')}}</button>
   								  </div>
@@ -496,7 +513,7 @@
   					        @include('admin.reports.allLeaderUser')
 
   					        
-							@elseif(userRole()=='sales' || (request()->has('from') && request()->has('to')))
+							@elseif(userRole()=='sales' || ((request()->has('from') && request()->has('to')) || (request()->has('last_update_from') && request()->has('last_update_to'))))
   							<!--start: Datatable-->
   							
   						<div class="card-body" style="background:#fff;margin:10px 0">
@@ -521,27 +538,45 @@
   												 <tbody>
   													 <tr>
 														 @php 			
-														 $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
+	  													$from = date('Y-m-d 00:00:00', strtotime(Request('from')));
 															$to = date('Y-m-d 23:59:59', strtotime(Request('to')));
 															$finalTotal = 0;
+															$last_update_from = date('Y-m-d 00:00:00', strtotime(Request('last_update_from')));
+															$last_update_to = date('Y-m-d 23:59:59', strtotime(Request('last_update_to')));
 															@endphp
   														 @foreach($status as $state)
    															<th scope="row">
-  																<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$user->id}}&status_id={{$state->id}}&from={{Request('from')}}&to={{Request('to')}}">
-																		@php
-																		$totalLead = App\Contact::where('status_id',$state->id)
-																			->where('user_id',$user->id)
-																			->whereBetween('created_at',[ $from,$to ])
-																			->count();
-																		$finalTotal += $totalLead;
-																		@endphp
-																		{{ $totalLead }}
+  																<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$user->id}}&status_id={{$state->id}}&from={{Request('from')}}&to={{Request('to')}}&project_id={{Request('project_id')}}&campaign_id={{Request('campaign_id')}}&country_id={{Request('country_id')}}&last_update_from={{Request('last_update_from')}}&last_update_to={{Request('last_update_to')}}">
+																	@php
+																	$totalLead = App\Contact::where('status_id',$state->id)->where('user_id',$user->id);
+																	if(!empty(Request('from')) && !empty(Request('to'))){
+																		$totalLead = $totalLead->whereBetween('created_at',[ $from,$to ]);
+																	}
+																	if(!empty(Request('last_update_from')) && !empty( Request('last_update_to'))){
+																		$totalLead = $totalLead->whereBetween('updated_at',[ $last_update_from,$last_update_to ]);
+																	}        
+
+																	if(!empty(Request('country_id'))){
+																		$totalLead = $totalLead->where('unit_country',Request('country_id'));
+																	}
+																	if(!empty(Request('project_id'))){
+																		$totalLead = $totalLead->where('project_id',Request('project_id'));
+																	}
+																	if(!empty(Request('campaign_id'))){
+																		$totalLead = $totalLead->where('campaign',Request('campaign_id'));
+																	}  
+
+																	$totalLead = $totalLead->count();
+																	$finalTotal += $totalLead;
+																	@endphp
+																	{{ $totalLead }}
   																</a>
   															</th>
    														@endforeach
 															 <th>
-																<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$user->id}}&status_id=&from={{Request('from')}}&to={{Request('to')}}">
+																<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$user->id}}&status_id=&from={{Request('from')}}&to={{Request('to')}}&project_id={{Request('project_id')}}&campaign_id={{Request('campaign_id')}}&country_id={{Request('country_id')}}&last_update_from={{Request('last_update_from')}}&last_update_to={{Request('last_update_to')}}">
 																{{$finalTotal}}
+																</a>
 															</th>
   													 </tr>
   													</tbody>
@@ -903,7 +938,31 @@
                 });
             });
         // 
+         // 
+          $('#project').on('change', function () {
+                var project_id = this.value;
 
+                $.ajax({
+                    url: "{{url('fetch-campaign')}}",
+                    type: "POST",
+                    data: {
+                       project_id : project_id,
+                        _token: '{{csrf_token()}}'
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                        $('#campaign_id').html('<option value="">choose</option>');
+
+                        $.each(result.campaign, function (key, value) {
+                            $("#campaign_id").append('<option value="' + value
+                                .name + '">' + value.name + '</option>');
+                        });
+                        
+                       
+                        
+                    }
+                });
+            });
 
            });
 

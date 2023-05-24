@@ -39,8 +39,9 @@
 								<th>{{$rs->name}}</th>
 								@foreach($status as $state)
 								<th scope="row">
-									<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id={{$state->id}}&from={{Request('from')}}&to={{Request('to')}}&project_id={{Request('project_id')}}&country_id={{Request('country_id')}}&last_update_from={{Request('last_update_from')}}&last_update_to={{Request('last_update_to')}}">
+									<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id={{$state->id}}&from={{Request('from')}}&to={{Request('to')}}&project_id={{Request('project_id')}}&campaign_id={{Request('campaign_id')}}&country_id={{Request('country_id')}}&last_update_from={{Request('last_update_from')}}&last_update_to={{Request('last_update_to')}}">
 										@php
+
 										$leadTotal = App\Contact::where('status_id',$state->id)->where('user_id',$rs->id);
 										if(!empty(Request('from')) && !empty(Request('to'))){
 											$leadTotal = $leadTotal->whereBetween('created_at',[ $from,$to ]);
@@ -49,11 +50,14 @@
 											$leadTotal = $leadTotal->whereBetween('updated_at',[ $last_update_from,$last_update_to ]);
 										}
 										if(!empty(Request('country_id'))){
-											$leadTotal = $leadTotal->where('country_id',Request('country_id'));
-										}										
+											$leadTotal = $leadTotal->where('unit_country',Request('country_id'));
+										}
 										if(!empty(Request('project_id'))){
 											$leadTotal = $leadTotal->where('project_id',Request('project_id'));
-										}										
+										}
+										if(!empty(Request('campaign_id'))){
+											$leadTotal = $leadTotal->where('campaign',Request('campaign_id'));
+										}	
 										if(userRole() == 'sales director'){
 											$leadTotal = $leadTotal->whereHas('project', function($q2) {
 												$q2->where('projects.country_id',getSalesDirectorCountryId());
@@ -67,7 +71,7 @@
 								</th>
 								@endforeach
 								<th>
-									<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id=&from={{Request('from')}}&to={{Request('to')}}&project_id={{Request('project_id')}}&country_id={{Request('country_id')}}">
+									<a href="{{route('admin.home')}}?ADVANCED=search&user_id={{$rs->id}}&status_id=&from={{Request('from')}}&to={{Request('to')}}&project_id={{Request('project_id')}}&campaign_id={{Request('campaign_id')}}&country_id={{Request('country_id')}}&last_update_from={{Request('last_update_from')}}&last_update_to={{Request('last_update_to')}}">
 									{{$finalTotal}}
 								</th>
 							</tr>

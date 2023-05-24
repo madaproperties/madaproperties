@@ -199,9 +199,12 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::get('employee/employeeleave','EmployeeController@update')->name('employee.leaveshow');
       Route::get('hr/notification','EmployeeController@Notification')->name('hr.notification');
       Route::post('change-status', 'EmployeeController@changeStatus')->name('change-status');
-        Route::get('exportEmployeeRecords','EmployeeController@exportEmployeeData')->name('employee.exportRecords');
-         Route::post('emp-import-data','EmployeeController@import')->name('emp-importData');
+      Route::get('exportEmployeeRecords','EmployeeController@exportEmployeeData')->name('employee.exportRecords');
+      Route::post('emp-import-data','EmployeeController@import')->name('emp-importData');
 
+      //Added by fazal 24-05-23
+      Route::post('fetch-campaign', 'ReportController@fetchCampaign')->name('fetch-campaign');
+      //End      
 });
 
 
