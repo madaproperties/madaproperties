@@ -337,9 +337,11 @@ class ReportController extends Controller
 		    if($userdetail->time_zone=='Asia/Riyadh'){
 				$leaders= $leaders->where('time_zone','Asia/Riyadh');
 				$projects=Project::where('country_id',1)->get();
+				$campaigns=Campaing::get();
         	}else{
 				$leaders= $leaders->where('time_zone','Asia/Dubai');
 				$projects=Project::where('country_id',2)->get();
+				$campaigns=Campaing::get();
         	}
 			$leaders = $leaders->orWhere(function($q2){
 				$q2->where('id',auth()->id());
@@ -347,9 +349,11 @@ class ReportController extends Controller
         }elseif(userRole()=='sales admin saudi'){
             $leaders=User::where('active','1')->whereIn('rule',['leader','sales director'])->where('time_zone','Asia/Riyadh')->get();
         	$projects=Project::where('country_id',1)->get();
+        	$campaigns=Campaing::get();
         }elseif(userRole()=='sales admin uae'){
          	$leaders=User::where('active','1')->whereIn('rule',['leader','sales director'])->where('time_zone','Asia/Dubai')->get();
         	$projects=Project::where('country_id',2)->get();
+        	$campaigns=Campaing::get();
         }else{
 			if(request('country_id') == 1){
 				$leaders=User::where('active','1')->whereIn('rule',['leader','sales director'])->where('time_zone','Asia/Riyadh')->select('id','email')->get();
@@ -357,9 +361,11 @@ class ReportController extends Controller
 			}else if(request('country_id') == 2){
 				$leaders=User::where('active','1')->whereIn('rule',['leader','sales director'])->where('time_zone','Asia/Dubai')->select('id','email')->get();
 				$projects=Project::where('country_id',request('country_id'))->get();
+				$campaigns=Campaing::get();
 			}else{
 				$leaders=User::where('active','1')->whereIn('rule',['leader','sales director'])->select('id','email')->get();
 				$projects=Project::where('country_id',request('country_id'))->get();
+				$campaigns=Campaing::get();
 			}
 	
 	
@@ -383,6 +389,7 @@ class ReportController extends Controller
 			'leader'=>$leader,
 			'leaders'=>$leaders,
 			'projects'=>$projects,
+			'campaigns'=>$campaigns,
 		]);
 	}
 	// added by fazal

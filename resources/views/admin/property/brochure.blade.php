@@ -182,7 +182,7 @@ ul li{
     </head>
     <body>
         <main id="section-to-print">
-            <table width="800" cellpadding="0" cellspacing="0" border="0" align="center" style="background-color:#FFFFFF">
+            <table width="800" cellpadding="0" cellspacing="0" border="0" align="center" style="background-color:#000000">
 				<tr>
 					<td height="40"></td>
 				</tr>
@@ -190,7 +190,7 @@ ul li{
 					<td height="30">
 						<table cellpadding="0" cellspacing="0" border="0"  width="800">
 							<tr>
-								<td><img class="logo" src="{{ asset('public/imgs/logo.png') }}"/></td>
+								<td><img class="logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}"/></td>
 							</tr>
 							<tr>
 								<td align="center" style="font-size:22px;word-spacing:0px;letter-spacing: 0px; font-family: inherit;font-weight:bold; color:#000;">{{$property->title}}</td>
@@ -206,25 +206,12 @@ ul li{
 						<table cellpadding="0" cellspacing="0" border="0"  width="800">
 							<tr>
 								<td width="7">&nbsp;</td>
-	  							@if(isset($property->images[0]->images_link))
-								<td  width="530" height="339" valign="top">
-									<!-- <img src="{{asset('public/uploads/property/'.$property->id.'/images/'.$property->images[0]->images_link) }}"  width="530" height="340"/> -->
-									<img src="{{asset('public/uploads/property/'.$property->id.'/images/'.$property->images[0]->images_link) }}"  width="530" height="340"/> 
-									
-								</td>
-								@endif
-				
 								<td width="7">&nbsp;</td>
-								<td  bgcolor="#444" valign="top"  height="260" style="background-color:#444 !important; color: #FFF;">
-									<table width="254" height="60" border="0" cellpadding="0" cellspacing="0" style="line-height:17px;text-align:left;" id="feat_table">
+								<td valign="top"  height="260" style="color: #FFF;">
+									<table width="454" height="60" border="0" cellpadding="0" cellspacing="0" style="line-height:17px;text-align:left;" id="feat_table">
 										<tr>
 											<td width="47" height="47">&nbsp;</td>
 											<td width="182" >&nbsp;</td>
-											<td width="47">&nbsp;</td>
-										</tr>
-										<tr>
-											<td width="47">&nbsp;</td>
-											<td  style="font-size:18px; font-family: Arial, Helvetica, sans-serif; font-weight:bold; color:#FFF;" valign="top">Highlights</td>
 											<td width="47">&nbsp;</td>
 										</tr>
 										<tr>
@@ -263,7 +250,16 @@ ul li{
 										</tr>
 									</table>
 								</td>
-								<td width="7">&nbsp;</td>
+								@if(isset($property->images[0]->images_link))
+								<td width="230" height="339" valign="top">
+									<!-- <img src="{{asset('public/uploads/property/'.$property->id.'/images/'.$property->images[0]->images_link) }}"  width="530" height="340"/> -->
+									       
+									<img src="{{s3AssetUrl('uploads/property/'.$property->id.'/images/'.$property->images[0]->images_link) }}"  width="330" height="340"/>
+									<!--<img src="{{asset('public/uploads/property/'.$property->id.'/images/'.$property->images[0]->images_link) }}"  width="530" height="340"/> -->
+									
+								</td>
+								@endif
+								<td width="27">&nbsp;</td>
 							</tr>
 						</table>
 					</td>
@@ -274,15 +270,15 @@ ul li{
 						<table cellpadding="0" cellspacing="0" border="0"  width="800">
 						@php($i=0)
 						@if(count($property->images) > 0)
-							@foreach($property->images->take(6) as $rs)
-								@if(!empty($rs->temp_image))
+							@foreach($property->images->take(3) as $rs)
 									@php($i++)
 									@if($i==1)
 									<tr>
 									@endif
 										<!-- <td width="262"><img src="{{asset('public/uploads/property/'.$property->id.'/images/'.$rs->images_link) }}" width="262" height="169"/></td>-->
 										<td width="4">&nbsp;</td>
-										<td><img src="{{asset('public/uploads/property/'.$property->id.'/images/'.$rs->images_link) }}" width="250" height="169"/></td>
+										<td><img src="{{s3AssetUrl('uploads/property/'.$property->id.'/images/'.$rs->images_link) }}"  width="250" height="169"/></td>
+										<!--<td><img src="{{asset('public/uploads/property/'.$property->id.'/images/'.$rs->images_link) }}" width="250" height="169"/></td>-->
 										<td width="4">&nbsp;</td>
 
 									@if($i==3)
@@ -292,7 +288,6 @@ ul li{
 										<td height="2">&nbsp;</td>
 									</tr>
 									@endif
-								@endif
 							@endforeach
 						@endif
 						</table>
@@ -300,24 +295,76 @@ ul li{
 				</tr>
 
 				<tr>
-					<td>
-						<table cellpadding="0" cellspacing="0" border="0"  width="800" style="text-align: left;">
+					<td valign="top">
+						<table cellpadding="0" cellspacing="0" border="0"  width="800">
 							<tr>
 								<td width="7">&nbsp;</td>
-								<td>{!! $property->description !!}</td>
+	  							@if(isset($property->images[0]->images_link))
+								<td  width="530" height="339" valign="top">
+									<!-- <img src="{{asset('public/uploads/property/'.$property->id.'/images/'.$property->images[0]->images_link) }}"  width="530" height="340"/> -->
+									       
+									<img src="{{s3AssetUrl('uploads/property/'.$property->id.'/images/'.$property->images[0]->images_link) }}"  width="530" height="340"/>
+									<!--<img src="{{asset('public/uploads/property/'.$property->id.'/images/'.$property->images[0]->images_link) }}"  width="530" height="340"/> -->
+									
+								</td>
+								@endif
+								<td width="7">&nbsp;</td>
 								<td width="7">&nbsp;</td>
 							</tr>
 						</table>
 					</td>
 				</tr>
+
+				<tr>
+					<td>
+						<table cellpadding="0" cellspacing="0" border="0"  width="800" style="background-color:#ffffff;margin-top:10px">
+							<tr>
+								<td colspan="3"><h1>{!! $property->title !!}</h1></td>
+							</tr>
+							<tr>
+								<td width="20"></td>
+								<td style="text-align: left;">{!! $property->description !!}</td>
+								<td width="20">&nbsp;</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				@if($property->floorPlans && count($property->floorPlans))
+				<tr>
+					<td>
+						<table cellpadding="0" cellspacing="0" border="0"  width="800" style="background-color:#ffffff">
+							<tr>
+								<td colspan="3"><h1>FLOOR PLANS</h1></td>
+							</tr>
+							@foreach($property->floorPlans as $image)
+									@php($i++)
+									@if($i==1)
+									<tr>
+									@endif
+										<td width="4">&nbsp;</td>
+										<td><img src="{{s3AssetUrl('uploads/property/'.$property->id.'/floor_plan/'.$image->document_link) }}"  width="250" height="169"/></td>
+										<td width="4">&nbsp;</td>
+
+									@if($i==3)
+									@php($i=0)
+									</tr>
+									<tr>
+										<td height="2">&nbsp;</td>
+									</tr>
+									@endif
+							@endforeach
+						</table>
+					</td>
+				</tr>
+				@endif							
 				<tr>
 				<td>
-				<table cellpadding="0" cellspacing="0" border="0"  width="800">
+				<table cellpadding="0" cellspacing="0" border="0"  width="800" style="background-color:#ffffff">
 				
 						<tbody>
 					<tr>
 					<td>
-					<table style="margin-top:20px;width:100%;">
+					<table style="margin-top:20px;width:100%;background-color:#ffffff">
 						
 							<tbody><tr>
 							<td style="font-size: 16px;color: #9FCE31;font-weight: bold;"><img src="https://lmsstaging.madaproperties.com/public/imgs/KSAflag.png" width="50" style="  padding-right: 10px;">Riyadh</td>

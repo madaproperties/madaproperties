@@ -184,7 +184,14 @@
                                          <div class="">
                                            <div class="input-group input-group-solid to-date-el" data-target-input="nearest">
                                            <select class="form-control" id="campaign_id" name="campaign_id">
+                                           <option value="">Choose</option>
+                                           @foreach($campaigns as $campaign)
+                                           
+                                            <option {{request('campaign_id') == $campaign->name ? 'selected' : ''}}
+                                        value="{{$campaign->name}}" data-select2-id="{{$campaign->name}}">{{$campaign->name}}</option>
+                                      
 
+                                            @endforeach
                                             
                                            </select>
                                            </div>

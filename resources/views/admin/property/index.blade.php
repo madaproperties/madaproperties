@@ -126,7 +126,7 @@
 									<td>
 										<span>{{__('config.status.'.$property->status)}}</span>
 										<p><b>Price : {{$property->price ? $property->price : $property->yprice}}</b></p>
-										{{$property->bedrooms}}
+			
 									</td>
 									<td>
 										<span>{{$property->title}}</span>
