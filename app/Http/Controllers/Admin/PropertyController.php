@@ -766,7 +766,7 @@ class PropertyController extends Controller
     $property = Property::findOrFail($id);
 
     //dd($property->images[0]->images_link);
-    return view('admin.property.brochure',compact('property'));
+    return view('admin.property.new_brochure',compact('property'));
 
   }
 

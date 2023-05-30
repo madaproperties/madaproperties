@@ -194,7 +194,7 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
        Route::post('property.imgreorder', 'PropertyController@imgReorder')->name('property.imgreorder'); 
        Route::resource('bookings','BookingsController');
        // added by fazal 29-03
-       Route::get('employee/employeedetails/{employee_id}','EmployeeController@employeeDetails')->name('employee.empdetails');
+      Route::get('employee/employeedetails/{employee_id}','EmployeeController@employeeDetails')->name('employee.empdetails');
       
       Route::get('employee/employeeleave','EmployeeController@update')->name('employee.leaveshow');
       Route::get('hr/notification','EmployeeController@Notification')->name('hr.notification');
