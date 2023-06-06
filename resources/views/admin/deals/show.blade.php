@@ -376,15 +376,6 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
-
-																</div>
-															</div>
-
-															<div class="col-xl-6">
-																<!--begin::Wizard Step 1-->
-																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-																
-
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mada_commission')}}</label>
@@ -420,6 +411,53 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
+																	<div id="saudi_deal" style="display:{{$deal->unit_country == '1' ? 'block':'none'}}">		
+																	<div class="form-group row fv-plugins-icon-container">
+																		<div class="col-lg-12 col-xl-12">
+																			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#document_uploader">
+																				Add Document Id <i class="fa fa-image"></i> ({{count($deal->documents)}}) 
+																			</button>
+																		</div>
+																	</div>
+																	<div class="form-group row fv-plugins-icon-container">
+																		<div class="col-lg-12 col-xl-12">
+																			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#national_address_uploader">
+																				Add National Address <i class="fa fa-image"></i> ({{count($deal->national_address)}}) 
+																			</button>
+																		</div>
+																	</div>
+																	<div class="form-group row fv-plugins-icon-container">
+																		<div class="col-lg-12 col-xl-12">
+																			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#mada_comission_slip_uploader">
+																				Add Mada Commission Slip <i class="fa fa-image"></i> ({{count($deal->mada_comission_slip)}}) 
+																			</button>
+																		</div>
+																	</div>
+																	<div class="form-group row fv-plugins-icon-container">
+																		<div class="col-lg-12 col-xl-12">
+																			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#down_payment_uploader">
+																				Add Down Payment <i class="fa fa-image"></i> ({{count($deal->down_payments)}}) 
+																			</button>
+																		</div>
+																	</div>
+																	<div class="form-group row fv-plugins-icon-container">
+																		<div class="col-lg-12 col-xl-12">
+																			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#signed_contract_uploader">
+																				Add Signed Contract <i class="fa fa-image"></i> ({{count($deal->signed_contract)}}) 
+																			</button>
+																		</div>
+																	</div>
+																	</div>
+
+
+
+																</div>
+															</div>
+
+															<div class="col-xl-6">
+																<!--begin::Wizard Step 1-->
+																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+																
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container third_party_div">
@@ -505,55 +543,6 @@
 																	<!--end::Group-->
 
 
-																	@if(count($salesDirectors))
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.sales_director')}} </label>
-																		<div class="col-lg-9 col-xl-9">
-																			<select class="form-control"  name="sales_director_id">
-																			<option value="">{{ __('site.choose') }}</option>
-																			@foreach($salesDirectors as $salesDirector)
-																				<option {{$deal->sales_director_id == $salesDirector->id ? 'selected' : ''}} value="{{$salesDirector->id}}">{{$salesDirector->name}}</option>
-																			@endforeach
-																			</select>
-																		</div>
-																	</div>
-																	@endif
-
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.sales_director_commission_percent')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="sales_director_commission_percent" id="sales_director_commission_percent" type="text" value="{{$deal->sales_director_commission_percent}}" placeholder="{{__('site.sales_director_commission_percent')}}" autocomplete="off">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.sales_director_commission_amount')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="sales_director_commission_amount" type="text" value="{{$deal->sales_director_commission_amount}}" id="sales_director_commission_amount" placeholder="{{__('site.sales_director_commission_amount')}}" readonly>
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-form-label">{{__('site.sales_director_commission_received')}}</label>
-																		<div class="col-xl-1 col-2">
-																			<input class="form-control" name="sales_director_commission_received" type="radio" value="no" {{ $deal->sales_director_commission_received == 'no' ? 'checked' : '' }}>
-																		</div>
-																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1 col-2">
-																			<input class="form-control" name="sales_director_commission_received" type="radio" value="yes" {{ $deal->sales_director_commission_received == 'yes' ? 'checked' : '' }}>
-																		</div>
-																		<label class="col-form-label">{{__('site.yes')}}</label>
-																	</div>
-																	<!--end::Group-->
-
 
 																	@if(count($leaders))
 																	<!--begin::Group-->
@@ -604,6 +593,56 @@
 																		<label class="col-form-label">{{__('site.yes')}}</label>
 																	</div>
 																	<!--end::Group-->
+
+																	@if(count($salesDirectors))
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.sales_director')}} </label>
+																		<div class="col-lg-9 col-xl-9">
+																			<select class="form-control"  name="sales_director_id">
+																			<option value="">{{ __('site.choose') }}</option>
+																			@foreach($salesDirectors as $salesDirector)
+																				<option {{$deal->sales_director_id == $salesDirector->id ? 'selected' : ''}} value="{{$salesDirector->id}}">{{$salesDirector->name}}</option>
+																			@endforeach
+																			</select>
+																		</div>
+																	</div>
+																	@endif
+
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.sales_director_commission_percent')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="sales_director_commission_percent" id="sales_director_commission_percent" type="text" value="{{$deal->sales_director_commission_percent}}" placeholder="{{__('site.sales_director_commission_percent')}}" autocomplete="off">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.sales_director_commission_amount')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="sales_director_commission_amount" type="text" value="{{$deal->sales_director_commission_amount}}" id="sales_director_commission_amount" placeholder="{{__('site.sales_director_commission_amount')}}" readonly>
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-form-label">{{__('site.sales_director_commission_received')}}</label>
+																		<div class="col-xl-1 col-2">
+																			<input class="form-control" name="sales_director_commission_received" type="radio" value="no" {{ $deal->sales_director_commission_received == 'no' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.no')}}</label>
+																		<div class="col-xl-1 col-2">
+																			<input class="form-control" name="sales_director_commission_received" type="radio" value="yes" {{ $deal->sales_director_commission_received == 'yes' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.yes')}}</label>
+																	</div>
+																	<!--end::Group-->
+
 
 																	@if(count($sellers))
 																	<!--begin::Group-->
@@ -704,6 +743,55 @@
 																	</div>
 																	<!--end::Group-->
 
+																	@if(count($salesDirectors))
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.sales_director_2')}} </label>
+																		<div class="col-lg-9 col-xl-9">
+																			<select class="form-control"  name="sales_director_2_id">
+																			<option value="">{{ __('site.choose') }}</option>
+																			@foreach($salesDirectors as $salesDirector)
+																				<option {{$deal->sales_director_2_id == $salesDirector->id ? 'selected' : ''}} value="{{$salesDirector->id}}">{{$salesDirector->name}}</option>
+																			@endforeach
+																			</select>
+																		</div>
+																	</div>
+																	@endif
+
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.sales_director_2_commission_percent')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="sales_director_2_commission_percent" id="sales_director_2_commission_percent" type="text" value="{{$deal->sales_director_2_commission_percent}}" placeholder="{{__('site.sales_director_2_commission_percent')}}" autocomplete="off">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.sales_director_2_commission_amount')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="sales_director_2_commission_amount" type="text" value="{{$deal->sales_director_2_commission_amount}}" id="sales_director_2_commission_amount" placeholder="{{__('site.sales_director_2_commission_amount')}}" readonly>
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-form-label">{{__('site.sales_director_2_commission_received')}}</label>
+																		<div class="col-xl-1 col-2">
+																			<input class="form-control" name="sales_director_2_commission_received" type="radio" value="no" {{ $deal->sales_director_2_commission_received == 'no' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.no')}}</label>
+																		<div class="col-xl-1 col-2">
+																			<input class="form-control" name="sales_director_commission_received" type="radio" value="yes" {{ $deal->sales_director_commission_received == 'yes' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.yes')}}</label>
+																	</div>
+																	<!--end::Group-->
+
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
@@ -755,6 +843,12 @@
 	<!--end::Content-->
 </div>
 <!--end::Content-->
+@include('admin.deals.document_uploader')
+@include('admin.deals.national_address_uploader')
+@include('admin.deals.mada_comission_slip_uploader')
+@include('admin.deals.down_payment_uploader')
+@include('admin.deals.signed_contract_uploader')
+
 
 @endsection
 @push('js')
@@ -972,6 +1066,24 @@
 			updateMadaCommission();
 		});
 
+		$("#sales_director_2_commission_percent").on('input keyup keypress blur change',function(){
+			if($(this).val() > 100 || $(this).val() < 0){
+				alert('Sales director 2 commission value should be greater than 0 and less than 100');
+				$("#sales_director_2_commission_percent").focus();
+				$(this).val(0);
+			}
+			if($("#commission_amount").val() < 0){
+				alert('Commission amount should not be 0');
+				$("#commission_amount").focus();
+				$(this).val(0);
+			}
+
+			var comi = $(this).val();
+			var agent_commission_amount = $("#agent2_commission_amount").val();	
+			$("#sales_director_2_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+			updateMadaCommission();
+		});
+
 		$("#vat").on('input keyup keypress blur change',function(){
 			if($(this).val() > 100 || $(this).val() < 0){
 				alert('Vat value should be greater than 0 and less than 100');
@@ -1010,6 +1122,7 @@
 		var agent_leader_commission_amount = parseFloat($("#agent_leader_commission_amount").val());
 		var agent2_leader_commission_amount = parseFloat($("#agent2_leader_commission_amount").val());
 		var sales_director_commission_amount = parseFloat($("#sales_director_commission_amount").val());
+		var sales_director_2_commission_amount = parseFloat($("#sales_director_2_commission_amount").val());
 		var temp_com = 0;
 		if(agent_commission_amount > 0){
 			temp_com += agent_commission_amount;
@@ -1025,6 +1138,9 @@
 		}
 		if(sales_director_commission_amount > 0){
 			temp_com += sales_director_commission_amount;
+		}
+		if(sales_director_2_commission_amount > 0){
+			temp_com += sales_director_2_commission_amount;
 		}
 		if ($('.third_party').is(':checked')) {
 			var third_party_amount = parseFloat($("#third_party_amount").val());
@@ -1107,5 +1223,16 @@
 	getProjects('{{$deal->unit_country}}','{{$deal->project_type}}');
 	$('.prject-area').css('height','auto');
 	$('.prject-area').css('opacity','1');
+
+	$('#unit_country').on('change',function (){
+		let val = $(this).val();
+		if(val == '1'){
+			$('#saudi_deal').css('display','block');
+		}else{
+			$('#saudi_deal').css('display','none');
+		}
+	});
+	
+
 </script>
 @endpush

@@ -212,6 +212,18 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $exportArray[++$i] = $deal->sales_director_commission_received;
         }
 
+        if(in_array('sales_director_2',$select)){
+          $exportArray[++$i] = $deal->salesDirector2 ? $deal->salesDirector2->name : '';
+        }
+        if(in_array('sales_director_2_commission_percent',$select)){
+          $exportArray[++$i] = $deal->sales_director_2_commission_percent;
+        }
+        if(in_array('sales_director_2_commission_amount',$select)){
+          $exportArray[++$i] = $deal->sales_director_2_commission_amount;
+        }
+        if(in_array('sales_director_2_commission_received',$select)){
+          $exportArray[++$i] = $deal->sales_director_2_commission_received;
+        }
 
 
         if(in_array('third_party',$select)){
@@ -252,6 +264,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         $leader = $deal->leader ? $deal->leader->name : '';
         $leader2 = $deal->leaderTwo ? $deal->leaderTwo->name : '';
         $sales_director = $deal->salesDirector ? $deal->salesDirector->name : '';
+        $sales_director_2 = $deal->salesDirector2 ? $deal->salesDirector2->name : '';
         $deal_date = '';
         if(!empty($deal->deal_date)){
           $deal_date = date('d-m-Y',strtotime($deal->deal_date));
@@ -316,6 +329,10 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $deal->sales_director_commission_percent,
           ($deal->sales_director_commission_amount),
           $deal->sales_director_commission_received,
+          $sales_director_2,
+          $deal->sales_director_2_commission_percent,
+          ($deal->sales_director_2_commission_amount),
+          $deal->sales_director_2_commission_received,
           $deal->third_party,
           ($deal->third_party_amount),
           $deal->third_party_commission_received,
@@ -385,6 +402,10 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         __('site.sales_director_commission_percent'),
         __('site.sales_director_commission_amount'),
         __('site.sales_director_commission_received'),
+        __('site.sales_director_2'),
+        __('site.sales_director_2_commission_percent'),
+        __('site.sales_director_2_commission_amount'),
+        __('site.sales_director_2_commission_received'),
           __('site.third_party'),
         __('site.third_party_amount'),
         __('site.third_party_commission_received'),

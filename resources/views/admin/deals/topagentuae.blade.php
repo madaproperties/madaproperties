@@ -183,7 +183,7 @@ text-transform: capitalize;
 <tr>
 <td align="center" valign="top" style="background:none;">
 	@if($emp2)
-<span class="lb_name"><span style="font-size:35px;color:#9FCE31;">2.</span>&nbsp;&nbsp;<span>{{explode(' ',$emp2->username)[0]}}</span> </span><br>
+<span class="lb_name"><span style="font-size:35px;color:#9FCE31;">2.</span>&nbsp;&nbsp; {{explode(' ',$emp2->username)[0]}}</span><br>
 @else
 <span class="lb_name"><span style="font-size:35px;color:#9FCE31;">2.</span>&nbsp;&nbsp;</span><br>
 @endif 

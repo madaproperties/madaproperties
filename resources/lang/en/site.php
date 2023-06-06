@@ -610,4 +610,9 @@ return [
   'layout_type'=>'Layout Type',
   'add_more'=>'Add More',
   'remove'=>'Remove',
+  'sales_director_2' => 'Sales Director 2',
+  'sales_director_2_commission_received' => 'Sales Director 2 Commission Received',
+  'sales_director_2_commission_percent' => 'Sales Director 2 Commission Percent',
+  'sales_director_2_commission_amount' => 'Sales Director 2 Commission Amount',
+
 ];

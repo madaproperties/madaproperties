@@ -246,6 +246,10 @@ class DealController extends Controller
       __('site.sales_director_commission_percent'),
       __('site.sales_director_commission_amount'),
       __('site.sales_director_commission_received'),
+      __('site.sales_director_2'),
+      __('site.sales_director_2_commission_percent'),
+      __('site.sales_director_2_commission_amount'),
+      __('site.sales_director_2_commission_received'),
       __('site.third_party'),
       __('site.third_party_amount'),
       __('site.third_party_name'),
@@ -444,6 +448,10 @@ class DealController extends Controller
         "mada_commission_received"       => "nullable",
         "third_party_commission_received"=>"nullable",
         "notes"       => "nullable",
+        "sales_director_2_id"       => "nullable",
+        "sales_director_2_commission_percent" => "nullable",
+        "sales_director_2_commission_amount"  => "nullable",
+        "sales_director_2_commission_received"  => "nullable",
       ]);
 
 
@@ -452,6 +460,32 @@ class DealController extends Controller
       addHistory('Deal',0,'added',$data);   
 
       $deal = Deal::create($data);
+
+      if(\Session::get('dealTempDocIds')){
+        // $destinationPath =  'public/uploads/property/'.$property->id.'/documents';
+        // if (!is_dir($destinationPath)){ 
+        //   mkdir($destinationPath, 0777, true);
+        // }
+        foreach(\Session::get('dealTempDocIds') as $key => $value){
+          if($docData = TempFloorPlansDocuments::find($value->id)){
+            $destinationPath = 'public/uploads/temp/'.$docData->document_link;
+            if(file_exists(public_path('uploads/temp/'.$docData->document_link))){
+              DealDocuments::create([
+                'deal_id' => $deal->id,
+                'document_link' => $docData->document_link,
+                'name' => $docData->name,
+                'file_type' => $docData->file_type
+              ]);
+              //copy($fromPath,$destinationPath.'/'.$document);
+  
+              Storage::disk('s3')->put('uploads/deals/'.$deal->id.'/documents/'.$docData->document_link, file_get_contents($destinationPath));
+              unlink($destinationPath);
+            }
+          }
+        }
+        session()->forget('dealTempDocIds');  
+      } 
+  
       return redirect(route('admin.deal.index'))->withSuccess(__('site.success'));
   }
 
@@ -534,6 +568,10 @@ class DealController extends Controller
       "mada_commission_received"       => "nullable",
       "third_party_commission_received" => "nullable",
       "notes"       => "nullable",
+      "sales_director_2_id"       => "nullable",
+      "sales_director_2_commission_percent" => "nullable",
+      "sales_director_2_commission_amount"  => "nullable",
+      "sales_director_2_commission_received"  => "nullable",
   ]);
 
     $data['updated_at'] = Carbon::now();
@@ -896,6 +934,10 @@ class DealController extends Controller
       __('site.sales_director_commission_percent'),
       __('site.sales_director_commission_amount'),
       __('site.sales_director_commission_received'),
+      __('site.sales_director_2'),
+      __('site.sales_director_2_commission_percent'),
+      __('site.sales_director_2_commission_amount'),
+      __('site.sales_director_2_commission_received'),
       __('site.third_party'),
       __('site.third_party_amount'),
       __('site.third_party_name'),

@@ -63,5 +63,35 @@ class Deal extends Model
       return $this->belongsTo(User::class,'sales_director_id');
     }
 
+    public function salesDirector2()
+    {
+      return $this->belongsTo(User::class,'sales_director_2_id');
+    }
+
+    public function documents()
+    {
+      return $this->hasMany(DealDocuments::class,'deal_id')->where('file_type','document');
+    }
+
+    public function down_payments()
+    {
+      return $this->hasMany(DealDocuments::class,'deal_id')->where('file_type','down_payment');
+    }
+
+    public function mada_comission_slip()
+    {
+      return $this->hasMany(DealDocuments::class,'deal_id')->where('file_type','mada_comission_slip');
+    }
+
+    public function national_address()
+    {
+      return $this->hasMany(DealDocuments::class,'deal_id')->where('file_type','national_address');
+    }
+
+    public function signed_contract()
+    {
+      return $this->hasMany(DealDocuments::class,'deal_id')->where('file_type','signed_contract');
+    }
+
 
 }

@@ -118,7 +118,7 @@ font-weight:bold;
 <div class="row-fluid">
 <div class="span12" style="background:#F5F0E9">
 <div class="head clearfix">
-    <div class="top_blue">Mada STARS - March&nbsp;2023 </div>
+    <div class="top_blue">Mada STARS - {{ \Carbon\Carbon::now()->format('M') }} {{ \Carbon\Carbon::now()->format('Y') }} </div>
 <div class="col-md-12 pt-50">
 <div class="block-fluid tabs" style="border:none; background:none;"> 
 <div id="tabs-1" style="height:1200px; overflow-y:hidden;">
@@ -135,9 +135,10 @@ font-weight:bold;
 <tbody>
 	<tr><td align="center" valign="top" style="background:none; border-bottom:none; border-bottom:none; padding:100px 30px 30px 30px !important; ">
 @if($emp1)
-<img src="{{ asset('public/uploads/users/'.$emp1->user_pic)}}" class="img-circle" style="width:300px;margin-top:70px;border-radius: 50%;"> 
+
+<img src="{{ asset('public/uploads/users/'.$emp1->user_pic)}}" class="img-circle" style="width:250px;margin-top:70px;border-radius: 50%;"> 
 @else
-<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:300px;margin-top:70px;border-radius: 50%;"> 
+<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:250px;margin-top:70px;border-radius: 50%;"> 
 
 @endif
 </td>
@@ -159,10 +160,10 @@ font-weight:bold;
 <table>
 <tr><td><table width="100%" class="table" style="width:100%; float:left;">
 <tbody><tr><td align="center" style="background:none; border-bottom:none; border-bottom:none;"><br /><br />
-     @if($emp1)
+     @if($emp2)
 	<img src="{{ asset('public/uploads/users/'.$emp2->user_pic)}}" class="img-circle" style="width:200px; border-radius :50%">
 	@else
-	<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:200px; border-radius :50%">
+	<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:180px; border-radius :50%">
 	@endif 
 </td>
 </tr>
@@ -181,29 +182,13 @@ font-weight:bold;
 <tr><td><table width="100%" class="table" style="width:100%; float:left;">
 <tbody><tr><td align="center" style="background:none; border-bottom:none; border-bottom:none;"><br /><br /><br />
      @if($emp3)
-	<img src="{{ asset('public/uploads/users/'.$emp3->user_pic)}}" class="img-circle" style="width:200px; border-radius: 50%;">
+	<img src="{{ asset('public/uploads/users/'.$emp3->user_pic)}}" class="img-circle" style="width:150px; border-radius: 50%;">
 	@else
-	<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:200px; border-radius: 50%;">
+	<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:150px; border-radius: 50%;">
 	@endif 
 </td>
 </tr>
 <tr>
-<td align="center" valign="top" style="background:none; border-bottom:none; border-bottom:none;">
-@if($emp3)
-<span class="lb_name"><span style="font-size:42px;   ">#3</span>&nbsp;&nbsp; {{ explode('@',$emp3->email)[0]}}</span><br> 
-@else
-<span class="lb_name"><span style="font-size:42px;   ">#3</span>&nbsp;&nbsp;</span><br>
-@endif 
-</td>
-</tr>
-<td align="center" valign="top" style="background:none; border-bottom:none; border-bottom:none;">
-@if($emp3)
-<span class="lb_name"><span style="font-size:42px;   ">#3</span>&nbsp;&nbsp; {{ explode('@',$emp3->email)[0]}}</span><br> 
-@else
-<span class="lb_name"><span style="font-size:42px;   ">#3</span>&nbsp;&nbsp;</span><br>
-@endif 
-</td>
-</tr>
 <td align="center" valign="top" style="background:none; border-bottom:none; border-bottom:none;">
 @if($emp3)
 <span class="lb_name"><span style="font-size:42px;   ">#3</span>&nbsp;&nbsp; {{ explode('@',$emp3->email)[0]}}</span><br> 
@@ -228,9 +213,9 @@ font-weight:bold;
 <div class="d-flex">
 
 <div>
-<div style="background:none; vertical-align:top; padding: 10px !important;">
+<!-- <div style="background:none; vertical-align:top; padding: 10px !important;">
 <img src="https://crm.299.com/img/user_photos/>" class="img-circle" style="width:70px; "></br>
-<div style="font-weight:bold; margin-bottom:8px;">4</div></div>
+<div style="font-weight:bold; margin-bottom:8px;">4</div></div> -->
 
 </div>
 
@@ -248,20 +233,20 @@ font-weight:bold;
     
     <tr>
 <td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31;padding:4px !important;">
-<img src="{{ asset('public/imgs/ali.jpeg')}}" class="img-circle" style="width:70px; border-radius: 50%; "></td>
+<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:70px; border-radius: 50%; "></td>
 <td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">
 <div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>
-<div style="font-weight:bold;">Ali</div>
-<div style="font-weight:bold;">December 2021</div>
+<div style="font-weight:bold;">Reham</div>
+<div style="font-weight:bold;">March  2023</div>
 </td>
 </tr>
 <tr>
 <td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31;padding:4px !important;">
-<img src="./img/noprofile.png" class="img-circle" style="width:70px; "></td>
+<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:70px;border-radius: 50%;  "></td>
 <td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">
 <div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>
-<div style="font-weight:bold;">Sharif</div>
-<div style="font-weight:bold;">November 2021</div>
+<div style="font-weight:bold;">Khaled</div>
+<div style="font-weight:bold;">February 2023</div>
 </td>
 </tr>
 <tr>

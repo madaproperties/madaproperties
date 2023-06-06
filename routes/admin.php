@@ -204,7 +204,9 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
 
       //Added by fazal 24-05-23
       Route::post('fetch-campaign', 'ReportController@fetchCampaign')->name('fetch-campaign');
-      //End      
+      //End     
+
+      Route::post('deal-document-upload', 'DealDocumentsController@upload')->name('deal-document-upload');
 });
 
 
