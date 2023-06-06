@@ -29,6 +29,9 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\DealExport;
 use App\DealDeveloper;
 use App\DealProject;
+use App\DealDocuments;
+use App\TempFloorPlansDocuments;
+use Illuminate\Support\Facades\Storage;
 
 class DealController extends Controller
 {
@@ -474,7 +477,7 @@ class DealController extends Controller
                 'deal_id' => $deal->id,
                 'document_link' => $docData->document_link,
                 'name' => $docData->name,
-                'file_type' => $docData->file_type
+                'file_type' => $docData->deal_file_type
               ]);
               //copy($fromPath,$destinationPath.'/'.$document);
   
