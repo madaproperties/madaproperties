@@ -30,7 +30,7 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
     private $errors = [];
     private $validateAttribute = [
       'user_country_id'=>'required' ,
-      "country_id" => "nullable",
+      "country_name" => "nullable",
       "name"          => "required",
       "email"          => "nullable",
       "phone"          => "required",
@@ -53,7 +53,7 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
       'user_id' => 'nullable' ,
       'zone_id'=>'nullable',
       'district_id'=>'nullable',
-      'assign_to' => 'nullable' ,
+      'agent_email' => 'nullable' ,
       'user_country_id'=>'nullable' ,
       'zone_id'=>'nullable',
       'district_id'=>'nullable',
@@ -69,12 +69,12 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
         $index++;
         $contact = $contact->toArray();
         // get new status 
-        $country_id = $this->getID($index,'Country','name_en',$contact['country_id']);
+        $country_id = $this->getID($index,'Country','name_en',$contact['country_name']);
         $contact['country_id'] = $country_id;
         $user_country_id = $this->getID($index,'Country','name_en',$contact['user_country_id']);
         $contact['user_country_id'] = $user_country_id;
 
-        $agent_id = $this->getID($index,'Agent','email',$contact['user_id']);
+        $agent_id = $this->getID($index,'Agent','email',$contact['agent_email']);
         $contact['user_id'] = $agent_id;
         // 
 
@@ -109,6 +109,17 @@ class DatabaseImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
         $contact['project_id'] = $contact['project_name'];
         $contact['created_by']=auth()->id();
         // $contact['user_id']=auth()->id();
+         if($agent_id=='')
+        {
+        
+        $contact['user_id']=auth()->id();
+        }
+        else
+        {
+    
+        $contact['user_id']=$contact['user_id'];  
+        }
+        // 
         $contact['status']=2;
         unset($contact['country_name']); // remove asssigned to => replaced with user_id
         unset($contact['agent_email']);

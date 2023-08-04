@@ -26,8 +26,9 @@
             <span class="navi-text font-size-lg">{{__('site.Account Information')}}</span>
           </a>
         </div>
+      <!--added by fazal 18-06-23-->
+        @if(auth()->user()->rule === 'admin' ||auth()->user()->rule === 'it' )
 
-        @if(auth()->user()->rule === 'admin')
         <div class="navi-item mb-2">
           <a href="{{route('admin.accounts.index')}}"
           class="navi-link py-4 {{ active_nav('accounts.index') ? 'active' : ''}}">
@@ -39,6 +40,8 @@
             <span class="navi-text font-size-lg">{{__('site.Accounts')}}</span>
           </a>
         </div>
+        @endif
+       @if(auth()->user()->rule === 'admin') 
 
         <div class="navi-item mb-2">
           <a href="{{route('admin.currencies.index')}}"

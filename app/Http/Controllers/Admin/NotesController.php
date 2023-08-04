@@ -101,7 +101,7 @@ class NotesController extends Controller
             ]);
           
         }
-
+        
         $projectData = Project::find($lead->project_id);
         if(isset($projectData->country_id)){
           if($projectData->country_id == 1){
@@ -125,6 +125,7 @@ class NotesController extends Controller
             }
           }
         }
+        
       }
       
       Contact::where('id',$lead->id)->update([

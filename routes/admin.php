@@ -20,14 +20,15 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
         Route::resource('mediums','MediumsController');
         Route::resource('contents','ContentsController');
         Route::resource('secondary','SecondaryController');
-        Route::resource('employee','EmployeeController');
+        //
+         Route::resource('employee','EmployeeController');
         Route::resource('leave','LeaveController');
         Route::resource('dateinfo','DateinfoController');
         Route::resource('employeeleave','EmployeeLeaveController');
         Route::get('dashboard','MainController@statics')->name('statics');
-        // added by fazal 06-04
-         Route::resource('mada_board','MadaboardController');
-         Route::post('accounts/getDetailsByAjax','AccountsController@getDetailsByAjax')->name('accounts.getDetailsByAjax');
+        Route::resource('madaboard','MadaboardController'); //added byb fazal 18-06-23
+        Route::post('accounts/getDetailsByAjax','AccountsController@getDetailsByAjax')->name('accounts.getDetailsByAjax');
+        
       });
       /********* End Mnager Only ***************************/
       Route::resource('contact','ContactController');
@@ -63,7 +64,7 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
 
       Route::post('get-projects','ProjectsController@getProjects')
                         ->name('get.projects');
-      
+
 
       Route::get('home', "MainController@index")->name('home');
 
@@ -158,9 +159,6 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::post('document/upload/store','PropertyController@documentStore')->name('property.documentStore');
       Route::post('document/delete','PropertyController@documentDestroy')->name('property.documentDestroy');      
 
-      Route::post('floor-plan/upload/store','PropertyController@floorPlanStore')->name('property.floorPlanStore');
-      Route::post('floor-plan/delete','PropertyController@floorPlanDestroy')->name('property.floorPlanDestroy');      
-
       Route::post('property/save-features','PropertyController@saveFeatures')->name('property.saveFeatures');
       Route::post('property/save-portals','PropertyController@savePortals')->name('property.savePortals');
       // added by fazl
@@ -179,20 +177,27 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       
       //added by fazal
       Route::post('fetch-city', 'DatabaseRecordsController@fetchCity')->name('fetch-city');
-       Route::post('databasefetch-district', 'DatabaseRecordsController@fetchDistrict')->name('databasefetch-project');
+      Route::post('databasefetch-district', 'DatabaseRecordsController@fetchDistrict')->name('databasefetch-project');
+      Route::post('databasefetch-subcommunity', 'DatabaseRecordsController@fetchCommunity')->name('databasefetch-subcommunity'); 
 
-       //added by fazal 16/05/23
-       Route::post('contactsfetch-community', 'ContactController@fetchCommunities')->name('contactsfetch-community');
-       Route::post('contactsfetch-subcommunity', 'ContactController@fetchSubCommunities')->name('contactsfetch-subcommunity');
-       Route::post('contactsfetch-zone', 'ContactController@fetchZones')->name('contactsfetch-zone');
        
-       Route::post('contactsfetch-district', 'ContactController@fetchDistricts')->name('contactsfetch-district');
-       
-       Route::post('databasefetch-subcommunity', 'DatabaseRecordsController@fetchCommunity')->name('databasefetch-subcommunity'); 
-       // 27-02
-       
-       Route::post('property.imgreorder', 'PropertyController@imgReorder')->name('property.imgreorder'); 
+    Route::post('property.imgreorder', 'PropertyController@imgReorder')->name('property.imgreorder'); 
        Route::resource('bookings','BookingsController');
+    
+      Route::post('floor-plan/upload/store','PropertyController@floorPlanStore')->name('property.floorPlanStore');
+      Route::post('floor-plan/delete','PropertyController@floorPlanDestroy')->name('property.floorPlanDestroy');      
+      
+        //added by fazal 16/05/23
+        Route::post('contactsfetch-community', 'ContactController@fetchCommunities')->name('contactsfetch-community');
+        Route::post('contactsfetch-subcommunity', 'ContactController@fetchSubCommunities')->name('contactsfetch-subcommunity');
+        Route::post('contactsfetch-zone', 'ContactController@fetchZones')->name('contactsfetch-zone');
+        Route::post('contactsfetch-district', 'ContactController@fetchDistricts')->name('contactsfetch-district');
+        //End      
+        
+    //Added by fazal 24-05-23
+    Route::post('fetch-campaign', 'ReportController@fetchCampaign')->name('fetch-campaign');
+    //End      
+        
        // added by fazal 29-03
       Route::get('employee/employeedetails/{employee_id}','EmployeeController@employeeDetails')->name('employee.empdetails');
       
@@ -201,12 +206,16 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::post('change-status', 'EmployeeController@changeStatus')->name('change-status');
       Route::get('exportEmployeeRecords','EmployeeController@exportEmployeeData')->name('employee.exportRecords');
       Route::post('emp-import-data','EmployeeController@import')->name('emp-importData');
-
-      //Added by fazal 24-05-23
-      Route::post('fetch-campaign', 'ReportController@fetchCampaign')->name('fetch-campaign');
-      //End     
+      
 
       Route::post('deal-document-upload', 'DealDocumentsController@upload')->name('deal-document-upload');
+      Route::get('deal-project-list', 'DealDocumentsListController@index')->name('deal-project-list');
+      Route::get('deals-list/{project_id}', 'DealDocumentsListController@dealsList')->name('deals-list');
+      Route::get('deal-documents-list/{deal_id}', 'DealDocumentsListController@dealDocumentsList')->name('deal-documents-list');
+      
+      Route::get('property-availability', 'PropertyAvailabilityController@index')->name('property-availability');
+
+
 });
 
 

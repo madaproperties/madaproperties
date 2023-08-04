@@ -67,6 +67,7 @@ class EmployeeController extends Controller
   // create
   public function create()
   {
+      $user=User::where('id',auth()->id())->first();
    $data['countries']=Country::get();
    if($user->time_zone=='Asia/Dubai')
     {

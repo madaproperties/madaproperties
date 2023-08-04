@@ -36,7 +36,7 @@ class Controller extends BaseController
         }
         
   
-        //commente by fazal 
+        
     // if(!$createdContact){ // check if he just created contact
     //     if($contact->status_id == $newStatus->id)
     //     {

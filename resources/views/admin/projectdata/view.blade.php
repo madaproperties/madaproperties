@@ -216,31 +216,28 @@ div#units{padding:30px;}
   <div class="content d-flex flex-column flex-column-fluid " id="kt_content">
     <!--begin::Entry-->
     <div class="d-flex flex-column-fluid">
-       <div class="container">
+        <div class="container">
          <!--begin::Card-->
-          <div class="card card-custom gutter-b ">
-        <div class="card-header m-auto flex-wrap border-0 pt-6 pb-0">
-            <img class="logo" src="{{ asset('public/imgs/logo.png') }}" width="200" />
-           
-        </div>
-         <div class="bottom_header">
-        <img class="developer-logo" src="{{ $project_name['project_logo'] }}">
-         <h2 align="center" >{{$project_name['name']}}</h2>  
-          <div class="developer_detail">
-                  
-          
-          <div class="unit" id="demo">
-              <div class="row projectdetails">
-              @if($project_name['video'])
-              <embed type="video/webm" src="{{ $project_name['video']}}" width="400" height="300">
-              @endif
-              <a href="{{$project_name['brochure']}}" class="btn btn-info brochure"   target="_blank" >Brochure </a>
-              <a href="{{$project_name['payment_plan']}}" class="btn btn-info" target="_blank">Payment plan </a>
-              </div>
-          </div>
-          </div>
-           </div>
-        <div class="card-body table-responsive availability-unit">
+            <div class="card card-custom gutter-b ">
+                <div class="card-header m-auto flex-wrap border-0 pt-6 pb-0">
+                    <img class="logo" src="{{ asset('public/imgs/logo.png') }}" width="200" />
+                </div>
+                <div class="bottom_header">
+                    <img class="developer-logo" src="{{ asset('public/uploads/projectData/'.$project_name['project_logo']) }}">
+                    <h2 align="center" >{{$project_name['name']}}</h2>  
+                    <div class="developer_detail">
+                        <div class="unit" id="demo">
+                            <div class="row projectdetails">
+                                @if($project_name['video'])
+                                <embed type="video/webm" src="{{ asset('public/uploads/projectData/'.$project_name['video'])}}" width="400" height="300">
+                                @endif
+                                <a href="{{ asset('public/uploads/projectData/'.$project_name['brochure'])}}" class="btn btn-info brochure"   target="_blank" >Brochure </a>
+                                <a href="{{ asset('public/uploads/projectData/'.$project_name['payment_plan'])}}" class="btn btn-info" target="_blank">Payment plan </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body table-responsive availability-unit">
         
           <!--  -->
           <div class="unit" id="units">
@@ -264,7 +261,8 @@ div#units{padding:30px;}
                       <h4 class="floor col-xs-12 col-sm-12 col-lg-3">Floor :{{$res->floor_no}}</h4>
                       <div class="row col-xs-12 col-sm-12 col-lg-9">
                       @foreach($res['unit_name'] as $unit_name)
-            <div class="col-xs-12 col-sm-4 col-lg-4 unit_box unit_box">
+                      @if($unit_name->status!= 'Resale')
+                        <div class="col-xs-12 col-sm-4 col-lg-4 unit_box unit_box"  style="margin-bottom: 5px;">
                             <!--begin::Tiles Widget 2-->
                             @if($unit_name->status== 'Available')
                             <div class="text-center card card-custom bg-available" >
@@ -274,25 +272,32 @@ div#units{padding:30px;}
                             <div class="text-center card card-custom bg-reserve">
                             @endif
                             <!--begin::Body-->
-                           <div class="card-body d-flex flex-column p-0">
+                            <div class="card-body d-flex flex-column">
                             <!--begin::Stats-->
-                            <a href="javascript:void(0)" class="view" onclick="loadViewInPupUp({{$unit_name->id}})">
-                              <div class="flex-grow-1">
-                              <div class="font-weight-bold">
-                              {{$unit_name->unit_name}}
-                              </div>
-                              <div class="font-weight-bolder ">
-                              {{$unit_name->bedroom}} Bedroom 
-                              </div>
-                              <div class="font-weight-bolder">
-                              Area :{{$unit_name->area_bua}} 
-                              </div>
-                              </div>
-                          </a>
+                                <a href="javascript:void(0)" class="view" onclick="loadViewInPupUp({{$unit_name->id}})">
+                                    <div class="flex-grow-1">
+                                        <div class="font-weight-bold">
+                                        {{$unit_name->unit_name}}
+                                        </div>
+                                          @if($unit_name->property_type=='Commercial')
+                                           <div class="font-weight-bolder ">
+                                           {{$unit_name->property_type}}: {{$unit_name->unit_type}} 
+                                          </div>
+                                          @else
+                                          <div class="font-weight-bolder ">
+                                          {{$unit_name->bedroom}} Bedroom 
+                                          </div>
+                                          @endif
+                                        <div class="font-weight-bolder">
+                                        Area :{{$unit_name->area_bua}} 
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-              </div>
-              @endforeach 
+                  </div>
+                        @endif
+                @endforeach 
               </div>
               </div> 
              @endforeach   

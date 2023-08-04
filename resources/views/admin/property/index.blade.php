@@ -24,6 +24,19 @@
 
 @extends('admin.layouts.main')
 @section('content')
+@php 
+$exportName = request()->fullUrlWithQuery(['exportData' => '1']);
+$exportUrl = explode('?',$exportName);
+$exportUrl = str_replace($exportUrl[0],route('admin.property.index'),$exportName);
+
+$saleCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&sale_rent=1'.'&ADVANCED=search'.'&status=1';
+$rentCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&sale_rent=2'.'&ADVANCED=search'.'&status=1';
+$commercialSaleCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&property_type=2'.'&sale_rent=1'.'&ADVANCED=search';
+$commercialRentCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&property_type=2'.'&sale_rent=2'.'&ADVANCED=search';
+$pendingApprovalCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&status=4'.'&ADVANCED=search';
+$offlinePropertyCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&status=6'.'&ADVANCED=search';
+
+@endphp
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content" style="padding-top:10px">
 	<!--begin::Entry-->
@@ -51,11 +64,38 @@
 							<i class="fas fa-database" style="color:#fff"></i>
 							</span>{{__('site.export') }}
 						</a>
-                        @endcan						
+                        @endcan	
+                        <a href="{{$exportUrl}}" class="btn btn-primary font-weight-bolder" target="_blank">
+							<span class="svg-icon svg-icon-md">
+							<i class="fas fa-database" style="color:#fff"></i>
+							</span>{{__('site.export') }}
+						</a>
 						@can('property-create')
 							<a href="{{route('admin.property.create',array_merge(request()->all()))}}" id="kt_quick_user_toggle" class="btn btn-success font-weight-bolder font-size-sm">
 							<span class="fa fa-plus"></span> {{__('site.New property')}}</a>
                         @endcan						
+					</div>
+				</div>
+				<div class="card-header border-0 py-5">
+					<div class="card-toolbar">
+						<a href="{{$saleCountUrl}}" class="btn btn-primary font-weight-bolder">
+							{{__('site.sale') .'('.$propertyData['sale_count'].')' }}
+						</a>
+						<a href="{{$rentCountUrl}}" class="btn btn-primary font-weight-bolder">
+							{{__('site.rent') .'('.$propertyData['rent_count'].')' }}
+						</a>
+						<a href="{{$commercialSaleCountUrl}}" class="btn btn-primary font-weight-bolder">
+							{{__('site.commercial') .' '.__('site.sale') .'('.$propertyData['commercial_sale_count'].')' }}
+						</a>
+						<a href="{{$commercialRentCountUrl}}" class="btn btn-primary font-weight-bolder">
+							{{__('site.commercial') .' '.__('site.rent') .'('.$propertyData['commercial_rent_count'].')' }}
+						</a>
+						<a href="{{$pendingApprovalCountUrl}}" class="btn btn-primary font-weight-bolder">
+							{{'Pending Approval ('.$propertyData['pending_approval_count'].')' }}
+						</a>
+						<a href="{{$offlinePropertyCountUrl}}" class="btn btn-primary font-weight-bolder">
+							{{'Offline Property ('.$propertyData['offline_property_count'].')' }}
+						</a>
 					</div>
 				</div>
 				<!--end::Header-->
@@ -124,12 +164,26 @@
 										@endif
 									</td>
 									<td>
-										<span>{{__('config.status.'.$property->status)}}</span>
+									    @if($property->off_line_property==1)
+									    <span>Offline Property</span>
+									    @else
+									    <span>{{__('config.status.'.$property->status)}}</span>
+									    @endif
+										
 										<p><b>Price : {{$property->price ? $property->price : $property->yprice}}</b></p>
 			
 									</td>
 									<td>
 										<span>{{$property->title}}</span>
+										<p>Beds :
+										 
+										 @if($property->bedrooms==0)
+										<span>Studio</span>
+										@else
+										{{$property->bedrooms}}
+										@endif
+										
+										</p>
 									</td>
 									<td>
 										<span>Agent :{{$property->agent ? explode('@',$property->agent->name)[0] : ''}}

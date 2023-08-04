@@ -40,7 +40,7 @@
         <h5 class="modal-title" id="exampleModalLabel">Property Details</h5>
       </div>
       <div class="modal-body">
-        @if($unit_name->status == 'Available')
+        @if($unit_name->status == 'Available' || $unit_name->status == 'Resale')
         <div class="form-group">
           <table class="text-center table table-separate table-head-custom table-checkable table-striped">
             <tr>
@@ -63,16 +63,19 @@
                 <td>Unit name</td>
                 <td>{{$unit_name->unit_name}}</td>
               </tr>
-              <!--added by fazal 29-3-->
+             <!--added by fazal 29-3-->
+              @if($unit_name->property_type != "Commercial")
               <tr>
                 <td>Bedroom</td>
                 <td>{{$unit_name->bedroom}}</td>
               </tr>
+              @else
+              <tr>
+                <td>Type</td>
+                <td>{{$unit_name->unit_type}}</td>
+              </tr>
+              @endif
               <!--end-->
-              <tr>
-                <td>Bedroom</td>
-                <td>{{$unit_name->bedroom}}</td>
-              </tr>
               <tr>
                 <td>Floor No</td>
                 <td>{{$unit_name->floor_no}}</td>
@@ -85,12 +88,10 @@
                 <td>Price</td>
                 <td> {{number_format(intval($unit_name->price), 2)}} </td>
               </tr>
-              @if($unit_name->down_payment)
               <tr>
                 <td>Downpayment</td>
-                <td>{{$unit_name->down_payment}}</td>
+                <td>{{number_format((str_replace(",","",$unit_name->down_payment)))}}</td>
               </tr>
-              @endif
             </table>
         </div>
         @elseif($unit_name->status == 'Sold out')
@@ -101,7 +102,7 @@
       </div>
       
       <div class="modal-footer">
-      @if($unit_name->status == 'Available')
+      @if($unit_name->status == 'Available' || $unit_name->status == 'Resale')
         <a href="{{ route('projectPayment.checkoutPage',$unit_name->id) }}" class="btn btn-info btn-xs brochureinf" >Book Now</a>
         <a href="{{ route('project.brochure',$unit_name->id) }}" target="_blank"  class="btn btn-info btn-xs brochureinf  " >Download Offer</a>
         @endif

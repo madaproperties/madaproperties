@@ -24,7 +24,8 @@ class MadaboardController extends Controller
           
      }  
     public function index()
-    { 
+    {  
+        // dd('hit');
 
      $datas=Madaboard::get();
 
@@ -68,7 +69,7 @@ class MadaboardController extends Controller
        
         $file = Storage::disk('s3')->putFile('uploads/mada_board', $request->file('image'));
        
-        $path="https://mada-properties-staging.s3.eu-west-1.amazonaws.com/".$file;
+        $path="https://mada-properties-live.s3.eu-west-1.amazonaws.com/".$file;
        
 
         if($guessExtension=='jpg'||$guessExtension=='png'||$guessExtension=='jpeg' )
@@ -87,7 +88,7 @@ class MadaboardController extends Controller
       // dd($data);
        Madaboard::create($data);
       $datas=Madaboard::get();
-      return redirect(route('admin.mada_board.index',compact('datas')))->withSuccess(__('site.success'));
+      return redirect(route('admin.madaboard.index',compact('datas')))->withSuccess(__('site.success'));
   }
    
 
@@ -116,17 +117,32 @@ class MadaboardController extends Controller
       ]);
       $data['created_at'] = Carbon::now();
 
-       
-       if($request->file('image')){
+      if($request->file('image')){
+        
         $md5Name = md5_file($request->file('image')->getRealPath());
         $guessExtension = $request->file('image')->guessExtension();
-        $file = $request->file('image')->move('public/uploads/mada_board', $md5Name.'.'.$guessExtension);     
-        $data['image'] = $md5Name.'.'.$guessExtension;
+       
+        $file = Storage::disk('s3')->putFile('uploads/mada_board', $request->file('image'));
+       
+        $path="https://mada-properties-live.s3.eu-west-1.amazonaws.com/".$file;
+       
+
+        if($guessExtension=='jpg'||$guessExtension=='png'||$guessExtension=='jpeg' )
+        {
+        $data['type']='image';
+            
+        }  
+        else{
+          $data['type']='video';
+          // dd( $data['type']);
+        }   
+      
+        $data['image'] = $path;
+
       }
-      // dd($data);
       $mada_data->update($data); 
       $datas=Madaboard::get();
-      return redirect(route('admin.mada_board.index',compact('datas')))->withSuccess(__('site.success'));  
+      return redirect(route('admin.madaboard.index',compact('datas')))->withSuccess(__('site.success'));  
      
     }
 

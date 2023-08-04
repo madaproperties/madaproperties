@@ -135,11 +135,11 @@ font-weight:bold;
 <tbody>
 	<tr><td align="center" valign="top" style="background:none; border-bottom:none; border-bottom:none; padding:100px 30px 30px 30px !important; ">
 @if($emp1)
-
-<img src="{{ asset('public/uploads/users/'.$emp1->user_pic)}}" class="img-circle" style="width:250px;margin-top:70px;border-radius: 50%;"> 
+@if($emp1->user_pic)
+<img src="{{$emp1->user_pic}}" class="img-circle" style="width:250px;margin-top:70px;border-radius: 50%;"> 
 @else
 <img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:250px;margin-top:70px;border-radius: 50%;"> 
-
+@endif
 @endif
 </td>
 </tr>
@@ -161,10 +161,12 @@ font-weight:bold;
 <tr><td><table width="100%" class="table" style="width:100%; float:left;">
 <tbody><tr><td align="center" style="background:none; border-bottom:none; border-bottom:none;"><br /><br />
      @if($emp2)
-	<img src="{{ asset('public/uploads/users/'.$emp2->user_pic)}}" class="img-circle" style="width:200px; border-radius :50%">
+     @if($emp2->user_pic)
+	<img src="{{$emp2->user_pic}}" class="img-circle" style="width:200px; border-radius :50%">
 	@else
 	<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:180px; border-radius :50%">
 	@endif 
+	@endif
 </td>
 </tr>
 <tr>
@@ -182,9 +184,11 @@ font-weight:bold;
 <tr><td><table width="100%" class="table" style="width:100%; float:left;">
 <tbody><tr><td align="center" style="background:none; border-bottom:none; border-bottom:none;"><br /><br /><br />
      @if($emp3)
-	<img src="{{ asset('public/uploads/users/'.$emp3->user_pic)}}" class="img-circle" style="width:150px; border-radius: 50%;">
+     @if($emp3->user_pic)
+	<img src="{{$emp3->user_pic}}" class="img-circle" style="width:150px; border-radius: 50%;">
 	@else
 	<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:150px; border-radius: 50%;">
+	@endif
 	@endif 
 </td>
 </tr>
@@ -227,118 +231,118 @@ font-weight:bold;
 
 </div>
 </td>
-<td width="50%" style=" background:none; border-bottom:none; vertical-align:top; padding:10px !important; " align="center">
-<table width="90%" align="center" class="table" style="background:none; width:90%;">
-<tbody>
+<!--<td width="50%" style=" background:none; border-bottom:none; vertical-align:top; padding:10px !important; " align="center">-->
+<!--<table width="90%" align="center" class="table" style="background:none; width:90%;">-->
+<!--<tbody>-->
     
-    <tr>
-<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31;padding:4px !important;">
-<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:70px; border-radius: 50%; "></td>
-<td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">
-<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>
-<div style="font-weight:bold;">Reham</div>
-<div style="font-weight:bold;">March  2023</div>
-</td>
-</tr>
-<tr>
-<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31;padding:4px !important;">
-<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:70px;border-radius: 50%;  "></td>
-<td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">
-<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>
-<div style="font-weight:bold;">Khaled</div>
-<div style="font-weight:bold;">February 2023</div>
-</td>
-</tr>
-<tr>
-<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31;padding:4px !important;">
-<img src="./img/noprofile.png" class="img-circle" style="width:70px; "></td>
-<td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">
-<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>
-<div style="font-weight:bold;">Hazem</div>
-<div style="font-weight:bold;">October 2021</div>
-</td>
-</tr>
-<tr>
-<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31; padding: 4px !important;">
-<img src="./img/noprofile.png" class="img-circle" style="width:70px;"> </td>
-<td width="80%" style="background:none; border-bottom:none; font-size:18px;    border-bottom:1px solid #9FCE31;">
-<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>
-<div style="font-weight:bold;">Khaled</div>
-<div style="font-weight:bold;">September 2021</div>
-</td>
-</tr>
-<tr>
-<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31;padding:4px !important;">
-<img src="./img/noprofile.png" class="img-circle" style="width:70px; "></td>
-<td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">
-<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>
-<div style="font-weight:bold;">Nesrin</div>
-<div style="font-weight:bold;">August 2021</div>
-</td>
-</tr>
-<tr>
-<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31;padding:4px !important;">
-<img src="./img/noprofile.png" class="img-circle" style="width:70px; "></td>
-<td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">
-<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>
-<div style="font-weight:bold;">Sara</div>
-<div style="font-weight:bold;">July 2021</div>
-</td>
-</tr>
-<tr>
-<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31;padding:4px !important;">
-<img src="./img/noprofile.png" class="img-circle" style="width:70px; "></td>
-<td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">
-<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>
-<div style="font-weight:bold;">Omar ALi</div>
-<div style="font-weight:bold;">June 2021</div>
-</td>
-</tr>
-<tr>
-<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31;padding:4px !important;">
-<img src="./img/noprofile.png" class="img-circle" style="width:70px; "></td>
-<td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">
-<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>
-<div style="font-weight:bold;">Karishma</div>
-<div style="font-weight:bold;">May 2021</div>
-</td>
-</tr>
-<tr>
-<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31; padding:4px !important;">
-<img src="./img/evegenia.jpg" class="img-circle" style="width:70px; "></td>
-<td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">
-<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>
-<div style="font-weight:bold;">Evgenia</div>
-<div style="font-weight:bold;">April 2021</div>
-</td>
-</tr>
-<tr>
-<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31; padding: 4px !important;">
-<img src="./img/noprofile.png" class="img-circle" style="width:70px;"> </td>
-<td width="80%" style="background:none; border-bottom:none; font-size:18px;    border-bottom:1px solid #9FCE31;">
-<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>
-<div style="font-weight:bold;">Madiha</div>
-<div style="font-weight:bold;">March 2021</div>
-</td>
-</tr>
-<tr>
-<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31; padding:4px !important;">
-<img src="./img/noprofile.png" class="img-circle" style="width:70px;"></td>
-<td width="80%" style="background:none; border-bottom:none; font-size:18px;    border-bottom:1px solid #9FCE31;">
-<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>
-<div style="font-weight:bold;">Janna</div>
-<div style="font-weight:bold;">Februray 2021</div>
-</td>
-</tr>
-<tr>
-<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31; padding: 4px !important;">
-<img src="./img/noprofile.png" class="img-circle" style="width:70px; "></td>
-<td width="80%" style="background:none; border-bottom:none; font-size:18px;    border-bottom:1px solid #9FCE31;">
-<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>
-<div style="font-weight:bold;">Sara</div>
-<div style="font-weight:bold;">January 2021</div>
-</td>
-</tr>
+<!--    <tr>-->
+<!--<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31;padding:4px !important;">-->
+<!--<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:70px; border-radius: 50%; "></td>-->
+<!--<td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">-->
+<!--<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>-->
+<!--<div style="font-weight:bold;">Reham</div>-->
+<!--<div style="font-weight:bold;">March  2023</div>-->
+<!--</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31;padding:4px !important;">-->
+<!--<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:70px;border-radius: 50%;  "></td>-->
+<!--<td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">-->
+<!--<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>-->
+<!--<div style="font-weight:bold;">Khaled</div>-->
+<!--<div style="font-weight:bold;">February 2023</div>-->
+<!--</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31;padding:4px !important;">-->
+<!--<img src="./img/noprofile.png" class="img-circle" style="width:70px; "></td>-->
+<!--<td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">-->
+<!--<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>-->
+<!--<div style="font-weight:bold;">Hazem</div>-->
+<!--<div style="font-weight:bold;">October 2021</div>-->
+<!--</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31; padding: 4px !important;">-->
+<!--<img src="./img/noprofile.png" class="img-circle" style="width:70px;"> </td>-->
+<!--<td width="80%" style="background:none; border-bottom:none; font-size:18px;    border-bottom:1px solid #9FCE31;">-->
+<!--<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>-->
+<!--<div style="font-weight:bold;">Khaled</div>-->
+<!--<div style="font-weight:bold;">September 2021</div>-->
+<!--</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31;padding:4px !important;">-->
+<!--<img src="./img/noprofile.png" class="img-circle" style="width:70px; "></td>-->
+<!--<td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">-->
+<!--<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>-->
+<!--<div style="font-weight:bold;">Nesrin</div>-->
+<!--<div style="font-weight:bold;">August 2021</div>-->
+<!--</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31;padding:4px !important;">-->
+<!--<img src="./img/noprofile.png" class="img-circle" style="width:70px; "></td>-->
+<!--<td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">-->
+<!--<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>-->
+<!--<div style="font-weight:bold;">Sara</div>-->
+<!--<div style="font-weight:bold;">July 2021</div>-->
+<!--</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31;padding:4px !important;">-->
+<!--<img src="./img/noprofile.png" class="img-circle" style="width:70px; "></td>-->
+<!--<td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">-->
+<!--<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>-->
+<!--<div style="font-weight:bold;">Omar ALi</div>-->
+<!--<div style="font-weight:bold;">June 2021</div>-->
+<!--</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31;padding:4px !important;">-->
+<!--<img src="./img/noprofile.png" class="img-circle" style="width:70px; "></td>-->
+<!--<td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">-->
+<!--<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>-->
+<!--<div style="font-weight:bold;">Karishma</div>-->
+<!--<div style="font-weight:bold;">May 2021</div>-->
+<!--</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31; padding:4px !important;">-->
+<!--<img src="./img/evegenia.jpg" class="img-circle" style="width:70px; "></td>-->
+<!--<td width="80%" style="background:none; border-bottom:none; font-size:18px;border-bottom:1px solid #9FCE31;">-->
+<!--<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>-->
+<!--<div style="font-weight:bold;">Evgenia</div>-->
+<!--<div style="font-weight:bold;">April 2021</div>-->
+<!--</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31; padding: 4px !important;">-->
+<!--<img src="./img/noprofile.png" class="img-circle" style="width:70px;"> </td>-->
+<!--<td width="80%" style="background:none; border-bottom:none; font-size:18px;    border-bottom:1px solid #9FCE31;">-->
+<!--<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>-->
+<!--<div style="font-weight:bold;">Madiha</div>-->
+<!--<div style="font-weight:bold;">March 2021</div>-->
+<!--</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31; padding:4px !important;">-->
+<!--<img src="./img/noprofile.png" class="img-circle" style="width:70px;"></td>-->
+<!--<td width="80%" style="background:none; border-bottom:none; font-size:18px;    border-bottom:1px solid #9FCE31;">-->
+<!--<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>-->
+<!--<div style="font-weight:bold;">Janna</div>-->
+<!--<div style="font-weight:bold;">Februray 2021</div>-->
+<!--</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td width="20%" style="background:none; vertical-align:top;  border-bottom:1px solid #9FCE31; padding: 4px !important;">-->
+<!--<img src="./img/noprofile.png" class="img-circle" style="width:70px; "></td>-->
+<!--<td width="80%" style="background:none; border-bottom:none; font-size:18px;    border-bottom:1px solid #9FCE31;">-->
+<!--<div style="font-weight:bold; margin-bottom:8px;padding-top:5px;"></div>-->
+<!--<div style="font-weight:bold;">Sara</div>-->
+<!--<div style="font-weight:bold;">January 2021</div>-->
+<!--</td>-->
+<!--</tr>-->
 
 </tbody></table>
 </td>

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -36,12 +38,18 @@ margin: 0mm;
   }
 }
 main{
-margin-top:20px;
-width: 100%;
-max-width: 100%;
-padding:20px;
+	margin-top:20px;
+    width: 100%;
+    max-width: 100%;
+	padding:20px;
 }
+img, svg {
+  break-inside: avoid;
+}
+
+
 </style>
+
 </head>
 <body>
 <main id="section-to-print">
@@ -59,27 +67,54 @@ padding:20px;
     <div class="col-md-12 hadingSec text-center">
         <h1>{!! $property->title !!}</h1>
         <!-- <p>Town Square, Warde Apartments</p> -->
+        @if($property->city_id==84)
+        <p>{{$property->communityId ? $property->communityId->name_en : ''}}, {{$property->subCommunity ? $property->subCommunity->name_en : ''}}</p>
+        
+        @else
+        <p>{{$property->zone ? $property->zone->zone_name : ''}}, {{$property->district ? $property->district->name : ''}}</p>
+        @endif
     </div>
   </div>
   <div class="row py-5">
-    <div class="col-md-7">
+    <div class="col-6">
       <ul class="roomFacility">
+        <li>
+        {{$property->category ? $property->category->category_name : ''}}
+        </li>
         <li>
         {{$property->bedrooms }} Bedrooms
         </li>
         <li>
-        {{$property->baths }} Baths
+        {{$property->bathrooms }} Bathrooms
         </li>
         <li>
         BUA: {{$property->buildup_area }} {{$property->measure_unit == 1 ? 'Sqft' : 'Sqmeter' }}
         </li>
+        @if($property->city_id==2)
+        <li>
+        {{$property->living_room }} Living Rooms
+        </li>
+        <li>
+        {{$property->guest_room }} Guest Rooms
+        </li>
+        @endif
+        @if($property->developer)
+        <li>
+        {{$property->developer }}
+        </li>
+        @endif
+        @if($property->parking_areas)
+        <li>
+        {{$property->parking_areas }} Parking
+        </li>
+        @endif
       </ul>
       <div class="price pt-4">
         <h2>Price<br>AED {{number_format($property->price)}}</h2>
       </div>
     </div>
     @if(isset($property->images[0]))
-    <div class="col-md-5">
+    <div class="col-6">
       <div class="boxBanr">
         <img src="{{s3AssetUrl('uploads/property/'.$property->id.'/images/'.$property->images[0]->images_link) }}" class="w-100">
       </div>
@@ -133,48 +168,51 @@ padding:20px;
       {!! $property->description !!}
       </div>
     </div>
-    <!-- <div class="row my-5">
+     <div class="row my-5">
       <div class="col-md-12">
         <div class="d-flex flexB">
+            @foreach($property_features as $features)
+            
           <div class="flrBox text-center">
             <div class="flrIocn">
-              <img src="img/shapes.png">
+              <img src="{{ asset('public/imgs/icon.png')}}">
             </div>
-            <h5>2 Floors</h5>
+            <h5>{{$features->feature_name}}</h5>
           </div>
-          <div class="flrBox text-center">
-            <div class="flrIocn">
-              <img src="img/shapes.png">
-            </div>
-            <h5>3 Parking</h5>
-          </div>
-          <div class="flrBox text-center">
-            <div class="flrIocn">
-              <img src="img/shapes.png">
-            </div>
-            <h5>15m Street 
-              Width</h5>
-          </div>
-          <div class="flrBox text-center">
-            <div class="flrIocn">
-              <img src="img/shapes.png">
-            </div>
-            <h5>12 Border Length </h5>
-          </div>
-          <div class="flrBox text-center">
-            <div class="flrIocn">
-              <img src="img/shapes.png">
-            </div>
-              <h5>Furnished</h5>
-          </div>
-          <div class="flrBox text-center">
-            <div class="flrIocn">
-              <img src="img/shapes.png">
-            </div>
-            <h5> East Facing</h5>
-          </div>
+          @endforeach
+          <!--<div class="flrBox text-center">-->
+          <!--  <div class="flrIocn">-->
+          <!--    <img src="img/shapes.png">-->
+          <!--  </div>-->
+          <!--  <h5>3 Parking</h5>-->
+          <!--</div>-->
+          <!--<div class="flrBox text-center">-->
+          <!--  <div class="flrIocn">-->
+          <!--    <img src="img/shapes.png">-->
+          <!--  </div>-->
+          <!--  <h5>15m Street -->
+          <!--    Width</h5>-->
+          <!--</div>-->
+          <!--<div class="flrBox text-center">-->
+          <!--  <div class="flrIocn">-->
+          <!--    <img src="img/shapes.png">-->
+          <!--  </div>-->
+          <!--  <h5>12 Border Length </h5>-->
+          <!--</div>-->
+          <!--<div class="flrBox text-center">-->
+          <!--  <div class="flrIocn">-->
+          <!--    <img src="img/shapes.png">-->
+          <!--  </div>-->
+          <!--    <h5>Furnished</h5>-->
+          <!--</div>-->
+          <!--<div class="flrBox text-center">-->
+          <!--  <div class="flrIocn">-->
+          <!--    <img src="img/shapes.png">-->
+          <!--  </div>-->
+          <!--  <h5> East Facing</h5>-->
+          <!--</div>-->
         </div>
-      </div> -->
+      </div> 
     </div>
   </div>
 </section>
@@ -228,8 +266,7 @@ padding:20px;
                 <img src="{{asset('public/assets/img/flag1.jpg')}}" class="h-100 w-100">
               </div>
               <p class="text-center mb-2"><b>Riyadh Office</b></p>
-              <p class="text-center mb-2">Prince Muhammad Ibn Salman St، Al Aqiq,
-                Office 15, 2nd floor, Riyadh 13515</p>
+              <p class="text-center mb-2">Al Imam Saud Ibn Faysal Rd, As Sahafah, Riyadh 13321, Saudi Arabia</p>
                 <p class="mb-2 text-center callP">+966 55 008 8601 | +971 424 34 692</p>
                 <p class="socill text-center mb-0">
                 <a href="https://www.facebook.com/madaproperties" target="_blank"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
@@ -261,7 +298,7 @@ padding:20px;
         </div>
       </div>
     </section>
-    </main>
+</main>    
     <div class="content" style="min-height: auto;">
 			<div class="content-wrapper p-1">
 			<a href="mailto:?subject={{$property->title}}&amp;body=Check out this property {{ route('property.brochure',$property->id) }}" class="btn btn-info white">Send in email</a>

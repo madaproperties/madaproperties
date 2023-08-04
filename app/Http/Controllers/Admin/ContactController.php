@@ -625,7 +625,7 @@ class ContactController extends Controller
               'status_id' => $data['status_id']
              // 'updated_at' => Carbon::now()
             ]);
-            Mail::to($user->name)->send(new LeadAssigned($mailData));
+            // Mail::to($user->name)->send(new LeadAssigned($mailData));
             
         }
       }

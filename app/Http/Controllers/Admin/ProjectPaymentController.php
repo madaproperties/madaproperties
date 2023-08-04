@@ -112,7 +112,7 @@ class ProjectPaymentController extends Controller
   }
 
   public function checkoutPage($unit_id){
-    $unit=ProjectData::where('id',$unit_id)->where('status','Available')->first();
+    $unit=ProjectData::where('id',$unit_id)->whereIn('status',['Available','Resale'])->first();
     if($unit){
       session()->put('unit_id',$unit_id);
 

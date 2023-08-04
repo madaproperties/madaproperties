@@ -35,6 +35,7 @@
 								<tr>
 									<th>{{__('site.project name')}}</th>
 									<th>{{__('site.created_at')}}</th>
+									<th>{{__('site.status')}}</th>
 									<th style="min-width:150px">{{__('site.action')}}</th>
 								</tr>
 							</thead>
@@ -46,6 +47,9 @@
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$deal->created_at}}</span>
+									</td>
+									<td>
+										<span class="text-muted font-weight-bold">{{$deal->is_active == 1 ? 'Active' : 'In Active'}}</span>
 									</td>
 									<td>
 									<div class="editPro">

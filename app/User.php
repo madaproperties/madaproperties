@@ -31,4 +31,11 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+    
+    public function reraUser() {
+      return $this->belongsTo(User::class,'rera_user_id');
+    }
+
+    
+    
 }

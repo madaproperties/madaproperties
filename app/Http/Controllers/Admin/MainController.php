@@ -55,7 +55,7 @@ class MainController extends Controller
     //End
     // added by fazal -7-3-23
     $cacheTime = '3600';
-
+    
     // added by fazal 18-05-23
     if(userRole()== 'sales director'){
       $user=User::where('id',auth()->id())->first();
@@ -69,8 +69,11 @@ class MainController extends Controller
     }
     // end added by fazal
 
+
+    //$leaders=  User::where('rule','leader')->select('id','email')->get(); 
+    
     /********* Get Contacts By The Rule ***********/
-    if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing'  || userRole() == 'ceo'){ //Updated by Javed
+    if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing'  || userRole() == 'ceo') { //Updated by Javed
 
       if(Request()->has('duplicated')){
 
@@ -89,7 +92,7 @@ class MainController extends Controller
                                   ->whereIn('phone',$contactsPhone->toArray())
                                   ->whereIn('project_id',$projectId)
                                   ->orderByRaw("phone")
-                                  ->paginate(10);
+                                  ->paginate(20);
 
           $contactsCount = count($contacts);
 
@@ -111,7 +114,7 @@ class MainController extends Controller
                         ->whereIn('phone',$contactsPhone->toArray())
                         ->whereIn('project_id',$projectId)
                         ->orderByRaw("phone")
-                        ->paginate(10);
+                        ->paginate(20);
 
           $contactsCount = count($contacts);
 
@@ -129,7 +132,7 @@ class MainController extends Controller
           $contacts =   Contact::with(['country','project','creator','user','status'])
                         ->whereIn('phone',$contactsPhone->toArray())
                                   ->orderByRaw("phone")
-                                  ->paginate(10);
+                                  ->paginate(20);
 
           $contactsCount = count($contacts);
         }
@@ -155,7 +158,7 @@ class MainController extends Controller
 
           $contactsCount = $contacts->count();
 
-          $paginationNo = 10;
+          $paginationNo = 20;
           $contacts = $contacts->paginate($paginationNo);
           
           $whereCountry = 'Asia/Dubai';
@@ -180,68 +183,12 @@ class MainController extends Controller
 
           $contactsCount = $contacts->count();
 
-          $paginationNo = 10;
-          $contacts = $contacts->paginate($paginationNo);
-
-          $whereCountry = 'Asia/Riyadh';
-          $createdBy = $createdBy->where('time_zone','like','%'.$whereCountry.'%');
-        }
-        //
-        else if(userRole() == 'sales admin'){
-            $user=User::where('id',auth()->id())->first();
-            if($user->time_zone =='Asia/Riyadh')
-            {
-             if(Request()->has('my-contacts')){
-           $contacts = Contact::with(['country','project','creator','user','status'])
-                        ->select($this->selectedAttruibutes)->orWhere('user_id',auth()->id())->orWhere('created_by',auth()->id())
-            ->orderBy('created_at','DESC');
-            
-          }else{
-            
-           $contacts = Contact::with(['country','project','creator','user','status'])
-                        ->select($this->selectedAttruibutes)->orWhere('user_id',auth()->id())->orWhere('created_by',auth()->id())
-            ->orderBy('created_at','DESC');
-          }
-           $contactsCount = $contacts->count();
-
           $paginationNo = 20;
           $contacts = $contacts->paginate($paginationNo);
 
           $whereCountry = 'Asia/Riyadh';
           $createdBy = $createdBy->where('time_zone','like','%'.$whereCountry.'%');
-      
-            }
-            else
-            {
-           
-             if(Request()->has('my-contacts')){
-            $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
-              $this->filterPrams($q);
-            })
-            ->orderBy('created_at','DESC');
-          }
-          else{
-            
-            $contacts = Contact::select($this->selectedAttruibutes)->where(function ($q){
-              $this->filterPrams($q);
-            })
-            ->whereIn('project_id',$projectId)
-            ->orderBy('created_at','DESC');
-          }
-           $contactsCount = $contacts->count();
-
-          $paginationNo = 20;
-          $contacts = $contacts->paginate($paginationNo);
-
-          $whereCountry = 'Asia/Riyadh';
-          $createdBy = $createdBy->where('time_zone','like','%'.$whereCountry.'%');
-            }
         }
-         
-        
-        // 
-        
-        //
         
         else{
 
@@ -252,7 +199,7 @@ class MainController extends Controller
 
           $contactsCount = $contacts->count();
 
-          $paginationNo = 10;
+          $paginationNo = 20;
           $contacts = $contacts->paginate($paginationNo);
         }
       }
@@ -268,14 +215,14 @@ class MainController extends Controller
       $this->filterPrams($q);
       })->orderBy('created_at','DESC');
       $contactsCount = $contacts->count();
-      $contacts = $contacts->paginate(10);
+      $contacts = $contacts->paginate(20);
 
       //Added by Javed
       $createdBy = $createdBy->where('leader',$leaderId);
       //End
 
     }else if(userRole() == 'sales admin') { // sales admin
-      // dd('hit');
+      
     //   $subUserId[]=auth()->id();
     //   if(!Request()->has('my-contacts')  AND (isset(auth()->user()->leader))){
     //     $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
@@ -289,13 +236,13 @@ class MainController extends Controller
     $contacts = Contact::with(['country','project','creator','user','status'])
                         ->select($this->selectedAttruibutes)->where(function ($q){
       $this->filterPrams($q);
-      })->where('user_id',auth()->id())
+      })->Where('created_by',auth()->id())
             ->orderBy('created_at','DESC');
             
     
 
       $contactsCount = $contacts->count();
-      $contacts = $contacts->paginate(10);
+      $contacts = $contacts->paginate(20);
 
     }else if(userRole() == 'sales director') { // sales director
       $userloc=User::where('id',auth()->id())->first();
@@ -331,7 +278,7 @@ class MainController extends Controller
           ->orderBy('created_at','DESC'); 
         }
         $contactsCount = $contacts->count();
-        $paginationNo = 10;
+        $paginationNo = 20;
         $contacts = $contacts->paginate($paginationNo);
       }
     }else{
@@ -341,7 +288,7 @@ class MainController extends Controller
       })->where('user_id',auth()->id())->orderBy('created_at','DESC');
 
       $contactsCount = $contacts->count();
-      $contacts = $contacts->paginate(10);
+      $contacts = $contacts->paginate(20);
     }
     
     $sellers= getSellers(); // Added by Lokesh on 15-11-2022
@@ -380,22 +327,70 @@ class MainController extends Controller
         $countries->prepend($topCountry);
     }
     // End Hundel Counties Sort
+    // if(userRole() == 'sales admin saudi'){ //Added by Javed
+    //   $projects = Project::where('country_id','1')->orderBy('name_en','ASC')->get();
+    // }else if(userRole() == 'sales admin uae'){  //Added by Javed
+    //   $projects = Project::where('country_id','2')->orderBy('name_en','ASC')->get();
+    // }
+    // // 
+    // else if(userRole() == 'sales admin' || userRole()=='sales director' || userRole()=='sales' || userRole()=='leader'){
+    // // dd('hit'); //Added by Javed
+    //   $user=User::where('id',auth()->id())->first();
+    //   if($user->time_zone=='Asia/Riyadh')
+    //   {
+    //   $projects = Project::where('country_id','1')->orderBy('name_en','ASC')->get();  
+    //   }
+    //   else
+    //   {
+    //   $projects = Project::where('country_id','2')->orderBy('name_en','ASC')->get(); 
+    //   }
+      
+    // }
+    // // 
+    // else{
+    //   $projects = Project::orderBy('name_en','ASC')->get();
+    //   if(userRole() == 'leader'){
+    //     if(auth()->user()->time_zone == 'Asia/Riyadh'){
+    //       $projects = Project::where('country_id','1')->orderBy('name_en','ASC')->get();
+    //     }else if(auth()->user()->time_zone == 'Asia/Dubai'){
+    //       $projects = Project::where('country_id','2')->orderBy('name_en','ASC')->get();
+    //     }
+    //   }
+    // }
+
+    // $purpose  = auth()->user()->position_types;
+    // $purpose  = json_decode($purpose);
+    // // $campaigns=Cache::remember('campaigns', $cacheTime, function () {
+    // //   return Campaing::where('active','1')->orderBy('name','ASC')->get();
+    // // });
+    // // added by fazal on -19-6-23
+    // $campaigns = Campaing::where('active','1')->orderBy('name','ASC')->get();
+    
+    
+    
+
+    $campaignCountry = '';
+    // End Hundel Counties Sort
     if(userRole() == 'sales admin saudi'){ //Added by Javed
+      $campaignCountry = '1';
       $projects = Project::where('country_id','1')->orderBy('name_en','ASC')->get();
     }else if(userRole() == 'sales admin uae'){  //Added by Javed
       $projects = Project::where('country_id','2')->orderBy('name_en','ASC')->get();
+      $campaignCountry = '2';
     }
     // 
-    else if(userRole() == 'sales admin'){
+    else if(userRole() == 'sales admin' || userRole()=='sales director' || userRole()=='sales' || userRole()=='leader'){
     // dd('hit'); //Added by Javed
       $user=User::where('id',auth()->id())->first();
       if($user->time_zone=='Asia/Riyadh')
       {
-      $projects = Project::where('country_id','1')->orderBy('name_en','ASC')->get();  
+        $campaignCountry = '1';
+        $projects = Project::where('country_id','1')->orderBy('name_en','ASC')->get();  
       }
       else
       {
-       $projects = Project::where('country_id','2')->orderBy('name_en','ASC')->get(); 
+        $projects = Project::where('country_id','2')->orderBy('name_en','ASC')->get(); 
+        $campaignCountry = '2';
       }
       
     }
@@ -404,18 +399,27 @@ class MainController extends Controller
       $projects = Project::orderBy('name_en','ASC')->get();
       if(userRole() == 'leader'){
         if(auth()->user()->time_zone == 'Asia/Riyadh'){
+          $campaignCountry = '1';
           $projects = Project::where('country_id','1')->orderBy('name_en','ASC')->get();
         }else if(auth()->user()->time_zone == 'Asia/Dubai'){
           $projects = Project::where('country_id','2')->orderBy('name_en','ASC')->get();
+          $campaignCountry = '2';
         }
       }
     }
 
     $purpose  = auth()->user()->position_types;
     $purpose  = json_decode($purpose);
-    $campaigns=Cache::remember('campaigns', $cacheTime, function () {
-      return Campaing::where('active','1')->orderBy('name','ASC')->get();
-    });
+    
+    // added by fazal on -19-6-23
+    if($campaignCountry){
+      $campaigns = Campaing::where('active','1')
+      ->whereHas('project',function($q) use($campaignCountry){
+        $q->where('country_id',$campaignCountry);
+      })->orderBy('name','ASC')->get();
+    }else{
+      $campaigns = Campaing::where('active','1')->orderBy('name','ASC')->get();
+    }
 
     $miles=Cache::remember('miles', $cacheTime, function () {
       return LastMileConversion::where('active','1')

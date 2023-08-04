@@ -110,7 +110,7 @@ class ProjectDataController extends Controller
     */
   public function store(Request $request)
   {
-
+      
       $data = $request->validate([
         "country_id"          => "nullable",
         "city_name"          => "required",
@@ -121,16 +121,18 @@ class ProjectDataController extends Controller
         "property_type"          => "required",
         "area_bua"          => "nullable",
         "area_plot"          => "nullable",
-        "bedroom"          => "required",
+        "bedroom"          => "nullable",
         "price"          => "required",
         "completion_date"          => "nullable",
         "payment_status"          => "nullable",
         "floor_no"      =>"required",
         "commission"    =>"nullable",
+        "commission_percent"    =>"nullable",
         "down_payment"  => "nullable",
         "down_payment_percentage"=>"nullable",
         "floor_plan"          => "nullable",
         "status"          => "nullable",
+        "unit_type"  =>"nullable",
       ]);
 
 
@@ -152,7 +154,7 @@ class ProjectDataController extends Controller
   public function update(Request $request,  $id)
   {
     $projectdata = ProjectData::findOrFail($id);
-
+    
     $data = $request->validate([
       "country_id"          => "nullable",
       "city_name"          => "required",
@@ -163,16 +165,18 @@ class ProjectDataController extends Controller
       "property_type"          => "required",
       "area_bua"          => "nullable",
       "area_plot"          => "nullable",
-      "bedroom"          => "required",
+      "bedroom"          => "nullable",
       "price"          => "required",
       "completion_date"          => "nullable",
       "payment_status"          => "nullable",
       "floor_no"      =>"required",
       "commission"    =>"nullable",
+      "commission_percent"    =>"nullable",
       "down_payment"  => "nullable",
       "down_payment_percentage"=>"nullable",
       "floor_plan"          => "nullable",
       "status"          => "nullable",
+      "unit_type"  =>"nullable",
     ]);
 
     $data['updated_at'] = Carbon::now();
@@ -319,9 +323,10 @@ class ProjectDataController extends Controller
 
     public function View($id)
     {
+     
      $unit_count=ProjectData::where('project_id',$id)->count();
      $project_id=$id;
-     $arr= ProjectData::where('project_id',$id)->where('floor_no','!=', " " )->orderBy('floor_no','asc')->groupBy('floor_no')->get();
+     $arr= ProjectData::where('project_id',$id)->whereNotNull('floor_no')->orderBy('floor_no','asc')->groupBy('floor_no')->get();
      foreach($arr as $key=>$data){
       $arr[$key]['unit_name']=ProjectData::where('project_id',$id)->where('floor_no',$data->floor_no)->get();
      }
@@ -334,13 +339,19 @@ class ProjectDataController extends Controller
      return view('admin.projectdata.view',compact('unit_count','project_id','arr','project_name','available','sold_out','reserved','total','image'));
    }  
 
-   public function getPupUpByAjax(Request $request){
+  public function getPupUpByAjax(Request $request){
     $unit_name=ProjectData::find($request->get('id'));
     return view('admin.projectdata.viewModal',compact('unit_name'));
   }  
-
   public function termsAndConditions(Request $request){
     return view('admin.projectdata.terms-and-conditions');
   }  
+
+   public function resale(){
+    $projects=ProjectName::get();
+    return view('admin.projectdata.resale',compact('projects'));
+   }
+
+
 
 }

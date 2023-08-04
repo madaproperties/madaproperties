@@ -1851,7 +1851,6 @@ $('#city_id').on('change', function () {
     // fetch zone
   $('#city_id').on('change', function () {
     var city_id = this.value;
-    alert(city_id);
     $.ajax({
         url: "{{url('contactsfetch-zone')}}",
         type: "POST",

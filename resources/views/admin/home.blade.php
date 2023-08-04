@@ -222,7 +222,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 							@if(userRole() != 'sales')
 								<div class="{{$contacts->withQueryString()->links() == ''? 'assign-delete-buttons' : 'page-button'}}">
 									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#assign-leads">
-															Assing <i class="fa fa-users"></i></button>
+															Assign <i class="fa fa-users"></i></button>
 									@can('contact-delete')
 										<button type="button" class="btn btn-primary delete-all">
 															Delete <i class="fa fa-trash"></i>
@@ -243,10 +243,9 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
                     @endif
 										<th>ID</th>
 										<th>{{__('site.Name')}}</th>
-										<th>{{__('site.Phone')}}</th>
+										<!--<th>{{__('site.Phone')}}</th>-->
 										<th>{{__('site.country')}} </th>
 										<th>{{__('site.project')}} </th>
-										<!--<th>{{__('site.city')}}</th>-->
 										<th>{{__('site.status')}}</th>
 										<th>{{__('site.Created')}}</th>
 										<th>{{__('site.Last Updated')}}</th>
@@ -276,11 +275,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
                         {{$contact->fullname}}</a>
                       </td>
 
-										<td>
-					{{$contact->country ? $contact->country->code : ''}}{{ str_starts_with($contact->phone,0) ?
-					substr($contact->phone,1)
-					: $contact->phone }}
-										</td>
+			
 
 											<td>{{$contact->country ? $contact->country->name : ''}}</td>
 											<td>{{$contact->project ? $contact->project->name : ''}}</td>

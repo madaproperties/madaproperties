@@ -57,20 +57,27 @@ img {
       <div class="d-flex flex-column-fluid">
        <div class="container">
         <div class="row">
+          
        @foreach($data as $datas)
+          @if(($datas->projectSales))
+          <div class="col-xs-12 col-sm-4 col-lg-4 webcard">
+            <div class="card" >
+              @if(!empty($datas->projectSales->image))
+                <img src="{{ asset('public/uploads/projectData/'.$datas->projectSales->image)}}" alt="Avatar">
+              @else
+                <img src="{{ asset('public/images/park3.jpg')}}" alt="Avatar">
+              @endif
+              <a class="web-project" href="{{route('projectdata.view',$datas->projectSales->id)}}">  {{$datas->projectSales->name}}  </a>
+            </div>
+          </div>
+          @endif
+      @endforeach
       <div class="col-xs-12 col-sm-4 col-lg-4 webcard">
-        <div class="card" >
-          @if(($datas->project) && !empty($datas->project->image))
-  <img src="{{$datas->project->image}}" alt="Avatar">
-  @else
-  <img src="{{ asset('public/images/park3.jpg')}}" alt="Avatar">
-  @endif
-  <a class="web-project" href="{{route('projectdata.view',$datas->project->id)}}">  {{$datas->project->name}}  </a>
-   
-  
-</div>
-</div>
-@endforeach
+            <div class="card" >
+              <img src="{{ asset('public/imgs/Banner (1).jpg')}}" alt="Resale Projects">
+              <a class="web-project" href="{{route('projectdata.resale')}}">  Resale Units </a>
+            </div>
+          </div>
 </div>
        </div>
     </div>

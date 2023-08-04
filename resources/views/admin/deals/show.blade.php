@@ -443,11 +443,32 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<div class="col-lg-12 col-xl-12">
 																			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#signed_contract_uploader">
-																				Add Signed Contract <i class="fa fa-image"></i> ({{count($deal->signed_contract)}}) 
+																				Purchased Agreement <i class="fa fa-image"></i> ({{count($deal->signed_contract)}}) 
 																			</button>
 																		</div>
 																	</div>
 																	</div>
+																	<!---->
+																	<div id="uae_deal" style="display:{{$deal->unit_country == '2' ? 'block':'none'}}">
+																	 <div class="form-group row fv-plugins-icon-container">
+																		<div class="col-lg-12 col-xl-12">
+																			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#document_uploader">
+																				Add Document Id <i class="fa fa-image"></i> ({{count($deal->documents)}}) 
+																			</button>
+																		</div>
+																	</div>
+																		<div class="form-group row fv-plugins-icon-container">
+																		<div class="col-lg-12 col-xl-12">
+																			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#signed_contract_uploader">
+																				Purchased Agreement <i class="fa fa-image"></i> ({{count($deal->signed_contract)}}) 
+																			</button>
+																		</div>
+																	</div>
+																	
+																	 
+																	 
+																	 </div>
+																	<!---->
 
 
 
@@ -1228,8 +1249,13 @@
 		let val = $(this).val();
 		if(val == '1'){
 			$('#saudi_deal').css('display','block');
-		}else{
+		}
+		else if(val == '1'){
+		    $('#uae_deal').css('display','block');
+		}
+		else{
 			$('#saudi_deal').css('display','none');
+			$('#uae_deal').css('display','none');
 		}
 	});
 	

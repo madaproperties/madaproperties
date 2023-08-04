@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\User;
+use App\Hrnotification;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Hash;
-use App\Hrnotification;
-
 
 class AccountController extends Controller
 {
 
     public function index()
     {
+        // added by fazal 28-5-23
         if(userRole()=='hr')
         {
             if(auth()->user()->time_zone=='Asia/Dubai')
@@ -26,6 +26,7 @@ class AccountController extends Controller
             }
             return view('admin.account.index',compact('notification_count'));    
         }
+        
         return view('admin.account.index');
     }
 

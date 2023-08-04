@@ -9,6 +9,7 @@
   border-collapse: collapse;
   width: 100%;
 }
+span.agree_checbox{padding-left:10px;}
 .book_now .btn.btn-primary{width: 100%;
     font-size: 20px;
     border-radius: 0;}
@@ -301,7 +302,7 @@ div#units{padding:30px;}
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-4 col-lg-4">{{__('site.down_payment')}}</label>
 																		<div class="col-lg-8 col-xl-8">
-																			{{ $unit->down_payment}}
+																			{{ number_format((str_replace(",","",$unit->down_payment)))}}
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -328,7 +329,7 @@ div#units{padding:30px;}
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container payment_heading">
 																	    <h3 class="w-100">Payment</h3>
-																	<p>In order to book accommodation, you need to </br><span class="green">deposit SAR 10,000</span> of the total booking payment.</p>
+																	<p>In order to book accommodation, you need to </br><span class="green">deposit SAR 10,000 (Non Refundable)</span> of the total booking payment.</p>
 																	</div>
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-4 col-form-label">{{__('site.CustomerName')}}</label>
@@ -364,8 +365,8 @@ div#units{padding:30px;}
 																		</div>
 																	</div>
 																		<div class="form-group row fv-plugins-icon-container">
-                                                                <div class="col-lg-12 col-xl-12 term_condition">
-                                                                    <p><input type="checkbox" name="termsAndConditions" required><span>I Agree to <a href="{{route('projectdata.termsAndConditions')}}">terms and conditions</a></span></p>
+                                                                <div class="col-lg-12 col-xl-12 term_condition pl-4">
+                                                                    <p class="d-flex"><input type="checkbox" name="termsAndConditions" required><span class="agree_checbox">I Agree to <a href="{{route('projectdata.termsAndConditions')}}">terms and conditions</a></span></p>
                                                                 </div>
 																<div class="col-lg-12 col-xl-12 book_now">
 																	<input type="submit" class="btn btn-primary font-weight-bolder" value="{{__('site.BookNow')}}"/>

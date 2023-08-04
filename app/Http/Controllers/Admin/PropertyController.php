@@ -31,6 +31,10 @@ use App\Zones;
 use App\Districts;
 use App\PropertyFloorPlans;
 use App\TempFloorPlansDocuments;
+use Redirect;
+use App\PropertyExport;
+
+
 
 
 class PropertyController extends Controller
@@ -53,9 +57,12 @@ class PropertyController extends Controller
 
   // index 
   public function index(Request $request){
+    if(Request()->has('exportData')){
+      return Excel::download(new PropertyExport, 'PropertyReport_'.date('d-m-Y').'.xlsx');
+    }  
 
-
-    if(userRole() == 'admin' || userRole() == 'sales admin uae'){ //Updated by Javed
+    $propertyData = array();
+    if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales director'){ //Updated by Javed
 
       if($request->get('pt') == 'dubai'){
         $users = User::select('id')
@@ -66,6 +73,33 @@ class PropertyController extends Controller
         $property = Property::where(function ($q){
           $this->filterPrams($q);
         })->whereIn('user_id',$usersIds);
+        
+        //Added by Lokesh on 27-07-2023
+        $propertyData['sale_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'sale_rent','1','status','1');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['rent_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'sale_rent','2','status','1');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['commercial_sale_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'property_type','2','sale_rent','1');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['commercial_rent_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'property_type','2','sale_rent','2');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['pending_approval_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'status','4');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['offline_property_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'status','6');
+        })->whereIn('user_id',$usersIds)->count();
+        //End
+        
       }elseif($request->get('pt') == 'saudi'){
         $users = User::select('id')
         ->where('active','1')
@@ -75,10 +109,65 @@ class PropertyController extends Controller
         $property = Property::where(function ($q){
           $this->filterPrams($q);
         })->whereIn('user_id',$usersIds);
+        
+        
+         //Added by Lokesh on 27-07-2023
+        $propertyData['sale_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'sale_rent','1','status','1');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['rent_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'sale_rent','2','status','1');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['commercial_sale_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'property_type','2','sale_rent','1');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['commercial_rent_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'property_type','2','sale_rent','2');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['pending_approval_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'status','4');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['offline_property_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'status','6');
+        })->whereIn('user_id',$usersIds)->count();
+        //End
+        
       }else{     
+           $user_loc="Asia/Dubai";
         $property = Property::where(function ($q){
           $this->filterPrams($q);
         });
+        
+        //Added by Lokesh on 27-07-2023
+        $propertyData['sale_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'sale_rent','1','status','1');
+        })->count();
+
+        $propertyData['rent_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'sale_rent','2','status','1');
+        })->count();
+
+        $propertyData['commercial_sale_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'property_type','2','sale_rent','1');
+        })->count();
+
+        $propertyData['commercial_rent_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'property_type','2','sale_rent','2');
+        })->count();
+
+        $propertyData['pending_approval_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'status','4');
+        })->count();
+
+        $propertyData['offline_property_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'status','6');
+        })->count();
+        //End
       }
     }elseif(userRole() == 'leader'){
       // get leader group
@@ -93,6 +182,34 @@ class PropertyController extends Controller
       $property = Property::where(function ($q){
         $this->filterPrams($q);
       })->whereIn('user_id',$usersIds);
+      
+      
+      //Added by Lokesh on 27-07-2023
+        $propertyData['sale_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'sale_rent','1','status','1');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['rent_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'sale_rent','2','status','1');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['commercial_sale_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'property_type','2','sale_rent','1');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['commercial_rent_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'property_type','2','sale_rent','2');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['pending_approval_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'status','4');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['offline_property_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'status','6');
+        })->whereIn('user_id',$usersIds)->count();
+        //End
+
 
     }else if(userRole() == 'sales admin') { // sales admin     
       $subUserId[]=auth()->id();
@@ -103,10 +220,66 @@ class PropertyController extends Controller
       $property = Property::where(function ($q){
         $this->filterPrams($q);
       })->whereIn('user_id',$subUserId);
+      
+      //Added by Lokesh on 27-07-2023
+        $propertyData['sale_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'sale_rent','1','status','1');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['rent_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'sale_rent','2','status','1');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['commercial_sale_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'property_type','2','sale_rent','1');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['commercial_rent_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'property_type','2','sale_rent','2');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['pending_approval_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'status','4');
+        })->whereIn('user_id',$usersIds)->count();
+
+        $propertyData['offline_property_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'status','6');
+        })->whereIn('user_id',$usersIds)->count();
+        //End
+      
+      
     }else{
       $property = Property::where(function ($q){
         $this->filterPrams($q);
       })->where('user_id',auth()->id());
+      
+      
+      //Added by Lokesh on 27-07-2023
+        $propertyData['sale_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'sale_rent','1','status','1');
+        })->where('user_id',auth()->id())->count();
+
+        $propertyData['rent_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'sale_rent','2','status','1');
+        })->where('user_id',auth()->id())->count();
+
+        $propertyData['commercial_sale_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'property_type','2','sale_rent','1');
+        })->where('user_id',auth()->id())->count();
+
+        $propertyData['commercial_rent_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'property_type','2','sale_rent','2');
+        })->where('user_id',auth()->id())->count();
+
+        $propertyData['pending_approval_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'status','4');
+        })->where('user_id',auth()->id())->count();
+
+        $propertyData['offline_property_count'] = Property::where(function ($q){
+          $this->filterPrams2($q,'status','6');
+        })->where('user_id',auth()->id())->count();
+        //End
+      
     }
 
     if(Request()->has('portals') && Request()->get('portals')){
@@ -121,10 +294,22 @@ class PropertyController extends Controller
     $categories = Categories::get(); 
     $sellers = getSellers();
     // added by fazal -7-3-23
-    $leaders= User::where('rule','leader')->select('id','email')->get(); 
-    // added by fazal 04-05-23
-    $communities = Community::where('city_id','84')->where('parent_id',0)->orderBy('name_en','asc')->get(); 
-    return view('admin.property.index',compact('properties','property_count','categories','sellers','leaders','communities'));
+    $leaders= User::whereIn('rule',['sales director','leader'])->where('active',1)->select('id','email')->get(); 
+    // 
+    //added by fazal 19-07-23
+     $community_country=84; //Dubai
+    if(auth()->user()->time_zone == 'Asia/Riyadh'){
+      $community_country=2; //Riyadh
+    }
+    $community=Community::where('city_id',$community_country)->where('parent_id',0)->get();
+
+    $sub_community=[];
+    if(request()->has('ADVANCED') && request()->get('community')){
+      $sub_community=Community::where('parent_id',request()->get('community'))->get();
+    }
+    
+    
+    return view('admin.property.index',compact('properties','property_count','categories','sellers','leaders','community','sub_community','propertyData'));
   }
 
   public function create()
@@ -154,7 +339,7 @@ class PropertyController extends Controller
     * @return \Illuminate\Http\Response
     */
   public function store(Request $request) {
-
+   
     $data = $request->validate([
       "title" => 'required',
       "title_ar" => 'nullable',
@@ -261,6 +446,7 @@ class PropertyController extends Controller
       'nearest_facilities' => 'nullable',              
       'financial_status' => 'nullable',              
       'layout_type' => 'nullable',              
+      'off_line_property' => 'nullable',              
     ]);
 
     // if(isset($data['is_managed'])){
@@ -289,6 +475,12 @@ class PropertyController extends Controller
     if($data['building_name']){
       $address .= $data['building_name'].',';
     }
+
+
+    if(!empty($data['off_line_property'])){
+      $data['status']=6;
+    }
+
     if(!empty($data['sub_community'])){
       $sub_community = Community::where('id',$data['sub_community'])->first();
       if($sub_community){
@@ -323,6 +515,7 @@ class PropertyController extends Controller
     addHistory('Property',0,'added',$data);
 
     $property = Property::create($data);
+    Property::where('id',$property->id)->update(['crm_id'=>'MADA-'.$property->id]);
 
     // if(\Session::get('tempImages')){
     //   foreach(\Session::get('tempImages') as $image){
@@ -452,7 +645,6 @@ class PropertyController extends Controller
       \DB::table("property_portals")->insert($temp); 
       session()->forget('tempPortals');  
     } 
-    Property::where('id',$property->id)->update(['crm_id'=>'MADA-'.$property->id]);
 
     if($request->get('notes')){
       PropertyNotes::create([
@@ -483,7 +675,7 @@ class PropertyController extends Controller
   {
 
     $property = Property::findOrFail($id);
-
+   
     $data = $request->validate([
       "title" => 'required',
       "title_ar" => 'nullable',
@@ -589,7 +781,8 @@ class PropertyController extends Controller
       'no_of_floors' => 'nullable',              
       'nearest_facilities' => 'nullable',              
       'financial_status' => 'nullable',              
-      'layout_type' => 'nullable',              
+      'layout_type' => 'nullable',     
+      'off_line_property' => 'nullable',              
     ]);
 
     // if(isset($data['is_managed'])){
@@ -612,6 +805,13 @@ class PropertyController extends Controller
       }
     }
 
+    if(!empty($data['off_line_property'])){
+      $data['status']=6;
+    }
+
+    if($property->status == 6 && empty($data['off_line_property'])){
+      $data['status']=4;
+    }
 
     $address='';
     if($data['building_name']){
@@ -649,6 +849,8 @@ class PropertyController extends Controller
     }
 
     addHistory('Property',$id,'updated',$data,$property);
+    unset($data['off_line_property']);
+
     $property->update($data);
 
     if($request->get('notes')){
@@ -766,7 +968,8 @@ class PropertyController extends Controller
     $property = Property::findOrFail($id);
 
     //dd($property->images[0]->images_link);
-    return view('admin.property.new_brochure',compact('property'));
+    $property_features = PropertyFeatures::where('property_id', $id)->join('features','property_features.feature_id','features.id')->take(6)->get();
+    return view('admin.property.new_brochure',compact('property','property_features'));
 
   }
 
@@ -801,7 +1004,7 @@ class PropertyController extends Controller
 
             //Upload Images One After the Order into folder
             $img = Image::make($file->getRealPath());
-            $watermark = Image::make(public_path('/images/Mada-Watermark.png'));                
+            $watermark = Image::make(public_path('/images/Watermark-01.png'));                
             $img->insert($watermark, 'center');
             $img->save($destinationPath.'/'.$filename);
             
@@ -834,7 +1037,7 @@ class PropertyController extends Controller
             }
             //Upload Images One After the Order into folder
             $img = Image::make($file->getRealPath());
-            $watermark = Image::make(public_path('/images/Mada-Watermark.png'));                
+            $watermark = Image::make(public_path('/images/Watermark-01.png'));                
             $img->insert($watermark, 'center');
             $img->save($destinationPath.'/'.$filename);
 
@@ -1114,23 +1317,25 @@ class PropertyController extends Controller
   }
 
   private function filterPrams($q){
-    
+
     if(request()->has('ADVANCED')){
       $uri = '';
       $feilds = request()->all();
-    $allowedFeilds =[
+      $allowedFeilds =[
         "status" ,
         "category_id" ,
         "user_id",
         "sale_rent",
         "property_type",
-        "community",  //added by fazal 04-05-23
-        "bedrooms",   //added by fazal 04-05-23
+        "community",
+        "sub_community",
+        "price",
+        "bedrooms"
       ];
 
       foreach($feilds as $feild => $value){
         if(in_array($feild,$allowedFeilds) AND !empty($value)){
-         $q->where($feild,$value);
+            $q->where($feild,$value);
         }
       }
 
@@ -1151,29 +1356,6 @@ class PropertyController extends Controller
           $updated_to = date('Y-m-d 23:59:59', strtotime(Request('updated_to')));
           $q->where('last_updated','<=',$updated_to);
         }            
-       }
-      //added by fazal 04-05-2023
-      if(Request('min_price') && Request('max_price')){
-        $uri = Request()->fullUrl();
-        session()->put('start_filter_url',$uri);
-        $min = Request('min_price');
-        $max =  Request('max_price');
-        $q->whereBetween('price',[$min,$max]);
-      } 
-      else{
-        if(Request('min_price')){
-          $uri = Request()->fullUrl();
-          session()->put('start_filter_url',$uri);
-          $min = Request('min_price') ;
-          $q->where('price','>=', $min);
-        }
-         if(Request('max_price')){
-          $uri = Request()->fullUrl();
-          session()->put('start_filter_url',$uri);
-          $max = Request('max_price');
-          $q->where('created_at','<=',$max);
-        }
-
       }
 
       //Added by Javed
@@ -1402,5 +1584,14 @@ class PropertyController extends Controller
     } 
     \Session::forget('tempFloorPlan');
   }  
+  
+  private function filterPrams2($q,$extraParaName='',$extraParaValue='',$extraParaName2='',$extraParaValue2=''){
+    if(!empty($extraParaName) && !empty($extraParaValue)){
+      $q->where($extraParaName,$extraParaValue);
+      if(!empty($extraParaName2) && !empty($extraParaValue2)){
+        $q->where($extraParaName2,$extraParaValue2);
+      }
+    }
+  }
 
 }

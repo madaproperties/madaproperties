@@ -33,7 +33,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
 
     public function query()
     {
-      if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole()== 'digital marketing' ){ //Updated by Javed added role digital markting by fazal 3-3-23
+      if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole()== 'digital marketing' ){ //Updated by Javed
 
         if(Request()->has('duplicated')){
 
@@ -280,28 +280,28 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
               $q2->where('projects.country_id',$value);
             });
           }else if($feild == 'is_meeting' && $value == 1){
-              // $q->whereHas('logs', function($q2) use($value,$user_id) {
-              //   $q2->where('logs.type','meeting');
-              //   if($user_id){
-              //     $q2->where('logs.user_id',$user_id);
-              //   }
-              //   //Added by Javed
-              //   if(Request('meeting_from') && Request('meeting_to')){
-              //     $from = date('Y-m-d', strtotime(Request('meeting_from')));
-              //     $to = date('Y-m-d', strtotime(Request('meeting_to')));
-              //     $q2->whereBetween('logs.log_date',[$from,$to]);
-              //   }else{   
-              //     if(Request('meeting_from')){
-              //       $from = date('Y-m-d', strtotime(Request('meeting_from')));
-              //       $q2->where('logs.log_date','>=', $from);
-              //     }   
-              //     if(Request('meeting_to')){
-              //       $to = date('Y-m-d', strtotime(Request('meeting_to')));
-              //       $q2->where('logs.log_date','<=',$to);
-              //     }            
-              //   }                
-              // });
-              
+            //   $q->whereHas('logs', function($q2) use($value,$user_id) {
+            //     $q2->where('logs.type','meeting');
+            //     if($user_id){
+            //       $q2->where('logs.user_id',$user_id);
+            //     }
+            //     //Added by Javed
+            //     if(Request('meeting_from') && Request('meeting_to')){
+            //       $from = date('Y-m-d', strtotime(Request('meeting_from')));
+            //       $to = date('Y-m-d', strtotime(Request('meeting_to')));
+            //       $q2->whereBetween('logs.log_date',[$from,$to]);
+            //     }else{   
+            //       if(Request('meeting_from')){
+            //         $from = date('Y-m-d', strtotime(Request('meeting_from')));
+            //         $q2->where('logs.log_date','>=', $from);
+            //       }   
+            //       if(Request('meeting_to')){
+            //         $to = date('Y-m-d', strtotime(Request('meeting_to')));
+            //         $q2->where('logs.log_date','<=',$to);
+            //       }            
+            //     }                
+            //   });
+            
               $logsIds = \App\Log::where('logs.type','meeting');
               if($user_id){
                 $logsIds->where('logs.user_id',$user_id);
@@ -368,6 +368,17 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         }            
       }
       //End
+      
+      // added by fazal 09-03-23
+      if(Request()->has('leader') && request('leader')){
+        $uri = Request()->fullUrl();
+        session()->put('start_filter_url',$uri);
+        $leaderId=request('leader');
+        $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+        $usersIds = $users->pluck('id')->toArray();
+        $q->whereIn('user_id',$usersIds);
+      }
+      // end
 
       if(Request()->has('challenge_lead') && request('challenge_lead')){
         $uri = Request()->fullUrl();

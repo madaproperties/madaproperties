@@ -119,7 +119,7 @@
 															</a>
 														</li>
 														<!--edited by fazal-->
-														 @if(userRole() == 'admin' || userRole() == 'sales admin uae') 
+														 @if(userRole() == 'admin' || userRole() == 'sales admin uae'|| userRole()=='leader') 
 														<li class="nav-item">
 															<a class="nav-link" id="verification-tab" data-toggle="tab" href="#verification" aria-controls="verification">
 																<span class="nav-icon">
@@ -1116,6 +1116,12 @@
 																					@endforeach
 																				@endif
 																			</div>
+																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.off_line_property')}}</label>
+																			<div class="col-xs-12 col-sm-1 col-lg-1">
+																				<input class="form-control form-control-solid form-control-lg" id="off_line_property" name="off_line_property" type="checkbox" style="height: auto;margin-top: 14px;" {{ $property->status == 6 ? "checked" : "" }}>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+
 																		</div>
 																		<!--end::Group-->
 																		
@@ -1132,8 +1138,8 @@
 																				</span>
 																			{{__('site.previous')}}
 																			</a>	
-																		
-																			@if(userRole() == 'admin' || userRole() == 'sales admin uae'  )
+																		   <!--updated by fazal -->
+																			@if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole()=='leader' )
 																				<a href="#verification" data-target="#verification" data-toggle="tab" class="btn btn-primary font-weight-bolder px-9 py-4" onclick="changeTab('#verification')">
 																				{{__('site.next')}}
 																				<span class="nav-icon ml-5">
@@ -1158,7 +1164,7 @@
 																		<!--begin::Wizard Step 1-->
 																		<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">	
 																	
-																			@if(userRole() == 'admin' || userRole() == 'sales admin uae')
+																			@if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole()=='leader')
 																				<!--begin::Group-->
 																				<div class="form-group row fv-plugins-icon-container">
 																					<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.status')}}</label>
@@ -1187,7 +1193,7 @@
 																		
 																			<!--begin::Group-->
 																			
-																			@if(userRole() == 'admin' || userRole() == 'sales admin uae') 
+																			@if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole()=='leader') 
 																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.portals')}}</label>
 																				<div class="col-xs-12 col-sm-6 col-lg-3">
 																					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#portals_modal">
@@ -1200,7 +1206,7 @@
 																			<!--end::Group-->
 																			</div>
 																	</div>
-																			@if(userRole() == 'admin' || userRole() == 'sales admin uae' )
+																			@if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole()=='leader' )
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.verified')}}</label>
@@ -1256,7 +1262,7 @@
 																			
 																			<label class="col-xs-12 col-sm-6 col-lg-3 col-form-label">{{__('site.permit')}}</label>
 																			<div class="col-xs-12 col-sm-6 col-lg-3">
-																				<input class="form-control form-control-solid form-control-lg" 	name="str_no" type="text" value="{{$property->str_no}}" placeholder="{{__('site.permit_no')}}">
+																				<input class="form-control form-control-solid form-control-lg" id="str_no" name="str_no" type="text" value="{{$property->str_no}}" placeholder="{{__('site.permit_no')}}">
 																				<div class="fv-plugins-message-container"></div>
 																			</div>
 																			
@@ -1284,7 +1290,8 @@
 																	<!--end::Wizard Actions-->
 																</div>
 															</div>	
-															@endcan															
+															@endcan	
+																	
 														</div>
 													</form>
 													<!--end::Wizard Form-->
@@ -1361,6 +1368,22 @@ var KTCkeditor = function () {
 }();
 // Initialization
 KTCkeditor.init();
+
+$(document).ready(function(){
+	$("#status").on('change',function(){
+		if($(this).val() == '1'){
+			$("#str_no").attr("required",true);
+		}else{
+			$("#str_no").attr("required",false);
+		}
+	});
+	if($("#status").val() == '1'){
+		$("#str_no").attr("required",true);
+	}else{
+		$("#str_no").attr("required",false);
+	}
+});
+
 </script>
 @endpush
 

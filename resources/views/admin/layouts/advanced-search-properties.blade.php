@@ -34,7 +34,7 @@
   <input type="hidden" name="pt" value="{{request()->get('pt')}}">
 
   <div class="row"> <!--- row -->
-    @if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'leader' || userRole()=='sales')
+    @if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'leader' || userRole()== 'sales')
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.status')}}</label>
       <select class="form-control" name="status">
@@ -63,7 +63,7 @@
         @foreach($categories as $category)
         <option {{ Request('category_id') == $category->id ? 'selected' : ''}} value="{{$category->id}}">{{$category->category_name}}</option>
         @endforeach
-      </select>                                       
+      </select>																				
     </div>
     <!--end::Group-->
     <!--begin::Group-->
@@ -71,9 +71,9 @@
       <label for="country">{{__('site.property_type')}}</label>
       <select class="form-control" name="property_type">
         <option value="">{{__('site.choose')}}</option>
-        <option value="1">{{__('site.residential')}}</option>
-        <option value="2">{{__('site.commercial')}}</option>
-      </select>                                         
+        <option {{ Request('property_type') == '1' ? 'selected' : ''}} value="1">{{__('site.residential')}}</option>
+        <option {{ Request('property_type') == '2' ? 'selected' : ''}} value="2">{{__('site.commercial')}}</option>
+      </select>																					
     </div>
     <!--end::Group-->
     <!--begin::Group-->
@@ -82,7 +82,7 @@
       <select class="form-control" name="sale_rent">
         <option value="">{{__('site.choose')}}</option>
         {!! selectOptions(__('config.sale_rent'),Request('sale_rent')) !!}
-      </select>                                         
+      </select>																					
     </div>
     <!--end::Group-->    
     <!--begin::Group-->
@@ -91,7 +91,7 @@
       <select class="form-control" name="portals">
         <option value="">{{__('site.choose')}}</option>
         {!! selectOptions(__('config.portals'),Request('portals')) !!}
-      </select>                                         
+      </select>																					
     </div>
     <!--end::Group-->
     <!--begin::Group-->
@@ -183,6 +183,7 @@
           </div>
         </div>
     </div>
+ 
 
     @if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales director' || userRole() == 'sales admin saudi')
       @if(isset($leaders) && count($leaders)>0)
@@ -198,20 +199,7 @@
       </div>
       @endif
     @endif
-    <!-- added by fazal  -->
-    @if(isset($communities) && count($communities)>0)
-      <div class="form-group col-md-4 col-sm-12">
-        <label for="country">{{__('site.Community')}}</label>
-        <select class="form-control" name="community"  data-select2-id="" tabindex="-1" aria-hidden="true">
-          <option value="">{{ __('site.choose') }}</option>
-            @foreach($communities as $community)
-              <option {{request('community') == $community->id ? 'selected' : ''}}
-                      value="{{$community->id}}">{{$community->name_en}}</option>
-            @endforeach
-        </select>
-      </div>
-      @endif
-    <!--end  -->
+  
      <!-- added by fazal -->
      <div class="form-group col-md-4 col-sm-12">
       <div class="form-group ">
@@ -237,22 +225,87 @@
           </div>
         </div>
     </div>
-     <!-- end  -->
-      <div class="form-group col-md-4 col-sm-12">
-        <label for="country">{{__('site.Bedroom')}}</label>
-        <select class="form-control" name="bedrooms"  data-select2-id="" tabindex="-1" aria-hidden="true">
-          <option value="">{{ __('site.choose') }}</option>
-          
-            @for($i=0;$i<=10;$i++)
-            @if($i==0)
-            <option value="0">Studio</option>
-            @else
-            <option value="{{$i}}">{{$i}}</option>
-            @endif
-             @endfor
-        </select>
-      </div>
     
+    <!--added by fazal-->
+     <div class="form-group col-md-4 col-sm-12">
+      <div class="form-group ">
+          <label class="">{{__('site.price')}}</label>
+          <div class="">
+            <div class="input-group input-group-solid">
+              <input value="{{request('price')}}" type="text" class="form-control form-control-solid"
+              name="price" autocomplete="off">
+            </div>
+          </div>
+        </div>
+    </div>
+    
+    <!--end-->
+     <!-- added by fazal -->
+     <div class="form-group col-md-4 col-sm-12">
+      <div class="form-group ">
+          <label class="">{{__('site.bedrooms')}}</label>
+          <div class="">
+            <div class="input-group input-group-solid">
+              <input value="{{request('bedrooms')}}" type="text" class="form-control form-control-solid"
+              name="bedrooms" autocomplete="off">
+            </div>
+          </div>
+        </div>
+    </div>
+     <!-- end  -->
+     <!-- added by fazal -->
+       <div class="form-group col-md-4 col-sm-12">
+      <div class="form-group ">
+          <label class="">{{__('site.community')}}</label>
+          <div class="">
+            <div class="input-group input-group-solid">
+              <select name="community" id="community" class="form-control">
+                <option value="">{{ __('site.choose') }}</option>
+                @foreach($community as $comm)
+                <option {{request('community') == $comm->id ? 'selected' : ''}} value="{{$comm->id}}">{{$comm->name_en}}</option>
+                @endforeach 
+              </select>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+      <div class="form-group ">
+          <label class="">{{__('site.sub_community')}}</label>
+          <div class="">
+            <div class="input-group input-group-solid">
+              <select name="sub_community" id="sub_community" class="form-control">
+                <option value="">{{ __('site.choose') }}</option>
+                @if($sub_community)
+                  @foreach($sub_community as $comm)
+                  <option {{request('sub_community') == $comm->id ? 'selected' : ''}} value="{{$comm->id}}">{{$comm->name_en}}</option>
+                  @endforeach 
+                @endif
+              </select>
+            </div>
+          </div>
+        </div>
+    </div>
+     <!-- end  -->
+    
+    
+     <!-- end  -->
+      <!--<div class="form-group col-md-4 col-sm-12">-->
+      <!--  <label for="country">{{__('site.Bedroom')}}</label>-->
+      <!--  <select class="form-control" name="bedrooms"  data-select2-id="" tabindex="-1" aria-hidden="true">-->
+      <!--    <option value="">{{ __('site.choose') }}</option>-->
+          
+      <!--      @for($i=0;$i<=10;$i++)-->
+      <!--      @if($i==0)-->
+      <!--      <option value="0">Studio</option>-->
+      <!--      @else-->
+      <!--      <option value="{{$i}}">{{$i}}</option>-->
+      <!--      @endif-->
+      <!--       @endfor-->
+      <!--  </select>-->
+      <!--</div>-->
+      <!-- end-->
+
   </div> <!-- end row -->
 <button type="submit" class="btn btn-primary">{{__('site.search')}}</button>
 </form>
@@ -264,16 +317,42 @@
 <!-- Added By javed -->
 
 <script>
-  $('.date').datepicker({
+	$('.date').datepicker({
     //format: 'dd/mm/yyyy',
     todayHighlight:'TRUE',
     autoclose: true,
   });
 
   $('#to').datepicker({
-    //format: 'dd/mm/yyyy',
+		//format: 'dd/mm/yyyy',
     todayHighlight:'TRUE',
     autoclose: true,
   });
+  
+   var getSubCommunityUrl = "{{route('admin.property.getSubCommunityUrl')}}";
+
+  $(document).ready(function(){
+  	  $("#community").change(function(e) {
+      e.preventDefault();    
+      var community_id = $(this).val();
+      var csrf_token = $('meta[name=csrf-token]').attr('content');
+      $.ajax({
+        headers: {
+              'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            },                    
+        url: getSubCommunityUrl+'?community_id='+community_id,
+        type: 'GET',
+        data:{community_id:community_id},
+        success: function (data) {
+          $("#loadingHolder").hide();
+          $('#sub_community').html(data);
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+      });
+    });
+  });
+  
 </script>
 @endpush

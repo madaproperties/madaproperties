@@ -23,6 +23,7 @@ class NotoficationsController extends Controller
     
       
         $notes = Notofication::with(['createor'])->select('*')->where('user_id',auth()->id())->orderBy('id','DESC')->get();
+        
 
         Notofication::where('user_id',auth()->id())->update(['is_read' => '1']);
         

@@ -18,13 +18,15 @@ class HomeController extends Controller
       if(userRole() == 'other'){
         return redirect()->route('admin.deal.index');      
       }
+      //added by fazal 28-05-2023
       elseif(userRole() == 'hr'){
        
         return redirect()->route('admin.employee.index');      
       }
-       elseif(userRole() == 'it'){
+      // added by fazal 18-06-23
+      elseif(userRole() == 'it'){
        
-        return redirect()->route('admin.mada_board.index');     
+        return redirect()->route('admin.madaboard.index');      
       }
       
       return view('home');
@@ -50,13 +52,15 @@ class HomeController extends Controller
           if(userRole() == 'other'){
             return redirect()->route('admin.deal.index');      
           }
-           elseif(userRole() == 'hr'){
+          //
+          elseif(userRole() == 'hr'){
              
             return redirect()->route('admin.employee.index');      
           }
-            elseif(userRole() == 'it'){
-           
-       return redirect()->route('admin.mada_board.index');      
+        //   added byb fazal 18-06-23
+        elseif(userRole() == 'it'){
+       
+        return redirect()->route('admin.madaboard.index');      
       }
          
           return redirect()->route('admin.');

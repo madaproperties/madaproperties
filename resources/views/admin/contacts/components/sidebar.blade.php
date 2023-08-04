@@ -142,7 +142,7 @@
     <span class="text-muted">
         @php
             if($contact->project):
-                $c = App\Country::where('id',$contact->project->country_id)->first();
+                $c = App\Country::where('id',$contact->unit_country)->first();
                 
                 if($c):
                     echo $c->name;
@@ -197,10 +197,10 @@
   <hr />
   @endif
   
-  @if($contact->city_id)
+  @if($contact->city && isset($contact->city->name))
   <div class="d-flex align-items-center justify-content-between mb-2">
     <span class="font-weight-bold mr-2">{{__('site.city')}}:</span>
-    <span class="text-muted">{{$contact->city ? $contact->city->name : ''}}</span>
+    <span class="text-muted">{{$contact->city->name}}</span>
   </div>
   <hr />
   @endif

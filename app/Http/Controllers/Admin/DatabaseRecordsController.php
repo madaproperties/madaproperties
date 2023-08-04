@@ -45,7 +45,7 @@ class DatabaseRecordsController extends Controller
     
     
     /********* Get Contacts By The Rule ***********/
-    if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing'  || userRole() == 'ceo'|| userRole() == 'sales director' ){ //Updated by Javed
+    if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing'  || userRole() == 'ceo'|| userRole() == 'sales director' || userRole() == 'leader' ){ //Updated by Javed
          
         if(userRole() == 'sales admin uae'){
 
@@ -76,8 +76,9 @@ class DatabaseRecordsController extends Controller
           $user=User::where('id',auth()->id())->first();
           if($user->time_zone=='Asia/Riyadh')
           {
-           $data = DatabaseRecords::where('country_id',1)
-          ->orderBy('created_at','DESC');
+           $data = DatabaseRecords::where('country_id',1)->where(function ($q){
+            $this->filterPrams($q);
+          })->orderBy('created_at','DESC');
 
           $data_count = $data->count();
 
@@ -86,7 +87,9 @@ class DatabaseRecordsController extends Controller
           }
           else
           {
-          $data = DatabaseRecords::where('country_id',2)->orderBy('created_at','DESC');
+          $data = DatabaseRecords::where('country_id',2)->where(function ($q){
+            $this->filterPrams($q);
+          })->orderBy('created_at','DESC');
 
           $data_count = $data->count();
 
@@ -94,6 +97,27 @@ class DatabaseRecordsController extends Controller
           $data = $data->paginate($paginationNo);
           }
         }
+        // 
+         elseif(userRole() == 'leader'){
+
+          $leaderId = auth()->id();
+     
+      
+      $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+        $usersIds = $users->pluck('id')->toArray();
+
+      
+      $data = DatabaseRecords::whereIn('user_id',$usersIds)->where(function ($q){
+            $this->filterPrams($q);
+          })->orderBy('created_at','DESC');
+      $data_count = $data->count(); 
+      $data = $data->paginate(20);
+
+
+          
+        }
+        
+        // 
 
         else{
 
@@ -310,9 +334,9 @@ class DatabaseRecordsController extends Controller
     $deal->update($data);
     //print_r(session('start_filter_url'));
     //die;
-    if(session('start_filter_url')){
-      return redirect(session()->get('start_filter_url'))->withSuccess(__('site.success'));
-    }
+    // if(session('start_filter_url')){
+    //   return redirect(session()->get('start_filter_url'))->withSuccess(__('site.success'));
+    // }
     return redirect(route('admin.database-records.index'))->withSuccess(__('site.success'));
   }
 
@@ -393,8 +417,9 @@ private function filterPrams($q){
             $email = $value;
           }
           if($feild == 'project_country_id'){
-            $projectId = Project::where('country_id',$value)->pluck('id');
-            $q->whereIn('project_id',$projectId);
+            $q->whereHas('project', function($q2) use($value) {
+              $q2->where('projects.country_id',$value);
+            });
           }
 
             if($feild == 'user_country_id'){
@@ -624,14 +649,9 @@ private function filterPrams($q){
     if(Request()->has('search')){
       $uri = Request()->fullUrl();
       session()->put('start_filter_url',$uri);
-      return $q->where('first_name','LIKE','%'. Request('search') .'%')
-              ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
-              ->OrWhere('phone','LIKE','%'. Request('search') .'%')
+      return $q->where('name','LIKE','%'. Request('search') .'%')
               ->OrWhere('email','LIKE','%'. Request('search') .'%')
-              ->OrWhere('scound_phone','LIKE','%'. Request('search') .'%')
-              ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
-              ->OrWhere('source','LIKE','%'. Request('search') .'%')
-              ->OrWhere('medium','LIKE','%'. Request('search') .'%')
+              ->OrWhere('phone','LIKE','%'. Request('search') .'%')
               ->get();
     }
   }

@@ -123,8 +123,7 @@
 	
 														<td class="pr-0 ">
 
-															<a href="javascript:void(0)" onclick="loadViewInPupUp({{$user->id}})"
-															class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details">	                            <i class="fa fa-edit"></i>
+															<a href="javascript:void(0)" onclick="loadViewInPupUp({{$user->id}})" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details">	                            <i class="fa fa-edit"></i>
 														 </a>
 
 														@if(auth()->user()->rule == 'admin')
@@ -371,6 +370,7 @@ function submitForm(id){
 	$("#destory-"+id).submit();
 }			
 	</script>
+	
 
 
 <script>
@@ -397,4 +397,5 @@ function loadViewInPupUp(id){
 }
 </script>
 
+	
 @endpush

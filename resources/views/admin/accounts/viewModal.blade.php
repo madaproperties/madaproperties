@@ -55,7 +55,7 @@
 											<label>{{__('site.user_pic')}}:</label>
 											<div class="fv-plugins-message-container"></div>
 											@if($user->user_pic)
-												<img src="{{env('APP_URL').'/public/uploads/users/'.$user->user_pic}}" width="50%">
+												<img src="{{$user->user_pic}}" width="50%">
 											@endif
 											<input type="file" class="form-control" name="user_pic" >
 										</div>
@@ -118,7 +118,7 @@
 											</select>
 										</div>
 
-										<div class="form-group select-leader" style="display:none">
+										<div class="form-group select-leader" >
 											<label>{{__('site.Leader')}}:</label>
 											<select name="leader" class="form-control form-control-lg form-control-solid mb-2 ">
 												<option value="" class="selcted-default-leader" selected>{{__('site.select option')}}</option>
@@ -143,17 +143,7 @@
 												@endforeach
 											</select>
 										</div>
-										<div class="form-group select-leader" style="display:none">
-											<label>{{__('site.Leader')}}:</label>
-											<select name="leader" class="form-control form-control-lg form-control-solid mb-2 ">
-												<option value="" class="selcted-default-leader" selected>{{__('site.select leader')}}</option>
-												@foreach($leaders as $leader)
-													<option
-													{{$leader->id == $user->leader ? 'selected' : ''}}
-													value="{{$leader->id}}">{{$leader->name}}</option>
-												@endforeach
-											</select>
-										</div>
+										
 										<div class="separator separator-dashed my-5"></div>
 										<div class="form-group">
 											<label>{{__('site.Password')}}:</label>
@@ -219,3 +209,14 @@
           </div>
       </div>
   </div>
+  <script type="text/javascript">
+  	$(".is_rera_active").on('change', function(){
+					if($(this).val() == '2'){ // yes
+						$(".rera-user").show();
+						$(".rera_number").hide();
+					}else{
+						$(".rera-user").hide();
+						$(".rera_number").show();
+					}
+				});
+  </script>

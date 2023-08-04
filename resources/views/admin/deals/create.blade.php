@@ -442,10 +442,30 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<div class="col-lg-12 col-xl-12">
 																			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#signed_contract_uploader">
-																				Add Signed Contract <i class="fa fa-image"></i>
+																				Purchased Agreement <i class="fa fa-image"></i>
 																			</button>
 																		</div>
 																	</div>
+																	</div>
+																	<!---->
+																	<div id="uae_deal" style="display:none">
+																	<div class="form-group row fv-plugins-icon-container">
+																		<div class="col-lg-12 col-xl-12">
+																			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#document_uploader">
+																				Add Document Id <i class="fa fa-image"></i>
+																			</button>
+																		</div>
+																	</div>   
+																	<div class="form-group row fv-plugins-icon-container">
+																		<div class="col-lg-12 col-xl-12">
+																			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#signed_contract_uploader">
+																				Purchased Agreement <i class="fa fa-image"></i>
+																			</button>
+																		</div>
+																	</div>
+																	    
+																	    
+																	    
 																	</div>
 
 
@@ -1210,8 +1230,17 @@
 		let val = $(this).val();
 		if(val == '1'){
 			$('#saudi_deal').css('display','block');
-		}else{
+			$('#uae_deal').css('display','none');
+		}
+		else if(val=='2')
+		{
+		    $('#uae_deal').css('display','block');
+		    $('#saudi_deal').css('display','none');
+		}
+		
+		else{
 			$('#saudi_deal').css('display','none');
+			 $('#uae_deal').css('display','none');
 		}
 	});
 

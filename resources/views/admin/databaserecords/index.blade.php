@@ -142,7 +142,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 					<div class="{{$data->withQueryString()->links() == ''? 'assign-delete-buttons' : 'page-button'}}">
 						<button type="button" class="btn btn-primary"
 						data-toggle="modal" data-target="#assign-leads">
-						Assing <i class="fa fa-users"></i>
+						Assign <i class="fa fa-users"></i>
 						</button>
 					</div>
 					@endif					
@@ -259,7 +259,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 					</div>
 		</div>
 		<div class="modal-footer">
-				<button type="submit" form="import-data-form" class="btn btn-primary">Uplode</button>
+				<button type="submit" form="import-data-form" class="btn btn-primary">Upload</button>
 		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 		</div>
 	</div>

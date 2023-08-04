@@ -214,11 +214,9 @@ td.center span {
 					
 						<table cellpadding="0" cellspacing="0" border="0"  width="800">
 							<tr>
-							    
-									 <!-- updated by fazal 29-.3--> 
+							   <!-- updated by fazal 29-.3--> 
 								<td><img class="jood_logo" src="{{ asset('public/uploads/projectData/'.$project->project->project_logo) }}"/></td>
                                   								<!--end-->
-                                  								
 							</tr>
 							<tr>
 								<td align="center" style="font-size:22px;word-spacing:0px;letter-spacing: 0px; font-family: inherit;font-weight:bold; color:#000;"></td>
@@ -327,19 +325,19 @@ td.center span {
         						</tr>
         						<tr>
         							<td>IBAN </td>
-        							<td style="width: 250px;">{{$project->developer->iban}}</td>
+        							<td style="width: 250px;">{{$project->project->iban}}</td>
         							<td>رقم الايبان</td>
         						</tr>
         						<tr>
         							<td>Bank Name</td>
-        							<td>{{$project->developer->bank_name}}</td>
+        							<td>{{$project->project->bank_name}}</td>
         							<td>اسم البنك</td>
         						</tr>	
         					</table>
         				</td>
         			</tr>
 					<tr>
-						<td   valign="top" >
+						<td valign="top" >
         					<table class="terms_condition">
         					<tr>
         					<td>*This Sales Offer is valid only for 3 days. Price and payment plan are subject to change without prior notice.</td>
@@ -354,7 +352,7 @@ td.center span {
 						<td valign="top" >
         					<table class="floor_plan">
             					<tr>
-            						<td align="center" style="font-size: 16pt;font-family: Arial, Helvetica, sans-serif;color: #9FCE31;text-decoration: underline;font-weight: bold;text-decoration-color: #9FCE31;text-transform: uppercase;">Floor Plan</td>
+            						<td align="center" style="font-size: 16pt;padding-top:50px;font-family: Arial, Helvetica, sans-serif;color: #9FCE31;text-decoration: underline;font-weight: bold;text-decoration-color: #9FCE31;text-transform: uppercase;">Floor Plan</td>
             					</tr>
         						<tr>
         							<td><img src="{{env('APP_URL').'/public/uploads/projectData/'.$project->floor_plan}}" ></td>
@@ -382,8 +380,8 @@ td.center span {
                 						</tr>
                 						<tr>
                 						
-                							<td>Prince Muhammad Ibn Salman St. Al Aqiq, Office 15, </br>2nd floor, Riyadh 13515</td>
-                							<td>PO Box: 112037, Office 1106, Opal Tower, </br> Business Bay, Dubai</td>
+                							<td>Al Imam Saud Ibn Faysal Rd, As Sahafah,</br>Riyadh 13321, Saudi Arabia</td>
+                							<td>PO Box: 112037, Office 1106, Opal Tower, </br> Business Bay, Dubai, UAE</td>
                 							
                 						</tr>	
                 						<tr>

@@ -104,7 +104,35 @@
 																		</div>
 																	</div>
 																	<!-- end added by fazal -->
-
+																	<!-- added by fazal 02-04-23 -->
+                                                                    <div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.iban')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="iban" type="text" value="{{old('iban')}}" placeholder="{{__('site.iban')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.bank_name')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="bank_name" type="text" value="{{old('bank_name')}}" placeholder="{{__('site.bank_name')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+                                                                    <!--end-->
+                                                                    <!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.status')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<select class="form-control" name="is_active">
+																				<option {{Request('is_active') == '1' ? 'selected' : ''}} value="1">Active</option>
+																				<option {{Request('is_active') == '0' ? 'selected' : ''}} value="0">In Active</option>
+																			</select>
+																		</div>
+																	</div>
+																	<!--end::Group-->
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<div class="col-lg-9 col-xl-9">

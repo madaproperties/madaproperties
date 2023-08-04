@@ -46,7 +46,7 @@
 											<div class="row justify-content-center py-8 px-8 py-lg-15 px-lg-10">
 												<div class="col-xl-12 col-xxl-10">
 													<!--begin::Wizard Form-->
-													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.mada_board.update',$data->id)}}" id="kt_form" enctype="multipart/form-data">
+													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.madaboard.update',$data->id)}}" id="kt_form" enctype="multipart/form-data">
 														@csrf
 														@method('PATCH')
 														<div class="row justify-content-center">

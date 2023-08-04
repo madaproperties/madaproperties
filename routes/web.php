@@ -44,10 +44,7 @@ Route::get('projectdata/view/{id}','Admin\ProjectDataController@View')->name('pr
 Route::post('projectdata/getPupUpByAjax','Admin\ProjectDataController@getPupUpByAjax')->name('projectdata.getPupUpByAjax');
 Route::get('projectdata/terms-and-conditions','Admin\ProjectDataController@termsAndConditions')->name('projectdata.termsAndConditions');
 // end
-// added by fazal 20-03
-Route::get('madastars','Admin\DealController@topAgentsUae')->name('deal.agents');
-Route::get('topagentsaudideals','Admin\DealController@topAgentsSaudi')->name('deal.agentssaudi');
-// 
+
 Route::post('project/payment','Admin\ProjectPaymentController@payment')->name('projectPayment.payment');
 Route::get('payment/checkoutPage/{id}','Admin\ProjectPaymentController@checkoutPage')->name('projectPayment.checkoutPage');
 Route::get('payment/success','Admin\ProjectPaymentController@success')->name('projectPayment.success');
@@ -57,9 +54,14 @@ Route::get('secondaryproject/brochure/{id}','Admin\SecondaryController@brochure'
 
 Route::get('property-xml-dubai','Admin\PropertyXmlController@propertyXmlDubai')->name('propertyXmlDubai');
 Route::get('property-xml-saudi','Admin\PropertyXmlController@propertyXmlSaudi')->name('propertyXmlSaudi');
-// added byb fazal 07-04-23
+// added by fazal 04-04-2023
+Route::get('madastars','Admin\DealController@topAgentsUae')->name('deal.agents');
+Route::get('topagentsaudideals','Admin\DealController@topAgentsSaudi')->name('deal.agentssaudi');
+//added by fazal 03-06-23
+Route::get('montlydeal','Admin\DealController@monthlDeal')->name('mada.monthly.deal');
 Route::get('madaslider','Admin\MadaboardController@slider')->name('mada.slider');
 
+Route::get('resale','Admin\ProjectDataController@resale')->name('projectdata.resale'); 
 
 use App\Contact;
 use App\Country;

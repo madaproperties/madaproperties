@@ -179,7 +179,7 @@
 				@if(auth()->id())
                 <!-- updated by fazal -->
                 <!--begin::Logo--> @if(userRole() == 'other') <a href="{{route('admin.deal.index')}}" class="w-100">
-                @elseif(userRole() == 'hr')<a href="{{route('admin.employee.index')}}" class="w-100">@elseif(userRole() == 'it')<a href="{{route('admin.mada_board.index')}}" class="w-100"> @else <a href="{{route('admin.')}}" class="w-100"> @endif <img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo p-0 mx-auto d-block" />
+                @elseif(userRole() == 'hr')<a href="{{route('admin.employee.index')}}" class="w-100">@elseif(userRole() == 'it')<a href="{{route('admin.madaboard.index')}}" class="w-100"> @else <a href="{{route('admin.')}}" class="w-100"> @endif <img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo p-0 mx-auto d-block" />
                     </a>
 				@else
 					<a href="{{route('projcets.newweb')}}" class="w-100"><img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo p-0 mx-auto d-block" /></a>
@@ -251,13 +251,26 @@
                                                 <span class="menu-text"><i class="fa fa-file"></i> {{__('site.reports')}}</span>
                                             </a>
                                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"> @can('users-report') <a class="dropdown-item {{(request()->routeIs('admin.users-report')) ? 'active' : '' }}" href="{{route('admin.users-report')}}?type=users">users</a> @endcan @can('daily-report') <a class="dropdown-item {{(request()->routeIs('admin.daily-report')) ? 'active' : '' }}" href="{{route('admin.daily-report')}}?type=report"> daily report</a> @endcan @can('campaign-report') <a class="dropdown-item {{(request()->routeIs('admin.campaign-report')) ? 'active' : '' }}" href="{{route('admin.campaign-report')}}?type=campaing">campaign report</a> @endcan @can('advance-campaign-report-list') <a class="dropdown-item {{(request()->routeIs('advance-campaign-report.index')) ? 'active' : '' }}" href="{{route('admin.advance-campaign-report.index')}}">Advance campaign report</a> @endcan @can('campaign-analytics-report') <a class="dropdown-item {{(request()->routeIs('admin.campaign-analytics-report')) ? 'active' : '' }}" href="{{route('admin.campaign-analytics-report')}}?type=campaing-analytics">campaign analytics</a> @endcan @can('leaders-report') <a class="dropdown-item {{(request()->routeIs('admin.leaders-report')) ? 'active' : '' }}" href="{{route('admin.leaders-report')}}?type=leaders">leaders</a> @endcan </div>
-                                        </li> @endif @if($user->can('deal-list') || $user->can('deal-project-list') || $user->can('deal-developer-list')) <li class="menu-item menu-item-active text-dark {{ (request()->routeIs('admin.deal.*') || request()->routeIs('admin.deal_project.*')
-
-							|| request()->routeIs('admin.deal-developer.*')) ? 'active' : '' }}">
+                                        </li> @endif 
+                                        @if($user->can('deal-list') || $user->can('deal-project-list') || $user->can('deal-developer-list')) 
+                                        <li class="menu-item menu-item-active text-dark {{ (request()->routeIs('admin.deal.*') || request()->routeIs('admin.deal_project.*') || request()->routeIs('admin.deal-developer.*') || request()->routeIs('admin.deal-property-list')) ? 'active' : '' }}">
                                             <a class="menu-link menu-toggle menu-link text-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <span class="menu-text"><i class="fa fa-tags"></i> {{__('site.deals')}}</span>
                                             </a>
-                                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2"> @can('deal-list') <a class="dropdown-item {{(request()->routeIs('admin.deal.*')) ? 'active' : '' }}" href="{{route('admin.deal.index')}}">{{__('site.deals')}}</a> @endcan @can('deal-project-list') <a class="dropdown-item {{(request()->routeIs('admin.deal_project.*')) ? 'active' : '' }}" href="{{route('admin.deal_project.index')}}">{{__('site.deals') .' '. __('site.project')}}</a> @endcan @can('deal-developer-list') <a class="dropdown-item {{(request()->routeIs('admin.deal-developer.*')) ? 'active' : '' }}" href="{{route('admin.deal-developer.index')}}">{{__('site.developer')}}</a> @endcan </div>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2"> 
+                                            @can('deal-list') 
+                                                <a class="dropdown-item {{(request()->routeIs('admin.deal.*')) ? 'active' : '' }}" href="{{route('admin.deal.index')}}">{{__('site.deals')}}</a> 
+                                            @endcan 
+                                            @can('deal-project-list') 
+                                                <a class="dropdown-item {{(request()->routeIs('admin.deal_project.*')) ? 'active' : '' }}" href="{{route('admin.deal_project.index')}}">{{__('site.deals') .' '. __('site.project')}}</a> 
+                                            @endcan 
+                                            @can('deal-developer-list')
+                                                <a class="dropdown-item {{(request()->routeIs('admin.deal-developer.*')) ? 'active' : '' }}" href="{{route('admin.deal-developer.index')}}">{{__('site.developer')}}</a> 
+                                            @endcan 
+                                            @can('deal-documents-list') 
+                                                <a class="dropdown-item {{(request()->routeIs('admin.deal-project-list')) ? 'active' : '' }}" href="{{route('admin.deal-project-list')}}">{{__('site.deal documents')}}</a> 
+                                            @endcan 
+                                        </div>
                                         </li> @endif @can('cash-list') <li class="menu-item menu-item-active {{ (request()->routeIs('admin.cash.*')) ? 'active' : '' }}" aria-haspopup="true">
                                             <a href="{{route('admin.cash.index')}}" class="menu-link {{ active_nav('cash') ? 'active' : ''}}">
                                                 <span class="menu-text"><i class="fa fa-list-alt"></i> {{__('site.cash')}}</span>
@@ -293,11 +306,11 @@
                                         </li> @endcan
                                         <!-- end added by fazal -->
                                         <!-- added by fazal 06-04-23 -->
-                                         @can('mada-board-list')<li class="menu-item menu-item-active {{ (request()->routeIs('admin.mada_board.*')) ? 'active' : '' }}">
+                                         @can('mada-board-list')<li class="menu-item menu-item-active {{ (request()->routeIs('admin.madaboard.*')) ? 'active' : '' }}">
                                             <a class="menu-link menu-toggle menu-link text-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <span class="menu-text"><i class="fa fa-tags"></i> {{__('site.mada-board-list')}}</span>
                                             </a>
-                                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">  <a class="dropdown-item {{(request()->routeIs('admin.mada_board.*')) ? 'active' : '' }}" href="{{route('admin.mada_board.create')}}">{{__('site.createnew')}}</a>  </div>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">  <a class="dropdown-item {{(request()->routeIs('admin.madaboard.*')) ? 'active' : '' }}" href="{{route('admin.madaboard.create')}}">{{__('site.createnew')}}</a>  </div>
                                         </li>
                                        
                                           
@@ -340,6 +353,9 @@
                                             </a>
                                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2"> 
                                                 @can('property-list') 
+                                                    @can('property-availability-list') 
+                                                        <a class="dropdown-item {{(request()->routeIs('admin.property-availability')) ? 'active' : '' }}" href="{{route('admin.property-availability')}}">{{__('site.property_availability')}}</a> 
+                                                    @endcan
                                                     @if(userRole() == 'admin'  || userRole() == 'sales admin uae')
                                                     <a class="dropdown-item {{(request()->routeIs('admin.property.*')) ? ( request()->get('pt') == 'dubai' ? 'active' : '' ) : '' }}" href="{{route('admin.property.index').'?pt=dubai'}}">{{__('site.Property_in_UAE')}}</a> 
                                                     <a class="dropdown-item {{(request()->routeIs('admin.property.*')) ? ( request()->get('pt') == 'saudi' ? 'active' : '' ) : '' }}" href="{{route('admin.property.index').'?pt=saudi'}}">{{__('site.Property_in_KSA')}}</a> 

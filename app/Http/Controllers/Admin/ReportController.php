@@ -76,10 +76,38 @@ class ReportController extends Controller
 			if(userRole() == 'sales admin uae') {
 				$projects_data =  $projects_data->where('country_id','2');
 				$projects_options = Project::where('country_id','2')->orderBy('name_en','asc')->get();
+				
+				$campaings_data =Campaing::where('active','1')
+				->whereHas('project',function($q){
+				  $q->where('country_id','2');
+				})->orderBy('name','ASC')->get();
+				
 			}else if(userRole() == 'sales admin saudi'){
 				$projects_data =  $projects_data->where('country_id','1');
 				$projects_options = Project::where('country_id','1')->orderBy('name_en','asc')->get();
+				
+				$campaings_data =Campaing::where('active','1')
+				->whereHas('project',function($q){
+				  $q->where('country_id','1');
+				})->orderBy('name','ASC')->get();
+				
+			}else if(userRole() == 'sales admin' || userRole()=='sales director' || userRole()=='sales' || userRole()=='leader'){
+				$userData=User::where('id',auth()->id())->first();
+				if($userData->time_zone=='Asia/Riyadh'){
+					$campaignCountry = '1';
+				}else{
+					$campaignCountry = '2';
+				}
+				$projects_data =  $projects_data->where('country_id',$campaignCountry);
+				$projects_options = Project::where('country_id',$campaignCountry)->orderBy('name_en','asc')->get();
+				
+				$campaings_data =Campaing::where('active','1')
+				->whereHas('project',function($q) use($campaignCountry){
+				  $q->where('country_id',$campaignCountry);
+				})->orderBy('name','ASC')->get();
+
 			}
+			
 			if(Request('project_id') && !empty(request('project_id'))){
 				$projects_data = $projects_data->where('id',request('project_id'));
 			}

@@ -38,9 +38,10 @@ class PropertyXmlController extends Controller
       ->where('last_updated','>=',$last_updated_from)
       ->whereIn('user_id',$usersIds)
       ->orderBy('last_updated','desc')
+      ->withTrashed()
       ->get();
     }else{
-      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->orderBy('last_updated','desc')->get();
+      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->orderBy('last_updated','desc')->withTrashed()->get();
     }
     //header('Content-Type: text/xml');
     header('Content-Type: text/json');
@@ -108,6 +109,9 @@ class PropertyXmlController extends Controller
       $xml['dubai'][$k]['property_id']=$property->id;
       $xml['dubai'][$k]['updated_at']=$property->last_updated;
       $xml['dubai'][$k]['created_at']=$property->created_at;
+      $xml['dubai'][$k]['deleted']=empty($property->deleted_at) ? false : true;
+      $xml['dubai'][$k]['property_sold']=($property->availability  == 4) ? true : false;
+
 
       if($property->crm_id){
         $tempArray['crm_id'] = $property->crm_id;
@@ -392,9 +396,10 @@ class PropertyXmlController extends Controller
       ->where('last_updated','>=',$last_updated_from)
       ->whereIn('user_id',$usersIds)
       ->orderBy('last_updated','desc')
+      ->withTrashed()
       ->get();
     }else{
-      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->orderBy('last_updated','desc')->get();
+      $properties = Property::with(['agent','category','images'])->where('status',1)->whereIn('user_id',$usersIds)->orderBy('last_updated','desc')->withTrashed()->get();
     }
 
     $i = 1;
@@ -468,6 +473,9 @@ class PropertyXmlController extends Controller
       $xml['saudi'][$k]['property_id']=$property->id;
       $xml['saudi'][$k]['updated_at']=$property->last_updated;
       $xml['saudi'][$k]['created_at']=$property->created_at;
+      $xml['saudi'][$k]['deleted']=empty($property->deleted_at) ? false : true;
+      $xml['saudi'][$k]['property_sold']=($property->availability  == 4) ? true : false;
+      
 
       if($property->crm_id){
         $tempArray['crm_id'] = $property->crm_id;

@@ -18,7 +18,71 @@ class AccountsController extends Controller
 
     public function index()
     {
-        if(Request()->has('active') && (Request('active') == '0' || Request('active') == '1')){
+        // added by fazal
+        if(userRole()=='it')
+        {
+            $userloc=User::where('id',auth()->id())->first();
+
+            if($userloc->time_zone=='Asia/Riyadh')
+            {
+               
+              if(Request()->has('active') && (Request('active') == '0' || Request('active') == '1')){
+
+            $users = User::where('active',Request('active'))->where('time_zone','Asia/Riyadh');
+
+            $users_count = User::where('active',Request('active'))->where('time_zone','Asia/Riyadh');
+            if(Request()->has('search')){
+                $users = $users->where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Riyadh');
+                $users_count = $users->where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Riyadh');
+            }
+            $users = $users->paginate(20);
+            $users_count = $users_count->count();
+        }else{
+
+            if(Request()->has('search')){
+                $users = User::where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Riyadh')->paginate(20);
+                $users_count = User::where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Riyadh')->count();
+            }else{
+                $users = User::where('time_zone','Asia/Riyadh')->paginate(20);
+                $users_count = User::where('time_zone','Asia/Riyadh')->count();
+            }
+           } 
+           $leaders = User::whereIn('rule',['leader','sales director'])->where('active','1')->where('time_zone','Asia/Riyadh')->get(); 
+           
+            }
+            else
+            {
+                
+              if(Request()->has('active') && (Request('active') == '0' || Request('active') == '1')){
+
+            $users = User::where('active',Request('active'))->where('time_zone','Asia/Dubai');
+            $users_count = User::where('active',Request('active'))->where('time_zone','Asia/Dubai');
+            if(Request()->has('search')){
+                $users = $users->where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Dubai');
+                $users_count = $users->where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Dubai');
+            }
+            $users = $users->paginate(20);
+            $users_count = $users_count->count();
+        }else{
+            if(Request()->has('search')){
+                $users = User::where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Dubai')->paginate(20);
+                $users_count = User::where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Dubai')->count();
+            }else{
+                $users = User::where('time_zone','Asia/Dubai')->paginate(20);
+                $users_count = User::where('time_zone','Asia/Dubai')->count();
+            }
+           }  
+            $leaders = User::whereIn('rule',['leader','sales director'])->where('active','1')->where('time_zone','Asia/Dubai')->get(); 
+            
+            }
+           
+            
+        }
+        //  end
+        else
+        {
+         if(Request()->has('active') && (Request('active') == '0' || Request('active') == '1')){
+
             $users = User::where('active',Request('active'));
             $users_count = User::where('active',Request('active'));
             if(Request()->has('search')){
@@ -35,7 +99,11 @@ class AccountsController extends Controller
                 $users = User::paginate(20);
                 $users_count = User::count();
             }
+        }  
+        $leaders = User::whereIn('rule',['leader','sales director'])->where('active','1')->get(); 
+      
         }
+        
 
         $countries = Country::orderBy('name_en')->get();
         $collectCounties = [];
@@ -52,12 +120,12 @@ class AccountsController extends Controller
             $countries->prepend($topCountry);
         }        
 
-        $leaders = User::whereIn('rule',['leader','sales director'])->where('active','1')->get();
+        
+        $positions = ['rent','buy','sell','management','handover','TC Renewal'];
+        $roles = Role::pluck('name','name')->all();
 
         $reraUsers = User::where('active','1')->where('is_rera_active','1')->get();
 
-        $positions = ['rent','buy','sell','management','handover'];
-        $roles = Role::pluck('name','name')->all();
         return view('admin.accounts.index',[
           'users' => $users,
           'leaders' => $leaders,
@@ -68,6 +136,7 @@ class AccountsController extends Controller
           'reraUsers' => $reraUsers
         ]);
     }
+
 
 
 
@@ -90,7 +159,7 @@ class AccountsController extends Controller
           'position_types' => 'required|array',
           'is_rera_active' => 'nullable',
           'rera_number' => 'nullable',
-          'rera_user_id' => 'nullable',
+          'rera_user_id' => 'nullable'
         ]);
 
         unset($data['position_types']);
@@ -109,9 +178,11 @@ class AccountsController extends Controller
             $data['time_zone'] = timeZones()[0];
         }
         if($request->file('user_pic')){
+             if($request->file('user_pic')){
             $file = Storage::disk('s3')->putFile('uploads/project_name', $request->file('user_pic'));
             $path="https://mada-properties-live.s3.eu-west-1.amazonaws.com/".$file;     
             $data['user_pic'] = $path;
+        }
         }
      
         addHistory('User',0,'added',$data);
@@ -159,7 +230,7 @@ class AccountsController extends Controller
           'user_pic' => 'nullable',
           'is_rera_active' => 'nullable',
           'rera_number' => 'nullable',
-          'rera_user_id' => 'nullable',
+          'rera_user_id' => 'nullable'
         ]);
         
         
@@ -179,9 +250,11 @@ class AccountsController extends Controller
             $data['leader']  = null;
          }
         if($request->file('user_pic')){
-             $file = Storage::disk('s3')->putFile('uploads/user_pics', $request->file('user_pic'));
-            $path="https://mada-properties-staging.s3.eu-west-1.amazonaws.com/".$file;     
+            if($request->file('user_pic')){
+            $file = Storage::disk('s3')->putFile('uploads/project_name', $request->file('user_pic'));
+            $path="https://mada-properties-live.s3.eu-west-1.amazonaws.com/".$file;     
             $data['user_pic'] = $path;
+        }
         }
 
 
@@ -204,6 +277,7 @@ class AccountsController extends Controller
         addHistory('User',$id,'deleted');        
         return back()->withSuccess(__('site.success'));
     }
+    
 
     public function getDetailsByAjax(Request $request){
         $user=User::findOrFail($request->get('id'));
@@ -226,7 +300,7 @@ class AccountsController extends Controller
 
         $reraUsers = User::where('active','1')->where('is_rera_active','1')->get();
 
-        $positions = ['rent','buy','sell','management','handover'];
+        $positions = ['rent','buy','sell','management','handover','TC Renewal'];
         $roles = Role::pluck('name','name')->all();
 
         return view('admin.accounts.viewModal',[
@@ -238,6 +312,5 @@ class AccountsController extends Controller
             'reraUsers' => $reraUsers
           ]);
     }  
-    
     
 }

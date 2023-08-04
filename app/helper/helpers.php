@@ -355,12 +355,12 @@ function newActivity($contactID,$userID,$action,$model = null,$relatedModelID = 
 function budgets()
 {
     return [
-       " 0 - 500,000",
-        "500,000 - 1,000,000",
-        "1,000,000 - 1,500,000",
-        "2,000,000 - 2,500,000",
-        "3,000,000 - 3,500,000",
-        "> 4,000,000    ",
+       " 0 - 1,000,000",
+        "1,000,000 - 2,000,000",
+        "2,000,000 - 3,000,000",
+        "3,000,000 - 4,000,000",
+        "4,000,000 - 5,000,000",
+        "> 5,000,000    ",
     ];
 }
 
@@ -881,8 +881,7 @@ function getSellers() {
     $sellers = User::where(function($q) use($id){
                       $q->where('leader',$id);
                       $q->OrWhere('id',$id);
-                    })
-                    ->orderBy('email','asc')
+                    })->orderBy('email','asc')
                     ->where('active','1')->get();
   }elseif(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing' || userRole() == 'ceo'){ //Updated by Javed
 
@@ -943,9 +942,7 @@ function getSellers() {
           $q->where('rule','sales')
           ->orWhere('rule','leader')
           ->orWhere('rule','sales director');
-        })
-        ->orderBy('email','asc')
-        ->get();
+        })->orderBy('email','asc')->get();
     }else{
       $sellers = User::where('time_zone','Asia/Riyadh')
         ->where('active','1')
@@ -970,5 +967,6 @@ function getSalesDirectorCountryId(){
 }
 
 function s3AssetUrl($url){
+  //return env('APP_URL').'/public/'.$url;
   return env('S3_URL').$url;
 }

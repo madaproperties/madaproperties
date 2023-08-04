@@ -145,16 +145,6 @@
 																	
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.commission')}}</label>
-																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" 	name="commission" type="text" value="{{$projectdata->commission}}" placeholder="{{__('site.commission')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.floor_plan')}}</label>
 																		<div class="col-lg-9 col-xl-9">
 																			@if($projectdata->floor_plan)
@@ -177,11 +167,6 @@
 																	<!--end::Group-->
 																	<!-- end added by fazal -->
 																
-																</div>
-															</div>
-															<div class="col-xl-6">
-																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
@@ -192,6 +177,13 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
+
+																	
+
+																</div>
+															</div>
+															<div class="col-xl-6">
+																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
@@ -211,7 +203,6 @@
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
-
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.bedroom')}}</label>
@@ -256,6 +247,28 @@
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.commission_percent')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" id="commission_percent" name="commission_percent" type="text" value="{{$projectdata->commission_percent}}" placeholder="{{__('site.commission_percent')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+																	
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.commission')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" id="commission" 	name="commission" type="text" value="{{$projectdata->commission}}" placeholder="{{__('site.commission')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
 																	
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
@@ -283,6 +296,7 @@
 																				<option {{$projectdata->status == 'Sold out' ? 'selected' : ''}} value="Sold out">Sold out</option>
 																				<option {{$projectdata->status == 'Available' ? 'selected' : ''}} value="Available">Available</option>
 																				<option {{$projectdata->status == 'Reserved' ? 'selected' : ''}} value="Reserved">Reserved</option>
+																				<option {{$projectdata->status == 'Resale' ? 'selected' : ''}} value="Resale">Resale</option>
 																			</select>
 																		</div>
 																	</div>
@@ -337,5 +351,19 @@ $( "#down_payment_percentage" ).keyup(function() {
    $("#down_payment").val(((price*comi)/100).toFixed(2));
  
 });
+$( "#commission_percent" ).keyup(function() {
+	var comi = $(this).val();
+	$("#commission").val('');
+	if(comi > 0 && $("#price").val() > 0){
+		var price=  $("#price").val();
+
+		var comi_amount = ((price*comi)/100);
+
+		var vat_comi = 15; //vat percent
+		var vat_amount=  (comi_amount*vat_comi)/100;
+
+		$("#commission").val(( comi_amount + vat_amount ).toFixed(2));
+	}
+}); 
 </script>
 @endpush

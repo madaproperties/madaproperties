@@ -67,15 +67,16 @@
                             </td>
                             <td>
                              <embed  src="{{$data->image }}" style="width: 75px;height: 50px;" />
+
                             </td>
                             
                             <td class="pr-0 ">
 
-                              <a href="{{ route('admin.mada_board.show',$data->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a> 
+                              <a href="{{ route('admin.madaboard.show',$data->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a> 
                            
                              </a>
                              <form id="destory-{{$data->id}}" class="delete" onsubmit="return confirm('{{__('site.confirm')}}');"
-                      action="{{ route('admin.mada_board.destroy',$data->id) }}" method="POST" >
+                      action="{{ route('admin.madaboard.destroy',$data->id) }}" method="POST" >
                       @csrf
                       @method('DELETE')
                       <a href="javascript:void(0)" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Delete">
@@ -121,7 +122,7 @@
             <div class="d-flex flex-column">
 
               <div class="navi mt-2">
-                <form class="form" method="post" id="new-project" action="{{route('admin.mada_board.store')}}">
+                <form class="form" method="post" id="new-project" action="{{route('admin.madaboard.store')}}">
                   @csrf
 <div class="card-body">
  

@@ -151,7 +151,24 @@ class DealController extends Controller
     }else{
       $developer = DealDeveloper::get();
     }
-    $projects = DealProject::get();
+    // 
+    if(userRole() == 'sales admin' || userRole()=='sales director' || userRole()=='sales'|| userRole()=='sales admin saudi' || userRole()=='sales admin uae' ){
+    // dd('hit'); //Added by Javed
+      $user=User::where('id',auth()->id())->first();
+      if($user->time_zone=='Asia/Riyadh')
+      {
+      $projects = DealProject::where('country_id','1')->orderBy('project_name','ASC')->get();  
+      }
+      else
+      {
+       $projects = DealProject::where('country_id','2')->orderBy('project_name','ASC')->get(); 
+      }
+    }
+      else
+      {
+        $projects = DealProject::orderBy('project_name','ASC')->get();
+      }
+    // $projects = DealProject::get();
     $miles = LastMileConversion::where('active','1')
     ->orderBy('name_'. app()->getLocale())
     ->get();
@@ -1078,4 +1095,33 @@ public function topAgentsSaudi()
    return view('admin.deals.topagentsaudi',compact('sums','emp1','emp2','emp3'));
 }
 // end
+public function monthlDeal()
+{
+  // return view('admin.deals.chart');
+  $sums = DB::table('deals')->where('unit_country',2)
+            ->whereMonth('deals.deal_date', date('m'))
+            ->whereYear('deals.deal_date', date('Y'))
+           ->sum('price');
+//   dd($sums);
+ 
+if ($sums < 1000000) {
+    // Anything less than a million
+    $result['achieve'] = number_format($sums);
+} else if ($sums < 1000000000) {
+    // Anything less than a billion
+    $result['achieve'] = number_format($sums / 1000000, 2);
+} else {
+    // At least a billion
+   $result['achieve'] = number_format($sums / 1000000000, 2);
+}
+$target=120;
+$result['remaining']=$target-$result['achieve'];
+$result['achieved']=$result['achieve'];
+$result['remainings']=$result['remaining'];
+
+
+return view ('admin.deals.chart',compact('target','result'));
+}
+
+
 }

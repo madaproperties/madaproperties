@@ -1101,10 +1101,14 @@
 																				<span class="redCount" id="notes_count">0</span>
 																				<div class="fv-plugins-message-container"></div>
 																			</div>
+																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.off_line_property')}}</label>
+																			<div class="col-xs-12 col-sm-1 col-lg-1">
+																				<input class="form-control form-control-solid form-control-lg" id="off_line_property" name="off_line_property" type="checkbox" value="1"style="height: auto;margin-top: 14px;">
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
 																		</div>
 																		<!--end::Group-->
 																		
-																		<!--end::Group-->
 																	</div>
 																</div>
 																<div class="row col-xl-12 card mt-5 rowCrtt">																				

@@ -22,4 +22,10 @@ class ProjectData extends Model
     {
       return $this->belongsTo(ProjectDeveloper::class,'developer_id');
     }
+
+    public function projectSales()
+    {
+      return $this->belongsTo(ProjectName::class,'project_id')->where('is_active',1);
+    }
+
 }

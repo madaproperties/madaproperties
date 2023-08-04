@@ -27,7 +27,7 @@ class CampaignsController extends Controller
       $data = $request->validate([
         'name' => 'required|max:255|unique:campaigns',
         'cost' => 'required',
-        'project_id' => 'required'
+        'project_id' => 'nullable'
       ]);
 
 
@@ -45,7 +45,7 @@ class CampaignsController extends Controller
         'name' => 'required|max:255|unique:campaigns,name,'.$status->id,
         'active' => 'required',
         'cost' => 'required',
-        'project_id' => 'required'
+        'project_id' => 'nullable'
       ]);
 
       addHistory('Campaign',$id,'updated',$data,$status);

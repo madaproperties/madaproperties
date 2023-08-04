@@ -10,7 +10,6 @@ use App\Country;
 use App\PurposeType;
 use Carbon\Carbon;
 use App\ProjectName;
-use Illuminate\Support\Facades\Storage;
 
 class ProjectNameController extends Controller
 {
@@ -63,43 +62,44 @@ class ProjectNameController extends Controller
         "brochure"      =>"nullable",
         "video"=> "nullable",
         "payment_plan"=>"nullable",
-        "project_logo" =>"nullable",
+        "project_logo"=>"nullable",
+        "iban"=>"nullable",   //added by fazal 02-04-23
+        "bank_name" =>"nullable",   //added by fazal 02-04-23
+        "is_active" =>"nullable", //Added by Lokesh
+
       ]);
       $data['created_at'] = Carbon::now();
- 
+
       addHistory('Project Name',0,'added',$data);   
        if($request->file('image')){
-        
-        $file = Storage::disk('s3')->putFile('uploads/project_name', $request->file('image'));
-        $path="https://mada-properties-staging.s3.eu-west-1.amazonaws.com/".$file;
-        $data['image']=$path;
+        $md5Name = md5_file($request->file('image')->getRealPath());
+        $guessExtension = $request->file('image')->guessExtension();
+        $file = $request->file('image')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['image'] = $md5Name.'.'.$guessExtension;
       }
-      if($request->file('project_logo')){ //added by fazal 29-03
-         
-        $file = Storage::disk('s3')->putFile('uploads/project_name', $request->file('project_logo'));
-        $path="https://mada-properties-staging.s3.eu-west-1.amazonaws.com/".$file;     
-        $data['project_logo'] = $path;
+      if($request->file('project_logo')){ // added by fazal 29-3
+        $md5Name = md5_file($request->file('project_logo')->getRealPath());
+        $guessExtension = $request->file('project_logo')->guessExtension();
+        $file = $request->file('project_logo')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['project_logo'] = $md5Name.'.'.$guessExtension;
       }
       if($request->file('brochure')){
-       
-        $file = Storage::disk('s3')->putFile('uploads/project_name', $request->file('brochure'));
-        $path="https://mada-properties-staging.s3.eu-west-1.amazonaws.com/".$file;     
-        $data['brochure'] = $path;
+        $md5Name = md5_file($request->file('brochure')->getRealPath());
+        $guessExtension = $request->file('brochure')->guessExtension();
+        $file = $request->file('brochure')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['brochure'] = $md5Name.'.'.$guessExtension;
       }
       if($request->file('video')){
-        // $md5Name = md5_file($request->file('video')->getRealPath());
-        // $guessExtension = $request->file('video')->guessExtension();
-        $file = Storage::disk('s3')->putFile('uploads/project_name', $request->file('video'));
-        $path="https://mada-properties-staging.s3.eu-west-1.amazonaws.com/".$file;     
-        $data['brochure'] = $path;     
+        $md5Name = md5_file($request->file('video')->getRealPath());
+        $guessExtension = $request->file('video')->guessExtension();
+        $file = $request->file('video')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
         $data['video'] = $md5Name.'.'.$guessExtension;
       }
       if($request->file('payment_plan')){
-        
-       $file = Storage::disk('s3')->putFile('uploads/project_name', $request->file('video'));
-        $path="https://mada-properties-staging.s3.eu-west-1.amazonaws.com/".$file;     
-               
-        $data['payment_plan'] = $path;
+        $md5Name = md5_file($request->file('payment_plan')->getRealPath());
+        $guessExtension = $request->file('payment_plan')->guessExtension();
+        $file = $request->file('payment_plan')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['payment_plan'] = $md5Name.'.'.$guessExtension;
       }
 
       $deal = ProjectName::create($data);
@@ -116,42 +116,40 @@ class ProjectNameController extends Controller
         "video"=> "nullable",
         "payment_plan"=>"nullable",
         "project_logo"=>"nullable",
-
-
+        "iban"=>"nullable",   //added by fazal 02-04-23
+        "bank_name" =>"nullable", //added by fazal 02-04-23
+        "is_active" =>"nullable", //Added by Lokesh
     ]);
     $data['updated_at'] = Carbon::now();
     if($request->file('image')){
-        
-        $file = Storage::disk('s3')->putFile('uploads/project_name', $request->file('image'));
-        $path="https://mada-properties-staging.s3.eu-west-1.amazonaws.com/".$file;
-        $data['image']=$path;
+        $md5Name = md5_file($request->file('image')->getRealPath());
+        $guessExtension = $request->file('image')->guessExtension();
+        $file = $request->file('image')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['image'] = $md5Name.'.'.$guessExtension;
       }
-      if($request->file('project_logo')){ //added by fazal 29-03
-         
-        $file = Storage::disk('s3')->putFile('uploads/project_name', $request->file('project_logo'));
-        $path="https://mada-properties-staging.s3.eu-west-1.amazonaws.com/".$file;     
-        $data['project_logo'] = $path;
+        if($request->file('project_logo')){ // added by fazal 29-3
+        $md5Name = md5_file($request->file('project_logo')->getRealPath());
+        $guessExtension = $request->file('project_logo')->guessExtension();
+        $file = $request->file('project_logo')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['project_logo'] = $md5Name.'.'.$guessExtension;
       }
       if($request->file('brochure')){
-       
-        $file = Storage::disk('s3')->putFile('uploads/project_name', $request->file('brochure'));
-        $path="https://mada-properties-staging.s3.eu-west-1.amazonaws.com/".$file;     
-        $data['brochure'] = $path;
+        $md5Name = md5_file($request->file('brochure')->getRealPath());
+        $guessExtension = $request->file('brochure')->guessExtension();
+        $file = $request->file('brochure')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['brochure'] = $md5Name.'.'.$guessExtension;
       }
       if($request->file('video')){
-        // $md5Name = md5_file($request->file('video')->getRealPath());
-        // $guessExtension = $request->file('video')->guessExtension();
-        $file = Storage::disk('s3')->putFile('uploads/project_name', $request->file('video'));
-        $path="https://mada-properties-staging.s3.eu-west-1.amazonaws.com/".$file;     
-        $data['brochure'] = $path;     
+        $md5Name = md5_file($request->file('video')->getRealPath());
+        $guessExtension = $request->file('video')->guessExtension();
+        $file = $request->file('video')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
         $data['video'] = $md5Name.'.'.$guessExtension;
       }
       if($request->file('payment_plan')){
-        
-       $file = Storage::disk('s3')->putFile('uploads/project_name', $request->file('video'));
-        $path="https://mada-properties-staging.s3.eu-west-1.amazonaws.com/".$file;     
-               
-        $data['payment_plan'] = $path;
+        $md5Name = md5_file($request->file('payment_plan')->getRealPath());
+        $guessExtension = $request->file('payment_plan')->guessExtension();
+        $file = $request->file('payment_plan')->move('public/uploads/projectData', $md5Name.'.'.$guessExtension);     
+        $data['payment_plan'] = $md5Name.'.'.$guessExtension;
       }
 
     addHistory('Project Name',$id,'updated',$data,$deal);
