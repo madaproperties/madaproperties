@@ -122,7 +122,8 @@ class PropertyFinderXmlController extends Controller
         $xml.="<property_type>".$get_property_type."</property_type>";
       }
       $xml.="<price_on_application>".($property->price_on_application == 1 ? 'Yes' : 'No' )."</price_on_application>";
-      $xml.="<available_from>".($property->next_available)."</available_from>";
+      $xml.="<availability_date>".($property->next_available)."</availability_date>";
+       $xml.="<cheques>".($property->cheques)."</cheques>";
       $xml.="<exclusive>".($property->is_exclusive == 1 ? 'Yes' : 'No' )."</exclusive>";
       if($property->availability == '1' || $property->availability == '2' || $property->availability == '3' || $property->availability == '4'){
         $xml.="<availability>".strtoupper(__('config.availability.'.$property->availability))."</availability>";
