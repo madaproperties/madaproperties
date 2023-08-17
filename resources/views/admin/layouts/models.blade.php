@@ -1105,7 +1105,7 @@
 		 					<div class="form-group ">
 		 					 <label class="">{{__('site.status')}}</label>
 
-		 						 <select class="form-control"  name="status_id" style="width:100%">
+		 						 <select class="form-control follow_up_status_id"  name="status_id"   style="width:100%">
 		 							 @foreach($status as $statu)
 		 							 <option
 		 							 {{$contact->status_id == $statu->id ? 'selected' : ''}}
@@ -1114,6 +1114,25 @@
 		 						 </select>
 
 		 				 </div>
+
+
+              <div class="row follow_up_date" style="display:none" id="">
+                <div class="col-md-6 col-sm-6">
+                  <div class="form-group ">
+                    <label class="">{{__('site.follow_up_date')}}</label>
+                    <div class="input-group input-group-solid date" id="kt_datetimepicker_3333444" data-target-input="nearest">
+                      <input value="{{old('follow_up_date')}}"  type="text" class="form-control form-control-solid datetimepicker-input"
+                      data-toggle="datetimepicker" name="follow_up_date" data-target="#kt_datetimepicker_3333444">
+                      <div class="input-group-append" data-target="#kt_datetimepicker_3333444" data-toggle="datetimepicker">
+                        <span class="input-group-text">
+                          <i class="ki ki-calendar"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
 		 				 <!--begin::Group-->
 		 				 <div class="form-group  fv-plugins-icon-container">
 		 					 <label class="">{{__('site.lead type')}}</label>
@@ -1666,10 +1685,24 @@
 <script>
 
 
-
+$('#kt_datetimepicker_3333444').datetimepicker({
+    format: 'L'
+});
+$('#kt_datetimepicker_333344').datetimepicker({
+    format: 'L'
+});
 $(document).on('change','#log_call_outcome_el',function (){
     renderDescriptionStatus();
 });
+
+$(document).on('change','.follow_up_status_id',function (){
+  if($(this).val() == '5'){ //Follow Up status
+    $(".follow_up_date").show();
+  }else{
+    $(".follow_up_date").hide();
+  }
+});
+
 
 
 function renderDescriptionStatus()

@@ -223,17 +223,8 @@ class MainController extends Controller
 
     }else if(userRole() == 'sales admin') { // sales admin
       
-    //   $subUserId[]=auth()->id();
-    //   if(!Request()->has('my-contacts')  AND (isset(auth()->user()->leader))){
-    //     $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
-    //      $subUserId = $subUserId->pluck('id')->toArray();
-    //   }
-    //   $contacts = Contact::with(['country','project','creator'])
-                        //->select($this->selectedAttruibutes)->where(function ($q){
-    //     $this->filterPrams($q);
-    //   })->whereIn('user_id',$subUserId)
-    //     ->orderBy('created_at','DESC');
-    $contacts = Contact::with(['country','project','creator','user','status'])
+    
+      $contacts = Contact::with(['country','project','creator','user','status'])
                         ->select($this->selectedAttruibutes)->where(function ($q){
       $this->filterPrams($q);
       })->Where('created_by',auth()->id())

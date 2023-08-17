@@ -629,4 +629,6 @@ return [
   'Bedroom'=>'Bedroom',
   'off_line_property'=>'Off line property',
   'unit_type'=>'Unit Type',
+  'follow_up_date'=>'Follow up date',
+  'lead_pool'=>'Lead pool',
 ];
