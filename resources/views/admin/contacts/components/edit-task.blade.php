@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{{__('site.edit task')}}</h5>
+                <h5 class="modal-title">{{__('site.edit task')}} </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
@@ -76,9 +76,18 @@
                           <option
                           {{$task->type == 'whatsapp' ? 'selected' : '' }}
                           value="whatsapp">{{__('site.whatsapp')}}</option>
+                          <option
+                          {{$task->type == 'viewing' ? 'selected' : '' }}
+                          value="viewing">{{__('site.viewing')}}</option>
+                           <option
+                          {{$task->type== 'photoshoot' ? 'selected' : '' }}
+                          value="photoshoot">{{__('site.photoshoot')}}</option>
+                          <option
+                          {{$task->type== 'fieldvisit' ? 'selected' : '' }}
+                          value="fieldvisit">{{__('site.field_visit')}}</option>
                         </select>
                       </div>
-
+ 
                       @if(!isset($contact))
                       <div class="form-group">
                         <label for="task-type">{{__('site.contact')}}</label>

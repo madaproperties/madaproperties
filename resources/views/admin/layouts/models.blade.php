@@ -80,6 +80,15 @@
                           <option
                           {{old('type') == 'whatsapp' ? 'selected' : '' }}
                           value="whatsapp">{{__('site.whatsapp')}}</option>
+                          <option
+                          {{old('type') == 'viewing' ? 'selected' : '' }}
+                          value="viewing">{{__('site.viewing')}}</option>
+                           <option
+                          {{old('type') == 'photoshoot' ? 'selected' : '' }}
+                          value="photoshoot">{{__('site.photoshoot')}}</option>
+                          <option
+                          {{old('type') == 'fieldvisit' ? 'selected' : '' }}
+                          value="fieldvisit">{{__('site.field_visit')}}</option>
                         </select>
                       </div>
 
@@ -1193,6 +1202,14 @@
                   <option
                   {{old('task_type') == 'whatsapp' ? 'selected' : '' }}
                   value="whatsapp">whatsapp</option>
+                  <option
+                  {{old('type') == 'viewing' ? 'selected' : '' }}
+                  value="viewing">{{__('site.viewing')}}</option>
+                  <option {{old('type') == 'photoshoot' ? 'selected' : '' }}
+                  value="photoshoot">{{__('site.photoshoot')}}</option>
+                  <option {{old('type') == 'fieldvisit' ? 'selected' : '' }}
+                  value="fieldvisit">{{__('site.field_visit')}}</option>
+
                 </select>
               </div>
              </div>

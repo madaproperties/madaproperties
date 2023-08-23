@@ -629,4 +629,7 @@ return [
   'Bedroom'=>'Bedroom',
   'off_line_property'=>'Off line property',
   'unit_type'=>'Unit Type',
+  'viewing'=>'Viewing',
+  'photoshoot'=>'Photoshoot',
+  'field_visit'=>'Field Visit',
 ];
