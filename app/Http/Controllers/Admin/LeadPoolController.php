@@ -122,7 +122,7 @@ class LeadPoolController extends Controller
       $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
       $usersIds = $users->pluck('id')->toArray();
       $contacts = Contact::with(['country','project','creator','user','status'])
-                        ->select($this->selectedAttruibutes)->whereIn('user_id',$usersIds)->where(function ($q){
+                        ->select($this->selectedAttruibutes)->where(function ($q){
       $this->filterPrams($q);
       })->orderBy('created_at','DESC');
       $contactsCount = $contacts->count();
@@ -138,11 +138,7 @@ class LeadPoolController extends Controller
       $contacts = Contact::with(['country','project','creator','user','status'])
                         ->select($this->selectedAttruibutes)->where(function ($q){
       $this->filterPrams($q);
-      })->Where('created_by',auth()->id())
-            ->orderBy('created_at','DESC');
-            
-    
-
+      })->orderBy('created_at','DESC');
       $contactsCount = $contacts->count();
       $contacts = $contacts->paginate(20);
 
@@ -187,7 +183,7 @@ class LeadPoolController extends Controller
       $contacts = Contact::with(['country','project','creator','user','status'])
                         ->select($this->selectedAttruibutes)->where(function ($q){
         $this->filterPrams($q);
-      })->where('user_id',auth()->id())->orderBy('created_at','DESC');
+      })->orderBy('created_at','DESC');
 
       $contactsCount = $contacts->count();
       $contacts = $contacts->paginate(20);
@@ -210,41 +206,6 @@ class LeadPoolController extends Controller
         return abort(404);
       }
       // some condition to check role
-      // check if he leader and its belongs to hime or to one of his group , check if seller is creator
-      if(userRole() == 'leader')
-      {
-          $contactUserLeader = $contact->user ? $contact->user->leader : false;
-
-          if(!$contactUserLeader)
-          {
-              $contactUserLeader = $contact->created_by;
-              $contactUserLeader = User::findOrFail($contactUserLeader);
-              if($contactUserLeader->id == auth()->id())
-              {
-                  $contactUserLeader = auth()->id();
-              }else{
-                  $contactUserLeader = $contactUserLeader->leader;
-              }
-          }
-
-        if($contact->user_id != auth()->id() AND $contactUserLeader != auth()->id())
-        {
-          return abort(404);
-        }
-      }elseif(userRole() == 'sales')
-      {
-        if($contact->user_id != auth()->id())
-        {
-          return abort(404);
-        }
-      }elseif(userRole() == 'sales admin')
-      {
-          if($contact->created_by != auth()->id() OR $contact->user_id)
-         {
-                 return abort(404);
-          }
-      }
-
 
       $currencyName = app()->getLocale() == 'en' ? 'currency' : 'currency_ar';
      $projects = Project::where('name_en','others')
@@ -441,7 +402,7 @@ class LeadPoolController extends Controller
   private function filterPrams($q){
     return $q->where('status_id',5) //status should be follow up
     ->whereNotNull('follow_up_date')
-    ->where('follow_up_date','<',Carbon::now())
+    ->whereDate('follow_up_date','<',Carbon::now())
     ->get();
   }    
 }

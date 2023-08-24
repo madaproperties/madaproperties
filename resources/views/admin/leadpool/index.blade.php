@@ -137,10 +137,6 @@ $(document).ready(function () {
 		} else if(idsArr.length > 5){
 			alert("You can not select more than 5 leads at time in one day.");
 		}  else {
-			if(!$('#assigned-seller').val())
-			{
-				return alert('please select User To Assign To');
-			}
 			var strIds = idsArr.join(",");
 			$.ajax({
 				url: "{{ route('admin.leadpool.multiple-assign') }}",

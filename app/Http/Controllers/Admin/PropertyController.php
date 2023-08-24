@@ -1592,6 +1592,16 @@ class PropertyController extends Controller
         $q->where($extraParaName2,$extraParaValue2);
       }
     }
+
+    $allowedFeilds =[
+      "user_id",
+    ];
+    $feilds = request()->all();
+    foreach($feilds as $feild => $value){
+      if(in_array($feild,$allowedFeilds) AND !empty($value)){
+          $q->where($feild,$value);
+      }
+    }
   }
 
 }

@@ -1697,8 +1697,10 @@ $(document).on('change','#log_call_outcome_el',function (){
 
 $(document).on('change','.follow_up_status_id',function (){
   if($(this).val() == '5'){ //Follow Up status
+    $("input[name='follow_up_date']").attr('required',true);
     $(".follow_up_date").show();
   }else{
+    $("input[name='follow_up_date']").removeAttr('required');
     $(".follow_up_date").hide();
   }
 });
