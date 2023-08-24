@@ -221,12 +221,21 @@
                                                 <span class="menu-text"><i class="fa fa-th"></i> {{__('site.statics')}}</span>
                                             </a>
                                             <!-- updated by fazl 06-04 -->
-                                        </li> @endif @if(userRole() != 'sales admin' && userRole() != 'other' && userRole() != 'hr' && userRole() !=='it') <li class="menu-item menu-item-active {{ request()->has('my-contacts') ? 'active' : '' }}" aria-haspopup="true">
+                                        </li> @endif 
+                                        @if(userRole() != 'sales admin' && userRole() != 'other' && userRole() != 'hr' && userRole() !=='it') 
+                                        <li class="menu-item menu-item-active {{ request()->has('my-contacts') ? 'active' : '' }}" aria-haspopup="true">
                                             <a href="{{route('admin.home')}}?my-contacts=get&filter_status={{ App\Status::where('name_en','new')->first()->id }} " class="menu-link menuRouter {{ request()->has('my-contacts') ? 'active' : ''}}">
                                                 <span class="menu-text"><i class="fa fa-address-book"></i> {{__('site.my contacts')}}</span>
                                             </a>
                                             <!-- updated by fazal 29-03 -->
-                                        </li> @endif @if(userRole() != 'sales' && userRole() != 'other'  && userRole()!='hr' && userRole() != 'hr' && userRole() !=='it') <li class="menu-item menu-item-active {{ (request()->routeIs('admin.home') && !request()->has('my-contacts'))  ? 'active' : '' }}" aria-haspopup="true">
+                                        </li> 
+                                        @endif
+                                        <li class="menu-item menu-item-active {{ request()->has('lead-pool') ? 'active' : '' }}" aria-haspopup="true">
+                                            <a href="{{route('admin.lead-pool.index')}}" class="menu-link menuRouter {{ request()->has('lead-pool') ? 'active' : ''}}">
+                                                <span class="menu-text"><i class="fa fa-address-book"></i> {{__('site.lead_pool')}}</span>
+                                            </a>
+                                        </li> 
+                                        @if(userRole() != 'sales' && userRole() != 'other'  && userRole()!='hr' && userRole() != 'hr' && userRole() !=='it') <li class="menu-item menu-item-active {{ (request()->routeIs('admin.home') && !request()->has('my-contacts'))  ? 'active' : '' }}" aria-haspopup="true">
                                             <a href="{{route('admin.home')}}?filter_status={{ App\Status::where('name_en','new')->first()->id }}" class="menu-link {{ (request()->routeIs('admin.home') && !request()->has('my-contacts')) ? 'active' : ''}}">
                                                 <span class="menu-text"><i class="fa fa-address-book"></i> {{__('site.contacts')}}</span>
                                             </a>

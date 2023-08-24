@@ -215,7 +215,10 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       
       Route::get('property-availability', 'PropertyAvailabilityController@index')->name('property-availability');
 
+      Route::resource('lead-pool','LeadPoolController');
+      Route::post('lead-pool/multiple-assign','LeadPoolController@multiple_assign')->name('leadpool.multiple-assign');
 
+      
 });
 
 
