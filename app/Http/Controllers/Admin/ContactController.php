@@ -493,6 +493,7 @@ class ContactController extends Controller
         "zone_id" => "nullable" ,
         "district_id"=>"nullable",
         "city"=>"nullable",
+        "follow_up_date"=>"nullable",
       ]);
 
 
@@ -554,7 +555,13 @@ class ContactController extends Controller
 
       $contact->update($data);
 
-
+      //Added by Lokesh to add follow up notification 14-08-2023 
+      if($request->follow_up_date && $request->status_id == '5'){
+        $contact->update([
+          'follow_up_date' => \Carbon\Carbon::parse(str_replace('-','/',$request->follow_up_date))->format('Y-m-d')
+        ]);
+      }
+      //End
 
       // check $redirectSalesAdmin
       if(isset($redirectSalesAdmin))

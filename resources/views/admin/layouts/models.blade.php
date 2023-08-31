@@ -645,7 +645,7 @@
                      <div class="form-group row">
                       <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.status')}}</label>
                       <div class="col-lg-9 col-xl-9">
-                        <select class="form-control"  name="status_id" style="width:100%">
+                        <select class="form-control follow_up_status_id"  name="status_id" style="width:100%">
                           @foreach($status as $statu)
                           <option
                           {{$contact->status_id == $statu->id ? 'selected' : ''}}
@@ -655,6 +655,27 @@
                       </div>
                     </div>
                     <!--end::Group-->
+
+                    <div class="form-group row follow_up_date" style="display:{{$contact->status_id != '5' ? 'none' : ''}}">
+                      <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.follow_up_date')}}</label>
+                      <div class="col-lg-9 col-xl-9">
+                        <div class="input-group input-group-solid date" id="kt_datetimepicker_33334444" data-target-input="nearest">
+                          <input value="{{old('follow_up_date')}}"  type="text" class="form-control form-control-solid datetimepicker-input"
+                          data-toggle="datetimepicker" name="follow_up_date" data-target="#kt_datetimepicker_33334444">
+                          <div class="input-group-append" data-target="#kt_datetimepicker_33334444" data-toggle="datetimepicker">
+                            <span class="input-group-text">
+                              <i class="ki ki-calendar"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
+
+
                     <!--begin::Group-->
                     <div class="form-group row fv-plugins-icon-container">
                       <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.last mile conversion')}}</label>
@@ -1702,6 +1723,9 @@
 <script>
 
 
+$('#kt_datetimepicker_33334444').datetimepicker({
+    format: 'L'
+});
 $('#kt_datetimepicker_3333444').datetimepicker({
     format: 'L'
 });

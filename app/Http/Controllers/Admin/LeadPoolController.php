@@ -195,131 +195,131 @@ class LeadPoolController extends Controller
     compact('contacts','contactsCount','sellers'));
   }
 
-  public function show( $contact)
-  {
-      $contact = Contact::where('status_id',5) //status should be follow up
-      ->whereNotNull('follow_up_date')
-      ->where('follow_up_date','<',Carbon::now())
-      ->where('id',$contact)->first();
+  // public function show( $contact)
+  // {
+  //     $contact = Contact::where('status_id',5) //status should be follow up
+  //     ->whereNotNull('follow_up_date')
+  //     ->where('follow_up_date','<',Carbon::now())
+  //     ->where('id',$contact)->first();
 
-      if(!$contact){
-        return abort(404);
-      }
-      // some condition to check role
+  //     if(!$contact){
+  //       return abort(404);
+  //     }
+  //     // some condition to check role
 
-      $currencyName = app()->getLocale() == 'en' ? 'currency' : 'currency_ar';
-     $projects = Project::where('name_en','others')
-                            ->get();
+  //     $currencyName = app()->getLocale() == 'en' ? 'currency' : 'currency_ar';
+  //    $projects = Project::where('name_en','others')
+  //                           ->get();
 
-      $miles = LastMileConversion::where('active','1')
-                          ->orderBy('name_'. app()->getLocale())
-                          ->get();
+  //     $miles = LastMileConversion::where('active','1')
+  //                         ->orderBy('name_'. app()->getLocale())
+  //                         ->get();
 
-     $status = Status::where('active','1')->orderBy('weight','ASC')->get();
-
-
-
-     // Start Hundel Counties Sort
-
-        $countries = Country::orderBy('name_en')->get();
-
-         $collectCounties = [];
-         $collectCounties = collect($collectCounties);
-
-        foreach($countries as $index => $country)
-        {
-            if(in_array($country->name_en,toCountriess()) )
-            {
-               $collectCounties->push($country);
-            }
-        }
-
-
-        $countries = $countries->filter(function($item) {
-          return !in_array($item->name_en,toCountriess());
-       });
-
-
-       foreach($collectCounties as $topCountry)
-       {
-           $countries->prepend($topCountry);
-       }
-     // End Hundel Counties Sort
-
-      $purposetype = PurposeType::orderBy('type')->get();
-      $currencies = Currency::orderBy($currencyName)->get();
-
-
-      $sellers = getSellers(); // Added by Lokesh on 15-11-2022
-
-
-      $activities = Activity::where('contact_id',$contact->id)->orderBy('id','DESC')->get();
-      $tasks = Task::where('contact_id',$contact->id)->orderBy('created_at','DESC')->get();
-      $notes = Note::where('contact_id',$contact->id)->orderBy('created_at','DESC')->get();
-      $logs = Log::where('contact_id',$contact->id)->orderBy('created_at','DESC')->get();
-
-
-      $LastConnected = Log::where('contact_id',$contact->id)->orderBy('log_date','DESC')->first();
-
-      $minutes = [
-        '15',
-        '30',
-        '45',
-      ];
-      $durations = [];
-      for($i =0;$i<=8;$i++)
-      {
-        foreach($minutes as $minute)
-        {
-          $time = $i . ' hours '.$minute .' minutes';
-          $durations[] = str_replace('0 hours','',$time);
-        }
-      }
-
-
-        $purpose  = auth()->user()->position_types;
-        $purpose  = json_decode($purpose);
-
-       if(count($purpose) == 1 AND $purpose[0] == 'sell')
-       {
-           $purpose[0] = 'buy';
-       }
-       $cities =City::where('country_id',$contact->unit_country)->get();
-       $communities=Community::where('city_id',$contact->city)->where('parent_id',0)->get();
-       $subcommunities = Community::where('parent_id',$contact->community_id)->get();
-       $zones = Zones::where('city_id',$contact->city)->get();
-       $districts = Districts::where('zone_id',$contact->zone_id)->get();
-
-      return view('admin.leadpool.show',[
-        'contact' => $contact,
-        'countries' => $countries,
-        'projects' => $projects,
-        'miles' => $miles,
-        'sellers' => $sellers,
-        'activities' => $activities,
-        'tasks' => $tasks,
-        'notes' => $notes,
-        'purpose' => $purpose,
-        'logs' => $logs,
-        'status' => $status,
-        'LastConnected' => $LastConnected,
-        'durations' => $durations,
-        'currencies' => $currencies,
-        'purposetype' => $purposetype,
-        'campaigns' => Campaing::where('active','1')->orderBy('name')->get(),
-        'contents' => Content::where('active','1')->orderBy('name')->get(),
-        'sources' => Source::where('active','1')->orderBy('name')->get(),
-        'mediums' => Medium::where('active','1')->get(),
-        'cities'=>$cities,
-        'communities'=>$communities,
-        'subcommunities'=>$subcommunities,
-        'zones'=>$zones,
-        'districts' =>$districts,
+  //    $status = Status::where('active','1')->orderBy('weight','ASC')->get();
 
 
 
-      ]);
-  }
+  //    // Start Hundel Counties Sort
+
+  //       $countries = Country::orderBy('name_en')->get();
+
+  //        $collectCounties = [];
+  //        $collectCounties = collect($collectCounties);
+
+  //       foreach($countries as $index => $country)
+  //       {
+  //           if(in_array($country->name_en,toCountriess()) )
+  //           {
+  //              $collectCounties->push($country);
+  //           }
+  //       }
+
+
+  //       $countries = $countries->filter(function($item) {
+  //         return !in_array($item->name_en,toCountriess());
+  //      });
+
+
+  //      foreach($collectCounties as $topCountry)
+  //      {
+  //          $countries->prepend($topCountry);
+  //      }
+  //    // End Hundel Counties Sort
+
+  //     $purposetype = PurposeType::orderBy('type')->get();
+  //     $currencies = Currency::orderBy($currencyName)->get();
+
+
+  //     $sellers = getSellers(); // Added by Lokesh on 15-11-2022
+
+
+  //     $activities = Activity::where('contact_id',$contact->id)->orderBy('id','DESC')->get();
+  //     $tasks = Task::where('contact_id',$contact->id)->orderBy('created_at','DESC')->get();
+  //     $notes = Note::where('contact_id',$contact->id)->orderBy('created_at','DESC')->get();
+  //     $logs = Log::where('contact_id',$contact->id)->orderBy('created_at','DESC')->get();
+
+
+  //     $LastConnected = Log::where('contact_id',$contact->id)->orderBy('log_date','DESC')->first();
+
+  //     $minutes = [
+  //       '15',
+  //       '30',
+  //       '45',
+  //     ];
+  //     $durations = [];
+  //     for($i =0;$i<=8;$i++)
+  //     {
+  //       foreach($minutes as $minute)
+  //       {
+  //         $time = $i . ' hours '.$minute .' minutes';
+  //         $durations[] = str_replace('0 hours','',$time);
+  //       }
+  //     }
+
+
+  //       $purpose  = auth()->user()->position_types;
+  //       $purpose  = json_decode($purpose);
+
+  //      if(count($purpose) == 1 AND $purpose[0] == 'sell')
+  //      {
+  //          $purpose[0] = 'buy';
+  //      }
+  //      $cities =City::where('country_id',$contact->unit_country)->get();
+  //      $communities=Community::where('city_id',$contact->city)->where('parent_id',0)->get();
+  //      $subcommunities = Community::where('parent_id',$contact->community_id)->get();
+  //      $zones = Zones::where('city_id',$contact->city)->get();
+  //      $districts = Districts::where('zone_id',$contact->zone_id)->get();
+
+  //     return view('admin.leadpool.show',[
+  //       'contact' => $contact,
+  //       'countries' => $countries,
+  //       'projects' => $projects,
+  //       'miles' => $miles,
+  //       'sellers' => $sellers,
+  //       'activities' => $activities,
+  //       'tasks' => $tasks,
+  //       'notes' => $notes,
+  //       'purpose' => $purpose,
+  //       'logs' => $logs,
+  //       'status' => $status,
+  //       'LastConnected' => $LastConnected,
+  //       'durations' => $durations,
+  //       'currencies' => $currencies,
+  //       'purposetype' => $purposetype,
+  //       'campaigns' => Campaing::where('active','1')->orderBy('name')->get(),
+  //       'contents' => Content::where('active','1')->orderBy('name')->get(),
+  //       'sources' => Source::where('active','1')->orderBy('name')->get(),
+  //       'mediums' => Medium::where('active','1')->get(),
+  //       'cities'=>$cities,
+  //       'communities'=>$communities,
+  //       'subcommunities'=>$subcommunities,
+  //       'zones'=>$zones,
+  //       'districts' =>$districts,
+
+
+
+  //     ]);
+  // }
 
 
 
@@ -400,6 +400,18 @@ class LeadPoolController extends Controller
   }
 
   private function filterPrams($q){
+
+    $userloc=User::where('id',auth()->id())->first();
+    if($userloc->time_zone=='Asia/Dubai') { 
+      if(date('l', strtotime(' +1 day')) == 'Sunday'){
+        return true;
+      }  
+    }else{
+      if(date('l', strtotime(' +1 day')) == 'Friday'){
+        return true;
+      }
+    }
+
     return $q->where('status_id',5) //status should be follow up
     ->whereNotNull('follow_up_date')
     ->whereDate('follow_up_date','<',Carbon::now())

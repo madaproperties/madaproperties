@@ -63,11 +63,11 @@
 									@foreach($contacts as $contact)
 										<tr id="tr_{{$contact->id}}">
 											<td><input type="checkbox" class="checkbox" data-id="{{$contact->id}}"></td>
-											<td><a class="text-dark" href="{{route('admin.lead-pool.show',$contact->id)}}">
-											{{$contact->id}}</a>
+											<td>
+											{{$contact->id}}
 											</td>
-											<td><a class="text-dark" href="{{route('admin.lead-pool.show',$contact->id)}}">
-												{{$contact->fullname}}</a>
+											<td>
+												{{$contact->fullname}}
 											</td>
 
 											<td>{{$contact->country ? $contact->country->name : ''}}</td>
