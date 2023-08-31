@@ -141,6 +141,42 @@
 						<td>{{number_format($deal->agent_commission_amount, 2)}}</td>
 						
                     </tr>
+                    <!--updated by fazal on 31-08-23-->
+                    	<tr>
+						<td>Sales Manager Name</td>
+						<td>{{isset($deal->leader) ? explode('@',$deal->leader->name)[0] : 'N/A'}}</td>
+						
+                    </tr>
+					<tr>
+						<td> @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+							Sales Manager Amount (SAR)
+						@else
+							Sales Manager Amount (AED)
+						@endif
+					</td>
+						<td>{{$deal->agent_leader_commission_amount}}</td>
+						
+                    </tr>
+                    	@if(isset($deal->salesDirector))
+					<tr>
+						<td>Sales Director Name</td>
+						<td>{{isset($deal->salesDirector) ? explode('@',$deal->salesDirector->name)[0] : 'N/A'}}</td>
+						
+                    </tr>
+					<tr>
+						<td>
+						    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						    Sales Director Amount (SAR)
+						    @else
+						    Sales Director Amount (AED)
+						    @endif
+						    </td>
+						<td>{{$deal->sales_director_commission_amount}}</td>
+						
+                    </tr>
+					@endif
+                    <!--end-->
+                    
 					@if(isset($deal->agentTwo))
 					<tr>
 						<td>Property Consultant 2</td>
@@ -159,40 +195,7 @@
 						
                     </tr>
 					@endif
-					@if(isset($deal->salesDirector))
-					<tr>
-						<td>Sales Director Name</td>
-						<td>{{isset($deal->salesDirector) ? explode('@',$deal->salesDirector->name)[0] : 'N/A'}}</td>
-						
-                    </tr>
-					<tr>
-						<td>
-						    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
-						    Sales Director Amount (SAR)
-						    @else
-						    Sales Director Amount (AED)
-						    @endif
-						    </td>
-						<td>{{$deal->sales_director_commission_amount}}</td>
-						
-                    </tr>
-					@endif
-					<tr>
-						<td>Sales Manager Name</td>
-						<td>{{isset($deal->leader) ? explode('@',$deal->leader->name)[0] : 'N/A'}}</td>
-						
-                    </tr>
-					<tr>
-						<td> @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
-							Sales Manager Amount (SAR)
-						@else
-							Sales Manager Amount (AED)
-						@endif
-					</td>
-						<td>{{$deal->agent_leader_commission_amount}}</td>
-						
-                    </tr>
-					@if(isset($deal->leaderTwo))
+				   @if(isset($deal->leaderTwo))
 					<tr>
 						<td>Sales Manager 2 Name</td>
 						<td>{{isset($deal->leaderTwo) ? explode('@',$deal->leaderTwo->name)[0] : 'N/A'}}</td>
@@ -207,6 +210,24 @@
 						    @endif
 						    </td>
 						<td>{{$deal->agent2_leader_commission_amount}}</td>
+						
+                    </tr>
+					@endif
+						@if(isset($deal->salesDirector2))
+					<tr>
+						<td>Sales Director 2 Name</td>
+						<td>{{isset($deal->salesDirector2) ? explode('@',$deal->salesDirector2->name)[0] : 'N/A'}}</td>
+						
+                    </tr>
+					<tr>
+						<td>
+						    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						    Sales Director Amount (SAR)
+						    @else
+						    Sales Director Amount (AED)
+						    @endif
+						    </td>
+						<td>{{$deal->sales_director_2_commission_amount}}</td>
 						
                     </tr>
 					@endif
