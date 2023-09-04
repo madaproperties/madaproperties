@@ -30,6 +30,8 @@ use App\Districts;
 use App\LeadPoolActivity;
 use Mail;
 use App\Mail\LeadAssigned;
+use Illuminate\Support\Facades\Cache;
+
 
 class LeadPoolController extends Controller
 {
@@ -46,9 +48,27 @@ class LeadPoolController extends Controller
   } 
 
   public function index(){
+
+    $cacheTime = '3600';
     if(userRole() == 'other'){
       return redirect()->route('admin.deal.index');      
     }
+
+    $createdBy = User::where('active','1')->select('id','email');
+
+  // added by fazal 18-05-23
+  if(userRole()== 'sales director'){
+    $user=User::where('id',auth()->id())->first();
+    if($user->time_zone=='Asia/Riyadh') {
+      $leaders=  User::where('rule','leader')->where('active',1)->where('time_zone','Asia/Riyadh')->select('id','email')->get();
+    }else{
+      $leaders=  User::where('rule','leader')->where('active',1)->where('time_zone','Asia/Dubai')->select('id','email')->get();
+    }
+  }else{
+      $leaders=  User::where('rule','leader')->where('active',1)->select('id','email')->get();  
+  }
+  // end added by fazal
+
 
     if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing'  || userRole() == 'ceo') { //Updated by Javed
 
@@ -191,8 +211,106 @@ class LeadPoolController extends Controller
 
     $sellers= getSellers(); // Added by Lokesh on 15-11-2022
 
-    return view('admin.leadpool.index',
-    compact('contacts','contactsCount','sellers'));
+    $status=Cache::remember('status', $cacheTime, function () {
+      return Status::where('active','1')->orderBy('weight','ASC')->get();
+    });
+
+
+    // Start Hundel Counties Sort
+
+    $countries=Cache::remember('countries', $cacheTime, function () {
+      return Country::orderBy('name_en')->get();
+    });
+
+    $collectCounties = [];
+    $collectCounties = collect($collectCounties);
+
+    foreach($countries as $index => $country){
+        if(in_array($country->name_en,toCountriess()) )
+        {
+            $collectCounties->push($country);
+        }
+    }
+
+
+    $countries = $countries->filter(function($item) {
+      return !in_array($item->name_en,toCountriess());
+    });
+
+
+    foreach($collectCounties as $topCountry){
+        $countries->prepend($topCountry);
+    }
+    
+    $campaignCountry = '';
+    // End Hundel Counties Sort
+    if(userRole() == 'sales admin saudi'){ //Added by Javed
+      $campaignCountry = '1';
+      $projects = Project::where('country_id','1')->orderBy('name_en','ASC')->get();
+    }else if(userRole() == 'sales admin uae'){  //Added by Javed
+      $projects = Project::where('country_id','2')->orderBy('name_en','ASC')->get();
+      $campaignCountry = '2';
+    }
+    // 
+    else if(userRole() == 'sales admin' || userRole()=='sales director' || userRole()=='sales' || userRole()=='leader'){
+    // dd('hit'); //Added by Javed
+      $user=User::where('id',auth()->id())->first();
+      if($user->time_zone=='Asia/Riyadh')
+      {
+        $campaignCountry = '1';
+        $projects = Project::where('country_id','1')->orderBy('name_en','ASC')->get();  
+      }
+      else
+      {
+        $projects = Project::where('country_id','2')->orderBy('name_en','ASC')->get(); 
+        $campaignCountry = '2';
+      }
+      
+    }
+    // 
+    else{
+      $projects = Project::orderBy('name_en','ASC')->get();
+      if(userRole() == 'leader'){
+        if(auth()->user()->time_zone == 'Asia/Riyadh'){
+          $campaignCountry = '1';
+          $projects = Project::where('country_id','1')->orderBy('name_en','ASC')->get();
+        }else if(auth()->user()->time_zone == 'Asia/Dubai'){
+          $projects = Project::where('country_id','2')->orderBy('name_en','ASC')->get();
+          $campaignCountry = '2';
+        }
+      }
+    }
+
+    $purpose  = auth()->user()->position_types;
+    $purpose  = json_decode($purpose);
+    
+    // added by fazal on -19-6-23
+    if($campaignCountry){
+      $campaigns = Campaing::where('active','1')
+      ->whereHas('project',function($q) use($campaignCountry){
+        $q->where('country_id',$campaignCountry);
+      })->orderBy('name','ASC')->get();
+    }else{
+      $campaigns = Campaing::where('active','1')->orderBy('name','ASC')->get();
+    }
+
+    $miles=Cache::remember('miles', $cacheTime, function () {
+      return LastMileConversion::where('active','1')
+      ->orderBy('name_'. app()->getLocale())
+      ->get();
+    });
+
+    $createdBy=$createdBy->orderBy('email')->get();
+
+    $sources=Cache::remember('sources', $cacheTime, function (){
+      return Source::where('active','1')->get();
+    });
+
+    $purposetype=Cache::remember('purposetype', $cacheTime, function (){
+      return PurposeType::orderBy('type')->get();    
+    });
+
+    return view('admin.leadpool.index',compact('contacts','contactsCount','sellers','purposetype','sources','miles','purpose','projects','campaigns','contacts','status','contactsCount','sellers','countries','createdBy','leaders'));
   }
 
   // public function show( $contact)
@@ -401,20 +519,153 @@ class LeadPoolController extends Controller
 
   private function filterPrams($q){
 
-    $userloc=User::where('id',auth()->id())->first();
-    if($userloc->time_zone=='Asia/Dubai') { 
-      if(date('l', strtotime(' +1 day')) == 'Sunday'){
-        return true;
-      }  
-    }else{
-      if(date('l', strtotime(' +1 day')) == 'Friday'){
-        return true;
+    if(request()->has('ADVANCED')){
+      $feilds = request()->all();
+      $uri = Request()->fullUrl();
+      session()->put('start_filter_url',$uri);
+      $allowedFeilds =[
+        "country_id" ,
+        "user_id" ,
+        "project_id" ,
+        "purpose" ,
+        "lang" ,
+        "campaign",
+        "last_mile_conversion",
+        "status_id",
+        "created_by", //Added by Javed
+        "project_country_id", //Added by Javed
+        "budget", //Added by Javed
+        "source", //Added by Javed
+        "purpose_type", //Added by Javed
+        "email", //Added by Javed
+        "is_meeting", //Added by Javed,
+        "lead_category", //Added by Javed,
+        "campaign_country", //Added by Javed,
+      ];
+      $user_id = 0;
+      foreach($feilds as $feild => $value){
+        if(in_array($feild,$allowedFeilds) AND !empty($value)){
+          if($feild == 'user_id'){
+            $user_id = $value;
+          }
+          if($feild == 'project_country_id'){
+            // $q->whereHas('project', function($q2) use($value) {
+            //   $q2->where('projects.country_id',$value);
+            // });
+            $projectId = Project::where('country_id',$value)->pluck('id');
+            $q->whereIn('project_id',$projectId);
+
+          }else if($feild == 'is_meeting' && $value == 1){
+
+              $logsIds = \App\Log::where('logs.type','meeting');
+              if($user_id){
+                $logsIds->where('logs.user_id',$user_id);
+              }
+              if(userRole() == 'sales'){
+                $logsIds->where('logs.user_id',auth()->id());
+              }
+              //Added by Javed
+              if(Request('meeting_from') && Request('meeting_to')){
+                $from = date('Y-m-d', strtotime(Request('meeting_from')));
+                $to = date('Y-m-d', strtotime(Request('meeting_to')));
+                $logsIds->whereBetween('logs.log_date',[$from,$to]);
+              }else{   
+                if(Request('meeting_from')){
+                  $from = date('Y-m-d', strtotime(Request('meeting_from')));
+                  $logsIds->where('logs.log_date','>=', $from);
+                }   
+                if(Request('meeting_to')){
+                  $to = date('Y-m-d', strtotime(Request('meeting_to')));
+                  $logsIds->where('logs.log_date','<=',$to);
+                }            
+              } 
+              $contact_ids=$logsIds->pluck('contact_id');
+              $q->whereIn('id',$contact_ids);
+
+          }else if($feild == 'campaign_country'){
+            $q->whereIn($feild,explode(",",$value));
+          }else{
+            $q->where($feild,$value);
+          }
+        }
+      }
+
+      //Added by Javed
+      if(Request('from') && Request('to')){
+        $uri = Request()->fullUrl();
+        session()->put('start_filter_url',$uri);
+        $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
+        $to = date('Y-m-d 23:59:59', strtotime(Request('to')));
+        $q->whereBetween('created_at',[$from,$to]);
+      }else{   
+        if(Request('from')){
+          $uri = Request()->fullUrl();
+          session()->put('start_filter_url',$uri);
+          $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
+          $q->where('created_at','>=', $from);
+        }   
+        if(Request('to')){
+          $uri = Request()->fullUrl();
+          session()->put('start_filter_url',$uri);
+          $to = date('Y-m-d 23:59:59', strtotime(Request('to')));
+          $q->where('created_at','<=',$to);
+        }            
+      }
+      //End
+
+      //Added by Javed
+      if(Request('last_update_from') && Request('last_update_to')){
+        $uri = Request()->fullUrl();
+        session()->put('start_filter_url',$uri);
+        $from = date('Y-m-d 00:00:00', strtotime(Request('last_update_from')));
+        $to = date('Y-m-d 23:59:59', strtotime(Request('last_update_to')));
+        $q->whereBetween('updated_at',[$from,$to]);
+      }else{   
+        if(Request('last_update_from')){
+          $uri = Request()->fullUrl();
+          session()->put('start_filter_url',$uri);
+          $from = date('Y-m-d 00:00:00', strtotime(Request('last_update_from')));
+          $q->where('updated_at','>=', $from);
+        }   
+        if(Request('last_update_to')){
+          $uri = Request()->fullUrl();
+          session()->put('start_filter_url',$uri);
+          $to = date('Y-m-d 23:59:59', strtotime(Request('last_update_to')));
+          $q->where('updated_at','<=',$to);
+        }            
+      }
+      //End
+      // added by fazal 09-03-23
+      if(Request()->has('leader') && request('leader')){
+        $uri = Request()->fullUrl();
+        session()->put('start_filter_url',$uri);
+        $leaderId=request('leader');
+        $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+        $usersIds = $users->pluck('id')->toArray();
+        $q->whereIn('user_id',$usersIds);
+      }
+      // end
+     if(Request()->has('challenge_lead') && request('challenge_lead')){
+        $uri = Request()->fullUrl();
+        session()->put('start_filter_url',$uri);
+        $q->whereIn('status_id', ['1','4','7'])
+                  ->whereDate('updated_at', '<=', Carbon::now()->subMonths(1));
       }
     }
 
-    return $q->where('status_id',5) //status should be follow up
+
+
+    $q->where('status_id',5) //status should be follow up
     ->whereNotNull('follow_up_date')
-    ->whereDate('follow_up_date','<',Carbon::now())
-    ->get();
+    ->whereDate('follow_up_date','<',Carbon::now());
+
+    $userloc=User::where('id',auth()->id())->first();
+    if($userloc->time_zone=='Asia/Riyadh') {
+      $q->whereDay('follow_up_day','!=','Thursday');
+    }else{
+      $q->whereDay('follow_up_day','!=','SaturDay');
+    }
+    
+    return $q->get();
   }    
 }

@@ -155,6 +155,7 @@ class LogsController extends Controller
       if($request->follow_up_date && $request->status_id == '5'){
         $contact->update([
           'follow_up_date' => \Carbon\Carbon::parse(str_replace('-','/',$request->follow_up_date))->format('Y-m-d')
+          'follow_up_day' => \Carbon\Carbon::parse(str_replace('-','/',$request->follow_up_date))->format('l')
         ]);
         $dataNoteDB['type'] = "call";
         $dataNoteDB['date'] = \Carbon\Carbon::parse(str_replace('-','/',$request->follow_up_date))->format('Y-m-d'); 
@@ -220,6 +221,7 @@ class LogsController extends Controller
       if($request->follow_up_date && $request->status_id == '5'){
         $contact->update([
           'follow_up_date' => \Carbon\Carbon::parse(str_replace('-','/',$request->follow_up_date))->format('Y-m-d')
+          'follow_up_day' => \Carbon\Carbon::parse(str_replace('-','/',$request->follow_up_date))->format('l')
         ]);
       }
       //End

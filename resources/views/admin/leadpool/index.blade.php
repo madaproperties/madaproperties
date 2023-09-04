@@ -33,6 +33,7 @@
 							</div>
 
 							<!--begin: Datatable-->
+							@include('admin.layouts.advanced-search-lead-pool')
 							<!--begin::Body-->
 							<div class="table-responsive pt-5">
 									<div class="{{$contacts->withQueryString()->links() == ''? 'assign-delete-buttons' : 'page-button'}}">
