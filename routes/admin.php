@@ -218,6 +218,7 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::resource('lead-pool','LeadPoolController');
       Route::post('lead-pool/multiple-assign','LeadPoolController@multiple_assign')->name('leadpool.multiple-assign');
 
+      Route::post('deal/getDocumentByAjax','DealController@getDocumentByAjax')->name('deal.getDocumentByAjax');
       
 });
 

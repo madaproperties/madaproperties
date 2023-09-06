@@ -156,6 +156,9 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal.exportDataDeals'),$expo
 									</td>
 									<td>
 										<div class="editPro">
+									@can('deals-comission-slip-documents-list')
+									<a onclick="getDocumentByAjax('{{$deal->id}}')" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Mada comission slip documents"><i class="fa fa-file"></i></a>																						
+									@endcan
 									@can('deal-edit')
 									<a href="{{ route('admin.deal.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
 									@endcan
@@ -200,3 +203,29 @@ function submitForm(id){
 	$("#destory-"+id).submit();
 }
 </script>
+@push('js')
+<script type="text/javascript">
+function getDocumentByAjax(id){
+	let token = $('meta[name=csrf-token]').attr('content');
+	let route = '{{route("admin.deal.getDocumentByAjax")}}';
+	$("#loadingHolder").show();
+	$.ajax({
+		type:'POST',
+		url: route,
+		data:{_token:token,id:id},
+		success: (res) => {
+			$('#mada-comission-slip-documents').html(res);
+			$('#mada-comission-slip-documents').modal('show');
+			$("#loadingHolder").hide();
+		},
+		error: function(res){
+			$('#mada-comission-slip-documents').html(res);
+			$('#mada-comission-slip-documents').modal('show');
+			$("#loadingHolder").hide();
+		}
+	});
+}
+
+</script>
+@endpush	
+

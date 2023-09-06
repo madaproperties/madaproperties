@@ -1094,34 +1094,39 @@ public function topAgentsSaudi()
             
    return view('admin.deals.topagentsaudi',compact('sums','emp1','emp2','emp3'));
 }
-// end
-public function monthlDeal()
-{
-  // return view('admin.deals.chart');
-  $sums = DB::table('deals')->where('unit_country',2)
-            ->whereMonth('deals.deal_date', date('m'))
-            ->whereYear('deals.deal_date', date('Y'))
-           ->sum('price');
-//   dd($sums);
- 
-if ($sums < 1000000) {
-    // Anything less than a million
-    $result['achieve'] = number_format($sums);
-} else if ($sums < 1000000000) {
-    // Anything less than a billion
-    $result['achieve'] = number_format($sums / 1000000, 2);
-} else {
-    // At least a billion
-   $result['achieve'] = number_format($sums / 1000000000, 2);
-}
-$target=120;
-$result['remaining']=$target-$result['achieve'];
-$result['achieved']=$result['achieve'];
-$result['remainings']=$result['remaining'];
+  // end
+  public function monthlDeal()
+  {
+    // return view('admin.deals.chart');
+    $sums = DB::table('deals')->where('unit_country',2)
+              ->whereMonth('deals.deal_date', date('m'))
+              ->whereYear('deals.deal_date', date('Y'))
+            ->sum('price');
+    //   dd($sums);
+    
+    if ($sums < 1000000) {
+        // Anything less than a million
+        $result['achieve'] = number_format($sums);
+    } else if ($sums < 1000000000) {
+        // Anything less than a billion
+        $result['achieve'] = number_format($sums / 1000000, 2);
+    } else {
+        // At least a billion
+      $result['achieve'] = number_format($sums / 1000000000, 2);
+    }
+    $target=120;
+    $result['remaining']=$target-$result['achieve'];
+    $result['achieved']=$result['achieve'];
+    $result['remainings']=$result['remaining'];
 
 
-return view ('admin.deals.chart',compact('target','result'));
-}
+    return view ('admin.deals.chart',compact('target','result'));
+  }
 
+
+  public function getDocumentByAjax(Request $request){
+    $deal = Deal::findOrFail($request->id);
+    return view('admin.deals.mada_comission_slip_uploader-modal',compact('deal'));
+  }  
 
 }

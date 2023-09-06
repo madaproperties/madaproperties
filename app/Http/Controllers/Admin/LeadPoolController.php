@@ -665,6 +665,9 @@ class LeadPoolController extends Controller
     }else{
       $q->whereDay('follow_up_day','!=','SaturDay');
     }
+
+    $q->whereDay('created_by','!=',auth()->id());
+    
     
     return $q->get();
   }    

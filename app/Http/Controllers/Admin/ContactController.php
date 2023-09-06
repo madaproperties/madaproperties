@@ -558,8 +558,8 @@ class ContactController extends Controller
       //Added by Lokesh to add follow up notification 14-08-2023 
       if($request->follow_up_date && $request->status_id == '5'){
         $contact->update([
-          'follow_up_date' => \Carbon\Carbon::parse(str_replace('-','/',$request->follow_up_date))->format('Y-m-d')
-          'follow_up_day' => \Carbon\Carbon::parse(str_replace('-','/',$request->follow_up_date))->format('l')
+          'follow_up_date' => \Carbon\Carbon::parse(str_replace('-','/',$request->follow_up_date))->format('Y-m-d');
+          'follow_up_day' => \Carbon\Carbon::parse(str_replace('-','/',$request->follow_up_date))->format('l');
         ]);
       }
       //End
