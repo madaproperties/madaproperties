@@ -438,8 +438,9 @@ class MainController extends Controller
     $purposetype=Cache::remember('purposetype', $cacheTime, function (){
       return PurposeType::orderBy('type')->get();    
     });
+    $pageTitle="Leads - MADA CRM";
     return view('admin.home',
-    compact('purposetype','sources','miles','purpose','projects','campaigns','contacts','status','contactsCount','sellers','countries','createdBy','leaders'));
+    compact('pageTitle','purposetype','sources','miles','purpose','projects','campaigns','contacts','status','contactsCount','sellers','countries','createdBy','leaders'));
   }
   // get only the attributes that i want
 

@@ -49,6 +49,11 @@ class LeadPoolController extends Controller
 
   public function index(){
 
+    $userloc=User::where('id',auth()->id())->first();
+    if($userloc->time_zone=='Asia/Riyadh') {
+      return abort(404);
+    }
+
     $cacheTime = '3600';
     if(userRole() == 'other'){
       return redirect()->route('admin.deal.index');      
