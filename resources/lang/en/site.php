@@ -634,4 +634,5 @@ return [
   'field_visit'=>'Field Visit',
   'follow_up_date'=>'Follow up date',
   'lead_pool'=>'Lead pool',
+  'lead options'=>'Lead Options',
 ];

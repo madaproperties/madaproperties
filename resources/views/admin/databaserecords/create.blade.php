@@ -298,7 +298,7 @@
 																	
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.options')}}</label>
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.lead options')}}</label>
 																		<div class="col-lg-9 col-xl-9">
 																			<select class="form-control" name="options" id="options">
 																				<option value="">{{ __('site.choose') }}</option>
