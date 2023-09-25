@@ -48,7 +48,7 @@
    @if(userRole() != 'sales')
   
     <div class="form-group col-md-4 col-sm-12">
-      <label for="country">{{__('site.Project country')}}</label>
+      <label for="country">{{__('site.unit country')}}</label>
       <select class="form-control" name="country_id">
         <option value="">{{__('site.choose')}}</option>
         @foreach($project_country as $countrie)
@@ -273,7 +273,23 @@
           </div>
         </div>
     </div>
-    
+    <!--added by fazal on 25-09-23  -->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.lead options')}}</label>
+      <select class="form-control" name="options">
+        <option value="">{{__('site.choose')}}</option>
+          <option {{ Request('options') == 'buy' ? 'selected':  '' }} value="buy">{{__('site.buy')}}</option>
+          <option {{ Request('options') == 'sell' ? 'selected':  '' }} value="sell">{{__('site.sell')}}</option>
+          <option {{ Request('options') == 'rent' ? 'selected':  '' }} value="rent">{{__('site.rent')}}</option>
+         <option>
+
+
+
+         </option>
+        
+      </select>
+    </div>
+    <!--  -->
     <!--end::Group-->
 
   </div> <!-- end row -->

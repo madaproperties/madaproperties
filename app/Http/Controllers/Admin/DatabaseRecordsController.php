@@ -401,11 +401,12 @@ private function filterPrams($q){
         "is_meeting", //Added by Javed,
         "lead_category", //Added by Javed,
         "campaign_country", //Added by Javed,
-        "zone_id",   //added by fazal-25-02
-        "district_id" ,//added by faza -25-02
-        "community_id",//added by faza -25-02
-        "subcommunity_id",//added by faza -25-02
-        "user_country_id" //added by faza -26-02
+        "zone_id",   //added by fazal-25-02-23
+        "district_id" ,//added by faza -25-02-23
+        "community_id",//added by faza -25-02-23
+        "subcommunity_id",//added by faza -25-02-23
+        "user_country_id", //added by faza -26-02-23
+        "options" //added by fazal -25-09-23
       ];
       $user_id = 0;
       foreach($feilds as $feild => $value){
