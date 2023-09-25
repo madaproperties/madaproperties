@@ -1,4 +1,9 @@
 {{$userReport->withQueryString()->links()}}
+@php 
+$exportName = request()->fullUrlWithQuery(['userStatusReport' => '1']);
+$exportUrl = explode('?',$exportName);
+$exportUrl = str_replace($exportUrl[0],route('admin.report.userStatusReport'),$exportName);
+@endphp
 <div class="card-body" style="background:#fff;margin:10px 0">
 <!--begin: Datatable-->
 	<div class="row">
@@ -8,6 +13,11 @@
 				<h4>
 					{{__('site.contacts')}}
 				</h4>
+				<a href="{{ $exportUrl }}" class="btn btn-primary font-weight-bolder pull-left" target="_blank">
+					<span class="svg-icon svg-icon-md">
+					<i class="fas fa-database" style="color:#fff"></i>
+					</span>{{__('site.export') }}
+				</a>
 				<table class=" text-center table table-separate table-head-custom table-checkable table-striped">
 					<thead>
 						<tr>
@@ -85,9 +95,20 @@
 <!--end: Datatable-->
 </div>
 
+@php 
+$exportName = request()->fullUrlWithQuery(['userStatusReport' => '2']);
+$exportUrl = explode('?',$exportName);
+$exportUrl = str_replace($exportUrl[0],route('admin.report.userStatusReport'),$exportName);
+@endphp
+
 <div class="card-body">
 	<div class="card card-custom" style="padding:20px">
 		<div class="table-responsive">
+			<a href="{{ $exportUrl }}" class="btn btn-primary font-weight-bolder pull-left" target="_blank">
+				<span class="svg-icon svg-icon-md">
+				<i class="fas fa-database" style="color:#fff"></i>
+				</span>{{__('site.export') }}
+			</a>
 			<table class="ext-center table table-separate table-head-custom table-checkable table-striped">
 				<thead>
 					<tr>
@@ -110,6 +131,11 @@
 							$activities = App\Log::where('user_id',$rs->id);
 							if(!empty(Request('from')) && !empty(Request('to'))){
 								$activities = $activities->whereBetween('log_date',[ $from,$to ]);
+							}
+							if(!empty(Request('last_update_from')) && !empty(Request('last_update_to'))){
+								$last_update_from = date('Y-m-d 00:00:00', strtotime(Request('last_update_from')));
+								$last_update_to = date('Y-m-d 23:59:59', strtotime(Request('last_update_to')));
+								$activities = $activities->whereBetween('updated_at',[ $last_update_from,$last_update_to]);
 							}
 							$activities = $activities->get();
 						@endphp
@@ -145,6 +171,12 @@
 		</div>
 	</div>
 </div>
+@php 
+$exportName = request()->fullUrlWithQuery(['userStatusReport' => '3']);
+$exportUrl = explode('?',$exportName);
+$exportUrl = str_replace($exportUrl[0],route('admin.report.userStatusReport'),$exportName);
+@endphp
+
 <!--start: Datatable-->
 <div class="card-body" style="background:#fff;margin:10px 0">
 <!--begin: Datatable-->
@@ -155,6 +187,11 @@
 				<h4>
 				{{'Last 2 week leads'}}
 				</h4>
+				<a href="{{ $exportUrl }}" class="btn btn-primary font-weight-bolder pull-left" target="_blank">
+					<span class="svg-icon svg-icon-md">
+					<i class="fas fa-database" style="color:#fff"></i>
+					</span>{{__('site.export') }}
+				</a>
 				<table class="ext-center table table-separate table-head-custom table-checkable table-striped">
 					<thead>
 						<tr>
@@ -215,6 +252,12 @@
 <!--end: Datatable-->
 </div>
 
+@php 
+$exportName = request()->fullUrlWithQuery(['userStatusReport' => '4']);
+$exportUrl = explode('?',$exportName);
+$exportUrl = str_replace($exportUrl[0],route('admin.report.userStatusReport'),$exportName);
+@endphp
+
 <!--start: Datatable-->
 <div class="card-body" style="background:#fff;margin:10px 0">
 <!--begin: Datatable-->
@@ -225,6 +268,11 @@
 				<h4>
 				{{'2 week have passed and the status has not changed'}}
 				</h4>
+				<a href="{{ $exportUrl }}" class="btn btn-primary font-weight-bolder pull-left" target="_blank">
+					<span class="svg-icon svg-icon-md">
+					<i class="fas fa-database" style="color:#fff"></i>
+					</span>{{__('site.export') }}
+				</a>
 				<table class="ext-center table table-separate table-head-custom table-checkable table-striped" style="background:#f4f4f4">
 					<thead>
 						<tr>

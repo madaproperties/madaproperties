@@ -196,6 +196,10 @@ class ContactsController extends Controller
             {
             $project_id =  $this->getID('','Project','',$contact['project_id']);
             $contact['project_id'] = $project_id;
+              if(Contact::where('project_id',$project_id)->where('phone',$contact['phone'])->first()){
+                $this->addErorr('Lead already exists '.' ['. $contact['project_id'].']');
+                return false;
+              }
             }
 
             if(isset($contact['last_mile_conversion']))

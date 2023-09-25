@@ -61,7 +61,12 @@
 								</thead>
 								<tbody>
 								@if(count($contacts))
+									@php
+									$userDataTemp = \App\User::where('id',auth()->id())->first();
+									@endphp
 									@foreach($contacts as $contact)
+										@if(($userDataTemp->time_zone=='Asia/Dubai' && date('l') != 'Sunday') || ($userDataTemp->time_zone=='Asia/Riyadh' && date('l') != 'Friday'))
+
 										<tr id="tr_{{$contact->id}}">
 											<td><input type="checkbox" class="checkbox" data-id="{{$contact->id}}"></td>
 											<td>

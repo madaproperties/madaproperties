@@ -220,6 +220,8 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
 
       Route::post('deal/getDocumentByAjax','DealController@getDocumentByAjax')->name('deal.getDocumentByAjax');
       
+      Route::get('userStatusReport','ReportExportController@index')->name('report.userStatusReport');
+
 });
 
 
