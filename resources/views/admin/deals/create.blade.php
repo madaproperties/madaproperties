@@ -824,6 +824,18 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
+																	<!--begin::Group added by fazal 25-09-23-->
+																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.deal status')}}</label>
+																		<div class="col-lg-9 col-xl-9" data-select2-id="38">
+																			<select class="form-control"  name="status">
+																				<option value="">{{ __('site.choose') }}</option>
+																			    <option value="Approved">{{__('site.approved')}}</option>
+																			    <option value="Pending">{{__('site.approved')}}</option>
+																			</select>
+																		</div>
+																		</div>
+																	<!--end::Group-->
 																</div>
 															</div>
 

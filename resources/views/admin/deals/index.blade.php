@@ -115,6 +115,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal.exportDataDeals'),$expo
 									<!--<th>{{__('site.down_payment')}}</th>-->
 									<!--<th>{{__('site.invoice_date')}}</th>-->
 									<th>{{__('site.Agent')}}</th>
+									<th>{{__('site.status')}}</th>
 									<th style="min-width:150px">{{__('site.action')}}</th>
 								</tr>
 							</thead>
@@ -153,6 +154,9 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal.exportDataDeals'),$expo
 									</td>-->
 									<td>
 										<span class="text-muted font-weight-bold">{{$deal->agent ? substr($deal->agent->email, 0, strpos($deal->agent->email, "@")) : 'N/A'}}</span>
+									</td>
+									<td>
+										<span class="text-muted font-weight-bold">{{$deal->status}}</span>
 									</td>
 									<td>
 										<div class="editPro">

@@ -823,6 +823,21 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.status')}} </label>
+																		<div class="col-lg-9 col-xl-9" data-select2-id="38">
+																			<select class="form-control " id="status"
+																			name="status" >
+																				<option value="">{{ __('site.choose') }}</option>
+																				<option {{$deal->status == 'approved' ? 'selected' : ''}} value="approved" value="approved">Approved</option>
+																				<option {{$deal->status == 'approved' ? 'selected' : ''}} value="approved" value="pending">Pending</option>
+
+																			</select>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
 
 
 																</div>

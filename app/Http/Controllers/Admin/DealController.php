@@ -472,6 +472,7 @@ class DealController extends Controller
         "sales_director_2_commission_percent" => "nullable",
         "sales_director_2_commission_amount"  => "nullable",
         "sales_director_2_commission_received"  => "nullable",
+        "status" =>"nullable", //added by fazal 25-09-23
       ]);
 
 
@@ -530,7 +531,7 @@ class DealController extends Controller
 
   public function update(Request $request,  $id)
   {
-
+   
     $deal = Deal::findOrFail($id);
 
     $data = $request->validate([
@@ -592,6 +593,7 @@ class DealController extends Controller
       "sales_director_2_commission_percent" => "nullable",
       "sales_director_2_commission_amount"  => "nullable",
       "sales_director_2_commission_received"  => "nullable",
+      "status" =>"nullable", //added by fazal 25-09-23
   ]);
 
     $data['updated_at'] = Carbon::now();
@@ -757,7 +759,8 @@ class DealController extends Controller
         "agent_leader_commission_received",
         "mada_commission_received",
         "third_party_commission_received",
-        "third_party"
+        "third_party",
+        "status" //added by  fazal -26-09-23
       ];
 
       foreach($feilds as $feild => $value){
