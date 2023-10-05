@@ -59,7 +59,7 @@ return [
   'budget' => 'budget',
   'currencies' => 'currency',
   'project' => 'project',
-  'unit country' => 'project country',
+  'unit country' => 'Project country',
   'unit city' => 'unit city',
   'unit zone' => 'unit zone',
   'unit Zone' => 'unit zone',
@@ -635,4 +635,6 @@ return [
   'follow_up_date'=>'Follow up date',
   'lead_pool'=>'Lead pool',
   'lead options'=>'Lead Options',
+  'approved'=>'Approved',
+  'pending'=> 'Pending',
 ];
