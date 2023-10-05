@@ -132,7 +132,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         $contacts = Contact::query()
                         ->select($this->selectedAttruibutes)
                         ->whereIn('user_id',$usersIds)
-                        ->whereNotIn('created_by',$salesAgentIds)
+                        //->whereNotIn('created_by',$salesAgentIds)
                         ->where(function ($q){
                           $this->filterPrams($q);
                         })

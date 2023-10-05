@@ -220,7 +220,7 @@ class MainController extends Controller
       $contacts = Contact::with(['country','project','creator','user','status'])
                         ->select($this->selectedAttruibutes)
                         ->whereIn('user_id',$usersIds)
-                        ->whereNotIn('created_by',$salesAgentIds)
+                        //->whereNotIn('created_by',$salesAgentIds)
                         ->where(function ($q){
                           $this->filterPrams($q);
                         })
