@@ -264,8 +264,8 @@
       <label for="country">{{__('site.status')}}</label>
       <select class="form-control" name="status">
         <option value="">{{__('site.choose')}}</option>
-          <option {{ Request('options') == 'Approved' ? 'selected':  '' }} value="Approved">{{__('site.approved')}}</option>
-          <option {{ Request('options') == 'Pending' ? 'selected':  '' }} value="Pending">{{__('site.pending')}}</option>
+          <option {{ Request('status') == 'Approved' ? 'selected':  '' }} value="Approved">{{__('site.approved')}}</option>
+          <option {{ Request('status') == 'Pending' ? 'selected':  '' }} value="Pending">{{__('site.pending')}}</option>
           
          <option>
 

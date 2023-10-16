@@ -829,9 +829,9 @@
 																		<div class="col-lg-9 col-xl-9" data-select2-id="38">
 																			<select class="form-control " id="status"
 																			name="status" >
-																				<option value="">{{ __('site.choose') }}</option>
-																				<option {{$deal->status == 'approved' ? 'selected' : ''}} value="approved" value="approved">Approved</option>
-																				<option {{$deal->status == 'approved' ? 'selected' : ''}} value="approved" value="pending">Pending</option>
+																					<option value="">{{ __('site.choose') }}</option>
+																				<option {{$deal->status == 'Approved' ? 'selected' : ''}} value="Approved" >Approved</option>
+																				<option {{$deal->status == 'Pending' ? 'selected' : ''}} value="Pending" >Pending</option>
 
 																			</select>
 																		</div>
