@@ -831,7 +831,7 @@
 																			<select class="form-control"  name="status">
 																				<option value="">{{ __('site.choose') }}</option>
 																			    <option value="Approved">{{__('site.approved')}}</option>
-																			    <option value="Pending">{{__('site.approved')}}</option>
+																			    <option value="Pending">{{__('site.pending')}}</option>
 																			</select>
 																		</div>
 																		</div>
