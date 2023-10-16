@@ -328,7 +328,7 @@ class ContactsController extends Controller
     }
 
     // GET ID FORM NAME_EN
-    private function getID($index = 1,$model,$search_feild = 'name_en',$value,$extra_condtion_value = null)
+    private function getID($index,$model,$search_feild,$value=null,$extra_condtion_value = null)
     {
       $index = empty($index) ? 1 :  $index;
       $search_feild = $search_feild == '' ? 'name_en' : $search_feild;

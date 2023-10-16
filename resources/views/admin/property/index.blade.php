@@ -170,7 +170,20 @@ $offlinePropertyCountUrl = route('admin.property.index').'?pt='.request()->get('
 									    <span>{{__('config.status.'.$property->status)}}</span>
 									    @endif
 										
-										<p><b>Price : {{$property->price ? $property->price : $property->yprice}}</b></p>
+										@if($property->sale_rent == 1)
+											<p><b>Price : {{$property->price ? $property->price : $property->yprice}}</b></p>
+										@else
+											@if($property->yprice)
+												<p><b>Yearly Price : {{ $property->yprice }}</b></p>
+											@elseif($property->mprice)
+												<p><b>Monthly Price : {{ $property->mprice }}</b></p>
+											@elseif($property->wprice)
+												<p><b>Weekly Price : {{ $property->wprice }}</b></p>
+											@else
+												<p><b>Price : {{ $property->price }}</b></p>
+											@endif
+										@endif
+
 			
 									</td>
 									<td>

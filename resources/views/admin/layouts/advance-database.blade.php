@@ -35,12 +35,12 @@
      <!--- row -->
    <!-- added by fazal -26-02-23 -->
     <div class="form-group col-md-4 col-sm-12">
-      <label for="country">{{__('site.client country')}}</label>
+      <label for="country">{{__('site.country')}}</label>
       <select class="form-control" name="user_country_id">
         <option value="">{{__('site.choose')}}</option>
         @foreach($countries as $countrie)
             <option
-            {{ Request('country_id') == $countrie->id ? 'selected':  '' }}
+            {{ Request('user_country_id') == $countrie->id ? 'selected':  '' }}
             value="{{$countrie->id}}">{{$countrie->name_en}}</option>
         @endforeach
       </select>
@@ -48,7 +48,7 @@
    @if(userRole() != 'sales')
   
     <div class="form-group col-md-4 col-sm-12">
-      <label for="country">{{__('site.unit country')}}</label>
+      <label for="country">{{__('site.project')}} {{__('site.country')}}</label>
       <select class="form-control" name="country_id">
         <option value="">{{__('site.choose')}}</option>
         @foreach($project_country as $countrie)
@@ -144,7 +144,7 @@
       </div>
       @elseif(auth()->user()->time_zone=='Asia/Dubai' && auth()->user()->rule != 'admin')
       <div class="form-group col-md-4 col-sm-12">
-        <label for="country">{{__('site.Community')}}</label>
+        <label for="country">{{__('site.community')}}</label>
         <select class="form-control" name="community_id"  data-select2-id="" tabindex="-1" aria-hidden="true">
           <option value="">{{ __('site.choose') }}</option>
                 @foreach($communities as $community)
@@ -155,7 +155,7 @@
       </div>
       
           <div class="form-group col-md-4 col-sm-12">
-        <label for="country">{{__('site. Sub Community')}}</label>
+        <label for="country">{{__('site.sub_community')}}</label>
         <select class="form-control" name="subcommunity_id"  data-select2-id="" tabindex="-1" aria-hidden="true">
           <option value="">{{ __('site.choose') }}</option>
                 @foreach($subcommunities as $subcommunity)
@@ -166,7 +166,7 @@
       </div>
       @else
        <div class="form-group col-md-4 col-sm-12">
-        <label for="country">{{__('site.Zone')}}</label>
+        <label for="country">{{__('site.zone')}}</label>
         <select class="form-control" name="zone_id"  data-select2-id="" tabindex="-1" aria-hidden="true">
           <option value="">{{ __('site.choose') }}</option>
                 @foreach($zones as $zone)
@@ -176,7 +176,7 @@
         </select>
       </div>
       <div class="form-group col-md-4 col-sm-12">
-        <label for="country">{{__('site.Districts')}}</label>
+        <label for="country">{{__('site.district')}}</label>
         <select class="form-control" name="district_id"  data-select2-id="" tabindex="-1" aria-hidden="true">
           <option value="">{{ __('site.choose') }}</option>
                 @foreach($districts as $district)
@@ -186,7 +186,7 @@
         </select>
       </div>
       <div class="form-group col-md-4 col-sm-12">
-        <label for="country">{{__('site.Community')}}</label>
+        <label for="country">{{__('site.community')}}</label>
         <select class="form-control" name="community_id"  data-select2-id="" tabindex="-1" aria-hidden="true">
           <option value="">{{ __('site.choose') }}</option>
                 @foreach($communities as $community)
@@ -196,7 +196,7 @@
         </select>
       </div>
       <div class="form-group col-md-4 col-sm-12">
-        <label for="country">{{__('site. Sub Community')}}</label>
+        <label for="country">{{__('site.sub_community')}}</label>
         <select class="form-control" name="subcommunity_id"  data-select2-id="" tabindex="-1" aria-hidden="true">
           <option value="">{{ __('site.choose') }}</option>
                 @foreach($subcommunities as $subcommunity)
@@ -273,7 +273,9 @@
           </div>
         </div>
     </div>
-    <!--added by fazal on 25-09-23  -->
+    
+    <!--end::Group-->
+     <!--added by fazal on 25-09-23  -->
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.lead options')}}</label>
       <select class="form-control" name="options">
@@ -290,7 +292,20 @@
       </select>
     </div>
     <!--  -->
+    
     <!--end::Group-->
+    <div class="form-group col-md-4 col-sm-12">
+      <div class="form-group ">
+          <label class="">{{__('site.source')}}</label>
+          <select class="form-control" name="country_id">
+            <option value="">{{__('site.choose')}}</option>
+            @foreach($sources as $source)
+                <option {{ Request('source') == $source->source ? 'selected':  '' }}
+                value="{{$source->source}}">{{$source->source}}</option>
+            @endforeach
+          </select>
+        </div>
+    </div>
 
   </div> <!-- end row -->
 <button type="submit" class="btn btn-primary">{{__('site.search')}}</button>

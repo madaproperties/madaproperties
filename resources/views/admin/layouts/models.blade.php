@@ -832,23 +832,36 @@
                      </div>
 
                      @if(count($purpose) == 1)
-        				<input type="hidden" value="{{$purpose[0]}}" name="purpose" />
-        			@elseif(count($purpose)>1)
-        			<!--begin::Group-->
-        			<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
-        				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Purpose')}} </label>
-        				<div class="col-lg-9 col-xl-9" data-select2-id="38">
-        					<select class="form-control"  name="purpose">
-        						<option value="">{{ __('site.choose') }}</option>
-        						@foreach($purpose as $purp)
-        						<option {{strtolower($contact->purpose) == strtolower($purp) ? 'selected' : ''}} value="{{$purp}}">{{$purp}}</option>
-        						@endforeach
-        					</select>
-        				</div>
-        			 </div>
-        			<!--end::Group-->
-        			@endif
+                        <input type="hidden" value="{{$purpose[0]}}" name="purpose" />
+                      @elseif(count($purpose)>1)
+                      <!--begin::Group-->
+                      <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+                        <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Purpose')}} </label>
+                        <div class="col-lg-9 col-xl-9" data-select2-id="38">
+                          <select class="form-control"  name="purpose">
+                            <option value="">{{ __('site.choose') }}</option>
+                            @foreach($purpose as $purp)
+                            <option {{strtolower($contact->purpose) == strtolower($purp) ? 'selected' : ''}} value="{{$purp}}">{{$purp}}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                      </div>
+                      <!--end::Group-->
+                      @endif
                     <!--end::Group-->
+                      <!--begin::Group-->
+                      <div class="form-group row fv-plugins-icon-container">
+                        <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Agent')}} {{__('site.Purpose')}} </label>
+                        <div class="col-lg-9 col-xl-9">
+                          <select class="form-control"  name="agent_purpose">
+                            <option value="">{{ __('site.choose') }}</option>
+                            @foreach($purpose as $purp)
+                            <option {{strtolower($contact->agent_purpose) == strtolower($purp) ? 'selected' : ''}} value="{{$purp}}">{{$purp}}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                      </div>
+                      <!--end::Group-->
                   </div>
                   <!--end::Wizard Step 1-->
 <!--begin::Group-->

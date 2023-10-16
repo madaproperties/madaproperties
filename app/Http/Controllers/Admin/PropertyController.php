@@ -459,11 +459,11 @@ class PropertyController extends Controller
       $data['user_id']=auth()->id();
     }    
 
-    if(isset($data['is_exclusive'])){
-      $data['is_exclusive']=1;
-    }else{
-      $data['is_exclusive']=0;
-    }
+    // if(isset($data['is_exclusive'])){
+    //   $data['is_exclusive']=1;
+    // }else{
+    //   $data['is_exclusive']=0;
+    // }
 
     
     $data['created_at'] = Carbon::now();
@@ -791,11 +791,11 @@ class PropertyController extends Controller
     //   $data['is_managed']=0;
     // }
 
-    if(isset($data['is_exclusive'])){
-      $data['is_exclusive']=1;
-    }else{
-      $data['is_exclusive']=0;
-    }
+    // if(isset($data['is_exclusive'])){
+    //   $data['is_exclusive']=1;
+    // }else{
+    //   $data['is_exclusive']=0;
+    // }
 
     $data['updated_at'] = Carbon::now();
     $data['last_updated'] = Carbon::now();

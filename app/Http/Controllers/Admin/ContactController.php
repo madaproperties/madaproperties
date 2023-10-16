@@ -77,8 +77,11 @@ class ContactController extends Controller
           return abort(404);
         }
       }elseif(userRole() == 'sales admin')
+      
       {
-          if($contact->created_by != auth()->id() OR $contact->user_id)
+         
+        //   if($contact->created_by != auth()->id() OR $contact->user_id) added by fazal on 28-09
+         if($contact->user_id  != auth()->id())
          {
                  return abort(404);
           }
@@ -309,7 +312,7 @@ class ContactController extends Controller
           "zone_id" => "nullable" ,
           "district_id"=>"nullable",
           "city"=>"nullable",
-
+          "agent_purpose"               => "nullable|max:50",
         ]);
      
 
@@ -396,7 +399,7 @@ class ContactController extends Controller
             {
                 $data['user_id'] = $request->user_id;
             }else{
-               $data['user_id'] = null;
+               $data['user_id'] = auth()->id();
             }
 
         }
@@ -493,7 +496,7 @@ class ContactController extends Controller
         "zone_id" => "nullable" ,
         "district_id"=>"nullable",
         "city"=>"nullable",
-        "follow_up_date"=>"nullable",
+        "agent_purpose"               => "nullable|max:50",
       ]);
 
 
@@ -555,14 +558,7 @@ class ContactController extends Controller
 
       $contact->update($data);
 
-      //Added by Lokesh to add follow up notification 14-08-2023 
-      if($request->follow_up_date && $request->status_id == '5'){
-        $contact->update([
-          'follow_up_date' => \Carbon\Carbon::parse(str_replace('-','/',$request->follow_up_date))->format('Y-m-d');
-          'follow_up_day' => \Carbon\Carbon::parse(str_replace('-','/',$request->follow_up_date))->format('l');
-        ]);
-      }
-      //End
+
 
       // check $redirectSalesAdmin
       if(isset($redirectSalesAdmin))

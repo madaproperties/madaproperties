@@ -102,6 +102,18 @@ class PropertyFinderXmlController extends Controller
         $long_lat=$longitute.",".$latitude;
       }
       
+      $completion_status = '';
+      //Added by Lokesh on 05-10-2023
+      if($property->project_status == '1'){
+        $completion_status='completed';
+      }elseif($property->project_status == '2'){
+        $completion_status='off_plan';
+      }elseif($property->project_status == '3'){
+        $completion_status='completed_primary';
+      }elseif($property->project_status == '4'){
+        $completion_status='off_plan_primary';
+      }
+      //End
 
 
       $xml.="
@@ -162,6 +174,7 @@ class PropertyFinderXmlController extends Controller
       $xml.="<features>".$features."</features>
       <plot_size>".$property->plot_size."</plot_size>
       <size>".$property->buildup_area."</size>
+      <completion_status>".$completion_status."</completion_status>
       <bedroom>".$property->bedrooms."</bedroom>
       <bathroom>".$property->bathrooms."</bathroom>";
       if($property->agent){
