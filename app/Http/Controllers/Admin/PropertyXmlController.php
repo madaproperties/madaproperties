@@ -164,6 +164,21 @@ class PropertyXmlController extends Controller
       $xml['dubai'][$k]['street']=$property->street;
       $xml['dubai'][$k]['building_name']=$property->building_name;
       $xml['dubai'][$k]['unit_no']=$property->unitno;
+
+      //Added by Lokesh on 05-10-2023
+      if($property->project_status == '1'){
+        $xml['dubai'][$k]['completion_status']='completed';
+      }elseif($property->project_status == '2'){
+        $xml['dubai'][$k]['completion_status']='off_plan';
+      }elseif($property->project_status == '3'){
+        $xml['dubai'][$k]['completion_status']='completed_primary';
+      }elseif($property->project_status == '4'){
+        $xml['dubai'][$k]['completion_status']='off_plan_primary';
+      }else{
+        $xml['dubai'][$k]['completion_status']='off_plan_primary';
+      }
+      //End
+
       $xml['dubai'][$k]['floor']=$property->floor;
       $xml['dubai'][$k]['no_of_floors']=$property->no_of_floors;
 
@@ -526,6 +541,21 @@ class PropertyXmlController extends Controller
       $xml['saudi'][$k]['sub_community']=$sub_community;
       $xml['saudi'][$k]['building_name']=$property->building_name;
       $xml['saudi'][$k]['unit_no']=$property->unitno;
+
+      //Added by Lokesh on 05-10-2023
+      if($property->project_status == '1'){
+        $xml['saudi'][$k]['completion_status']='completed';
+      }elseif($property->project_status == '2'){
+        $xml['saudi'][$k]['completion_status']='off_plan';
+      }elseif($property->project_status == '3'){
+        $xml['saudi'][$k]['completion_status']='completed_primary';
+      }elseif($property->project_status == '4'){
+        $xml['saudi'][$k]['completion_status']='off_plan_primary';
+      }else{
+        $xml['saudi'][$k]['completion_status']='off_plan_primary';
+      }
+      //End
+
       $xml['saudi'][$k]['floor']=$property->floor;
       $xml['saudi'][$k]['no_of_floors']=$property->no_of_floors;
      

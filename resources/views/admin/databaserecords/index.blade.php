@@ -47,7 +47,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 				<div class="card-header border-0 py-5">
 					<h3 class="card-title align-items-start flex-column">
 						<span class="card-label font-weight-bolder text-dark">{{__('site.database_records')}}</span>
-						<span class="text-muted mt-3 font-weight-bold font-size-sm">{{$data_count}} {{__('site.deals')}}</span>
+						<span class="text-muted mt-3 font-weight-bold font-size-sm">{{$data_count}} {{__('site.database_records')}}</span>
 					</h3>
 					<div class="card-toolbar">
 

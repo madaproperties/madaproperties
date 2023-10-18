@@ -109,7 +109,7 @@ class CalendarController extends Controller
             'time' => $task['time'],
             'description' => $task['description'],
             'type' => 'task',
-            'title' => 'task'
+            'title' => 'task-'.$task['type']
           ];
         }
       }

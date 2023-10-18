@@ -77,8 +77,11 @@ class ContactController extends Controller
           return abort(404);
         }
       }elseif(userRole() == 'sales admin')
+      
       {
-          if($contact->created_by != auth()->id() OR $contact->user_id)
+         
+        //   if($contact->created_by != auth()->id() OR $contact->user_id) added by fazal on 28-09
+         if($contact->user_id  != auth()->id())
          {
                  return abort(404);
           }
@@ -309,7 +312,7 @@ class ContactController extends Controller
           "zone_id" => "nullable" ,
           "district_id"=>"nullable",
           "city"=>"nullable",
-
+          "agent_purpose"               => "nullable|max:50",
         ]);
      
 
@@ -396,7 +399,7 @@ class ContactController extends Controller
             {
                 $data['user_id'] = $request->user_id;
             }else{
-               $data['user_id'] = null;
+               $data['user_id'] = auth()->id();
             }
 
         }
@@ -493,6 +496,7 @@ class ContactController extends Controller
         "zone_id" => "nullable" ,
         "district_id"=>"nullable",
         "city"=>"nullable",
+        "agent_purpose"               => "nullable|max:50",
       ]);
 
 

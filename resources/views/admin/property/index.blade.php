@@ -29,12 +29,20 @@ $exportName = request()->fullUrlWithQuery(['exportData' => '1']);
 $exportUrl = explode('?',$exportName);
 $exportUrl = str_replace($exportUrl[0],route('admin.property.index'),$exportName);
 
-$saleCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&sale_rent=1'.'&ADVANCED=search'.'&status=1';
-$rentCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&sale_rent=2'.'&ADVANCED=search'.'&status=1';
-$commercialSaleCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&property_type=2'.'&sale_rent=1'.'&ADVANCED=search';
-$commercialRentCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&property_type=2'.'&sale_rent=2'.'&ADVANCED=search';
-$pendingApprovalCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&status=4'.'&ADVANCED=search';
-$offlinePropertyCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&status=6'.'&ADVANCED=search';
+//$saleCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&sale_rent=1'.'&ADVANCED=search'.'&status=1';
+//$rentCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&sale_rent=2'.'&ADVANCED=search'.'&status=1';
+//$commercialSaleCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&property_type=2'.'&sale_rent=1'.'&ADVANCED=search';
+//$commercialRentCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&property_type=2'.'&sale_rent=2'.'&ADVANCED=search';
+//$pendingApprovalCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&status=4'.'&ADVANCED=search';
+//$offlinePropertyCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&status=6'.'&ADVANCED=search';
+
+$saleCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&sale_rent=1'.'&ADVANCED=search'.'&status=1&'.'user_id='.request()->get('user_id');
+$rentCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&sale_rent=2'.'&ADVANCED=search'.'&status=1&'.'user_id='.request()->get('user_id');
+$commercialSaleCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&property_type=2'.'&sale_rent=1'.'&ADVANCED=search&'.'user_id='.request()->get('user_id');
+$commercialRentCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&property_type=2'.'&sale_rent=2'.'&ADVANCED=search&'.'user_id='.request()->get('user_id');
+$pendingApprovalCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&status=4'.'&ADVANCED=search&'.'user_id='.request()->get('user_id');
+$offlinePropertyCountUrl = route('admin.property.index').'?pt='.request()->get('pt').'&status=6'.'&ADVANCED=search&'.'user_id='.request()->get('user_id');
+
 
 @endphp
 
@@ -170,7 +178,19 @@ $offlinePropertyCountUrl = route('admin.property.index').'?pt='.request()->get('
 									    <span>{{__('config.status.'.$property->status)}}</span>
 									    @endif
 										
-										<p><b>Price : {{$property->price ? $property->price : $property->yprice}}</b></p>
+										@if($property->sale_rent == 1)
+											<p><b>Price : {{$property->price ? $property->price : $property->yprice}}</b></p>
+										@else
+											@if($property->yprice)
+												<p><b>Yearly Price : {{ $property->yprice }}</b></p>
+											@elseif($property->mprice)
+												<p><b>Monthly Price : {{ $property->mprice }}</b></p>
+											@elseif($property->wprice)
+												<p><b>Weekly Price : {{ $property->wprice }}</b></p>
+											@else
+												<p><b>Price : {{ $property->price }}</b></p>
+											@endif
+										@endif
 			
 									</td>
 									<td>

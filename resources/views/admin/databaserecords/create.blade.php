@@ -298,7 +298,7 @@
 																	
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.options')}}</label>
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.lead options')}}</label>
 																		<div class="col-lg-9 col-xl-9">
 																			<select class="form-control" name="options" id="options">
 																				<option value="">{{ __('site.choose') }}</option>
@@ -413,6 +413,15 @@
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.building_name')}}</label>
 																		<div class="col-lg-9 col-xl-9">
 																			<input class="form-control form-control-solid form-control-lg" 	name="building_name" type="text" value="{{old('building_name')}}" placeholder="{{__('site.building_name')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.source')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="source" type="text" value="{{old('source')}}" placeholder="{{__('site.source')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>

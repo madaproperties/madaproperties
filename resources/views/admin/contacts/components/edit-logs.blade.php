@@ -212,7 +212,7 @@
          <div class="form-group ">
           <label class="">{{__('site.status')}}</label>
          
-            <select class="form-control"  name="status_id" style="width:100%">
+            <select class="form-control follow_up_status_id"  name="status_id" id="" style="width:100%">
               @foreach($status as $statu)
               <option
               {{$log->contact->status_id == $statu->id ? 'selected' : ''}}
@@ -222,6 +222,24 @@
           
         </div>
         <!--end::Group-->
+        <div class="row follow_up_date" style="{{$log->contact->status_id != '5' ? 'display:none' : ''}}" id="">
+          <div class="col-md-6 col-sm-6">
+            <div class="form-group ">
+              <label class="">{{__('site.follow_up_date')}}</label>
+              <div class="input-group input-group-solid date" id="kt_datetimepicker_333344" data-target-input="nearest">
+                <input value="{{$log->follow_up_date}}"  type="text" class="form-control form-control-solid datetimepicker-input"
+                data-toggle="datetimepicker" name="follow_up_date" data-target="#kt_datetimepicker_333344">
+                <div class="input-group-append" data-target="#kt_datetimepicker_333344" data-toggle="datetimepicker">
+                  <span class="input-group-text">
+                    <i class="ki ki-calendar"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
         <!--begin::Group-->
         <div class="form-group  fv-plugins-icon-container">
           <label class="">{{__('site.lead type')}}</label>

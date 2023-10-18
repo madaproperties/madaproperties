@@ -115,6 +115,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal.exportDataDeals'),$expo
 									<!--<th>{{__('site.down_payment')}}</th>-->
 									<!--<th>{{__('site.invoice_date')}}</th>-->
 									<th>{{__('site.Agent')}}</th>
+									<th>{{__('site.status')}}</th>
 									<th style="min-width:150px">{{__('site.action')}}</th>
 								</tr>
 							</thead>
@@ -154,8 +155,16 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal.exportDataDeals'),$expo
 									<td>
 										<span class="text-muted font-weight-bold">{{$deal->agent ? substr($deal->agent->email, 0, strpos($deal->agent->email, "@")) : 'N/A'}}</span>
 									</td>
+									<!--added by fazal on 26-09-23-->
+									<td>
+										<span class="text-muted font-weight-bold">{{$deal->status}}</span>
+									</td>
+									<!--end-->
 									<td>
 										<div class="editPro">
+									@can('deals-comission-slip-documents-list')
+									<a onclick="getDocumentByAjax('{{$deal->id}}')" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Mada comission slip documents"><i class="fa fa-file"></i></a>																						
+									@endcan
 									@can('deal-edit')
 									<a href="{{ route('admin.deal.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
 									@endcan
@@ -200,3 +209,29 @@ function submitForm(id){
 	$("#destory-"+id).submit();
 }
 </script>
+@push('js')
+<script type="text/javascript">
+function getDocumentByAjax(id){
+	let token = $('meta[name=csrf-token]').attr('content');
+	let route = '{{route("admin.deal.getDocumentByAjax")}}';
+	$("#loadingHolder").show();
+	$.ajax({
+		type:'POST',
+		url: route,
+		data:{_token:token,id:id},
+		success: (res) => {
+			$('#mada-comission-slip-documents').html(res);
+			$('#mada-comission-slip-documents').modal('show');
+			$("#loadingHolder").hide();
+		},
+		error: function(res){
+			$('#mada-comission-slip-documents').html(res);
+			$('#mada-comission-slip-documents').modal('show');
+			$("#loadingHolder").hide();
+		}
+	});
+}
+
+</script>
+@endpush	
+

@@ -196,6 +196,10 @@ class ContactsController extends Controller
             {
             $project_id =  $this->getID('','Project','',$contact['project_id']);
             $contact['project_id'] = $project_id;
+              if(Contact::where('project_id',$project_id)->where('phone',$contact['phone'])->first()){
+                $this->addErorr('Lead already exists '.' ['. $contact['project_id'].']');
+                return false;
+              }
             }
 
             if(isset($contact['last_mile_conversion']))
@@ -228,7 +232,7 @@ class ContactsController extends Controller
     
                     if(!$checkAssigned AND $auth_user->rule == 'leader')
                     {
-                     $this->addErorr(__('site.you are not leader for user numer').' ['. $contact['user_id'].']');
+                     $this->addErorr(__('site.you are not leader for user numbers').' ['. $contact['user_id'].']');
                     }
 
             }
@@ -240,11 +244,10 @@ class ContactsController extends Controller
                 
                 if($user->leader  != $auth_user->leader AND $user->id != $auth_user->leader)
                 {
-                 $this->addErorr(__('site.you are not leader for user numer').' ['. $contact['user_id'].']');
+                //  $this->addErorr(__('site.you are not leader for user').' ['. $contact['user_id'].']');
                 }
             }
             
-            unset($contact['assignedto']); // remove asssigned to => replaced with user_id
             unset($contact['country']);
             unset($contact['city']);
             
@@ -308,6 +311,11 @@ class ContactsController extends Controller
 			  $contact['created_by'] = '33'; // lead-admin-uae@madaproperties.com
 			}
 
+            // if there is assigned to will be the smae value - atherwise will be the uploder
+            if(!empty($contact['assignedto'])){
+                $contact['user_id'] = $contact['assignedto'];
+            }
+            unset($contact['assignedto']); // remove asssigned to => replaced with user_id
 
 		 $contact = Contact::create($contact);
 
@@ -320,7 +328,7 @@ class ContactsController extends Controller
     }
 
     // GET ID FORM NAME_EN
-    private function getID($index = 1,$model,$search_feild = 'name_en',$value,$extra_condtion_value = null)
+    private function getID($index,$model,$search_feild,$value=null,$extra_condtion_value = null)
     {
       $index = empty($index) ? 1 :  $index;
       $search_feild = $search_feild == '' ? 'name_en' : $search_feild;
@@ -343,7 +351,8 @@ class ContactsController extends Controller
 
         if($model == 'Project')
         {
-          $ID = Project::where($search_feild,'LIKE','%'. $value . '%')->first();
+          //$ID = Project::where($search_feild,'LIKE','%'. $value . '%')->first();
+          $ID = Project::where($search_feild,$value)->first();
           $customMsg = __('site.project not found: recode').' ['.$index.']';
         }
 

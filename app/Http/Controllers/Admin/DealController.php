@@ -472,6 +472,15 @@ class DealController extends Controller
         "sales_director_2_commission_percent" => "nullable",
         "sales_director_2_commission_amount"  => "nullable",
         "sales_director_2_commission_received"  => "nullable",
+        "status" =>"nullable", //added by fazal 25-09-23
+        "listing_agent_id"       => "nullable",
+        "listing_agent_commission_percent" => "nullable",
+        "listing_agent_commission_amount"  => "nullable",
+        "listing_agent_commission_received"       => "nullable",
+        "listing_leader_id"       => "nullable",
+        "listing_agent_leader_commission_percent" => "nullable",
+        "listing_agent_leader_commission_amount"  => "nullable",
+        "listing_agent_leader_commission_received"       => "nullable",
       ]);
 
 
@@ -530,7 +539,7 @@ class DealController extends Controller
 
   public function update(Request $request,  $id)
   {
-
+   
     $deal = Deal::findOrFail($id);
 
     $data = $request->validate([
@@ -592,6 +601,15 @@ class DealController extends Controller
       "sales_director_2_commission_percent" => "nullable",
       "sales_director_2_commission_amount"  => "nullable",
       "sales_director_2_commission_received"  => "nullable",
+      "status" =>"nullable", //added by fazal 25-09-23
+      "listing_agent_id"       => "nullable",
+      "listing_agent_commission_percent" => "nullable",
+      "listing_agent_commission_amount"  => "nullable",
+      "listing_agent_commission_received"       => "nullable",
+      "listing_leader_id"       => "nullable",
+      "listing_agent_leader_commission_percent" => "nullable",
+      "listing_agent_leader_commission_amount"  => "nullable",
+      "listing_agent_leader_commission_received"       => "nullable",
   ]);
 
     $data['updated_at'] = Carbon::now();
@@ -757,7 +775,8 @@ class DealController extends Controller
         "agent_leader_commission_received",
         "mada_commission_received",
         "third_party_commission_received",
-        "third_party"
+        "third_party",
+        "status" //added by  fazal -26-09-23
       ];
 
       foreach($feilds as $feild => $value){
@@ -1094,34 +1113,39 @@ public function topAgentsSaudi()
             
    return view('admin.deals.topagentsaudi',compact('sums','emp1','emp2','emp3'));
 }
-// end
-public function monthlDeal()
-{
-  // return view('admin.deals.chart');
-  $sums = DB::table('deals')->where('unit_country',2)
-            ->whereMonth('deals.deal_date', date('m'))
-            ->whereYear('deals.deal_date', date('Y'))
-           ->sum('price');
-//   dd($sums);
- 
-if ($sums < 1000000) {
-    // Anything less than a million
-    $result['achieve'] = number_format($sums);
-} else if ($sums < 1000000000) {
-    // Anything less than a billion
-    $result['achieve'] = number_format($sums / 1000000, 2);
-} else {
-    // At least a billion
-   $result['achieve'] = number_format($sums / 1000000000, 2);
-}
-$target=120;
-$result['remaining']=$target-$result['achieve'];
-$result['achieved']=$result['achieve'];
-$result['remainings']=$result['remaining'];
+  // end
+  public function monthlDeal()
+  {
+    // return view('admin.deals.chart');
+    $sums = DB::table('deals')->where('unit_country',2)
+              ->whereMonth('deals.deal_date', date('m'))
+              ->whereYear('deals.deal_date', date('Y'))
+            ->sum('price');
+    //   dd($sums);
+    
+    if ($sums < 1000000) {
+        // Anything less than a million
+        $result['achieve'] = number_format($sums);
+    } else if ($sums < 1000000000) {
+        // Anything less than a billion
+        $result['achieve'] = number_format($sums / 1000000, 2);
+    } else {
+        // At least a billion
+      $result['achieve'] = number_format($sums / 1000000000, 2);
+    }
+    $target=120;
+    $result['remaining']=$target-$result['achieve'];
+    $result['achieved']=$result['achieve'];
+    $result['remainings']=$result['remaining'];
 
 
-return view ('admin.deals.chart',compact('target','result'));
-}
+    return view ('admin.deals.chart',compact('target','result'));
+  }
 
+
+  public function getDocumentByAjax(Request $request){
+    $deal = Deal::findOrFail($request->id);
+    return view('admin.deals.mada_comission_slip_uploader-modal',compact('deal'));
+  }  
 
 }

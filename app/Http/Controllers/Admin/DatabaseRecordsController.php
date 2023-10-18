@@ -194,6 +194,9 @@ class DatabaseRecordsController extends Controller
       $data = $data->paginate(20);
 
     }
+    
+    $sources = DatabaseRecords::select('source')->orderBy('source')->groupBy('source')->get();
+
     $sellers = getSellers();
     $countries = Country::orderBy('name_en')->get(); //added by fazal -26-02
     $project_country=Country::whereIn('id',[1,2])->get();//added by fazal -26-02
@@ -203,7 +206,7 @@ class DatabaseRecordsController extends Controller
     $districts=Districts::get(); //added by fazal -26-02
     $communities = Community::where('parent_id',0)->orderBy('name_en','asc')->get(); //added by fazal -26-02
     $subcommunities = Community::where('parent_id','!=', 0)->orderBy('name_en','asc')->get();  //added by fazal -26-02
-    return view('admin.databaserecords.index',compact('data','data_count','sellers','countries','createdBy','status','zones','districts','communities','subcommunities','project_country'));
+    return view('admin.databaserecords.index',compact('sources','data','data_count','sellers','countries','createdBy','status','zones','districts','communities','subcommunities','project_country'));
   }
 
   public function create() {
@@ -263,6 +266,7 @@ class DatabaseRecordsController extends Controller
         'user_country_id'=>'nullable',
         'zone_id'=>'nullable',
         'district_id'=>'nullable',           
+        'source'=>'nullable',     
       ]);
 
 
@@ -326,6 +330,7 @@ class DatabaseRecordsController extends Controller
         'user_country_id'=>'nullable',
         'zone_id'=>'nullable',
         'district_id'=>'nullable',           
+        'source'=>'nullable',           
       ]);
 
     $data['updated_at'] = Carbon::now();
@@ -405,7 +410,8 @@ private function filterPrams($q){
         "district_id" ,//added by faza -25-02
         "community_id",//added by faza -25-02
         "subcommunity_id",//added by faza -25-02
-        "user_country_id" //added by faza -26-02
+        "user_country_id", //added by faza -26-02
+        "options" //added by fazal -25-09-23
       ];
       $user_id = 0;
       foreach($feilds as $feild => $value){
@@ -480,6 +486,7 @@ private function filterPrams($q){
           }
         }
       }
+      //dd($q);
 
       //Added by Javed
       if(Request('from') && Request('to')){
@@ -537,23 +544,6 @@ private function filterPrams($q){
       return $q->get();
     }
 
-    if(Request()->has('search') AND Request()->has('my-contacts')  AND Request()->has('filter_status')){
-      $uri = Request()->fullUrl();
-      session()->put('start_filter_url',$uri);
-      return $q->where('status',Request('filter_status'))
-          ->where('user_id', auth()->id())
-          ->where(function ($q){
-              $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
-                ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
-                ->OrWhere('email','LIKE','%'. Request('search') .'%')
-                ->OrWhere('phone','LIKE','%'. Request('search') .'%')
-                ->OrWhere('scound_phone','LIKE','%'. Request('search') .'%')
-                ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
-                ->OrWhere('source','LIKE','%'. Request('search') .'%')
-                ->OrWhere('medium','LIKE','%'. Request('search') .'%');
-          })->get();
-    }
-
     if(Request()->has('filter_status') AND Request()->has('search')){
       $uri = Request()->fullUrl();
       session()->put('start_filter_url',$uri);
@@ -580,33 +570,6 @@ private function filterPrams($q){
               ->where('campaign', request('campaign'))->get();
     }
 
-
-    if(Request()->has('search') AND Request()->has('my-contacts')){
-        $uri = Request()->fullUrl();
-        session()->put('start_filter_url',$uri);
-        return $q->where('user_id',auth()->id())
-          ->where(function ($q){
-            $q ->OrWhere('last_name','LIKE','%'. Request('search') .'%')
-              ->OrWhere('first_name','LIKE','%'. Request('search') .'%')
-              ->OrWhere('phone','LIKE','%'. Request('search') .'%')
-              ->OrWhere('email','LIKE','%'. Request('search') .'%')
-              ->OrWhere('scound_phone','LIKE','%'. Request('search') .'%')
-              ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
-              ->OrWhere('source','LIKE','%'. Request('search') .'%')
-              ->OrWhere('medium','LIKE','%'. Request('search') .'%');
-        })->get();
-    }
-
-
-    if(Request()->has('my-contacts') AND Request()->has('filter_status')){
-      $uri = Request()->fullUrl();
-      session()->put('start_filter_url',$uri);
-      return $q->where('status', Request('filter_status'))->where('user_id', auth()->id());
-    }
-
-    if(Request()->has('my-contacts')){
-      return $q->where('user_id', auth()->id());
-    }
 
     if(Request()->has('filter_status')){
       $uri = Request()->fullUrl();

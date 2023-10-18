@@ -853,7 +853,8 @@ function addHistory($module_name,$module_id,$request_type,$update_data=null,$old
     'old_data' => $old_data,
     'update_data' => $update_data,
     'other_details' => $other_details,
-    'created_at' => \Carbon\Carbon::now()
+    'created_at' => \Carbon\Carbon::now(),
+    'ip_address'  => $_SERVER['REMOTE_ADDR']
   ];
   History::create($data);
 

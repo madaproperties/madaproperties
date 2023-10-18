@@ -449,6 +449,10 @@ class PropertyController extends Controller
       'off_line_property' => 'nullable',              
     ]);
 
+    if($data['property_type'] == '2'){
+      $data['bedrooms']=null;
+    }
+
     // if(isset($data['is_managed'])){
     //   $data['is_managed']=1;
     // }else{
@@ -459,11 +463,11 @@ class PropertyController extends Controller
       $data['user_id']=auth()->id();
     }    
 
-    if(isset($data['is_exclusive'])){
-      $data['is_exclusive']=1;
-    }else{
-      $data['is_exclusive']=0;
-    }
+    // if(isset($data['is_exclusive'])){
+    //   $data['is_exclusive']=1;
+    // }else{
+    //   $data['is_exclusive']=0;
+    // }
 
     
     $data['created_at'] = Carbon::now();
@@ -785,17 +789,15 @@ class PropertyController extends Controller
       'off_line_property' => 'nullable',              
     ]);
 
-    // if(isset($data['is_managed'])){
-    //   $data['is_managed']=1;
-    // }else{
-    //   $data['is_managed']=0;
-    // }
-
-    if(isset($data['is_exclusive'])){
-      $data['is_exclusive']=1;
-    }else{
-      $data['is_exclusive']=0;
+    if($data['property_type'] == '2'){
+      $data['bedrooms']=null;
     }
+
+    // if(isset($data['is_exclusive'])){
+    //   $data['is_exclusive']=1;
+    // }else{
+    //   $data['is_exclusive']=0;
+    // }
 
     $data['updated_at'] = Carbon::now();
     $data['last_updated'] = Carbon::now();
@@ -1590,6 +1592,16 @@ class PropertyController extends Controller
       $q->where($extraParaName,$extraParaValue);
       if(!empty($extraParaName2) && !empty($extraParaValue2)){
         $q->where($extraParaName2,$extraParaValue2);
+      }
+    }
+
+    $allowedFeilds =[
+      "user_id",
+    ];
+    $feilds = request()->all();
+    foreach($feilds as $feild => $value){
+      if(in_array($feild,$allowedFeilds) AND !empty($value)){
+          $q->where($feild,$value);
       }
     }
   }
