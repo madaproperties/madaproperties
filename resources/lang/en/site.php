@@ -637,4 +637,10 @@ return [
   'lead options'=>'Lead Options',
   'approved'=>'Approved',
   'pending'=> 'Pending',
+  'listing'=> 'Listing',
+  'deal status'=> 'Deal Status',
+  'listing_agent_commission_percent' => 'Listing Agent Commission Percent',
+  'listing_agent_commission_amount' => 'Listing Agent Commission Amount',
+  'listing_agent_leader_commission_percent' => 'Listing Agent Leader Commission Percent',
+  'listing_agent_leader_commission_amount' => 'Listing Agent Leader Commission Amount',
 ];

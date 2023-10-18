@@ -14,8 +14,8 @@
 }
 	@media(max-width:767px){
 	.rowCrtt{
-    margin:0px !important;
-	margin-bottom:15px !important;
+ /*   margin:0px !important;*/
+	/*margin-bottom:15px !important;*/
 	}
 	.property_form span.suffixPlot {
     
@@ -346,7 +346,7 @@
 																					<select class="form-control"  name="category_id" required>
 																						<option value="" >{{ __('site.property_type') }} <span class="error">*</span></option>
 																						@foreach($categories as $category)
-																						<option {{ old('category_id') == $category->id ? 'selected' : ''}} value="{{$category->id}}">{{$category->category_name}}</option>
+																						<option {{ old('category_id') == $category->id ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
 																						@endforeach
 																					</select>
 																				</div>
@@ -360,7 +360,7 @@
 														
 																			@if((auth()->user()->time_zone == 'Asia/Riyadh' && userRole() != 'admin' && userRole() != 'sales admin uae') || request()->get('pt') == 'saudi')
 																			<div class="form-group row fv-plugins-icon-container">
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4 bedrooms">
 																					<select name="bedrooms" id="bedrooms" class="form-control">
 																					<option value="" >{{ __('site.bedrooms') }}</option>
 																						{!! selectOptions(__('config.bedrooms'),old('bedrooms')) !!}	
@@ -383,7 +383,7 @@
 																			@else		
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
-																				<div class="col-xs-12 col-sm-4 col-lg-4">
+																				<div class="col-xs-12 col-sm-4 col-lg-4 bedrooms">
 																					<select name="bedrooms" id="bedrooms" class="form-control">
 																					<option value="" >{{ __('site.bedrooms') }}</option>
 																						{!! selectOptions(__('config.bedrooms'),old('bedrooms')) !!}	
@@ -772,16 +772,18 @@
 																		</div>
 																	</div>
 																</div>
-																<div class="row col-xl-12 mt-5 card">
-																	<!--begin::Wizard Step 1-->
-																	<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-																		<div class="form-group row fv-plugins-icon-container">
-																			<div class="col-xs-12 col-sm-12 col-lg-12">
-																				<div id="map"></div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
+																<!--commented by fazal on 14-08-23-->
+																<!--<div class="row col-xl-12 mt-5 card">-->
+																
+																<!--	<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">-->
+																<!--		<div class="form-group row fv-plugins-icon-container">-->
+																<!--			<div class="col-xs-12 col-sm-12 col-lg-12">-->
+																<!--				<div id="map"></div>-->
+																<!--			</div>-->
+																<!--		</div>-->
+																<!--	</div>-->
+																<!--</div>-->
+																<!--end-->
 
 
 																<div class="row col-xl-12 card mt-5 rowCrtt">																				

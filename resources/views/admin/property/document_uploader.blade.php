@@ -2,7 +2,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">You can upload multiple documents here. The maximum allowed file size is 2 MB.</h5>
+					<h5 class="modal-title" id="exampleModalLabel">You can upload multiple documents here. The maximum allowed file size is 2 MB</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -21,7 +21,7 @@
                                         <div class="fv-plugins-message-container"></div>    
                                     </div>
                                     <div class="col-xl-5">
-                                        <input class="form-control form-control-solid form-control-lg fileInput" type="file" class="form-control" name="documents[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png">
+                                        <input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="documents[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png">
                                         <div class="fv-plugins-message-container"></div>   
                                         <p><a href="{{s3AssetUrl('uploads/property/'.$property->id.'/documents/'.$document->document_link) }}" target="_blank">{{ $document->document_link }}</a></p> 
                                     </div>
@@ -45,7 +45,7 @@
                                         <div class="fv-plugins-message-container"></div>    
                                     </div>
                                     <div class="col-xl-5">
-                                        <input class="form-control form-control-solid form-control-lg fileInput" 	type="file" class="form-control" name="documentsNew[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png">
+                                        <input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="documentsNew[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png">
                                         <div class="fv-plugins-message-container"></div>    
                                     </div>
                                     <div class="col-xl-2">
@@ -70,25 +70,6 @@
 $(document).ready(function(){
     $("form#documentUploader").submit(function(e) {
         e.preventDefault();    
-
-        const fileInputs = document.getElementsByClassName('fileInput');
-        const maxSize = 2 * 1024 * 1024; // 2 MB in bytes
-        for (let i = 0; i < fileInputs.length; i++) {
-            const fileInput = fileInputs[i];
-            for (let j = 0; j < fileInput.files.length; j++) {
-                const fileSize = fileInput.files[j].size; // size of the current file in bytes
-                alert(fileSize);
-                if (fileSize > maxSize) {
-                    alert("One or more files exceed the allowed limit (2 MB).");
-                    return; // Stop validation if any file exceeds the limit
-                }
-            }
-        }
-
-
-
-
-
         var formData = new FormData(this);
         $(".loader").show();
         $.ajax({

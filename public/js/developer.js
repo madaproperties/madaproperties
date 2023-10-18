@@ -147,8 +147,13 @@ $(function() {
         }
 	});
 	
-	
-    
+	$('[name=property_type]').click(function(){
+		if($(this).val() == '2'){
+			$('.bedrooms').hide();
+		}else{
+			$('.bedrooms').show();
+		}
+	});
 });
 
 function changeTab(tabId){

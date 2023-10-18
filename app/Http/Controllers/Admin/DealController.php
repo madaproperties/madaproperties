@@ -473,6 +473,14 @@ class DealController extends Controller
         "sales_director_2_commission_amount"  => "nullable",
         "sales_director_2_commission_received"  => "nullable",
         "status" =>"nullable", //added by fazal 25-09-23
+        "listing_agent_id"       => "nullable",
+        "listing_agent_commission_percent" => "nullable",
+        "listing_agent_commission_amount"  => "nullable",
+        "listing_agent_commission_received"       => "nullable",
+        "listing_leader_id"       => "nullable",
+        "listing_agent_leader_commission_percent" => "nullable",
+        "listing_agent_leader_commission_amount"  => "nullable",
+        "listing_agent_leader_commission_received"       => "nullable",
       ]);
 
 
@@ -594,6 +602,14 @@ class DealController extends Controller
       "sales_director_2_commission_amount"  => "nullable",
       "sales_director_2_commission_received"  => "nullable",
       "status" =>"nullable", //added by fazal 25-09-23
+      "listing_agent_id"       => "nullable",
+      "listing_agent_commission_percent" => "nullable",
+      "listing_agent_commission_amount"  => "nullable",
+      "listing_agent_commission_received"       => "nullable",
+      "listing_leader_id"       => "nullable",
+      "listing_agent_leader_commission_percent" => "nullable",
+      "listing_agent_leader_commission_amount"  => "nullable",
+      "listing_agent_leader_commission_received"       => "nullable",
   ]);
 
     $data['updated_at'] = Carbon::now();

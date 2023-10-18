@@ -155,9 +155,11 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal.exportDataDeals'),$expo
 									<td>
 										<span class="text-muted font-weight-bold">{{$deal->agent ? substr($deal->agent->email, 0, strpos($deal->agent->email, "@")) : 'N/A'}}</span>
 									</td>
+									<!--added by fazal on 26-09-23-->
 									<td>
 										<span class="text-muted font-weight-bold">{{$deal->status}}</span>
 									</td>
+									<!--end-->
 									<td>
 										<div class="editPro">
 									@can('deals-comission-slip-documents-list')

@@ -82,7 +82,11 @@ img, svg {
         {{$property->category ? $property->category->category_name : ''}}
         </li>
         <li>
+         @if($property->bedrooms==0)
+          Studio
+          @else
         {{$property->bedrooms }} Bedrooms
+        @endif
         </li>
         <li>
         {{$property->bathrooms }} Bathrooms
@@ -110,7 +114,7 @@ img, svg {
         @endif
       </ul>
       <div class="price pt-4">
-        <h2>Price<br>AED {{number_format($property->price)}}</h2>
+        <h2>Price<br>AED {{$property->price ? number_format($property->price) : number_format($property->yprice)}}</h2>
       </div>
     </div>
     @if(isset($property->images[0]))

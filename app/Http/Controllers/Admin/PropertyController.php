@@ -449,6 +449,10 @@ class PropertyController extends Controller
       'off_line_property' => 'nullable',              
     ]);
 
+    if($data['property_type'] == '2'){
+      $data['bedrooms']=null;
+    }
+
     // if(isset($data['is_managed'])){
     //   $data['is_managed']=1;
     // }else{
@@ -785,11 +789,9 @@ class PropertyController extends Controller
       'off_line_property' => 'nullable',              
     ]);
 
-    // if(isset($data['is_managed'])){
-    //   $data['is_managed']=1;
-    // }else{
-    //   $data['is_managed']=0;
-    // }
+    if($data['property_type'] == '2'){
+      $data['bedrooms']=null;
+    }
 
     // if(isset($data['is_exclusive'])){
     //   $data['is_exclusive']=1;
