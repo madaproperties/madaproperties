@@ -300,7 +300,7 @@ class AccountsController extends Controller
 
         $reraUsers = User::where('active','1')->where('is_rera_active','1')->get();
 
-        $positions = ['rent','buy','sell','management','handover','TC Renewal'];
+        $positions = ['rent','buy','sell','management','handover','TC Renewal','Agent'];
         $roles = Role::pluck('name','name')->all();
 
         return view('admin.accounts.viewModal',[
