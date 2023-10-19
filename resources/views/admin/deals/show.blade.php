@@ -52,9 +52,8 @@ input[type=radio],input[type=checkbox] {
 											<div class="row justify-content-center py-8 px-8 py-lg-15 px-lg-10">
 												<div class="col-xl-12 col-xxl-10">
 													<!--begin::Wizard Form-->
-													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.deal.update',$deal->id)}}" id="kt_form">
+													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.deal.store')}}" id="deal_form">
 														@csrf
-														@method('PATCH')
 														<div class="row justify-content-center">
 														<div class="col-xl-12">
 																<!--begin::Wizard Step 1-->
@@ -68,7 +67,7 @@ input[type=radio],input[type=checkbox] {
 																			<select class="form-control " id="unit_country"
 																			name="unit_country" data-select2-id="" tabindex="-1" aria-hidden="true">
 																				<option value="">{{ __('site.choose') }}</option>
-																				@foreach($countries as $country)
+																					@foreach($countries as $country)
 																					<option {{$deal->unit_country == $country->id ? 'selected' : ''}} value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>
 																				@endforeach
 																			</select>
@@ -84,7 +83,6 @@ input[type=radio],input[type=checkbox] {
 																		</div>
 																	</div>
 																	<!--end::Group-->
-
 
 																	<!--begin::Group-->
 																	<div class="form-group row prject-area">
@@ -147,7 +145,7 @@ input[type=radio],input[type=checkbox] {
 																	</div>
 																	<!--end::Group-->
 
-																	<!--begin::Group-->
+																	<<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.invoice_number')}}</label>
 																		<div class="col-lg-4 col-xl-4">
@@ -256,8 +254,6 @@ input[type=radio],input[type=checkbox] {
 																		<label class="col-form-label">{{__('site.yes')}}</label>
 																	</div>
 																	<!--end::Group-->
-
-
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.total_invoice')}}</label>
@@ -273,7 +269,6 @@ input[type=radio],input[type=checkbox] {
 																		</div>
 																	</div>
 																	<!--end::Group-->
-
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.down_payment')}}</label>
@@ -310,7 +305,6 @@ input[type=radio],input[type=checkbox] {
 																		</div>
 																	</div>
 																	<!--end::Group-->
-
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.commission_received_date')}}</label>
@@ -327,7 +321,7 @@ input[type=radio],input[type=checkbox] {
 																	</div>
 																	<!--end::Group-->
 
-																	
+
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.mada_commission_received')}}</label>
@@ -377,7 +371,10 @@ input[type=radio],input[type=checkbox] {
 																	<!--end::Group-->
 
 
-																	<div id="saudi_deal" style="display:{{$deal->unit_country == '1' ? 'block':'none'}}">		
+
+                                                                      
+																	<!--end::Group-->
+																		<div id="saudi_deal" style="display:{{$deal->unit_country == '1' ? 'block':'none'}}">		
 																		<h2>Deal Documents</h2>
 																		<hr>
 																		<div class="form-group row fv-plugins-icon-container">
@@ -429,17 +426,315 @@ input[type=radio],input[type=checkbox] {
 																			</div>
 																		</div>
 																	</div>
-																	<!---->
+
+
+
 																</div>
 															</div>
 
 															<div class="col-xl-12">
 																<!--begin::Wizard Step 1-->
 																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-																	<h2>Agent Details</h2>
+																	<h2> Sales Agent Details</h2>
 																	<hr>
+																	<div class="row">
+                                                                   <div class="col-xl-6">
+                                                                   	<!--begin::Group-->
+		                                                               	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+		                                                                		@if(count($sellers))
+																				<!--begin::Group-->
+																					<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.Agent')}} </label>
+																				<div class="col-lg-8 col-xl-8">
+																					<select class="form-control"  name="agent_id">
+																					<option value="">{{ __('site.select agent') }}</option>
+																					@foreach($sellers as $seller)
+																					<option {{$deal->agent_id == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
+																				@endforeach
+																					</select>
+																				</div>
+																			@endif
+																		</div>
+																		<!--end::Group-->
+																		<!--begin::Group-->
+																		<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.agent_commission_percent')}}</label>
+																			<div class="col-lg-8 col-xl-8">
+																				<input class="form-control form-control-solid form-control-lg" 	name="agent_commission_percent" id="agent_commission_percent" type="text" value="{{$deal->agent_commission_percent}}" placeholder="{{__('site.agent_commission_percent')}}" autocomplete="off">
+																			<div class="fv-plugins-message-container">
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																	    </div>
+																		<!--end::Group-->
+																		
+	                                                                </div>
+
+	                                                              <!--begin::Group-->
+																	    <div class="form-group row fv-plugins-icon-container">
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.agent_commission_amount')}}</label>
+																			<div class="col-lg-8 col-xl-8">
+																				<input class="form-control form-control-solid form-control-lg" 	name="agent_commission_amount" type="text" value="{{$deal->agent_commission_amount}}" id="agent_commission_amount" placeholder="{{__('site.agent_commission_amount')}}" readonly>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+                                                                        </div>
+																	<!--end::Group-->
+																	<!--begin::Group-->
+																		<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.agent_commission_received')}}</label>
+																				<div class="col-xl-1 col-2">
+																			<input class="form-control" name="agent_commission_received" type="radio" value="no" {{ $deal->agent_commission_received == 'no' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.no')}}</label>
+																		<div class="col-xl-1 col-2">
+																			<input class="form-control" name="agent_commission_received" type="radio" value="yes" {{ $deal->agent_commission_received == 'yes' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.yes')}}</label>
+																		</div>
+																		<!--end::Group-->
+																		 <!--begin::Group-->
+																	    <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																			@if(count($leaders))
+																			<!--begin::Group-->
+																				<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.Leader')}} </label>
+																				<div class="col-lg-8 col-xl-8">
+																					<select class="form-control"  name="leader_id">
+																					<option value="">{{ __('site.select leader') }}</option>
+																					@foreach($leaders as $leader)
+																					<option {{$deal->leader_id == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
+																				@endforeach
+																					</select>
+																				</div>
+																			@endif
+																		</div>
+                                                                        <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.agent_leader_commission_percent')}}</label>
+																			<div class="col-lg-8 col-xl-8">
+																				<input class="form-control form-control-solid form-control-lg" id="agent_leader_commission_percent" 	name="agent_leader_commission_percent" type="text" value="{{$deal->agent_leader_commission_percent}}" placeholder="{{__('site.agent_leader_commission_percent')}}" autocomplete="off">
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																		</div>
+																	<!--end::Group-->
 
 
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.agent_leader_commission_amount')}}</label>
+																		<div class="col-lg-8 col-xl-8">
+																			<input class="form-control form-control-solid form-control-lg" 	name="agent_leader_commission_amount" type="text" value="{{$deal->agent_leader_commission_amount}}" id="agent_leader_commission_amount" placeholder="{{__('site.agent_leader_commission_amount')}}" readonly>
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																		<!--end::Group-->
+                                                                        <!--begin::Group-->
+																		<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.agent_commission_received')}}</label>
+																				<div class="col-xl-1 col-2">
+																			<input class="form-control" name="agent_leader_commission_received" type="radio" value="no" {{ $deal->agent_leader_commission_received == 'no' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.no')}}</label>
+																		<div class="col-xl-1 col-2">
+																			<input class="form-control" name="agent_leader_commission_received" type="radio" value="yes" {{ $deal->agent_leader_commission_received == 'yes' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.yes')}}</label>
+																		</div>
+																		<!--end::Group-->
+
+
+																		<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																			@if(count($salesDirectors))
+																			<!--begin::Group-->
+																				<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.sales_director')}} </label>
+																				<div class="col-lg-8 col-xl-8">
+																					<select class="form-control"  name="sales_director_id">
+																					<option value="">{{ __('site.choose') }}</option>
+																					@foreach($salesDirectors as $salesDirector)
+																					<option {{$deal->sales_director_id == $salesDirector->id ? 'selected' : ''}} value="{{$salesDirector->id}}">{{$salesDirector->name}}</option>
+																				@endforeach
+																					</select>
+																				</div>
+																			@endif
+																		</div>
+																		<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.sales_director_commission_percent')}}</label>
+																			<div class="col-lg-8 col-xl-8">
+																				<input class="form-control form-control-solid form-control-lg" 	name="sales_director_commission_percent" id="sales_director_commission_percent" type="text" value="{{$deal->sales_director_commission_percent}}" placeholder="{{__('site.sales_director_commission_percent')}}" autocomplete="off">
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																		</div>
+																		<!--end::Group-->
+
+																		<!--begin::Group-->
+																		<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.sales_director_commission_amount')}}</label>
+																			<div class="col-lg-8 col-xl-8">
+																				<input class="form-control form-control-solid form-control-lg" 	name="sales_director_commission_amount" type="text" value="{{$deal->sales_director_commission_amount}}" id="sales_director_commission_amount" placeholder="{{__('site.sales_director_commission_amount')}}" readonly>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																		</div>
+																		<!--end::Group-->
+
+																		<!--begin::Group-->
+	                                                                     <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.sales_director_commission_received')}}</label>
+																			<div class="col-xl-1 col-2">
+																			<input class="form-control" name="sales_director_commission_received" type="radio" value="no" {{ $deal->sales_director_commission_received == 'no' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.no')}}</label>
+																		<div class="col-xl-1 col-2">
+																			<input class="form-control" name="sales_director_commission_received" type="radio" value="yes" {{ $deal->sales_director_commission_received == 'yes' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.yes')}}</label>
+																		  </div>
+	                                                                    <!--end::Group-->
+
+	                                                            </div>
+	                                                                <div class="col-xl-6">
+                                                                   	<!--begin::Group-->
+		                                                               <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		@if(count($sellers))
+																		<!--begin::Group-->
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.Agent2')}} </label>
+																			<div class="col-lg-8 col-xl-8">
+																				<select class="form-control"  name="agent2_id">
+																				<option value="">{{ __('site.select agent2') }}</option>
+																				@foreach($sellers as $seller)
+																					<option {{$deal->agent2_id == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
+																				@endforeach
+																				</select>
+																			</div>
+																		@endif
+																	</div>
+                                                                     <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.agent2_commission_percent')}}</label>
+																		<div class="col-lg-8 col-xl-8">
+																			<input class="form-control form-control-solid form-control-lg" 	name="agent2_commission_percent" id="agent2_commission_percent" type="text" value="{{$deal->agent2_commission_percent}}" placeholder="{{__('site.agent2_commission_percent')}}" autocomplete="off">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.agent2_commission_amount')}}</label>
+																		<div class="col-lg-8 col-xl-8">
+																			<input class="form-control form-control-solid form-control-lg" 	name="agent2_commission_amount" type="text" value="{{$deal->agent2_commission_amount}}" id="agent2_commission_amount" placeholder="{{__('site.agent2_commission_amount')}}" readonly>
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+                                                                    <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.agent2_commission_received')}}</label>
+																		<div class="col-xl-1 col-2">
+																			<input class="form-control" name="agent2_commission_received" type="radio" value="no" {{ $deal->agent2_commission_received == 'no' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.no')}}</label>
+																		<div class="col-xl-1 col-2">
+																			<input class="form-control" name="agent2_commission_received" type="radio" value="yes" {{ $deal->agent2_commission_received == 'yes' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.yes')}}</label>
+																	</div>
+																	<!--end::Group-->
+
+																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		@if(count($leaders))
+																		<!--begin::Group-->
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.Leader2')}} </label>
+																			<div class="col-lg-8 col-xl-8">
+																				<select class="form-control"  name="leader2_id">
+																				<option value="">{{ __('site.select leader2') }}</option>
+																				@foreach($leaders as $leader)
+																					<option {{$deal->leader2_id == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
+																				@endforeach
+																				</select>
+																			</div>
+																		@endif
+                                                                       </div>
+                                                                       <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.agent2_leader_commission_percent')}}</label>
+																		<div class="col-lg-8 col-xl-8">
+																			<input class="form-control form-control-solid form-control-lg" id="agent2_leader_commission_percent" 	name="agent2_leader_commission_percent" type="text" value="{{$deal->agent2_leader_commission_percent}}" placeholder="{{__('site.agent2_leader_commission_percent')}}" autocomplete="off">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.agent2_leader_commission_amount')}}</label>
+																		<div class="col-lg-8 col-xl-8">
+																			<input class="form-control form-control-solid form-control-lg" 	name="agent2_leader_commission_amount" type="text" value="{{$deal->agent2_leader_commission_amount}}" id="agent2_leader_commission_amount" placeholder="{{__('site.agent2_leader_commission_amount')}}" readonly>
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+                                                                       <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.agent2_leader_commission_received')}}</label>
+																		<div class="col-xl-1 col-2">
+																			<input class="form-control" name="agent2_leader_commission_received" type="radio" value="no" {{ $deal->agent2_leader_commission_received == 'no' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.no')}}</label>
+																		<div class="col-xl-1 col-2">
+																			<input class="form-control" name="agent2_leader_commission_received" type="radio" value="yes" {{ $deal->agent2_leader_commission_received == 'yes' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.yes')}}</label>
+																	</div>
+																	<!--end::Group-->
+
+
+																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		@if(count($salesDirectors))
+																		<!--begin::Group-->
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.sales_director_2')}} </label>
+																			<div class="col-lg-8 col-xl-8">
+																				<select class="form-control"  name="sales_director_2_id">
+																				<option value="">{{ __('site.choose') }}</option>
+																				@foreach($salesDirectors as $salesDirector)
+																					<option {{$deal->sales_director_2_id == $salesDirector->id ? 'selected' : ''}} value="{{$salesDirector->id}}">{{$salesDirector->name}}</option>
+																				@endforeach
+																				</select>
+																			</div>
+																		@endif
+                                                                        </div>
+                                                                         <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.sales_director_2_commission_percent')}}</label>
+																		<div class="col-lg-8 col-xl-8">
+																			<input class="form-control form-control-solid form-control-lg" 	name="sales_director_2_commission_percent" id="sales_director_2_commission_percent" type="text" value="{{$deal->sales_director_2_commission_percent}}" placeholder="{{__('site.sales_director_2_commission_percent')}}" autocomplete="off">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.sales_director_2_commission_amount')}}</label>
+																		<div class="col-lg-8 col-xl-8">
+																			<input class="form-control form-control-solid form-control-lg" 	name="sales_director_2_commission_amount" type="text" value="{{$deal->sales_director_2_commission_amount}}" id="sales_director_2_commission_amount" placeholder="{{__('site.sales_director_2_commission_amount')}}" readonly>
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+                                                                        </div>
+                                                                        <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.sales_director_2_commission_received')}}</label>
+																		<div class="col-xl-1 col-2">
+																			<input class="form-control" name="sales_director_2_commission_received" type="radio" value="no" {{ $deal->sales_director_2_commission_received == 'no' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.no')}}</label>
+																		<div class="col-xl-1 col-2">
+																			<input class="form-control" name="sales_director_commission_received" type="radio" value="yes" {{ $deal->sales_director_commission_received == 'yes' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.yes')}}</label>
+																	</div>
+																	<!--end::Group-->
+	                                                                    <!--end::Group-->
+                                                                     
+	                                                                </div>
+
+                                                                </div>
+                                                              </div>
+                                                          </div>
+														   
+                                                              <div class="col-xl-12">   
+																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+																	<h2>Listing Agent Details</h2>
+																	<hr>
+																	
 																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
 
 																		@if(count($sellers))
@@ -458,22 +753,22 @@ input[type=radio],input[type=checkbox] {
 
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing')}} {{__('site.agent_commission_percent')}}</label>
 																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="listing_agent_commission_percent" id="listing_agent_commission_percent" type="text" value="{{$deal->listing_agent_commission_percent}}" placeholder="{{__('site.listing_agent_commission_percent')}}" autocomplete="off">
+																			<input class="form-control form-control-solid form-control-lg" 	name="listing_agent_commission_amount" type="text" value="{{$deal->listing_agent_commission_amount}}" id="listing_agent_commission_amount" placeholder="{{__('site.listing_agent_commission_amount')}}" readonly>
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing')}} {{__('site.agent_commission_amount')}}</label>
+																		<div class="col-lg-4 col-xl-4">
+																			<input class="form-control form-control-solid form-control-lg" 	name="listing_agent_commission_amount" type="text" value="{{$deal->listing_agent_commission_amount}}" id="listing_agent_commission_amount" placeholder="{{__('site.listing_agent_commission_amount')}}" readonly>
+																			<div class="fv-plugins-message-container"></div>
 																		</div>
-																		<!--end::Group-->
 
-																		<!--begin::Group-->
-																		<div class="form-group row fv-plugins-icon-container">
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing')}} {{__('site.agent_commission_amount')}}</label>
-																			<div class="col-lg-4 col-xl-4">
-																				<input class="form-control form-control-solid form-control-lg" 	name="listing_agent_commission_amount" type="text" value="{{$deal->listing_agent_commission_amount}}" id="listing_agent_commission_amount" placeholder="{{__('site.listing_agent_commission_amount')}}" readonly>
-																				<div class="fv-plugins-message-container"></div>
-																			</div>
-
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing')}} {{__('site.agent_commission_received')}}</label>
-																			<div class="col-xl-1 col-2">
+																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing')}} {{__('site.agent_commission_received')}}</label>
+																		<div class="col-xl-1 col-2">
 																				<input class="form-control" name="listing_agent_commission_received" type="radio" value="no" {{ $deal->listing_agent_commission_received == 'no' ? 'checked' : '' }}>
 																			</div>
 																			<label class="col-form-label">{{__('site.no')}}</label>
@@ -481,42 +776,42 @@ input[type=radio],input[type=checkbox] {
 																				<input class="form-control" name="listing_agent_commission_received" type="radio" value="yes" {{ $deal->listing_agent_commission_received == 'yes' ? 'checked' : '' }}>
 																			</div>
 																			<label class="col-form-label">{{__('site.yes')}}</label>
-																		</div>
-																		<!--end::Group-->
+																	</div>
+																	<!--end::Group-->
 
 
-																		<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
-																			@if(count($leaders))
-																			<!--begin::Group-->
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing')}} {{__('site.Agent')}} {{__('site.Leader')}} </label>
-																			<div class="col-lg-4 col-xl-4">
-																				<select class="form-control"  name="listing_leader_id">
-																				<option value="">{{ __('site.select leader') }}</option>
-																				@foreach($leaders as $leader)
+																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		@if(count($leaders))
+																		<!--begin::Group-->
+																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing')}} {{__('site.Agent')}} {{__('site.Leader')}} </label>
+																		<div class="col-lg-4 col-xl-4">
+																			<select class="form-control"  name="listing_leader_id">
+																			<option value="">{{ __('site.select leader') }}</option>
+																			@foreach($leaders as $leader)
 																					<option {{$deal->listing_leader_id == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
 																				@endforeach
-																				</select>
-																			</div>
-																			@endif
-
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing')}} {{__('site.agent_leader_commission_percent')}}</label>
-																			<div class="col-lg-4 col-xl-4">
-																				<input class="form-control form-control-solid form-control-lg" id="listing_agent_leader_commission_percent" name="listing_agent_leader_commission_percent" type="text" value="{{$deal->listing_agent_leader_commission_percent}}" placeholder="{{__('site.listing_agent_leader_commission_percent')}}" autocomplete="off">
-																				<div class="fv-plugins-message-container"></div>
-																			</div>
+																			</select>
 																		</div>
-																		<!--end::Group-->
+																		@endif
+
+																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing')}} {{__('site.agent_leader_commission_percent')}}</label>
+																		<div class="col-lg-4 col-xl-4">
+																			<input class="form-control form-control-solid form-control-lg" id="listing_agent_leader_commission_percent" name="listing_agent_leader_commission_percent" type="text" value="{{$deal->listing_agent_leader_commission_percent}}" placeholder="{{__('site.listing_agent_leader_commission_percent')}}" autocomplete="off">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
 
 
-																		<!--begin::Group-->
-																		<div class="form-group row fv-plugins-icon-container">
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing')}} {{__('site.agent_leader_commission_amount')}}</label>
-																			<div class="col-lg-4 col-xl-4">
-																				<input class="form-control form-control-solid form-control-lg" 	name="listing_agent_leader_commission_amount" type="text" value="{{$deal->listing_agent_leader_commission_amount}}" id="listing_agent_leader_commission_amount" placeholder="{{__('site.agent_leader_commission_amount')}}" readonly>
-																				<div class="fv-plugins-message-container"></div>
-																			</div>
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing')}} {{__('site.agent_leader_commission_received')}}</label>
-																			<div class="col-xl-1 col-2">
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing')}} {{__('site.agent_leader_commission_amount')}}</label>
+																		<div class="col-lg-4 col-xl-4">
+																			<input class="form-control form-control-solid form-control-lg" 	name="listing_agent_leader_commission_amount" type="text" value="{{$deal->listing_agent_leader_commission_amount}}" id="listing_agent_leader_commission_amount" placeholder="{{__('site.agent_leader_commission_amount')}}" readonly>
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing')}} {{__('site.agent_leader_commission_received')}}</label>
+																		<div class="col-xl-1 col-2">
 																				<input class="form-control" name="listing_agent_leader_commission_received" type="radio" value="no"  {{ $deal->listing_agent_leader_commission_received == 'no' ? 'checked' : '' }}>
 																			</div>
 																			<label class="col-form-label">{{__('site.no')}}</label>
@@ -525,114 +820,25 @@ input[type=radio],input[type=checkbox] {
 																			</div>
 																			<label class="col-form-label">{{__('site.yes')}}</label>
 																		</div>
-																		<!--end::Group-->
-
-
-																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
-																		@if(count($sellers))
-																		<!--begin::Group-->
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.Agent')}} </label>
-																			<div class="col-lg-4 col-xl-4">
-																				<select class="form-control"  name="agent_id">
-																				<option value="">{{ __('site.select agent') }}</option>
-																				@foreach($sellers as $seller)
-																					<option {{$deal->agent_id == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
-																				@endforeach
-																				</select>
-																			</div>
-																		@endif
-
-
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.agent_commission_percent')}}</label>
-																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="agent_commission_percent" id="agent_commission_percent" type="text" value="{{$deal->agent_commission_percent}}" placeholder="{{__('site.agent_commission_percent')}}" autocomplete="off">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
 																	</div>
 																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.agent_commission_amount')}}</label>
-																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="agent_commission_amount" type="text" value="{{$deal->agent_commission_amount}}" id="agent_commission_amount" placeholder="{{__('site.agent_commission_amount')}}" readonly>
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.agent_commission_received')}}</label>
-																		<div class="col-xl-1 col-2">
-																			<input class="form-control" name="agent_commission_received" type="radio" value="no" {{ $deal->agent_commission_received == 'no' ? 'checked' : '' }}>
-																		</div>
-																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1 col-2">
-																			<input class="form-control" name="agent_commission_received" type="radio" value="yes" {{ $deal->agent_commission_received == 'yes' ? 'checked' : '' }}>
-																		</div>
-																		<label class="col-form-label">{{__('site.yes')}}</label>
-																	</div>
-																	<!--end::Group-->
-
-
-
-																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
-																		@if(count($leaders))
-																		<!--begin::Group-->
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.Leader')}} </label>
-																			<div class="col-lg-4 col-xl-4">
-																				<select class="form-control"  name="leader_id">
-																				<option value="">{{ __('site.select leader') }}</option>
-																				@foreach($leaders as $leader)
-																					<option {{$deal->leader_id == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
-																				@endforeach
-																				</select>
-																			</div>
-																		@endif
-
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.agent_leader_commission_percent')}}</label>
-																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" id="agent_leader_commission_percent" 	name="agent_leader_commission_percent" type="text" value="{{$deal->agent_leader_commission_percent}}" placeholder="{{__('site.agent_leader_commission_percent')}}" autocomplete="off">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.agent_leader_commission_amount')}}</label>
-																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="agent_leader_commission_amount" type="text" value="{{$deal->agent_leader_commission_amount}}" id="agent_leader_commission_amount" placeholder="{{__('site.agent_leader_commission_amount')}}" readonly>
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.agent_leader_commission_received')}}</label>
-																		<div class="col-xl-1 col-2">
-																			<input class="form-control" name="agent_leader_commission_received" type="radio" value="no" {{ $deal->agent_leader_commission_received == 'no' ? 'checked' : '' }}>
-																		</div>
-																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1 col-2">
-																			<input class="form-control" name="agent_leader_commission_received" type="radio" value="yes" {{ $deal->agent_leader_commission_received == 'yes' ? 'checked' : '' }}>
-																		</div>
-																		<label class="col-form-label">{{__('site.yes')}}</label>
-																	</div>
-																	<!--end::Group-->
-
-																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																	<!-- added by fazal on 19-10-23 -->
+                                                                      <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
 																		@if(count($salesDirectors))
 																		<!--begin::Group-->
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sales_director')}} </label>
+																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing_sales_director')}} </label>
 																			<div class="col-lg-4 col-xl-4">
-																				<select class="form-control"  name="sales_director_id">
+																				<select class="form-control"  name="listing_director_id">
 																				<option value="">{{ __('site.choose') }}</option>
 																				@foreach($salesDirectors as $salesDirector)
-																					<option {{$deal->sales_director_id == $salesDirector->id ? 'selected' : ''}} value="{{$salesDirector->id}}">{{$salesDirector->name}}</option>
+																					<option {{$deal->listing_director_id == $salesDirector->id ? 'selected' : ''}} value="{{$salesDirector->id}}">{{$salesDirector->name}}</option>
 																				@endforeach
 																				</select>
 																			</div>
 																		@endif
-
-
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sales_director_commission_percent')}}</label>
+																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing_sales_director_commission_percent')}}</label>
 																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="sales_director_commission_percent" id="sales_director_commission_percent" type="text" value="{{$deal->sales_director_commission_percent}}" placeholder="{{__('site.sales_director_commission_percent')}}" autocomplete="off">
+																			<input class="form-control form-control-solid form-control-lg" 	name="	listing_director_commission_percent" id="listing_director_commission_percent" type="text" value="{{$deal->listing_director_commission_percent}}" placeholder="{{__('site.sales_director_commission_percent')}}" autocomplete="off">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -640,154 +846,32 @@ input[type=radio],input[type=checkbox] {
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sales_director_commission_amount')}}</label>
+																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing_director_commission_amount')}}</label>
 																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="sales_director_commission_amount" type="text" value="{{$deal->sales_director_commission_amount}}" id="sales_director_commission_amount" placeholder="{{__('site.sales_director_commission_amount')}}" readonly>
+																			<input class="form-control form-control-solid form-control-lg" 	name="listing_director_commission_amount" type="text" value="{{$deal->listing_director_commission_amount}}" id="sales_director_commission_amount" placeholder="{{__('site.listing_director_commission_amount')}}" readonly>
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sales_director_commission_received')}}</label>
+																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing_director_commission_received')}}</label>
 																		<div class="col-xl-1 col-2">
-																			<input class="form-control" name="sales_director_commission_received" type="radio" value="no" {{ $deal->sales_director_commission_received == 'no' ? 'checked' : '' }}>
+																			<input class="form-control" name="listing_director_commission_received" type="radio" value="no" {{ $deal->listing_director_commission_received == 'no' ? 'checked' : '' }}>
 																		</div>
 																		<label class="col-form-label">{{__('site.no')}}</label>
 																		<div class="col-xl-1 col-2">
-																			<input class="form-control" name="sales_director_commission_received" type="radio" value="yes" {{ $deal->sales_director_commission_received == 'yes' ? 'checked' : '' }}>
+																			<input class="form-control" name="listing_director_commission_received" type="radio" value="yes" {{ $deal->listing_director_commission_received == 'yes' ? 'checked' : '' }}>
 																		</div>
 																		<label class="col-form-label">{{__('site.yes')}}</label>
 																	</div>
 																	<!--end::Group-->
 
+																	
 
-																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
-																		@if(count($sellers))
-																		<!--begin::Group-->
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.Agent2')}} </label>
-																			<div class="col-lg-4 col-xl-4">
-																				<select class="form-control"  name="agent2_id">
-																				<option value="">{{ __('site.select agent2') }}</option>
-																				@foreach($sellers as $seller)
-																					<option {{$deal->agent2_id == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
-																				@endforeach
-																				</select>
-																			</div>
-																		@endif
-
-
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.agent2_commission_percent')}}</label>
-																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="agent2_commission_percent" id="agent2_commission_percent" type="text" value="{{$deal->agent2_commission_percent}}" placeholder="{{__('site.agent2_commission_percent')}}" autocomplete="off">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.agent2_commission_amount')}}</label>
-																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="agent2_commission_amount" type="text" value="{{$deal->agent2_commission_amount}}" id="agent2_commission_amount" placeholder="{{__('site.agent2_commission_amount')}}" readonly>
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.agent2_commission_received')}}</label>
-																		<div class="col-xl-1 col-2">
-																			<input class="form-control" name="agent2_commission_received" type="radio" value="no" {{ $deal->agent2_commission_received == 'no' ? 'checked' : '' }}>
-																		</div>
-																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1 col-2">
-																			<input class="form-control" name="agent2_commission_received" type="radio" value="yes" {{ $deal->agent2_commission_received == 'yes' ? 'checked' : '' }}>
-																		</div>
-																		<label class="col-form-label">{{__('site.yes')}}</label>
-																	</div>
-																	<!--end::Group-->
-
-																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
-																		@if(count($leaders))
-																		<!--begin::Group-->
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.Leader2')}} </label>
-																			<div class="col-lg-4 col-xl-4">
-																				<select class="form-control"  name="leader2_id">
-																				<option value="">{{ __('site.select leader') }}</option>
-																				@foreach($leaders as $leader)
-																					<option {{$deal->leader2_id == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
-																				@endforeach
-																				</select>
-																			</div>
-																		@endif
-
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.agent2_leader_commission_percent')}}</label>
-																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" id="agent2_leader_commission_percent" 	name="agent2_leader_commission_percent" type="text" value="{{$deal->agent2_leader_commission_percent}}" placeholder="{{__('site.agent2_leader_commission_percent')}}" autocomplete="off">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.agent2_leader_commission_amount')}}</label>
-																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="agent2_leader_commission_amount" type="text" value="{{$deal->agent2_leader_commission_amount}}" id="agent2_leader_commission_amount" placeholder="{{__('site.agent2_leader_commission_amount')}}" readonly>
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.agent2_leader_commission_received')}}</label>
-																		<div class="col-xl-1 col-2">
-																			<input class="form-control" name="agent2_leader_commission_received" type="radio" value="no" {{ $deal->agent2_leader_commission_received == 'no' ? 'checked' : '' }}>
-																		</div>
-																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1 col-2">
-																			<input class="form-control" name="agent2_leader_commission_received" type="radio" value="yes" {{ $deal->agent2_leader_commission_received == 'yes' ? 'checked' : '' }}>
-																		</div>
-																		<label class="col-form-label">{{__('site.yes')}}</label>
-																	</div>
-																	<!--end::Group-->
-
-																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
-																		@if(count($salesDirectors))
-																		<!--begin::Group-->
-																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sales_director_2')}} </label>
-																			<div class="col-lg-4 col-xl-4">
-																				<select class="form-control"  name="sales_director_2_id">
-																				<option value="">{{ __('site.choose') }}</option>
-																				@foreach($salesDirectors as $salesDirector)
-																					<option {{$deal->sales_director_2_id == $salesDirector->id ? 'selected' : ''}} value="{{$salesDirector->id}}">{{$salesDirector->name}}</option>
-																				@endforeach
-																				</select>
-																			</div>
-																		@endif
-
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sales_director_2_commission_percent')}}</label>
-																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="sales_director_2_commission_percent" id="sales_director_2_commission_percent" type="text" value="{{$deal->sales_director_2_commission_percent}}" placeholder="{{__('site.sales_director_2_commission_percent')}}" autocomplete="off">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-																	</div>
-																	<!--end::Group-->
-
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sales_director_2_commission_amount')}}</label>
-																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="sales_director_2_commission_amount" type="text" value="{{$deal->sales_director_2_commission_amount}}" id="sales_director_2_commission_amount" placeholder="{{__('site.sales_director_2_commission_amount')}}" readonly>
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
-
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.sales_director_2_commission_received')}}</label>
-																		<div class="col-xl-1 col-2">
-																			<input class="form-control" name="sales_director_2_commission_received" type="radio" value="no" {{ $deal->sales_director_2_commission_received == 'no' ? 'checked' : '' }}>
-																		</div>
-																		<label class="col-form-label">{{__('site.no')}}</label>
-																		<div class="col-xl-1 col-2">
-																			<input class="form-control" name="sales_director_commission_received" type="radio" value="yes" {{ $deal->sales_director_commission_received == 'yes' ? 'checked' : '' }}>
-																		</div>
-																		<label class="col-form-label">{{__('site.yes')}}</label>
-																	</div>
-																	<!--end::Group-->
-
-
+                                                                </div>
+                                                            </div>
+                                                               <div class="col-xl-12">   
+																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+																	<h2>Additional Information</h2>
+																	<hr>
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.notes')}}</label>
@@ -796,7 +880,7 @@ input[type=radio],input[type=checkbox] {
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.deal status')}} </label>
+																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.deal status')}}</label>
 																		<div class="col-lg-4 col-xl-4" data-select2-id="38">
 																			<select class="form-control " id="status"
 																			name="status" >
@@ -806,10 +890,13 @@ input[type=radio],input[type=checkbox] {
 
 																			</select>
 																		</div>
-																	</div>
+																		</div>
 																	<!--end::Group-->
 																</div>
-															</div>
+                                                            </div>
+                                                        </div>
+                                                         
+															
 
 															<div class="col-xl-12">
 																
@@ -852,7 +939,6 @@ input[type=radio],input[type=checkbox] {
 @include('admin.deals.mada_comission_slip_uploader')
 @include('admin.deals.down_payment_uploader')
 @include('admin.deals.signed_contract_uploader')
-
 
 @endsection
 @push('js')
@@ -909,7 +995,6 @@ input[type=radio],input[type=checkbox] {
 		getCountryCities($('#unit_country').val(),$("#unit_city"));
 		getProjects($('#unit_country').val(),$('#project_type').val());
 	});
-
 	$('#project_type').on('change', function (){
 		getProjects($('#unit_country').val(),$('#project_type').val());
 	});
@@ -921,11 +1006,7 @@ input[type=radio],input[type=checkbox] {
 			//minDate:new Date()
 		});
 
-		@if($deal->third_party)
-			$(".third_party_div").show();
-		@else
-			$(".third_party_div").hide();
-		@endif
+		$(".third_party_div").hide();
 		$(".third_party").click(function(){
 			if ($('.third_party').is(':checked')) {
 				$(".third_party_div").show();
@@ -986,7 +1067,6 @@ input[type=radio],input[type=checkbox] {
 					price -= third_party_amount;
 				}
 			}
-
 			$("#agent_commission_amount").val(((price*comi)/100).toFixed(2));
 			updateMadaCommission();
 		});
@@ -1015,8 +1095,6 @@ input[type=radio],input[type=checkbox] {
 			updateMadaCommission();
 		});
 
-
-
 		$("#agent2_commission_percent").on('input keyup keypress blur change',function(){
 			if($(this).val() > 100 || $(this).val() < 0){
 				alert('Agent 2 commission value should be greater than 0 and less than 100');
@@ -1040,6 +1118,7 @@ input[type=radio],input[type=checkbox] {
 			$("#agent2_commission_amount").val(((price*comi)/100).toFixed(2));
 			updateMadaCommission();
 		});
+
 
 		$("#agent_leader_commission_percent").on('input keyup keypress blur change',function(){
 			if($(this).val() > 100 || $(this).val() < 0){
@@ -1072,11 +1151,10 @@ input[type=radio],input[type=checkbox] {
 			}
 
 			var comi = $(this).val();
-			var agent_commission_amount = $("#agent_commission_amount").val();	
+			var agent_commission_amount = $("#listing_agent_commission_amount").val();	
 			$("#listing_agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
 			updateMadaCommission();
 		});
-
 
 
 		$("#agent2_leader_commission_percent").on('input keyup keypress blur change',function(){
@@ -1091,7 +1169,7 @@ input[type=radio],input[type=checkbox] {
 				$(this).val(0);
 			}
 
-		var comi = $(this).val();
+			var comi = $(this).val();
 			var agent_commission_amount = $("#agent2_commission_amount").val();	
 			$("#agent2_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
 			updateMadaCommission();
@@ -1132,6 +1210,26 @@ input[type=radio],input[type=checkbox] {
 			$("#sales_director_2_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
 			updateMadaCommission();
 		});
+		//added by fazal
+		$("#listing_director_commission_percent").on('input keyup keypress blur change',function(){
+			if($(this).val() > 100 || $(this).val() < 0){
+				alert('Sales director commission value should be greater than 0 and less than 100');
+				$("#listing_director_commission_percent").focus();
+				$(this).val(0);
+			}
+			if($("#commission_amount").val() < 0){
+				alert('Commission amount should not be 0');
+				$("#commission_amount").focus();
+				$(this).val(0);
+			}
+
+		var comi = $(this).val();
+			var agent_commission_amount = $("#listing_agent_commission_amount").val();	
+			$("#listing_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+			updateMadaCommission();
+		});
+
+
 
 		$("#vat").on('input keyup keypress blur change',function(){
 			if($(this).val() > 100 || $(this).val() < 0){
@@ -1195,10 +1293,10 @@ input[type=radio],input[type=checkbox] {
 		}
 		if(sales_director_commission_amount > 0){
 			temp_com += sales_director_commission_amount;
-		}
+		}		
 		if(sales_director_2_commission_amount > 0){
 			temp_com += sales_director_2_commission_amount;
-		}
+		}		
 		if ($('.third_party').is(':checked')) {
 			var third_party_amount = parseFloat($("#third_party_amount").val());
 			if(third_party_amount > 0){
@@ -1215,10 +1313,8 @@ input[type=radio],input[type=checkbox] {
 		let route = '{{route("admin.get.dealprojects")}}';
 		let projectEl = $('.other-select');
 
+	    projectEl.attr('disabled',true);
 
-        projectEl.attr('disabled',true);
-
-		var projectId = '{{$deal->project_id}}';
 		$.ajax({
 			type:'POST',
 			url: route,
@@ -1237,17 +1333,11 @@ input[type=radio],input[type=checkbox] {
                     </option>`);
 
 			res.rows.forEach(row => {
-				var selected = '';
-				if(projectId == row.id){
-					selected = 'selected';
-				}
-				
-
 				projectEl.append(`<option
                     id="project-value-${row.id}"
                     data-text="${row.name}"
                     value="${row.id}"
-                    data-select2-id="${row.name}"  `+selected+`>
+                    data-select2-id="${row.name}">
                         ${row.name}
                     </option>`);
 
@@ -1276,25 +1366,46 @@ input[type=radio],input[type=checkbox] {
 			$('.related-to-project').css('display','none');
 		}
 	});
-
-	getProjects('{{$deal->unit_country}}','{{$deal->project_type}}');
-	$('.prject-area').css('height','auto');
-	$('.prject-area').css('opacity','1');
-
 	$('#unit_country').on('change',function (){
 		let val = $(this).val();
 		if(val == '1'){
 			$('#saudi_deal').css('display','block');
+			$('#uae_deal').css('display','none');
 		}
-		else if(val == '1'){
+		else if(val=='2')
+		{
 		    $('#uae_deal').css('display','block');
+		    $('#saudi_deal').css('display','none');
 		}
+		
 		else{
 			$('#saudi_deal').css('display','none');
-			$('#uae_deal').css('display','none');
+			 $('#uae_deal').css('display','none');
+		}
+	});
+
+	$("#deal_form").on('submit',function(){
+		var val = $('#unit_country').val();
+		if(val == '1'){
+			var x = 0;
+			if($('#has_deal_document').val() == ""){
+				alert("Deal document id is required.");
+				return false;
+			}else if($('#has_down_payment').val() == ""){
+				alert("Deal down payment is required.");
+				return false;
+			}else if($('#has_mada_comission_slip').val() == ""){
+				alert("Deal mada comission slip is required.");
+				return false;
+			}else if($('#has_national_address').val() == ""){
+				alert("Deal national address is required.");
+				return false;
+			}else if($('#has_signed_contract').val() == ""){
+				alert("Deal signed contract is required.");
+				return false;
+			}
 		}
 	});
 	
-
 </script>
 @endpush
