@@ -132,7 +132,7 @@ return [
   ],
   'yes_no' => [
     '1' => 'Yes',
-    '0' => 'No'
+    '2' => 'No'
   ],
   'fitted' => [
     '1' => 'Fitted',
