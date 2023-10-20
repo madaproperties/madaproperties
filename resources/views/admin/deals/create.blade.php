@@ -529,13 +529,13 @@ input[type=radio],input[type=checkbox] {
 																		<!--end::Group-->
                                                                         <!--begin::Group-->
 																		<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
-																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.agent_commission_received')}}</label>
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.agent_leader_commission_received')}}</label>
 																				<div class="col-xl-1 col-2">
-																					<input class="form-control" name="agent_commission_received" type="radio" value="no" checked>
+																					<input class="form-control" name="agent_leader_commission_received" type="radio" value="no" checked>
 																				</div>
 																				<label class="col-form-label">{{__('site.no')}}</label>
 																				<div class="col-xl-1 col-2">
-																					<input class="form-control" name="agent_commission_received" type="radio" value="yes">
+																					<input class="form-control" name="agent_leader_commission_received" type="radio" value="yes">
 																				</div>
 																				<label class="col-form-label">{{__('site.yes')}}</label>
 																		</div>

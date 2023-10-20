@@ -54,6 +54,7 @@ input[type=radio],input[type=checkbox] {
 													<!--begin::Wizard Form-->
 													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.deal.store')}}" id="deal_form">
 														@csrf
+														@method('PATCH')
 														<div class="row justify-content-center">
 														<div class="col-xl-12">
 																<!--begin::Wizard Step 1-->
@@ -79,12 +80,12 @@ input[type=radio],input[type=checkbox] {
 																				<option {{$deal->project_type == 'Primary' ? 'selected' : ''}} value="Primary">{{__('site.Primary')}}</option>
 																				<option {{$deal->project_type == 'Secondary' ? 'selected' : ''}} value="Secondary">{{__('site.Secondary')}}</option>
 																			</select>
-																			</select>
 																		</div>
 																	</div>
 																	<!--end::Group-->
 
 																	<!--begin::Group-->
+																		<!--begin::Group-->
 																	<div class="form-group row prject-area">
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.project')}}</label>
 																		<div class="col-lg-4 col-xl-4">
@@ -106,6 +107,7 @@ input[type=radio],input[type=checkbox] {
 																	<!--end::Group-->
 																	@endif
 																	</div>
+																	
 																	
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
@@ -717,7 +719,7 @@ input[type=radio],input[type=checkbox] {
 																		</div>
 																		<label class="col-form-label">{{__('site.no')}}</label>
 																		<div class="col-xl-1 col-2">
-																			<input class="form-control" name="sales_director_commission_received" type="radio" value="yes" {{ $deal->sales_director_commission_received == 'yes' ? 'checked' : '' }}>
+																			<input class="form-control" name="sales_director_2_commission_received" type="radio" value="yes" {{ $deal->sales_director_2_commission_received == 'yes' ? 'checked' : '' }}>
 																		</div>
 																		<label class="col-form-label">{{__('site.yes')}}</label>
 																	</div>
@@ -995,6 +997,7 @@ input[type=radio],input[type=checkbox] {
 		getCountryCities($('#unit_country').val(),$("#unit_city"));
 		getProjects($('#unit_country').val(),$('#project_type').val());
 	});
+
 	$('#project_type').on('change', function (){
 		getProjects($('#unit_country').val(),$('#project_type').val());
 	});
@@ -1006,7 +1009,11 @@ input[type=radio],input[type=checkbox] {
 			//minDate:new Date()
 		});
 
-		$(".third_party_div").hide();
+		@if($deal->third_party)
+			$(".third_party_div").show();
+		@else
+			$(".third_party_div").hide();
+		@endif
 		$(".third_party").click(function(){
 			if ($('.third_party').is(':checked')) {
 				$(".third_party_div").show();
@@ -1067,33 +1074,11 @@ input[type=radio],input[type=checkbox] {
 					price -= third_party_amount;
 				}
 			}
+
 			$("#agent_commission_amount").val(((price*comi)/100).toFixed(2));
 			updateMadaCommission();
 		});
 
-		$("#listing_agent_commission_percent").on('input keyup keypress blur change',function(){
-			if($(this).val() > 100 || $(this).val() < 0){
-				alert('Listing Agent commission value should be greater than 0 and less than 100');
-				$("#listing_agent_commission_percent").focus();
-				$(this).val(0);
-			}
-			if($("#commission_amount").val() < 0){
-				alert('Commission amount should not be 0');
-				$("#commission_amount").focus();
-				$(this).val(0);
-			}
-
-			var comi = $(this).val();
-			var price = $("#commission_amount").val();	
-			if ($('.third_party').is(':checked')) {
-				var third_party_amount = parseFloat($("#third_party_amount").val());
-				if(third_party_amount > 0){
-					price -= third_party_amount;
-				}
-			}
-			$("#listing_agent_commission_amount").val(((price*comi)/100).toFixed(2));
-			updateMadaCommission();
-		});
 
 		$("#agent2_commission_percent").on('input keyup keypress blur change',function(){
 			if($(this).val() > 100 || $(this).val() < 0){
@@ -1119,7 +1104,6 @@ input[type=radio],input[type=checkbox] {
 			updateMadaCommission();
 		});
 
-
 		$("#agent_leader_commission_percent").on('input keyup keypress blur change',function(){
 			if($(this).val() > 100 || $(this).val() < 0){
 				alert('Agent leader commission value should be greater than 0 and less than 100');
@@ -1132,30 +1116,11 @@ input[type=radio],input[type=checkbox] {
 				$(this).val(0);
 			}
 
-			var comi = $(this).val();
+		var comi = $(this).val();
 			var agent_commission_amount = $("#agent_commission_amount").val();	
 			$("#agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
 			updateMadaCommission();
 		});
-
-		$("#listing_agent_leader_commission_percent").on('input keyup keypress blur change',function(){
-			if($(this).val() > 100 || $(this).val() < 0){
-				alert('Agent leader commission value should be greater than 0 and less than 100');
-				$("#listing_agent_leader_commission_percent").focus();
-				$(this).val(0);
-			}
-			if($("#commission_amount").val() < 0){
-				alert('Commission amount should not be 0');
-				$("#commission_amount").focus();
-				$(this).val(0);
-			}
-
-			var comi = $(this).val();
-			var agent_commission_amount = $("#listing_agent_commission_amount").val();	
-			$("#listing_agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
-			updateMadaCommission();
-		});
-
 
 		$("#agent2_leader_commission_percent").on('input keyup keypress blur change',function(){
 			if($(this).val() > 100 || $(this).val() < 0){
@@ -1169,7 +1134,7 @@ input[type=radio],input[type=checkbox] {
 				$(this).val(0);
 			}
 
-			var comi = $(this).val();
+		var comi = $(this).val();
 			var agent_commission_amount = $("#agent2_commission_amount").val();	
 			$("#agent2_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
 			updateMadaCommission();
@@ -1210,26 +1175,6 @@ input[type=radio],input[type=checkbox] {
 			$("#sales_director_2_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
 			updateMadaCommission();
 		});
-		//added by fazal
-		$("#listing_director_commission_percent").on('input keyup keypress blur change',function(){
-			if($(this).val() > 100 || $(this).val() < 0){
-				alert('Sales director commission value should be greater than 0 and less than 100');
-				$("#listing_director_commission_percent").focus();
-				$(this).val(0);
-			}
-			if($("#commission_amount").val() < 0){
-				alert('Commission amount should not be 0');
-				$("#commission_amount").focus();
-				$(this).val(0);
-			}
-
-		var comi = $(this).val();
-			var agent_commission_amount = $("#listing_agent_commission_amount").val();	
-			$("#listing_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
-			updateMadaCommission();
-		});
-
-
 
 		$("#vat").on('input keyup keypress blur change',function(){
 			if($(this).val() > 100 || $(this).val() < 0){
@@ -1265,10 +1210,8 @@ input[type=radio],input[type=checkbox] {
 	function updateMadaCommission(){
 		var commission_amount = parseFloat($("#commission_amount").val());
 		var agent_commission_amount = parseFloat($("#agent_commission_amount").val());
-		var listing_agent_commission_amount = parseFloat($("#listing_agent_commission_amount").val());
 		var agent2_commission_amount = parseFloat($("#agent2_commission_amount").val());
 		var agent_leader_commission_amount = parseFloat($("#agent_leader_commission_amount").val());
-		var listing_agent_leader_commission_amount = parseFloat($("#listing_agent_leader_commission_amount").val());
 		var agent2_leader_commission_amount = parseFloat($("#agent2_leader_commission_amount").val());
 		var sales_director_commission_amount = parseFloat($("#sales_director_commission_amount").val());
 		var sales_director_2_commission_amount = parseFloat($("#sales_director_2_commission_amount").val());
@@ -1276,27 +1219,21 @@ input[type=radio],input[type=checkbox] {
 		if(agent_commission_amount > 0){
 			temp_com += agent_commission_amount;
 		}
-		if(listing_agent_commission_amount > 0){
-			temp_com += listing_agent_commission_amount;
-		}
 		if(agent2_commission_amount > 0){
 			temp_com += agent2_commission_amount;
 		}
 		if(agent_leader_commission_amount > 0){
 			temp_com += agent_leader_commission_amount;
 		}
-		if(listing_agent_leader_commission_amount > 0){
-			temp_com += listing_agent_leader_commission_amount;
-		}
 		if(agent2_leader_commission_amount > 0){
 			temp_com += agent2_leader_commission_amount;
 		}
 		if(sales_director_commission_amount > 0){
 			temp_com += sales_director_commission_amount;
-		}		
+		}
 		if(sales_director_2_commission_amount > 0){
 			temp_com += sales_director_2_commission_amount;
-		}		
+		}
 		if ($('.third_party').is(':checked')) {
 			var third_party_amount = parseFloat($("#third_party_amount").val());
 			if(third_party_amount > 0){
@@ -1313,8 +1250,10 @@ input[type=radio],input[type=checkbox] {
 		let route = '{{route("admin.get.dealprojects")}}';
 		let projectEl = $('.other-select');
 
-	    projectEl.attr('disabled',true);
 
+        projectEl.attr('disabled',true);
+
+		var projectId = '{{$deal->project_id}}';
 		$.ajax({
 			type:'POST',
 			url: route,
@@ -1333,11 +1272,17 @@ input[type=radio],input[type=checkbox] {
                     </option>`);
 
 			res.rows.forEach(row => {
+				var selected = '';
+				if(projectId == row.id){
+					selected = 'selected';
+				}
+				
+
 				projectEl.append(`<option
                     id="project-value-${row.id}"
                     data-text="${row.name}"
                     value="${row.id}"
-                    data-select2-id="${row.name}">
+                    data-select2-id="${row.name}"  `+selected+`>
                         ${row.name}
                     </option>`);
 
@@ -1366,46 +1311,25 @@ input[type=radio],input[type=checkbox] {
 			$('.related-to-project').css('display','none');
 		}
 	});
+
+	getProjects('{{$deal->unit_country}}','{{$deal->project_type}}');
+	$('.prject-area').css('height','auto');
+	$('.prject-area').css('opacity','1');
+
 	$('#unit_country').on('change',function (){
 		let val = $(this).val();
 		if(val == '1'){
 			$('#saudi_deal').css('display','block');
-			$('#uae_deal').css('display','none');
 		}
-		else if(val=='2')
-		{
+		else if(val == '1'){
 		    $('#uae_deal').css('display','block');
-		    $('#saudi_deal').css('display','none');
 		}
-		
 		else{
 			$('#saudi_deal').css('display','none');
-			 $('#uae_deal').css('display','none');
-		}
-	});
-
-	$("#deal_form").on('submit',function(){
-		var val = $('#unit_country').val();
-		if(val == '1'){
-			var x = 0;
-			if($('#has_deal_document').val() == ""){
-				alert("Deal document id is required.");
-				return false;
-			}else if($('#has_down_payment').val() == ""){
-				alert("Deal down payment is required.");
-				return false;
-			}else if($('#has_mada_comission_slip').val() == ""){
-				alert("Deal mada comission slip is required.");
-				return false;
-			}else if($('#has_national_address').val() == ""){
-				alert("Deal national address is required.");
-				return false;
-			}else if($('#has_signed_contract').val() == ""){
-				alert("Deal signed contract is required.");
-				return false;
-			}
+			$('#uae_deal').css('display','none');
 		}
 	});
 	
+
 </script>
 @endpush

@@ -29,6 +29,10 @@ class Deal extends Model
     {
       return $this->belongsTo(User::class,'agent2_id');
     }
+     public function agentListing()
+    {
+      return $this->belongsTo(User::class,'listing_agent_id');
+    }
     public function source()
     {
       return $this->belongsTo(Source::class,'source_id');
