@@ -262,6 +262,11 @@
 														value="{{$reraUser->id}}">{{$reraUser->name}}</option>
 													@endforeach
 												</select>
+												<!--added by fazal on 20-10-23-->
+												<input type="checkbox" id="publicprofile" name="public_profile" value="1">
+												<label for="publicprofile"> Public Profile</label>
+												<!--end-->
+												<br>
 											</div>
 											<div class="form-group rera_number" style="display:none">
 												<label>{{__('site.Rera Number')}}:</label>

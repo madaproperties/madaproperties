@@ -102,7 +102,7 @@ class PropertyFinderXmlController extends Controller
         $long_lat=$longitute.",".$latitude;
       }
       
-      $completion_status = '';
+        $completion_status = '';
       //Added by Lokesh on 05-10-2023
       if($property->project_status == '1'){
         $completion_status='completed';
@@ -114,7 +114,6 @@ class PropertyFinderXmlController extends Controller
         $completion_status='off_plan_primary';
       }
       //End
-
 
       $xml.="
       <property last_update='".$property->last_updated."'>";
@@ -174,8 +173,8 @@ class PropertyFinderXmlController extends Controller
       $xml.="<features>".$features."</features>
       <plot_size>".$property->plot_size."</plot_size>
       <size>".$property->buildup_area."</size>
-      <completion_status>".$completion_status."</completion_status>
       <bedroom>".$property->bedrooms."</bedroom>
+      <completion_status>".$completion_status."</completion_status>
       <bathroom>".$property->bathrooms."</bathroom>";
       if($property->agent){
 
@@ -187,7 +186,19 @@ class PropertyFinderXmlController extends Controller
           <phone>".$property->agent->mobile_no."</phone>
           <license_no>".$property->agent->rera_number."</license_no>
         </agent>";
-        }else if($property->agent->reraUser){
+        }
+        // added by fazal on 20-10-23
+        else if($property->agent->reraUser && $property->agent->public_profile == 1 ){ 
+          $xml .="<agent>
+            <id>".$property->agent->id."</id>
+            <name><![CDATA[".$property->agent->reraUser->username."]]></name>
+            <email>".$property->agent->reraUser->email."</email>
+            <phone>".$property->agent->reraUser->mobile_no."</phone>
+            <license_no>".$property->agent->reraUser->rera_number."</license_no>
+          </agent>";
+        }
+        // end
+        else if($property->agent->reraUser){
           $xml .="<agent>
             <id>".$property->agent->id."</id>
             <name><![CDATA[".$property->agent->reraUser->username."]]></name>
