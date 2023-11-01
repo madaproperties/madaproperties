@@ -52,7 +52,7 @@ input[type=radio],input[type=checkbox] {
 											<div class="row justify-content-center py-8 px-8 py-lg-15 px-lg-10">
 												<div class="col-xl-12 col-xxl-10">
 													<!--begin::Wizard Form-->
-													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.deal.store')}}" id="deal_form">
+													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.deal.update',$deal->id)}}" id="deal_form">
 														@csrf
 														@method('PATCH')
 														<div class="row justify-content-center">
@@ -755,7 +755,7 @@ input[type=radio],input[type=checkbox] {
 
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing')}} {{__('site.agent_commission_percent')}}</label>
 																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="listing_agent_commission_amount" type="text" value="{{$deal->listing_agent_commission_amount}}" id="listing_agent_commission_amount" placeholder="{{__('site.listing_agent_commission_amount')}}" readonly>
+																			<input class="form-control form-control-solid form-control-lg" 	name="listing_agent_commission_amount" type="text" value="{{$deal->listing_agent_commission_amount}}" id="listing_agent_commission_amount" placeholder="{{__('site.listing_agent_commission_amount')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -840,7 +840,7 @@ input[type=radio],input[type=checkbox] {
 																		@endif
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing_sales_director_commission_percent')}}</label>
 																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="	listing_director_commission_percent" id="listing_director_commission_percent" type="text" value="{{$deal->listing_director_commission_percent}}" placeholder="{{__('site.sales_director_commission_percent')}}" autocomplete="off">
+																			<input class="form-control form-control-solid form-control-lg" 	name="listing_director_commission_percent" id="listing_director_commission_percent" type="text" value="{{$deal->listing_director_commission_percent}}" placeholder="{{__('site.listing_director_commission_percent')}}" autocomplete="off">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
@@ -850,7 +850,7 @@ input[type=radio],input[type=checkbox] {
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing_director_commission_amount')}}</label>
 																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="listing_director_commission_amount" type="text" value="{{$deal->listing_director_commission_amount}}" id="sales_director_commission_amount" placeholder="{{__('site.listing_director_commission_amount')}}" readonly>
+																			<input class="form-control form-control-solid form-control-lg" 	name="listing_director_commission_amount" type="text" value="{{$deal->listing_director_commission_amount}}" id="listing_director_commission_amount" placeholder="{{__('site.listing_director_commission_amount')}}" readonly>
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 
@@ -1157,6 +1157,24 @@ input[type=radio],input[type=checkbox] {
 			$("#sales_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
 			updateMadaCommission();
 		});
+		//added by fazal
+		$("#listing_director_commission_percent").on('input keyup keypress blur change',function(){
+			if($(this).val() > 100 || $(this).val() < 0){
+				alert('Sales director commission value should be greater than 0 and less than 100');
+				$("#listing_director_commission_percent").focus();
+				$(this).val(0);
+			}
+			if($("#commission_amount").val() < 0){
+				alert('Commission amount should not be 0');
+				$("#commission_amount").focus();
+				$(this).val(0);
+			}
+
+		var comi = $(this).val();
+			var agent_commission_amount = $("#listing_agent_commission_amount").val();	
+			$("#listing_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+			updateMadaCommission();
+		});
 
 		$("#sales_director_2_commission_percent").on('input keyup keypress blur change',function(){
 			if($(this).val() > 100 || $(this).val() < 0){
@@ -1173,6 +1191,23 @@ input[type=radio],input[type=checkbox] {
 			var comi = $(this).val();
 			var agent_commission_amount = $("#agent2_commission_amount").val();	
 			$("#sales_director_2_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+			updateMadaCommission();
+		});
+			$("#listing_agent_leader_commission_percent").on('input keyup keypress blur change',function(){
+			if($(this).val() > 100 || $(this).val() < 0){
+				alert('Agent leader commission value should be greater than 0 and less than 100');
+				$("#listing_agent_leader_commission_percent").focus();
+				$(this).val(0);
+			}
+			if($("#commission_amount").val() < 0){
+				alert('Commission amount should not be 0');
+				$("#commission_amount").focus();
+				$(this).val(0);
+			}
+
+			var comi = $(this).val();
+			var agent_commission_amount = $("#listing_agent_commission_amount").val();	
+			$("#listing_agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
 			updateMadaCommission();
 		});
 

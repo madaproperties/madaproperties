@@ -125,17 +125,19 @@
             </table>
             <table class="table table-bordered">
                 <tbody>
+                	<th>Sales Agent 1</th>
 					<tr>
-						<td>Property Consultant</td>
-						<td>{{isset($deal->agent->name) ? $deal->agent->name : 'N/A'}}</td>
+						<td>Agent 1</td>
+						<!-- <td>{{isset($deal->agent->name) ? $deal->agent->name : 'N/A'}}</td> -->
+						<td>{{isset($deal->agent->name) ? explode('@',$deal->agent->name)[0] : 'N/A'}}</td>
 						
                     </tr>
 					<tr>
 						<td>
 						     @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
-						    Property Consultant Amount (SAR) Commission Percent - {{$deal->agent_commission_percent.'%'}}
+						    Agent 1 Amount (SAR) Commission Percent - {{$deal->agent_commission_percent.'%'}}
 						    @else
-						    Property Consultant Amount (AED) Commission Percent - {{$deal->agent_commission_percent.'%'}}
+						   Agent 1 Amount (AED) Commission Percent - {{$deal->agent_commission_percent.'%'}}
 						    @endif
 						    </td>
 						<td>{{number_format($deal->agent_commission_amount, 2)}}</td>
@@ -143,15 +145,15 @@
                     </tr>
                     <!--updated by fazal on 31-08-23-->
                     	<tr>
-						<td>Sales Manager Name</td>
+						<td>  Sales Manager 1 Name</td>
 						<td>{{isset($deal->leader) ? explode('@',$deal->leader->name)[0] : 'N/A'}}</td>
 						
                     </tr>
 					<tr>
 						<td> @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
-							Sales Manager Amount (SAR)
+							Sales Manager 1 Amount (SAR)
 						@else
-							Sales Manager Amount (AED)
+							Sales Manager 1 Amount (AED)
 						@endif
 					</td>
 						<td>{{$deal->agent_leader_commission_amount}}</td>
@@ -159,16 +161,16 @@
                     </tr>
                     	@if(isset($deal->salesDirector))
 					<tr>
-						<td>Sales Director Name</td>
+						<td>  Sales Director 1 Name</td>
 						<td>{{isset($deal->salesDirector) ? explode('@',$deal->salesDirector->name)[0] : 'N/A'}}</td>
 						
                     </tr>
 					<tr>
 						<td>
 						    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
-						    Sales Director Amount (SAR)
+						    Sales Director 1 Amount (SAR)
 						    @else
-						    Sales Director Amount (AED)
+						    Sales Director 1 Amount (AED)
 						    @endif
 						    </td>
 						<td>{{$deal->sales_director_commission_amount}}</td>
@@ -176,19 +178,24 @@
                     </tr>
 					@endif
                     <!--end-->
-                    
+                    </tbody>
+                </table>
+                <table class="table table-bordered">
+                <tbody>
 					@if(isset($deal->agentTwo))
+					<th>Sales Agent 2</th>
 					<tr>
-						<td>Property Consultant 2</td>
-						<td>{{isset($deal->agentTwo->name) ? $deal->agentTwo->name : 'N/A'}}</td>
+						<td>Agent 2</td>
+						<!-- <td>{{isset($deal->agentTwo->name) ? $deal->agentTwo->name : 'N/A'}}</td> -->
+						<td>{{isset($deal->agentTwo->name) ? explode('@',$deal->agentTwo->name)[0] : 'N/A'}}</td>
 						
                     </tr>
 					<tr>
 						<td>
 						      @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
-						      Property Consultant 2 Amount (SAR) Commission Percent - {{$deal->agent2_commission_percent.'%'}}
+						      Agent 2 Amount (SAR) Commission Percent - {{$deal->agent2_commission_percent.'%'}}
 						      @else
-						      Property Consultant 2 Amount (AED) Commission Percent - {{$deal->agent2_commission_percent.'%'}}
+						      Agent 2 Amount (AED) Commission Percent - {{$deal->agent2_commission_percent.'%'}}
 						      @endif
 						      </td>
 						<td>{{number_format($deal->agent2_commission_amount, 2)}}</td>
@@ -231,6 +238,75 @@
 						
                     </tr>
 					@endif
+				</tbody>
+			</table>
+			 <table class="table table-bordered">
+                <tbody>
+                    <!-- added by fazal -->
+                   @if(isset($deal->agentListing)) 
+                   <th>Listing Agent</th>
+                    <tr>
+						<td>Listing Agent</td>
+						<!-- <td>{{isset($deal->agentListing->name) ? $deal->agentListing->name : 'N/A'}}</td> -->
+						<td>{{isset($deal->agentListing->name) ? explode('@',$deal->agentListing->name)[0] : 'N/A'}}</td>
+
+						
+                    </tr>
+					<tr>
+						<td>
+						      @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						      Listing Agent Amount (SAR) Commission Percent - {{$deal->listing_agent_commission_percent.'%'}}
+						      @else
+						      Listing Agent Amount (AED) Commission Percent - {{$deal->listing_agent_commission_percent.'%'}}
+						      @endif
+						      </td>
+						<td>{{number_format($deal->listing_agent_commission_amount, 2)}}</td>
+						
+                    </tr>
+				
+				   @if(isset($deal->listing_leader_id))
+					<tr>
+						<td>Listing Agent Sales Manager Name</td>
+						<td>{{isset($deal->leaderListing) ? explode('@',$deal->leaderListing->name)[0] : 'N/A'}}</td>
+						
+                    </tr>
+					<tr>
+						<td>
+						    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						    Listing Agent Sales Manager Amount (SAR)
+						    @else
+						    Listing Agent Sales Manager Amount (AED)
+						    @endif
+						    </td>
+						<td>{{$deal->listing_agent_leader_commission_amount}}</td>
+						
+                    </tr>
+					@endif
+						@if(isset($deal->listing_director_id))
+					<tr>
+						<td>Listing Agent Sales Director  Name</td>
+						<td>{{isset($deal->salesDirectorlisting) ? explode('@',$deal->salesDirectorlisting->name)[0] : 'N/A'}}</td>
+						
+                    </tr>
+					<tr>
+						<td>
+						    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
+						    Listing Agent Sales Director Amount (SAR)
+						    @else
+						     Listing Agent Sales Director Amount (AED)
+						    @endif
+						    </td>
+						<td>{{$deal->listing_director_commission_amount}}</td>
+						
+                    </tr>
+					@endif
+					<!-- end -->
+
+                    @endif
+                  </tbody>
+              </table>
+               <table class="table table-bordered">
+                <tbody>
 
 					<tr>
 						<td>3rd Party Name</td>
@@ -261,6 +337,7 @@
                     </tr>
 					
                 </tbody>
+
             </table>
 			  <table class="table table-bordered">
                 <tbody>

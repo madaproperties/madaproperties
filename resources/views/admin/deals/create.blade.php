@@ -444,12 +444,13 @@ input[type=radio],input[type=checkbox] {
 																	<h2> Sales Agent Details</h2>
 																	<hr>
 																	<div class="row">
-                                                                   <div class="col-xl-6">
+                                                                   <div class="col-xl-6" style="border: 1px solid #9fc538;">
                                                                    	<!--begin::Group-->
+                                                                   	<h2 style="color:#9fc538;text-align: center;"> Sales Agent 1</h2>
 		                                                               	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
 		                                                                		@if(count($sellers))
 																				<!--begin::Group-->
-																					<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.Agent')}} </label>
+																					<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.Agent')}} 1 </label>
 																				<div class="col-lg-8 col-xl-8">
 																					<select class="form-control"  name="agent_id">
 																					<option value="">{{ __('site.select agent') }}</option>
@@ -463,7 +464,7 @@ input[type=radio],input[type=checkbox] {
 																		<!--end::Group-->
 																		<!--begin::Group-->
 																		<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
-																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.agent_commission_percent')}}</label>
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.agent_commission_percent')}} </label>
 																			<div class="col-lg-8 col-xl-8">
 																				<input class="form-control form-control-solid form-control-lg" 	name="agent_commission_percent" id="agent_commission_percent" type="text" value="{{old('agent_commission_percent')}}" placeholder="{{__('site.agent_commission_percent')}}" autocomplete="off">
 																				<div class="fv-plugins-message-container"></div>
@@ -589,8 +590,9 @@ input[type=radio],input[type=checkbox] {
 																		  </div>
 	                                                                    <!--end::Group-->
 	                                                                </div>
-	                                                                <div class="col-xl-6">
+	                                                                <div class="col-xl-6" style="border: 1px solid #9fc538;">
                                                                    	<!--begin::Group-->
+                                                                   	<h2 style="color:#9fc538;text-align: center;"> Sales Agent 2</h2>
 		                                                               <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
 																		@if(count($sellers))
 																		<!--begin::Group-->

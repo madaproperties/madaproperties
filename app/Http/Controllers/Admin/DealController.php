@@ -539,7 +539,7 @@ class DealController extends Controller
 
   public function update(Request $request,  $id)
   {
-   
+
     $deal = Deal::findOrFail($id);
 
     $data = $request->validate([
@@ -610,6 +610,10 @@ class DealController extends Controller
       "listing_agent_leader_commission_percent" => "nullable",
       "listing_agent_leader_commission_amount"  => "nullable",
       "listing_agent_leader_commission_received"       => "nullable",
+      "listing_director_id" => "nullable",
+      "listing_director_commission_percent" => "nullable",
+      "listing_director_commission_amount" => "nullable",
+
   ]);
 
     $data['updated_at'] = Carbon::now();
