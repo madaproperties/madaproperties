@@ -481,6 +481,10 @@ class DealController extends Controller
         "listing_agent_leader_commission_percent" => "nullable",
         "listing_agent_leader_commission_amount"  => "nullable",
         "listing_agent_leader_commission_received"       => "nullable",
+        "listing_director_id" => "nullable",
+        "listing_director_commission_percent" => "nullable",
+        "listing_director_commission_amount" => "nullable",
+        "listing_director_commission_received" =>"nullable",
       ]);
 
 
@@ -613,6 +617,7 @@ class DealController extends Controller
       "listing_director_id" => "nullable",
       "listing_director_commission_percent" => "nullable",
       "listing_director_commission_amount" => "nullable",
+      "listing_director_commission_received" =>"nullable",
 
   ]);
 
