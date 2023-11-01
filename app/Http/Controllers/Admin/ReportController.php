@@ -55,7 +55,7 @@ class ReportController extends Controller
 			return Excel::download(new CampaignReportExport, 'CampaignReportExport_'.date('d-m-Y').'.xlsx');
 			}  
 
-			$campaings = Campaing::orderBy('id','desc')->paginate(10);
+			$campaings = Campaing::orderBy('id','desc')->paginate(5);
 			$status = Status::where('active','1')->orderBy('weight','ASC')->get();
 
 			if(userRole() == 'leader'){
@@ -119,7 +119,7 @@ class ReportController extends Controller
 				$projects_data = $projects_data->whereIn('id',$tempIds);
 			}
 				
-			$projects_data = $projects_data->paginate(10);
+			$projects_data = $projects_data->paginate(5);
 
 			$countries = Country::orderBy('name_en')->get();
 			$collectCounties = [];
@@ -183,7 +183,7 @@ class ReportController extends Controller
 	public function reportCampaingAnalytics(){ // reportCampaingAnalytics
 
 		if(Request('type') AND request('type') == 'campaing-analytics'){   
-			$campaings = Campaing::where('active','1')->get();
+			$campaings = Campaing::where('active','1')->paginate(10);
 			$status = Status::where('active','1')->orderBy('weight','ASC')->get();
 			if(userRole() == 'leader'){
 				$users = User::select('id','leader')->where('leader',auth()->id())->orWhere('id', auth()->id())->get();
@@ -308,7 +308,7 @@ class ReportController extends Controller
 				}
 		
 				$userReport = $userReport->whereNotIn('email',['lead-admin-uae@madaproperties.com','lead-admin-ksa@madaproperties.com'])
-				->orderBy('email')->paginate(10);
+				->orderBy('email')->paginate(5);
 				$leader=0;
 
 			}
@@ -547,7 +547,7 @@ class ReportController extends Controller
 
 	public function reportAdvanceCampaing(){ // campaing
 		$data_count = CampainReport::count();
-		$data = CampainReport::paginate(20);
+		$data = CampainReport::paginate(5);
 
 		return view('admin.reports.index-advance-campaign-report',[
 			'data_count' => $data_count,
@@ -559,7 +559,7 @@ class ReportController extends Controller
 
 		if(Request('type') AND request('type') == 'campaing'){
 
-			$campaings = Campaing::orderBy('id','desc')->paginate(10);
+			$campaings = Campaing::orderBy('id','desc')->paginate(5);
 
 			$source = Source::where('active','1')->orderBy('order_by','asc')->get();
 
@@ -651,7 +651,7 @@ class ReportController extends Controller
 	
 	public function addReportAdvanceCampaing(){ // campaing
 
-		$campaings = Campaing::orderBy('id','desc')->paginate(10);
+		$campaings = Campaing::orderBy('id','desc')->paginate(5);
 
 		$source = Source::where('active','1')->orderBy('order_by','asc')->get();
 

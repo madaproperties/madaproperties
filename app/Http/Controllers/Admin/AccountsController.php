@@ -235,7 +235,7 @@ class AccountsController extends Controller
           'rera_user_id' => 'nullable',
           'public_profile' =>'nullable', // added by fazal on 20-10-23
         ]);
-           $data['public_profile']= $request->has('public_profile') ? $request->input('public_profile') : 0;   // added by fazal on 20-10-23
+        $data['public_profile']= $request->has('public_profile') ? $request->input('public_profile') : 0;   // added by fazal on 20-10-23
         
         $data['password'] = $user->password;
         
