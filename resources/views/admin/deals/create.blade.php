@@ -49,7 +49,7 @@ input[type=radio],input[type=checkbox] {
 									<div class="card card-custom card-shadowless rounded-top-0">
 										<!--begin::Body-->
 										<div class="card-body p-0">
-											<div class="row justify-content-center py-8 px-8 py-lg-15 px-lg-10">
+											<div class="row py-8 px-8 py-lg-15 px-lg-10">
 												<div class="col-xl-12 col-xxl-10">
 													<!--begin::Wizard Form-->
 													<form class="form fv-plugins-bootstrap fv-plugins-framework" method="post" action="{{route('admin.deal.store')}}" id="deal_form">
@@ -58,7 +58,7 @@ input[type=radio],input[type=checkbox] {
 														<div class="col-xl-12">
 																<!--begin::Wizard Step 1-->
 																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-																	<h2>Deal Information</h2>
+																	<h2 style="color:#9fc538">Deal Information</h2>
 																	<hr>
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
@@ -378,7 +378,7 @@ input[type=radio],input[type=checkbox] {
 
 																	<!--end::Group-->
 																	<div id="saudi_deal" style="display:none">		
-																		<h2>Deal Documents</h2>
+																		<h2 style="color:#9fc538">Deal Documents</h2>
 																		<hr>
 																		<div class="form-group row fv-plugins-icon-container">
 																			<div class="col-lg-6 col-xl-6">
@@ -414,7 +414,7 @@ input[type=radio],input[type=checkbox] {
 																	</div>
 																	<!---->
 																	<div id="uae_deal" style="display:none">
-																		<h2>Deal Documents</h2>
+																		<h2 style="color:#9fc538">Deal Documents</h2>
 																		<hr>
 																		<div class="form-group row fv-plugins-icon-container">
 																			<div class="col-lg-6 col-xl-6">
@@ -441,16 +441,17 @@ input[type=radio],input[type=checkbox] {
 															<div class="col-xl-12">
 																<!--begin::Wizard Step 1-->
 																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-																	<h2> Sales Agent Details</h2>
+																	<h2 style="color:#9fc538"> Sales Agent Details</h2>
 																	<hr>
 																	<div class="row">
-                                                                   <div class="col-xl-6" style="border: 1px solid #9fc538;">
+																		
+                                                                   <div class="col-xl-6" style="box-shadow: 0 0 12px 1px #477d8a28 !important;">
                                                                    	<!--begin::Group-->
-                                                                   	<h2 style="color:#9fc538;text-align: center;"> Sales Agent 1</h2>
+                                                                
 		                                                               	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
 		                                                                		@if(count($sellers))
 																				<!--begin::Group-->
-																					<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.Agent')}} 1 </label>
+																					<label class="col-xl-4 col-lg-4 col-form-label"><span style="font-size: 19px;">{{__('site.Agent')}} 1 </span></label>
 																				<div class="col-lg-8 col-xl-8">
 																					<select class="form-control"  name="agent_id">
 																					<option value="">{{ __('site.select agent') }}</option>
@@ -589,14 +590,16 @@ input[type=radio],input[type=checkbox] {
 																			<label class="col-form-label">{{__('site.yes')}}</label>
 																		  </div>
 	                                                                    <!--end::Group-->
-	                                                                </div>
-	                                                                <div class="col-xl-6" style="border: 1px solid #9fc538;">
+	                                                              
+                                                                    </div>
+
+	                                                                <div class="col-xl-6" style="box-shadow: 0 0 12px 1px #477d8a28 !important;margin-left: -1px;">
                                                                    	<!--begin::Group-->
-                                                                   	<h2 style="color:#9fc538;text-align: center;"> Sales Agent 2</h2>
+                                                                   	
 		                                                               <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
 																		@if(count($sellers))
 																		<!--begin::Group-->
-																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.Agent2')}} </label>
+																			<label class="col-xl-4 col-lg-4 col-form-label"><span style="font-size: 19px;">{{__('site.Agent2')}}</span> </label>
 																			<div class="col-lg-8 col-xl-8">
 																				<select class="form-control"  name="agent2_id">
 																				<option value="">{{ __('site.select agent2') }}</option>
@@ -735,7 +738,7 @@ input[type=radio],input[type=checkbox] {
 														   
                                                               <div class="col-xl-12">   
 																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-																	<h2>Listing Agent Details</h2>
+																	<h2 style="color:#9fc538">Listing Agent Details</h2>
 																	<hr>
 																	
 																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
@@ -872,7 +875,7 @@ input[type=radio],input[type=checkbox] {
                                                             </div>
                                                                <div class="col-xl-12">   
 																<div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-																	<h2>Additional Information</h2>
+																	<h2 style="color:#9fc538">Additional Information</h2>
 																	<hr>
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
