@@ -340,6 +340,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $deal->mada_commission,
           $deal->mada_commission_received,
           $deal->notes,
+          $deal->status,
           timeZone($deal->created_at),
           timeZone($deal->updated_at),
         ];
@@ -413,6 +414,7 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         __('site.mada_commission'),
         __('site.mada_commission_received'),
         __('site.notes'),
+         __('site.status'),
         __('site.created_at'),
         __('site.updated_at'),
       ]);
@@ -437,7 +439,8 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         "agent_leader_commission_received",
         "mada_commission_received",
         "third_party_commission_received",
-        "third_party"
+        "third_party",
+        "status", //added by fazal on 26-09-23
       ];
 
       foreach($feilds as $feild => $value){

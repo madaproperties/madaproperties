@@ -483,19 +483,21 @@ name="unit_zone" type="text" value="{{old('unit_zone')}}" placeholder="{{__('sit
 																		 </div>
 																		<!--end::Group-->
 																		@endif
-																		<!--begin::Group-->
-																		<div class="form-group row fv-plugins-icon-container">
-																			<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Agent')}} {{__('site.Purpose')}}</label>
-																			<div class="col-lg-9 col-xl-9">
-																				<select class="form-control"  name="agent_purpose">
-																					<option value="">{{ __('site.choose') }}</option>
-																					@foreach($purpose as $purp)
-																					<option {{old('agent_purpose') == $purp ? 'selected' : ''}} value="{{$purp}}">{{$purp}}</option>
-																					@endforeach
-																				</select>
-																			</div>
-																		 </div>
+																		  <!--commented by fazal on 17-10-23-->
+																		 	<!--begin::Group-->
+																		<!--<div class="form-group row fv-plugins-icon-container">-->
+																		<!--	<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Agent')}} {{__('site.Purpose')}}</label>-->
+																		<!--	<div class="col-lg-9 col-xl-9">-->
+																		<!--		<select class="form-control"  name="agent_purpose">-->
+																		<!--			<option value="">{{ __('site.choose') }}</option>-->
+																		<!--			@foreach($purpose as $purp)-->
+																		<!--			<option {{old('agent_purpose') == $purp ? 'selected' : ''}} value="{{$purp}}">{{$purp}}</option>-->
+																		<!--			@endforeach-->
+																		<!--		</select>-->
+																		<!--	</div>-->
+																		<!-- </div>-->
 																		<!--end::Group-->
+																		<!--end-->
 
 																		<!--begin::Group-->
 																		<div class="form-group row fv-plugins-icon-container" data-select2-id="39">

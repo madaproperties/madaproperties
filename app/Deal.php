@@ -21,6 +21,10 @@ class Deal extends Model
     {
       return $this->belongsTo(User::class,'leader2_id');
     }
+    public function leaderListing()
+    {
+      return $this->belongsTo(User::class,'listing_leader_id');
+    }
     public function agent()
     {
       return $this->belongsTo(User::class,'agent_id');
@@ -66,6 +70,11 @@ class Deal extends Model
     public function salesDirector2()
     {
       return $this->belongsTo(User::class,'sales_director_2_id');
+    }
+    
+    public function salesDirectorlisting()
+    {
+      return $this->belongsTo(User::class,'listing_director_id');
     }
 
     public function documents()

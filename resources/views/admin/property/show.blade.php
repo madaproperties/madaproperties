@@ -358,7 +358,7 @@
 														
 																			@if((auth()->user()->time_zone == 'Asia/Riyadh' && userRole() != 'admin' && userRole() != 'sales admin uae') || request()->get('pt') == 'saudi')
 																			<div class="form-group row fv-plugins-icon-container">
-																				<div class="col-xs-12 col-sm-4 col-lg-4 bedrooms">
+																				<div class="col-xs-12 col-sm-4 col-lg-4 bedrooms" style="display:{{ $property->property_type == '2' ? 'none':'' }}">
 																					<select name="bedrooms" id="bedrooms" class="form-control">
 																					<option value="" >{{ __('site.bedrooms') }}</option>
 																						{!! selectOptions(__('config.bedrooms'),$property->bedrooms) !!}	

@@ -224,27 +224,27 @@ class PropertyController extends Controller
       //Added by Lokesh on 27-07-2023
         $propertyData['sale_count'] = Property::where(function ($q){
           $this->filterPrams2($q,'sale_rent','1','status','1');
-        })->whereIn('user_id',$usersIds)->count();
+        })->whereIn('user_id',$subUserId)->count();
 
         $propertyData['rent_count'] = Property::where(function ($q){
           $this->filterPrams2($q,'sale_rent','2','status','1');
-        })->whereIn('user_id',$usersIds)->count();
+        })->whereIn('user_id',$subUserId)->count();
 
         $propertyData['commercial_sale_count'] = Property::where(function ($q){
           $this->filterPrams2($q,'property_type','2','sale_rent','1');
-        })->whereIn('user_id',$usersIds)->count();
+        })->whereIn('user_id',$subUserId)->count();
 
         $propertyData['commercial_rent_count'] = Property::where(function ($q){
           $this->filterPrams2($q,'property_type','2','sale_rent','2');
-        })->whereIn('user_id',$usersIds)->count();
+        })->whereIn('user_id',$subUserId)->count();
 
         $propertyData['pending_approval_count'] = Property::where(function ($q){
           $this->filterPrams2($q,'status','4');
-        })->whereIn('user_id',$usersIds)->count();
+        })->whereIn('user_id',$subUserId)->count();
 
         $propertyData['offline_property_count'] = Property::where(function ($q){
           $this->filterPrams2($q,'status','6');
-        })->whereIn('user_id',$usersIds)->count();
+        })->whereIn('user_id',$subUserId)->count();
         //End
       
       
@@ -449,15 +449,16 @@ class PropertyController extends Controller
       'off_line_property' => 'nullable',              
     ]);
 
-    if($data['property_type'] == '2'){
-      $data['bedrooms']=null;
-    }
-
     // if(isset($data['is_managed'])){
     //   $data['is_managed']=1;
     // }else{
     //   $data['is_managed']=0;
     // }
+    if($data['property_type'] == '2'){
+      $data['bedrooms']=null;
+    }
+
+
 
     if(!(userRole() == 'admin') && !(userRole() == 'sales admin uae')){
       $data['user_id']=auth()->id();
@@ -792,6 +793,13 @@ class PropertyController extends Controller
     if($data['property_type'] == '2'){
       $data['bedrooms']=null;
     }
+
+
+    // if(isset($data['is_managed'])){
+    //   $data['is_managed']=1;
+    // }else{
+    //   $data['is_managed']=0;
+    // }
 
     // if(isset($data['is_exclusive'])){
     //   $data['is_exclusive']=1;
@@ -1603,7 +1611,8 @@ class PropertyController extends Controller
       if(in_array($feild,$allowedFeilds) AND !empty($value)){
           $q->where($feild,$value);
       }
-    }
+    }    
+    
   }
 
 }

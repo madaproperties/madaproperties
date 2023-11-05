@@ -164,6 +164,7 @@ class PropertyXmlController extends Controller
       $xml['dubai'][$k]['street']=$property->street;
       $xml['dubai'][$k]['building_name']=$property->building_name;
       $xml['dubai'][$k]['unit_no']=$property->unitno;
+      
 
       //Added by Lokesh on 05-10-2023
       if($property->project_status == '1'){
@@ -175,10 +176,10 @@ class PropertyXmlController extends Controller
       }elseif($property->project_status == '4'){
         $xml['dubai'][$k]['completion_status']='off_plan_primary';
       }else{
-        $xml['dubai'][$k]['completion_status']='off_plan_primary';
+        $xml['dubai'][$k]['completion_status']='';
       }
-      //End
-
+      //End      
+      
       $xml['dubai'][$k]['floor']=$property->floor;
       $xml['dubai'][$k]['no_of_floors']=$property->no_of_floors;
 
@@ -541,8 +542,8 @@ class PropertyXmlController extends Controller
       $xml['saudi'][$k]['sub_community']=$sub_community;
       $xml['saudi'][$k]['building_name']=$property->building_name;
       $xml['saudi'][$k]['unit_no']=$property->unitno;
-
-      //Added by Lokesh on 05-10-2023
+      
+    //Added by Lokesh on 05-10-2023
       if($property->project_status == '1'){
         $xml['saudi'][$k]['completion_status']='completed';
       }elseif($property->project_status == '2'){
@@ -552,10 +553,10 @@ class PropertyXmlController extends Controller
       }elseif($property->project_status == '4'){
         $xml['saudi'][$k]['completion_status']='off_plan_primary';
       }else{
-        $xml['saudi'][$k]['completion_status']='off_plan_primary';
+        $xml['saudi'][$k]['completion_status']='';
       }
-      //End
-
+    //End
+      
       $xml['saudi'][$k]['floor']=$property->floor;
       $xml['saudi'][$k]['no_of_floors']=$property->no_of_floors;
      
@@ -1126,8 +1127,8 @@ class PropertyXmlController extends Controller
 
       $price=str_replace(".00","",$price);
       $city_text = isset($property->city->name_en) ? $property->city->name_en : "Dubai";
-      $community = isset($property->community) ? $property->community->name_en : 'N/A';
-      $sub_community = isset($property->subCommunity) ? $property->subCommunity->name_en : 'N/A';
+      $community = isset($property->community->name_en) ? $property->community->name_en : 'N/A';
+      $sub_community = isset($property->subCommunity->name_en) ? $property->subCommunity->name_en : 'N/A';
 
       $community=$property->area_name;
       $project_name=$property->project_name;

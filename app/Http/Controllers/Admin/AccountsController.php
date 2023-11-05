@@ -159,7 +159,9 @@ class AccountsController extends Controller
           'position_types' => 'required|array',
           'is_rera_active' => 'nullable',
           'rera_number' => 'nullable',
-          'rera_user_id' => 'nullable'
+          'rera_user_id' => 'nullable',
+          'public_profile' =>'nullable', // added by fazal on 20-10-23
+          
         ]);
 
         unset($data['position_types']);
@@ -230,9 +232,10 @@ class AccountsController extends Controller
           'user_pic' => 'nullable',
           'is_rera_active' => 'nullable',
           'rera_number' => 'nullable',
-          'rera_user_id' => 'nullable'
+          'rera_user_id' => 'nullable',
+          'public_profile' =>'nullable', // added by fazal on 20-10-23
         ]);
-        
+        $data['public_profile']= $request->has('public_profile') ? $request->input('public_profile') : 0;   // added by fazal on 20-10-23
         
         $data['password'] = $user->password;
         
@@ -300,7 +303,7 @@ class AccountsController extends Controller
 
         $reraUsers = User::where('active','1')->where('is_rera_active','1')->get();
 
-        $positions = ['rent','buy','sell','management','handover','TC Renewal','Agent'];
+        $positions = ['rent','buy','sell','management','handover','TC Renewal','Agent']; //updated by fazal on 17-10-23
         $roles = Role::pluck('name','name')->all();
 
         return view('admin.accounts.viewModal',[

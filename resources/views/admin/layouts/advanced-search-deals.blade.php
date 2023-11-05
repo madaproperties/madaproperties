@@ -259,20 +259,14 @@
         <option {{Request('project_type') == 'Secondary' ? 'selected' : ''}} value="Secondary">{{__('site.Secondary')}}</option>
       </select>
     </div>
-     <!--added by fazal on 25-09-23  -->
+    <!--added by fazal on 25-09-23  -->
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.status')}}</label>
       <select class="form-control" name="status">
         <option value="">{{__('site.choose')}}</option>
           <option {{ Request('status') == 'Approved' ? 'selected':  '' }} value="Approved">{{__('site.approved')}}</option>
           <option {{ Request('status') == 'Pending' ? 'selected':  '' }} value="Pending">{{__('site.pending')}}</option>
-          
-         <option>
-
-
-
-         </option>
-        
+       
       </select>
     </div>
     <!--  -->

@@ -115,11 +115,7 @@ class DatabaseRecordsController extends Controller
 
 
           
-        }
-        
-        // 
-
-        else{
+        }else{
 
           $data = DatabaseRecords::where(function ($q){
                 $this->filterPrams($q);
@@ -206,7 +202,7 @@ class DatabaseRecordsController extends Controller
     $districts=Districts::get(); //added by fazal -26-02
     $communities = Community::where('parent_id',0)->orderBy('name_en','asc')->get(); //added by fazal -26-02
     $subcommunities = Community::where('parent_id','!=', 0)->orderBy('name_en','asc')->get();  //added by fazal -26-02
-    return view('admin.databaserecords.index',compact('sources','data','data_count','sellers','countries','createdBy','status','zones','districts','communities','subcommunities','project_country'));
+    return view('admin.databaserecords.index',compact('data','data_count','sellers','countries','createdBy','status','zones','districts','communities','subcommunities','project_country','sources'));
   }
 
   public function create() {
@@ -330,7 +326,7 @@ class DatabaseRecordsController extends Controller
         'user_country_id'=>'nullable',
         'zone_id'=>'nullable',
         'district_id'=>'nullable',           
-        'source'=>'nullable',           
+        'source'=>'nullable',     
       ]);
 
     $data['updated_at'] = Carbon::now();
@@ -383,165 +379,160 @@ class DatabaseRecordsController extends Controller
     return view('admin.databaserecords.show',compact('data','status','countries','sellers','notes','dbcountries','zones','communities','subcommunities','districts'));
   }
 
-private function filterPrams($q){
-  if(request()->has('ADVANCED')){
-      $feilds = request()->all();
-      $uri = Request()->fullUrl();
-      session()->put('start_filter_url',$uri);
-      $allowedFeilds =[
-        "country_id" ,
-        "user_id" ,
-        "project_id" ,
-        "purpose" ,
-        "lang" ,
-        "campaign",
-        "last_mile_conversion",
-        "status",
-        "created_by", //Added by Javed
-        "project_country_id", //Added by Javed
-        "budget", //Added by Javed
-        "source", //Added by Javed
-        "purpose_type", //Added by Javed
-        "email", //Added by Javed
-        "is_meeting", //Added by Javed,
-        "lead_category", //Added by Javed,
-        "campaign_country", //Added by Javed,
-        "zone_id",   //added by fazal-25-02
-        "district_id" ,//added by faza -25-02
-        "community_id",//added by faza -25-02
-        "subcommunity_id",//added by faza -25-02
-        "user_country_id", //added by faza -26-02
-        "options" //added by fazal -25-09-23
-      ];
-      $user_id = 0;
-      foreach($feilds as $feild => $value){
-        if(in_array($feild,$allowedFeilds) AND !empty($value)){
-          if($feild == 'user_id'){
-            $user_id = $value;
-          }
-          if($feild == 'email'){
-            $email = $value;
-          }
-          if($feild == 'project_country_id'){
-            $q->whereHas('project', function($q2) use($value) {
-              $q2->where('projects.country_id',$value);
-            });
-          }
+    private function filterPrams($q){
+        if(request()->has('ADVANCED')){
+            $feilds = request()->all();
+            $uri = Request()->fullUrl();
+            session()->put('start_filter_url',$uri);
+            $allowedFeilds =[
+                "country_id" ,
+                "user_id" ,
+                "project_id" ,
+                "purpose" ,
+                "lang" ,
+                "campaign",
+                "last_mile_conversion",
+                "status",
+                "created_by", //Added by Javed
+                "project_country_id", //Added by Javed
+                "budget", //Added by Javed
+                "source", //Added by Javed
+                "purpose_type", //Added by Javed
+                "email", //Added by Javed
+                "is_meeting", //Added by Javed,
+                "lead_category", //Added by Javed,
+                "campaign_country", //Added by Javed,
+                "zone_id",   //added by fazal-25-02
+                "district_id" ,//added by faza -25-02
+                "community_id",//added by faza -25-02
+                "subcommunity_id",//added by faza -25-02
+                "user_country_id", //added by faza -26-02
+                "options" //added by fazal -25-09-23
+            ];
+            $user_id = 0;
 
-            if($feild == 'user_country_id'){
-            $q->whereHas('usercountry', function($q2) use($value) {
-              $q2->where('countries.id',$value);
-            });
-          }
-          if($feild == 'zone_id'){
-            $q->whereHas('zone', function($q2) use($value) {
-              $q2->where('zone.id',$value);
-            });
-          }
-           if($feild == 'district_id'){
-            $q->whereHas('district', function($q2) use($value) {
-              $q2->where('districts.id',$value);
-            });
-          }
-           if($feild == 'community_id'){
-            $q->whereHas('community', function($q2) use($value) {
-              $q2->where('community.id',$value);
-            });
-          }
-
-           if($feild == 'subcommunity_id'){
-            $q->whereHas('subcommunity', function($q2) use($value) {
-              $q2->where('community.id',$value);
-            });
-          }
-          else if($feild == 'is_meeting' && $value == 1){
-              $q->whereHas('logs', function($q2) use($value,$user_id) {
-                $q2->where('logs.type','meeting');
-                if($user_id){
-                  $q2->where('logs.user_id',$user_id);
+        foreach($feilds as $feild => $value){
+            if(in_array($feild,$allowedFeilds) AND !empty($value)){
+                if($feild == 'user_id'){
+                $user_id = $value;
                 }
-                if(userRole() == 'sales'){
-                  $q2->where('logs.user_id',auth()->id());
+                if($feild == 'email'){
+                $email = $value;
                 }
-                //Added by Javed
-                if(Request('meeting_from') && Request('meeting_to')){
-                  $from = date('Y-m-d', strtotime(Request('meeting_from')));
-                  $to = date('Y-m-d', strtotime(Request('meeting_to')));
-                  $q2->whereBetween('logs.log_date',[$from,$to]);
-                }else{   
-                  if(Request('meeting_from')){
-                    $from = date('Y-m-d', strtotime(Request('meeting_from')));
-                    $q2->where('logs.log_date','>=', $from);
-                  }   
-                  if(Request('meeting_to')){
-                    $to = date('Y-m-d', strtotime(Request('meeting_to')));
-                    $q2->where('logs.log_date','<=',$to);
-                  }            
-                }                
-              });
-          }else if($feild == 'campaign_country'){
-            $q->whereIn($feild,explode(",",$value));
-          }else{
-            $q->where($feild,$value);
-          }
+                if($feild == 'project_country_id'){
+                    $q->whereHas('project', function($q2) use($value) {
+                      $q2->where('projects.country_id',$value);
+                    });
+                }
+                if($feild == 'user_country_id'){
+                    $q->whereHas('usercountry', function($q2) use($value) {
+                      $q2->where('countries.id',$value);
+                    });
+                }
+                if($feild == 'zone_id'){
+                    $q->whereHas('zone', function($q2) use($value) {
+                      $q2->where('zone.id',$value);
+                    });
+                }
+                if($feild == 'district_id'){
+                    $q->whereHas('district', function($q2) use($value) {
+                      $q2->where('districts.id',$value);
+                    });
+                }
+                if($feild == 'community_id'){
+                    $q->whereHas('community', function($q2) use($value) {
+                      $q2->where('community.id',$value);
+                    });
+                }
+                if($feild == 'subcommunity_id'){
+                    $q->whereHas('subcommunity', function($q2) use($value) {
+                      $q2->where('community.id',$value);
+                    });
+                }else if($feild == 'is_meeting' && $value == 1){
+                    $q->whereHas('logs', function($q2) use($value,$user_id) {
+                        $q2->where('logs.type','meeting');
+                        if($user_id){
+                            $q2->where('logs.user_id',$user_id);
+                        }
+                        if(userRole() == 'sales'){
+                            $q2->where('logs.user_id',auth()->id());
+                        }
+                        //Added by Javed
+                        if(Request('meeting_from') && Request('meeting_to')){
+                            $from = date('Y-m-d', strtotime(Request('meeting_from')));
+                            $to = date('Y-m-d', strtotime(Request('meeting_to')));
+                            $q2->whereBetween('logs.log_date',[$from,$to]);
+                        }else{   
+                            if(Request('meeting_from')){
+                                $from = date('Y-m-d', strtotime(Request('meeting_from')));
+                                $q2->where('logs.log_date','>=', $from);
+                            }   
+                            if(Request('meeting_to')){
+                                $to = date('Y-m-d', strtotime(Request('meeting_to')));
+                                $q2->where('logs.log_date','<=',$to);
+                            }            
+                        }                
+                    });
+                }else if($feild == 'campaign_country'){
+                    $q->whereIn($feild,explode(",",$value));
+                }else{
+                    $q->where($feild,$value);
+                }
+            }
         }
-      }
-      //dd($q);
 
-      //Added by Javed
-      if(Request('from') && Request('to')){
-        $uri = Request()->fullUrl();
-        session()->put('start_filter_url',$uri);
-        $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
-        $to = date('Y-m-d 23:59:59', strtotime(Request('to')));
-        $q->whereBetween('created_at',[$from,$to]);
-      }else{   
-        if(Request('from')){
-          $uri = Request()->fullUrl();
-          session()->put('start_filter_url',$uri);
-          $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
-          $q->where('created_at','>=', $from);
-        }   
-        if(Request('to')){
-          $uri = Request()->fullUrl();
-          session()->put('start_filter_url',$uri);
-          $to = date('Y-m-d 23:59:59', strtotime(Request('to')));
-          $q->where('created_at','<=',$to);
-        }            
-      }
-      //End
+        //Added by Javed
+        if(Request('from') && Request('to')){
+            $uri = Request()->fullUrl();
+            session()->put('start_filter_url',$uri);
+            $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
+            $to = date('Y-m-d 23:59:59', strtotime(Request('to')));
+            $q->whereBetween('created_at',[$from,$to]);
+            }else{   
+            if(Request('from')){
+              $uri = Request()->fullUrl();
+              session()->put('start_filter_url',$uri);
+              $from = date('Y-m-d 00:00:00', strtotime(Request('from')));
+              $q->where('created_at','>=', $from);
+            }   
+            if(Request('to')){
+              $uri = Request()->fullUrl();
+              session()->put('start_filter_url',$uri);
+              $to = date('Y-m-d 23:59:59', strtotime(Request('to')));
+              $q->where('created_at','<=',$to);
+            }            
+        }
+        //End
 
-      //Added by Javed
-      if(Request('last_update_from') && Request('last_update_to')){
-        $uri = Request()->fullUrl();
-        session()->put('start_filter_url',$uri);
-        $from = date('Y-m-d 00:00:00', strtotime(Request('last_update_from')));
-        $to = date('Y-m-d 23:59:59', strtotime(Request('last_update_to')));
-        $q->whereBetween('updated_at',[$from,$to]);
-      }else{   
-        if(Request('last_update_from')){
-          $uri = Request()->fullUrl();
-          session()->put('start_filter_url',$uri);
-          $from = date('Y-m-d 00:00:00', strtotime(Request('last_update_from')));
-          $q->where('updated_at','>=', $from);
-        }   
-        if(Request('last_update_to')){
-          $uri = Request()->fullUrl();
-          session()->put('start_filter_url',$uri);
-          $to = date('Y-m-d 23:59:59', strtotime(Request('last_update_to')));
-          $q->where('updated_at','<=',$to);
-        }            
-      }
-      //End
+        //Added by Javed
+        if(Request('last_update_from') && Request('last_update_to')){
+            $uri = Request()->fullUrl();
+            session()->put('start_filter_url',$uri);
+            $from = date('Y-m-d 00:00:00', strtotime(Request('last_update_from')));
+            $to = date('Y-m-d 23:59:59', strtotime(Request('last_update_to')));
+            $q->whereBetween('updated_at',[$from,$to]);
+        }else{   
+            if(Request('last_update_from')){
+              $uri = Request()->fullUrl();
+              session()->put('start_filter_url',$uri);
+              $from = date('Y-m-d 00:00:00', strtotime(Request('last_update_from')));
+              $q->where('updated_at','>=', $from);
+            }   
+            if(Request('last_update_to')){
+              $uri = Request()->fullUrl();
+              session()->put('start_filter_url',$uri);
+              $to = date('Y-m-d 23:59:59', strtotime(Request('last_update_to')));
+              $q->where('updated_at','<=',$to);
+            }            
+        }
+        //End
 
-
-      if(Request()->has('challenge_lead') && request('challenge_lead')){
-        $uri = Request()->fullUrl();
-        session()->put('start_filter_url',$uri);
-        return $q->whereIn('status', ['1','4','7'])
-                  ->whereDate('updated_at', '<=', Carbon::now()->subMonths(1));
-      }
-      return $q->get();
+        if(Request()->has('challenge_lead') && request('challenge_lead')){
+            $uri = Request()->fullUrl();
+            session()->put('start_filter_url',$uri);
+            $q->whereIn('status', ['1','4','7'])->whereDate('updated_at', '<=', Carbon::now()->subMonths(1));
+        }
+        return $q;
     }
 
     if(Request()->has('filter_status') AND Request()->has('search')){

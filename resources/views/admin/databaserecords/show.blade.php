@@ -311,7 +311,7 @@
 											</div>
 											<!--end::Group-->
 
-											
+
 											<!--begin::Group-->
 											<div class="form-group row fv-plugins-icon-container">
 												<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.price')}}</label>
@@ -476,6 +476,7 @@
 												</div>
 											</div>
 											<!--end::Group-->
+											
 											
 											<!--begin::Group-->
 											<div class="form-group row fv-plugins-icon-container">

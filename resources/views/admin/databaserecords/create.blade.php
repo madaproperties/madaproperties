@@ -417,7 +417,8 @@
 																		</div>
 																	</div>
 																	<!--end::Group-->
-																	<!--begin::Group-->
+																	
+                                                                    <!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.source')}}</label>
 																		<div class="col-lg-9 col-xl-9">
@@ -425,7 +426,7 @@
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
-																	<!--end::Group-->
+																	<!--end::Group-->																	
 																	<!--end::Group-->
                                                                      <!-- added by fazal  -->
 																	<!--begin::Group-->

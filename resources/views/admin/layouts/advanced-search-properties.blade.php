@@ -34,7 +34,7 @@
   <input type="hidden" name="pt" value="{{request()->get('pt')}}">
 
   <div class="row"> <!--- row -->
-    @if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'leader' || userRole()== 'sales')
+    @if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'leader' || userRole()== 'sales' || userRole()=='sales admin')
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.status')}}</label>
       <select class="form-control" name="status">

@@ -312,7 +312,8 @@ class ContactController extends Controller
           "zone_id" => "nullable" ,
           "district_id"=>"nullable",
           "city"=>"nullable",
-          "agent_purpose"               => "nullable|max:50",
+        "agent_purpose"               => "nullable|max:50",
+
         ]);
      
 
@@ -497,6 +498,7 @@ class ContactController extends Controller
         "district_id"=>"nullable",
         "city"=>"nullable",
         "agent_purpose"               => "nullable|max:50",
+
       ]);
 
 

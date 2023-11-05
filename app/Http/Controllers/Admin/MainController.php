@@ -208,16 +208,24 @@ class MainController extends Controller
       // get leader group
       $leaderId = auth()->id();
       // get leader , and sellers reltedt to that leader
-      $usersIds = User::select('id','leader')->where('active','1')
-      ->where('leader',$leaderId)
-      ->Orwhere('id',$leaderId)
-      ->pluck('id');
+    //   $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+    //   $usersIds = $users->pluck('id')->toArray();
+    //   $contacts = Contact::with(['country','project','creator','user','status'])
+    //                     ->select($this->selectedAttruibutes)->whereIn('user_id',$usersIds)->where(function ($q){
+    //   $this->filterPrams($q);
+    //   })->orderBy('created_at','DESC');
+    
+    
+        $usersIds = User::select('id','leader')->where('active','1')
+        ->where('leader',$leaderId)
+        ->Orwhere('id',$leaderId)
+        ->pluck('id');
       
-      $salesAgentIds = User::select('id')->where('active','1')
-      ->where('leader',$leaderId)
-      ->pluck('id');
+        $salesAgentIds = User::select('id')->where('active','1')
+        ->where('leader',$leaderId)
+        ->pluck('id');
 
-      $contacts = Contact::with(['country','project','creator','user','status'])
+        $contacts = Contact::with(['country','project','creator','user','status'])
                         ->select($this->selectedAttruibutes)
                         ->whereIn('user_id',$usersIds)
                         //->whereNotIn('created_by',$salesAgentIds)
@@ -225,6 +233,8 @@ class MainController extends Controller
                           $this->filterPrams($q);
                         })
                         ->orderBy('created_at','DESC');
+    
+    
       $contactsCount = $contacts->count();
       $contacts = $contacts->paginate(20);
 
@@ -234,12 +244,21 @@ class MainController extends Controller
 
     }else if(userRole() == 'sales admin') { // sales admin
       
-    
-      $contacts = Contact::with(['country','project','creator','user','status'])
+      $subUserId[]=auth()->id();
+      if(!Request()->has('my-contacts')  AND (isset(auth()->user()->leader))){
+        $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
+         $subUserId = $subUserId->pluck('id')->toArray();
+      }
+      $contacts = Contact::with(['country','project','creator'])
                         ->select($this->selectedAttruibutes)->where(function ($q){
-      $this->filterPrams($q);
-      })->Where('created_by',auth()->id())
-            ->orderBy('created_at','DESC');
+        $this->filterPrams($q);
+      })->whereIn('user_id',$subUserId)
+        ->orderBy('created_at','DESC');
+    // $contacts = Contact::with(['country','project','creator','user','status'])
+    //                     ->select($this->selectedAttruibutes)->where(function ($q){
+    //   $this->filterPrams($q);
+    //   })->Where('created_by',auth()->id())
+    //         ->orderBy('created_at','DESC');
             
     
 
@@ -439,6 +458,7 @@ class MainController extends Controller
       return PurposeType::orderBy('type')->get();    
     });
     $pageTitle="Leads - MADA CRM";
+
     return view('admin.home',
     compact('pageTitle','purposetype','sources','miles','purpose','projects','campaigns','contacts','status','contactsCount','sellers','countries','createdBy','leaders'));
   }

@@ -9,7 +9,6 @@ use Carbon\Carbon;
 use App\Task;
 use App\Notofication;
 use App\Contact;
-use App\LeadPoolActivity;
 
 class Kernel extends ConsoleKernel
 {
@@ -28,40 +27,40 @@ class Kernel extends ConsoleKernel
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule)
-    {
+    // protected function schedule(Schedule $schedule)
+    // {
 
-        $tasks = DB::table('tasks')->get();
-        $collectfutcherTasks = [];
+    //     $tasks = DB::table('tasks')->get();
+    //     $collectfutcherTasks = [];
         
-        foreach($tasks as $task)
-        {
-            $task->newDate =Carbon::parse( $task->date);
+    //     foreach($tasks as $task)
+    //     {
+    //         $task->newDate =Carbon::parse( $task->date);
             
-            if($task->newDate == Carbon::now()->toDateTimeString())
-            {
-                $collectfutcherTasks[] = $task;
-            }
-        }
+    //         if($task->newDate == Carbon::now()->toDateTimeString())
+    //         {
+    //             $collectfutcherTasks[] = $task;
+    //         }
+    //     }
         
-         foreach($collectfutcherTasks as $task)
-        {
+    //      foreach($collectfutcherTasks as $task)
+    //     {
             
-            $note = "#Task reminder ".$task->date . ' - '.$task->time ;
+    //         $note = "#Task reminder ".$task->date . ' - '.$task->time ;
             
-            $contactUrl = route('admin.contact.show',$task->contact_id);
+    //         $contactUrl = route('admin.contact.show',$task->contact_id);
           
             
-            $description =$note."<a href='".$contactUrl."'>View</a><br>"  ;
+    //         $description =$note."<a href='".$contactUrl."'>View</a><br>"  ;
               
-            Notofication::create([
-                'description' => $note,
-                'created_by' => $task->user_id,
-                'user_id' => $task->user_id
-            ]);
-        }
+    //         Notofication::create([
+    //             'description' => $note,
+    //             'created_by' => $task->user_id,
+    //             'user_id' => $task->user_id
+    //         ]);
+    //     }
         
-    }
+    // }
 
     /**
      * Register the commands for the application.

@@ -87,10 +87,26 @@ class PropertyExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMap
         $property_type = $data->sale_rent == 1 ? 'Sale' : 'Rent';
 
         if($property_type == 'Rent'){
-          $price = "Yearly price : ".($data->yprice ? $data->yprice : 0);
-          $price .= " Monthly price : ".($data->mprice ? $data->mprice : 0);
-          $price .= " Weekly price : ".($data->wprice ? $data->wprice : 0);
-          $price .= " Day price : ".($data->dprice ? $data->dprice : 0);
+             if($data->yprice)
+            {
+                $price = $data->yprice;
+            }
+           else if($data->mprice)
+            {
+                $price = $data->mprice;
+            }
+            else if($data->wprice)
+            {
+                $price = $data->wprice;
+            }
+            else if($data->dprice)
+            {
+                $price = $data->dprice;
+            }
+        //   $price = "Yearly price : ".($data->yprice ? $data->yprice : 0);
+        //   $price .= " Monthly price : ".($data->mprice ? $data->mprice : 0);
+        //   $price .= " Weekly price : ".($data->wprice ? $data->wprice : 0);
+        //   $price .= " Day price : ".($data->dprice ? $data->dprice : 0);
         }else{
           $price = $data->price;
         }

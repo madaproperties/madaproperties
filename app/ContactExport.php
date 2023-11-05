@@ -118,25 +118,25 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         // $contacts = Contact::query()->select($this->selectedAttruibutes)->whereIn('user_id',$usersIds)->where(function ($q){
         //   $this->filterPrams($q);
         // })->orderBy('created_at','DESC');
-
-
+        
+        
         $usersIds = User::select('id','leader')->where('active','1')
         ->where('leader',$leaderId)
         ->Orwhere('id',$leaderId)
         ->pluck('id');
-        
+      
         $salesAgentIds = User::select('id')->where('active','1')
         ->where('leader',$leaderId)
         ->pluck('id');
 
-        $contacts = Contact::query()
-                        ->select($this->selectedAttruibutes)
+        $contacts = Contact::query()->select($this->selectedAttruibutes)
                         ->whereIn('user_id',$usersIds)
                         //->whereNotIn('created_by',$salesAgentIds)
                         ->where(function ($q){
                           $this->filterPrams($q);
                         })
                         ->orderBy('created_at','DESC');
+        
   
       }else if(userRole() == 'sales admin') { // sales admin
         

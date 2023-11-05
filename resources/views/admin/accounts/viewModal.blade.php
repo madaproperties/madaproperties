@@ -93,6 +93,14 @@
 													 value="{{$reraUser->id}}">{{$reraUser->name}}</option>
 												@endforeach
 											</select>
+											<!--added by fazal on 20-10-23-->
+												@if($user->public_profile == 1)
+											<input type="checkbox" id="publicprofile" name="public_profile" checked value ="0">
+											@else
+											<input type="checkbox" id="publicprofile" name="public_profile" value="1">
+											@endif
+												<label for="publicprofile"> Public Profile</label>
+												<!---->
 										</div>
 
 
@@ -128,6 +136,7 @@
 													 value="{{$leader->id}}">{{$leader->name}}</option>
 												@endforeach
 											</select>
+											<br>
 										</div>
 										<div class="separator separator-dashed my-5"></div>
 										<div class="form-group">

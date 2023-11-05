@@ -854,7 +854,7 @@ function addHistory($module_name,$module_id,$request_type,$update_data=null,$old
     'update_data' => $update_data,
     'other_details' => $other_details,
     'created_at' => \Carbon\Carbon::now(),
-    'ip_address'  => $_SERVER['REMOTE_ADDR']
+    'ip_address'  => $_SERVER['REMOTE_ADDR'], //added by fazal on 27-09-23
   ];
   History::create($data);
 
@@ -894,7 +894,7 @@ function getSellers() {
           $q->where('rule','sales');
           $q->orWhere('rule','leader');
           $q->orWhere('rule','sales director');
-           $q->orWhere('rule','sales admin');
+          $q->orWhere('rule','sales admin'); // added by fazal 05-09-23
         })
         ->where('active','1')
         ->where('time_zone','like','%'.$whereCountry.'%')
@@ -906,7 +906,7 @@ function getSellers() {
           $q->where('rule','sales');
           $q->orWhere('rule','leader');
           $q->orWhere('rule','sales director');
-          $q->orWhere('rule','sales admin');
+          $q->orWhere('rule','sales admin'); // added by fazal 05-09-23
         })
         ->where('time_zone','like','%'.$whereCountry.'%')
         ->where('active','1')

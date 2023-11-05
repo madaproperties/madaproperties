@@ -154,7 +154,6 @@ class DatabaseRecordsExport implements FromQuery, WithHeadings, ShouldAutoSize, 
           $zone,
           $districts,
           $deal->comment,
-           $deal->status,
         ];
     }    
 
@@ -184,7 +183,6 @@ class DatabaseRecordsExport implements FromQuery, WithHeadings, ShouldAutoSize, 
         __('site.district'),
         __('site.assigned to'),
         __('site.comment'),
-         __('site.status'), // added by fazal 26-09-23
       ]);
     }
 
@@ -216,7 +214,6 @@ class DatabaseRecordsExport implements FromQuery, WithHeadings, ShouldAutoSize, 
             "community_id",//added by faza -25-02
             "subcommunity_id",//added by faza -25-02
             "user_country_id" //added by faza -26-02
-            "status"   //added by fazal 26-09-23
           ];
           $user_id = 0;
           foreach($feilds as $feild => $value){
