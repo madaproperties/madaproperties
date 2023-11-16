@@ -16,26 +16,31 @@
                             @php($j=1)
                             @if(isset($deal->mada_comission_slip) && count($deal->mada_comission_slip) > 0)
                                 @foreach($deal->mada_comission_slip as $document)
-                                <div class="row col-xl-12">
-                                    <div class="col-xl-5 madaComissionSlipVar">
-                                        <input type="hidden" name="document_id[]" value="{{$document->id}}">
-                                        <input class="form-control form-control-solid form-control-lg" value="{{$document->name}}" type="text" class="form-control" name="documentsName[]" placeholder="{{ucfirst(__('site.title'))}}">
-                                        <div class="fv-plugins-message-container"></div>    
+                                <div class="madaComissionSlipDelete">
+                                    <div class="row col-xl-12">
+                                        <div class="col-xl-4 madaComissionSlipVar">
+                                            <input type="hidden" name="document_id[]" value="{{$document->id}}">
+                                            <input class="form-control form-control-solid form-control-lg" value="{{$document->name}}" type="text" class="form-control" name="documentsName[]" placeholder="{{ucfirst(__('site.title'))}}">
+                                            <div class="fv-plugins-message-container"></div>    
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="documents[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png">
+                                            <div class="fv-plugins-message-container"></div>   
+                                            <p><a href="{{s3AssetUrl('uploads/deals/'.$deal->id.'/documents/'.$document->document_link) }}" target="_blank">{{ $document->document_link }}</a></p> 
+                                        </div>
+                                        @if($j==1)
+                                        <div class="col-xl-2">
+                                            <button type="button" class="btn btn-info removeMadaComissionSlip" value="{{$document->id}}">{{__('site.remove')}}</button>
+                                        </div>
+                                        <div class="col-xl-2">
+                                            <button type="button" class="btn btn-info addMadaComissionSlip">{{__('site.add_more')}}</button>
+                                        </div>
+                                        @else
+                                        <div class="col-xl-2">
+                                            <button type="button" class="btn btn-info removeMadaComissionSlip" value="{{$document->id}}">{{__('site.remove')}}</button>
+                                        </div>
+                                        @endif
                                     </div>
-                                    <div class="col-xl-5">
-                                        <input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="documents[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png">
-                                        <div class="fv-plugins-message-container"></div>   
-                                        <p><a href="{{s3AssetUrl('uploads/deals/'.$deal->id.'/documents/'.$document->document_link) }}" target="_blank">{{ $document->document_link }}</a></p> 
-                                    </div>
-                                    @if($j==1)
-                                    <div class="col-xl-2">
-                                        <button type="button" class="btn btn-info addMadaComissionSlip">{{__('site.add_more')}}</button>
-                                    </div>
-                                    @else
-                                    <div class="col-xl-2">
-                                        <button type="button" class="btn btn-info removeMadaComissionSlip" value="{{$document->id}}">{{__('site.remove')}}</button>
-                                    </div>
-                                    @endif
                                 </div>
                                 @php($j++)
                                 @endforeach    
@@ -85,7 +90,7 @@ $(document).ready(function(){
                 $("#loadingHolder").hide();
                 if(data.success){
                     $("#has_mada_comission_slip").val(1);
-                    alert("Documents added successfully!");
+                    alert("Documents updated successfully!");
                     $("#mada_comission_slip_close").click();
                 }
             },
@@ -96,13 +101,13 @@ $(document).ready(function(){
     });      
 
     $(".addMadaComissionSlip").click(function(){
-        $(".madaComissionSlipDocuments").append('<div class="row col-xl-12"><div class="col-xl-5"><input class="form-control form-control-solid form-control-lg" type="text" class="form-control" name="documentsNameNew[]" placeholder="{{ucfirst(__('site.title'))}}"><div class="fv-plugins-message-container"></div></div><div class="col-xl-5"><input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="documentsNew[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png"><div class="fv-plugins-message-container"></div></div><div class="col-xl-2"><button type="button" class="btn btn-info removeMadaComissionSlip">{{__('site.remove')}}</button></div></div>');
+        $(".madaComissionSlipDocuments").append('<div class="row col-xl-12"><div class="col-xl-4"><input class="form-control form-control-solid form-control-lg" type="text" class="form-control" name="documentsNameNew[]" placeholder="{{ucfirst(__('site.title'))}}"><div class="fv-plugins-message-container"></div></div><div class="col-xl-4"><input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="documentsNew[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png"><div class="fv-plugins-message-container"></div></div><div class="col-xl-2"><button type="button" class="btn btn-info removeMadaComissionSlip">{{__('site.remove')}}</button></div></div>');
     });
 
     $(document).on("click",".removeMadaComissionSlip", function(){ 
         event.preventDefault();
         $(this).parents('.row').remove();
-        $(".madaComissionSlipVar").append('<input type="hidden" name="delete_document_id[]" value="'+($(this).val())+'">');
+        $(".madaComissionSlipDelete").append('<input type="hidden" name="delete_document_id[]" value="'+($(this).val())+'">');
     });
 });        
 </script>

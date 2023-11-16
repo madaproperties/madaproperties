@@ -16,37 +16,42 @@
                             @php($j=1)
                             @if(isset($deal->signed_contract) && count($deal->signed_contract) > 0)
                                 @foreach($deal->signed_contract as $document)
-                                <div class="row col-xl-12">
-                                    <div class="col-xl-5 signedContractPropertyVar">
-                                        <input type="hidden" name="document_id[]" value="{{$document->id}}">
-                                        <input class="form-control form-control-solid form-control-lg" value="{{$document->name}}" type="text" class="form-control" name="documentsName[]" placeholder="{{ucfirst(__('site.title'))}}">
-                                        <div class="fv-plugins-message-container"></div>    
+                                <div class="signedContractPropertyDelete">
+                                    <div class="row col-xl-12">
+                                        <div class="col-xl-4 signedContractPropertyVar">
+                                            <input type="hidden" name="document_id[]" value="{{$document->id}}">
+                                            <input class="form-control form-control-solid form-control-lg" value="{{$document->name}}" type="text" class="form-control" name="documentsName[]" placeholder="{{ucfirst(__('site.title'))}}">
+                                            <div class="fv-plugins-message-container"></div>    
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="documents[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png">
+                                            <div class="fv-plugins-message-container"></div>   
+                                            <p><a href="{{s3AssetUrl('uploads/deals/'.$deal->id.'/documents/'.$document->document_link) }}" target="_blank">{{ $document->document_link }}</a></p> 
+                                        </div>
+                                        @if($j==1)
+                                        <div class="col-xl-2">
+                                            <button type="button" class="btn btn-info removeSignedContractDocument" value="{{$document->id}}">{{__('site.remove')}}</button>
+                                        </div>
+                                        <div class="col-xl-2">
+                                            <button type="button" class="btn btn-info addSignedContract">{{__('site.add_more')}}</button>
+                                        </div>
+                                        @else
+                                        <div class="col-xl-2">
+                                            <button type="button" class="btn btn-info removeSignedContractDocument" value="{{$document->id}}">{{__('site.remove')}}</button>
+                                        </div>
+                                        @endif
                                     </div>
-                                    <div class="col-xl-5">
-                                        <input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="documents[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png">
-                                        <div class="fv-plugins-message-container"></div>   
-                                        <p><a href="{{s3AssetUrl('uploads/deals/'.$deal->id.'/documents/'.$document->document_link) }}" target="_blank">{{ $document->document_link }}</a></p> 
-                                    </div>
-                                    @if($j==1)
-                                    <div class="col-xl-2">
-                                        <button type="button" class="btn btn-info addSignedContract">{{__('site.add_more')}}</button>
-                                    </div>
-                                    @else
-                                    <div class="col-xl-2">
-                                        <button type="button" class="btn btn-info removeSignedContract" value="{{$document->id}}">{{__('site.remove')}}</button>
-                                    </div>
-                                    @endif
                                 </div>
                                 @php($j++)
                                 @endforeach    
                             @endif
                             @if(!isset($deal->signed_contract) || (isset($deal->signed_contract) && count($deal->signed_contract) == 0))
                                 <div class="row col-xl-12">
-                                    <div class="col-xl-5">
+                                    <div class="col-xl-4">
                                         <input class="form-control form-control-solid form-control-lg" type="text" class="form-control" name="documentsNameNew[]" placeholder="{{ucfirst(__('site.title'))}}">
                                         <div class="fv-plugins-message-container"></div>    
                                     </div>
-                                    <div class="col-xl-5">
+                                    <div class="col-xl-4">
                                         <input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="documentsNew[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png">
                                         <div class="fv-plugins-message-container"></div>    
                                     </div>
@@ -85,7 +90,7 @@ $(document).ready(function(){
                 $("#loadingHolder").hide();
                 if(data.success){
                     $("#has_signed_contract").val(1);
-                    alert("Documents added successfully!");
+                    alert("Documents updated successfully!");
                     $("#signed_contract_close").click();
                 }
             },
@@ -96,13 +101,13 @@ $(document).ready(function(){
     });      
 
     $(".addsignedContract").click(function(){
-        $(".signedContractPropertyDocuments").append('<div class="row col-xl-12"><div class="col-xl-5"><input class="form-control form-control-solid form-control-lg" type="text" class="form-control" name="documentsNameNew[]" placeholder="{{ucfirst(__('site.title'))}}"><div class="fv-plugins-message-container"></div></div><div class="col-xl-5"><input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="documentsNew[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png"><div class="fv-plugins-message-container"></div></div><div class="col-xl-2"><button type="button" class="btn btn-info signedContractRemoveDocument">{{__('site.remove')}}</button></div></div>');
+        $(".signedContractPropertyDocuments").append('<div class="row col-xl-12"><div class="col-xl-4"><input class="form-control form-control-solid form-control-lg" type="text" class="form-control" name="documentsNameNew[]" placeholder="{{ucfirst(__('site.title'))}}"><div class="fv-plugins-message-container"></div></div><div class="col-xl-4"><input class="form-control form-control-solid form-control-lg" 	type="file" class="form-control" name="documentsNew[]" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf,.jpg,.jpeg,.png"><div class="fv-plugins-message-container"></div></div><div class="col-xl-2"><button type="button" class="btn btn-info removeSignedContractDocument">{{__('site.remove')}}</button></div></div>');
     });
 
     $(document).on("click",".removeSignedContractDocument", function(){ 
         event.preventDefault();
         $(this).parents('.row').remove();
-        $(".signedContractPropertyVar").append('<input type="hidden" name="delete_document_id[]" value="'+($(this).val())+'">');
+        $(".signedContractPropertyDelete").append('<input type="hidden" name="delete_document_id[]" value="'+($(this).val())+'">');
     });
 });        
 </script>

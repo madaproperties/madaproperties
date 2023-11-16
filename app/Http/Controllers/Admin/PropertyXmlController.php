@@ -320,6 +320,7 @@ class PropertyXmlController extends Controller
       $xml['dubai'][$k]['latitude']=$property->latitude;
       $xml['dubai'][$k]['longitude']=$property->longitude;
       $tempArray['id'] = trim($property->id);        
+      $tempArray['layout_type'] = trim($property->layout_type);        
       $tempArray['status'] = trim($property->status);        
       $tempArray['property_type'] = trim($property->property_type);        
       $tempArray['created_by'] = trim($property->created_by);        
@@ -646,6 +647,7 @@ class PropertyXmlController extends Controller
       }else{
         $xml['saudi'][$k]['layout_type']="";
       }
+      $tempArray['layout_type'] = trim($property->layout_type);        
 
 
       //$xml['saudi'][$k]['furnished']=($property->furnished == 1 ? 'Yes' : 'No');
@@ -1265,7 +1267,7 @@ class PropertyXmlController extends Controller
 
   public function readXml(){
     // Loading the XML file
-    $xml = simplexml_load_file(url("public/property-finder-xml-21022023.xml")); //Staging 
+    $xml = simplexml_load_file(url("public/property-finder.xml")); //Staging 
     //$xml = simplexml_load_file("public\property-finder.xml"); //Local
 
     echo "<h2>".$xml->attributes()->last_update."</h2><br />";
@@ -1607,4 +1609,35 @@ class PropertyXmlController extends Controller
     print_r($propertArray);
     die;
   }   
+
+
+  public function readXml2(){
+    // Loading the XML file
+    $xml = simplexml_load_file(url("public/pxml/property-finder09112023.xml")); //Staging 
+    //$xml = simplexml_load_file("public\property-finder.xml"); //Local
+
+    $propertArray = [];
+    $i=0;
+    foreach ($xml->children() as $row) {
+      $pro = explode("-",$row->reference_number);
+      $property_id = $pro[1];
+      $property = \DB::table("property_images")->where(['property_id'=>$property_id])
+      ->whereNotIn('property_id',['268,679,750,716,718,745,751,752,775,797,798,809,813,
+      816,835,837,839,844,845,846,847,848,850,855,861,865,870,871,878,880,881,885,891,
+      892,893,894,895,896,898'])->get(); 
+      if($row->photo){
+        $urls = (((array)$row->photo)['url']);
+        if(count($urls) == count($property)){
+          for($i=0; $i < count($urls); $i++){
+            $fileName = $urls[$i];
+            $nameArray = explode('/',$fileName);
+            \DB::table("property_images")
+              ->where(['id'=>$property[$i]->id])
+              ->update(['images_link'=>end($nameArray)]);
+          }          
+        }
+      }
+    }
+  }
+
 }

@@ -33,7 +33,7 @@ Route::get('property-xml','Admin\PropertyXmlController@propertyXml')->name('prop
 Route::get('property/brochure/{property_id}','Admin\PropertyController@brochure')->name('property.brochure');
 Route::get('project-data/brochure/{project_id}','Admin\ProjectDataController@brochure')->name('project.brochure');
 
-Route::get('read-xml','Admin\PropertyXmlController@readXml')->name('property.readXml');
+Route::get('read-xml','Admin\PropertyXmlController@readXml2')->name('property.readXml');
 Route::get('read-bayut-xml','Admin\PropertyXmlController@readBayutXml')->name('property.readBayutXml');
 Route::get('read-dubizzle-xml','Admin\PropertyXmlController@readDubizzleXml')->name('property.readDubizzleXml');
 Route::get('employee','EmployeeController@index')->name('employee.index');

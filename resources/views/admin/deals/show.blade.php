@@ -755,7 +755,7 @@ input[type=radio],input[type=checkbox] {
 
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing')}} {{__('site.agent_commission_percent')}}</label>
 																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="listing_agent_commission_amount" type="text" value="{{$deal->listing_agent_commission_amount}}" id="listing_agent_commission_amount" placeholder="{{__('site.listing_agent_commission_amount')}}">
+																			<input class="form-control form-control-solid form-control-lg" 	name="listing_agent_commission_percent" type="text" value="{{$deal->listing_agent_commission_percent}}" id="listing_agent_commission_percent" placeholder="{{__('site.listing_agent_commission_percent')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
