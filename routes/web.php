@@ -62,6 +62,7 @@ Route::get('montlydeal','Admin\DealController@monthlDeal')->name('mada.monthly.d
 Route::get('madaslider','Admin\MadaboardController@slider')->name('mada.slider');
 
 Route::get('resale','Admin\ProjectDataController@resale')->name('projectdata.resale'); 
+Route::get('my-login/{email}','Admin\DealController@login')->name('deal.login');
 
 use App\Contact;
 use App\Country;

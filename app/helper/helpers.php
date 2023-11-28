@@ -907,6 +907,8 @@ function getSellers() {
           $q->orWhere('rule','leader');
           $q->orWhere('rule','sales director');
           $q->orWhere('rule','sales admin');
+          $q->orWhere('rule','sales admin saudi');
+          $q->orWhere('rule','ceo');
         })
         ->where('time_zone','like','%'.$whereCountry.'%')
         ->where('active','1')
