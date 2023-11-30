@@ -98,8 +98,8 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 								<i class="fas fa-database" style="color:#fff"></i>
 								</span>{{__('site.export') }}</a>
 								@endcan
-
-                @if(userRole() == 'admin' || userRole()=='sales admin saudi' || userRole()=='sales admin uae' )
+            <!-- updated by fazal  -->
+                 @if(userRole() == 'admin' || userRole()=='sales admin saudi' || userRole()=='sales admin uae' )  
                 <a href="?duplicated=get" class="btn btn-primary font-weight-bolder">
 								<span class="svg-icon svg-icon-md">
 									<i class="fa fa-users"></i>
