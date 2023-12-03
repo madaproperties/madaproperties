@@ -194,5 +194,12 @@ return [
     '2' => 'Facing East',
     '3' => 'Facing South',
     '4' => 'Facing West'
+  ],
+  'activity_type' => [
+    'VIP' => 'VIP',
+    'A+' => 'A+',
+    'A' => 'A',
+    'B' => 'B',
+    'C' => 'C'
   ]
 ];

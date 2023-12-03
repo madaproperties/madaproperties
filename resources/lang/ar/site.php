@@ -557,4 +557,16 @@ return [
   'listing_agent_commission_amount' => 'Listing Agent Commission Amount',
   'listing_agent_leader_commission_percent' => 'Listing Agent Leader Commission Percent',
   'listing_agent_leader_commission_amount' => 'Listing Agent Leader Commission Amount',
+  'Commercial_leads' => 'Commercial Leads',
+  'New Lead' => 'New Lead',
+  'Edit Lead' => 'Edit Lead',
+  'leads' => 'Leads',
+  'brand_name' => 'Brand Name',
+  'activity' => 'Activity',
+  'activity_type' => 'Activity Type',
+  'location' => 'Location',
+  'designation' => 'Designation',
+  'Basic Details' => 'Basic Details',
+  'activity' => 'Activity',
+  'Contact Persons' => 'Contact Persons'
 ];

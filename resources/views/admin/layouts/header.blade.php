@@ -242,11 +242,24 @@
                                             </a>
                                         </li> 
                                         @endif
-                                        @if(userRole() != 'sales' && userRole() != 'other'  && userRole()!='hr' && userRole() != 'hr' && userRole() !=='it') <li class="menu-item menu-item-active {{ (request()->routeIs('admin.home') && !request()->has('my-contacts'))  ? 'active' : '' }}" aria-haspopup="true">
+                                        @if(userRole() != 'sales' && userRole() != 'other'  && userRole()!='hr' && userRole() != 'hr' && userRole() !=='it') 
+                                        <li class="menu-item menu-item-active {{ (request()->routeIs('admin.home') && !request()->has('my-contacts'))  ? 'active' : '' }}" aria-haspopup="true">
                                             <a href="{{route('admin.home')}}?filter_status={{ App\Status::where('name_en','new')->first()->id }}" class="menu-link {{ (request()->routeIs('admin.home') && !request()->has('my-contacts')) ? 'active' : ''}}">
                                                 <span class="menu-text"><i class="fa fa-address-book"></i> {{__('site.contacts')}}</span>
                                             </a>
-                                        </li> @endif @can('calendar-list') <li class="menu-item menu-item-active {{ request()->routeIs('admin.calendar') ? 'active' : '' }}" aria-haspopup="true">
+                                        </li> 
+                                        @endif 
+                                        
+                                        @if($user->can('commercial-list')) 
+                                        <li class="menu-item menu-item-active {{ (request()->routeIs('admin.commercial-leads'))  ? 'active' : '' }}" aria-haspopup="true">
+                                            <a href="{{route('admin.commercial-leads.index')}}" class="menu-link {{ (request()->routeIs('admin.commercial-leads')) ? 'active' : ''}}">
+                                                <span class="menu-text"><i class="fa fa-address-book"></i> {{__('site.Commercial_leads')}}</span>
+                                            </a>
+                                        </li> 
+                                        @endif
+                                        
+                                        
+                                        @can('calendar-list') <li class="menu-item menu-item-active {{ request()->routeIs('admin.calendar') ? 'active' : '' }}" aria-haspopup="true">
                                             <a href="{{route('admin.calendar')}}" class="menu-link {{ active_nav('calendar') ? 'active' : ''}}">
                                                 <span class="menu-text"><i class="fa fa-calendar"></i>{{__('site.calendar')}}</span>
                                             </a>

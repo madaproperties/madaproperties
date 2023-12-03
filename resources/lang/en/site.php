@@ -647,5 +647,16 @@ return [
   'listing_sales_director_commission_percent'=>'Listing Director Percent',
   'listing_director_commission_amount'=>'Listing Director Amount',
   'listing_director_commission_received'=> 'Listing Director Amount Received',
-
+  'Commercial_leads' => 'Commercial Leads',
+  'New Lead' => 'New Lead',
+  'Edit Lead' => 'Edit Lead',
+  'leads' => 'Leads',
+  'brand_name' => 'Brand Name',
+  'activity' => 'Activity',
+  'activity_type' => 'Activity Type',
+  'location' => 'Location',
+  'designation' => 'Designation',
+  'Basic Details' => 'Basic Details',
+  'activity' => 'Activity',
+  'Contact Persons' => 'Contact Persons'
 ];

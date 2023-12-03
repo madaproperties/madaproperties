@@ -28,6 +28,9 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
         Route::get('dashboard','MainController@statics')->name('statics');
         Route::resource('madaboard','MadaboardController'); //added byb fazal 18-06-23
         Route::post('accounts/getDetailsByAjax','AccountsController@getDetailsByAjax')->name('accounts.getDetailsByAjax');
+
+        Route::get('commercial-leads/detail/{id}','CommercialController@detail')->name('commercial-leads.detail');
+        Route::resource('commercial-leads','CommercialController');
         
       });
       /********* End Mnager Only ***************************/
