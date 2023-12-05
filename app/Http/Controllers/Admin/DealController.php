@@ -486,6 +486,14 @@ class DealController extends Controller
         "listing_director_commission_percent" => "nullable",
         "listing_director_commission_amount" => "nullable",
         "listing_director_commission_received" =>"nullable",
+        // added by fazal on 01-12-23
+        "mada_commission_1"  =>"nullable",  
+        "mada_commission_2" =>"nullable",
+        "mada_commission_3" =>"nullable",
+        "mada_commission_4" =>"nullable",
+        "mada_commission_5" =>"nullable",
+        "mada_commission_6" =>"nullable",  
+     
       ]);
 
 
@@ -619,6 +627,13 @@ class DealController extends Controller
       "listing_director_commission_percent" => "nullable",
       "listing_director_commission_amount" => "nullable",
       "listing_director_commission_received" =>"nullable",
+       // added by fazal on 01-12-23
+        "mada_commission_1"  =>"nullable",  
+        "mada_commission_2" =>"nullable",
+        "mada_commission_3" =>"nullable",
+        "mada_commission_4" =>"nullable",
+        "mada_commission_5" =>"nullable",
+        "mada_commission_6" =>"nullable", 
 
   ]);
 

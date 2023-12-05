@@ -453,7 +453,7 @@ input[type=radio],input[type=checkbox] {
 																				<!--begin::Group-->
 																					<label class="col-xl-4 col-lg-4 col-form-label"><span style="font-size: 19px;">{{__('site.Agent')}} 1 </span></label>
 																				<div class="col-lg-8 col-xl-8">
-																					<select class="form-control"  name="agent_id">
+																					<select class="form-control"  name="agent_id" id="agent_id">
 																					<option value="">{{ __('site.select agent') }}</option>
 																					@foreach($sellers as $seller)
 																						<option {{old('agent_id') == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
@@ -495,13 +495,28 @@ input[type=radio],input[type=checkbox] {
 																				<label class="col-form-label">{{__('site.yes')}}</label>
 																		</div>
 																		<!--end::Group-->
+																		<!-- added by fazal on 29-11-23 -->
+                                                                           <!--begin::Group-->
+                                                                           <!--begin::Group-->
+																	    <div class="form-group row fv-plugins-icon-container" id="commission_id" style="display: none;">
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.mada_commission')}}</label>
+																			<div class="col-lg-8 col-xl-8">
+																				<input class="form-control form-control-solid form-control-lg" 	name="mada_commission_1" type="text" value="" id="mada_commission_1" placeholder="{{__('site.mada_commission')}}" readonly>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+                                                                        </div>
+																		<!--end::Group-->
+
+                                                                           <!--end::Group-->
+
+																		<!--  -->
 																		 <!--begin::Group-->
 																	    <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
 																			@if(count($leaders))
 																			<!--begin::Group-->
 																				<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.Leader')}} </label>
 																				<div class="col-lg-8 col-xl-8">
-																					<select class="form-control"  name="leader_id">
+																					<select class="form-control"  name="leader_id" id="leader_id">
 																					<option value="">{{ __('site.select leader') }}</option>
 																					@foreach($leaders as $leader)
 																						<option {{old('leader_id') == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
@@ -541,6 +556,17 @@ input[type=radio],input[type=checkbox] {
 																				</div>
 																				<label class="col-form-label">{{__('site.yes')}}</label>
 																		</div>
+																		<!--end::Group-->
+																		<!-- added by fazal on 29-11-23 -->
+                                                                           <!--begin::Group-->
+                                                                           <!--begin::Group-->
+																	    <div class="form-group row fv-plugins-icon-container" id="commission_id_3" style="display: none;">
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.mada_commission')}}</label>
+																			<div class="col-lg-8 col-xl-8">
+																				<input class="form-control form-control-solid form-control-lg" 	name="mada_commission_3" type="text" value="" id="mada_commission_3" placeholder="{{__('site.mada_commission')}}" readonly>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+                                                                        </div>
 																		<!--end::Group-->
 
 
@@ -601,7 +627,7 @@ input[type=radio],input[type=checkbox] {
 																		<!--begin::Group-->
 																			<label class="col-xl-4 col-lg-4 col-form-label"><span style="font-size: 19px;">{{__('site.Agent2')}}</span> </label>
 																			<div class="col-lg-8 col-xl-8">
-																				<select class="form-control"  name="agent2_id">
+																				<select class="form-control"  name="agent2_id" id="agent2_id">
 																				<option value="">{{ __('site.select agent2') }}</option>
 																				@foreach($sellers as $seller)
 																					<option {{old('agent2_id') == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
@@ -639,13 +665,24 @@ input[type=radio],input[type=checkbox] {
 																		<label class="col-form-label">{{__('site.yes')}}</label>
 																	</div>
 																	<!--end::Group-->
+																	<!-- added by fazal on 29-11-23 -->
+                                                                           <!--begin::Group-->
+                                                                           <!--begin::Group-->
+																	    <div class="form-group row fv-plugins-icon-container" id="commission_id_2" style="display: none;">
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.mada_commission')}}</label>
+																			<div class="col-lg-8 col-xl-8">
+																				<input class="form-control form-control-solid form-control-lg" 	name="mada_commission_2" type="text" value="" id="mada_commission_2" placeholder="{{__('site.mada_commission')}}" readonly>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+                                                                        </div>
+																		<!--end::Group-->
 
 																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
 																		@if(count($leaders))
 																		<!--begin::Group-->
 																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.Leader2')}} </label>
 																			<div class="col-lg-8 col-xl-8">
-																				<select class="form-control"  name="leader2_id">
+																				<select class="form-control"  name="leader2_id" id="leader2_id">
 																				<option value="">{{ __('site.select leader2') }}</option>
 																				@foreach($leaders as $leader)
 																					<option {{old('leader2_id') == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
@@ -684,6 +721,17 @@ input[type=radio],input[type=checkbox] {
 																		<label class="col-form-label">{{__('site.yes')}}</label>
 																	</div>
 																	<!--end::Group-->
+																	<!-- added by fazal on 29-11-23 -->
+                                                                           <!--begin::Group-->
+                                                                           <!--begin::Group-->
+																	    <div class="form-group row fv-plugins-icon-container" id="commission_id_4" style="display: none;">
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.mada_commission')}}</label>
+																			<div class="col-lg-8 col-xl-8">
+																				<input class="form-control form-control-solid form-control-lg" 	name="mada_commission_4" type="text" value="" id="mada_commission_4" placeholder="{{__('site.mada_commission')}}" readonly>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+                                                                        </div>
+																		<!--end::Group-->
 
 
 																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
@@ -747,7 +795,7 @@ input[type=radio],input[type=checkbox] {
 																		<!--begin::Group-->
 																			<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing')}} {{__('site.Agent')}} </label>
 																			<div class="col-lg-4 col-xl-4">
-																				<select class="form-control"  name="listing_agent_id">
+																				<select class="form-control"  name="listing_agent_id" id="listing_agent_id">
 																				<option value="">{{ __('site.select agent') }}</option>
 																				@foreach($sellers as $seller)
 																					<option {{old('listing_agent_id') == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
@@ -785,13 +833,25 @@ input[type=radio],input[type=checkbox] {
 																	</div>
 																	<!--end::Group-->
 
+																	 <!-- added by fazal on 29-11-23 -->
+                                                                           <!--begin::Group-->
+                                                                           <!--begin::Group-->
+																	    <div class="form-group row fv-plugins-icon-container col-xs-12 col-sm-6 col-lg-6" id="commission_id_5" style="display: none;">
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.mada_commission')}}</label>
+																			<div class="col-lg-8 col-xl-8">
+																				<input class="form-control form-control-solid form-control-lg" 	name="mada_commission_5" type="text" value="" id="mada_commission_5" placeholder="{{__('site.mada_commission')}}" readonly>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+                                                                        </div>
+																		<!--end::Group-->
+
 
 																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
 																		@if(count($leaders))
 																		<!--begin::Group-->
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.listing')}} {{__('site.Agent')}} {{__('site.Leader')}} </label>
 																		<div class="col-lg-4 col-xl-4">
-																			<select class="form-control"  name="listing_leader_id">
+																			<select class="form-control"  name="listing_leader_id" id="listing_leader_id">
 																			<option value="">{{ __('site.select leader') }}</option>
 																			@foreach($leaders as $leader)
 																				<option {{old('listing_leader_id') == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
@@ -827,6 +887,15 @@ input[type=radio],input[type=checkbox] {
 																		<label class="col-form-label">{{__('site.yes')}}</label>
 																	</div>
 																	<!--end::Group-->
+																	   <!--begin::Group-->
+																	    <div class="form-group row fv-plugins-icon-container col-xs-12 col-sm-6 col-lg-6" id="commission_id_6" style="display: none;">
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.mada_commission')}}</label>
+																			<div class="col-lg-8 col-xl-8">
+																				<input class="form-control form-control-solid form-control-lg" 	name="mada_commission_6" type="text" value="" id="mada_commission_6" placeholder="{{__('site.mada_commission')}}" readonly>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+                                                                        </div>
+																		<!--end::Group-->
 																	<!-- added by fazal on 19-10-23 -->
                                                                       <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
 																		@if(count($salesDirectors))
@@ -1071,7 +1140,17 @@ input[type=radio],input[type=checkbox] {
 				}
 			}
 			$("#agent_commission_amount").val(((price*comi)/100).toFixed(2));
-			updateMadaCommission();
+             // added by fazal on 01-12-23
+				let val = $('#unit_country').val();
+				if(val==2)
+				{
+			      updateMadaCommission1();		
+				}
+                else
+                {
+                updateMadaCommission();	
+                }
+ 			
 		});
 
 		$("#listing_agent_commission_percent").on('input keyup keypress blur change',function(){
@@ -1095,7 +1174,16 @@ input[type=radio],input[type=checkbox] {
 				}
 			}
 			$("#listing_agent_commission_amount").val(((price*comi)/100).toFixed(2));
-			updateMadaCommission();
+			// added by fazal on 01-12-23
+            let val = $('#unit_country').val();
+				if(val==2)
+				{
+			      updateMadaCommission3();		
+				}
+                else
+                {
+                updateMadaCommission();	
+                }
 		});
 
 		$("#agent2_commission_percent").on('input keyup keypress blur change',function(){
@@ -1118,8 +1206,18 @@ input[type=radio],input[type=checkbox] {
 					price -= third_party_amount;
 				}
 			}
+			
 			$("#agent2_commission_amount").val(((price*comi)/100).toFixed(2));
-			updateMadaCommission();
+             //added  by fazal on 01-12-23
+				let val = $('#unit_country').val();
+				if(val==2)
+				{
+			      updateMadaCommission1();		
+				}
+                else
+                {
+                updateMadaCommission();	
+                }
 		});
 
 
@@ -1134,11 +1232,23 @@ input[type=radio],input[type=checkbox] {
 				$("#commission_amount").focus();
 				$(this).val(0);
 			}
-
-			var comi = $(this).val();
-			var agent_commission_amount = $("#agent_commission_amount").val();	
-			$("#agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
-			updateMadaCommission();
+            //added  by fazal on 01-12-23
+			let val = $('#unit_country').val();
+				if(val==2)
+				{
+					var comi = $(this).val();
+		         	var agent_commission_amount = $("#mada_commission_1").val();	
+			       $("#agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+			        updateMadaCommission2();		
+				}
+                else
+                {
+                	var comi = $(this).val();
+					var agent_commission_amount = $("#agent_commission_amount").val();	
+			        $("#agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+                    updateMadaCommission();	
+                }
+			
 		});
 
 		$("#listing_agent_leader_commission_percent").on('input keyup keypress blur change',function(){
@@ -1152,11 +1262,28 @@ input[type=radio],input[type=checkbox] {
 				$("#commission_amount").focus();
 				$(this).val(0);
 			}
+          // added by fazal on 01-12-23
 
-			var comi = $(this).val();
-			var agent_commission_amount = $("#listing_agent_commission_amount").val();	
-			$("#listing_agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+			let val = $('#unit_country').val();
+				if(val==2)
+				{
+					var comi = $(this).val();
+		         	var agent_commission_amount = $("#mada_commission_5").val();	
+			       $("#listing_agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+			        updateMadaCommission4();		
+				}
+                else
+                {
+                	var comi = $(this).val();
+					var agent_commission_amount = $("#listing_agent_commission_amount").val();	
+					$("#listing_agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
 			updateMadaCommission();
+                }
+                // 
+
+
+
+			
 		});
 
 
@@ -1171,11 +1298,22 @@ input[type=radio],input[type=checkbox] {
 				$("#commission_amount").focus();
 				$(this).val(0);
 			}
-
-			var comi = $(this).val();
-			var agent_commission_amount = $("#agent2_commission_amount").val();	
-			$("#agent2_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
-			updateMadaCommission();
+           // added by fazal on 01-12-23
+			let val = $('#unit_country').val();
+				if(val==2)
+				{
+					var comi = $(this).val();
+		         	var agent_commission_amount = $("#mada_commission_2").val();	
+			       $("#agent2_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+			        updateMadaCommission2();		
+				}
+                else
+                {
+                	var comi = $(this).val();
+					var agent_commission_amount = $("#agent_commission_amount").val();	
+			        $("#agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+                    updateMadaCommission();	
+                }
 		});
 
 		$("#sales_director_commission_percent").on('input keyup keypress blur change',function(){
@@ -1192,8 +1330,26 @@ input[type=radio],input[type=checkbox] {
 
 		var comi = $(this).val();
 			var agent_commission_amount = $("#agent_commission_amount").val();	
-			$("#sales_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
-			updateMadaCommission();
+             // added by fazal on 01-12-23
+           let val = $('#unit_country').val();
+				if(val==2)
+				{
+					var comi = $(this).val();
+		         	var agent_commission_amount = $("#mada_commission_3").val();	
+			      $("#sales_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+			      updateMadaCommission();		
+				}
+                else
+                {
+                	var comi = $(this).val();
+					var agent_commission_amount = $("#agent_commission_amount").val();	
+			        $("#sales_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+			       updateMadaCommission();	
+                }
+
+
+
+			
 		});
 
 		$("#sales_director_2_commission_percent").on('input keyup keypress blur change',function(){
@@ -1207,11 +1363,22 @@ input[type=radio],input[type=checkbox] {
 				$("#commission_amount").focus();
 				$(this).val(0);
 			}
-
-			var comi = $(this).val();
-			var agent_commission_amount = $("#agent2_commission_amount").val();	
-			$("#sales_director_2_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
-			updateMadaCommission();
+			// added by fazal on 01-12-23
+            let val = $('#unit_country').val();
+			if(val==2)
+				{
+					var comi = $(this).val();
+		         	var agent_commission_amount = $("#mada_commission_4").val();	
+			      $("#sales_director_2_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+			      updateMadaCommission();		
+				}
+                else
+                {
+                	var comi = $(this).val();
+					var agent_commission_amount = $("#agent_commission_amount").val();	
+			        $("#sales_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+			       updateMadaCommission();	
+                }
 		});
 		//added by fazal
 		$("#listing_director_commission_percent").on('input keyup keypress blur change',function(){
@@ -1225,11 +1392,27 @@ input[type=radio],input[type=checkbox] {
 				$("#commission_amount").focus();
 				$(this).val(0);
 			}
-
-		var comi = $(this).val();
+ 
+       //// aded by fazal 
+          let val = $('#unit_country').val();
+				if(val==2)
+				{
+					var comi = $(this).val();
+		         	var agent_commission_amount = $("#mada_commission_6").val();	
+			      $("#listing_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+			      updateMadaCommission();		
+				}
+                else
+                {
+                	var comi = $(this).val();
 			var agent_commission_amount = $("#listing_agent_commission_amount").val();	
 			$("#listing_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
 			updateMadaCommission();
+                }
+
+	   //////		 
+
+		
 		});
 
 
@@ -1275,6 +1458,7 @@ input[type=radio],input[type=checkbox] {
 		var agent2_leader_commission_amount = parseFloat($("#agent2_leader_commission_amount").val());
 		var sales_director_commission_amount = parseFloat($("#sales_director_commission_amount").val());
 		var sales_director_2_commission_amount = parseFloat($("#sales_director_2_commission_amount").val());
+		var listing_director_commission_amount = parseFloat($("#listing_director_commission_amount").val());
 		var temp_com = 0;
 		if(agent_commission_amount > 0){
 			temp_com += agent_commission_amount;
@@ -1299,6 +1483,9 @@ input[type=radio],input[type=checkbox] {
 		}		
 		if(sales_director_2_commission_amount > 0){
 			temp_com += sales_director_2_commission_amount;
+		}
+		if(listing_director_commission_amount > 0){
+			temp_com += listing_director_commission_amount;
 		}		
 		if ($('.third_party').is(':checked')) {
 			var third_party_amount = parseFloat($("#third_party_amount").val());
@@ -1306,8 +1493,11 @@ input[type=radio],input[type=checkbox] {
 				temp_com += third_party_amount;
 			}
 		}
-		$("#mada_commission").val((commission_amount - temp_com).toFixed(2));		
+		$("#mada_commission").val((commission_amount - temp_com).toFixed(2));	
+		var mada_commi=$("#mada_commission").val();
+			
 	}
+
 
 	function getProjects(country,project_type)
 	{
@@ -1374,16 +1564,22 @@ input[type=radio],input[type=checkbox] {
 		if(val == '1'){
 			$('#saudi_deal').css('display','block');
 			$('#uae_deal').css('display','none');
+			$('#commission_id').css('display','none');
 		}
 		else if(val=='2')
 		{
 		    $('#uae_deal').css('display','block');
 		    $('#saudi_deal').css('display','none');
+          
+
+
+
 		}
 		
 		else{
 			$('#saudi_deal').css('display','none');
 			 $('#uae_deal').css('display','none');
+			  $('#commission_id').css('display','none');
 		}
 	});
 
@@ -1409,6 +1605,312 @@ input[type=radio],input[type=checkbox] {
 			}
 		}
 	});
+
+// added by fazal on 30-11-23
+	$('#agent_id').on('change',function (){
+
+		let val = $('#unit_country').val();
+		if(val == '1'){
+			
+			$('#commission_id').css('display','none');
+		}
+		else if(val=='2')
+		{ 
+		    $('#commission_id').css('display','block');
+		    var commission_value = $("#mada_commission_1").val();
+
+		 }
+		
+		else{
+			
+			  $('#commission_id').css('display','none');
+		}
+	});
+    $('#agent2_id').on('change',function (){
+    
+
+		let val = $('#unit_country').val();
+		if(val == '1'){
+			
+			$('#commission_id_2').css('display','none');
+		}
+		else if(val=='2')
+		{ 
+		    $('#commission_id_2').css('display','block');
+		 }
+		
+		else{
+			
+			  $('#commission_id_2').css('display','none');
+		}
+	});
+	$('#leader_id').on('change',function (){
+    
+
+		let val = $('#unit_country').val();
+		if(val == '1'){
+			
+			$('#commission_id_3').css('display','none');
+		}
+		else if(val=='2')
+		{ 
+		    $('#commission_id_3').css('display','block');
+		 }
+		
+		else{
+			
+			  $('#commission_id_3').css('display','none');
+		}
+	});
+
+	
+    $('#leader2_id').on('change',function (){
+    
+  
+ 
+		let val = $('#unit_country').val();
+		if(val == '1'){
+			
+			$('#commission_id_4').css('display','none');
+		}
+		else if(val=='2')
+		{ 
+		    $('#commission_id_4').css('display','block');
+		 }
+		
+		else{
+			
+			  $('#commission_id_4').css('display','none');
+		}
+	});
+	 $('#listing_agent_id').on('change',function (){
+    
+  
+ 
+		let val = $('#unit_country').val();
+		if(val == '1'){
+			
+			$('#commission_id_5').css('display','none');
+		}
+		else if(val=='2')
+		{ 
+		    $('#commission_id_5').css('display','block');
+		 }
+		
+		else{
+			
+			  $('#commission_id_5').css('display','none');
+		}
+     });
+      $('#listing_leader_id').on('change',function (){
+         let val = $('#unit_country').val();
+		if(val == '1'){
+			
+			$('#commission_id_6').css('display','none');
+		}
+		else if(val=='2')
+		{ 
+		    $('#commission_id_6').css('display','block');
+		 }
+		
+		else{
+			
+			  $('#commission_id_6').css('display','none');
+		}
+	});
+
+	
+
+	// end
+
+	function updateMadaCommission1(){
+		var commission_amount = parseFloat($("#commission_amount").val());
+		var agent_commission_amount = parseFloat($("#agent_commission_amount").val());
+		var listing_agent_commission_amount = parseFloat($("#listing_agent_commission_amount").val());
+		var agent2_commission_amount = parseFloat($("#agent2_commission_amount").val());
+		var agent_leader_commission_amount = parseFloat($("#agent_leader_commission_amount").val());
+		var listing_agent_leader_commission_amount = parseFloat($("#listing_agent_leader_commission_amount").val());
+		var agent2_leader_commission_amount = parseFloat($("#agent2_leader_commission_amount").val());
+		var sales_director_commission_amount = parseFloat($("#sales_director_commission_amount").val());
+		var sales_director_2_commission_amount = parseFloat($("#sales_director_2_commission_amount").val());
+		var temp_com = 0;
+		if(agent_commission_amount > 0){
+			temp_com += agent_commission_amount;
+		}
+		if(listing_agent_commission_amount > 0){
+			temp_com += listing_agent_commission_amount;
+		}
+		if(agent2_commission_amount > 0){
+			temp_com += agent2_commission_amount;
+		}
+		if(agent_leader_commission_amount > 0){
+			temp_com += agent_leader_commission_amount;
+		}
+		if(listing_agent_leader_commission_amount > 0){
+			temp_com += listing_agent_leader_commission_amount;
+		}
+		if(agent2_leader_commission_amount > 0){
+			temp_com += agent2_leader_commission_amount;
+		}
+		if(sales_director_commission_amount > 0){
+			temp_com += sales_director_commission_amount;
+		}		
+		if(sales_director_2_commission_amount > 0){
+			temp_com += sales_director_2_commission_amount;
+		}		
+		if ($('.third_party').is(':checked')) {
+			var third_party_amount = parseFloat($("#third_party_amount").val());
+			if(third_party_amount > 0){
+				temp_com += third_party_amount;
+			}
+		}
+		$("#mada_commission").val((commission_amount - temp_com).toFixed(2));	
+		var mada_commi=$("#mada_commission").val();
+		$("#mada_commission_1").val(mada_commi);
+		$("#mada_commission_2").val(mada_commi);	
+	}
+	function updateMadaCommission2(){
+
+		var commission_amount = parseFloat($("#commission_amount").val());
+		var agent_commission_amount = parseFloat($("#agent_commission_amount").val());
+		var listing_agent_commission_amount = parseFloat($("#listing_agent_commission_amount").val());
+		var agent2_commission_amount = parseFloat($("#agent2_commission_amount").val());
+		var agent_leader_commission_amount = parseFloat($("#agent_leader_commission_amount").val());
+		var listing_agent_leader_commission_amount = parseFloat($("#listing_agent_leader_commission_amount").val());
+		var agent2_leader_commission_amount = parseFloat($("#agent2_leader_commission_amount").val());
+		var sales_director_commission_amount = parseFloat($("#sales_director_commission_amount").val());
+		var sales_director_2_commission_amount = parseFloat($("#sales_director_2_commission_amount").val());
+		var temp_com = 0;
+		if(agent_commission_amount > 0){
+			temp_com += agent_commission_amount;
+		}
+		if(listing_agent_commission_amount > 0){
+			temp_com += listing_agent_commission_amount;
+		}
+		if(agent2_commission_amount > 0){
+			temp_com += agent2_commission_amount;
+		}
+		if(agent_leader_commission_amount > 0){
+			temp_com += agent_leader_commission_amount;
+		}
+		if(listing_agent_leader_commission_amount > 0){
+			temp_com += listing_agent_leader_commission_amount;
+		}
+		if(agent2_leader_commission_amount > 0){
+			temp_com += agent2_leader_commission_amount;
+		}
+		if(sales_director_commission_amount > 0){
+			temp_com += sales_director_commission_amount;
+		}		
+		if(sales_director_2_commission_amount > 0){
+			temp_com += sales_director_2_commission_amount;
+		}		
+		if ($('.third_party').is(':checked')) {
+			var third_party_amount = parseFloat($("#third_party_amount").val());
+			if(third_party_amount > 0){
+				temp_com += third_party_amount;
+			}
+		}
+		$("#mada_commission").val((commission_amount - temp_com).toFixed(2));	
+		var mada_commi=$("#mada_commission").val();
+		$("#mada_commission_3").val(mada_commi);
+		$("#mada_commission_4").val(mada_commi);	
+	}
+
+function updateMadaCommission3(){
+
+		var commission_amount = parseFloat($("#commission_amount").val());
+		var agent_commission_amount = parseFloat($("#agent_commission_amount").val());
+		var listing_agent_commission_amount = parseFloat($("#listing_agent_commission_amount").val());
+		var agent2_commission_amount = parseFloat($("#agent2_commission_amount").val());
+		var agent_leader_commission_amount = parseFloat($("#agent_leader_commission_amount").val());
+		var listing_agent_leader_commission_amount = parseFloat($("#listing_agent_leader_commission_amount").val());
+		var agent2_leader_commission_amount = parseFloat($("#agent2_leader_commission_amount").val());
+		var sales_director_commission_amount = parseFloat($("#sales_director_commission_amount").val());
+		var sales_director_2_commission_amount = parseFloat($("#sales_director_2_commission_amount").val());
+		var temp_com = 0;
+		if(agent_commission_amount > 0){
+			temp_com += agent_commission_amount;
+		}
+		if(listing_agent_commission_amount > 0){
+			temp_com += listing_agent_commission_amount;
+		}
+		if(agent2_commission_amount > 0){
+			temp_com += agent2_commission_amount;
+		}
+		if(agent_leader_commission_amount > 0){
+			temp_com += agent_leader_commission_amount;
+		}
+		if(listing_agent_leader_commission_amount > 0){
+			temp_com += listing_agent_leader_commission_amount;
+		}
+		if(agent2_leader_commission_amount > 0){
+			temp_com += agent2_leader_commission_amount;
+		}
+		if(sales_director_commission_amount > 0){
+			temp_com += sales_director_commission_amount;
+		}		
+		if(sales_director_2_commission_amount > 0){
+			temp_com += sales_director_2_commission_amount;
+		}		
+		if ($('.third_party').is(':checked')) {
+			var third_party_amount = parseFloat($("#third_party_amount").val());
+			if(third_party_amount > 0){
+				temp_com += third_party_amount;
+			}
+		}
+		$("#mada_commission").val((commission_amount - temp_com).toFixed(2));	
+		var mada_commi=$("#mada_commission").val();
+		$("#mada_commission_5").val(mada_commi);
+			
+	}
+	function updateMadaCommission4(){
+
+		var commission_amount = parseFloat($("#commission_amount").val());
+		var agent_commission_amount = parseFloat($("#agent_commission_amount").val());
+		var listing_agent_commission_amount = parseFloat($("#listing_agent_commission_amount").val());
+		var agent2_commission_amount = parseFloat($("#agent2_commission_amount").val());
+		var agent_leader_commission_amount = parseFloat($("#agent_leader_commission_amount").val());
+		var listing_agent_leader_commission_amount = parseFloat($("#listing_agent_leader_commission_amount").val());
+		var agent2_leader_commission_amount = parseFloat($("#agent2_leader_commission_amount").val());
+		var sales_director_commission_amount = parseFloat($("#sales_director_commission_amount").val());
+		var sales_director_2_commission_amount = parseFloat($("#sales_director_2_commission_amount").val());
+		var temp_com = 0;
+		if(agent_commission_amount > 0){
+			temp_com += agent_commission_amount;
+		}
+		if(listing_agent_commission_amount > 0){
+			temp_com += listing_agent_commission_amount;
+		}
+		if(agent2_commission_amount > 0){
+			temp_com += agent2_commission_amount;
+		}
+		if(agent_leader_commission_amount > 0){
+			temp_com += agent_leader_commission_amount;
+		}
+		if(listing_agent_leader_commission_amount > 0){
+			temp_com += listing_agent_leader_commission_amount;
+		}
+		if(agent2_leader_commission_amount > 0){
+			temp_com += agent2_leader_commission_amount;
+		}
+		if(sales_director_commission_amount > 0){
+			temp_com += sales_director_commission_amount;
+		}		
+		if(sales_director_2_commission_amount > 0){
+			temp_com += sales_director_2_commission_amount;
+		}		
+		if ($('.third_party').is(':checked')) {
+			var third_party_amount = parseFloat($("#third_party_amount").val());
+			if(third_party_amount > 0){
+				temp_com += third_party_amount;
+			}
+		}
+		$("#mada_commission").val((commission_amount - temp_com).toFixed(2));	
+		var mada_commi=$("#mada_commission").val();
+		$("#mada_commission_6").val(mada_commi);
+			
+	}
 	
 </script>
 @endpush
