@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CommercialNote extends Model
 {
   protected $guarded = [];
+  protected $table = 'commercial_notes';
 
   public function user()
   {

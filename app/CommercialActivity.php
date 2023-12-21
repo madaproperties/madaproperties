@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CommercialActivity extends Model
 {
     protected $guarded = [];
+    protected $table = 'commercial_activities';
 
     public function user()
     {

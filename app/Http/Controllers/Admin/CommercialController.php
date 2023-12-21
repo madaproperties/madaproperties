@@ -9,13 +9,20 @@ use App\CommercialActivity;
 use App\CommercialTask;
 use App\CommercialNote;
 use App\CommercialLog;
+use App\CommercialRequirements;
+use App\CommercialContactPerson;
 use App\Status;
 use App\Country;
+use App\User;
 use App\PurposeType;
 use App\Currency;
+use App\City;
+use App\Zones;
+use App\Districts;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
+
 
 class CommercialController extends Controller
 {
@@ -29,17 +36,42 @@ class CommercialController extends Controller
   {
       $this->middleware('permission:commercial-list|commercial-create|commercial-edit|commercial-delete', ['only' => ['index','store']]);
       $this->middleware('permission:commercial-create', ['only' => ['create','store']]);
-      $this->middleware('permission:commercial-edit', ['only' => ['edit','show','update']]);
+      $this->middleware('permission:commercial-edit', ['only' => ['edit','show','update','detail']]);
       $this->middleware('permission:commercial-delete', ['only' => ['destroy']]);
       //$this->middleware('permission:commercial-export', ['only' => ['exportDataContact']]);
   }   
 
   public function index(){
-    $commercial_leads=Commercial::orderBy('id', 'DESC'); 
+
+    $commercial_leads=Commercial::select('*'); 
+
+    if(userRole() == 'commercial leader'){
+      // get leader group
+      $leaderId = auth()->id();
+      // get leader , and sellers reltedt to that leader
+      $usersIds = User::select('id','leader')->where('active','1')
+      ->where('leader',$leaderId)
+      ->orWhere('id',$leaderId)
+      ->pluck('id');
+
+      $commercial_leads->whereIn('user_id',$usersIds);
+
+    }elseif(userRole() == 'commercial sales') {
+      $commercial_leads->where('user_id',auth()->id());
+    }
+
+    $commercial_leads->orderBy('id', 'DESC');
+
+
     $commercial_leads= $commercial_leads->paginate(20); 
     $commercial_count= $commercial_leads->count();
-    return view('admin.commercial.index',compact('commercial_leads','commercial_count'));
 
+
+    $uri = Request()->fullUrl();
+    session()->put('start_filter_url',$uri);
+        
+    $commercialSellers = getCommercialSellers();
+    return view('admin.commercial.index',compact('commercial_leads','commercial_count','commercialSellers'));
   }
 
   public function show($commercial)
@@ -73,21 +105,35 @@ class CommercialController extends Controller
       "contact_persons"            => "nullable",
     ]);
 
-    if($data['contact_persons']){
-      $data['contact_persons'] = json_encode($data['contact_persons']);
-    }
-
     $data['created_by'] = auth()->id(); // set user to cuurunt user\
+    $data['user_id'] = auth()->id(); // set user to cuurunt user\
 
     addHistory('Commercial',0,'added',$data);
-
-
+    $contact_persons='';
+    if($data['contact_persons']){
+      $contact_persons = $data['contact_persons'];
+      unset($data['contact_persons']);
+    }
     $commercial = Commercial::create($data);
+
+    if($contact_persons){
+      $contactPersons = [];
+      for($i=0;$i < count($contact_persons); $i++){
+
+        $contactPersons['name']=$contact_persons[$i]['name'];
+        $contactPersons['email']=$contact_persons[$i]['email'];
+        $contactPersons['phone']=$contact_persons[$i]['phone'];
+        $contactPersons['designation']=$contact_persons[$i]['designation'];
+        $contactPersons['lead_id']=$commercial->id;
+        CommercialContactPerson::create($contactPersons);
+      }
+
+    }
     $action = __('site.lead created');
 
-    $this->newActivity($commercial->id,auth()->id(),$action,'Commercial',$commercial->id,null,true);
+    $this->newCommercialActivity($commercial->id,auth()->id(),$action,'Commercial',$commercial->id,null,true);
 
-    return back()->withSuccess(__('site.success'));
+    return redirect()->route('admin.commercial-leads.index')->withSuccess(__('site.success'));
   }
 
 
@@ -103,15 +149,27 @@ class CommercialController extends Controller
       "contact_persons"            => "nullable",
     ]);
 
-    if($data['contact_persons']){
-      $data['contact_persons'] = json_encode($data['contact_persons']);
-    }
     $data['updated_at'] = Carbon::now();
+    if($data['contact_persons']){
+      $contactPersons = [];
+      CommercialContactPerson::where('lead_id',$id)->delete();
+      for($i=0;$i < count($data['contact_persons']); $i++){
+
+        $contactPersons['name']=$data['contact_persons'][$i]['name'];
+        $contactPersons['email']=$data['contact_persons'][$i]['email'];
+        $contactPersons['phone']=$data['contact_persons'][$i]['phone'];
+        $contactPersons['designation']=$data['contact_persons'][$i]['designation'];
+        $contactPersons['lead_id']=$id;
+        CommercialContactPerson::create($contactPersons);
+      }
+
+      unset($data['contact_persons']);
+    }
     
     addHistory('Commercial',$id,'updated',$data,$commercial);
     $commercial->update($data);
 
-    return back()->withSuccess(__('site.success'));
+    return redirect()->route('admin.commercial-leads.index')->withSuccess(__('site.success'));
   }
 
 
@@ -156,6 +214,7 @@ class CommercialController extends Controller
     $tasks = CommercialTask::where('commercial_id',$commercial->id)->orderBy('created_at','DESC')->get();
     $notes = CommercialNote::where('commercial_id',$commercial->id)->orderBy('created_at','DESC')->get();
     $logs = CommercialLog::where('commercial_id',$commercial->id)->orderBy('created_at','DESC')->get();
+    $requirements = CommercialRequirements::where('commercial_id',$commercial->id)->orderBy('created_at','DESC')->get();
 
     $LastConnected = CommercialLog::where('commercial_id',$commercial->id)->orderBy('log_date','DESC')->first();
 
@@ -182,6 +241,22 @@ class CommercialController extends Controller
     $subcommunities="";
     $zones="";
     $districts="";
+    $cities = City::where('country_id',1)->get();
+    $zones = Zones::get();
+    $districtsEdit="";
+    if($commercial->zone_id){
+      $districtsEdit = Districts::where('zone_id',$commercial->zone_id)->get();
+    }
+
+    $expanding_years = [
+      date("Y",strtotime("-1 year")) => date("Y",strtotime("-1 year")),
+      date("Y") => date("Y"),
+      date("Y",strtotime("+1 year")) => date("Y",strtotime("+1 year")),
+      date("Y",strtotime("+2 year")) => date("Y",strtotime("+2 year")),
+      date("Y",strtotime("+3 year")) => date("Y",strtotime("+3 year")),
+      date("Y",strtotime("+4 year")) => date("Y",strtotime("+4 year")),
+      date("Y",strtotime("+5 year")) => date("Y",strtotime("+5 year")),
+    ];
 
     return view('admin.commercial.detail',[
       'commercial' => $commercial,
@@ -190,6 +265,7 @@ class CommercialController extends Controller
       'activities' => $activities,
       'tasks' => $tasks,
       'notes' => $notes,
+      'requirements' => $requirements,
       'purpose' => $purpose,
       'logs' => $logs,
       'status' => $status,
@@ -201,7 +277,9 @@ class CommercialController extends Controller
       'communities'=>$communities,
       'subcommunities'=>$subcommunities,
       'zones'=>$zones,
-      'districts' =>$districts,
+      'districts' =>$districtsEdit,
+      'cities' =>$cities,
+      'expanding_years' => $expanding_years
     ]);
   }
 
@@ -215,7 +293,7 @@ class CommercialController extends Controller
     $commercials = Commercial::whereIn('id',$ids)->get();
     if(!$commercials OR !$user) return false;
 
-    foreach($commercials as $contact) {
+    foreach($commercials as $commercial) {
       
       //Added by Lokesh on 13-09-2022  
       $mailData = [
@@ -224,38 +302,21 @@ class CommercialController extends Controller
       //end
         
       // create new history if he not the same user !
-      if($commercial->user_id != $user->id)
-      {
+      if($commercial->user_id != $user->id) {
         $action = __('site.assigned to') .' '.User::where('id',$user->id)->first()->name;
-        $this->newActivity($commercial->id,auth()->id(),$action,null,null, null,true);
+        $this->newCommercialActivity($commercial->id,auth()->id(),$action,null,null, null,true);
       }
       
       
-      if($user->id != $commercial->user_id)
-      {
+      if($user->id != $commercial->user_id) {
           $action = __('site.assigned to') .' '.User::where('id',$user->id)->first()->name;
-          $this->newActivity($commercial->id,auth()->id(),$action,null,null, null,true);
-
-          // Change Startus to new if its not
-          if(isset($commercial->status_id)){
-              $data['status_id'] = newStatus()->id;
-
-                $data['status_changed_at'] = Carbon::now();
-              $action = __('site.status changed to').' '.newStatus()->name;
-              $this->newActivity($commercial->id,auth()->id(),$action,null,null, null,true);
-          }
-
+          $this->newCommercialActivity($commercial->id,auth()->id(),$action,null,null, null,true);
       }
       
-      if(isset($data['status_id'])){ //added by Javed on 07-09-2022
-          $commercial->update([
-            'user_id' => $user->id,
-            'status_id' => $data['status_id']
-            // 'updated_at' => Carbon::now()
-          ]);
-          // Mail::to($user->name)->send(new LeadAssigned($mailData));
-          
-      }
+      $commercial->update([
+        'user_id' => $user->id,
+        'updated_at' => Carbon::now()
+      ]);
     }
 
     return response()->json([
@@ -272,6 +333,16 @@ class CommercialController extends Controller
     return response()->json([
       'status' => true,
     ]);
+  }
+
+  function getDistricts(Request $request){
+    $districts = Districts::where('zone_id',$request->zone_id)->orderBy('name','asc')->get();
+
+    $data = '<option value="">'. __('site.choose').'</option>';
+    foreach($districts as $district){
+      $data .= '<option value="'.$district->id.'">'.$district->name.'</option>';
+    }
+    return $data;
   }
 
 }

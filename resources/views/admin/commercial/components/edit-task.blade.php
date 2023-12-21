@@ -11,7 +11,7 @@
             <div class="modal-body">
                 <div class="card card-custom">
                   <!--begin::Form-->
-                  <form id="edit-task-form-{{$task->id}}" action="{{route('admin.tasks.update',$task->id)}}" method="POST">
+                  <form id="edit-task-form-{{$task->id}}" action="{{route('admin.commercial_tasks.update',$task->id)}}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="card-body">
@@ -20,7 +20,7 @@
                         <input type="text" name="name" class="form-control" value="{{$task->name}}" >
                       </div>
                       <hr />
-                      <input type="hidden" value="{{$task->contact_id}}" name="contact_id">
+                      <input type="hidden" value="{{$task->commercial_id}}" name="commercial_id">
                       <div class="row">
                         <div class="col-md-6 col-sm--12">
                           <div class="form-group ">
@@ -88,15 +88,15 @@
                         </select>
                       </div>
  
-                      @if(!isset($contact))
+                      @if(!isset($commercial))
                       <div class="form-group">
-                        <label for="task-type">{{__('site.contact')}}</label>
+                        <label for="task-type">{{__('site.commercial')}}</label>
                         <div>
                           @php
-                            $showRoute = $task->contact ? route('admin.contact.show',$task->contact->id) : '#';
+                            $showRoute = $task->commercial ? route('admin.commercial.show',$task->contact->id) : '#';
                           @endphp
                           <a href="{{ $showRoute }}">
-                            {{$task->contact ? $task->contact->fullname : ''}}
+                            {{$task->commercial ? $task->commercial->id : ''}}
                           </a>
                         </div>
                       </div>

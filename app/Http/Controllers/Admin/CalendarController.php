@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Log;
+use App\CommercialLog;
 use App\Contact;
 use App\Task;
+use App\CommercialTask;
 use App\User;
 use App\Status;
 
@@ -102,6 +103,37 @@ class CalendarController extends Controller
             $logs = [];
           }
       }else {
+        if(userRole() == 'commercial leader' || userRole() == 'commercial sales'){
+          if(userRole() == 'commercial leader'){
+            $usersIds = User::select('id','rule','leader')
+            ->where('leader',auth()->id())->get();
+            
+            $usersIds = $usersIds->pluck('id');
+            $usersIds->push(auth()->id());
+            if(!empty($request->start)){
+            $meetings = CommercialLog::where('type','meeting')->whereIn('user_id',$usersIds->toArray())
+                      ->whereBetween('log_date',[$start_date,$end_date])->get();
+            $tasks = CommercialTask::whereIn('user_id',$usersIds->toArray())->whereBetween('date',[$start_date,$end_date])->get();
+            }else{
+            $meetings = CommercialLog::where('type','meeting')->whereIn('user_id',$usersIds->toArray())->get();
+            //$tasks = Task::whereIn('user_id',$usersIds->toArray())->get();
+            $tasks = [];
+            }
+            //$logs = Log::whereIn('user_id',$usersIds->toArray())->get();
+            $logs = [];
+
+          }else{
+            if(!empty($request->start)){
+              $meetings = CommercialLog::where('type','meeting')->where('user_id',auth()->id())
+                ->whereBetween('log_date',[$start_date,$end_date])->get();
+                $tasks = CommercialTask::where('user_id',auth()->id())->whereBetween('date',[$start_date,$end_date])->get();
+              }else{
+              $meetings = CommercialLog::where('type','meeting')->where('user_id',auth()->id())->get();
+              $tasks = CommercialTask::where('user_id',auth()->id())->get();
+            }
+            $logs = CommercialLog::where('user_id',auth()->id())->get();
+          }
+        }else{
         if(!empty($request->start)){
           $meetings = Log::where('type','meeting')->where('user_id',auth()->id())
             ->whereBetween('log_date',[$start_date,$end_date])->get();
@@ -111,6 +143,7 @@ class CalendarController extends Controller
           $tasks = Task::where('user_id',auth()->id())->get();
         }
         $logs = Log::where('user_id',auth()->id())->get();
+        }
       }
       
 

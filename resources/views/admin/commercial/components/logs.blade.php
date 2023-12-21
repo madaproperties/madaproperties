@@ -114,5 +114,5 @@
     </div>
   </div>
 
-  @include('admin.contacts.components.edit-logs')
+  @include('admin.commercial.components.edit-logs')
 @endforeach

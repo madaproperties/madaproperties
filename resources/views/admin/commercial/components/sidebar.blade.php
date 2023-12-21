@@ -51,6 +51,7 @@
     
   <div>
     <div class="mt-2 btnSuccc">
+      <a href="#" class="btn btn-sm btn-success  py-2"  data-toggle="modal" data-target="#add-requirement">{{__('site.requirements')}}</a>
       <a href="#" class="btn btn-sm btn-success  py-2"  data-toggle="modal" data-target="#add-task">{{__('site.Task')}}</a>
       <a href="#" class="btn btn-sm btn-success  py-2"  data-toggle="modal" data-target="#add-note">{{__('site.Note')}}</a>
       <a href="#" class="btn btn-sm btn-success  py-2"  data-toggle="modal" data-target="#add-new-meeting">{{__('site.meeting')}}</a>
@@ -119,12 +120,16 @@
   </div>
   <hr />
   @php
-    $contact_persons = json_decode($commercial->contact_persons); 
     $i=1;
   @endphp
   @if($commercial->contact_persons)
-    @foreach($contact_persons as $contact_person) 
+    @foreach($commercial->contact_persons as $contact_person) 
     <h4>Contact Person {{$i++}}</h4>
+    <div class="d-flex align-items-center justify-content-between mb-2">
+      <span class="font-weight-bold mr-2">{{ __('site.name')}}:</span>
+      <span class="text-muted">{{$contact_person->name ? $contact_person->name : 'N/A'}}</span>
+    </div>
+    <hr />
     <div class="d-flex align-items-center justify-content-between mb-2">
       <span class="font-weight-bold mr-2">{{ __('site.designation')}}:</span>
       <span class="text-muted">{{$contact_person->designation ? $contact_person->designation : 'N/A'}}</span>

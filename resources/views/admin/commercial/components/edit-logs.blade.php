@@ -287,7 +287,7 @@
       <div class="modal-body">
         <div class="card card-custom">
           <!--begin::Form-->
-            <form id="edit-log-{{$log->id}}-form" action="{{route('admin.logs.update',$log->id)}}" method="POST">
+            <form id="edit-log-{{$log->id}}-form" action="{{route('admin.commercial_logs.update',$log->id)}}" method="POST">
               @csrf
               @method('PUT')
               <input type="hidden" value="meeting" name="type" />
@@ -304,7 +304,7 @@
                  </select>
                </div>
              <hr />
-              <input type="hidden" value="{{$log->contact_id}}" name="contact_id">
+              <input type="hidden" value="{{$log->commercial_id}}" name="commercial_id">
               <div class="row">
                 <div class="col-md-6 col-sm--12">
                   <div class="form-group ">
@@ -394,29 +394,6 @@
         @endif
         <!--end::Group-->
 
-              @if(!isset($contact))
-              <hr />
-              <div class="form-group">
-                <label for="task-type">{{__('site.contact')}}</label>
-                <div>
-                  @php
-                    $showRoute = $log->contact ? route('admin.contact.show',$log->contact->id) : '#';
-                  @endphp
-                  <a href="{{ $showRoute }}">
-                    {{$log->contact ? $log->contact->fullname : ''}}
-                  </a>
-                </div>
-              </div>
-              <hr />
-              <div class="form-group">
-                <label for="task-type">{{__('site.account')}}</label>
-                <div>
-                  <p>
-                    {{$log->user ? $log->user->email : ''}}
-                  </p>
-                </div>
-              </div>
-              @endif
 
              </div>
              <div class="card-footer">

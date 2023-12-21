@@ -60,6 +60,18 @@ $exportUrl = explode('?',$exportName);
 
 				<!--begin::Body-->
 				<div class="card-body py-0">
+					@if(userRole() != 'commercial sales')
+						<div class="{{$commercial_leads->withQueryString()->links() == ''? 'assign-delete-buttons' : 'page-button'}}">
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#assign-commercial-leads">
+													Assign <i class="fa fa-users"></i></button>
+							@can('commercial-delete')
+								<button type="button" class="btn btn-primary delete-all">
+													Delete <i class="fa fa-trash"></i>
+								</button>
+							@endcan
+						</div>
+					@endif
+
 					<!--begin::Table-->
 					<div class="table-responsive">
 					{{$commercial_leads->withQueryString()->links()}}
@@ -67,16 +79,27 @@ $exportUrl = explode('?',$exportName);
 						<table class="text-center table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
 							<thead>
 								<tr>
+								@if(userRole() != 'commercial sales')
+									<th><input type="checkbox" id="check_all"></th>
+								@endif								
 									<th>{{__('site.country')}}</th>
 									<th>{{__('site.brand_name')}}</th>
 									<th>{{__('site.activity')}}</th>
 									<th>{{__('site.activity_type')}}</th>
+									@if(userRole() != 'commercial sales')
+									<th>{{__('site.Assigned To')}}</th>
+									<th>{{__('site.Created By')}}</th>
+
+									@endif
 									<th style="min-width:150px">{{__('site.action')}}</th>
 								</tr>
 							</thead>
 							<tbody>
 								@foreach($commercial_leads as $commercial)
 								<tr>
+									@if(userRole() != 'commercial sales')
+									<td><input type="checkbox" class="checkbox" data-id="{{$commercial->id}}"></td>
+									@endif
 									<td>
 										<a class="text-dark" href="{{route('admin.commercial-leads.detail',$commercial->id)}}">
 											<span class="text-muted font-weight-bold">{{$commercial->country}}</span>
@@ -91,10 +114,21 @@ $exportUrl = explode('?',$exportName);
 									<td>
 										<span class="text-muted font-weight-bold">{{$commercial->activity_type}}</span>
 									</td>
+									@if(userRole() != 'commercial sales')
+									<td>
+									{{$commercial->user ? explode('@',$commercial->user->name)[0] : ''}}
+									</td>
+									<td>
+									{{$commercial->creator ? explode('@',$commercial->creator->name)[0] : ''}}
+									</td>
+									@endif
 									<td>
 										<div class="editPro">
 									@can('commercial-edit')
-									<a href="{{ route('admin.commercial-leads.show',$commercial->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
+									<a href="{{route('admin.commercial-leads.detail',$commercial->id)}}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="View details"><i class="fa fa-eye"></i></a>																						
+									@endcan
+									@can('commercial-edit')
+									<a href="{{ route('admin.commercial-leads.show',$commercial->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit"><i class="fa fa-edit"></i></a>																						
 									@endcan
 									@can('commercial-delete')
 											<form id="destory-{{$commercial->id}}" class="delete" onsubmit="return confirm('{{__('site.confirm')}}');"
@@ -134,6 +168,91 @@ function submitForm(id){
 @push('js')
 <script type="text/javascript">
 
+$(document).ready(function () {
+	$('#check_all').on('click', function(e) {
+		if($(this).is(':checked',true)){
+			$(".checkbox").prop('checked', true);
+		} else {
+			$(".checkbox").prop('checked',false);
+		}
+	});
+	$('.checkbox').on('click',function(){
+		if($('.checkbox:checked').length == $('.checkbox').length){
+			$('#check_all').prop('checked',true);
+		}else{
+			$('#check_all').prop('checked',false);
+		}
+	});
+
+	// Assign multiple leads
+	$('.assign-all').on('click', function(e) {
+		var idsArr = [];
+		$(".checkbox:checked").each(function() {
+			idsArr.push($(this).attr('data-id'));
+		});
+		if(idsArr.length <=0){
+			alert("Please select atleast one Lead.");
+		}  else {
+			if(confirm("Are you sure, you want to Assign Selected Leads ?")){
+
+				if(!$('#assigned-seller').val())
+				{
+					return alert('please select User To Assign To');
+				}
+				var strIds = idsArr.join(",");
+				$.ajax({
+					url: "{{ route('admin.commercial-leads.multiple-assign') }}",
+					type: 'POST',
+					headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+					data: 'ids='+strIds+"&id="+$('#assigned-seller').val(),
+					success: function (data) {
+						console.log(data);
+						if (data.status == true) {
+							location.reload();
+						} else {
+							alert('Whoops Something went wrong!!');
+						}
+					}, error: function (data) {
+						alert(data.responseText);
+					}
+				});
+			}
+		}
+	});
+
+	// Added by Javed to delete multiple records
+	$('.delete-all').on('click', function(e) {
+		var idsArr = [];
+		$(".checkbox:checked").each(function() {
+			idsArr.push($(this).attr('data-id'));
+		});
+		if(idsArr.length <=0){
+			alert("Please select atleast one Lead.");
+		}  else {
+			if(confirm("Are you sure, you want to Delete Selected Leads ?")){
+
+				var strIds = idsArr.join(",");
+				$.ajax({
+					url: "{{ route('admin.commercial-leads.multiple-delete') }}",
+					type: 'POST',
+					headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+					data: 'ids='+strIds,
+					success: function (data) {
+						if (data.status == true) {
+							location.reload();
+						} else {
+							alert('Whoops Something went wrong!!');
+						}
+					}, error: function (data) {
+						alert(data.responseText);
+					}
+				});
+			}
+		}
+	});
+	//End 
+
+});
 
 </script>
 @endpush	

@@ -33,6 +33,12 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
         Route::resource('commercial-leads','CommercialController');
         
       });
+      Route::post('commercial-leads/multiple-assign','CommercialController@multiple_assign')
+      ->name('commercial-leads.multiple-assign');
+      Route::post('commercial-leads/multiple-delete','CommercialController@multiple_delete')
+      ->name('commercial-leads.multiple-delete');
+
+
       /********* End Mnager Only ***************************/
       Route::resource('contact','ContactController');
       Route::post('contact/multiple-assign','ContactController@multiple_assign')
@@ -49,6 +55,19 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       // meeting
       // Route::resource('meeting','MeetingsController');
       // notofications
+
+
+      // CommercialTasksDashboardPage
+      Route::resource('commercial_tasks','CommercialTasksController');
+      // CommercialNotesDashboardPage
+      Route::resource('commercial_note','CommercialNotesController');
+      // CommercialLogsController , admin.getlog
+      Route::resource('commercial_logs','CommercialLogsController');
+      Route::resource('requirements','CommercialRequirementsController');
+      Route::post('commercial_logs/get','CommercialLogsController@get_log')->name('getlog');      
+      Route::get('getDistricts', 'CommercialController@getDistricts')->name('requirements.getDistricts');
+
+
       Route::resource('notofications','NotoficationsController');
       Route::get('notofications/switch/{id}','NotoficationsController@switch')
                     ->name('notofications.switch');

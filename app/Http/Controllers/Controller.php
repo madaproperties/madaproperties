@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use App\Status;
 use App\Contact;
+use App\CommercialActivity;
+use App\Commercial;
 
 class Controller extends BaseController
 {
@@ -98,6 +100,26 @@ class Controller extends BaseController
       Schema::table($table, function (Blueprint $table) use ($newColumnType, $newColumnName) {
         $table->$newColumnType($newColumnName)->default($default);
       });
+    }
+
+    public function newCommercialActivity($commercialID,$userID,$action,$model = null,$relatedModelID = null,$activityDate = null,$createdContact = false){
+        
+      $activityDate = str_replace('/','-',$activityDate);
+      $activityDate = $activityDate ? Carbon::createFromFormat('d-m-Y', $activityDate)->format('d-m-Y') : $activityDate;
+
+      $data = [
+        'commercial_id' => $commercialID,
+        'user_id' => $userID,
+        'action' => $action,
+        'related_model' => $model,
+        'related_model_id' => $relatedModelID,
+      ];
+
+      if($activityDate){
+        $data['date'] = $activityDate;
+      }
+
+      CommercialActivity::create($data);
     }
 
 }

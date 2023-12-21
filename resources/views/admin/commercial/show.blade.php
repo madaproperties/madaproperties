@@ -92,7 +92,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.location')}}</label>
 																		<div class="col-lg-10 col-xl-10">
-																			<input class="form-control form-control-solid form-control-lg" 	name="location" type="text" value="{{old('location')}}" placeholder="{{__('site.location')}}">
+																			<input class="form-control form-control-solid form-control-lg" 	name="location" type="text" value="{{$commercial->location}}" placeholder="{{__('site.location')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	
@@ -116,9 +116,9 @@
 
 																			@foreach($contact_persons as $contact_person)
 																				<div class="form-group row fv-plugins-icon-container">
-																					<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.phone')}}</label>
+																					<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.name')}}</label>
 																					<div class="col-lg-4 col-xl-4">
-																						<input class="form-control form-control-solid form-control-lg" 	name="contact_persons[{{$i}}][phone]" type="text" value="{{$contact_person->phone}}" placeholder="{{__('site.phone')}}">
+																						<input class="form-control form-control-solid form-control-lg" 	name="contact_persons[{{$i}}][name]" type="text" value="{{$contact_person->name}}" placeholder="{{__('site.name')}}">
 																						<div class="fv-plugins-message-container"></div>
 																					</div>
 																				
@@ -129,8 +129,13 @@
 																					</div>
 																				</div>
 																				<div class="form-group row fv-plugins-icon-container">
+																					<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.phone')}}</label>
+																					<div class="col-lg-4 col-xl-4">
+																						<input class="form-control form-control-solid form-control-lg" 	name="contact_persons[{{$i}}][phone]" type="text" value="{{$contact_person->phone}}" placeholder="{{__('site.phone')}}">
+																						<div class="fv-plugins-message-container"></div>
+																					</div>
 																					<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.designation')}}</label>
-																					<div class="col-lg-10 col-xl-10">
+																					<div class="col-lg-4 col-xl-4">
 																						<input class="form-control form-control-solid form-control-lg" 	name="contact_persons[{{$i}}][designation]" type="text" value="{{$contact_person->designation}}" placeholder="{{__('site.designation')}}">
 																						<div class="fv-plugins-message-container"></div>
 																					</div>
@@ -190,10 +195,10 @@
 @push('js')
 <script>
 $(document).ready(function(){
-	var total_contacts = "{{count($contact_persons)}}";
+	var total_contacts = parseInt("{{count($contact_persons)}}");
 	$("#contact_add_more").click(function(){
+		$("#contact_html").append('<div class="form-group row fv-plugins-icon-container"><label class="col-xl-2 col-lg-2 col-form-label">{{__("site.name")}}</label><div class="col-lg-4 col-xl-4"><input class="form-control form-control-solid form-control-lg" 	name="contact_persons['+total_contacts+'][name]" type="text" value="" placeholder="{{__("site.name")}}"><div class="fv-plugins-message-container"></div></div><label class="col-xl-2 col-lg-2 col-form-label">{{__("site.email")}}</label><div class="col-lg-4 col-xl-4"><input class="form-control form-control-solid form-control-lg" 	name="contact_persons['+total_contacts+'][email]" type="email" value="" placeholder="{{__("site.email")}}"><div class="fv-plugins-message-container"></div></div></div><div class="form-group row fv-plugins-icon-container"><label class="col-xl-2 col-lg-2 col-form-label">{{__("site.phone")}}</label><div class="col-lg-4 col-xl-4"><input class="form-control form-control-solid form-control-lg" 	name="contact_persons['+total_contacts+'][phone]" type="text" value="" placeholder="{{__("site.phone")}}"><div class="fv-plugins-message-container"></div></div><label class="col-xl-2 col-lg-2 col-form-label">{{__("site.designation")}}</label><div class="col-lg-4 col-xl-4"><input class="form-control form-control-solid form-control-lg" 	name="contact_persons['+total_contacts+'][designation]" type="text" value="" placeholder="{{__("site.designation")}}"><div class="fv-plugins-message-container"></div></div></div><!--end::Group--><hr>');
 		total_contacts += 1;
-		$("#contact_html").append('<div class="form-group row fv-plugins-icon-container"><label class="col-xl-2 col-lg-2 col-form-label">{{__("site.phone")}}</label><div class="col-lg-4 col-xl-4"><input class="form-control form-control-solid form-control-lg" 	name="contact_persons['+total_contacts+'][phone]" type="text" value="" placeholder="{{__("site.phone")}}"><div class="fv-plugins-message-container"></div></div><label class="col-xl-2 col-lg-2 col-form-label">{{__("site.email")}}</label><div class="col-lg-4 col-xl-4"><input class="form-control form-control-solid form-control-lg" 	name="contact_persons['+total_contacts+'][email]" type="email" value="" placeholder="{{__("site.email")}}"><div class="fv-plugins-message-container"></div></div></div><div class="form-group row fv-plugins-icon-container"><label class="col-xl-2 col-lg-2 col-form-label">{{__("site.designation")}}</label><div class="col-lg-10 col-xl-10"><input class="form-control form-control-solid form-control-lg" 	name="contact_persons['+total_contacts+'][designation]" type="text" value="" placeholder="{{__("site.designation")}}"><div class="fv-plugins-message-container"></div></div></div><!--end::Group--><hr>');
 	});
 });
 </script>

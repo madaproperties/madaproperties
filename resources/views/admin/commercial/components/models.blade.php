@@ -16,7 +16,7 @@
             <div class="modal-body">
                 <div class="card card-custom">
                   <!--begin::Form-->
-                  <form id="add-task-form" action="{{route('admin.tasks.store')}}" method="POST">
+                  <form id="add-task-form" action="{{route('admin.commercial_tasks.store')}}" method="POST">
                     @csrf
                     <div class="card-body">
                       <div>
@@ -24,7 +24,7 @@
                         <input type="text" name="name" class="form-control" value="{{old('name')}}" >
                       </div>
                       <hr />
-                      <input type="hidden" value="{{$commercial->id}}" name="contact_id">
+                      <input type="hidden" value="{{$commercial->id}}" name="commercial_id">
                       <div class="row">
                         <div class="col-md-6 col-sm--12">
                           <div class="form-group ">
@@ -119,9 +119,9 @@
             <div class="modal-body">
                 <div class="card card-custom">
                <!--begin::Form-->
-                 <form id="add-note-form" action="{{route('admin.note.store')}}" method="POST">
+                 <form id="add-note-form" action="{{route('admin.commercial_note.store')}}" method="POST">
                    @csrf
-                   <input type="hidden" value="{{$commercial->id}}" name="contact_id">
+                   <input type="hidden" value="{{$commercial->id}}" name="commercial_id">
 
                    <div class="form-group">
                      <label class="d-block">{{ __('site.description') }}</label>
@@ -237,11 +237,11 @@
       <div class="modal-body">
         <div class="card card-custom">
           <!--begin::Form-->
-            <form id="add-log-email-form" action="{{route('admin.logs.store')}}" method="POST">
+            <form id="add-log-email-form" action="{{route('admin.commercial_logs.store')}}" method="POST">
               @csrf
               <input type="hidden" value="email" name="type" />
              <div class="card-body">
-              <input type="hidden" value="{{$commercial->id}}" name="contact_id">
+              <input type="hidden" value="{{$commercial->id}}" name="commercial_id">
               <div class="row">
                 <div class="col-md-6 col-sm--12">
                   <div class="form-group ">
@@ -407,11 +407,11 @@
       <div class="modal-body">
         <div class="card card-custom">
           <!--begin::Form-->
-            <form id="add-log-call-form" action="{{route('admin.logs.store')}}" method="POST">
+            <form id="add-log-call-form" action="{{route('admin.commercial_logs.store')}}" method="POST">
               @csrf
               <input type="hidden" value="call" name="type" />
              <div class="card-body">
-              <input type="hidden" value="{{$commercial->id}}" name="contact_id">
+              <input type="hidden" value="{{$commercial->id}}" name="commercial_id">
               <div class="row">
                 <div class="col-md-6 col-sm--12">
                   <div class="form-group ">
@@ -619,7 +619,7 @@
       <div class="modal-body">
         <div class="card card-custom">
           <!--begin::Form-->
-            <form id="add-log-meeting-form" action="{{route('admin.logs.store')}}" method="POST">
+            <form id="add-log-meeting-form" action="{{route('admin.commercial_logs.store')}}" method="POST">
               @csrf
               <input type="hidden" value="meeting" name="type" />
              <div class="card-body">
@@ -635,7 +635,7 @@
                  </select>
                </div>
              <hr />
-              <input type="hidden" value="{{$commercial->id}}" name="contact_id">
+              <input type="hidden" value="{{$commercial->id}}" name="commercial_id">
               <div class="row">
                 <div class="col-md-6 col-sm--12">
                   <div class="form-group ">
@@ -814,7 +814,7 @@
       <div class="modal-body">
         <div class="card card-custom">
           <!--begin::Form-->
-            <form id="add-new-meeting-form" action="{{route('admin.logs.store')}}" method="POST">
+            <form id="add-new-meeting-form" action="{{route('admin.commercial_logs.store')}}" method="POST">
               @csrf
               <input type="hidden" value="meeting" name="type" />
               <input type="hidden" value="0" name="is_log" />
@@ -831,7 +831,7 @@
                </select>
              </div>
              <hr />
-              <input type="hidden" value="{{$commercial->id}}" name="contact_id">
+              <input type="hidden" value="{{$commercial->id}}" name="commercial_id">
               <div class="row">
                 <div class="col-md-6 col-sm--12">
                   <div class="form-group ">
@@ -903,11 +903,11 @@
       <div class="modal-body">
         <div class="card card-custom">
           <!--begin::Form-->
-            <form id="add-log-whatsapp-form" action="{{route('admin.logs.store')}}" method="POST">
+            <form id="add-log-whatsapp-form" action="{{route('admin.commercial_logs.store')}}" method="POST">
               @csrf
               <input type="hidden" value="whatsapp" name="type" />
              <div class="card-body">
-              <input type="hidden" value="{{$commercial->id}}" name="contact_id">
+              <input type="hidden" value="{{$commercial->id}}" name="commercial_id">
               <div class="row">
                 <div class="col-md-6 col-sm--12">
                   <div class="form-group ">
@@ -1049,6 +1049,119 @@
              <div class="card-footer">
               <button type="submit" form="add-log-whatsapp-form" class="btn btn-primary mr-2">{{__('site.save')}}</button>
               <button data-dismiss="modal" form="add-log-whatsapp-form"  class="btn btn-secondary">{{__('site.cancel')}}</button>
+             </div>
+            </form>
+            <!--end::Form-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--- Eit Log-CALL Model -->
+<!-- Add Log-CALL Modal-->
+<div class="modal fade" id="add-requirement" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{__('site.requirement')}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i aria-hidden="true" class="ki ki-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card card-custom">
+          <!--begin::Form-->
+            <form id="add-requirement-form" action="{{route('admin.requirements.store')}}" method="POST">
+              @csrf
+              <input type="hidden" value="whatsapp" name="type" />
+             <div class="card-body">
+              <input type="hidden" value="{{$commercial->id}}" name="commercial_id">
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <label>{{__('site.contact_person_name')}}</label>
+                    <select name="contact_id" class="form-control" >
+                      <option value="">{{__('site.select option')}}</option>
+                      @if($commercial->contact_persons)
+                        @foreach($commercial->contact_persons as $contact_person) 
+                        <option {{old('contact_id') == $contact_person->id ? 'selected' : ''}} value="{{$contact_person->id}}">{{$contact_person->name}}</option>
+                        @endforeach
+                      @endif
+                    </select>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <label>{{__('site.city')}}</label>
+                  <select name="city_id" class="form-control" >
+                  @foreach($cities as $city)
+                  <option {{'2' == $city->id ? 'selected' : ''}} value="{{$city->id}}">{{$city->name_en}}</option>
+                  @endforeach
+                  </select>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <label>{{__('site.zone')}}</label>
+                  <select name="zone_id" class="form-control" id="zone_id">
+                  <option value="">{{__('site.choose')}}</option>
+                  @foreach($zones as $zone)
+                  <option {{old('zone_id') == $zone->id ? 'selected' : ''}} value="{{$zone->id}}">{{$zone->zone_name}}</option>
+                  @endforeach
+                  </select>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <label>{{__('site.district')}}</label>
+                  <select name="district_id" class="form-control" id="district_id_add">
+                  <option value="">{{__('site.choose')}}</option>
+                  </select>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <label>{{__('site.street info')}}</label>
+                  <input type="text" name="street_info" class="form-control" value="" >
+                </div>
+
+                <div class="col-md-6 col-sm-12">
+                  <label>{{__('site.expanding_date')}}</label>
+                  <select name="expanding_date" class="form-control" >
+                  {!! selectOptions(__('config.expanding_date'),old('expanding_date')) !!}
+                  </select>
+                </div>
+              </div>
+              <hr />	
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <label>{{__('site.expanding year')}}</label>
+                  <select name="expanding_year" class="form-control" id="expanding_year">
+                  <option value="">{{__('site.choose')}}</option>
+                  {!! selectOptions($expanding_years,date("Y")) !!}
+                  </select>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <label>{{__('site.target_size')}}</label>
+                  <input type="text" name="target_size" class="form-control" value="" >
+                </div>
+              </div>
+              <hr />	
+        <!--end::Group-->
+              <div class="form-group">
+                <label for="requirement-status">{{__('site.status')}}</label>
+                <select name="status" class="form-control" required>
+                  <option value="">{{__('site.select option')}}</option>
+                  <option value="pending">{{__('site.pending')}}</option>
+                  <option value="discussed">{{__('site.discussed')}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>{{__('site.description')}}</label>
+                <textarea name="description" class="form-control"></textarea>
+              </div>
+             </div>
+             </div>
+             <div class="card-footer">
+              <button type="submit" form="add-requirement-form" class="btn btn-primary mr-2">{{__('site.save')}}</button>
+              <button data-dismiss="modal" form="add-requirement-form"  class="btn btn-secondary">{{__('site.cancel')}}</button>
              </div>
             </form>
             <!--end::Form-->

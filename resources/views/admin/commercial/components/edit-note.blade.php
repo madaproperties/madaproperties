@@ -11,11 +11,11 @@
             <div class="modal-body">
                 <div class="card card-custom">
                <!--begin::Form-->
-                 <form id="edit-note-form-{{$note->id}}" action="{{route('admin.note.update',$note->id)}}" method="POST">
+                 <form id="edit-note-form-{{$note->id}}" action="{{route('admin.commercial_note.update',$note->id)}}" method="POST">
                    @csrf
                    @method('PUT')
 
-                   <input type="hidden" value="{{$contact->id}}" name="contact_id">
+                   <input type="hidden" value="{{$commercial->id}}" name="commercial_id">
 
                    <div class="form-group">
                      <label class="d-block">{{__('site.description')}}</label>

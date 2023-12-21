@@ -62,6 +62,14 @@
 												</a>
 											</li>
 											@endforeach
+											<li class="nav-item">
+												<a class="nav-link" id="requirements-tab" data-toggle="tab" href="#requirements" aria-controls="requirements">
+													<span class="nav-icon">
+														<i class="fa fa-list"></i>
+													</span>
+													<span class="nav-text">{{__('site.requirements')}}</span>
+												</a>
+											</li>
 									</ul>
 		
 									<div class="tab-content mt-5" id="myTabContent">
@@ -80,6 +88,9 @@
 											@include('admin.commercial.components.logs',['filter' => $contact_status])
 										</div>
 										@endforeach
+										<div class="tab-pane fade" id="requirements" role="tabpanel" aria-labelledby="requirements-tab">
+											@include('admin.commercial.components.requirements')
+										</div>
 
 									</div>
 								</div>

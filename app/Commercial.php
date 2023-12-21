@@ -28,6 +28,11 @@ class Commercial extends Model
       return $this->hasMany(CommercialLog::class,'commercial_id');
     }
 
+    public function contact_persons()
+    {
+      return $this->hasMany(CommercialContactPerson::class,'lead_id');
+    }
+
 
 
 }

@@ -65,5 +65,5 @@
 
   </div>
 </div>
-  @include('admin.contacts.components.edit-note')
+  @include('admin.commercial.components.edit-note')
 @endforeach

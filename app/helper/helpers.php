@@ -975,3 +975,87 @@ function s3AssetUrl($url){
   //return env('APP_URL').'/public/'.$url;
   return env('S3_URL').$url;
 }
+
+function getCommercialSellers() {
+  $sellers = [];
+  if(userRole() == 'commercial leader'){
+    $id = auth()->id();
+    $sellers = User::where(function($q) use($id){
+                      $q->where('leader',$id);
+                      $q->OrWhere('id',$id);
+                    })->orderBy('email','asc')
+                    ->where('active','1')->get();
+  }elseif(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing' || userRole() == 'ceo'){ //Updated by Javed
+
+    if(userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' ){
+      $whereCountry = '';
+      if(userRole() == 'sales admin uae'){
+        $whereCountry = 'Asia/Dubai';
+        $sellers = User::where(function($q){
+          $q->where('rule','commercial sales');
+          $q->orWhere('rule','commercial leader');
+        })
+        ->where('active','1')
+        ->where('time_zone','like','%'.$whereCountry.'%')
+        ->orderBy('email','asc')
+        ->get();
+      }else{
+        $whereCountry = 'Asia/Riyadh';
+        $sellers = User::where(function($q){
+          $q->where('rule','commercial sales');
+          $q->orWhere('rule','commercial leader');
+        })
+        ->where('time_zone','like','%'.$whereCountry.'%')
+        ->where('active','1')
+        ->orderBy('email','asc')
+        ->get();
+
+      }        
+  
+    }else{
+      $sellers = User::where(function($q){
+        $q->where('rule','commercial sales');
+        $q->orWhere('rule','commercial leader');
+      })->where('active','1')->orderBy('email','asc')->get();
+    }
+
+  }elseif(userRole() == 'sales admin'){
+      $whereCountry = 'Asia/Riyadh';
+      $leader = auth()->user()->leader;
+      if($leader){
+        $sellers = User::where('active','1')
+        ->where('time_zone','like','%'.$whereCountry.'%')
+            ->where(function($q) use($leader){
+              $q->where('id','!=',auth()->id())
+              ->where('rule','commercial sales')
+              ->orWhere('rule','commercial leader')
+              ->orWhere('id',$leader);
+            })->orderBy('email','asc')->get();
+      }else{
+          $sellers = [];
+      }
+
+
+  }elseif(userRole() == 'sales director'){
+    $userloc=User::where('id',auth()->id())->first();
+    if($userloc->time_zone=='Asia/Dubai'){
+      $sellers = User::where('time_zone','Asia/Dubai')
+        ->where('active','1')
+        ->where(function($q){
+          $q->where('rule','commercial sales');
+          $q->orWhere('rule','commercial leader');
+        })->orderBy('email','asc')->get();
+    }else{
+      $sellers = User::where('time_zone','Asia/Riyadh')
+        ->where('active','1')
+        ->where(function($q){
+          $q->where('rule','commercial sales');
+          $q->orWhere('rule','commercial leader');
+        })->orderBy('email','asc')->get();
+    }
+  }else {
+    $sellers = [];
+  }
+  return $sellers;
+}
+
