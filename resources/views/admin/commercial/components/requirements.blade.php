@@ -1,4 +1,4 @@
-@php($i=1)
+@php($i=count($requirements))
 @foreach($requirements as $requirement)
 <div class="card card-custom gutter-b">
     <div class="card-body">
@@ -8,7 +8,7 @@
         <div class="flex-grow-1">
           <!--begin::Title-->
           <span class="d-flex align-items-center font-size-h4">
-                {{__('site.requirement')}} {{ $i++}}</span>
+                {{__('site.requirement')}} {{ $i--}}</span>
           <div class="d-flex align-items-center justify-content-between flex-wrap mt-2">
             <!--begin::User-->
             <div class="mr-3">
