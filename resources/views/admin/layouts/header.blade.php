@@ -35,6 +35,7 @@
     <script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
     <script src="{{ asset('public/assets/js/pages/crud/forms/widgets/bootstrap-datetimepicker.js') }}"></script>
     <link rel="shortcut icon" href="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" />
+    
     @include('admin.layouts.msgs') @stack('css')
     <style>
         @if(Request::root()=='https://lmsstaging.madaproperties.com') body {
@@ -257,6 +258,15 @@
                                             </a>
                                         </li> 
                                         @endif
+                                          <!-- added by fazal on 20-12-23 -->
+                                         @if($user->can('busniess-development-list')) 
+                                        <li class="menu-item menu-item-active {{ (request()->routeIs('admin.business-development-leads'))  ? 'active' : '' }}" aria-haspopup="true">
+                                            <a href="{{route('admin.business-development-leads.index')}}" class="menu-link {{ (request()->routeIs('admin.business-development-leads')) ? 'active' : ''}}">
+                                                <span class="menu-text"><i class="fa fa-address-book"></i> {{__('site.Business_Developement')}}</span>
+                                            </a>
+                                        </li> 
+                                        @endif
+                                        <!--  -->
                                         
                                         
                                         @can('calendar-list') <li class="menu-item menu-item-active {{ request()->routeIs('admin.calendar') ? 'active' : '' }}" aria-haspopup="true">

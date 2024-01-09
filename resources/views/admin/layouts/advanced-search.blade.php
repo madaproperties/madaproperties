@@ -58,7 +58,22 @@
       </select>
     </div>
     @endif
+    <!-- updated by fazal on 04-01-24 -->
+ @if(userRole() == 'admin' || userRole() == 'digital marketing' || userRole()=='ceo')
 
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.project')}} {{__('site.country')}}</label>
+      <select class="form-control" name="project_country_id">
+        <option value="">{{__('site.choose')}}</option>
+        @foreach($countries as $countrie)
+            <option
+            {{ Request('project_country_id') == $countrie->id ? 'selected':  '' }}
+            value="{{$countrie->id}}">{{$countrie->name_en}}</option>
+        @endforeach
+      </select>
+    </div>
+    @endif
+    <!-- End by Javed -->
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.project')}}</label>
       <select class="form-control" name="project_id">
@@ -184,21 +199,7 @@
         @endforeach
       </select>
     </div>
-    @if(userRole() == 'admin' || userRole() == 'digital marketing')
-
-    <div class="form-group col-md-4 col-sm-12">
-      <label for="country">{{__('site.project')}} {{__('site.country')}}</label>
-      <select class="form-control" name="project_country_id">
-        <option value="">{{__('site.choose')}}</option>
-        @foreach($countries as $countrie)
-            <option
-            {{ Request('project_country_id') == $countrie->id ? 'selected':  '' }}
-            value="{{$countrie->id}}">{{$countrie->name_en}}</option>
-        @endforeach
-      </select>
-    </div>
-    @endif
-    <!-- End by Javed -->
+   
 
     <!--begin::Group-->
     <div class="form-group col-md-4 col-sm-12">

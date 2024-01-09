@@ -673,4 +673,10 @@ return [
   'lead created' => 'Lead Created',
   'expanding year' => 'Expanding Year',
   'street info' => 'Street Info',
+  'Business_Developement'=>'Business Developement',
+  'target_size_from' => 'Target Size From',
+  'target_size_to' => 'Target Size To',
+  'cancelled'  =>'Cancelled',
+  'person_name'=>'Person Name'
+
 ];
