@@ -108,7 +108,17 @@
                         </div>
                         
                       </div>
-                      <hr />	
+                      <hr />
+                      	<!-- added by fazal on 09-01-23 -->
+                      <div class="form-group">
+                        <label for="requirement-status">{{__('site.type')}}</label>
+                        <select name="commercial_type" class="form-control" required>
+                          {!! selectOptions(__('config.commercial_types'),$requirement->commercial_type) !!} 
+                           
+                        </select>
+                      </div>
+                      <hr />
+                      <!-- end -->
 
                       <div class="form-group">
                         <label for="requirement-status">{{__('site.status')}}</label>

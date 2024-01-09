@@ -1,4 +1,5 @@
 @php($i=count($requirements))
+@php($i=1)
 @foreach($requirements as $requirement)
 <div class="card card-custom gutter-b">
     <div class="card-body">
@@ -14,7 +15,7 @@
             <div class="mr-3">
               <!--begin::Name-->
               <a href="#" class="d-flex align-items-center text-dark  font-size-h5 font-weight-bold mr-3">
-              {{__('site.status')}} : {{$requirement->status}}</a>
+              {{__('site.status')}} : {{$requirement->status}} - Type :  {{$requirement->commercial_type}}</a>
               <!--end::Name-->
               <!--begin::Contacts-->
               <div class="d-flex flex-wrap my-2">
