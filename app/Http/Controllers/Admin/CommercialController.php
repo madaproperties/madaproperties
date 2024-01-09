@@ -219,7 +219,7 @@ class CommercialController extends Controller
     $tasks = CommercialTask::where('commercial_id',$commercial->id)->orderBy('created_at','DESC')->get();
     $notes = CommercialNote::where('commercial_id',$commercial->id)->orderBy('created_at','DESC')->get();
     $logs = CommercialLog::where('commercial_id',$commercial->id)->orderBy('created_at','DESC')->get();
-    $requirements = CommercialRequirements::where('commercial_id',$commercial->id)->orderBy('created_at','DESC')->get();
+    $requirements = CommercialRequirements::where('commercial_id',$commercial->id)->get();
 
     $LastConnected = CommercialLog::where('commercial_id',$commercial->id)->orderBy('log_date','DESC')->first();
 
