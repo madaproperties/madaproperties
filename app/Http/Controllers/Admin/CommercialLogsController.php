@@ -87,6 +87,8 @@ class CommercialLogsController extends Controller
           'is_log' => 'nullable',
           'status_id' => 'nullable',
           'follow_up_date' => 'nullable',
+          'requirement_id' => 'nullable',
+          'contact_person_id' => 'nullable',
           
         ];
         $msg = __('site.create new '.$request->type.' log with task');
@@ -102,6 +104,8 @@ class CommercialLogsController extends Controller
           'is_log' => 'nullable',
           'status_id' => 'nullable',
           'follow_up_date' => 'nullable',
+          'requirement_id' => 'nullable',
+          'contact_person_id' => 'nullable',
         ];
         $msg = __('site.create new '.$request->type.' log');
       }

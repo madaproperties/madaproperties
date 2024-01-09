@@ -70,8 +70,10 @@
 
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.activity')}}</label>
 																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="activity_name" type="text" value="{{old('activity_name')}}" placeholder="{{__('site.activity')}}">
-																			<div class="fv-plugins-message-container"></div>
+																			<select class="form-control"  name="activity_name">
+																			<option {{old('activity_name') == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
+																			{!! selectOptions(__('config.activity_name'),old('activity_name')) !!}
+																			</select>
 																		</div>
 																	</div>
 																	<!--end::Group-->
@@ -86,8 +88,12 @@
 																		</div>
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.location')}}</label>
 																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="location" type="text" value="{{old('location')}}" placeholder="{{__('site.location')}}">
-																			<div class="fv-plugins-message-container"></div>
+																			<select class="form-control"  name="location_id">
+																			@foreach($countries as $country)
+																				<option {{$country->id == '1' ? 'selected' : ''}} value="{{ $country->id }}">{{ $country->name_en }}</option>
+																			@endforeach
+																			</select>
+
 																		</div>
 																	</div>
 																	<!--end::Group-->

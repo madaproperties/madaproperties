@@ -57,26 +57,28 @@
 																	<h2 style="color:#9fc538"> {{__('site.Basic Details')}}</h2>
 																	<hr>
 																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.country')}}</label>
+																		<!-- <label class="col-xl-2 col-lg-2 col-form-label">{{__('site.country')}}</label>
 																		<div class="col-lg-4 col-xl-4">
 																			<input class="form-control form-control-solid form-control-lg" 	name="country" type="text" value="{{$commercial->country}}" placeholder="{{__('site.country')}}">
 																			<div class="fv-plugins-message-container"></div>
-																		</div>
+																		</div> -->
 																	
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.brand_name')}}</label>
 																		<div class="col-lg-4 col-xl-4">
 																			<input class="form-control form-control-solid form-control-lg" 	name="brand_name" type="text" value="{{$commercial->brand_name}}" placeholder="{{__('site.brand_name')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
+																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.activity')}}</label>
+																		<div class="col-lg-4 col-xl-4">
+																			<select class="form-control"  name="activity_name">
+																			<option {{old('activity_name') == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
+																			{!! selectOptions(__('config.activity_name'),$commercial->activity_name) !!}
+																			</select>
+																		</div>
 																	</div>
 																	<!--end::Group-->
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.activity')}}</label>
-																		<div class="col-lg-4 col-xl-4">
-																			<input class="form-control form-control-solid form-control-lg" 	name="activity_name" type="text" value="{{$commercial->activity_name}}" placeholder="{{__('site.activity')}}">
-																			<div class="fv-plugins-message-container"></div>
-																		</div>
 																		
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.activity_type')}}</label>
 																		<div class="col-lg-4 col-xl-4">
@@ -85,19 +87,20 @@
 																			{!! selectOptions(__('config.activity_type'),$commercial->activity_type) !!}
 																			</select>
 																		</div>
-																	
-																	</div>
-																	<!--end::Group-->
-																	<!--begin::Group-->
-																	<div class="form-group row fv-plugins-icon-container">
-																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.location')}}</label>
-																		<div class="col-lg-10 col-xl-10">
-																			<input class="form-control form-control-solid form-control-lg" 	name="location" type="text" value="{{$commercial->location}}" placeholder="{{__('site.location')}}">
-																			<div class="fv-plugins-message-container"></div>
+																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.activity')}}</label>
+																		<div class="col-lg-4 col-xl-4">
+																		<select class="form-control"  name="location_id">
+																			@foreach($countries as $country)
+																				<option {{$commercial->location_id == $country->id ? 'selected' : ''}} value="{{ $country->id }}">{{ $country->name_en }}</option>
+																			@endforeach
+																			</select>
+
 																		</div>
+																		
 																	
 																	</div>
 																	<!--end::Group-->
+																	
 																</div>
 															</div>
 															<div class="col-xl-12">

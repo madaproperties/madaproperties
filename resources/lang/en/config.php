@@ -209,12 +209,17 @@ return [
     'Q3' => 'Q3',
     'Q4' => 'Q4',
   ],
-   'activity_category' => [
+  'activity_name' => [
     'Food & Privilege' => 'Food & Privilege',
     'Travel and Hospitality' => 'Travel and Hospitality',
     'Luxury Brands' => 'Luxury Brands',
     'Beverage Brands' => 'Beverage Brands',
-    'Logistics' => 'Logistics'
+    'Logistics' => 'Logistics',
+  ],
+  'requirement_status' => [
+    'pending' => 'pending',
+    'discussed' => 'discussed',
+    'closed' => 'closed'
   ],
   'target_size_from' => [
     '0' => '0',

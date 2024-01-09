@@ -279,6 +279,30 @@
               </div>
               </div>
               <hr />
+              @php $z=1 @endphp
+              @if(count($commercial->requirements) > 0 )
+              <div class="form-group">
+                <label for="task-type">{{__('site.requirement')}}</label>
+                <select name="requirement_id" class="form-control" required>
+                  <option value="">{{__('site.select option')}}</option>
+                  @foreach($commercial->requirements as $requirement)
+                    <option value="{{$requirement->id}}">{{__('site.requirement') . ' '. $z++ }}</option>
+                  @endforeach
+                </select>
+              </div>
+              @endif
+              @if(count($commercial->contact_persons) > 0 )
+              <div class="form-group">
+                <label for="task-type">Contact Person</label>
+                <select name="contact_person_id" class="form-control" required>
+                  <option value="">{{__('site.select option')}}</option>
+                  @foreach($commercial->contact_persons as $contact_person)
+                    <option value="{{$contact_person->id}}">{{ $contact_person->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+              @endif
+
               <div class="form-group">
                 <label class="d-block">{{ __('site.description') }}</label>
                 <textarea name="description"  id="log-email-description">{{old('description')}}</textarea>
@@ -449,6 +473,31 @@
               </div>
               </div>
               <hr />
+              @php $z=1 @endphp
+              @if(count($commercial->requirements) > 0 )
+              <div class="form-group">
+                <label for="task-type">{{__('site.requirement')}}</label>
+                <select name="requirement_id" class="form-control" required>
+                  <option value="">{{__('site.select option')}}</option>
+                  @foreach($commercial->requirements as $requirement)
+                    <option value="{{$requirement->id}}">{{__('site.requirement') . ' '. $z++}}</option>
+                  @endforeach
+                </select>
+              </div>
+              @endif
+              @if(count($commercial->contact_persons) > 0 )
+              <div class="form-group">
+                <label for="task-type">Contact Person</label>
+                <select name="contact_person_id" class="form-control" required>
+                  <option value="">{{__('site.select option')}}</option>
+                  @foreach($commercial->contact_persons as $contact_person)
+                    <option value="{{$contact_person->id}}">{{ $contact_person->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+              @endif
+
+
               <div class="form-group">
                <label for="task-type">{{__('site.call outCome')}}</label>
                @php
@@ -673,6 +722,29 @@
               </div>
               </div>
               <hr />
+              @php $z=1 @endphp
+              @if(count($commercial->requirements) > 0 )
+              <div class="form-group">
+                <label for="task-type">{{__('site.requirement')}}</label>
+                <select name="requirement_id" class="form-control" required>
+                  <option value="">{{__('site.select option')}}</option>
+                  @foreach($commercial->requirements as $requirement)
+                    <option value="{{$requirement->id}}">{{__('site.requirement') . ' '. $z++}}</option>
+                  @endforeach
+                </select>
+              </div>
+              @endif
+              @if(count($commercial->contact_persons) > 0 )
+              <div class="form-group">
+                <label for="task-type">Contact Person</label>
+                <select name="contact_person_id" class="form-control" required>
+                  <option value="">{{__('site.select option')}}</option>
+                  @foreach($commercial->contact_persons as $contact_person)
+                    <option value="{{$contact_person->id}}">{{ $contact_person->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+              @endif              
               <div class="form-group">
                <label for="task-type">{{__('site.meeting outcome')}}</label>
                @php
@@ -868,6 +940,29 @@
                </div>
               </div>
               </div>
+              @php $z=1 @endphp
+              @if(count($commercial->requirements) > 0 )
+              <div class="form-group">
+                <label for="task-type">{{__('site.requirement')}}</label>
+                <select name="requirement_id" class="form-control" required>
+                  <option value="">{{__('site.select option')}}</option>
+                  @foreach($commercial->requirements as $requirement)
+                    <option value="{{$requirement->id}}">{{__('site.requirement') . ' '. $z++}}</option>
+                  @endforeach
+                </select>
+              </div>
+              @endif
+              @if(count($commercial->contact_persons) > 0 )
+              <div class="form-group">
+                <label for="task-type">Contact Person</label>
+                <select name="contact_person_id" class="form-control" required>
+                  <option value="">{{__('site.select option')}}</option>
+                  @foreach($commercial->contact_persons as $contact_person)
+                    <option value="{{$contact_person->id}}">{{ $contact_person->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+              @endif
 
               <div class="form-group">
                 <label class="d-block">{{ __('site.description') }}</label>
@@ -945,6 +1040,29 @@
               </div>
               </div>
               <hr />
+              @php $z=1 @endphp
+              @if(count($commercial->requirements) > 0 )
+              <div class="form-group">
+                <label for="task-type">{{__('site.requirement')}}</label>
+                <select name="requirement_id" class="form-control" required>
+                  <option value="">{{__('site.select option')}}</option>
+                  @foreach($commercial->requirements as $requirement)
+                    <option value="{{$requirement->id}}">{{__('site.requirement') . ' '. $z++}}</option>
+                  @endforeach
+                </select>
+              </div>
+              @endif
+              @if(count($commercial->contact_persons) > 0 )
+              <div class="form-group">
+                <label for="task-type">Contact Person</label>
+                <select name="contact_person_id" class="form-control" required>
+                  <option value="">{{__('site.select option')}}</option>
+                  @foreach($commercial->contact_persons as $contact_person)
+                    <option value="{{$contact_person->id}}">{{ $contact_person->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+              @endif
               <div class="form-group">
                 <label class="d-block">{{ __('site.description') }}</label>
                 <textarea name="description"  id="log-whatsapp-description">{{old('description')}}</textarea>
@@ -1138,9 +1256,17 @@
                   {!! selectOptions($expanding_years,date("Y")) !!}
                   </select>
                 </div>
-                <div class="col-md-6 col-sm-12">
-                  <label>{{__('site.target_size')}}</label>
-                  <input type="text" name="target_size" class="form-control" value="" >
+                <div class="col-md-3 col-sm-12">
+                  <label>{{__('site.target_size_from')}}</label>
+                  <select name="target_size_from" class="form-control target_size_from" id="">
+                  {!! selectOptions(__('config.target_size_from'),old("target_size_from")) !!}
+                  </select>
+                </div>
+                <div class="col-md-3 col-sm-12">
+                  <label>{{__('site.target_size_to')}}</label>
+                  <select name="target_size_to" class="form-control target_size_to" id="">
+                  {!! selectOptions(__('config.target_size_to'),old("target_size_to")) !!}
+                  </select>
                 </div>
               </div>
               <hr />	
@@ -1149,8 +1275,7 @@
                 <label for="requirement-status">{{__('site.status')}}</label>
                 <select name="status" class="form-control" required>
                   <option value="">{{__('site.select option')}}</option>
-                  <option value="pending">{{__('site.pending')}}</option>
-                  <option value="discussed">{{__('site.discussed')}}</option>
+                  {!! selectOptions(__('config.requirement_status'),old("status")) !!}
                 </select>
               </div>
               <div class="form-group">
@@ -1418,6 +1543,31 @@ $('#city_id').on('change', function () {
     });
    });
  });
+$(document).ready(function(){
+  $(".target_size_from").change(function(){
+    let from_val = parseInt($(this).val());
+    let end_val = 1000;
+    let to_html="";
+
+    if(from_val == 0){
+      from_val = 50
+      to_html += "<option value='"+from_val+"'>"+from_val+"</option>";
+      from_val = 100
+      to_html += "<option value='"+from_val+"'>"+from_val+"</option>";
+
+    }else if(from_val == 50){
+      from_val = 100
+      to_html += "<option value='"+from_val+"'>"+from_val+"</option>";
+    }
+
+    for(var i=(from_val+100); i<=end_val; i += 100){
+      to_html += "<option value='"+i+"'>"+i+"</option>";
+    }
+
+    $(".target_size_to").html(to_html);
+
+  });
+});
 // end added by fazal
 </script>
 @endpush

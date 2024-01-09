@@ -62,9 +62,9 @@ class CommercialController extends Controller
 
     $commercial_leads->orderBy('id', 'DESC');
 
+    $commercial_count= $commercial_leads->count();
 
     $commercial_leads= $commercial_leads->paginate(20); 
-    $commercial_count= $commercial_leads->count();
 
 
     $uri = Request()->fullUrl();
@@ -77,14 +77,19 @@ class CommercialController extends Controller
   public function show($commercial)
   {
     $commercial = Commercial::findOrFail($commercial);
+    $countries = Country::orderBy('name_en')->get();	
     return view('admin.commercial.show',[
       'commercial' => $commercial,
+      'countries' => $countries
     ]);
   }
 
 
   public function create() {
-    return view('admin.commercial.create');
+    $countries = Country::orderBy('name_en')->get();	
+    return view('admin.commercial.create',[
+      'countries' => $countries
+    ]);
   }
 
   /**
@@ -101,7 +106,7 @@ class CommercialController extends Controller
       "brand_name"             => "nullable|max:255",
       "activity_name"            => "nullable",
       "activity_type"            => "nullable",
-      "location"            => "nullable",
+      "location_id"            => "nullable",
       "contact_persons"            => "nullable",
     ]);
 
@@ -145,7 +150,7 @@ class CommercialController extends Controller
       "brand_name"             => "nullable|max:255",
       "activity_name"            => "nullable",
       "activity_type"            => "nullable",
-      "location"            => "nullable",
+      "location_id"            => "nullable",
       "contact_persons"            => "nullable",
     ]);
 
