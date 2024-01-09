@@ -95,8 +95,8 @@
 
 <div class="py-9">
   <div class="d-flex align-items-center justify-content-between mb-2">
-    <span class="font-weight-bold mr-2">{{ __('site.country')}}:</span>
-    <span class="text-muted">{{$commercial->country ? $commercial->country : 'N/A'}}</span>
+    <span class="font-weight-bold mr-2">{{ __('site.location')}}:</span>
+    <span class="text-muted">{{$commercial->location ? $commercial->location->name_en : 'N/A'}}</span>
   </div>
   <hr />
   <div class="d-flex align-items-center justify-content-between mb-2">
@@ -114,11 +114,7 @@
     <span class="text-muted">{{$commercial->activity_type ? $commercial->activity_type : 'N/A'}}</span>
   </div>
   <hr />
-  <div class="d-flex align-items-center justify-content-between mb-2">
-    <span class="font-weight-bold mr-2">{{ __('site.location')}}:</span>
-    <span class="text-muted">{{$commercial->location ? $commercial->location : 'N/A'}}</span>
-  </div>
-  <hr />
+  
   @php
     $i=1;
   @endphp

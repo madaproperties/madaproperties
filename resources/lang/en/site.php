@@ -673,4 +673,6 @@ return [
   'lead created' => 'Lead Created',
   'expanding year' => 'Expanding Year',
   'street info' => 'Street Info',
+  'target_size_from' => 'Target Size From',
+  'target_size_to' => 'Target Size To'
 ];

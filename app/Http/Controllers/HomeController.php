@@ -55,7 +55,7 @@ class HomeController extends Controller
             return redirect()->route('admin.employee.index');      
           }elseif(userRole() == 'it'){ //   added byb fazal 18-06-23
             return redirect()->route('admin.madaboard.index');      
-          }elseif(userRole() == 'commercial' || userRole() == 'commercial_leader'){ //   added byb fazal 18-06-23
+          }elseif(userRole() == 'commercial sales' || userRole() == 'commercial leader'){ 
             return redirect()->route('admin.commercial-leads.index');      
           }
         return redirect()->route('admin.');

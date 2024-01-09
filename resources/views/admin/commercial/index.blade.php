@@ -52,7 +52,59 @@ $exportUrl = explode('?',$exportName);
 					@can('commercial-create')
 						<a href="{{route('admin.commercial-leads.create')}}" id="kt_quick_user_toggle" class="btn btn-success font-weight-bolder font-size-sm">
 						<span class="fa fa-plus"></span> {{__('site.New Lead')}}</a>
+
+						<div class="dropdown dropdown-inline mr-2">
+							<button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="svg-icon svg-icon-md" style="color:#fff">
+								<!--begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg-->
+									<i class="fas fa-database" style="color:#fff"></i>
+								<!--end::Svg Icon-->
+							</span>{{__('site.Import Data') }}</button>
+							<!--begin::Dropdown Menu-->
+							<!--begin::Dropdown Menu-->
+							<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" style="">
+								<!--begin::Navigation-->
+								<ul class="navi flex-column  py-2">
+
+									<li class="navi-item">
+										<a href="#" class="navi-link" data-toggle="modal" data-target="#importData">
+											<span class="navi-text">{{__('site.Import Data') }}</span>
+										</a>
+									</li>
+									<li class="navi-item">
+										<a href="{{ asset('public/files/commercial-leads-import-samplev1.xlsx') }}" class="navi-link">
+											<span class="navi-text">{{__('site.sample') }}</span>
+										</a>
+									</li>
+
+								</ul>
+								<!--end::Navigation-->
+							</div>
+							<!--end::Dropdown Menu-->
+						</div>
 					@endcan
+					</div>
+
+					<!-- Modal -->
+					<div class="modal fade" id="importData" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<form method="post" id="import-data-form" action="{{route('admin.importCommercialLeadsData')}}" enctype="multipart/form-data">
+								<div class="modal-content">
+
+									<div class="modal-body">
+											@csrf
+										<div class="form-group">
+											<label for="exampleInputEmail1">File</label>
+											<input type="file" name="file" class="form-control" required>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="submit" form="import-data-form" class="btn btn-primary">Upload</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
 				<!--end::Header-->
@@ -71,6 +123,8 @@ $exportUrl = explode('?',$exportName);
 							@endcan
 						</div>
 					@endif
+
+
 
 					<!--begin::Table-->
 					<div class="table-responsive">

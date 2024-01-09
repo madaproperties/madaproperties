@@ -21,4 +21,12 @@ class CommercialLog extends Model
     {
       return $this->belongsTo(User::class,'connected_id');
     }
+    public function requirement()
+    {
+      return $this->belongsTo(CommercialRequirements::class,'requirement_id');
+    }
+    public function contactPerson()
+    {
+      return $this->belongsTo(CommercialContactPerson::class,'contact_person_id');
+    }
 }

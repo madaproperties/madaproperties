@@ -23,6 +23,11 @@ class Commercial extends Model
       return $this->belongsTo(User::class,'created_by');
     }
 
+    public function location()
+    {
+      return $this->belongsTo(Country::class,'location_id');
+    }
+
     public function logs()
     {
       return $this->hasMany(CommercialLog::class,'commercial_id');
@@ -31,6 +36,11 @@ class Commercial extends Model
     public function contact_persons()
     {
       return $this->hasMany(CommercialContactPerson::class,'lead_id');
+    }
+
+    public function requirements()
+    {
+      return $this->hasMany(CommercialRequirements::class,'commercial_id');
     }
 
 

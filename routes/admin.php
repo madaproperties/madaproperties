@@ -75,6 +75,8 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::get('calendar','CalendarController@index')->name('calendar');
       // importData
       Route::post('import-data','ImportDataController@import')->name('importData');
+      // importData
+      Route::post('import-commercial-leads-data','ImportCommercialLeadsController@import')->name('importCommercialLeadsData');
       // settings
       Route::resource('settings','SettingsController');
       // Admin/ReportController
