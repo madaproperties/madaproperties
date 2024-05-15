@@ -82,16 +82,20 @@
 						<td colspan="3" style="border:0px;text-align:left;"><b>Invoiced To :</b></td>
                     </tr>
 					<tr>
-						<td style="text-align:left;border:0px;" colspan="5">TRN : 100506324100003</td>
+                    	<td style="text-align:left;border:0px;" colspan="5">Opal Tower Office 1106,1107 - Business Bay - Dubai</td>
 						<td colspan="3" style="border:0px;text-align:left;">{{isset($deal->developer->name) ? $deal->developer->name : ''}}</td>
                     </tr>
 					<tr>
-						<td style="text-align:left;border:0px;" colspan="5">Telephone : +97142434692</td>
+						<td style="text-align:left;border:0px;" colspan="5">TRN : 100506324100003</td>
 						<td colspan="3" style="border:0px;text-align:left;">{{isset($deal->developer->company_address) ?$deal->developer->company_address : ''}}</td>
                     </tr>
 					<tr>
+						<td style="text-align:left;border:0px;" colspan="5">Telephone : +97142434692</td>
+						<td colspan="3" style="border:0px;text-align:left;">TRN : {{isset($deal->developer->trn) ? $deal->developer->trn : ''}}</td>
+                    </tr>
+					<tr>
 						<td style="text-align:left;border:0px;padding-bottom:30px;" colspan="5">Email: admin-dxb@madaproperties.com</td>
-						<td colspan="3" style="border:0px;text-align:left;padding-bottom:30px;">TRN : {{isset($deal->developer->trn) ? $deal->developer->trn : ''}}</td>
+						
                     </tr>
 					@endif
 					

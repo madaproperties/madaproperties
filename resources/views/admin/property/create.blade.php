@@ -346,7 +346,7 @@
 																					<select class="form-control"  name="category_id" required>
 																						<option value="" >{{ __('site.property_type') }} <span class="error">*</span></option>
 																						@foreach($categories as $category)
-																						<option {{ old('category_id') == $category->id ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
+																						<option {{ old('category_id') == $category->id ? 'selected' : ''}} value="{{$category->id}}">{{$category->category_name}}</option>
 																						@endforeach
 																					</select>
 																				</div>
@@ -623,7 +623,20 @@
 																					<option value="" >{{ __('site.financial_status') }}</option>	
 																					{!! selectOptions(__('config.financial_status'),old('financial_status')) !!}
 																					</select>																				
-																				</div>																				
+																				</div>	
+																				<!-- added by fazal on 16-01-23 -->
+																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale">																					
+																					<select name="payment_method" id="payment_method" class="form-control">		
+																					<option value="" >{{ __('site.payment_method') }}</option>	
+																					{!! selectOptions(__('config.payment_method'),old('payment_method')) !!}
+																					</select>																				
+																				</div>	
+																			
+																			    <div class="col-xs-12 col-sm-3 col-lg-3 priceInSale" id="downpayment_div" style="display:none;">
+																					<input class="form-control form-control-solid form-control-lg" id="down_payment_price" name="down_payment_price" type="text" value="{{old('down_payment_price')}}" placeholder="{{__('site.down_payment_price')}}" >
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																				<!--end  -->
 																			</div>
 																			<!--end::Group-->
 																		</div>
@@ -1366,6 +1379,21 @@
 <script>
 $(document).ready (function () {  
   //$("#property_form").validate();
+  $( "#payment_method" ).on( "change", function() {
+  
+ var data = this.value;
+  if(data == 'installments')
+  {
+  	$("#downpayment_div").show();
+  }
+ else
+ {
+ 	$("#downpayment_div").hide();
+ }
+
+
+} );
+  
 });  
 
 var KTCkeditor = function () {    

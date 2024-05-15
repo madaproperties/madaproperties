@@ -199,7 +199,7 @@
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.floor_no')}}</label>
 																		<div class="col-lg-9 col-xl-9">
-																			<input class="form-control form-control-solid form-control-lg" required name="floor_no" type="text" value="{{$projectdata->floor_no}}" placeholder="{{__('site.floor_no')}}">
+																			<input class="form-control form-control-solid form-control-lg"  name="floor_no" type="text" value="{{$projectdata->floor_no}}" placeholder="{{__('site.floor_no')}}">
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>

@@ -280,7 +280,12 @@
                     <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
                       <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.country')}} </label>
                       <div class="col-lg-9 col-xl-9" data-select2-id="38">
-                        <select class="form-control" id="countries" {{ userRole() != 'admin' ? 'disabled' : ''}}
+                        <!-- <select class="form-control" id="countries" {{ userRole() != 'admin' ? 'disabled' : ''}}
+                        data-select2-id="" tabindex="-1" aria-hidden="true" name="country_id"> -->
+                        <select class="form-control" id="countries"
+                        @if(userRole() != 'admin'|| userRole() != 'digital marketing')
+                        'disabled'
+                        @endif
                         data-select2-id="" tabindex="-1" aria-hidden="true" name="country_id">
                          @foreach($countries as $country)
                           <option

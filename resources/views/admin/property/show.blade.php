@@ -358,7 +358,7 @@
 														
 																			@if((auth()->user()->time_zone == 'Asia/Riyadh' && userRole() != 'admin' && userRole() != 'sales admin uae') || request()->get('pt') == 'saudi')
 																			<div class="form-group row fv-plugins-icon-container">
-																				<div class="col-xs-12 col-sm-4 col-lg-4 bedrooms" style="display:{{ $property->property_type == '2' ? 'none':'' }}">
+																				<div class="col-xs-12 col-sm-4 col-lg-4 bedrooms">
 																					<select name="bedrooms" id="bedrooms" class="form-control">
 																					<option value="" >{{ __('site.bedrooms') }}</option>
 																						{!! selectOptions(__('config.bedrooms'),$property->bedrooms) !!}	
@@ -636,6 +636,20 @@
 																					{!! selectOptions(__('config.financial_status'),$property->financial_status) !!}
 																					</select>																				
 																				</div>
+																				<!--added  by fazal-->
+																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale" >																					
+																					<select name="payment_method" id="payment_method" class="form-control">		
+																					<option value="" >{{ __('site.payment_method') }}</option>	
+																					{!! selectOptions(__('config.payment_method'),$property->payment_method) !!}
+																					</select>																				
+																				</div>
+																				@if($property->payment_method=='installments')
+																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale" id ="downpayment_div" >
+																					<input class="form-control form-control-solid form-control-lg" id="down_payment_price" name="down_payment_price" type="text" value="{{$property->down_payment_price}}" placeholder="{{__('site.down_payment_price')}}">
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																				@endif
+																				
 																				<!---->
 																			</div>	
 
@@ -1430,6 +1444,21 @@ $(document).ready(function(){
 	}else{
 		$("#str_no").attr("required",false);
 	}
+	
+  $( "#payment_method" ).on( "change", function() {
+  
+   var data = this.value;
+  if(data == 'cash' || data == 'cash,installments')
+  {
+  	$("#downpayment_div").hide();
+  }
+ else
+ {
+ 	$("#downpayment_div").show();
+ }
+
+
+} );
 });
 
 </script>

@@ -262,7 +262,7 @@
 														value="{{$reraUser->id}}">{{$reraUser->name}}</option>
 													@endforeach
 												</select>
-    											<!--added by fazal on 20-10-23-->
+												<!--added by fazal on 20-10-23-->
 												<input type="checkbox" id="publicprofile" name="public_profile" value="1">
 												<label for="publicprofile"> Public Profile</label>
 												<!--end-->
@@ -341,7 +341,7 @@
 				{
 					let el = $('#'+id);
 					let val = el.val();
-					if(val == 'sales' || val == 'sales admin')
+					if(val == 'sales' || val == 'sales admin' || val == 'commercial sales' || val == 'business developement sales')
 					{
 						el.parent('.form-group').next('.form-group').css('display','block');
 					}else{

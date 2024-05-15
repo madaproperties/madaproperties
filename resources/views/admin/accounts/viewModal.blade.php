@@ -136,7 +136,7 @@
 													 value="{{$leader->id}}">{{$leader->name}}</option>
 												@endforeach
 											</select>
-											<br>
+										<br>
 										</div>
 										<div class="separator separator-dashed my-5"></div>
 										<div class="form-group">

@@ -238,6 +238,16 @@
         <option {{Request('project_type') == 'Secondary' ? 'selected' : ''}} value="Secondary">{{__('site.Secondary')}}</option>
       </select>
     </div>
+    <div class="form-group col-md-3 col-sm-12">
+      <label for="country">{{__('site.status')}}</label>
+      <select class="form-control" name="status">
+        <option value="">{{__('site.choose')}}</option>
+          <option {{ Request('status') == 'Approved' ? 'selected':  '' }} value="Approved">{{__('site.approved')}}</option>
+          <option {{ Request('status') == 'Pending' ? 'selected':  '' }} value="Pending">{{__('site.pending')}}</option>
+          <option {{ Request('status') == 'Cancelled' ? 'selected':  '' }} value="Cancelled">Cancelled</option>
+          <option {{ Request('status') == 'Commission Released' ? 'selected':  '' }} value="Commission Released">Commission Released</option>
+      </select>
+    </div>
     <div class="form-group col-md-12 col-sm-12">
       <label>{{__('site.export') .' '.__('site.fields') }}</label>
         <select class="form-control" name="select[]" id="selectData" multiple>

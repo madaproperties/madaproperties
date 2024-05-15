@@ -98,8 +98,9 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 								<i class="fas fa-database" style="color:#fff"></i>
 								</span>{{__('site.export') }}</a>
 								@endcan
-
-                @if(userRole() == 'admin')
+                     
+                 <!-- updated by fazal  -->
+                 @if(userRole() == 'admin' || userRole()=='sales admin saudi' || userRole()=='sales admin uae' )
                 <a href="?duplicated=get" class="btn btn-primary font-weight-bolder">
 								<span class="svg-icon svg-icon-md">
 									<i class="fa fa-users"></i>
@@ -284,7 +285,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 			    {{ timeZone($contact->created_at) }}
 			</td>
 			<td>
-			    {{ !empty($contact->updated_at) ? timeZone($contact->updated_at) : 'N/A' }}
+			    {{!empty($contact->updated_at) ? timeZone($contact->updated_at) : 'N/A' }}
 			</td>
 											@if(userRole() != 'seller')
 <td>

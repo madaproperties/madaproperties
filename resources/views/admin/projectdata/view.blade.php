@@ -23,13 +23,80 @@ body#kt_body .contentArea{padding-left:0;width:100%;}
 .availability-unit .card.card-custom > .card-body {
     padding-bottom: 10px !important;
 }
+.fixed_footer_icons .whatsapp_footer {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 160px;
+    right: 10px;
+    background-color: #25d366;
+    color: #fff;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 35px;
+    box-shadow: 2px 2px 3px #999;
+    z-index: 100;
+}
+.fixed_footer_icons i.fa {
+    padding-top: 15px;
+    font-size: 24px;
+    color: #FFF;
+    font-weight: 900;
+}
+.fixed_footer_icons i.fab{
+        color: #fff;
+    font-size: 37px;
+    padding: 10px 0px 0px 0px;
+}
+.fixed_footer_icons .call_footer {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 90px;
+    right: 10px;
+    background-color: #0125db;
+    color: #fff;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 35px;
+    box-shadow: 2px 2px 3px #999;
+    z-index: 100;
+}
+.fixed_footer_icons i.fa {
+    padding-top: 15px;
+}
+.location .row
+{
+    margin:auto;
+    text-align:center;
+}
+.location span
+{
+    font-size: 15px;
+    font-weight: bold;
+}
+.projectdetails .btn.btn-info:hover {
+    border: 1px solid #fff !important;
+}
+.availability-unit .unitlist li.available {
+    color: #9fc538;
+    font-weight: bold;
+}
 .bottom_header{    background: url(/public/imgs/bannermada.jpg);
     background-position: bottom;
     background-repeat: no-repeat;
     background-size: cover;
     padding-bottom: 30px;
     padding-top: 30px;
-    height:400px;
+    height:450px;
+}
+.bottom_header_one{    background: url(/public/imgs/banner1.jpg);
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-bottom: 30px;
+    padding-top: 30px;
+    height:450px;
 }
 .projectdetails a{width: 160px;
     margin-right: 15px;
@@ -167,7 +234,7 @@ div#units{padding:30px;}
          display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 300px;
+  max-width: 300px;
        }
  
        
@@ -194,6 +261,13 @@ div#units{padding:30px;}
         .availability-unit .floor {
     text-align: center;
 }
+.developer-logo {
+    max-width: 200px;
+}
+.bottom_header_one
+{
+    height: 300px;
+}
  .unit_box {
     margin-bottom: 10px;
 }
@@ -207,7 +281,7 @@ div#units{padding:30px;}
     height: 7px;
 }
 }
-</style>
+</style> 
 @endpush
 @extends('admin.layouts.main')
 @section('content')
@@ -222,7 +296,26 @@ div#units{padding:30px;}
                 <div class="card-header m-auto flex-wrap border-0 pt-6 pb-0">
                     <img class="logo" src="{{ asset('public/imgs/logo.png') }}" width="200" />
                 </div>
-                <div class="bottom_header">
+                 @if($project_id==47)
+                <div class="bottom_header_one">
+                    <img class="developer-logo" src="{{ asset('public/uploads/projectData/'.$project_name['project_logo']) }}">
+                    <h2 align="center" style="color:#FFFFFF;padding-top: 12px;" >{{$project_name['name']}}</h2>  
+                    <div class="developer_detail">
+                        <div class="unit" id="demo">
+                            <div class="row projectdetails">
+                                @if($project_name['video'])
+                                <embed type="video/webm" src="{{ asset('public/uploads/projectData/'.$project_name['video'])}}" width="400" height="300">
+                                @endif
+                                <a href="{{ asset('public/uploads/projectData/'.$project_name['brochure'])}}" class="btn btn-info brochure"   target="_blank" >Brochure </a>
+                                @if($project_name['payment_plan'])
+                                <a href="{{ asset('public/uploads/projectData/'.$project_name['payment_plan'])}}" class="btn btn-info" target="_blank">Payment plan </a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @else
+                  <div class="bottom_header">
                     <img class="developer-logo" src="{{ asset('public/uploads/projectData/'.$project_name['project_logo']) }}">
                     <h2 align="center" >{{$project_name['name']}}</h2>  
                     <div class="developer_detail">
@@ -232,11 +325,14 @@ div#units{padding:30px;}
                                 <embed type="video/webm" src="{{ asset('public/uploads/projectData/'.$project_name['video'])}}" width="400" height="300">
                                 @endif
                                 <a href="{{ asset('public/uploads/projectData/'.$project_name['brochure'])}}" class="btn btn-info brochure"   target="_blank" >Brochure </a>
+                                @if($project_name['payment_plan'])
                                 <a href="{{ asset('public/uploads/projectData/'.$project_name['payment_plan'])}}" class="btn btn-info" target="_blank">Payment plan </a>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
+                @endif
                 <div class="card-body table-responsive availability-unit">
         
           <!--  -->
@@ -258,7 +354,21 @@ div#units{padding:30px;}
           </div>
                      @foreach($arr as $res)
            <div class="floor_box row">
-                      <h4 class="floor col-xs-12 col-sm-12 col-lg-3">Floor :{{$res->floor_no}}</h4>
+                       <!--updated by fazal on 20-12-23-->
+                      @if($res->floor_no==0)
+                      <h4 class="floor col-xs-12 col-sm-12 col-lg-3">Floor : G</h4>
+                      @else
+                      <h4 class="floor col-xs-12 col-sm-12 col-lg-3">
+                       @if($res->property_type == "Villa")
+                        Villa :{{$res->floor_no}}
+                        @else
+                        Floor :{{$res->floor_no}}
+                        @endif
+
+
+                      </h4>
+                      @endif
+                      <!--end-->
                       <div class="row col-xs-12 col-sm-12 col-lg-9">
                       @foreach($res['unit_name'] as $unit_name)
                       @if($unit_name->status!= 'Resale')
@@ -307,9 +417,30 @@ div#units{padding:30px;}
             
       </div>
           </div>
+            <div class=location>
+              <div class="row col-sm-8">
+                  <div class="col-sm-6">
+                    <img src="{{ asset('public/imgs/KSAflag.png') }}" width="80" style="  padding-right: 10px;"/><span>Riyadh</span>
+                    <p>Al Imam Saud Ibn Faysal Rd, As Sahafah,</br>Riyadh 13321, Saudi Arabia<br/>Call :+966 55 008 8601</p>
+                    
+                    </div>
+                  <div class="col-sm-6">
+                   <img src="{{ asset('public/imgs/UAEflag.png') }}" width="80" style="  padding-right: 10px;"/><span>Dubai</span>
+                   <p>PO Box: 112037, Office 1106, Opal Tower, </br> Business Bay, Dubai, UAE </br> Call :+971 50 377 0780</p>
+                  
+                  </div>
+                  
+              </div>
+              </div>
+          </div>
           <!--end::Card-->
        </div>
     </div>
+    <div class="fixed_footer_icons">
+                <a href="https://api.whatsapp.com/send?phone=++966550088601&amp;text=مرحباً،+أنا+مهتم+بمشروع+ريفييرا+المربع" class="whatsapp_footer">
+                  <i class="fab fa-whatsapp" aria-hidden="true"></i></a><br>
+                <a href="tel:+966550088601" class="call_footer"><i class="fa fa-phone" aria-hidden="true"></i></a>
+            </div>
     <!--end::Entry-->
   </div>
   <!--end::Content-->

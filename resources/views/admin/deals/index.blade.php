@@ -110,11 +110,9 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal.exportDataDeals'),$expo
 									<th>{{__('site.unit_name')}}</th>
 									<th>{{__('site.price')}}</th>
 									<th>{{__('site.total_invoice')}}</th>
-									<th>{{__('site.mada_commission')}}</th>
-									<th>{{__('site.vat_amount')}}</th>
-									<!--<th>{{__('site.down_payment')}}</th>-->
-									<!--<th>{{__('site.invoice_date')}}</th>-->
 									<th>{{__('site.Agent')}}</th>
+									<th>{{__('site.Agent2')}}</th>
+									<th>{{__('site.listing_agent')}}</th>
 									<th>{{__('site.status')}}</th>
 									<th style="min-width:150px">{{__('site.action')}}</th>
 								</tr>
@@ -141,20 +139,24 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal.exportDataDeals'),$expo
 										<span class="text-muted font-weight-bold">{{number_format($deal->total_invoice, 2)}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{number_format($deal->mada_commission, 2)}}</span>
+										<span class="text-muted font-weight-bold">{{$deal->agent ? substr($deal->agent->email, 0, strpos($deal->agent->email, "@")) : 'N/A'}}</span>
 									</td>
 									<td>
-										<span class="text-muted font-weight-bold">{{number_format($deal->vat_amount, 2)}}</span>
+										<span class="text-muted font-weight-bold">{{$deal->agentTwo ? substr($deal->agentTwo->email, 0, strpos($deal->agentTwo->email, "@")) : 'N/A'}}</span>
 									</td>
+									<td>
+										<span class="text-muted font-weight-bold">{{$deal->agentListing ? substr($deal->agentListing->email, 0, strpos($deal->agentListing->email, "@")) : 'N/A'}}</span>
+									</td>
+									
 									<!--<td>
 										<span class="text-muted font-weight-bold">{{$deal->down_payment}}</span>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{date('d-m-Y',strtotime($deal->invoice_date))}}</span>
 									</td>-->
-									<td>
-										<span class="text-muted font-weight-bold">{{$deal->agent ? substr($deal->agent->email, 0, strpos($deal->agent->email, "@")) : 'N/A'}}</span>
-									</td>
+									<!--<td>-->
+									<!--	<span class="text-muted font-weight-bold">{{$deal->agent ? substr($deal->agent->email, 0, strpos($deal->agent->email, "@")) : 'N/A'}}</span>-->
+									<!--</td>-->
 									<!--added by fazal on 26-09-23-->
 									<td>
 										<span class="text-muted font-weight-bold">{{$deal->status}}</span>

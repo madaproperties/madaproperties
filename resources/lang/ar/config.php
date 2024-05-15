@@ -194,5 +194,56 @@ return [
     '2' => 'Facing East',
     '3' => 'Facing South',
     '4' => 'Facing West'
+  ],
+  'activity_type' => [
+    'VIP' => 'VIP',
+    'A+' => 'A+',
+    'A' => 'A',
+    'B' => 'B',
+    'C' => 'C'
+  ],
+  'expanding_date' => [
+    'Q1' => 'Q1',
+    'Q2' => 'Q2',
+    'Q3' => 'Q3',
+    'Q4' => 'Q4',
+  ],
+  'activity_name' => [
+    'Food & Privilege' => 'Food & Privilege',
+    'Travel and Hospitality' => 'Travel and Hospitality',
+    'Luxury Brands' => 'Luxury Brands',
+    'Beverage Brands' => 'Beverage Brands',
+    'Logistics' => 'Logistics',
+  ],
+  'requirement_status' => [
+    'pending' => 'pending',
+    'discussed' => 'discussed',
+    'closed' => 'closed'
+  ],
+  'target_size_from' => [
+    '0' => '0',
+    '50' => '50',
+    '100' => '100',
+    '200' => '200',
+    '300' => '300',
+    '400' => '400',
+    '500' => '500',
+    '600' => '600',
+    '700' => '700',
+    '800' => '800',
+    '900' => '900',
+  ],
+  'target_size_to' => [
+    '50' => '50',
+    '100' => '100',
+    '200' => '200',
+    '300' => '300',
+    '400' => '400',
+    '500' => '500',
+    '600' => '600',
+    '700' => '700',
+    '800' => '800',
+    '900' => '900',
+    '1000' => '1000',
   ]
 ];

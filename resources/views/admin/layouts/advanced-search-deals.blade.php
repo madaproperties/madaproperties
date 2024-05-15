@@ -35,13 +35,13 @@
   <div class="row"> <!--- row -->
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.country')}}</label>
-	  <select class="form-control " id="unit_country"
-		name="unit_country" data-select2-id="" tabindex="-1" aria-hidden="true">
-			<option value="">{{ __('site.choose') }}</option>
-			@foreach($countries as $country)
-				<option {{Request('unit_country') == $country->id ? 'selected' : ''}} value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>
-			@endforeach
-		</select>
+    <select class="form-control " id="unit_country"
+    name="unit_country" data-select2-id="" tabindex="-1" aria-hidden="true">
+      <option value="">{{ __('site.choose') }}</option>
+      @foreach($countries as $country)
+        <option {{Request('unit_country') == $country->id ? 'selected' : ''}} value="{{$country->id}}" data-select2-id="{{$country->id}}">{{$country->name}}</option>
+      @endforeach
+    </select>
     </div>
 
 
@@ -71,64 +71,145 @@
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.purpose type')}}</label>
       <select class="form-control"  name="purpose_type">
-		<option value="">{{ __('site.choose') }}</option>
-		@foreach($purposetype as $purpType)
-		<option {{Request('purpose_type') == $purpType->name ? 'selected' : ''}} value="{{$purpType->name}}">{{$purpType->name}}</option>
-		@endforeach
-	</select>
+    <option value="">{{ __('site.choose') }}</option>
+    @foreach($purposetype as $purpType)
+    <option {{Request('purpose_type') == $purpType->name ? 'selected' : ''}} value="{{$purpType->name}}">{{$purpType->name}}</option>
+    @endforeach
+  </select>
     </div>
 
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.developer_name')}}</label>
       <select class="form-control"  name="developer_id">
-		<option value="">{{ __('site.choose') }}</option>
-		@foreach($developer as $dev)
-			<option {{Request('developer_id') == $dev->id ? 'selected' : ''}} value="{{$dev->id}}">{{$dev->name}}</option>
-		@endforeach
-		</select>
+    <option value="">{{ __('site.choose') }}</option>
+    @foreach($developer as $dev)
+      <option {{Request('developer_id') == $dev->id ? 'selected' : ''}} value="{{$dev->id}}">{{$dev->name}}</option>
+    @endforeach
+    </select>
     </div>
 
 
-	@if(count($sellers))
-	<!--begin::Group-->
+  @if(count($sellers))
+  <!--begin::Group-->
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.Agent')}}</label>
-	  <select class="form-control"  name="agent_id">
-			<option value="">{{ __('site.select agent') }}</option>
-			@foreach($sellers as $seller)
-				<option {{Request('agent_id') == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
-			@endforeach
-			</select>
+    <select class="form-control"  name="agent_id">
+      <option value="">{{ __('site.select agent') }}</option>
+      @foreach($sellers as $seller)
+        <option {{Request('agent_id') == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
+      @endforeach
+      </select>
     </div>
-	@endif
-    
-
-	@if(count($sellers))
-	<!--begin::Group-->
-    <div class="form-group col-md-4 col-sm-12">
-      <label for="country">{{__('site.Agent2')}}</label>
-	  <select class="form-control"  name="agent2_id">
-			<option value="">{{ __('site.select agent') }}</option>
-			@foreach($sellers as $seller)
-				<option {{Request('agent2_id') == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
-			@endforeach
-			</select>
-    </div>
-	@endif
-    
-
-	@if(count($leaders))
-	<!--begin::Group-->
+  @endif
+  <!--added by fazal on 30-04-24-->
+  @if(count($leaders))
+  <!--begin::Group-->
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.Leader')}}</label>
-	  <select class="form-control"  name="leader_id">
-		<option value="">{{ __('site.select leader') }}</option>
-		@foreach($leaders as $leader)
-			<option {{Request('leader_id') == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
-		@endforeach
-		</select>
+    <select class="form-control"  name="leader_id">
+    <option value="">{{ __('site.select leader') }}</option>
+    @foreach($leaders as $leader)
+      <option {{Request('leader_id') == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
+    @endforeach
+    </select>
     </div>
-	@endif
+  @endif
+  @if(count($salesDirectors))
+  <!--begin::Group-->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.sales_director')}}</label>
+    <select class="form-control"  name="sales_director_id">
+    <option value="">{{ __('site.select leader') }}</option>
+    @foreach($salesDirectors as $director)
+      <option {{Request('director') == $director->id ? 'selected' : ''}} value="{{$director->id}}">{{$director->name}}</option>
+    @endforeach
+    </select>
+    </div>
+  @endif  
+  <!--end-->
+    
+
+  @if(count($sellers))
+  <!--begin::Group-->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.Agent2')}}</label>
+    <select class="form-control"  name="agent2_id">
+      <option value="">{{ __('site.select agent') }}</option>
+      @foreach($sellers as $seller)
+        <option {{Request('agent2_id') == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
+      @endforeach
+      </select>
+    </div>
+  @endif
+    
+    <!--added by fazal omn 30-04-24-->
+  @if(count($leaders))
+  <!--begin::Group-->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.Leader2')}}</label>
+    <select class="form-control"  name="leader2_id">
+    <option value="">{{ __('site.select leader') }}</option>
+    @foreach($leaders as $leader)
+      <option {{Request('leader_id') == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
+    @endforeach
+    </select>
+    </div>
+  @endif
+    @if(count($salesDirectors))
+  <!--begin::Group-->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.sales_director_2')}}</label>
+    <select class="form-control"  name="sales_director_2_id">
+    <option value="">{{ __('site.select leader') }}</option>
+    @foreach($salesDirectors as $director)
+      <option {{Request('director') == $director->id ? 'selected' : ''}} value="{{$director->id}}">{{$director->name}}</option>
+    @endforeach
+    </select>
+    </div>
+  @endif 
+  <!--ennd-->
+  <!--added by fazal on 30-04-24-->
+    @if(count($sellers))
+  <!--begin::Group-->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.listing')}} {{__('site.Agent')}} </label></label>
+    <select class="form-control"  name="listing_agent_id">
+      <option value="">{{ __('site.select agent') }}</option>
+      @foreach($sellers as $seller)
+        <option {{Request('listing_agent_id') == $seller->id ? 'selected' : ''}} value="{{$seller->id}}">{{$seller->name}}</option>
+      @endforeach
+      </select>
+    </div>
+  @endif
+    
+    <!--added by fazal omn 30-04-24-->
+  @if(count($leaders))
+  <!--begin::Group-->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.listing')}} {{__('site.Agent')}} {{__('site.Leader')}}</label>
+    <select class="form-control"  name="listing_leader_id">
+    <option value="">{{ __('site.select leader') }}</option>
+    @foreach($leaders as $leader)
+      <option {{Request('leader_id') == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
+    @endforeach
+    </select>
+    </div>
+  @endif
+    @if(count($salesDirectors))
+  <!--begin::Group-->
+    <div class="form-group col-md-4 col-sm-12">
+      <label for="country">{{__('site.listing_sales_director')}}</label>
+    <select class="form-control"  name="listing_director_id">
+    <option value="">{{ __('site.select leader') }}</option>
+    @foreach($salesDirectors as $director)
+      <option {{Request('director') == $director->id ? 'selected' : ''}} value="{{$director->id}}">{{$director->name}}</option>
+    @endforeach
+    </select>
+    </div>
+  @endif 
+  <!--ennd-->
+  
+  <!--end-->
     
 
     <div class="form-group col-md-4 col-sm--12">
@@ -216,7 +297,7 @@
       <option {{Request('vat_received') == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
       <option {{Request('vat_received') == 'no' ? 'selected' : ''}} value="no">No</option>
       <option {{Request('vat_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
-		</select>
+    </select>
     </div>
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.agent_leader_commission_received')}}</label>
@@ -224,7 +305,7 @@
       <option {{Request('agent_leader_commission_received') == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
       <option {{Request('agent_leader_commission_received') == 'no' ? 'selected' : ''}} value="no">No</option>
       <option {{Request('agent_leader_commission_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
-		</select>
+    </select>
     </div>
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.agent_commission_received')}}</label>
@@ -232,7 +313,7 @@
       <option {{Request('agent_commission_received') == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
       <option {{Request('agent_commission_received') == 'no' ? 'selected' : ''}} value="no">No</option>
       <option {{Request('agent_commission_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
-		</select>
+    </select>
     </div>
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.mada_commission_received')}}</label>
@@ -240,7 +321,7 @@
       <option {{Request('mada_commission_received') == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
       <option {{Request('mada_commission_received') == 'no' ? 'selected' : ''}} value="no">No</option>
       <option {{Request('mada_commission_received') == 'yes' ? 'selected' : ''}} value="yes">Yes</option>
-		</select>
+    </select>
     </div>
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.third_party')}}</label>
@@ -248,7 +329,7 @@
       <option {{Request('third_party') == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
       <option {{Request('third_party') == 'no' ? 'selected' : ''}} value="no">No</option>
       <option {{Request('third_party') == 'on' ? 'selected' : ''}} value="on">Yes</option>
-		</select>
+    </select>
     </div>
 
     <div class="form-group col-md-4 col-sm-12">
@@ -259,14 +340,15 @@
         <option {{Request('project_type') == 'Secondary' ? 'selected' : ''}} value="Secondary">{{__('site.Secondary')}}</option>
       </select>
     </div>
-    <!--added by fazal on 25-09-23  -->
+     <!--added by fazal on 25-09-23  -->
     <div class="form-group col-md-4 col-sm-12">
       <label for="country">{{__('site.status')}}</label>
       <select class="form-control" name="status">
         <option value="">{{__('site.choose')}}</option>
           <option {{ Request('status') == 'Approved' ? 'selected':  '' }} value="Approved">{{__('site.approved')}}</option>
           <option {{ Request('status') == 'Pending' ? 'selected':  '' }} value="Pending">{{__('site.pending')}}</option>
-       
+          <option {{ Request('status') == 'Cancelled' ? 'selected':  '' }} value="Cancelled">Cancelled</option>
+          <option {{ Request('status') == 'Commission Released' ? 'selected':  '' }} value="Commission Released">Commission Released</option>
       </select>
     </div>
     <!--  -->
@@ -319,14 +401,14 @@
 <!-- Added By javed -->
 <script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
 <script>
-	$('.date').datepicker({
+  $('.date').datepicker({
     //format: 'dd/mm/yyyy',
     todayHighlight:'TRUE',
     autoclose: true,
   });
 
   $('#to-deal').datepicker({
-		//format: 'dd/mm/yyyy',
+    //format: 'dd/mm/yyyy',
     todayHighlight:'TRUE',
     autoclose: true,
   });
