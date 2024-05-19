@@ -69,8 +69,8 @@ class MadaboardController extends Controller
        
         $file = Storage::disk('s3')->putFile('uploads/mada_board', $request->file('image'));
        
-        $path="https://mada-properties-live.s3.eu-west-1.amazonaws.com/".$file;
-       
+      //  $path="https://mada-properties-live.s3.eu-west-1.amazonaws.com/".$file;
+       $path= $path="https://mada-crm-live.s3.me-south-1.amazonaws.com/".$file;
 
         if($guessExtension=='jpg'||$guessExtension=='png'||$guessExtension=='jpeg' )
         {
@@ -124,7 +124,8 @@ class MadaboardController extends Controller
        
         $file = Storage::disk('s3')->putFile('uploads/mada_board', $request->file('image'));
        
-        $path="https://mada-properties-live.s3.eu-west-1.amazonaws.com/".$file;
+       // $path="https://mada-properties-live.s3.eu-west-1.amazonaws.com/".$file;
+       $path= $path="https://mada-crm-live.s3.me-south-1.amazonaws.com/".$file;
        
 
         if($guessExtension=='jpg'||$guessExtension=='png'||$guessExtension=='jpeg' )

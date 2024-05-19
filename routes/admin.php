@@ -28,8 +28,26 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
         Route::get('dashboard','MainController@statics')->name('statics');
         Route::resource('madaboard','MadaboardController'); //added byb fazal 18-06-23
         Route::post('accounts/getDetailsByAjax','AccountsController@getDetailsByAjax')->name('accounts.getDetailsByAjax');
+
+        Route::get('commercial-leads/detail/{id}','CommercialController@detail')->name('commercial-leads.detail');
+        Route::resource('commercial-leads','CommercialController');
+        //added by fazal on 20-12-23
+         Route::resource('business-development-leads','BusinessdevelopementController');
+         Route::get('business-development-leads/detail/{id}','BusinessdevelopementController@detail')->name('business-development-leads.detail');
         
       });
+      Route::post('commercial-leads/multiple-assign','CommercialController@multiple_assign')
+      ->name('commercial-leads.multiple-assign');
+      Route::post('commercial-leads/multiple-delete','CommercialController@multiple_delete')
+      ->name('commercial-leads.multiple-delete');
+       
+        // added by fazal on21-12-23
+      Route::post('business-development-leads/multiple-assign','BusinessdevelopementController@multiple_assign')
+      ->name('business-development-leads.multiple-assign');
+      Route::post('business-development-leads/multiple-delete','BusinessdevelopementController@multiple_delete')
+      ->name('business-development-leads.multiple-delete');
+     
+
       /********* End Mnager Only ***************************/
       Route::resource('contact','ContactController');
       Route::post('contact/multiple-assign','ContactController@multiple_assign')
@@ -46,6 +64,29 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       // meeting
       // Route::resource('meeting','MeetingsController');
       // notofications
+
+
+      // CommercialTasksDashboardPage
+      Route::resource('commercial_tasks','CommercialTasksController');
+      // CommercialNotesDashboardPage
+      Route::resource('commercial_note','CommercialNotesController');
+      // CommercialLogsController , admin.getlog
+      Route::resource('commercial_logs','CommercialLogsController');
+      Route::resource('requirements','CommercialRequirementsController');
+      Route::post('commercial_logs/get','CommercialLogsController@get_log')->name('commer_getlog');      
+      Route::get('getDistricts', 'CommercialController@getDistricts')->name('requirements.getDistricts');
+
+      //  Business developement task added by fazal on 21-12-23
+        Route::resource('busniess_tasks','BusninessTasksController');
+      // BusinessNotesDashboardPage
+       Route::resource('business_note','BusinessNotesController');
+      // BusinessLogsController , admin.getlog
+      Route::resource('business_logs','BusinessLogsController');
+      Route::resource('busniessrequirements','CommercialRequirementsController');
+      Route::post('business_logs/get','BusinessLogsController@get_log')->name('business_getlog');  
+      Route::resource('business-requirements','BusinessRequirementsController');
+
+
       Route::resource('notofications','NotoficationsController');
       Route::get('notofications/switch/{id}','NotoficationsController@switch')
                     ->name('notofications.switch');
@@ -53,6 +94,8 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       Route::get('calendar','CalendarController@index')->name('calendar');
       // importData
       Route::post('import-data','ImportDataController@import')->name('importData');
+      // importData
+      Route::post('import-commercial-leads-data','ImportCommercialLeadsController@import')->name('importCommercialLeadsData');
       // settings
       Route::resource('settings','SettingsController');
       // Admin/ReportController
@@ -150,6 +193,8 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       
       // importData
       Route::resource('property','PropertyController');
+    //importData - added by fazal on 08-01-23
+      Route::post('import-business-leads-data','ImportBusinessLeadsController@import')->name('importBusinessLeadsData');
 
 
       Route::post('image/upload/store','PropertyController@imageStore')->name('property.imageStore');
@@ -215,11 +260,12 @@ Route::group(['prefix' => '','as' => 'admin.','middleware' => ['auth','lang']], 
       
       Route::get('property-availability', 'PropertyAvailabilityController@index')->name('property-availability');
 
+      Route::resource('lead-pool','LeadPoolController');
+      Route::post('lead-pool/multiple-assign','LeadPoolController@multiple_assign')->name('leadpool.multiple-assign');
+
       Route::post('deal/getDocumentByAjax','DealController@getDocumentByAjax')->name('deal.getDocumentByAjax');
       
-    Route::get('userStatusReport','ReportExportController@index')->name('report.userStatusReport');
-
-
+      Route::get('userStatusReport','ReportExportController@index')->name('report.userStatusReport');
 
 });
 

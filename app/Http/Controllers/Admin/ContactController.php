@@ -80,8 +80,8 @@ class ContactController extends Controller
       
       {
          
-        //   if($contact->created_by != auth()->id() OR $contact->user_id) added by fazal on 28-09
-         if($contact->user_id  != auth()->id())
+        if($contact->user_id != auth()->id()) 
+        
          {
                  return abort(404);
           }
@@ -204,7 +204,7 @@ class ContactController extends Controller
 
 
     public function create()
-    {
+    {   
         $currencyName = app()->getLocale() == 'en' ? 'currency' : 'currency_ar';
 
         $projects = Project::where('name_en','others')
@@ -279,7 +279,7 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-
+        
         $data = $request->validate([
           "email"                 => "nullable|email",
           "first_name"            => "required|max:255",
@@ -364,7 +364,7 @@ class ContactController extends Controller
                 if(newStatus()->id != $contact->status_id){
                 // create activity
                 $data['status_id'] = newStatus()->id;
-                $data['status_changed_at'] = Carbon::now();
+                $data['status_changed_at'] = Carbon::now(); 
                 $action = __('site.status changed to').' '.newStatus()->name;
                 $this->newActivity($contact->id,auth()->id(),$action,null,null, null,true);
                 }
@@ -409,10 +409,9 @@ class ContactController extends Controller
          $data['created_by'] = auth()->id(); // set user to cuurunt user\
         $data['created_from'] = 'website';
         $data['status_changed_at'] = Carbon::now();
-
         addHistory('Contact',0,'added',$data);
 
-
+           
         $contact = Contact::create($data);
         $action = __('site.contact created');
 
@@ -553,9 +552,7 @@ class ContactController extends Controller
         }
      }
 
-     $data['updated_at'] = Carbon::now();
-
-     
+    $data['updated_at'] = Carbon::now();
      addHistory('Contact',$id,'updated',$data,$contact);
 
       $contact->update($data);

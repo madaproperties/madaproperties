@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Log;
+use App\CommercialLog;
 use App\Contact;
 use App\Task;
+use App\CommercialTask;
 use App\User;
 use App\Status;
-
+use  App\Log;
 class CalendarController extends Controller
 {
 
@@ -30,24 +31,109 @@ class CalendarController extends Controller
         $end_date = date('Y-m-d',strtotime($request->end));
       }
 
-      if(userRole() == 'leader')
+      if(userRole() == 'leader' || userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi')
       {
-          $usersIds = User::select('id','rule','leader')
-                        ->where('leader',auth()->id())->get();
-                        
-          $usersIds = $usersIds->pluck('id');
-          $usersIds->push(auth()->id());
-          if(!empty($request->start)){
-            $meetings = Log::where('type','meeting')->whereIn('user_id',$usersIds->toArray())
-                      ->whereBetween('log_date',[$start_date,$end_date])->get();
-            $tasks = Task::whereIn('user_id',$usersIds->toArray())->whereBetween('date',[$start_date,$end_date])->get();
+          if(userRole() == 'admin'){
+            if(!empty($request->start)){
+              $meetings = Log::where('type','meeting')
+                        ->whereBetween('log_date',[$start_date,$end_date])->get();
+              $tasks = Task::whereBetween('date',[$start_date,$end_date])->get();
+            }else{
+              $meetings = Log::where('type','meeting')->get();
+              //$tasks = Task::whereIn('user_id',$usersIds->toArray())->get();
+              $tasks = [];
+            }
+            //$logs = Log::whereIn('user_id',$usersIds->toArray())->get();
+            $logs = [];
+
+          }else if(userRole() == 'sales admin uae'){
+            $whereCountry = 'Asia/Dubai';
+            $usersIds = User::select('id','rule','leader')
+                          ->where('time_zone','like','%'.$whereCountry.'%')->get();
+                          
+            $usersIds = $usersIds->pluck('id');
+            $usersIds->push(auth()->id());
+            if(!empty($request->start)){
+              $meetings = Log::where('type','meeting')->whereIn('user_id',$usersIds->toArray())
+                        ->whereBetween('log_date',[$start_date,$end_date])->get();
+              $tasks = Task::whereIn('user_id',$usersIds->toArray())->whereBetween('date',[$start_date,$end_date])->get();
+            }else{
+              $meetings = Log::where('type','meeting')->whereIn('user_id',$usersIds->toArray())->get();
+              //$tasks = Task::whereIn('user_id',$usersIds->toArray())->get();
+              $tasks = [];
+            }
+            //$logs = Log::whereIn('user_id',$usersIds->toArray())->get();
+            $logs = [];
+
+          }else if(userRole() == 'sales admin saudi'){
+            $whereCountry = 'Asia/Riyadh';
+            $usersIds = User::select('id','rule','leader')
+                          ->where('time_zone','like','%'.$whereCountry.'%')->get();
+                          
+            $usersIds = $usersIds->pluck('id');
+            $usersIds->push(auth()->id());
+            if(!empty($request->start)){
+              $meetings = Log::where('type','meeting')->whereIn('user_id',$usersIds->toArray())
+                        ->whereBetween('log_date',[$start_date,$end_date])->get();
+              $tasks = Task::whereIn('user_id',$usersIds->toArray())->whereBetween('date',[$start_date,$end_date])->get();
+            }else{
+              $meetings = Log::where('type','meeting')->whereIn('user_id',$usersIds->toArray())->get();
+              //$tasks = Task::whereIn('user_id',$usersIds->toArray())->get();
+              $tasks = [];
+            }
+            //$logs = Log::whereIn('user_id',$usersIds->toArray())->get();
+            $logs = [];
+
           }else{
-            $meetings = Log::where('type','meeting')->whereIn('user_id',$usersIds->toArray())->get();
-            $tasks = Task::whereIn('user_id',$usersIds->toArray())->get();
+            $usersIds = User::select('id','rule','leader')
+                          ->where('leader',auth()->id())->get();
+                          
+            $usersIds = $usersIds->pluck('id');
+            $usersIds->push(auth()->id());
+            if(!empty($request->start)){
+              $meetings = Log::where('type','meeting')->whereIn('user_id',$usersIds->toArray())
+                        ->whereBetween('log_date',[$start_date,$end_date])->get();
+              $tasks = Task::whereIn('user_id',$usersIds->toArray())->whereBetween('date',[$start_date,$end_date])->get();
+            }else{
+              $meetings = Log::where('type','meeting')->whereIn('user_id',$usersIds->toArray())->get();
+              //$tasks = Task::whereIn('user_id',$usersIds->toArray())->get();
+              $tasks = [];
+            }
+            //$logs = Log::whereIn('user_id',$usersIds->toArray())->get();
+            $logs = [];
           }
-          $logs = Log::whereIn('user_id',$usersIds->toArray())->get();
-          
       }else {
+        if(userRole() == 'commercial leader' || userRole() == 'commercial sales'){
+          if(userRole() == 'commercial leader'){
+            $usersIds = User::select('id','rule','leader')
+            ->where('leader',auth()->id())->get();
+            
+            $usersIds = $usersIds->pluck('id');
+            $usersIds->push(auth()->id());
+            if(!empty($request->start)){
+            $meetings = CommercialLog::where('type','meeting')->whereIn('user_id',$usersIds->toArray())
+                      ->whereBetween('log_date',[$start_date,$end_date])->get();
+            $tasks = CommercialTask::whereIn('user_id',$usersIds->toArray())->whereBetween('date',[$start_date,$end_date])->get();
+            }else{
+            $meetings = CommercialLog::where('type','meeting')->whereIn('user_id',$usersIds->toArray())->get();
+            //$tasks = Task::whereIn('user_id',$usersIds->toArray())->get();
+            $tasks = [];
+            }
+            //$logs = Log::whereIn('user_id',$usersIds->toArray())->get();
+            $logs = [];
+
+          }else{
+            if(!empty($request->start)){
+              $meetings = CommercialLog::where('type','meeting')->where('user_id',auth()->id())
+                ->whereBetween('log_date',[$start_date,$end_date])->get();
+                $tasks = CommercialTask::where('user_id',auth()->id())->whereBetween('date',[$start_date,$end_date])->get();
+              }else{
+              $meetings = CommercialLog::where('type','meeting')->where('user_id',auth()->id())->get();
+              $tasks = CommercialTask::where('user_id',auth()->id())->get();
+            }
+            $logs = CommercialLog::where('user_id',auth()->id())->get();
+          }
+        }else{
         if(!empty($request->start)){
           $meetings = Log::where('type','meeting')->where('user_id',auth()->id())
             ->whereBetween('log_date',[$start_date,$end_date])->get();
@@ -57,6 +143,7 @@ class CalendarController extends Controller
           $tasks = Task::where('user_id',auth()->id())->get();
         }
         $logs = Log::where('user_id',auth()->id())->get();
+        }
       }
       
 

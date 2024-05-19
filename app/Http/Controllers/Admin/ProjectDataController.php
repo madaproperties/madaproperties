@@ -158,7 +158,7 @@ class ProjectDataController extends Controller
     $data = $request->validate([
       "country_id"          => "nullable",
       "city_name"          => "required",
-      "district_name"          => "required",
+      "district_name"          => "nullable",
       "developer_id"          => "required",
       "unit_name"          => "required",
       "project_id"          => "required",
@@ -169,7 +169,7 @@ class ProjectDataController extends Controller
       "price"          => "required",
       "completion_date"          => "nullable",
       "payment_status"          => "nullable",
-      "floor_no"      =>"required",
+      "floor_no"      =>"nullable",
       "commission"    =>"nullable",
       "commission_percent"    =>"nullable",
       "down_payment"  => "nullable",
@@ -195,11 +195,11 @@ class ProjectDataController extends Controller
   }
   public function brochure($id)
   {
-
+      
     $project = ProjectData::join('projects','projects_data.project_id','projects.id')
                             ->where('projects_data.id',$id)
                             ->first();
-                            // dd($project);
+                           
                       
        $date=Carbon::now("Asia/Riyadh");
        $time=Carbon::now("Asia/Riyadh")->format('g:i A');

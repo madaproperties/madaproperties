@@ -28,83 +28,70 @@ class AccountsController extends Controller
                
               if(Request()->has('active') && (Request('active') == '0' || Request('active') == '1')){
 
-            $users = User::where('active',Request('active'))->where('time_zone','Asia/Riyadh');
+                    $users = User::where('active',Request('active'))->where('time_zone','Asia/Riyadh');
 
-            $users_count = User::where('active',Request('active'))->where('time_zone','Asia/Riyadh');
-            if(Request()->has('search')){
-                $users = $users->where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Riyadh');
-                $users_count = $users->where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Riyadh');
-            }
-            $users = $users->paginate(20);
-            $users_count = $users_count->count();
-        }else{
+                    $users_count = User::where('active',Request('active'))->where('time_zone','Asia/Riyadh');
+                    if(Request()->has('search')){
+                        $users = $users->where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Riyadh');
+                        $users_count = $users->where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Riyadh');
+                    }
+                    $users = $users->paginate(20);
+                    $users_count = $users_count->count();
+                }else{
 
-            if(Request()->has('search')){
-                $users = User::where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Riyadh')->paginate(20);
-                $users_count = User::where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Riyadh')->count();
+                    if(Request()->has('search')){
+                        $users = User::where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Riyadh')->paginate(20);
+                        $users_count = User::where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Riyadh')->count();
+                    }else{
+                        $users = User::where('time_zone','Asia/Riyadh')->paginate(20);
+                        $users_count = User::where('time_zone','Asia/Riyadh')->count();
+                    }
+                } 
+                $leaders = User::whereIn('rule',['leader','sales director','commercial leader','business developement leader'])->where('active','1')->where('time_zone','Asia/Riyadh')->get(); 
             }else{
-                $users = User::where('time_zone','Asia/Riyadh')->paginate(20);
-                $users_count = User::where('time_zone','Asia/Riyadh')->count();
-            }
-           } 
-           $leaders = User::whereIn('rule',['leader','sales director'])->where('active','1')->where('time_zone','Asia/Riyadh')->get(); 
-           
-            }
-            else
-            {
-                
-              if(Request()->has('active') && (Request('active') == '0' || Request('active') == '1')){
+                    
+                if(Request()->has('active') && (Request('active') == '0' || Request('active') == '1')){
 
-            $users = User::where('active',Request('active'))->where('time_zone','Asia/Dubai');
-            $users_count = User::where('active',Request('active'))->where('time_zone','Asia/Dubai');
-            if(Request()->has('search')){
-                $users = $users->where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Dubai');
-                $users_count = $users->where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Dubai');
+                    $users = User::where('active',Request('active'))->where('time_zone','Asia/Dubai');
+                    $users_count = User::where('active',Request('active'))->where('time_zone','Asia/Dubai');
+                    if(Request()->has('search')){
+                        $users = $users->where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Dubai');
+                        $users_count = $users->where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Dubai');
+                    }
+                    $users = $users->paginate(20);
+                    $users_count = $users_count->count();
+                }else{
+                    if(Request()->has('search')){
+                        $users = User::where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Dubai')->paginate(20);
+                        $users_count = User::where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Dubai')->count();
+                    }else{
+                        $users = User::where('time_zone','Asia/Dubai')->paginate(20);
+                        $users_count = User::where('time_zone','Asia/Dubai')->count();
+                    }
+                }  
+                $leaders = User::whereIn('rule',['leader','sales director','commercial leader','business developement leader'])->where('active','1')->where('time_zone','Asia/Dubai')->get(); 
             }
-            $users = $users->paginate(20);
-            $users_count = $users_count->count();
         }else{
-            if(Request()->has('search')){
-                $users = User::where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Dubai')->paginate(20);
-                $users_count = User::where('email','LIKE','%'. Request('search') .'%')->where('time_zone','Asia/Dubai')->count();
+            if(Request()->has('active') && (Request('active') == '0' || Request('active') == '1')){
+                $users = User::where('active',Request('active'));
+                $users_count = User::where('active',Request('active'));
+                if(Request()->has('search')){
+                    $users = $users->where('email','LIKE','%'. Request('search') .'%');
+                    $users_count = $users->where('email','LIKE','%'. Request('search') .'%');
+                }
+                $users = $users->paginate(20);
+                $users_count = $users_count->count();
             }else{
-                $users = User::where('time_zone','Asia/Dubai')->paginate(20);
-                $users_count = User::where('time_zone','Asia/Dubai')->count();
-            }
-           }  
-            $leaders = User::whereIn('rule',['leader','sales director'])->where('active','1')->where('time_zone','Asia/Dubai')->get(); 
-            
-            }
-           
-            
+                if(Request()->has('search')){
+                    $users = User::where('email','LIKE','%'. Request('search') .'%')->paginate(20);
+                    $users_count = User::where('email','LIKE','%'. Request('search') .'%')->count();
+                }else{
+                    $users = User::paginate(20);
+                    $users_count = User::count();
+                }
+            }  
+            $leaders = User::whereIn('rule',['leader','sales director','commercial leader','business developement leader'])->where('active','1')->get(); 
         }
-        //  end
-        else
-        {
-         if(Request()->has('active') && (Request('active') == '0' || Request('active') == '1')){
-
-            $users = User::where('active',Request('active'));
-            $users_count = User::where('active',Request('active'));
-            if(Request()->has('search')){
-                $users = $users->where('email','LIKE','%'. Request('search') .'%');
-                $users_count = $users->where('email','LIKE','%'. Request('search') .'%');
-            }
-            $users = $users->paginate(20);
-            $users_count = $users_count->count();
-        }else{
-            if(Request()->has('search')){
-                $users = User::where('email','LIKE','%'. Request('search') .'%')->paginate(20);
-                $users_count = User::where('email','LIKE','%'. Request('search') .'%')->count();
-            }else{
-                $users = User::paginate(20);
-                $users_count = User::count();
-            }
-        }  
-        $leaders = User::whereIn('rule',['leader','sales director'])->where('active','1')->get(); 
-      
-        }
-        
-
         $countries = Country::orderBy('name_en')->get();
         $collectCounties = [];
         $collectCounties = collect($collectCounties);
@@ -121,7 +108,7 @@ class AccountsController extends Controller
         }        
 
         
-        $positions = ['rent','buy','sell','management','handover','TC Renewal'];
+        $positions = ['rent','buy','sell','management','handover','TC Renewal','Conveyance'];
         $roles = Role::pluck('name','name')->all();
 
         $reraUsers = User::where('active','1')->where('is_rera_active','1')->get();
@@ -160,8 +147,7 @@ class AccountsController extends Controller
           'is_rera_active' => 'nullable',
           'rera_number' => 'nullable',
           'rera_user_id' => 'nullable',
-          'public_profile' =>'nullable', // added by fazal on 20-10-23
-          
+           'public_profile' =>'nullable', // added by fazal on 20-10-23
         ]);
 
         unset($data['position_types']);
@@ -181,8 +167,8 @@ class AccountsController extends Controller
         }
         if($request->file('user_pic')){
              if($request->file('user_pic')){
-            $file = Storage::disk('s3')->putFile('uploads/project_name', $request->file('user_pic'));
-            $path="https://mada-properties-live.s3.eu-west-1.amazonaws.com/".$file;     
+            $file = Storage::disk('s3')->putFile('uploads/users', $request->file('user_pic'));
+            $path="https://mada-crm-live.s3.me-south-1.amazonaws.com/".$file;  
             $data['user_pic'] = $path;
         }
         }
@@ -208,6 +194,7 @@ class AccountsController extends Controller
 
     public function update(Request $request, $id)
     {
+        
        
         $user = User::findOrFail($id);
         
@@ -246,7 +233,7 @@ class AccountsController extends Controller
         
         // set Leader To Null if rule not salles
     
-        if($data['rule'] == 'sales' OR $data['rule'] == 'sales admin')
+        if($data['rule'] == 'sales' || $data['rule'] == 'sales admin' || $data['rule'] == 'commercial sales' || $data['rule'] == 'business developement sales')
         {
             $data['leader']  = $request->leader;
         }else{
@@ -254,8 +241,8 @@ class AccountsController extends Controller
          }
         if($request->file('user_pic')){
             if($request->file('user_pic')){
-            $file = Storage::disk('s3')->putFile('uploads/project_name', $request->file('user_pic'));
-            $path="https://mada-properties-live.s3.eu-west-1.amazonaws.com/".$file;     
+            $file = Storage::disk('s3')->putFile('uploads/users', $request->file('user_pic'));
+           $path="https://mada-crm-live.s3.me-south-1.amazonaws.com/".$file;      
             $data['user_pic'] = $path;
         }
         }
@@ -299,11 +286,11 @@ class AccountsController extends Controller
             $countries->prepend($topCountry);
         }        
 
-        $leaders = User::whereIn('rule',['leader','sales director'])->where('active','1')->get();
+        $leaders = User::whereIn('rule',['leader','sales director','commercial leader','business developement leader'])->where('active','1')->get();
 
         $reraUsers = User::where('active','1')->where('is_rera_active','1')->get();
 
-        $positions = ['rent','buy','sell','management','handover','TC Renewal','Agent']; //updated by fazal on 17-10-23
+        $positions = ['rent','buy','sell','management','handover','TC Renewal','Agent','Conveyance'];
         $roles = Role::pluck('name','name')->all();
 
         return view('admin.accounts.viewModal',[

@@ -46,6 +46,7 @@ class MainController extends Controller
      }   
   // index
   public function index(){
+
     if(userRole() == 'other'){
       return redirect()->route('admin.deal.index');      
     }
@@ -242,7 +243,52 @@ class MainController extends Controller
       $createdBy = $createdBy->where('leader',$leaderId);
       //End
 
-    }else if(userRole() == 'sales admin') { // sales admin
+    }
+   // 
+elseif(userRole() == 'commercial leader'){
+
+      // get leader group
+      $leaderId = auth()->id();
+      // get leader , and sellers reltedt to that leader
+    //   $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+    //   $usersIds = $users->pluck('id')->toArray();
+    //   $contacts = Contact::with(['country','project','creator','user','status'])
+    //                     ->select($this->selectedAttruibutes)->whereIn('user_id',$usersIds)->where(function ($q){
+    //   $this->filterPrams($q);
+    //   })->orderBy('created_at','DESC');
+    
+    
+        $usersIds = User::select('id','leader')->where('active','1')
+        ->where('leader',$leaderId)
+        ->Orwhere('id',$leaderId)
+        ->pluck('id');
+      
+        $salesAgentIds = User::select('id')->where('active','1')
+        ->where('leader',$leaderId)
+        ->pluck('id');
+
+        $contacts = Contact::with(['country','project','creator','user','status'])
+                        ->select($this->selectedAttruibutes)
+                        ->whereIn('user_id',$usersIds)
+                        //->whereNotIn('created_by',$salesAgentIds)
+                        ->where(function ($q){
+                          $this->filterPrams($q);
+                        })
+                        ->orderBy('created_at','DESC');
+    
+    
+      $contactsCount = $contacts->count();
+      $contacts = $contacts->paginate(20);
+
+      //Added by Javed
+      $createdBy = $createdBy->where('leader',$leaderId);
+      //End
+
+    }
+    // 
+
+
+    else if(userRole() == 'sales admin') { // sales admin
       
       $subUserId[]=auth()->id();
       if(!Request()->has('my-contacts')  AND (isset(auth()->user()->leader))){
@@ -284,18 +330,22 @@ class MainController extends Controller
           $contacts = $contacts->paginate($paginationNo);
       }else{
          if($userloc->time_zone=='Asia/Dubai'){
+          $users = User::select('id')->where('active','1')->where('time_zone','Asia/Dubai')->get();  // updated by fazal 07-12-23
+           $usersIds = $users->pluck('id')->toArray();
           $projectId = Project::where('country_id',2)->pluck('id');
           $contacts = Contact::with(['country','project','creator','user','status'])
                         ->select($this->selectedAttruibutes)->where(function ($q){
             $this->filterPrams($q);
-          })->whereIn('project_id',$projectId)
+          })->whereIn('user_id',$usersIds)
           ->orderBy('created_at','DESC');
         }else{
+           $users = User::select('id')->where('active','1')->where('time_zone','Asia/Riyadh')->get();  // updated by fazal 07-12-23
+           $usersIds = $users->pluck('id')->toArray();
           $projectId = Project::where('country_id',1)->pluck('id');
           $contacts = Contact::with(['country','project','creator','user','status'])
                         ->select($this->selectedAttruibutes)->where(function ($q){
             $this->filterPrams($q);
-          })->whereIn('project_id',$projectId)
+          })->whereIn('user_id',$usersIds)
           ->orderBy('created_at','DESC'); 
         }
         $contactsCount = $contacts->count();
@@ -400,7 +450,7 @@ class MainController extends Controller
       $campaignCountry = '2';
     }
     // 
-    else if(userRole() == 'sales admin' || userRole()=='sales director' || userRole()=='sales' || userRole()=='leader'){
+    else if(userRole() == 'sales admin' || userRole()=='sales director' || userRole()=='sales' || userRole()=='leader' || userRole() == 'commercial leader'){
     // dd('hit'); //Added by Javed
       $user=User::where('id',auth()->id())->first();
       if($user->time_zone=='Asia/Riyadh')
@@ -418,7 +468,7 @@ class MainController extends Controller
     // 
     else{
       $projects = Project::orderBy('name_en','ASC')->get();
-      if(userRole() == 'leader'){
+      if(userRole() == 'leader' || userRole() =='commercial leader'){
         if(auth()->user()->time_zone == 'Asia/Riyadh'){
           $campaignCountry = '1';
           $projects = Project::where('country_id','1')->orderBy('name_en','ASC')->get();

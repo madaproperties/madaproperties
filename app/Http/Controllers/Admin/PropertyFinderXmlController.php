@@ -175,6 +175,8 @@ class PropertyFinderXmlController extends Controller
       <size>".$property->buildup_area."</size>
       <bedroom>".$property->bedrooms."</bedroom>
       <completion_status>".$completion_status."</completion_status>
+      <payment_method>".$property->payment_method."</payment_method> 
+      <down_payment_price>".$property->down_payment_price."</down_payment_price>
       <bathroom>".$property->bathrooms."</bathroom>";
       if($property->agent){
 

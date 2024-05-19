@@ -224,7 +224,47 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         if(in_array('sales_director_2_commission_received',$select)){
           $exportArray[++$i] = $deal->sales_director_2_commission_received;
         }
+         // added by fazal on 30-04-24
+        if(in_array('listing_agent_id',$select)){
+          $exportArray[++$i] = $deal->agentListing ? $deal->agentListing->name : '';
+        }
+        if(in_array('listing_agent_commission_percent',$select)){
+          $exportArray[++$i] = $deal->listing_agent_commission_percent;
+        }
+        if(in_array('listing_agent_commission_amount',$select)){
+          $exportArray[++$i] = $deal->listing_agent_commission_amount;
+        }
+        if(in_array('listing_agent_commission_received',$select)){
+          $exportArray[++$i] = $deal->listing_agent_commission_received;
+        }
+       if(in_array('listing_leader_id',$select)){
+          $exportArray[++$i] = $deal->leaderListing ? $deal->leaderListing->name : '';
+        }
+        if(in_array('listing_agent_leader_commission_percent',$select)){
+          $exportArray[++$i] = $deal->listing_agent_leader_commission_percent;
+        }
+        if(in_array('listing_agent_leader_commission_amount',$select)){
+          $exportArray[++$i] = $deal->listing_agent_leader_commission_amount;
+        }
+        if(in_array('listing_agent_leader_commission_received',$select)){
+          $exportArray[++$i] = $deal->listing_agent_leader_commission_received;
+        }
+        if(in_array('listing_director_id',$select)){
+          $exportArray[++$i] = $deal->leaderListing ? $deal->leaderListing->name : '';
+        }
+        if(in_array('listing_director_commission_percent',$select)){
+          $exportArray[++$i] = $deal->listing_director_commission_percent;
+        }
+        if(in_array('listing_director_commission_amount',$select)){
+          $exportArray[++$i] = $deal->listing_director_commission_amount;
+        }
+        if(in_array(' listing_director_commission_received',$select)){
+          $exportArray[++$i] = $deal->listing_director_commission_received;
+        }
 
+
+
+        // end
 
         if(in_array('third_party',$select)){
           $exportArray[++$i] = $deal->third_party;
@@ -265,6 +305,11 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         $leader2 = $deal->leaderTwo ? $deal->leaderTwo->name : '';
         $sales_director = $deal->salesDirector ? $deal->salesDirector->name : '';
         $sales_director_2 = $deal->salesDirector2 ? $deal->salesDirector2->name : '';
+        // added by fazal on  30-04-24
+        $listing_agent = $deal->agentListing ? $deal->agentListing->name : '';
+        $listing_agent_leader = $deal->leaderListing ? $deal->leaderListing->name : '';
+        $listing_agent_director = $deal->salesDirectorlisting ? $deal->salesDirectorlisting->name : '';
+        //end
         $deal_date = '';
         if(!empty($deal->deal_date)){
           $deal_date = date('d-m-Y',strtotime($deal->deal_date));
@@ -333,6 +378,20 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $deal->sales_director_2_commission_percent,
           ($deal->sales_director_2_commission_amount),
           $deal->sales_director_2_commission_received,
+          // added by fazal on 30-04-24
+          $listing_agent,
+          $deal->listing_agent_commission_percent,
+          ($deal->listing_agent_commission_amount),
+          $deal->listing_agent_commission_received,
+          $listing_agent_leader,
+           $deal->listing_agent_leader_commission_percent,
+          ($deal->listing_agent_leader_commission_amount),
+          $deal->listing_agent_leader_commission_received,
+          $listing_agent_director,
+          $deal->listing_director_commission_percent,
+          ($deal->listing_agent_leader_commission_amount),
+          $deal->listing_agent_leader_commission_received,
+          // end
           $deal->third_party,
           ($deal->third_party_amount),
           $deal->third_party_commission_received,
@@ -407,6 +466,18 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         __('site.sales_director_2_commission_percent'),
         __('site.sales_director_2_commission_amount'),
         __('site.sales_director_2_commission_received'),
+         __('site.listing_agent'),
+        __('site.listing_agent_commission_percent'),
+        __('site.listing_agent_commission_amount'), 
+        __('site.listing_agent_commission_received'),
+         __('site.listing_agent_leader'),
+        __('site.listing_agent_leader_commission_percent'),
+        __('site.listing_agent_leader_commission_amount'), 
+        __('site.listing_agent_leader_commission_received'),
+         __('site.listing_agent_director'),
+        __('site.listing_agent_director_commission_percent'),
+        __('site.listing_agent_director_commission_amount'), 
+        __('site.listing_agent_director_commission_received'),
           __('site.third_party'),
         __('site.third_party_amount'),
         __('site.third_party_commission_received'),
@@ -441,6 +512,26 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         "third_party_commission_received",
         "third_party",
         "status", //added by fazal on 26-09-23
+        "agent2_id" ,
+        "agent2_commission_percent",
+        "agent2_commission_amount",
+        "agent2_commission_received",
+        "leader2_id",
+        "agent2_leader_commission_percent",
+        "agent2_leader_commission_amount",
+        "agent2_leader_commission_received",
+        "listing_agent_id",
+        "listing_agent_commission_percent",
+        "listing_agent_commission_amount",
+        "listing_agent_commission_received",
+        "listing_leader_id",
+        "listing_agent_leader_commission_percent",
+        "listing_agent_leader_commission_amount",
+        "listing_agent_leader_commission_received",
+        "listing_director_id",
+        "listing_director_commission_percent",
+        "listing_director_commission_amount",
+        "listing_director_commission_received",
       ];
 
       foreach($feilds as $feild => $value){
