@@ -763,7 +763,7 @@
 																		<div class="form-group row fv-plugins-icon-container">
 																			<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.owner_details')}}</label>
 																		</div>
-
+																		@if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'sales director')
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mobile')}} <span class="error">*</span></label>
@@ -793,7 +793,37 @@
 																				</div>
 																			</div>
 																			<!--end::Group-->
+																		@else
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mobile')}} <span class="error">*</span></label>
+																				<div class="col-lg-9 col-xl-9">
+																					<label class="form-control form-control-solid form-control-lg">{{$property->mobile}}</label>
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																			</div>
+																			<!--end::Group-->
 
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.owner_name')}} <span class="error">*</span></label>
+																				<div class="col-lg-9 col-xl-9">
+																					<label class="form-control form-control-solid form-control-lg">{{$property->owner_name}}</label>
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																			</div>
+																			<!--end::Group-->
+
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.email')}}</label>
+																				<div class="col-lg-9 col-xl-9">
+																					<label class="form-control form-control-solid form-control-lg">{{$property->email}}</label>
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																			</div>
+																			<!--end::Group-->
+																		@endif
 																			
 																		</div>
 																	</div>

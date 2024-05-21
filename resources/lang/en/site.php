@@ -678,5 +678,11 @@ return [
   'Business_Developement'=>'Business Developement',
   'payment_method' => 'Payment Method',
   'down_payment_price' =>'Down payment',
-
+  'down_payment_option' =>'Down Payment Option',
+  'down_payment' =>'Down Payment',
+  'down_payment_percentage' =>'Down Payment Percentage',
+  'down_payment_amount' =>'Down Payment Amount',
+  'remaining_payment' =>'Remaining Payment',
+  'payment_expected_date' =>'Expected Date',
+  'partial' =>'Partial',
 ];

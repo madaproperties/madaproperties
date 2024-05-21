@@ -797,6 +797,12 @@ class PropertyController extends Controller
       $data['bedrooms']=null;
     }
 
+    if(userRole() != 'admin' && userRole() != 'sales admin uae' && userRole() != 'sales admin saudi' && userRole() != 'sales director'){
+      $data['mobile']=$property->mobile;
+      $data['owner_name']=$property->owner_name;
+      $data['email']=$property->email;
+    }
+
     // if(isset($data['is_exclusive'])){
     //   $data['is_exclusive']=1;
     // }else{

@@ -594,5 +594,12 @@ return [
   'street info' => 'Street Info',  
   'closed' => 'Closed',
   'target_size_from' => 'Target Size From',
-  'target_size_to' => 'Target Size To'
+  'target_size_to' => 'Target Size To',
+  'down_payment_option' =>'Down Payment Option',
+  'down_payment' =>'Down Payment',
+  'down_payment_percentage' =>'Down Payment Percentage',
+  'down_payment_amount' =>'Down Payment Amount',
+  'remaining_payment' =>'Remaining Payment',
+  'payment_expected_date' =>'Expected Date',
+  'partial' =>'Partial'
 ];

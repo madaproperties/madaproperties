@@ -147,7 +147,7 @@ input[type=radio],input[type=checkbox] {
 																	</div>
 																	<!--end::Group-->
 
-																	<<!--begin::Group-->
+																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.invoice_number')}}</label>
 																		<div class="col-lg-4 col-xl-4">
@@ -279,6 +279,7 @@ input[type=radio],input[type=checkbox] {
 																				<option {{$deal->down_payment == '' ? 'selected' : ''}} value="">{{ __('site.choose') }}</option>
 																				<option {{$deal->down_payment == 'yes' ? 'selected' : ''}} value="yes">{{__('site.yes')}}</option>
 																				<option {{$deal->down_payment == 'no' ? 'selected' : ''}} value="no">{{__('site.no')}}</option>
+																				<option {{$deal->down_payment == 'partial' ? 'selected' : ''}} value="partial">{{__('site.partial')}}</option>
 																			</select>
 																		</div>
 																	
@@ -291,6 +292,32 @@ input[type=radio],input[type=checkbox] {
 																		</div>
 																	</div>
 																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.down_payment_percentage')}}</label>
+																		<div class="col-lg-4 col-xl-4">
+																			<input class="form-control form-control-solid form-control-lg" name="down_payment_percentage" type="text" value="{{$deal->down_payment_percentage}}" id="down_payment_percentage" placeholder="{{__('site.down_payment_percentage')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+
+																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.down_payment_amount')}}</label>
+																		<div class="col-lg-4 col-xl-4">
+																			<input class="form-control form-control-solid form-control-lg" 	name="down_payment_amount" type="text" value="{{$deal->down_payment_amount}}" id="down_payment_amount" placeholder="{{__('site.down_payment_amount')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-2 col-lg-2 col-form-label">{{__('site.remaining_payment')}}</label>
+																		<div class="col-lg-4 col-xl-4">
+																			<input class="form-control form-control-solid form-control-lg" 	name="remaining_payment" type="text" value="{{$deal->remaining_payment}}" id="remaining_payment" placeholder="{{__('site.remaining_payment')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
 
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container">
@@ -1077,6 +1104,26 @@ input[type=radio],input[type=checkbox] {
 	});
 
 	$( document ).ready(function (){
+
+		$("#down_payment_percentage").on('input keyup keypress blur change',function(){
+			if($(this).val() > 100 || $(this).val() < 0){
+				alert('Down payment percentage value should be greater than 0 and less than 100');
+				$(this).val(0);
+			}
+			if($("#price").val() < 0){
+				alert('Price amount should not be 0');
+				$("#price").focus();
+				$(this).val(0);
+			}
+
+			var comi = $(this).val();
+			var price = $("#price").val();	
+			$("#down_payment_amount").val(((price*comi)/100).toFixed(2));
+
+			var down_payment_amount = $("#down_payment_amount").val();	
+			$("#remaining_payment").val((price-down_payment_amount).toFixed(2));
+		});
+
 
 		$('.datepic').datetimepicker({
 			format: 'L'
