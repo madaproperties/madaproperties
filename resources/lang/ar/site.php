@@ -212,7 +212,7 @@ return [
   'client_mobile_no' => 'رقم هاتف العميل',
   'client_email' => 'البريد الإلكتروني للعميل',
   'project_type' => 'نوع المشروع',
-  'token' => 'رمز',
+  'token' => 'Commission Paid',
   'down_payment' => 'دفعة أولى',
   'spa' => 'منتجع صحي',
   'price' => 'السعر',
@@ -599,7 +599,8 @@ return [
   'down_payment' =>'Down Payment',
   'down_payment_percentage' =>'Down Payment Percentage',
   'down_payment_amount' =>'Down Payment Amount',
-  'remaining_payment' =>'Remaining Payment',
+  'remaining_payment' =>'Remaining Down Payment',
   'payment_expected_date' =>'Expected Date',
-  'partial' =>'Partial'
+  'partial' =>'Partial',
+  'down_payment_amount_paid' =>'Down Payment Amount Paid'
 ];

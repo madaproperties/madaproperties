@@ -287,6 +287,18 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         if(in_array('notes',$select)){
           $exportArray[++$i] = $deal->notes;
         }
+        if(in_array('down_payment_percentage',$select)){
+          $exportArray[++$i] = $deal->down_payment_percentage;
+        }
+        if(in_array('down_payment_amount',$select)){
+          $exportArray[++$i] = $deal->down_payment_amount;
+        }
+        if(in_array('remaining_payment',$select)){
+          $exportArray[++$i] = $deal->remaining_payment;
+        }
+        if(in_array('down_payment_amount_paid',$select)){
+          $exportArray[++$i] = $deal->down_payment_amount_paid;
+        }
         if(in_array('created_at',$select)){
           $exportArray[++$i] = timeZone($deal->created_at);
         }
@@ -400,6 +412,10 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
           $deal->mada_commission_received,
           $deal->notes,
           $deal->status,
+          $deal->down_payment_percentage,
+          $deal->down_payment_amount,
+          $deal->remaining_payment,
+          $deal->down_payment_amount_paid,
           timeZone($deal->created_at),
           timeZone($deal->updated_at),
         ];
@@ -486,6 +502,10 @@ class DealExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapping
         __('site.mada_commission_received'),
         __('site.notes'),
          __('site.status'),
+         __('site.down_payment_percentage'),
+         __('site.down_payment_amount'),
+         __('site.remaining_payment'),
+         __('site.down_payment_amount_paid'),
         __('site.created_at'),
         __('site.updated_at'),
       ]);
