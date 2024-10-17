@@ -1395,6 +1395,18 @@ $("#down_payment_percentage").on('input keyup keypress blur change',function(){
 		         	var agent_commission_amount = $("#mada_commission_3").val();	
 			      $("#sales_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
 			      updateMadaCommission();		
+				}else if(val==1){
+					var comi = $(this).val();
+					var commission_amount = parseFloat($("#commission_amount").val() ? $("#commission_amount").val() : 0);	
+
+					if ($('.third_party').is(':checked')) {
+						var third_party_amount = parseFloat($("#third_party_amount").val());
+						if(third_party_amount > 0){
+							commission_amount -= third_party_amount;
+						}
+					}
+			        $("#sales_director_commission_amount").val((((commission_amount)*comi)/100).toFixed(2));
+
 				}
                 else
                 {
@@ -1461,6 +1473,18 @@ $("#down_payment_percentage").on('input keyup keypress blur change',function(){
 		         	var agent_commission_amount = $("#mada_commission_4").val();	
 			      $("#sales_director_2_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
 			      updateMadaCommission();		
+				}else if(val==1){
+					var comi = $(this).val();
+					var commission_amount = parseFloat($("#commission_amount").val() ? $("#commission_amount").val() : 0);	
+
+					if ($('.third_party').is(':checked')) {
+						var third_party_amount = parseFloat($("#third_party_amount").val());
+						if(third_party_amount > 0){
+							commission_amount -= third_party_amount;
+						}
+					}
+
+ 			        $("#sales_director_2_commission_amount").val((((commission_amount)*comi)/100).toFixed(2));
 				}
                 else
                 {
