@@ -118,6 +118,16 @@
 																		</div>
 																	</div>
 																	<!-- end added by fazal -->
+																	<!-- added by fazal on 06-09-24 -->
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.account_name')}}</label>
+																		<div class="col-lg-9 col-xl-9">
+																			<input class="form-control form-control-solid form-control-lg" 	name="account_name" type="text" value="{{$deal->account_name}}" placeholder="{{__('site.account_name')}}">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+                                                                    <!--end-->
 																	<!-- added by fazal 02-04-23 -->
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.bank_name')}}</label>

@@ -94,7 +94,7 @@
 						<td colspan="3" style="border:0px;text-align:left;">TRN : {{isset($deal->developer->trn) ? $deal->developer->trn : ''}}</td>
                     </tr>
 					<tr>
-						<td style="text-align:left;border:0px;padding-bottom:30px;" colspan="5">Email: admin-dxb@madaproperties.com</td>
+						<td style="text-align:left;border:0px;padding-bottom:30px;" colspan="5">Email: finance-dxb@madaproperties.com</td>
 						
                     </tr>
 					@endif

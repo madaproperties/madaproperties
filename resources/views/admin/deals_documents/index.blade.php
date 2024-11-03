@@ -67,8 +67,12 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal.exportDataDeals'),$expo
 							<thead>
 								<tr>
 									<th>{{__('site.deal_date')}}</th>
+									<!-- added by fazal 10-06-24 -->
+									<th>{{__('site.unit_name')}}</th>
 									<th>{{__('site.project')}}</th>
 									<th>{{__('site.Agent')}}</th>
+									<!-- added by fazal 10-06-24 -->
+									<th>{{__('site.deal status')}}</th>
 									<th style="min-width:150px">{{__('site.action')}}</th>
 								</tr>
 							</thead>
@@ -78,12 +82,23 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal.exportDataDeals'),$expo
 									<td>
 										<span class="text-muted font-weight-bold">{{date('d-m-Y',strtotime($deal->deal_date))}}</span>
 									</td>
+									<!-- added by fazal 10-06-24 -->
+									<td>
+										<span class="text-muted font-weight-bold">{{$deal->unit_name}}</span>
+									</td>
+									
+										<!-- end -->
 									<td>
 										<span class="text-muted font-weight-bold">{{isset($deal->project->project_name) ? $deal->project->project_name : ''}}</span>
 									</td>
 									<td>
 										<span class="text-muted font-weight-bold">{{$deal->agent ? substr($deal->agent->email, 0, strpos($deal->agent->email, "@")) : 'N/A'}}</span>
 									</td>
+									<!-- added by fazal 10-06-24 -->
+									<td>
+									    <span class="text-muted font-weight-bold">{{$deal->status}}</span>
+									</td>
+									<!-- end -->
 									<td>
 										<div class="editPro">
 											@can('deal-edit')

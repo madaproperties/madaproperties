@@ -138,7 +138,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.database-records.exportDatab
 
 					<!--begin::Table-->
 				<div class="table-responsive">
-					@if(userRole() != 'sales')
+					@if(userRole() != 'sales' && userRole() != 'ceo')
 					<div class="{{$data->withQueryString()->links() == ''? 'assign-delete-buttons' : 'page-button'}}">
 						<button type="button" class="btn btn-primary"
 						data-toggle="modal" data-target="#assign-leads">

@@ -1153,9 +1153,12 @@ public function topAgentsUae()
         
         
 }
+
 public function topAgentsSaudi()
 {
-  $sums = DB::table('deals')->where('unit_country',1)->where('status','Approved')
+
+  $sums = DB::table('deals')->where('unit_country',1)
+            ->whereIn('status',['Approved','Pending'])
             ->whereMonth('deals.deal_date', date('m'))
             ->whereYear('deals.deal_date', date('Y'))
             ->join('users','users.id','deals.agent_id')
@@ -1197,6 +1200,64 @@ public function topAgentsSaudi()
      
             
    return view('admin.deals.topagentsaudi',compact('sums','emp1','emp2','emp3'));
+}
+
+public function topAgentsSaudiNew() {
+  $sellerOffPlan = DB::table('deals')
+  ->where('unit_country',1)
+  ->where('status','Approved')
+  ->where('project_type','Primary')
+  ->whereMonth('deals.deal_date', date('m'))
+  ->whereYear('deals.deal_date', date('Y'))
+  ->join('users','users.id','deals.agent_id')
+  ->select(DB::raw('SUM(price) as total_sum, agent_id'),'users.name','users.user_pic','users.email')
+  ->groupBy('agent_id')
+  ->orderByDesc('total_sum')
+  ->take(3)->get();
+
+  $managerOffPlan = DB::table('deals')
+  ->where('unit_country',1)
+  ->where('status','Approved')
+  ->where('project_type','Primary')
+  ->whereMonth('deals.deal_date', date('m'))
+  ->whereYear('deals.deal_date', date('Y'))
+  ->join('users','users.id','deals.leader_id')
+  ->select(DB::raw('SUM(price) as total_sum, leader_id'),'users.name','users.user_pic','users.email')
+  ->groupBy('leader_id')
+  ->orderByDesc('total_sum')
+  ->first();
+
+  $sellerSecondary = DB::table('deals')
+  ->where('unit_country',1)
+  ->where('status','Approved')
+  ->where('project_type','Secondary')
+  ->whereMonth('deals.deal_date', date('m'))
+  ->whereYear('deals.deal_date', date('Y'))
+  ->join('users','users.id','deals.agent_id')
+  ->select(DB::raw('SUM(price) as total_sum, agent_id'),'users.name','users.user_pic','users.email')
+  ->groupBy('agent_id')
+  ->orderByDesc('total_sum')
+  ->take(3)->get();
+
+  $managerSecondary = DB::table('deals')
+  ->where('unit_country',1)
+  ->where('status','Approved')
+  ->where('project_type','Secondary')
+  ->whereMonth('deals.deal_date', date('m'))
+  ->whereYear('deals.deal_date', date('Y'))
+  ->join('users','users.id','deals.leader_id')
+  ->select(DB::raw('SUM(price) as total_sum, leader_id'),'users.name','users.user_pic','users.email')
+  ->groupBy('leader_id')
+  ->orderByDesc('total_sum')
+  ->first();
+
+  
+  return view('admin.deals.topagentsaudi_new',compact(
+    'sellerOffPlan',
+    'managerOffPlan',
+    'sellerSecondary',
+    'managerSecondary'
+  ));
 }
   // end
   public function monthlDeal()

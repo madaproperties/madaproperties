@@ -57,6 +57,7 @@ Route::get('property-xml-saudi','Admin\PropertyXmlController@propertyXmlSaudi')-
 // added by fazal 04-04-2023
 Route::get('madastars','Admin\DealController@topAgentsUae')->name('deal.agents');
 Route::get('topagentsaudideals','Admin\DealController@topAgentsSaudi')->name('deal.agentssaudi');
+Route::get('topagentsaudideals-new','Admin\DealController@topAgentsSaudiNew')->name('deal.agentssaudinew');
 //added by fazal 03-06-23
 Route::get('montlydeal','Admin\DealController@monthlDeal')->name('mada.monthly.deal');
 Route::get('madaslider','Admin\MadaboardController@slider')->name('mada.slider');

@@ -129,6 +129,11 @@
 															</a>
 														</li>
 														@endif
+														<!-- added by fazal on 09-07-2024 -->
+														<li class="nav-item">
+														<span style="color: #9fc538;font-size:20px;font-weight:bold;">Property Id : </span><span  style="font-size:18px">{{$property->crm_id}}</span>
+														</li>
+														<!--end  -->
 													</ul>
 													
 												<div class="col-xl-12 col-xxl-12">
@@ -764,6 +769,7 @@
 																			<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.owner_details')}}</label>
 																		</div>
 																		@if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'sales director')
+
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
 																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mobile')}} <span class="error">*</span></label>

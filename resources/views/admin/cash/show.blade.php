@@ -107,7 +107,7 @@
 																			<input class="form-control form-control-solid form-control-lg" id="document" name="document" type="file" placeholder="{{__('site.document')}}" autocomplete="off">
 																			<div class="fv-plugins-message-container"></div>
 																			@if($cash->documents)
-																				<a href="{{env('APP_URL').'/uploads/'.$cash->documents}}" download>Download</a>
+																				<a href="{{$cash->documents}}" target="_blank" download>Download</a>
 																			@endif
 																		</div>
 																	</div>

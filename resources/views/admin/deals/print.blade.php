@@ -391,10 +391,10 @@
 						<td>__________________</td>
                     </tr>
 					<tr>
-						<td>Mr. Abdullah Al-Qahtani.</td>
+						<td>Mr. Amir Hamd</td>
                     </tr>
 					<tr>
-						<td>(CEO)</td>
+						<td>Finance Manager</td>
                     </tr>
                     	@else <!-- if country United Arab Emirates -->
                     		<tr>

@@ -239,6 +239,11 @@ td.center span {
 											<td class="center" valign="top"><span>{{$project->project->name}}</span></td>
 											<td style="text-align:right">المشروع</td>
 										</tr>
+										<tr class="bottom-line">
+											<td style="text-align:left">Developer</td>
+											<td class="center" valign="top"><span>{{$project->developer->name}}</span></td>
+											<td style="text-align:right">المطور</td>
+										</tr>
 									
 										<tr class="bottom-line">
 											<td style="text-align:left">Floor No</td>
@@ -355,7 +360,7 @@ td.center span {
         						>
         						<tr>
         							<td>Account name </td>
-        							<td>{{$project->developer->name}}</td>
+        							<td>{{$project->project->account_name}}
         							<td>اسم الحساب</td>
         						</tr>
         						<tr>

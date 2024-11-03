@@ -66,6 +66,7 @@ class ProjectNameController extends Controller
         "iban"=>"nullable",   //added by fazal 02-04-23
         "bank_name" =>"nullable",   //added by fazal 02-04-23
         "is_active" =>"nullable", //Added by Lokesh
+        "account_name" =>"nullable", //added by fazal on 06-09-24
 
       ]);
       $data['created_at'] = Carbon::now();
@@ -119,6 +120,7 @@ class ProjectNameController extends Controller
         "iban"=>"nullable",   //added by fazal 02-04-23
         "bank_name" =>"nullable", //added by fazal 02-04-23
         "is_active" =>"nullable", //Added by Lokesh
+        "account_name" =>"nullable", //added by fazal on 06-09-24
     ]);
     $data['updated_at'] = Carbon::now();
     if($request->file('image')){

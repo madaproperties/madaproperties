@@ -119,6 +119,7 @@
 				<button type="submit" class="btn btn-primary">{{__('site.search')}}</button>
 				@if(!isset($advance_campaign))
 				<a href="{{request()->fullUrlWithQuery(['exportData' => '1'])}}" class="btn btn-primary font-weight-bolder" id="exportButton" target="_blank" onclick="exportdata()">
+					<input type="hidden" name="" value="{{request()->fullUrlWithQuery(['exportData' => '1'])}}">
 					<span class="svg-icon svg-icon-md">
 					<i class="fas fa-database" style="color:#fff"></i>
 					</span>{{__('site.export') }}

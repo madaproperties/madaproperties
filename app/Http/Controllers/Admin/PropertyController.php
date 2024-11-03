@@ -215,7 +215,7 @@ class PropertyController extends Controller
       $subUserId[]=auth()->id();
       if(isset(auth()->user()->leader)){
         $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
-        $subUserId = $subUserId->pluck('id')->toArray();
+        $usersIds = $subUserId->pluck('id')->toArray();
       }
       $property = Property::where(function ($q){
         $this->filterPrams($q);
@@ -892,7 +892,7 @@ class PropertyController extends Controller
   public function show($id)
   {
     \Session::forget('tempFloorPlan');
-    if(userRole() == 'admin' || userRole() == 'sales admin uae'){ //Updated by Javed
+    if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales director' ){ //Updated by Javed
       $property = Property::findOrFail($id);
     }elseif(userRole() == 'leader'){
       $leaderId = auth()->id();

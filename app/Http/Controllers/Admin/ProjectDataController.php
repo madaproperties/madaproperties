@@ -191,6 +191,9 @@ class ProjectDataController extends Controller
     }
 
     $projectdata->update($data);
+    if(session('start_filter_url')){
+      return redirect(session()->get('start_filter_url'))->withSuccess(__('site.success'));
+    }
     return redirect(route('admin.project-data.index'))->withSuccess(__('site.success'));
   }
   public function brochure($id)
@@ -270,6 +273,8 @@ class ProjectDataController extends Controller
             $q->where($feild,$value);
         }
       }
+       $uri = Request()->fullUrl();
+      session()->put('start_filter_url',$uri);
     }
   }  
 

@@ -222,8 +222,10 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 				<div class="table-responsive pt-5">
 							@if(userRole() != 'sales')
 								<div class="{{$contacts->withQueryString()->links() == ''? 'assign-delete-buttons' : 'page-button'}}">
-									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#assign-leads">
+									@if(userRole() != 'ceo')
+										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#assign-leads">
 															Assign <i class="fa fa-users"></i></button>
+									@endif
 									@can('contact-delete')
 										<button type="button" class="btn btn-primary delete-all">
 															Delete <i class="fa fa-trash"></i>
