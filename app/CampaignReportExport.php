@@ -18,8 +18,8 @@ class CampaignReportExport implements FromQuery, WithHeadings, ShouldAutoSize, W
     use Exportable;
 
     public function query()
-    {		
-        $projects_data = Project::orderBy('name_en','asc');	
+    {       
+        $projects_data = Project::orderBy('name_en','asc'); 
         if(userRole() == 'sales admin uae') {
             $projects_data =  $projects_data->where('country_id','2');
         }else if(userRole() == 'sales admin saudi'){
@@ -36,7 +36,7 @@ class CampaignReportExport implements FromQuery, WithHeadings, ShouldAutoSize, W
             $projects_data = $projects_data->whereIn('id',$tempIds);
         }
             
-        return $projects_data;	
+        return $projects_data;  
     }
 
     public function map($campaing): array

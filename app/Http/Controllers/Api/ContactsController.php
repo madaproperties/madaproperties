@@ -74,7 +74,11 @@ class ContactsController extends Controller
     }
 
     public function store(Request $request)
-    {
+    { 
+      if($request->content == 'finik' )
+      {
+        dd();
+      }
           
         $auth_user = auth('api')->user();
         $auth_user_id = $auth_user->id;

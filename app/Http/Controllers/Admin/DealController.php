@@ -1153,7 +1153,6 @@ public function topAgentsUae()
         
         
 }
-
 public function topAgentsSaudi()
 {
 
@@ -1205,7 +1204,8 @@ public function topAgentsSaudi()
 public function topAgentsSaudiNew() {
   $sellerOffPlan = DB::table('deals')
   ->where('unit_country',1)
-  ->where('status','Approved')
+  // ->where('status','Approved')// updated by fazal on 18-10-24
+  ->whereIn('status',['Approved','Pending'])
   ->where('project_type','Primary')
   ->whereMonth('deals.deal_date', date('m'))
   ->whereYear('deals.deal_date', date('Y'))
@@ -1215,9 +1215,11 @@ public function topAgentsSaudiNew() {
   ->orderByDesc('total_sum')
   ->take(3)->get();
 
+  
   $managerOffPlan = DB::table('deals')
   ->where('unit_country',1)
-  ->where('status','Approved')
+  // ->where('status','Approved') // updated by fazal on 18-10-24
+  ->whereIn('status',['Approved','Pending'])
   ->where('project_type','Primary')
   ->whereMonth('deals.deal_date', date('m'))
   ->whereYear('deals.deal_date', date('Y'))
@@ -1229,7 +1231,8 @@ public function topAgentsSaudiNew() {
 
   $sellerSecondary = DB::table('deals')
   ->where('unit_country',1)
-  ->where('status','Approved')
+  // ->where('status','Approved') added by fazal on 18-10-24
+  ->whereIn('status',['Approved','Pending'])
   ->where('project_type','Secondary')
   ->whereMonth('deals.deal_date', date('m'))
   ->whereYear('deals.deal_date', date('Y'))
@@ -1238,10 +1241,11 @@ public function topAgentsSaudiNew() {
   ->groupBy('agent_id')
   ->orderByDesc('total_sum')
   ->take(3)->get();
-
+  
   $managerSecondary = DB::table('deals')
   ->where('unit_country',1)
-  ->where('status','Approved')
+  // ->where('status','Approved') added by fazal on 18-10-24
+  ->whereIn('status',['Approved','Pending']) 
   ->where('project_type','Secondary')
   ->whereMonth('deals.deal_date', date('m'))
   ->whereYear('deals.deal_date', date('Y'))
@@ -1251,7 +1255,7 @@ public function topAgentsSaudiNew() {
   ->orderByDesc('total_sum')
   ->first();
 
-  
+  //dd($sellerOffPlan->count(), $managerOffPlan, $sellerSecondary->count(), $managerSecondary);
   return view('admin.deals.topagentsaudi_new',compact(
     'sellerOffPlan',
     'managerOffPlan',
