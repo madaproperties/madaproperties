@@ -220,12 +220,12 @@
   </div>
   <script type="text/javascript">
   	$(".is_rera_active").on('change', function(){
-					if($(this).val() == '2'){ // yes
-						$(".rera-user").show();
-						$(".rera_number").hide();
-					}else{
-						$(".rera-user").hide();
-						$(".rera_number").show();
-					}
-				});
+		if($(this).val() == '2'){ // yes
+			$(".rera-user").show();
+			$(".rera_number").hide();
+		}else{
+			$(".rera-user").hide();
+			$(".rera_number").show();
+		}
+	});
   </script>

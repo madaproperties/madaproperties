@@ -70,21 +70,15 @@ class ContactController extends Controller
         {
           return abort(404);
         }
-      }elseif(userRole() == 'sales')
-      {
+      }elseif(userRole() == 'sales') {
         if($contact->user_id != auth()->id())
         {
           return abort(404);
         }
-      }elseif(userRole() == 'sales admin')
-      
-      {
-         
-        if($contact->user_id != auth()->id()) 
-        
-         {
-                 return abort(404);
-          }
+      } elseif(userRole() == 'sales admin') {         
+        if($contact->user_id != auth()->id()) {
+          return abort(404);
+        }
       }
 
 
