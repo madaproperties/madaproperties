@@ -126,16 +126,49 @@
 											</select>
 										</div>
 
-										<div class="form-group select-leader" >
+										<div class="form-group">
+											<label>{{__('site.Rule')}}:</label>
+											<select name="rule"
+											id="edit-{{$user->id}}-rule"
+											 class="form-control form-control-lg form-control-solid mb-2 select-rule" required="">
+											 <option value="" >{{__('site.select option')}}</option>
+											 	@foreach($roles as $role)
+													<option 
+													{{ $user->roles->pluck('name','name')->first() == $role ? 'selected' : '' }}
+													value="{{ $role }}">{{$role }}</option>
+												@endforeach
+											</select>
+										</div>
+										
+										<div class="form-group select-leader leadersOne" style="display:{{ $user->roles->pluck('name','name')->first() != 'assistant sales director' ? 'block' : 'none' }}">
 											<label>{{__('site.Leader')}}:</label>
-											<select name="leader[]" class="form-control form-control-lg form-control-solid mb-2 " multiple>
-												<option value="" class="selcted-default-leader" selected>{{__('site.select option')}}</option>
+											<select name="leader" class="form-control form-control-lg form-control-solid mb-2">
 												@foreach($leaders as $leader)
-													<option value="{{ $leader->id }}" 
-															@if(is_array($user->leader))
-																{{in_array($leader->id, $user->leader) ? 'selected' : ''}}
-															@endif
-														>
+													<option
+													@if(is_array($user->leader))
+														{{in_array($leader->id, $user->leader) ? 'selected' : ''}}
+													@else
+														{{strpos($user->leader, $leader->id)  ? 'selected' : ''}}
+													@endif
+													value="{{ $leader->id }}" >
+														{{ $leader->name }}
+													</option>
+												@endforeach
+											</select>
+										<br>
+										</div>
+
+										<div class="form-group select-leader leadersArray" style="display:{{ $user->roles->pluck('name','name')->first() == 'assistant sales director' ? 'block' : 'none' }}">
+											<label>{{__('site.Leader')}}:</label>
+											<select name="leaders[]" class="form-control form-control-lg form-control-solid mb-2 " multiple>
+												@foreach($leaders as $leader)
+													<option
+													@if(is_array($user->leader))
+														{{in_array($leader->id, $user->leader) ? 'selected' : ''}}
+													@else
+														{{strpos($user->leader, $leader->id)  ? 'selected' : ''}}
+													@endif
+													value="{{ $leader->id }}" >
 														{{ $leader->name }}
 													</option>
 												@endforeach
@@ -143,21 +176,7 @@
 										<br>
 										</div>
 										<div class="separator separator-dashed my-5"></div>
-										<div class="form-group">
-											<label>{{__('site.Rule')}}:</label>
-											<select name="rule"
-											id="edit-{{$user->id}}-rule"
-											 class="form-control form-control-lg form-control-solid mb-2 select-rule" required="">
-											 <option value="" >{{__('site.select option')}}</option>
-											 	@foreach($roles as $zone)
-													<option 
-													{{ $user->roles->pluck('name','name')->first() == $zone ? 'selected' : '' }}
-													value="{{ $zone }}">{{$zone }}</option>
-												@endforeach
-											</select>
-										</div>
 										
-										<div class="separator separator-dashed my-5"></div>
 										<div class="form-group">
 											<label>{{__('site.Password')}}:</label>
 											<input type="password"
@@ -232,4 +251,28 @@
 			$(".rera_number").show();
 		}
 	});
+	$(document).ready(function (){
+
+		function selectLeader(id) {
+			let el = $('#'+id);
+			let val = el.val();
+			if(val == 'assistant sales director') {
+				el.parent('.form-group').next('.form-group').css('display','none');
+				$('.leadersArray').css('display','block');
+			} else {
+				$('.leadersArray').css('display','none');
+				if(val == 'sales' || val == 'sales admin' || val == 'commercial sales' || val == 'business developement sales') {
+					el.parent('.form-group').next('.form-group').css('display','block');
+				} else {
+					el.parent('.form-group').next('.form-group').css('display','none');
+					el.find('.selcted-default-leader').attr('selected');
+				}
+			}
+		}
+
+		$('.select-rule').on('change', function (){
+			selectLeader($(this).attr('id'));
+		});
+	});
+
   </script>

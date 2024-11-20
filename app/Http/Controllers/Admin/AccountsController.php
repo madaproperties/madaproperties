@@ -129,6 +129,7 @@ class AccountsController extends Controller
           'email' => 'required|unique:users',
           'rule' => 'required',
           'leader' => 'nullable',
+          'leaders' => 'nullable',
           'time_zone' => 'nullable',
           'username' => 'nullable',
           'employee_id' => 'nullable',
@@ -146,6 +147,7 @@ class AccountsController extends Controller
 
         unset($data['position_types']);
         unset($data['leader']);
+        unset($data['leaders']);
         $hash = str_replace('/','',Hash::make(rand(1,100000)));
         $data['hash'] = $hash;
         // set target numbers
@@ -176,7 +178,7 @@ class AccountsController extends Controller
         $user->assignRole($data['rule']);
         $user->update([
           'position_types' => $request->position_types,
-          'leader' => $request->leader
+          'leader' => ($data['rule'] != 'assistant sales director' ? $request->leader : $request->leaders)
         ]);
         try {
             //Mail::to($data['email'])->send(new SetPassword($data));
@@ -228,11 +230,12 @@ class AccountsController extends Controller
         
         // set Leader To Null if rule not salles
     
-        if($data['rule'] == 'sales' || $data['rule'] == 'sales admin' || $data['rule'] == 'commercial sales' || $data['rule'] == 'business developement sales')
+        if($data['rule'] == 'sales' || $data['rule'] == 'assistant sales director' || $data['rule'] == 'sales admin' || $data['rule'] == 'commercial sales' || $data['rule'] == 'business developement sales')
         {
             $data['leader']  = $request->leader;
+            $data['leader']  = $request->leaders;
         }else{
-            $data['leader']  = '';
+            $data['leader']  = '0';
          }
         if($request->file('user_pic')) {
             if($request->file('user_pic')) {
@@ -266,6 +269,11 @@ class AccountsController extends Controller
 
     public function getDetailsByAjax(Request $request){
         $user=User::findOrFail($request->get('id'));
+        
+        if($user->leader) {
+            $user->leader = json_decode($user->leader, true);
+        }
+
         $countries = Country::orderBy('name_en')->get();
         $collectCounties = [];
         $collectCounties = collect($collectCounties);
@@ -282,7 +290,6 @@ class AccountsController extends Controller
         }        
 
         $leaders = User::whereIn('rule',['leader','sales director','commercial leader','business developement leader'])->where('active','1')->get();
-
         $reraUsers = User::where('active','1')->where('is_rera_active','1')->get();
 
         $positions = ['rent','buy','sell','management','handover','TC Renewal','Agent','Conveyance'];

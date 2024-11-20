@@ -306,8 +306,17 @@
 
 											<div class="form-group select-leader" style="display:none">
 												<label>{{__('Leader')}}:</label>
-												<select name="leader[]" class="form-control form-control-lg form-control-solid mb-2 " multiple>
+												<select name="leader" class="form-control form-control-lg form-control-solid mb-2 leadersOne">
 													<option value="" class="selcted-default-leader" selected>{{__('site.select leader')}}</option>
+													@foreach($leaders as $leader)
+														<option value="{{$leader->id}}">{{$leader->name}}</option>
+													@endforeach
+												</select>
+											</div>
+
+											<div class="form-group leadersArray" style="display:none">
+												<label>{{__('Leader')}}:</label>
+												<select name="leaders[]" class="form-control form-control-lg form-control-solid mb-2 " multiple>
 													@foreach($leaders as $leader)
 														<option value="{{$leader->id}}">{{$leader->name}}</option>
 													@endforeach
@@ -341,12 +350,17 @@
 				{
 					let el = $('#'+id);
 					let val = el.val();
-					if(val == 'sales' || val == 'sales admin' || val == 'assistant sales director' || val == 'commercial sales' || val == 'business developement sales')
-					{
-						el.parent('.form-group').next('.form-group').css('display','block');
-					}else{
+					if(val == 'assistant sales director') {
 						el.parent('.form-group').next('.form-group').css('display','none');
-						el.find('.selcted-default-leader').attr('selected');
+						$('.leadersArray').css('display','block');
+					} else {
+						$('.leadersArray').css('display','none');
+						if(val == 'sales' || val == 'sales admin' || val == 'commercial sales' || val == 'business developement sales') {
+							el.parent('.form-group').next('.form-group').css('display','block');
+						} else {
+							el.parent('.form-group').next('.form-group').css('display','none');
+							el.find('.selcted-default-leader').attr('selected');
+						}
 					}
 				}
 
