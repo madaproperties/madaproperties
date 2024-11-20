@@ -47,7 +47,7 @@ class CampaignReportExport implements FromQuery, WithHeadings, ShouldAutoSize, W
       $status = Status::where('active','1')->orderBy('weight','ASC')->get();
       if(userRole() == 'leader'){
           $users = User::select('id','leader')
-                    ->where('leader',auth()->id())
+                    ->whereIn('leader',auth()->id())
                     ->OrWhere('id', auth()->id())
                     ->get();
           $users = $users->pluck('id');

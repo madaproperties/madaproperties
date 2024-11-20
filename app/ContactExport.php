@@ -113,7 +113,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         // get leader group
         $leaderId = auth()->id();
         // get leader , and sellers reltedt to that leader
-        // $users = User::select('id','leader')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+        // $users = User::select('id','leader')->whereIn('leader',$leaderId)->Orwhere('id',$leaderId)->get();
         // $usersIds = $users->pluck('id')->toArray();
         // $contacts = Contact::query()->select($this->selectedAttruibutes)->whereIn('user_id',$usersIds)->where(function ($q){
         //   $this->filterPrams($q);
@@ -121,12 +121,12 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         
         
         $usersIds = User::select('id','leader')->where('active','1')
-        ->where('leader',$leaderId)
+        ->whereIn('leader',$leaderId)
         ->Orwhere('id',$leaderId)
         ->pluck('id');
       
         $salesAgentIds = User::select('id')->where('active','1')
-        ->where('leader',$leaderId)
+        ->whereIn('leader',$leaderId)
         ->pluck('id');
 
         $contacts = Contact::query()->select($this->selectedAttruibutes)
@@ -138,7 +138,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
                         ->orderBy('created_at','DESC');
         
   
-      }else if(userRole() == 'sales admin') { // sales admin
+      }else if(userRole() == 'sales admin' || userRole() == 'assistant sales director') { // sales admin
         
         $contacts = Contact::query()->select($this->selectedAttruibutes)->where(function ($q){
           $this->filterPrams($q);
@@ -393,7 +393,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         $uri = Request()->fullUrl();
         session()->put('start_filter_url',$uri);
         $leaderId=request('leader');
-        $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+        $users = User::select('id','leader')->where('active','1')->whereIn('leader',$leaderId)->Orwhere('id',$leaderId)->get();
         $usersIds = $users->pluck('id')->toArray();
         $q->whereIn('user_id',$usersIds);
       }

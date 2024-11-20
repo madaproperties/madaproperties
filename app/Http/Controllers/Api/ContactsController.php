@@ -126,14 +126,14 @@ class ContactsController extends Controller
             
             if($leader)
             {
-                $leaderUsers = User::where('leader',$leader)->OrWhere('id', $leader)->get()->pluck('id')->toArray();
+                $leaderUsers = User::whereIn('leader',$leader)->OrWhere('id', $leader)->get()->pluck('id')->toArray();
               
                 
          $countryCode = Country::where('name_en',$contact['country'])->first();
         $countryCode = $countryCode ? $countryCode->id : null;
        
         
-             if(userRole() == 'sales admin')
+             if(userRole() == 'sales admin' || userRole() == 'assistant sales director')
              {
               
                 $checkcontact = Contact::where('phone',$contact['phone']) 
@@ -232,7 +232,7 @@ class ContactsController extends Controller
             {
                
               $checkAssigned = User::where('id',$contact['user_id'])
-                                    ->where('leader',$auth_user_id)->first();
+                                    ->whereIn('leader',$auth_user_id)->first();
     
                     if(!$checkAssigned AND $auth_user->rule == 'leader')
                     {

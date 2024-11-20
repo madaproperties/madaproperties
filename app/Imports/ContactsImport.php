@@ -133,11 +133,11 @@ class ContactsImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
             
             if($leader)
             {
-                $leaderUsers = User::where('leader',$leader)
+                $leaderUsers = User::whereIn('leader',$leader)
                 ->OrWhere('id', $leader)->get()->pluck('id')->toArray();
               
                 
-             if(userRole() == 'sales admin')
+             if(userRole() == 'sales admin' || userRole() == 'assistant sales director')
              {
               
                 $checkcontact = Contact::where('phone',$contact['phone']) 
@@ -205,7 +205,7 @@ class ContactsImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
           if($contact['user_id'] != auth()->id() AND userRole() != 'admin') 
           {
             $checkAssigned = User::where('id',$contact['user_id'])
-                                ->where('leader',auth()->id())->first();
+                                ->whereIn('leader',auth()->id())->first();
             
                 
                     if(!$checkAssigned AND $auth_user->rule == 'leader')
@@ -217,7 +217,7 @@ class ContactsImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
           }
           
           
-          if(userRole() == 'sales admin')
+          if(userRole() == 'sales admin' || userRole() == 'assistant sales director')
         {   
             $user = User::where('id',$contact['user_id'])->first();
             $auth_user= auth()->id(); 

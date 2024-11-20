@@ -881,7 +881,7 @@ function getSellers() {
   if(userRole() == 'leader' || userRole() == 'commercial leader' || userRole() == 'business developement leader'){ 
     $id = auth()->id();
     $sellers = User::where(function($q) use($id){
-                      $q->where('leader',$id);
+                      $q->whereIn('leader',$id);
                       $q->OrWhere('id',$id);
                     })->orderBy('email','asc')
                     ->where('active','1')->get();
@@ -931,7 +931,7 @@ function getSellers() {
       $sellers = User::where('active','1')->orderBy('email','asc')->get();
     }
 
-  }elseif(userRole() == 'sales admin'){
+  }elseif(userRole() == 'sales admin' || userRole() == 'assistant sales director'){
       // $whereCountry = 'Asia/Riyadh';
       // $leader = auth()->user()->leader;
       // if($leader){
@@ -951,7 +951,7 @@ function getSellers() {
            $id = auth()->id();
           if($leader){
           $sellers = User::where(function($q) use($leader){
-                      $q->where('leader',$leader);
+                      $q->whereIn('leader',$leader);
                       $q->OrWhere('id',auth()->id());
                     })->orderBy('email','asc')
                     ->where('active','1')->get();
@@ -1003,7 +1003,7 @@ function getCommercialSellers() {
   if(userRole() == 'commercial leader'){
     $id = auth()->id();
     $sellers = User::where(function($q) use($id){
-                      $q->where('leader',$id);
+                      $q->whereIn('leader',$id);
                       $q->OrWhere('id',$id);
                     })->orderBy('email','asc')
                     ->where('active','1')->get();
@@ -1041,7 +1041,7 @@ function getCommercialSellers() {
       })->where('active','1')->orderBy('email','asc')->get();
     }
 
-  }elseif(userRole() == 'sales admin'){
+  }elseif(userRole() == 'sales admin' || userRole() == 'assistant sales director'){
       $whereCountry = 'Asia/Riyadh';
       $leader = auth()->user()->leader;
       if($leader){
@@ -1086,7 +1086,7 @@ function getBusinessSellers() {
   if(userRole() == 'business developement leader'){
     $id = auth()->id();
     $sellers = User::where(function($q) use($id){
-                      $q->where('leader',$id);
+                      $q->whereIn('leader',$id);
                       $q->OrWhere('id',$id);
                     })->orderBy('email','asc')
                     ->where('active','1')->get();
@@ -1124,7 +1124,7 @@ function getBusinessSellers() {
       })->where('active','1')->orderBy('email','asc')->get();
     }
 
-  }elseif(userRole() == 'sales admin'){
+  }elseif(userRole() == 'sales admin' || userRole() == 'assistant sales director'){
       $whereCountry = 'Asia/Riyadh';
       $leader = auth()->user()->leader;
       if($leader){

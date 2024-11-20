@@ -209,7 +209,7 @@ class MainController extends Controller
       // get leader group
       $leaderId = auth()->id();
       // get leader , and sellers reltedt to that leader
-    //   $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+    //   $users = User::select('id','leader')->where('active','1')->whereIn('leader',$leaderId)->Orwhere('id',$leaderId)->get();
     //   $usersIds = $users->pluck('id')->toArray();
     //   $contacts = Contact::with(['country','project','creator','user','status'])
     //                     ->select($this->selectedAttruibutes)->whereIn('user_id',$usersIds)->where(function ($q){
@@ -218,12 +218,12 @@ class MainController extends Controller
     
     
         $usersIds = User::select('id','leader')->where('active','1')
-        ->where('leader',$leaderId)
+        ->whereIn('leader',$leaderId)
         ->Orwhere('id',$leaderId)
         ->pluck('id');
       
         $salesAgentIds = User::select('id')->where('active','1')
-        ->where('leader',$leaderId)
+        ->whereIn('leader',$leaderId)
         ->pluck('id');
 
         $contacts = Contact::with(['country','project','creator','user','status'])
@@ -240,7 +240,7 @@ class MainController extends Controller
       $contacts = $contacts->paginate(20);
 
       //Added by Javed
-      $createdBy = $createdBy->where('leader',$leaderId);
+      $createdBy = $createdBy->whereIn('leader',$leaderId);
       //End
 
     }
@@ -250,7 +250,7 @@ elseif(userRole() == 'commercial leader'){
       // get leader group
       $leaderId = auth()->id();
       // get leader , and sellers reltedt to that leader
-    //   $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+    //   $users = User::select('id','leader')->where('active','1')->whereIn('leader',$leaderId)->Orwhere('id',$leaderId)->get();
     //   $usersIds = $users->pluck('id')->toArray();
     //   $contacts = Contact::with(['country','project','creator','user','status'])
     //                     ->select($this->selectedAttruibutes)->whereIn('user_id',$usersIds)->where(function ($q){
@@ -259,12 +259,12 @@ elseif(userRole() == 'commercial leader'){
     
     
         $usersIds = User::select('id','leader')->where('active','1')
-        ->where('leader',$leaderId)
+        ->whereIn('leader',$leaderId)
         ->Orwhere('id',$leaderId)
         ->pluck('id');
       
         $salesAgentIds = User::select('id')->where('active','1')
-        ->where('leader',$leaderId)
+        ->whereIn('leader',$leaderId)
         ->pluck('id');
 
         $contacts = Contact::with(['country','project','creator','user','status'])
@@ -281,18 +281,14 @@ elseif(userRole() == 'commercial leader'){
       $contacts = $contacts->paginate(20);
 
       //Added by Javed
-      $createdBy = $createdBy->where('leader',$leaderId);
+      $createdBy = $createdBy->whereIn('leader',$leaderId);
       //End
 
-    }
-    // 
-
-
-    else if(userRole() == 'sales admin') { // sales admin
+    } else if(userRole() == 'sales admin' || userRole() == 'assistant sales director' || userRole() == 'assistant sales director') { // sales admin
       
       $subUserId[]=auth()->id();
       if(!Request()->has('my-contacts')  AND (isset(auth()->user()->leader))){
-        $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
+        $subUserId = User::select('id')->where('active','1')->whereIn('leader',auth()->user()->leader);
          $subUserId = $subUserId->pluck('id')->toArray();
       }
       $contacts = Contact::with(['country','project','creator'])
@@ -404,7 +400,7 @@ elseif(userRole() == 'commercial leader'){
     //   $projects = Project::where('country_id','2')->orderBy('name_en','ASC')->get();
     // }
     // // 
-    // else if(userRole() == 'sales admin' || userRole()=='sales director' || userRole()=='sales' || userRole()=='leader'){
+    // else if(userRole() == 'sales admin' || userRole() == 'assistant sales director' || userRole()=='sales director' || userRole()=='sales' || userRole()=='leader'){
     // // dd('hit'); //Added by Javed
     //   $user=User::where('id',auth()->id())->first();
     //   if($user->time_zone=='Asia/Riyadh')
@@ -450,7 +446,7 @@ elseif(userRole() == 'commercial leader'){
       $campaignCountry = '2';
     }
     // 
-    else if(userRole() == 'sales admin' || userRole()=='sales director' || userRole()=='sales' || userRole()=='leader' || userRole() == 'commercial leader'){
+    else if(userRole() == 'sales admin' || userRole() == 'assistant sales director' || userRole()=='sales director' || userRole()=='sales' || userRole()=='leader' || userRole() == 'commercial leader' || userRole() == 'assistant sales director'){
     // dd('hit'); //Added by Javed
       $user=User::where('id',auth()->id())->first();
       if($user->time_zone=='Asia/Riyadh')
@@ -664,7 +660,7 @@ elseif(userRole() == 'commercial leader'){
         $uri = Request()->fullUrl();
         session()->put('start_filter_url',$uri);
         $leaderId=request('leader');
-        $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+        $users = User::select('id','leader')->where('active','1')->whereIn('leader',$leaderId)->Orwhere('id',$leaderId)->get();
         $usersIds = $users->pluck('id')->toArray();
         $q->whereIn('user_id',$usersIds);
       }

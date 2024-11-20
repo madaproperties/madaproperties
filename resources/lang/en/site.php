@@ -686,4 +686,12 @@ return [
   'payment_expected_date' =>'Expected Date',
   'partial' =>'Partial',
   'down_payment_amount_paid' =>'Down Payment Amount Paid',
+  'assistant_sales_director' => 'Assistant Sales Director',
+  'assistant_sales_director_commission_received' => 'Assistant Sales Director Commission Received',
+  'assistant_sales_director_commission_percent' => 'Assistant Sales Director Commission Percent %',
+  'assistant_sales_director_commission_amount' => 'Assistant Sales Director Commission Amount',
+  'assistant_sales_director_2' => 'Assistant Sales Director 2',
+  'assistant_sales_director_2_commission_received' => 'Assistant Sales Director 2 Commission Received',
+  'assistant_sales_director_2_commission_percent' => 'Assistant Sales Director 2 Commission Percent %',
+  'assistant_sales_director_2_commission_amount' => 'Assistant Sales Director 2 Commission Amount',  
 ];

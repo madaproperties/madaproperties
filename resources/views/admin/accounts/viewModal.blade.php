@@ -128,12 +128,16 @@
 
 										<div class="form-group select-leader" >
 											<label>{{__('site.Leader')}}:</label>
-											<select name="leader" class="form-control form-control-lg form-control-solid mb-2 ">
+											<select name="leader[]" class="form-control form-control-lg form-control-solid mb-2 " multiple>
 												<option value="" class="selcted-default-leader" selected>{{__('site.select option')}}</option>
 												@foreach($leaders as $leader)
-													<option
-													{{$leader->id == $user->leader ? 'selected' : ''}}
-													 value="{{$leader->id}}">{{$leader->name}}</option>
+													<option value="{{ $leader->id }}" 
+															@if(is_array($user->leader))
+																{{in_array($leader->id, $user->leader) ? 'selected' : ''}}
+															@endif
+														>
+														{{ $leader->name }}
+													</option>
 												@endforeach
 											</select>
 										<br>

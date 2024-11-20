@@ -50,7 +50,7 @@ class HistoryController extends Controller
       // get leader group
       $leaderId = auth()->id();
       // get leader , and sellers reltedt to that leader
-      $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+      $users = User::select('id','leader')->where('active','1')->whereIn('leader',$leaderId)->Orwhere('id',$leaderId)->get();
       $usersIds = $users->pluck('id')->toArray();
       $data = History::whereIn('user_id',$usersIds)->where(function ($q){
       $this->filterPrams($q);
@@ -59,10 +59,10 @@ class HistoryController extends Controller
       $data = $data->paginate(20);
 
       //Added by Javed
-      $createdBy = $createdBy->where('leader',$leaderId);
+      $createdBy = $createdBy->whereIn('leader',$leaderId);
       //End
 
-    }else if(userRole() == 'sales admin') { // sales admin
+    }else if(userRole() == 'sales admin' || userRole() == 'assistant sales director') { // sales admin
       
       $data = History::where(function ($q){
         $this->filterPrams($q);

@@ -306,7 +306,7 @@
 
 											<div class="form-group select-leader" style="display:none">
 												<label>{{__('Leader')}}:</label>
-												<select name="leader" class="form-control form-control-lg form-control-solid mb-2 ">
+												<select name="leader[]" class="form-control form-control-lg form-control-solid mb-2 " multiple>
 													<option value="" class="selcted-default-leader" selected>{{__('site.select leader')}}</option>
 													@foreach($leaders as $leader)
 														<option value="{{$leader->id}}">{{$leader->name}}</option>
@@ -341,7 +341,7 @@
 				{
 					let el = $('#'+id);
 					let val = el.val();
-					if(val == 'sales' || val == 'sales admin' || val == 'commercial sales' || val == 'business developement sales')
+					if(val == 'sales' || val == 'sales admin' || val == 'assistant sales director' || val == 'commercial sales' || val == 'business developement sales')
 					{
 						el.parent('.form-group').next('.form-group').css('display','block');
 					}else{

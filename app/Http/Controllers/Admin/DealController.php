@@ -155,7 +155,7 @@ class DealController extends Controller
       $developer = DealDeveloper::get();
     }
     // 
-    if(userRole() == 'sales admin' || userRole()=='sales director' || userRole()=='sales'|| userRole()=='sales admin saudi' || userRole()=='sales admin uae' ){
+    if(userRole() == 'sales admin' || userRole() == 'assistant sales director' || userRole()=='sales director' || userRole()=='sales'|| userRole()=='sales admin saudi' || userRole()=='sales admin uae' ){
     // dd('hit'); //Added by Javed
       $user=User::where('id',auth()->id())->first();
       if($user->time_zone=='Asia/Riyadh')
@@ -380,6 +380,11 @@ class DealController extends Controller
         $q->whereIn('rule',['sales director']);
       })
       ->where('active','1')->orderBy('email')->get();
+      
+      $assistantSalesDirectors = User::where('time_zone','Asia/Riyadh')->where(function($q){
+        $q->whereIn('rule',['assistant sales director']);
+      })
+      ->where('active','1')->orderBy('email')->get();
 
     }elseif(!checkLeaderUae()){
         $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
@@ -392,6 +397,11 @@ class DealController extends Controller
       })
       ->where('active','1')->orderBy('email')->get();
 
+      $assistantSalesDirectors = User::where('time_zone','Asia/Dubai')->where(function($q){
+        $q->whereIn('rule',['assistant sales director']);
+      })
+      ->where('active','1')->orderBy('email')->get();
+
     }else{
       //updated by fazal on 24-01-24
         $sellers = User::whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader'])
@@ -399,6 +409,11 @@ class DealController extends Controller
 
       $salesDirectors = User::where(function($q){
         $q->whereIn('rule',['sales director']);
+      })
+      ->where('active','1')->orderBy('email')->get();
+
+      $assistantSalesDirectors = User::where(function($q){
+        $q->whereIn('rule',['assistant sales director']);
       })
       ->where('active','1')->orderBy('email')->get();
 
@@ -428,7 +443,7 @@ class DealController extends Controller
 
 
       return view('admin.deals.create',
-      compact('salesDirectors','projects','miles','countries','currencies','purpose','purposetype','campaigns','contents','sources','mediums','sellers','leaders','developer'));
+      compact('salesDirectors','assistantSalesDirectors','projects','miles','countries','currencies','purpose','purposetype','campaigns','contents','sources','mediums','sellers','leaders','developer'));
   }
 
   /**
@@ -522,7 +537,14 @@ class DealController extends Controller
         "mada_commission_4" =>"nullable",
         "mada_commission_5" =>"nullable",
         "mada_commission_6" =>"nullable",  
-     
+        "assistant_sales_director_id" => "nullable",
+        "assistant_sales_director_commission_percent" => "nullable",
+        "assistant_sales_director_commission_amount" => "nullable",
+        "assistant_sales_director_commission_received" =>"nullable",
+        "assistant_sales_director_2_id" => "nullable",
+        "assistant_sales_director_2_commission_percent" => "nullable",
+        "assistant_sales_director_2_commission_amount" => "nullable",
+        "assistant_sales_director_2_commission_received" =>"nullable",     
       ]);
 
 
@@ -660,14 +682,21 @@ class DealController extends Controller
       "listing_director_commission_percent" => "nullable",
       "listing_director_commission_amount" => "nullable",
       "listing_director_commission_received" =>"nullable",
-       // added by fazal on 01-12-23
-        "mada_commission_1"  =>"nullable",  
-        "mada_commission_2" =>"nullable",
-        "mada_commission_3" =>"nullable",
-        "mada_commission_4" =>"nullable",
-        "mada_commission_5" =>"nullable",
-        "mada_commission_6" =>"nullable", 
-
+      // added by fazal on 01-12-23
+      "mada_commission_1"  =>"nullable",  
+      "mada_commission_2" =>"nullable",
+      "mada_commission_3" =>"nullable",
+      "mada_commission_4" =>"nullable",
+      "mada_commission_5" =>"nullable",
+      "mada_commission_6" =>"nullable", 
+      "assistant_sales_director_id" => "nullable",
+      "assistant_sales_director_commission_percent" => "nullable",
+      "assistant_sales_director_commission_amount" => "nullable",
+      "assistant_sales_director_commission_received" =>"nullable",
+      "assistant_sales_director_2_id" => "nullable",
+      "assistant_sales_director_2_commission_percent" => "nullable",
+      "assistant_sales_director_2_commission_amount" => "nullable",
+      "assistant_sales_director_2_commission_received" =>"nullable",
   ]);
 
     $data['updated_at'] = Carbon::now();
@@ -753,6 +782,11 @@ class DealController extends Controller
     })
     ->where('active','1')->orderBy('email')->get();
 
+    $assistantSalesDirectors = User::where('time_zone','Asia/Riyadh')->where(function($q){
+      $q->whereIn('rule',['assistant sales director']);
+    })
+    ->where('active','1')->orderBy('email')->get();
+
   }elseif(!checkLeaderUae()){
       $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
         $q->whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader']);
@@ -764,12 +798,23 @@ class DealController extends Controller
     })
     ->where('active','1')->orderBy('email')->get();
 
+    $assistantSalesDirectors = User::where('time_zone','Asia/Dubai')->where(function($q){
+      $q->whereIn('rule',['assistant sales director']);
+    })
+    ->where('active','1')->orderBy('email')->get();
+
+
   }else{
       $sellers = User::whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader'])
     ->where('active','1')->orderBy('email')->get();
 
     $salesDirectors = User::where(function($q){
       $q->whereIn('rule',['sales director']);
+    })
+    ->where('active','1')->orderBy('email')->get();
+
+    $assistantSalesDirectors = User::where(function($q){
+      $q->whereIn('rule',['assistant sales director']);
     })
     ->where('active','1')->orderBy('email')->get();
 
@@ -800,7 +845,7 @@ class DealController extends Controller
 
 
     return view('admin.deals.show',
-    compact('salesDirectors','deal','projects','miles','countries','currencies','purpose','purposetype','sellers','leaders','developer','sources'));
+    compact('salesDirectors','assistantSalesDirectors','deal','projects','miles','countries','currencies','purpose','purposetype','sellers','leaders','developer','sources'));
 
   }  
 

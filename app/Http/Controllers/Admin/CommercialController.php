@@ -50,7 +50,7 @@ class CommercialController extends Controller
       $leaderId = auth()->id();
       // get leader , and sellers reltedt to that leader
       $usersIds = User::select('id','leader')->where('active','1')
-      ->where('leader',$leaderId)
+      ->whereIn('leader',$leaderId)
       ->orWhere('id',$leaderId)
       ->pluck('id');
 

@@ -175,7 +175,7 @@ class PropertyController extends Controller
       // get leader , and sellers reltedt to that leader
       $users = User::select('id','leader')
       ->where('active','1')
-      ->where('leader',$leaderId)
+      ->whereIn('leader',$leaderId)
       ->Orwhere('id',$leaderId)
       ->get();
       $usersIds = $users->pluck('id')->toArray();
@@ -211,10 +211,10 @@ class PropertyController extends Controller
         //End
 
 
-    }else if(userRole() == 'sales admin') { // sales admin     
+    }else if(userRole() == 'sales admin' || userRole() == 'assistant sales director') { // sales admin     
       $subUserId[]=auth()->id();
       if(isset(auth()->user()->leader)){
-        $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
+        $subUserId = User::select('id')->where('active','1')->whereIn('leader',auth()->user()->leader);
         $usersIds = $subUserId->pluck('id')->toArray();
       }
       $property = Property::where(function ($q){
@@ -898,15 +898,15 @@ class PropertyController extends Controller
       $leaderId = auth()->id();
       $users = User::select('id','leader')
       ->where('active','1')
-      ->where('leader',$leaderId)
+      ->whereIn('leader',$leaderId)
       ->Orwhere('id',$leaderId)
       ->get();
       $usersIds = $users->pluck('id')->toArray();
       $property = Property::where('id',$id)->whereIn('user_id',$usersIds)->first();
-    }else if(userRole() == 'sales admin') { // sales admin     
+    }else if(userRole() == 'sales admin' || userRole() == 'assistant sales director') { // sales admin     
       $subUserId[]=auth()->id();
       if(isset(auth()->user()->leader)){
-        $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
+        $subUserId = User::select('id')->where('active','1')->whereIn('leader',auth()->user()->leader);
         $subUserId = $subUserId->pluck('id')->toArray();
       }
       $property = Property::where('id',$id)->whereIn('user_id',$subUserId)->first();
@@ -1401,7 +1401,7 @@ class PropertyController extends Controller
       $uri = Request()->fullUrl();
       session()->put('start_filter_url',$uri);
       $leaderId=request('leader');
-      $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+      $users = User::select('id','leader')->where('active','1')->whereIn('leader',$leaderId)->Orwhere('id',$leaderId)->get();
       $usersIds = $users->pluck('id')->toArray();
       $q->whereIn('user_id',$usersIds);
     }

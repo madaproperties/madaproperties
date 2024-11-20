@@ -144,7 +144,7 @@ class LeadPoolController extends Controller
       // get leader group
       $leaderId = auth()->id();
       // get leader , and sellers reltedt to that leader
-      $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+      $users = User::select('id','leader')->where('active','1')->whereIn('leader',$leaderId)->Orwhere('id',$leaderId)->get();
       $usersIds = $users->pluck('id')->toArray();
       $contacts = Contact::with(['country','project','creator','user','status'])
                         ->select($this->selectedAttruibutes)->where(function ($q){
@@ -154,10 +154,10 @@ class LeadPoolController extends Controller
       $contacts = $contacts->paginate(20);
 
       //Added by Javed
-      $createdBy = $createdBy->where('leader',$leaderId);
+      $createdBy = $createdBy->whereIn('leader',$leaderId);
       //End
 
-    }else if(userRole() == 'sales admin') { // sales admin
+    }else if(userRole() == 'sales admin' || userRole() == 'assistant sales director') { // sales admin
       
     
       $contacts = Contact::with(['country','project','creator','user','status'])
@@ -257,7 +257,7 @@ class LeadPoolController extends Controller
       $campaignCountry = '2';
     }
     // 
-    else if(userRole() == 'sales admin' || userRole()=='sales director' || userRole()=='sales' || userRole()=='leader'){
+    else if(userRole() == 'sales admin' || userRole() == 'assistant sales director' || userRole()=='sales director' || userRole()=='sales' || userRole()=='leader'){
     // dd('hit'); //Added by Javed
       $user=User::where('id',auth()->id())->first();
       if($user->time_zone=='Asia/Riyadh')
@@ -645,7 +645,7 @@ class LeadPoolController extends Controller
         $uri = Request()->fullUrl();
         session()->put('start_filter_url',$uri);
         $leaderId=request('leader');
-        $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+        $users = User::select('id','leader')->where('active','1')->whereIn('leader',$leaderId)->Orwhere('id',$leaderId)->get();
         $usersIds = $users->pluck('id')->toArray();
         $q->whereIn('user_id',$usersIds);
       }

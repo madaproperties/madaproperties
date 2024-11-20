@@ -41,13 +41,13 @@ class UserStatusExport implements FromQuery, WithHeadings, ShouldAutoSize, WithM
                     $userReport = $userReport->where('time_zone','like','%'.$whereCountry.'%');
                 }
             }else if(userRole() == 'leader'){
-                $userReport = User::where('active','1')->where('leader',auth()->id());
+                $userReport = User::where('active','1')->whereIn('leader',auth()->id());
             }
             if(request('users_id') > 0){
                 $userReport = $userReport->where('id',request('users_id'));
             }
             if(request('leader_id') > 0){
-                $userReport = $userReport->where('leader',request('leader_id'));
+                $userReport = $userReport->whereIn('leader',request('leader_id'));
             }
     
             $userReport = $userReport->whereNotIn('email',['lead-admin-uae@madaproperties.com','lead-admin-ksa@madaproperties.com'])

@@ -103,7 +103,7 @@ class DatabaseRecordsController extends Controller
           $leaderId = auth()->id();
      
       
-      $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+      $users = User::select('id','leader')->where('active','1')->whereIn('leader',$leaderId)->Orwhere('id',$leaderId)->get();
         $usersIds = $users->pluck('id')->toArray();
 
       
@@ -131,7 +131,7 @@ class DatabaseRecordsController extends Controller
       // get leader group
       $leaderId = auth()->id();
       // get leader , and sellers reltedt to that leader
-      $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+      $users = User::select('id','leader')->where('active','1')->whereIn('leader',$leaderId)->Orwhere('id',$leaderId)->get();
       $usersIds = $users->pluck('id')->toArray();
       $data = DatabaseRecords::whereIn('user_id',$usersIds)->where(function ($q){
       $this->filterPrams($q);
@@ -139,7 +139,7 @@ class DatabaseRecordsController extends Controller
       $data_count = $data->count();
       $data = $data->paginate(20);
 
-    }else if(userRole() == 'sales admin') { // sales admin
+    }else if(userRole() == 'sales admin' || userRole() == 'assistant sales director') { // sales admin
       $user_data=User::where('id',auth()->id())->first();
        $user_loc=$user_data->time_zone;
        if($user_loc=='Asia/Dubai')

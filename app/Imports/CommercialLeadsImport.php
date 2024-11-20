@@ -99,7 +99,7 @@ class CommercialLeadsImport implements ToCollection, WithHeadingRow,ShouldQueue,
         if($lead_data['user_id'] != auth()->id() AND userRole() != 'admin') 
         {
           $checkAssigned = User::where('id',$lead_data['user_id'])
-                              ->where('leader',auth()->id())->first();
+                              ->whereIn('leader',auth()->id())->first();
           if(!$checkAssigned AND $auth_user->rule == 'leader')
           {
             $this->addErorr(__('site.you are not leader for user numer').' ['. $lead_data['user_id'].']');

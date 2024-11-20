@@ -75,7 +75,7 @@ class ContactController extends Controller
         {
           return abort(404);
         }
-      } elseif(userRole() == 'sales admin') {         
+      } elseif(userRole() == 'sales admin' || userRole() == 'assistant sales director') {         
         if($contact->user_id != auth()->id()) {
           return abort(404);
         }
@@ -323,11 +323,11 @@ class ContactController extends Controller
 
         if($leader)
         {
-            $leaderUsers = User::where('leader',$leader)
+            $leaderUsers = User::whereIn('leader',$leader)
                             ->OrWhere('id', $leader)
                             ->get()->pluck('id')->toArray();
 
-              if(userRole() == 'sales admin')
+              if(userRole() == 'sales admin' || userRole() == 'assistant sales director')
              {
                  // first start to Search in the same Level to see if sone 'sales admin' create contact before
                 $contact = Contact::where('phone',$data['phone'])
@@ -388,7 +388,7 @@ class ContactController extends Controller
 
 
          $data['user_id'] = auth()->id(); // set user to cuurunt user
-        if(userRole() == 'sales admin') // ignore userid if he admin sales
+        if(userRole() == 'sales admin' || userRole() == 'assistant sales director') // ignore userid if he admin sales
         {
             if($request->user_id)
             {
@@ -540,7 +540,7 @@ class ContactController extends Controller
 
         }
 
-        if(userRole() == 'sales admin')
+        if(userRole() == 'sales admin' || userRole() == 'assistant sales director')
         {
             $redirectSalesAdmin = true;
         }
