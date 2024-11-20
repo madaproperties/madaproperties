@@ -15,13 +15,12 @@ class Lang
      */
     public function handle($request, Closure $next)
     {
-        //Auto logout code 
+      //Auto logout code 
         if(auth()->check() && auth()->user()->active == 0){
           auth()->logout();
           return redirect(route('login'));
         }
         //End
-
 
 
         if(auth()->check() && auth()->user()->lang AND !session()->has('lang'))

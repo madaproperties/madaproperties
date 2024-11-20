@@ -175,6 +175,8 @@ class PropertyFinderXmlController extends Controller
       <size>".$property->buildup_area."</size>
       <bedroom>".$property->bedrooms."</bedroom>
       <completion_status>".$completion_status."</completion_status>
+      <payment_method>".$property->payment_method."</payment_method> 
+      <down_payment_price>".$property->down_payment_price."</down_payment_price>
       <bathroom>".$property->bathrooms."</bathroom>";
       if($property->agent){
 
@@ -187,17 +189,16 @@ class PropertyFinderXmlController extends Controller
           <license_no>".$property->agent->rera_number."</license_no>
         </agent>";
         }
-        // added by fazal on 20-10-23
-        else if($property->agent->reraUser && $property->agent->public_profile == 1 ){ 
+         else if($property->agent->reraUser && isset($property->agent->public_profile) && $property->agent->public_profile == 1 ){ // added by fazal on 20-10-23
           $xml .="<agent>
             <id>".$property->agent->id."</id>
             <name><![CDATA[".$property->agent->reraUser->username."]]></name>
             <email>".$property->agent->reraUser->email."</email>
             <phone>".$property->agent->reraUser->mobile_no."</phone>
             <license_no>".$property->agent->reraUser->rera_number."</license_no>
-          </agent>";
-        }
-        // end
+          </agent>"; 
+            // end
+        }        
         else if($property->agent->reraUser){
           $xml .="<agent>
             <id>".$property->agent->id."</id>

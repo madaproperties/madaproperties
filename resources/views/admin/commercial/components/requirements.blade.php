@@ -14,7 +14,7 @@
             <div class="mr-3">
               <!--begin::Name-->
               <a href="#" class="d-flex align-items-center text-dark  font-size-h5 font-weight-bold mr-3">
-              {{__('site.status')}} : {{$requirement->status}}</a>
+              {{__('site.status')}} : {{$requirement->status}} - Type :  {{$requirement->commercial_type}}</a>
               <!--end::Name-->
               <!--begin::Contacts-->
               <div class="d-flex flex-wrap my-2">
@@ -38,7 +38,7 @@
             <!--end::Actions-->
           </div>
           <!--end::Title-->
-          <!--begin::Content-->
+                    <!--begin::Content-->
           <div class="row font-weight-bold text-dark-50">
             <!--begin::Description-->
             <div class="col-sm-4">
@@ -54,7 +54,7 @@
             <!--begin::Description-->
           </div>
            
-            <!--end::Description-->
+                        <!--end::Description-->
           <div class="row font-weight-bold text-dark-50">
             <div class="col-sm-4">
               {{__('site.district')}} : {!! $requirement->district?$requirement->district->name : 'N/A' !!}
@@ -62,12 +62,12 @@
             <!--end::Description-->
             <!--begin::Description-->
             <div class="col-sm-4">
-            {{__('site.street info')}} : {!! $requirement->street_info !!}
+            {{__('site.street info')}} : {!! $requirement->street_info?$requirement->street_info:'N/A' !!}
             </div>
             <!--end::Description-->
             <!--begin::Description-->
             <div class="col-sm-4">
-            {{__('site.expanding_date')}} : {!! $requirement->expanding_date !!}
+            {{__('site.expanding_date')}} : {!! $requirement->expanding_date?$requirement->expanding_date : 'N/A' !!}
             </div>
             <!--end::Description-->
           </div>
@@ -83,12 +83,16 @@
             {{__('site.target_size')}} : {!! $requirement->target_size_from .'-'.$requirement->target_size_to !!}
             </div>
             <!--end::Description-->
+          </div>
+          <div class="row font-weight-bold text-dark-50">
             <!--begin::Description-->
-            <div class="col-sm-4">
+            <div class="col-sm-12">
             {{__('site.description')}} : {!! $requirement->description?$requirement->description : 'N/A' !!}
             </div>
             <!--end::Description-->
           </div>
+
+
 
           <!--end::Content-->
         </div>

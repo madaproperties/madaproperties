@@ -164,6 +164,7 @@ class PropertyXmlController extends Controller
       $xml['dubai'][$k]['street']=$property->street;
       $xml['dubai'][$k]['building_name']=$property->building_name;
       $xml['dubai'][$k]['unit_no']=$property->unitno;
+      
 
       //Added by Lokesh on 05-10-2023
       if($property->project_status == '1'){
@@ -175,10 +176,10 @@ class PropertyXmlController extends Controller
       }elseif($property->project_status == '4'){
         $xml['dubai'][$k]['completion_status']='off_plan_primary';
       }else{
-        $xml['dubai'][$k]['completion_status']='off_plan_primary';
+        $xml['dubai'][$k]['completion_status']='';
       }
-      //End
-
+      //End      
+      
       $xml['dubai'][$k]['floor']=$property->floor;
       $xml['dubai'][$k]['no_of_floors']=$property->no_of_floors;
 
@@ -268,6 +269,7 @@ class PropertyXmlController extends Controller
 
       if($property->layout_type == '1' || $property->layout_type == '2' || $property->layout_type == '3' || $property->layout_type == '4'){
         $xml['dubai'][$k]['layout_type']=__('config.layout_type.'.$property->layout_type);
+        
       }else{
         $xml['dubai'][$k]['layout_type']="";
       }
@@ -542,8 +544,8 @@ class PropertyXmlController extends Controller
       $xml['saudi'][$k]['sub_community']=$sub_community;
       $xml['saudi'][$k]['building_name']=$property->building_name;
       $xml['saudi'][$k]['unit_no']=$property->unitno;
-
-      //Added by Lokesh on 05-10-2023
+      
+    //Added by Lokesh on 05-10-2023
       if($property->project_status == '1'){
         $xml['saudi'][$k]['completion_status']='completed';
       }elseif($property->project_status == '2'){
@@ -553,10 +555,10 @@ class PropertyXmlController extends Controller
       }elseif($property->project_status == '4'){
         $xml['saudi'][$k]['completion_status']='off_plan_primary';
       }else{
-        $xml['saudi'][$k]['completion_status']='off_plan_primary';
+        $xml['saudi'][$k]['completion_status']='';
       }
-      //End
-
+    //End
+      
       $xml['saudi'][$k]['floor']=$property->floor;
       $xml['saudi'][$k]['no_of_floors']=$property->no_of_floors;
      
@@ -1128,8 +1130,8 @@ class PropertyXmlController extends Controller
 
       $price=str_replace(".00","",$price);
       $city_text = isset($property->city->name_en) ? $property->city->name_en : "Dubai";
-      $community = isset($property->community) ? $property->community->name_en : 'N/A';
-      $sub_community = isset($property->subCommunity) ? $property->subCommunity->name_en : 'N/A';
+      $community = isset($property->community->name_en) ? $property->community->name_en : 'N/A';
+      $sub_community = isset($property->subCommunity->name_en) ? $property->subCommunity->name_en : 'N/A';
 
       $community=$property->area_name;
       $project_name=$property->project_name;
@@ -1267,7 +1269,7 @@ class PropertyXmlController extends Controller
 
   public function readXml(){
     // Loading the XML file
-    $xml = simplexml_load_file(url("public/property-finder.xml")); //Staging 
+    $xml = simplexml_load_file(url("public/property-finder-xml-21022023.xml")); //Staging 
     //$xml = simplexml_load_file("public\property-finder.xml"); //Local
 
     echo "<h2>".$xml->attributes()->last_update."</h2><br />";
@@ -1608,10 +1610,8 @@ class PropertyXmlController extends Controller
     echo "<pre>";
     print_r($propertArray);
     die;
-  }   
-
-
-  public function readXml2(){
+  }
+public function readXml2(){
     // Loading the XML file
     $xml = simplexml_load_file(url("public/pxml/property-finder09112023.xml")); //Staging 
     //$xml = simplexml_load_file("public\property-finder.xml"); //Local
@@ -1621,11 +1621,15 @@ class PropertyXmlController extends Controller
     foreach ($xml->children() as $row) {
       $pro = explode("-",$row->reference_number);
       $property_id = $pro[1];
+      echo $property_id.'<br>';
+      
+      //$property = \DB::table("property_images")->where(['property_id'=>$property_id])->get(); 
       $property = \DB::table("property_images")->where(['property_id'=>$property_id])
       ->whereNotIn('property_id',['268,679,750,716,718,745,751,752,775,797,798,809,813,
       816,835,837,839,844,845,846,847,848,850,855,861,865,870,871,878,880,881,885,891,
-      892,893,894,895,896,898'])->get(); 
-      if($row->photo){
+      892,893,894,895,896,898'])->get();
+      // dd($property);
+       if($row->photo){
         $urls = (((array)$row->photo)['url']);
         if(count($urls) == count($property)){
           for($i=0; $i < count($urls); $i++){
@@ -1639,5 +1643,5 @@ class PropertyXmlController extends Controller
       }
     }
   }
-
+   
 }

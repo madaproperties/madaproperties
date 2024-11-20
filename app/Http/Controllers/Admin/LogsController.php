@@ -12,9 +12,10 @@ use App\Status;
 
 class LogsController extends Controller
 {
+    
     public function index()
     {
-      return redirect(route('admin.home'));
+        return redirect(route('admin.home'));
     }
     
     public function get_log()
@@ -86,7 +87,6 @@ class LogsController extends Controller
           "task_type" => "required",
           'is_log' => 'nullable',
           'status_id' => 'nullable',
-          'follow_up_date' => 'nullable',
           
         ];
         $msg = __('site.create new '.$request->type.' log with task');
@@ -101,7 +101,6 @@ class LogsController extends Controller
           "description" => "nullable",
           'is_log' => 'nullable',
           'status_id' => 'nullable',
-          'follow_up_date' => 'nullable',
         ];
         $msg = __('site.create new '.$request->type.' log');
       }
@@ -110,7 +109,7 @@ class LogsController extends Controller
       
      $contact = Contact::findOrFail($request->contact_id);
     
-
+        
     // check status
     if($request->status_id){
       if($request->status_id != $contact->status_id)
@@ -121,19 +120,18 @@ class LogsController extends Controller
         $contact->update([
             'status_changed_at' => $data['status_changed_at'],
             'status_id' =>   $request->status_id,
-            'lead_type' => $request->lead_type,
-            'follow_up_date' => null
+            'lead_type' => $request->lead_type
         ]);
       }
     }
      
      
-    $contact->update([
+     $contact->update([
         'lead_type' => $request->lead_type,
-        'updated_at' => Carbon::now()
+         'updated_at' => Carbon::now()
   
     ]);
-
+    
       $data = $request->validate($validate);
       $data['user_id'] = auth()->id();
       $data['connected_id'] = auth()->id();
@@ -153,19 +151,6 @@ class LogsController extends Controller
         'contact_id' => $request->contact_id,
         'description' => $data['description']
       ];
-
-      //Added by Lokesh to add follow up notification 14-08-2023 
-      if($request->follow_up_date && $request->status_id == '5'){
-        $contact->update([
-          'follow_up_date' => \Carbon\Carbon::parse(str_replace('-','/',$request->follow_up_date))->format('Y-m-d'),
-          'follow_up_day' => \Carbon\Carbon::parse(str_replace('-','/',$request->follow_up_date))->format('l')
-        ]);
-        $dataNoteDB['type'] = "call";
-        $dataNoteDB['date'] = \Carbon\Carbon::parse(str_replace('-','/',$request->follow_up_date))->format('Y-m-d'); 
-        $task = Task::create($dataNoteDB);
-      }
-      //End
-        
       if($request->withtask)
       {
         $dataNoteDB['type'] = $request->type;
@@ -194,8 +179,7 @@ class LogsController extends Controller
         "time" => "required",
         "call_outcome" => "nullable",
         "description" => "nullable",
-        'status_id' => 'nullable',
-        'follow_up_date' => 'nullable',
+        'status_id' => 'nullable'
       ]);
       
 
@@ -211,24 +195,15 @@ class LogsController extends Controller
         $contact->update([
             'status_changed_at' => $data['status_changed_at'],
             'status_id' =>   $request->status_id,
-            'follow_up_date' => null
         ]);
       }
      }
       $contact->update([
         'lead_type' => $request->lead_type,
         'updated_at' => Carbon::now()
-      ]);
-
-      //Added by Lokesh to add follow up notification 14-08-2023 
-      if($request->follow_up_date && $request->status_id == '5'){
-        $contact->update([
-          'follow_up_date' => \Carbon\Carbon::parse(str_replace('-','/',$request->follow_up_date))->format('Y-m-d'),
-          'follow_up_day' => \Carbon\Carbon::parse(str_replace('-','/',$request->follow_up_date))->format('l')
-        ]);
-      }
-      //End
-
+  
+    ]);
+    
       unset($data['status_id']);
       unset($data['status_changed_at']);
       $data['log_date'] = \Carbon\Carbon::parse(str_replace('-','/',$data['date']))->format('Y-m-d');

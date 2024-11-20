@@ -341,7 +341,7 @@
 				{
 					let el = $('#'+id);
 					let val = el.val();
-					if(val == 'sales' || val == 'sales admin' || val == 'commercial sales')
+					if(val == 'sales' || val == 'sales admin' || val == 'commercial sales' || val == 'business developement sales')
 					{
 						el.parent('.form-group').next('.form-group').css('display','block');
 					}else{

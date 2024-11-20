@@ -158,7 +158,7 @@ class ProjectDataController extends Controller
     $data = $request->validate([
       "country_id"          => "nullable",
       "city_name"          => "required",
-      "district_name"          => "required",
+      "district_name"          => "nullable",
       "developer_id"          => "required",
       "unit_name"          => "required",
       "project_id"          => "required",
@@ -169,7 +169,7 @@ class ProjectDataController extends Controller
       "price"          => "required",
       "completion_date"          => "nullable",
       "payment_status"          => "nullable",
-      "floor_no"      =>"required",
+      "floor_no"      =>"nullable",
       "commission"    =>"nullable",
       "commission_percent"    =>"nullable",
       "down_payment"  => "nullable",
@@ -191,15 +191,18 @@ class ProjectDataController extends Controller
     }
 
     $projectdata->update($data);
+    if(session('start_filter_url')){
+      return redirect(session()->get('start_filter_url'))->withSuccess(__('site.success'));
+    }
     return redirect(route('admin.project-data.index'))->withSuccess(__('site.success'));
   }
   public function brochure($id)
   {
-
+      
     $project = ProjectData::join('projects','projects_data.project_id','projects.id')
                             ->where('projects_data.id',$id)
                             ->first();
-                            // dd($project);
+                           
                       
        $date=Carbon::now("Asia/Riyadh");
        $time=Carbon::now("Asia/Riyadh")->format('g:i A');
@@ -270,6 +273,8 @@ class ProjectDataController extends Controller
             $q->where($feild,$value);
         }
       }
+       $uri = Request()->fullUrl();
+      session()->put('start_filter_url',$uri);
     }
   }  
 

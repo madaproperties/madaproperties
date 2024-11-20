@@ -74,7 +74,11 @@ class ContactsController extends Controller
     }
 
     public function store(Request $request)
-    {
+    { 
+      if($request->content == 'finik' )
+      {
+        dd();
+      }
           
         $auth_user = auth('api')->user();
         $auth_user_id = $auth_user->id;
@@ -194,12 +198,12 @@ class ContactsController extends Controller
 
             if(isset($contact['project_id']))
             {
-            $project_id =  $this->getID('','Project','',$contact['project_id']);
-            $contact['project_id'] = $project_id;
-              if(Contact::where('project_id',$project_id)->where('phone',$contact['phone'])->first()){
-                $this->addErorr('Lead already exists '.' ['. $contact['project_id'].']');
-                return false;
-              }
+                $project_id =  $this->getID('','Project','',$contact['project_id']);
+                $contact['project_id'] = $project_id;
+                //if(Contact::where('project_id',$project_id)->where('phone',$contact['phone'])->first()){
+                  //  $this->addErorr('Lead already exists '.' ['. $contact['project_id'].']');
+                    //return false;
+                //}
             }
 
             if(isset($contact['last_mile_conversion']))
@@ -317,7 +321,7 @@ class ContactsController extends Controller
             }
             unset($contact['assignedto']); // remove asssigned to => replaced with user_id
 
-		 $contact = Contact::create($contact);
+    	 $contact = Contact::create($contact);
 
             $action = __('site.contact created');
             $this->newActivity($contact->id,auth('api')->id(),$action,'Contact',$contact->id,null,true);
@@ -328,7 +332,7 @@ class ContactsController extends Controller
     }
 
     // GET ID FORM NAME_EN
-    private function getID($index,$model,$search_feild,$value=null,$extra_condtion_value = null)
+    private function getID($index,$model,$search_feild,$value = null,$extra_condtion_value = null)
     {
       $index = empty($index) ? 1 :  $index;
       $search_feild = $search_feild == '' ? 'name_en' : $search_feild;

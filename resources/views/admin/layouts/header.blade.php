@@ -35,6 +35,7 @@
     <script src="{{ asset('public/assets/js/pages/crud/forms/widgets/select2.js') }}"></script>
     <script src="{{ asset('public/assets/js/pages/crud/forms/widgets/bootstrap-datetimepicker.js') }}"></script>
     <link rel="shortcut icon" href="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" />
+    
     @include('admin.layouts.msgs') @stack('css')
     <style>
         @if(Request::root()=='https://lmsstaging.madaproperties.com') body {
@@ -180,18 +181,18 @@
     <div class="d-flex w-100">
         <div class="menuSideView" style="{{ !auth()->id() ? 'height:71px' : '' }}">
             <div class="d-none d-lg-flex align-items-center mr-3 navTop_logo">
-				@php $user = App\User::where('id',auth()->id())->first(); @endphp
-				@if(auth()->id())
+                @php $user = App\User::where('id',auth()->id())->first(); @endphp
+                @if(auth()->id())
                 <!-- updated by fazal -->
                 <!--begin::Logo--> @if(userRole() == 'other') <a href="{{route('admin.deal.index')}}" class="w-100">
                 @elseif(userRole() == 'hr')<a href="{{route('admin.employee.index')}}" class="w-100">@elseif(userRole() == 'it')<a href="{{route('admin.madaboard.index')}}" class="w-100"> @else <a href="{{route('admin.')}}" class="w-100"> @endif <img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo p-0 mx-auto d-block" />
                     </a>
-				@else
-					<a href="{{route('projcets.newweb')}}" class="w-100"><img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo p-0 mx-auto d-block" /></a>
-				@endif
+                @else
+                    <a href="{{route('projcets.newweb')}}" class="w-100"><img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo p-0 mx-auto d-block" /></a>
+                @endif
                     <!--end::Logo-->
             </div>
-			@if(auth()->id())
+            @if(auth()->id())
             <div class="header-bottom">
                 <!--begin::Container-->
                 <div class="container w-100">
@@ -204,9 +205,9 @@
                             @if(auth()->id())
                 <!--begin::Logo--> @if(userRole() == 'other') <a href="{{route('admin.deal.index')}}" class="w-100"> @else <a href="{{route('admin.')}}" class="w-100"> @endif <img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo p-0 mx-auto d-block" />
                     </a>
-				@else
-					<a href="{{route('projcets.newweb')}}" class="w-100"><img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo p-0 mx-auto d-block" /></a>
-				@endif                            </li>
+                @else
+                    <a href="{{route('projcets.newweb')}}" class="w-100"><img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo p-0 mx-auto d-block" /></a>
+                @endif                            </li>
                             <!--end::Item-->
                         </ul>
                         <!--begin::Tab Navs-->
@@ -235,13 +236,6 @@
                                             <!-- updated by fazal 29-03 -->
                                         </li> 
                                         @endif
-                                        @if(\App\User::where('id',auth()->id())->first()->time_zone=='Asia/Dubai')
-                                        <li class="menu-item menu-item-active {{ request()->has('lead-pool') ? 'active' : '' }}" aria-haspopup="true">
-                                            <a href="{{route('admin.lead-pool.index')}}" class="menu-link menuRouter {{ request()->has('lead-pool') ? 'active' : ''}}">
-                                                <span class="menu-text"><i class="fa fa-address-book"></i> {{__('site.lead_pool')}}</span>
-                                            </a>
-                                        </li> 
-                                        @endif
                                         @if(userRole() != 'sales' && userRole() != 'other'  && userRole()!='hr' && userRole() != 'hr' && userRole() !=='it') 
                                         <li class="menu-item menu-item-active {{ (request()->routeIs('admin.home') && !request()->has('my-contacts'))  ? 'active' : '' }}" aria-haspopup="true">
                                             <a href="{{route('admin.home')}}?filter_status={{ App\Status::where('name_en','new')->first()->id }}" class="menu-link {{ (request()->routeIs('admin.home') && !request()->has('my-contacts')) ? 'active' : ''}}">
@@ -250,14 +244,22 @@
                                         </li> 
                                         @endif 
                                         
-                                        @if($user->can('commercial-list')) 
+                                        @if($user->can('commercial-list'))  
                                         <li class="menu-item menu-item-active {{ (request()->routeIs('admin.commercial-leads'))  ? 'active' : '' }}" aria-haspopup="true">
                                             <a href="{{route('admin.commercial-leads.index')}}" class="menu-link {{ (request()->routeIs('admin.commercial-leads')) ? 'active' : ''}}">
                                                 <span class="menu-text"><i class="fa fa-address-book"></i> {{__('site.Commercial_leads')}}</span>
                                             </a>
                                         </li> 
                                         @endif
-                                        
+                                         <!-- added by fazal on 20-12-23 -->
+                                         @if($user->can('busniess-development-list')) 
+                                        <li class="menu-item menu-item-active {{ (request()->routeIs('admin.business-development-leads'))  ? 'active' : '' }}" aria-haspopup="true">
+                                            <a href="{{route('admin.business-development-leads.index')}}" class="menu-link {{ (request()->routeIs('admin.business-development-leads')) ? 'active' : ''}}">
+                                                <span class="menu-text"><i class="fa fa-address-book"></i> {{__('site.Business_Developement')}}</span>
+                                            </a>
+                                        </li> 
+                                        @endif
+                                        <!--  -->
                                         
                                         @can('calendar-list') <li class="menu-item menu-item-active {{ request()->routeIs('admin.calendar') ? 'active' : '' }}" aria-haspopup="true">
                                             <a href="{{route('admin.calendar')}}" class="menu-link {{ active_nav('calendar') ? 'active' : ''}}">
@@ -265,17 +267,17 @@
                                             </a>
                                         </li> @endcan @if($user->can('users-report') || $user->can('daily-report') || $user->can('campaign-report') || $user->can('advance-campaign-report') || $user->can('campaign-analytics-report') || $user->can('leaders-report')) <li class="menu-item menu-item-active 
 
-						{{ (
+                        {{ (
 
-							request()->routeIs('admin.users-report') || request()->routeIs('admin.daily-report')
+                            request()->routeIs('admin.users-report') || request()->routeIs('admin.daily-report')
 
-							|| request()->routeIs('admin.campaign-report') || request()->routeIs('advance-campaign-report.index')
+                            || request()->routeIs('admin.campaign-report') || request()->routeIs('advance-campaign-report.index')
 
-							|| request()->routeIs('admin.campaign-analytics-report') || request()->routeIs('admin.leaders-report') 
+                            || request()->routeIs('admin.campaign-analytics-report') || request()->routeIs('admin.leaders-report') 
 
-						) ? 'active' : '' }}
+                        ) ? 'active' : '' }}
 
-						text-dark">
+                        text-dark">
                                             <a class="menu-link menu-toggle menu-link text-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <span class="menu-text"><i class="fa fa-file"></i> {{__('site.reports')}}</span>
                                             </a>
@@ -347,7 +349,7 @@
                                         <!-- end -->
                                         @if($user->can('project-list') || $user->can('project-name-list') || $user->can('project-developer-list')) <li class="menu-item menu-item-active text-dark {{ (request()->routeIs('admin.project-data.*') || request()->routeIs('admin.project-name.*')
 
-							|| request()->routeIs('admin.project-developer.*')) ? 'active' : '' }}">
+                            || request()->routeIs('admin.project-developer.*')) ? 'active' : '' }}">
                                             <a class="menu-link menu-toggle menu-link text-dark dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <span class="menu-text"><i class="fa fa-clone"></i> {{__('site.project')}}</span>
                                             </a>
@@ -364,10 +366,10 @@
                                             @can('booking-list') 
                                                 <a class="dropdown-item {{(request()->routeIs('admin.bookings.*')) ? 'active' : '' }}" href="{{route('admin.bookings.index')}}">{{__('site.project') .' '.__('site.bookings')}}</a> 
                                             @endcan 
-											@if(userRole()=='admin' || userRole()=='sales director' ||userRole()=='sales admin uae' || userRole()== 'sales admin saudi' )
-											<a class="dropdown-item {{(request()->routeIs('projcets.newweb')) ? 'active' : '' }}" href="{{route('projcets.newweb')}}">{{__('site.project availability')}}</a>
-											@endif
-											</div>
+                                            @if(userRole()=='admin' || userRole()=='sales director' ||userRole()=='sales admin uae' || userRole()== 'sales admin saudi' )
+                                            <a class="dropdown-item {{(request()->routeIs('projcets.newweb')) ? 'active' : '' }}" href="{{route('projcets.newweb')}}">{{__('site.project availability')}}</a>
+                                            @endif
+                                            </div>
                                         </li> @endif 
                                        
                                         @can('database-records-list') <li class="menu-item menu-item-active {{ (request()->routeIs('admin.database-records.*')) ? 'active' : '' }} " aria-haspopup="true">
@@ -411,7 +413,7 @@
                 </div>
                 <!--end::Container-->
             </div>
-			@endif
+            @endif
         </div>
         <div class="contentArea">
             <div id="loadingHolder">
@@ -420,12 +422,12 @@
             <!--begin::Main-->
             <!--begin::Header Mobile-->
             <div id="kt_header_mobile" class="header-mobile  header-mobile-fixed">
-					@if(auth()->id())
+                    @if(auth()->id())
                 <!--begin::Logo--> @if(userRole() == 'other') <a href="{{route('admin.deal.index')}}"> @else <a href="{{route('admin.')}}"> @endif <img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="max-h-30px" />
                     </a>
-					@else
-						<a href="{{route('projcets.newweb')}}"><img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="max-h-30px"  /></a>
-					@endif
+                    @else
+                        <a href="{{route('projcets.newweb')}}"><img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="max-h-30px"  /></a>
+                    @endif
                     <!--end::Logo-->
                     <!--begin::Toolbar-->
                     <div class="d-flex align-items-center">
@@ -462,17 +464,17 @@
                                 <div class="container">
                                     <!--begin::Left-->
                                     <div class="d-none d-lg-flex align-items-center mr-3 mobileLogo desktoppLogo">
-										@if(auth()->id())
-										<!--begin::Logo--> @if(userRole() == 'other') <a href="{{route('admin.deal.index')}}" class="mr-20"> @else <a href="{{route('admin.')}}" class="mr-20"> @endif <img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo" />
+                                        @if(auth()->id())
+                                        <!--begin::Logo--> @if(userRole() == 'other') <a href="{{route('admin.deal.index')}}" class="mr-20"> @else <a href="{{route('admin.')}}" class="mr-20"> @endif <img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo" />
                                             </a>
-										@else
-											<a href="{{route('projcets.newweb')}}" class="mr-20"><img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo"  /></a>
-										@endif											
+                                        @else
+                                            <a href="{{route('projcets.newweb')}}" class="mr-20"><img alt="Logo" src="{{ asset('public/imgs/mada-logo-blackbg.svg') }}" class="main-logo"  /></a>
+                                        @endif                                          
                                             <!--end::Logo-->
                                     </div>
                                     <!--end::Left-->
                                     <!--begin::Topbar-->
-									@if(auth()->id())
+                                    @if(auth()->id())
                                     <div class="topbar bg-primary"> @php $notoficationCount = App\Notofication::where('user_id',auth()->id())->where('completed','0')->count(); @endphp
                                         <!--begin::User id=""-->
                                         <div class="topbar-item">
@@ -504,7 +506,7 @@
                                         <!--end::User-->
                                     </div>
                                     <!--end::Topbar-->
-									@endif
+                                    @endif
                                 </div>
                                 <!--end::Container-->
                             </div>
@@ -529,7 +531,7 @@
                             //     $("menu-nav li .menuSideView .menu-link.dropdown-toggle").removeClass("active");
                             //     // adding classname 'active' to current click li 
                             //     $(this).addClass("active");
-                            // });	
+                            // });  
                         </script>
                         <script>
                             /* $(document).ready(function(){

@@ -215,7 +215,7 @@ class PropertyController extends Controller
       $subUserId[]=auth()->id();
       if(isset(auth()->user()->leader)){
         $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
-        $subUserId = $subUserId->pluck('id')->toArray();
+        $usersIds = $subUserId->pluck('id')->toArray();
       }
       $property = Property::where(function ($q){
         $this->filterPrams($q);
@@ -446,7 +446,9 @@ class PropertyController extends Controller
       'nearest_facilities' => 'nullable',              
       'financial_status' => 'nullable',              
       'layout_type' => 'nullable',              
-      'off_line_property' => 'nullable',              
+      'off_line_property' => 'nullable',  
+      'payment_method' =>'nullable',  //added by fazal on 16-01-23   
+      'down_payment_price' =>'nullable',
     ]);
 
     if($data['property_type'] == '2'){
@@ -786,11 +788,19 @@ class PropertyController extends Controller
       'nearest_facilities' => 'nullable',              
       'financial_status' => 'nullable',              
       'layout_type' => 'nullable',     
-      'off_line_property' => 'nullable',              
+      'off_line_property' => 'nullable', 
+      'payment_method' =>'nullable',  //added by fazal on 16-01-23   
+      'down_payment_price' =>'nullable',
     ]);
 
     if($data['property_type'] == '2'){
       $data['bedrooms']=null;
+    }
+
+    if(userRole() != 'admin' && userRole() != 'sales admin uae' && userRole() != 'sales admin saudi' && userRole() != 'sales director'){
+      $data['mobile']=$property->mobile;
+      $data['owner_name']=$property->owner_name;
+      $data['email']=$property->email;
     }
 
     // if(isset($data['is_exclusive'])){
@@ -882,7 +892,7 @@ class PropertyController extends Controller
   public function show($id)
   {
     \Session::forget('tempFloorPlan');
-    if(userRole() == 'admin' || userRole() == 'sales admin uae'){ //Updated by Javed
+    if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales director' ){ //Updated by Javed
       $property = Property::findOrFail($id);
     }elseif(userRole() == 'leader'){
       $leaderId = auth()->id();

@@ -10,7 +10,7 @@ use App\Task;
 use App\CommercialTask;
 use App\User;
 use App\Status;
-
+use  App\Log;
 class CalendarController extends Controller
 {
 

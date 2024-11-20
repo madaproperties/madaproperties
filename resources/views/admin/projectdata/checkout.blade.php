@@ -302,7 +302,9 @@ div#units{padding:30px;}
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-4 col-lg-4">{{__('site.down_payment')}}</label>
 																		<div class="col-lg-8 col-xl-8">
+																			@if(isset($unit->down_payment))
 																			{{ number_format((str_replace(",","",$unit->down_payment)))}}
+																			@endif
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>

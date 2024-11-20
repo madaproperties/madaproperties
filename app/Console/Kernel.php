@@ -9,7 +9,6 @@ use Carbon\Carbon;
 use App\Task;
 use App\Notofication;
 use App\Contact;
-use App\LeadPoolActivity;
 
 class Kernel extends ConsoleKernel
 {

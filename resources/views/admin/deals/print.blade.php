@@ -151,9 +151,9 @@
                     </tr>
 					<tr>
 						<td> @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
-							Sales Manager 1 Amount (SAR)
+							Sales Manager 1 Amount (SAR) - {{$deal->agent_leader_commission_percent.'%'}}
 						@else
-							Sales Manager 1 Amount (AED)
+							Sales Manager 1 Amount (AED) - {{$deal->agent_leader_commission_percent.'%'}}
 						@endif
 					</td>
 						<td>{{$deal->agent_leader_commission_amount}}</td>
@@ -168,9 +168,9 @@
 					<tr>
 						<td>
 						    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
-						    Sales Director 1 Amount (SAR)
+						    Sales Director 1 Amount (SAR) -  {{$deal->sales_director_commission_percent.'%'}}
 						    @else
-						    Sales Director 1 Amount (AED)
+						    Sales Director 1 Amount (AED) - {{$deal->sales_director_commission_percent.'%'}}
 						    @endif
 						    </td>
 						<td>{{$deal->sales_director_commission_amount}}</td>
@@ -211,9 +211,9 @@
 					<tr>
 						<td>
 						    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
-						    Sales Manager 2 Amount (SAR)
+						    Sales Manager 2 Amount (SAR) - {{$deal->agent2_leader_commission_percent.'%'}}
 						    @else
-						    Sales Manager 2 Amount (AED)
+						    Sales Manager 2 Amount (AED) - {{$deal->agent2_leader_commission_percent.'%'}}
 						    @endif
 						    </td>
 						<td>{{$deal->agent2_leader_commission_amount}}</td>
@@ -229,9 +229,9 @@
 					<tr>
 						<td>
 						    @if($deal->unit_country == 1) <!-- if country Saudi Arabia -->
-						    Sales Director Amount (SAR)
+						    Sales Director Amount (SAR) - {{$deal->sales_director_2_commission_percent.'%'}}
 						    @else
-						    Sales Director Amount (AED)
+						    Sales Director Amount (AED) - {{$deal->sales_director_2_commission_percent.'%'}}
 						    @endif
 						    </td>
 						<td>{{$deal->sales_director_2_commission_amount}}</td>
@@ -391,10 +391,10 @@
 						<td>__________________</td>
                     </tr>
 					<tr>
-						<td>Mr. Abdullah Al-Qahtani.</td>
+						<td>Mr. Amir Hamd</td>
                     </tr>
 					<tr>
-						<td>(CEO)</td>
+						<td>Finance Manager</td>
                     </tr>
                     	@else <!-- if country United Arab Emirates -->
                     		<tr>
@@ -408,7 +408,7 @@
 						<td class="line">__________________</td>
                     </tr>
                     	<tr>
-						<td>Mr. Omar Ali:</td>
+						<td>Mr. Ahmad Adnan:</td>
                     </tr>
 					<tr>
 						<td>(Sales Director)</td>

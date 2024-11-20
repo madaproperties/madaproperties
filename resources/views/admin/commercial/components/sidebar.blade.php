@@ -120,7 +120,7 @@
   @endphp
   @if($commercial->contact_persons)
     @foreach($commercial->contact_persons as $contact_person) 
-    <h4>Contact Person {{$i++}}</h4>
+    <h4> {{ __('site.Contact Persons')}} {{$i++}}</h4>
     <div class="d-flex align-items-center justify-content-between mb-2">
       <span class="font-weight-bold mr-2">{{ __('site.name')}}:</span>
       <span class="text-muted">{{$contact_person->name ? $contact_person->name : 'N/A'}}</span>

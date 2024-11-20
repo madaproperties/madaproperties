@@ -53,6 +53,7 @@ class CommercialRequirementsController extends Controller
           'status'        => 'nullable',
           'expanding_year'        => 'nullable',
           'description'        => 'nullable',
+          'commercial_type'     =>'nullable',  // added by fazal on 09-01-23
         ]);
 
         $data['user_id'] = auth()->id();
@@ -115,6 +116,7 @@ class CommercialRequirementsController extends Controller
         'status'        => 'nullable',
         'expanding_year'        => 'nullable',
         'description'        => 'nullable',
+        'commercial_type'     =>'nullable', // added by fazal on 09-01-23
       ]);
 
 

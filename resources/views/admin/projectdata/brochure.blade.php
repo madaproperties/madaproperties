@@ -239,10 +239,22 @@ td.center span {
 											<td class="center" valign="top"><span>{{$project->project->name}}</span></td>
 											<td style="text-align:right">المشروع</td>
 										</tr>
+										<tr class="bottom-line">
+											<td style="text-align:left">Developer</td>
+											<td class="center" valign="top"><span>{{$project->developer->name}}</span></td>
+											<td style="text-align:right">المطور</td>
+										</tr>
 									
 										<tr class="bottom-line">
 											<td style="text-align:left">Floor No</td>
-											<td class="center" valign="top"><span>{{$project->floor_no}}</span></td>
+											<td class="center" valign="top"><span>
+												@if($project->floor_no == 0)
+												Ground Floor
+												@else
+												{{$project->floor_no}}
+												@endif
+												
+											</span></td>
 											<td style="text-align:right">رقم الدور</td>
 										</tr>
                                         <tr class="bottom-line">
@@ -261,6 +273,14 @@ td.center span {
 											<td style="text-align:right">المساحة الإجمالية (بالمتر المربع)</td>
 
 										</tr>
+										@if($project->area_plot)
+										<tr class="bottom-line">
+											<td style="text-align:left">Land Area (sqm)</td>
+											<td class="center" valign="top"><span>{{$project->area_plot}}</span></td>
+											<td style="text-align:right">المساحة (قطعة أرض)</td>
+
+										</tr>
+										@endif
 										<tr class="bottom-line">
 											<td style="text-align:left">Price in SAR</td>
 											<td class="center" valign="top"><span>{{number_format(intval($project->price), 2)}}</span></td>
@@ -312,15 +332,42 @@ td.center span {
 						<td   valign="top" >
         					<table class="mada_table">
         					
-        						<th style="color:#000;font-weight:bold;width: 200px; background-color: #9FCE31;padding: 5px;" >Down Payment {{$project->down_payment_percentage}}%</th>
-        						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">{{number_format((str_replace(",","",$project->down_payment)))}}*</th>
-        						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;direction:rtl;padding: 5px;">دفعة أولى  {{$project->down_payment_percentage}}%</th
+        						<th style="color:#000;font-weight:bold;width: 200px; background-color: #9FCE31;padding: 5px;" >
+                                @if($project->id ==46)
+                                Full Payment
+                                @else
+                                Down Payment
+                                 @if(isset($project->down_payment))
+        						 {{$project->down_payment_percentage}}%
+        						 @endif
+        						 @endif
+
+        						</th>
+        						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;padding: 5px;">
+        							@if($project->id ==46)
+        							 {{number_format(intval($project->price), 2)}}
+        							@else
+                                     @if(isset($project->down_payment))
+        							{{number_format((str_replace(",","",$project->down_payment)))}}*
+                                    @endif
+                                    @endif
+        						</th>
+        						<th style="color:#000;font-weight:bold;width: 200px;background-color: #9FCE31;direction:rtl;padding: 5px;">د
+                                     @if($project->id ==46)
+                                      دفع كامل
+                                     @else
+        							فعة أولى  
+                                     @if(isset($project->down_payment_percentage))
+        							{{$project->down_payment_percentage}}%
+                                     @endif
+                                     @endif
+        							</th
         						
         						
         						>
         						<tr>
         							<td>Account name </td>
-        							<td>{{$project->developer->name}}</td>
+        							<td>{{$project->project->account_name}}
         							<td>اسم الحساب</td>
         						</tr>
         						<tr>

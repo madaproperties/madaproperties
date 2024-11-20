@@ -1271,6 +1271,16 @@
               </div>
               <hr />	
         <!--end::Group-->
+        <!-- added by fazal on 09-01-24 -->
+               <div class="form-group">
+                <label for="requirement-status">{{__('site.type')}}</label>
+                <select name="commercial_type" class="form-control" >
+                  <option value="">Choose </option>
+                {!! selectOptions(__('config.commercial_types'),old('commercial_types')) !!}
+                </select>
+              </div>
+              <hr />
+      <!-- end -->
               <div class="form-group">
                 <label for="requirement-status">{{__('site.status')}}</label>
                 <select name="status" class="form-control" required>
@@ -1543,7 +1553,7 @@ $('#city_id').on('change', function () {
     });
    });
  });
-$(document).ready(function(){
+ $(document).ready(function(){
   $(".target_size_from").change(function(){
     let from_val = parseInt($(this).val());
     let end_val = 1000;

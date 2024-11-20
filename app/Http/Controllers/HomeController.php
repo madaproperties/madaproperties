@@ -51,14 +51,19 @@ class HomeController extends Controller
           ]);
           if(userRole() == 'other'){
             return redirect()->route('admin.deal.index');      
-          }elseif(userRole() == 'hr'){
-            return redirect()->route('admin.employee.index');      
-          }elseif(userRole() == 'it'){ //   added byb fazal 18-06-23
-            return redirect()->route('admin.madaboard.index');      
-          }elseif(userRole() == 'commercial sales' || userRole() == 'commercial leader'){ 
-            return redirect()->route('admin.commercial-leads.index');      
           }
-        return redirect()->route('admin.');
+          //
+          elseif(userRole() == 'hr'){
+             
+            return redirect()->route('admin.employee.index');      
+          }
+        //   added byb fazal 18-06-23
+        elseif(userRole() == 'it'){
+       
+        return redirect()->route('admin.madaboard.index');      
+      }
+         
+          return redirect()->route('admin.');
         }
         // back if notfound
         return back()->with('danger',__('site.notfound or account not active'));

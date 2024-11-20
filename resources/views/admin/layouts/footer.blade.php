@@ -156,6 +156,38 @@
     </div>
   </div>
   @endif
+   <!-- added by fazal on 21-12-23 -->
+  @if(isset($businessSellers))
+<div class="modal fade" id="assign-busnisess-development-leads" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Assign Leads</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">users</label>
+            <select class="form-control" id="assigned-seller" name="seller">
+              @foreach($businessSellers as $seller)
+              <option value="{{$seller->id}}">{{$seller->name}}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button style="margin: 5px;" class="btn btn-info btn-xs assign-all" data-url="">
+          Assign
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  @endif
+  <!--  -->
 
 <div class="modal fade" id="assign-leads-pool-confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">

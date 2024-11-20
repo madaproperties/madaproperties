@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Cash;
 use App\CashExport;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Storage;
 
 class CashController extends Controller
 {
@@ -69,13 +70,20 @@ class CashController extends Controller
       'description'   => 'nullable'
     ]);
 
-    if($request->file('document')){
-      $md5Name = md5_file($request->file('document')->getRealPath());
-      $guessExtension = $request->file('document')->guessExtension();
-      $file = $request->file('document')->move('public/uploads', $md5Name.'.'.$guessExtension);     
-      $data['documents'] = $md5Name.'.'.$guessExtension;
+    // if($request->file('document')){
+    //   $md5Name = md5_file($request->file('document')->getRealPath());
+    //   $guessExtension = $request->file('document')->guessExtension();
+    //   $file = $request->file('document')->move('public/uploads', $md5Name.'.'.$guessExtension);     
+    //   $data['documents'] = $md5Name.'.'.$guessExtension;
 
-    }
+    // }
+    // added by fazal on 17-10-24
+     if($request->file('document')){
+            $file = Storage::disk('s3')->putFile('uploads/cash', $request->file('document'));
+           $path="https://mada-crm-live.s3.me-south-1.amazonaws.com/".$file;      
+            $data['documents'] = $path;
+        }
+        // end
     $data['created_at'] = Carbon::now();
 
     addHistory('Cheque',0,'added',$data);
@@ -96,12 +104,13 @@ class CashController extends Controller
       "amount"        => "nullable",
       'description'   => 'nullable'
     ]);
-    if($request->file('document')){
-      $md5Name = md5_file($request->file('document')->getRealPath());
-      $guessExtension = $request->file('document')->guessExtension();
-      $file = $request->file('document')->move('public/uploads', $md5Name.'.'.$guessExtension);     
-      $data['documents'] = $md5Name.'.'.$guessExtension;
-    }
+   // added by fazal on 17-10-24
+     if($request->file('document')){
+            $file = Storage::disk('s3')->putFile('uploads/cash', $request->file('document'));
+           $path="https://mada-crm-live.s3.me-south-1.amazonaws.com/".$file;      
+            $data['documents'] = $path;
+        }
+        // end
     $data['updated_at'] = Carbon::now();
     addHistory('Cheque',$id,'updated',$data,$deal);
 

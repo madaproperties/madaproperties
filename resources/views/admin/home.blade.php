@@ -98,8 +98,9 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 								<i class="fas fa-database" style="color:#fff"></i>
 								</span>{{__('site.export') }}</a>
 								@endcan
-
-                @if(userRole() == 'admin')
+                     
+                 <!-- updated by fazal  -->
+                 @if(userRole() == 'admin' || userRole()=='sales admin saudi' || userRole()=='sales admin uae' )
                 <a href="?duplicated=get" class="btn btn-primary font-weight-bolder">
 								<span class="svg-icon svg-icon-md">
 									<i class="fa fa-users"></i>
@@ -221,8 +222,10 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 				<div class="table-responsive pt-5">
 							@if(userRole() != 'sales')
 								<div class="{{$contacts->withQueryString()->links() == ''? 'assign-delete-buttons' : 'page-button'}}">
-									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#assign-leads">
+									@if(userRole() != 'ceo')
+										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#assign-leads">
 															Assign <i class="fa fa-users"></i></button>
+									@endif
 									@can('contact-delete')
 										<button type="button" class="btn btn-primary delete-all">
 															Delete <i class="fa fa-trash"></i>
@@ -284,7 +287,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 			    {{ timeZone($contact->created_at) }}
 			</td>
 			<td>
-			    {{ !empty($contact->updated_at) ? timeZone($contact->updated_at) : 'N/A' }}
+			    {{!empty($contact->updated_at) ? timeZone($contact->updated_at) : 'N/A' }}
 			</td>
 											@if(userRole() != 'seller')
 <td>

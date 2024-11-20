@@ -70,28 +70,44 @@
                 <td>{{$unit_name->bedroom}}</td>
               </tr>
               @else
+              @if($unit_name->unit_type)
               <tr>
                 <td>Type</td>
                 <td>{{$unit_name->unit_type}}</td>
               </tr>
               @endif
+              @endif
               <!--end-->
               <tr>
                 <td>Floor No</td>
+                <!-- added by fazal on 05-11-24 -->
+                @if($unit_name->floor_no==0)  
+                <td>Ground Floor</td>
+                @else
                 <td>{{$unit_name->floor_no}}</td>
+                @endif
               </tr>
               <tr>
                 <td>Area(BUA)</td>
                 <td>{{$unit_name->area_bua}}</td>
               </tr>
+                @if($unit_name->area_plot)
+              <tr>
+                <td> Land Area(BUA)</td>
+                <td>{{$unit_name->area_plot}}</td>
+              </tr>
+              @endif
               <tr>
                 <td>Price</td>
                 <td> {{number_format(intval($unit_name->price), 2)}} </td>
               </tr>
+              @if($unit_name->down_payment)
+
               <tr>
                 <td>Downpayment</td>
                 <td>{{number_format((str_replace(",","",$unit_name->down_payment)))}}</td>
               </tr>
+             @endif
             </table>
         </div>
         @elseif($unit_name->status == 'Sold out')

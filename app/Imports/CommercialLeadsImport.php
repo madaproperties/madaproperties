@@ -72,7 +72,7 @@ class CommercialLeadsImport implements ToCollection, WithHeadingRow,ShouldQueue,
       }
 
       $contact_persons = [];
-      
+      $lead_data = []; 
       foreach($commercialLeads as $index => $contact) {   // Get ID's
         $index++;
         // check if lead exsist before in the same team 
@@ -90,73 +90,54 @@ class CommercialLeadsImport implements ToCollection, WithHeadingRow,ShouldQueue,
           // end check if lead exsist before 
         
         $country_id = $this->getID($index,'Country','name_en',$contact['country']);
-        $contact['location_id'] = $country_id;
+        $lead_data['location_id'] = $country_id;
         
       
         // if there is assigned to will be the smae value - atherwise will be the uploder
-        $contact['user_id'] = !empty($contact['assignedto_id']) ? $contact['assignedto_id'] : auth()->id();
+        $lead_data['user_id'] = !empty($contact['assignedto_id']) ? $contact['assignedto_id'] : auth()->id();
         // check if he assigned to anther one i have to check if the currentauth is the leader , or the cuurun one is not a admin 
-        if($contact['user_id'] != auth()->id() AND userRole() != 'admin') 
+        if($lead_data['user_id'] != auth()->id() AND userRole() != 'admin') 
         {
-          $checkAssigned = User::where('id',$contact['user_id'])
+          $checkAssigned = User::where('id',$lead_data['user_id'])
                               ->where('leader',auth()->id())->first();
           if(!$checkAssigned AND $auth_user->rule == 'leader')
           {
-            $this->addErorr(__('site.you are not leader for user numer').' ['. $contact['user_id'].']');
+            $this->addErorr(__('site.you are not leader for user numer').' ['. $lead_data['user_id'].']');
           }
               
           
         }
         
         
-        $contact['created_by'] = auth()->id(); // assigned created by for the currunt auth
-
-        unset($contact['country']);
+        $lead_data['created_by'] = auth()->id(); // assigned created by for the currunt auth
+        $lead_data['brand_name'] = $contact['brand_name'];
+        $lead_data['activity_name'] = $contact['activity_name'];
+        $lead_data['activity_type'] = $contact['activity_type'];
+        $commercial = Commercial::create($lead_data);
+        $action = __('site.lead created');
+        $contactPersons = [];
         $j=0;
         for($i=1;$i<100;$i++){
           if(!isset($contact['contact_person_name'.$i]) || !isset($contact['contact_person_email'.$i]) 
           || !isset($contact['contact_person_phone'.$i]) || !isset($contact['contact_person_designation'.$i])){
             break;
           }
-          $contact_persons[$j]['name'] = $contact['contact_person_name'.$i];
-          $contact_persons[$j]['email'] = $contact['contact_person_email'.$i];
-          $contact_persons[$j]['phone'] = $contact['contact_person_phone'.$i];
-          $contact_persons[$j]['designation'] = $contact['contact_person_designation'.$i];
-
+          $contactPersons[$j]['name'] = $contact['contact_person_name'.$i];
+          $contactPersons[$j]['email'] = $contact['contact_person_email'.$i];
+          $contactPersons[$j]['phone'] = $contact['contact_person_phone'.$i];
+          $contactPersons[$j]['designation'] = $contact['contact_person_designation'.$i];
+          $contactPersons[$j]['lead_id']=$commercial->id;
           $j++;
 
-          unset($contact['contact_person_name'.$i]);
-          unset($contact['contact_person_email'.$i]);
-          unset($contact['contact_person_phone'.$i]);
-          unset($contact['contact_person_designation'.$i]);
         }
-      }
-    
-      if(!$this->errors)
-      {
-        foreach($commercialLeads as $contact) {
-          $contact = $contact->toArray();
-          $commercial = Commercial::create($contact);
-          $action = __('site.lead created');
-          $contactPersons = [];
-          if($contact_persons){
-            $i=0;
-            for($j=0;$j<count($contact_persons);$j++){
-              $contactPersons[$i]['name']=$contact_persons[$j]['name'];
-              $contactPersons[$i]['email']=$contact_persons[$j]['email'];
-              $contactPersons[$i]['phone']=$contact_persons[$j]['phone'];
-              $contactPersons[$i]['designation']=$contact_persons[$j]['designation'];
-              $contactPersons[$i]['lead_id']=$commercial->id;
-              $i++;
-            }
-            \DB::table("commercial_contact_person")->insert($contactPersons); 
-          }
-          $this->newCommercialActivity($commercial->id,auth()->id(),$action,'Commercial',$commercial->id,null,true);
+
+        if($contactPersons){
+          \DB::table("commercial_contact_person")->insert($contactPersons); 
         }
-        session()->flash('success',__('site.success'));
-      }else{
-        return redirect(route('admin.'))->withErrors($this->errors);
+        $this->newCommercialActivity($commercial->id,auth()->id(),$action,'Commercial',$commercial->id,null,true);
       }
+   
+      session()->flash('success',__('site.success'));
     }
 
 

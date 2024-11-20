@@ -129,6 +129,11 @@
 															</a>
 														</li>
 														@endif
+														<!-- added by fazal on 09-07-2024 -->
+														<li class="nav-item">
+														<span style="color: #9fc538;font-size:20px;font-weight:bold;">Property Id : </span><span  style="font-size:18px">{{$property->crm_id}}</span>
+														</li>
+														<!--end  -->
 													</ul>
 													
 												<div class="col-xl-12 col-xxl-12">
@@ -636,6 +641,20 @@
 																					{!! selectOptions(__('config.financial_status'),$property->financial_status) !!}
 																					</select>																				
 																				</div>
+																				<!--added  by fazal-->
+																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale" >																					
+																					<select name="payment_method" id="payment_method" class="form-control">		
+																					<option value="" >{{ __('site.payment_method') }}</option>	
+																					{!! selectOptions(__('config.payment_method'),$property->payment_method) !!}
+																					</select>																				
+																				</div>
+																				@if($property->payment_method=='installments')
+																				<div class="col-xs-12 col-sm-3 col-lg-3 priceInSale" id ="downpayment_div" >
+																					<input class="form-control form-control-solid form-control-lg" id="down_payment_price" name="down_payment_price" type="text" value="{{$property->down_payment_price}}" placeholder="{{__('site.down_payment_price')}}">
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																				@endif
+																				
 																				<!---->
 																			</div>	
 
@@ -749,6 +768,7 @@
 																		<div class="form-group row fv-plugins-icon-container">
 																			<label class="col-xl-12 col-lg-12 col-form-label blue-label">{{__('site.owner_details')}}</label>
 																		</div>
+																		@if(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'sales director')
 
 																			<!--begin::Group-->
 																			<div class="form-group row fv-plugins-icon-container">
@@ -779,7 +799,37 @@
 																				</div>
 																			</div>
 																			<!--end::Group-->
+																		@else
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.mobile')}} <span class="error">*</span></label>
+																				<div class="col-lg-9 col-xl-9">
+																					<label class="form-control form-control-solid form-control-lg">{{$property->mobile}}</label>
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																			</div>
+																			<!--end::Group-->
 
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.owner_name')}} <span class="error">*</span></label>
+																				<div class="col-lg-9 col-xl-9">
+																					<label class="form-control form-control-solid form-control-lg">{{$property->owner_name}}</label>
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																			</div>
+																			<!--end::Group-->
+
+																			<!--begin::Group-->
+																			<div class="form-group row fv-plugins-icon-container">
+																				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.email')}}</label>
+																				<div class="col-lg-9 col-xl-9">
+																					<label class="form-control form-control-solid form-control-lg">{{$property->email}}</label>
+																					<div class="fv-plugins-message-container"></div>
+																				</div>
+																			</div>
+																			<!--end::Group-->
+																		@endif
 																			
 																		</div>
 																	</div>
@@ -1430,6 +1480,21 @@ $(document).ready(function(){
 	}else{
 		$("#str_no").attr("required",false);
 	}
+	
+  $( "#payment_method" ).on( "change", function() {
+  
+   var data = this.value;
+  if(data == 'cash' || data == 'cash,installments')
+  {
+  	$("#downpayment_div").hide();
+  }
+ else
+ {
+ 	$("#downpayment_div").show();
+ }
+
+
+} );
 });
 
 </script>

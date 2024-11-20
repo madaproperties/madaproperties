@@ -80,15 +80,6 @@
                           <option
                           {{old('type') == 'whatsapp' ? 'selected' : '' }}
                           value="whatsapp">{{__('site.whatsapp')}}</option>
-                          <option
-                          {{old('type') == 'viewing' ? 'selected' : '' }}
-                          value="viewing">{{__('site.viewing')}}</option>
-                           <option
-                          {{old('type') == 'photoshoot' ? 'selected' : '' }}
-                          value="photoshoot">{{__('site.photoshoot')}}</option>
-                          <option
-                          {{old('type') == 'fieldvisit' ? 'selected' : '' }}
-                          value="fieldvisit">{{__('site.field_visit')}}</option>
                         </select>
                       </div>
 
@@ -203,6 +194,13 @@
                        <option
                        {{old('type') == 'whatsapp' ? 'selected' : '' }}
                        value="whatsapp">{{__('site.whatsapp')}}</option>
+                       <option
+                      {{old('type') == 'viewing' ? 'selected' : '' }}
+                      value="viewing">{{__('site.viewing')}}</option>
+                      <option {{old('type') == 'photoshoot' ? 'selected' : '' }}
+                      value="photoshoot">{{__('site.photoshoot')}}</option>
+                      <option {{old('type') == 'fieldvisit' ? 'selected' : '' }}
+                      value="fieldvisit">{{__('site.field_visit')}}</option>
                      </select>
                    </div>
                   </div>
@@ -282,7 +280,12 @@
                     <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
                       <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.country')}} </label>
                       <div class="col-lg-9 col-xl-9" data-select2-id="38">
-                        <select class="form-control" id="countries" {{ userRole() != 'admin' ? 'disabled' : ''}}
+                        <!-- <select class="form-control" id="countries" {{ userRole() != 'admin' ? 'disabled' : ''}}
+                        data-select2-id="" tabindex="-1" aria-hidden="true" name="country_id"> -->
+                        <select class="form-control" id="countries"
+                        @if(userRole() != 'admin'|| userRole() != 'digital marketing')
+                        'disabled'
+                        @endif
                         data-select2-id="" tabindex="-1" aria-hidden="true" name="country_id">
                          @foreach($countries as $country)
                           <option
@@ -645,7 +648,7 @@
                      <div class="form-group row">
                       <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.status')}}</label>
                       <div class="col-lg-9 col-xl-9">
-                        <select class="form-control follow_up_status_id"  name="status_id" style="width:100%">
+                        <select class="form-control"  name="status_id" style="width:100%">
                           @foreach($status as $statu)
                           <option
                           {{$contact->status_id == $statu->id ? 'selected' : ''}}
@@ -655,27 +658,6 @@
                       </div>
                     </div>
                     <!--end::Group-->
-
-                    <div class="form-group row follow_up_date" style="display:{{$contact->status_id != '5' ? 'none' : ''}}">
-                      <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.follow_up_date')}}</label>
-                      <div class="col-lg-9 col-xl-9">
-                        <div class="input-group input-group-solid date" id="kt_datetimepicker_33334444" data-target-input="nearest">
-                          <input value="{{old('follow_up_date')}}"  type="text" class="form-control form-control-solid datetimepicker-input"
-                          data-toggle="datetimepicker" name="follow_up_date" data-target="#kt_datetimepicker_33334444">
-                          <div class="input-group-append" data-target="#kt_datetimepicker_33334444" data-toggle="datetimepicker">
-                            <span class="input-group-text">
-                              <i class="ki ki-calendar"></i>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-
-
-
-
-
                     <!--begin::Group-->
                     <div class="form-group row fv-plugins-icon-container">
                       <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.last mile conversion')}}</label>
@@ -832,24 +814,24 @@
                      </div>
 
                      @if(count($purpose) == 1)
-                        <input type="hidden" value="{{$purpose[0]}}" name="purpose" />
-                      @elseif(count($purpose)>1)
-                      <!--begin::Group-->
-                      <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
-                        <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Purpose')}} </label>
-                        <div class="col-lg-9 col-xl-9" data-select2-id="38">
-                          <select class="form-control"  name="purpose">
-                            <option value="">{{ __('site.choose') }}</option>
-                            @foreach($purpose as $purp)
-                            <option {{strtolower($contact->purpose) == strtolower($purp) ? 'selected' : ''}} value="{{$purp}}">{{$purp}}</option>
-                            @endforeach
-                          </select>
-                        </div>
-                      </div>
-                      <!--end::Group-->
-                      @endif
+        				<input type="hidden" value="{{$purpose[0]}}" name="purpose" />
+        			@elseif(count($purpose)>1)
+        			<!--begin::Group-->
+        			<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+        				<label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Purpose')}} </label>
+        				<div class="col-lg-9 col-xl-9" data-select2-id="38">
+        					<select class="form-control"  name="purpose">
+        						<option value="">{{ __('site.choose') }}</option>
+        						@foreach($purpose as $purp)
+        						<option {{strtolower($contact->purpose) == strtolower($purp) ? 'selected' : ''}} value="{{$purp}}">{{$purp}}</option>
+        						@endforeach
+        					</select>
+        				</div>
+        			 </div>
+        			<!--end::Group-->
+        			@endif
                     <!--end::Group-->
-                      <!--begin::Group-->
+                     <!--begin::Group-->
                       <div class="form-group row fv-plugins-icon-container">
                         <label class="col-xl-3 col-lg-3 col-form-label">{{__('site.Agent')}} {{__('site.Purpose')}} </label>
                         <div class="col-lg-9 col-xl-9">
@@ -1051,6 +1033,13 @@
                   <option
                   {{old('task_type') == 'whatsapp' ? 'selected' : '' }}
                   value="whatsapp">{{__('site.whatsapp')}}</option>
+                  <option
+                  {{old('type') == 'viewing' ? 'selected' : '' }}
+                  value="viewing">{{__('site.viewing')}}</option>
+                  <option {{old('type') == 'photoshoot' ? 'selected' : '' }}
+                  value="photoshoot">{{__('site.photoshoot')}}</option>
+                  <option {{old('type') == 'fieldvisit' ? 'selected' : '' }}
+                  value="fieldvisit">{{__('site.field_visit')}}</option>
                 </select>
               </div>
              </div>
@@ -1148,7 +1137,7 @@
 		 					<div class="form-group ">
 		 					 <label class="">{{__('site.status')}}</label>
 
-		 						 <select class="form-control follow_up_status_id"  name="status_id"   style="width:100%">
+		 						 <select class="form-control"  name="status_id" style="width:100%">
 		 							 @foreach($status as $statu)
 		 							 <option
 		 							 {{$contact->status_id == $statu->id ? 'selected' : ''}}
@@ -1157,25 +1146,6 @@
 		 						 </select>
 
 		 				 </div>
-
-
-              <div class="row follow_up_date" style="display:none" id="">
-                <div class="col-md-6 col-sm-6">
-                  <div class="form-group ">
-                    <label class="">{{__('site.follow_up_date')}}</label>
-                    <div class="input-group input-group-solid date" id="kt_datetimepicker_3333444" data-target-input="nearest">
-                      <input value="{{old('follow_up_date')}}"  type="text" class="form-control form-control-solid datetimepicker-input"
-                      data-toggle="datetimepicker" name="follow_up_date" data-target="#kt_datetimepicker_3333444">
-                      <div class="input-group-append" data-target="#kt_datetimepicker_3333444" data-toggle="datetimepicker">
-                        <span class="input-group-text">
-                          <i class="ki ki-calendar"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
 		 				 <!--begin::Group-->
 		 				 <div class="form-group  fv-plugins-icon-container">
 		 					 <label class="">{{__('site.lead type')}}</label>
@@ -1255,14 +1225,6 @@
                   <option
                   {{old('task_type') == 'whatsapp' ? 'selected' : '' }}
                   value="whatsapp">whatsapp</option>
-                  <option
-                  {{old('type') == 'viewing' ? 'selected' : '' }}
-                  value="viewing">{{__('site.viewing')}}</option>
-                  <option {{old('type') == 'photoshoot' ? 'selected' : '' }}
-                  value="photoshoot">{{__('site.photoshoot')}}</option>
-                  <option {{old('type') == 'fieldvisit' ? 'selected' : '' }}
-                  value="fieldvisit">{{__('site.field_visit')}}</option>
-
                 </select>
               </div>
              </div>
@@ -1736,29 +1698,10 @@
 <script>
 
 
-$('#kt_datetimepicker_33334444').datetimepicker({
-    format: 'L'
-});
-$('#kt_datetimepicker_3333444').datetimepicker({
-    format: 'L'
-});
-$('#kt_datetimepicker_333344').datetimepicker({
-    format: 'L'
-});
+
 $(document).on('change','#log_call_outcome_el',function (){
     renderDescriptionStatus();
 });
-
-$(document).on('change','.follow_up_status_id',function (){
-  if($(this).val() == '5'){ //Follow Up status
-    $("input[name='follow_up_date']").attr('required',true);
-    $(".follow_up_date").show();
-  }else{
-    $("input[name='follow_up_date']").removeAttr('required');
-    $(".follow_up_date").hide();
-  }
-});
-
 
 
 function renderDescriptionStatus()

@@ -4,7 +4,7 @@
 <div class="d-flex flex-column-fluid" style="overflow: scroll;">
    <div class="container">
     <table class="table" style="background:#fff">
-    {{$campaings->withQueryString()->links()}}
+        {{$campaings->withQueryString()->links()}}
       <thead>
         <tr>
           <th scope="col">Campaing</th>
@@ -28,7 +28,7 @@
         @endforeach
       </tbody>
     </table>
+    {{$campaings->withQueryString()->links()}}
 </div>
-{{$campaings->withQueryString()->links()}}
 </div>
 </div>

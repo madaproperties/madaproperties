@@ -146,7 +146,10 @@ $offlinePropertyCountUrl = route('admin.property.index').'?pt='.request()->get('
 									<th>{{__('site.title')}}</th>
 									<th>{{__('site.Agent')}}</th>
 									<th>{{__('site.created_at')}}</th>
-									<th>{{__('site.updated_at')}}</th>
+									<th>{{__('site.updated_at')}}</th> 
+									<!-- added by fazal 09-07-2024 -->
+									<th>{{__('site.listed_days')}}</th> 
+									 <!-- end -->
 									<th style="min-width:150px">{{__('site.action')}}</th>
 								</tr>
 							</thead>
@@ -208,14 +211,24 @@ $offlinePropertyCountUrl = route('admin.property.index').'?pt='.request()->get('
 									<td>
 										<span>Agent :{{$property->agent ? explode('@',$property->agent->name)[0] : ''}}
                                         </span>
-										<p><span>Created By : {{$property->createdBy ? explode('@',$property->agent->name)[0]  : 'N/A'}}</span></p>
+										
 									</td>
 									<td>
 										<span>{{($property->created_at)}}</span>
 									</td>																		
 									<td>
 										<span>{{($property->last_updated)}}</span>
-									</td>																		
+									</td>
+									<!--added by fazal on 09-07-2024  -->
+                                     <td>
+                                      @php
+										 $fromDate = Carbon\Carbon::parse($property->created_at);
+                                         $toDate = Carbon\Carbon::parse(Carbon\Carbon::now());
+                                         $days = $fromDate->diffInDays($toDate);
+                                         echo('created '.$days.' days ago'); 
+										@endphp
+									</td>
+									<!-- end -->
 									<td>
 									<div class="editPro">
 										@can('property-edit')

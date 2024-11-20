@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="refresh" content="900"> <!-- Refresh every 15 minutes -->
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 <!--[if gt IE 8]>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />    <![endif]--> 
@@ -136,9 +138,9 @@ font-weight:bold;
 	<tr><td align="center" valign="top" style="background:none; border-bottom:none; border-bottom:none; padding:100px 30px 30px 30px !important; ">
 @if($emp1)
 @if($emp1->user_pic)
-<img src="{{$emp1->user_pic}}" class="img-circle" style="width:250px;margin-top:70px;border-radius: 50%;"> 
+<img src="{{$emp1->user_pic}}" class="img-circle" style="width:450px;height:450px;object-fit:cover;margin-top:70px;border-radius: 50%;"> 
 @else
-<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:250px;margin-top:70px;border-radius: 50%;"> 
+<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:450px;height:450px;object-fit:cover;margin-top:70px;border-radius: 50%;"> 
 @endif
 @endif
 </td>
@@ -146,7 +148,7 @@ font-weight:bold;
 <tr>
 <td align="center" valign="top" style="background:none;">
 	@if($emp1)
-<span class="lb_name"><span style="font-size:52px;  ">#1</span>&nbsp;&nbsp; {{ explode('@',$emp1->email)[0]}}</span><br>
+<span class="lb_name"><span style="font-size:52px;  ">#1</span>&nbsp;&nbsp;<span style='font-size:42px;'>{{ explode('@',$emp1->email)[0]}}</span> </span><br>
 @else
 <span class="lb_name"><span style="font-size:52px;  ">#1</span>&nbsp;&nbsp;</span><br>
 @endif 
@@ -162,9 +164,9 @@ font-weight:bold;
 <tbody><tr><td align="center" style="background:none; border-bottom:none; border-bottom:none;"><br /><br />
      @if($emp2)
      @if($emp2->user_pic)
-	<img src="{{$emp2->user_pic}}" class="img-circle" style="width:200px; border-radius :50%">
+	<img src="{{$emp2->user_pic}}" class="img-circle" style="width:300px;height:300px;object-fit:cover; border-radius :50%">
 	@else
-	<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:180px; border-radius :50%">
+	<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:300px;height:300px;object-fit:cover; border-radius :50%">
 	@endif 
 	@endif
 </td>
@@ -172,7 +174,7 @@ font-weight:bold;
 <tr>
 <td align="center" valign="top" style="background:none; border-bottom:none; border-bottom:none;">
 @if($emp2)
-<span class="lb_name"><span style="font-size:42px;   ">#2</span>&nbsp;&nbsp; {{ explode('@',$emp2->email)[0]}}</span><br> 
+<span class="lb_name"><span style="font-size:42px;   ">#2</span>&nbsp;&nbsp; <span style='font-size:42px;'>{{ explode('@',$emp2->email)[0]}}</span><br> 
 @else
 <span class="lb_name"><span style="font-size:42px;   ">#2</span>&nbsp;&nbsp; </span><br> 
 @endif
@@ -185,9 +187,9 @@ font-weight:bold;
 <tbody><tr><td align="center" style="background:none; border-bottom:none; border-bottom:none;"><br /><br /><br />
      @if($emp3)
      @if($emp3->user_pic)
-	<img src="{{$emp3->user_pic}}" class="img-circle" style="width:150px; border-radius: 50%;">
+	<img src="{{$emp3->user_pic}}" class="img-circle" style="width:350px;height:350px;object-fit:cover; border-radius: 50%;">
 	@else
-	<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:150px; border-radius: 50%;">
+	<img src="{{ asset('public/imgs/dummy.jpg')}}" class="img-circle" style="width:350px;height:350px;object-fit:cover; border-radius: 50%;">
 	@endif
 	@endif 
 </td>
@@ -195,7 +197,7 @@ font-weight:bold;
 <tr>
 <td align="center" valign="top" style="background:none; border-bottom:none; border-bottom:none;">
 @if($emp3)
-<span class="lb_name"><span style="font-size:42px;   ">#3</span>&nbsp;&nbsp; {{ explode('@',$emp3->email)[0]}}</span><br> 
+<span class="lb_name"><span style="font-size:42px;   ">#3</span>&nbsp;&nbsp;<span style='font-size:42px;' >{{ explode('@',$emp3->email)[0]}}</span> </span><br> 
 @else
 <span class="lb_name"><span style="font-size:42px;   ">#3</span>&nbsp;&nbsp;</span><br>
 @endif 
@@ -360,5 +362,14 @@ font-weight:bold;
 </li>
 
 </ul>
+<script type="text/javascript">
+window.setTimeout(function(){
+//refresh the page after 900,000 miliseconds (15 minutes)
+
+
+//reload the page (javascript has many ways of doing this)
+location.reload();
+},900000);
+</script>
 </body>
 </html>

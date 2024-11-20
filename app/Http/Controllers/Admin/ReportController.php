@@ -273,8 +273,9 @@ class ReportController extends Controller
 			if(userRole() != 'sales'){
 				
 				$allUsersReport = true;
+				//updated by fazal on 15-01-24
 				$userReport = User::where('active','1')
-				->whereIn('rule',['sales','sales admin','leader','sales director']);
+				->whereIn('rule',['sales','sales admin','leader','sales director','business developement leader','commercial leader']);
 				if(userRole() == 'sales admin saudi'){
 					$whereCountry = 'Asia/Riyadh';
 					$userReport = $userReport->where('time_zone','like','%'.$whereCountry.'%');
@@ -295,7 +296,8 @@ class ReportController extends Controller
 				   }
 				}
 				//added by fazal end
-			    else if(userRole() == 'leader'){
+				//updated by fazal on 15-01-24
+			    else if(userRole() == 'leader' || userRole() =='business developement leader' || userRole() == 'commercial leader'){
 					/// if he is leader get his sellars and get him with them too
 					$userReport = User::where('active','1')->where('leader',auth()->id());
 				}
@@ -342,7 +344,7 @@ class ReportController extends Controller
 			$whereCountry = 'Asia/Dubai';
 			$users = $users->where('time_zone','like','%'.$whereCountry.'%');
 		}
-		else if(userRole() == 'leader'){
+		else if(userRole() == 'leader' || userRole() =='business developement leader' || userRole() == 'commercial leader'){
 			/// if he is leader get his sellars and get him with them too
 			$users = User::where('active','1')->where('leader',auth()->id());
 		}
@@ -386,6 +388,7 @@ class ReportController extends Controller
 			if(request('country_id') == 1){
 				$leaders=User::where('active','1')->whereIn('rule',['leader','sales director'])->where('time_zone','Asia/Riyadh')->select('id','email')->get();
 				$projects=Project::where('country_id',request('country_id'))->get();
+                                $campaigns=Campaing::get();
 			}else if(request('country_id') == 2){
 				$leaders=User::where('active','1')->whereIn('rule',['leader','sales director'])->where('time_zone','Asia/Dubai')->select('id','email')->get();
 				$projects=Project::where('country_id',request('country_id'))->get();
@@ -492,7 +495,7 @@ class ReportController extends Controller
 			}
 
 			$created_at_dats = collect(array_values($created_at_dats));
-			$created_at_dats2 = Contact::select(DB::raw('DATE(created_at) AS created_at'))->pluck('created_at');
+			//$created_at_dats2 = Contact::select(DB::raw('DATE(created_at) AS created_at'))->pluck('created_at');
 		}else{
 			$created_at_dats = [];
 			$sources = [];
@@ -547,7 +550,7 @@ class ReportController extends Controller
 
 	public function reportAdvanceCampaing(){ // campaing
 		$data_count = CampainReport::count();
-		$data = CampainReport::paginate(5);
+		$data = CampainReport::paginate(10);
 
 		return view('admin.reports.index-advance-campaign-report',[
 			'data_count' => $data_count,

@@ -220,11 +220,11 @@ class ContactsImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
           if(userRole() == 'sales admin')
         {   
             $user = User::where('id',$contact['user_id'])->first();
-            
-            if($user->leader  != $auth_user->leader AND $user->id != $auth_user->leader)
-            {
-             $this->addErorr(__('site.you are not leader for user numer').' ['. $contact['user_id'].']');
-            }
+            $auth_user= auth()->id(); 
+            // if($user->leader  != $auth_user->leader AND $user->id != $auth_user->leader)
+            // {
+            //  $this->addErorr(__('site.you are not leader for user numer').' ['. $contact['user_id'].']');
+            // }
         }
          
           $contact['created_by'] = auth()->id(); // assigned created by for the currunt auth

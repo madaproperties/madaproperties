@@ -125,12 +125,14 @@ class DealController extends Controller
       })
     ->where('active','1')->get();
     }elseif(!checkLeaderUae()){
+      //updated by fazal on 24-01-24
       $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
-        $q->whereIn('rule',['sales','leader','sales director']);
+        $q->whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader']);
       })
     ->where('active','1')->orderBy('email')->get();
     }else{
-      $sellers = User::whereIn('rule',['sales','leader','sales director'])
+       //updated by fazal on 24-01-24
+      $sellers = User::whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader'])
     ->where('active','1')->orderBy('email')->get();
     }
 
@@ -159,15 +161,30 @@ class DealController extends Controller
       if($user->time_zone=='Asia/Riyadh')
       {
       $projects = DealProject::where('country_id','1')->orderBy('project_name','ASC')->get();  
+      //added by fazal on 30-04-24
+       $salesDirectors = User::where(function($q){
+        $q->whereIn('rule',['sales director']);
+      })
+      ->where('active','1')->where('time_zone','Asia/Riyadh')->orderBy('email')->get();
       }
       else
       {
        $projects = DealProject::where('country_id','2')->orderBy('project_name','ASC')->get(); 
+       //added by fazal on 30-04-24
+       $salesDirectors = User::where(function($q){
+        $q->whereIn('rule',['sales director']);
+      })
+      ->where('active','1')->where('time_zone','Asia/Dubai')->orderBy('email')->get();
       }
     }
       else
       {
         $projects = DealProject::orderBy('project_name','ASC')->get();
+        //added by fazal on 30-04-24
+       $salesDirectors = User::where(function($q){
+        $q->whereIn('rule',['sales director']);
+      })
+      ->where('active','1')->orderBy('email')->get();
       }
     // $projects = DealProject::get();
     $miles = LastMileConversion::where('active','1')
@@ -277,12 +294,16 @@ class DealController extends Controller
       __('site.mada_commission'),
       __('site.mada_commission_received'),
       __('site.third_party_commission_received'),
+      __('site.down_payment_percentage'),
+      __('site.down_payment_amount'),
+      __('site.remaining_payment'),
+      __('site.down_payment_amount_paid'),
       __('site.notes'),
       __('site.created_at'),
       __('site.updated_at'),
     ];
 
-    return view('admin.deals.index',compact('fields','projects','miles','deals','deals_count','countries','purpose','purposetype','campaigns','contents','sources','mediums','sellers','leaders','developer'));
+    return view('admin.deals.index',compact('fields','projects','miles','deals','deals_count','countries','purpose','purposetype','campaigns','contents','sources','mediums','sellers','leaders','developer','salesDirectors'));
   }
 
   public function create()
@@ -351,7 +372,7 @@ class DealController extends Controller
 
       if(!checkLeader()){
         $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
-          $q->whereIn('rule',['sales','leader','sales director']);
+          $q->whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader']);
         })
       ->where('active','1')->orderBy('email')->get();
       
@@ -362,7 +383,7 @@ class DealController extends Controller
 
     }elseif(!checkLeaderUae()){
         $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
-          $q->whereIn('rule',['sales','leader','sales director']);
+          $q->whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader']);
         })
       ->where('active','1')->orderBy('email')->get();
 
@@ -372,7 +393,8 @@ class DealController extends Controller
       ->where('active','1')->orderBy('email')->get();
 
     }else{
-        $sellers = User::whereIn('rule',['sales','leader','sales director'])
+      //updated by fazal on 24-01-24
+        $sellers = User::whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader'])
       ->where('active','1')->orderBy('email')->get();
 
       $salesDirectors = User::where(function($q){
@@ -383,13 +405,16 @@ class DealController extends Controller
     }
   
       if(!checkLeader()){
-        $leaders = User::where('rule','leader')
+        //updated by fazal on 24-01-24
+        $leaders = User::whereIn('rule',['leader','commercial leader','business developement leader'])
         ->where('active','1')->where('time_zone','Asia/Riyadh')->orderBy('email')->get();
       }elseif(!checkLeaderUae()){
-        $leaders = User::where('rule','leader')
+        //updated by fazal on 24-01-24
+        $leaders = User::whereIn('rule',['leader','commercial leader','business developement leader'])
         ->where('active','1')->where('time_zone','Asia/Dubai')->orWhere('email','omar.ali@madaproperties.com')->orderBy('email')->get();
       }else{
-        $leaders = User::where('rule','leader')
+        //updaeted by fazal on 24-01-24
+        $leaders = User::whereIn('rule',['leader','commercial leader','business developement leader'])
         ->where('active','1')->orWhere('email','omar.ali@madaproperties.com')->orderBy('email')->get();
       }
   
@@ -458,6 +483,10 @@ class DealController extends Controller
         "spa"       => "nullable",
         "token"       => "nullable",
         "down_payment"       => "nullable",
+        "down_payment_percentage"       => "nullable",
+        "down_payment_amount"       => "nullable",
+        "down_payment_amount_paid"       => "nullable",
+        "remaining_payment"       => "nullable",
         "agent_commission_received"       => "nullable",
         "agent2_commission_received"       => "nullable",
         "agent_leader_commission_received"       => "nullable",
@@ -486,6 +515,14 @@ class DealController extends Controller
         "listing_director_commission_percent" => "nullable",
         "listing_director_commission_amount" => "nullable",
         "listing_director_commission_received" =>"nullable",
+        // added by fazal on 01-12-23
+        "mada_commission_1"  =>"nullable",  
+        "mada_commission_2" =>"nullable",
+        "mada_commission_3" =>"nullable",
+        "mada_commission_4" =>"nullable",
+        "mada_commission_5" =>"nullable",
+        "mada_commission_6" =>"nullable",  
+     
       ]);
 
 
@@ -591,6 +628,10 @@ class DealController extends Controller
       "spa"       => "nullable",
       "token"       => "nullable",
       "down_payment"       => "nullable",
+      "down_payment_percentage"       => "nullable",
+      "down_payment_amount"       => "nullable",
+      "down_payment_amount_paid"       => "nullable",
+      "remaining_payment"       => "nullable",
       "agent_commission_received"       => "nullable",
       "agent2_commission_received"       => "nullable",
       "agent_leader_commission_received"       => "nullable",
@@ -619,6 +660,13 @@ class DealController extends Controller
       "listing_director_commission_percent" => "nullable",
       "listing_director_commission_amount" => "nullable",
       "listing_director_commission_received" =>"nullable",
+       // added by fazal on 01-12-23
+        "mada_commission_1"  =>"nullable",  
+        "mada_commission_2" =>"nullable",
+        "mada_commission_3" =>"nullable",
+        "mada_commission_4" =>"nullable",
+        "mada_commission_5" =>"nullable",
+        "mada_commission_6" =>"nullable", 
 
   ]);
 
@@ -694,9 +742,9 @@ class DealController extends Controller
     }
 
    
-    if(!checkLeader()){
+    if(!checkLeader()){ 
       $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
-        $q->whereIn('rule',['sales','leader','sales director']);
+        $q->whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader']);
       })
     ->where('active','1')->orderBy('email')->get();
     
@@ -707,7 +755,7 @@ class DealController extends Controller
 
   }elseif(!checkLeaderUae()){
       $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
-        $q->whereIn('rule',['sales','leader','sales director']);
+        $q->whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader']);
       })
     ->where('active','1')->orderBy('email')->get();
 
@@ -717,7 +765,7 @@ class DealController extends Controller
     ->where('active','1')->orderBy('email')->get();
 
   }else{
-      $sellers = User::whereIn('rule',['sales','leader','sales director'])
+      $sellers = User::whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader'])
     ->where('active','1')->orderBy('email')->get();
 
     $salesDirectors = User::where(function($q){
@@ -727,13 +775,16 @@ class DealController extends Controller
 
   }
     if(!checkLeader()){
-      $leaders = User::where('rule','leader')
+      //updated by fazal on 24-01-24
+      $leaders = User::whereIn('rule',['leader','commercial leader','business developement leader'])
       ->where('active','1')->where('time_zone','Asia/Riyadh')->orderBy('email')->get();
     }elseif(!checkLeaderUae()){
-      $leaders = User::where('rule','leader')
+      //updated by fazal on 24-01-24
+      $leaders = User::whereIn('rule',['leader','commercial leader','business developement leader'])
       ->where('active','1')->where('time_zone','Asia/Dubai')->orWhere('email','omar.ali@madaproperties.com')->orderBy('email')->get();
     }else{
-      $leaders = User::where('rule','leader')
+      //updated by fazal on 24-01-24
+      $leaders = User::whereIn('rule',['leader','commercial leader','business developement leader'])
       ->where('active','1')->orWhere('email','omar.ali@madaproperties.com')->orderBy('email')->get();
     }
 
@@ -779,6 +830,13 @@ class DealController extends Controller
         "developer_id",
         "agent_id",
         "agent2_id",
+        "leader_id",
+        "sales_director_id",
+        "leader2_id",
+        "sales_director_2_id",
+        "listing_agent_id",
+        "listing_leader_id",
+        "listing_director_id",
         "leader_id",
         "vat_received",
         "agent_commission_received",
@@ -987,6 +1045,18 @@ class DealController extends Controller
       __('site.sales_director_2_commission_percent'),
       __('site.sales_director_2_commission_amount'),
       __('site.sales_director_2_commission_received'),
+      __('site.listing_agent'),
+      __('site.listing_agent_commission_percent'),
+      __('site.listing_agent_commission_amount'), 
+      __('site.listing_agent_commission_received'),
+      __('site.listing_agent_leader'),
+      __('site.listing_agent_leader_commission_percent'),
+      __('site.listing_agent_leader_commission_amount'), 
+      __('site.listing_agent_leader_commission_received'),
+      __('site.listing_agent_director'),
+      __('site.listing_agent_director_commission_percent'),
+      __('site.listing_agent_director_commission_amount'), 
+      __('site.listing_agent_director_commission_received'),
       __('site.third_party'),
       __('site.third_party_amount'),
       __('site.third_party_name'),
@@ -994,6 +1064,11 @@ class DealController extends Controller
       __('site.mada_commission_received'),
       __('site.third_party_commission_received'),
       __('site.notes'),
+      __('site.status'),
+      __('site.down_payment_percentage'),
+      __('site.down_payment_amount'),
+      __('site.remaining_payment'),
+      __('site.down_payment_amount_paid'),
       __('site.created_at'),
       __('site.updated_at'),
     ];
@@ -1010,7 +1085,7 @@ class DealController extends Controller
 //   added by fazal 04-04-23
 public function topAgentsUae()
    {
-        $sums = DB::table('deals')->where('unit_country',2)
+        $sums = DB::table('deals')->where('unit_country',2)->where('status','Approved')
             ->whereMonth('deals.deal_date', date('m'))
             ->whereYear('deals.deal_date', date('Y'))
             ->join('users','users.id','deals.agent_id')
@@ -1080,7 +1155,9 @@ public function topAgentsUae()
 }
 public function topAgentsSaudi()
 {
+
   $sums = DB::table('deals')->where('unit_country',1)
+            ->whereIn('status',['Approved','Pending'])
             ->whereMonth('deals.deal_date', date('m'))
             ->whereYear('deals.deal_date', date('Y'))
             ->join('users','users.id','deals.agent_id')
@@ -1122,6 +1199,69 @@ public function topAgentsSaudi()
      
             
    return view('admin.deals.topagentsaudi',compact('sums','emp1','emp2','emp3'));
+}
+
+public function topAgentsSaudiNew() {
+  $sellerOffPlan = DB::table('deals')
+  ->where('unit_country',1)
+  // ->where('status','Approved')// updated by fazal on 18-10-24
+  ->whereIn('status',['Approved','Pending'])
+  ->where('project_type','Primary')
+  ->whereMonth('deals.deal_date', date('m'))
+  ->whereYear('deals.deal_date', date('Y'))
+  ->join('users','users.id','deals.agent_id')
+  ->select(DB::raw('SUM(price) as total_sum, agent_id'),'users.name','users.user_pic','users.email')
+  ->groupBy('agent_id')
+  ->orderByDesc('total_sum')
+  ->take(3)->get();
+
+  
+  $managerOffPlan = DB::table('deals')
+  ->where('unit_country',1)
+  // ->where('status','Approved') // updated by fazal on 18-10-24
+  ->whereIn('status',['Approved','Pending'])
+  ->where('project_type','Primary')
+  ->whereMonth('deals.deal_date', date('m'))
+  ->whereYear('deals.deal_date', date('Y'))
+  ->join('users','users.id','deals.leader_id')
+  ->select(DB::raw('SUM(price) as total_sum, leader_id'),'users.name','users.user_pic','users.email')
+  ->groupBy('leader_id')
+  ->orderByDesc('total_sum')
+  ->first();
+
+  $sellerSecondary = DB::table('deals')
+  ->where('unit_country',1)
+  // ->where('status','Approved') added by fazal on 18-10-24
+  ->whereIn('status',['Approved','Pending'])
+  ->where('project_type','Secondary')
+  ->whereMonth('deals.deal_date', date('m'))
+  ->whereYear('deals.deal_date', date('Y'))
+  ->join('users','users.id','deals.agent_id')
+  ->select(DB::raw('SUM(price) as total_sum, agent_id'),'users.name','users.user_pic','users.email')
+  ->groupBy('agent_id')
+  ->orderByDesc('total_sum')
+  ->take(3)->get();
+  
+  $managerSecondary = DB::table('deals')
+  ->where('unit_country',1)
+  // ->where('status','Approved') added by fazal on 18-10-24
+  ->whereIn('status',['Approved','Pending']) 
+  ->where('project_type','Secondary')
+  ->whereMonth('deals.deal_date', date('m'))
+  ->whereYear('deals.deal_date', date('Y'))
+  ->join('users','users.id','deals.leader_id')
+  ->select(DB::raw('SUM(price) as total_sum, leader_id'),'users.name','users.user_pic','users.email')
+  ->groupBy('leader_id')
+  ->orderByDesc('total_sum')
+  ->first();
+
+  //dd($sellerOffPlan->count(), $managerOffPlan, $sellerSecondary->count(), $managerSecondary);
+  return view('admin.deals.topagentsaudi_new',compact(
+    'sellerOffPlan',
+    'managerOffPlan',
+    'sellerSecondary',
+    'managerSecondary'
+  ));
 }
   // end
   public function monthlDeal()

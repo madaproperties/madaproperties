@@ -111,7 +111,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal.exportDataDeals'),$expo
 									<th>{{__('site.price')}}</th>
 									<th>{{__('site.total_invoice')}}</th>
 									<th>{{__('site.Agent')}}</th>
-									<th>{{__('site.agent_2')}}</th>
+									<th>{{__('site.Agent2')}}</th>
 									<th>{{__('site.listing_agent')}}</th>
 									<th>{{__('site.status')}}</th>
 									<th style="min-width:150px">{{__('site.action')}}</th>

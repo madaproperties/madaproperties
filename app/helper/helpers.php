@@ -854,7 +854,7 @@ function addHistory($module_name,$module_id,$request_type,$update_data=null,$old
     'update_data' => $update_data,
     'other_details' => $other_details,
     'created_at' => \Carbon\Carbon::now(),
-    'ip_address'  => $_SERVER['REMOTE_ADDR']
+    'ip_address'  => $_SERVER['REMOTE_ADDR'], //added by fazal on 27-09-23
   ];
   History::create($data);
 
@@ -877,7 +877,8 @@ function selectOptions($data,$form_value,$custom=0){
 use App\User;
 function getSellers() {
   $sellers = [];
-  if(userRole() == 'leader'){
+  //updated by fazal on 09-01-23
+  if(userRole() == 'leader' || userRole() == 'commercial leader' || userRole() == 'business developement leader'){ 
     $id = auth()->id();
     $sellers = User::where(function($q) use($id){
                       $q->where('leader',$id);
@@ -894,7 +895,12 @@ function getSellers() {
           $q->where('rule','sales');
           $q->orWhere('rule','leader');
           $q->orWhere('rule','sales director');
-           $q->orWhere('rule','sales admin');
+          $q->orWhere('rule','sales admin'); // added by fazal 05-09-23
+          $q->orWhere('rule','commercial leader');
+          $q->orWhere('rule','commercial sales');
+          $q->orWhere('rule','business developement leader');
+          $q->orWhere('rule','business developement sales');
+
         })
         ->where('active','1')
         ->where('time_zone','like','%'.$whereCountry.'%')
@@ -906,9 +912,13 @@ function getSellers() {
           $q->where('rule','sales');
           $q->orWhere('rule','leader');
           $q->orWhere('rule','sales director');
-          $q->orWhere('rule','sales admin');
-          $q->orWhere('rule','sales admin saudi');
+          $q->orWhere('rule','sales admin'); // added by fazal 05-09-23
+          $q->orWhere('rule','sales admin saudi');      
           $q->orWhere('rule','ceo');
+          $q->orWhere('rule','commercial leader');
+          $q->orWhere('rule','commercial sales');
+          $q->orWhere('rule','business developement leader');
+          $q->orWhere('rule','business developement sales');
         })
         ->where('time_zone','like','%'.$whereCountry.'%')
         ->where('active','1')
@@ -922,17 +932,29 @@ function getSellers() {
     }
 
   }elseif(userRole() == 'sales admin'){
-      $whereCountry = 'Asia/Riyadh';
-      $leader = auth()->user()->leader;
-      if($leader){
-        $sellers = User::where('active','1')
-        ->where('time_zone','like','%'.$whereCountry.'%')
-            ->where(function($q) use($leader){
-              $q->where('id','!=',auth()->id())
-               ->where('rule','sales')
-              ->orWhere('rule','sales admin saudi')
-              ->orWhere('id',$leader);
-            })->orderBy('email','asc')->get();
+      // $whereCountry = 'Asia/Riyadh';
+      // $leader = auth()->user()->leader;
+      // if($leader){
+      //   $sellers = User::where('active','1')
+      //   ->where('time_zone','like','%'.$whereCountry.'%')
+      //       ->where(function($q) use($leader){
+      //         $q->where('id','!=',auth()->id())
+      //          ->where('rule','sales')
+      //         ->orWhere('rule','sales admin saudi')
+      //         ->orWhere('id',$leader);
+      //       })->orderBy('email','asc')->get();
+      // }else{
+      //     $sellers = [];
+      // }
+    //added by fazal on 19-01-24
+    $leader = auth()->user()->leader;
+           $id = auth()->id();
+          if($leader){
+          $sellers = User::where(function($q) use($leader){
+                      $q->where('leader',$leader);
+                      $q->OrWhere('id',auth()->id());
+                    })->orderBy('email','asc')
+                    ->where('active','1')->get();
       }else{
           $sellers = [];
       }
@@ -985,7 +1007,7 @@ function getCommercialSellers() {
                       $q->OrWhere('id',$id);
                     })->orderBy('email','asc')
                     ->where('active','1')->get();
-  }elseif(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing' || userRole() == 'ceo'){ //Updated by Javed
+  }elseif(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing' || userRole() == 'ceo' || userRole() == 'it' ){ //Updated by Javed
 
     if(userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' ){
       $whereCountry = '';
@@ -1051,6 +1073,89 @@ function getCommercialSellers() {
         ->where(function($q){
           $q->where('rule','commercial sales');
           $q->orWhere('rule','commercial leader');
+        })->orderBy('email','asc')->get();
+    }
+  }else {
+    $sellers = [];
+  }
+  return $sellers;
+}
+
+function getBusinessSellers() {
+  $sellers = [];
+  if(userRole() == 'business developement leader'){
+    $id = auth()->id();
+    $sellers = User::where(function($q) use($id){
+                      $q->where('leader',$id);
+                      $q->OrWhere('id',$id);
+                    })->orderBy('email','asc')
+                    ->where('active','1')->get();
+  }elseif(userRole() == 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' || userRole() == 'digital marketing' || userRole() == 'ceo' || userRole() == 'it' ){ //Updated by Javed
+
+    if(userRole() == 'sales admin uae' || userRole() == 'sales admin saudi' ){
+      $whereCountry = '';
+      if(userRole() == 'sales admin uae'){
+        $whereCountry = 'Asia/Dubai';
+        $sellers = User::where(function($q){
+          $q->where('rule','business developement sales');
+          $q->orWhere('rule','business developement leader');
+        })
+        ->where('active','1')
+        ->where('time_zone','like','%'.$whereCountry.'%')
+        ->orderBy('email','asc')
+        ->get();
+      }else{
+        $whereCountry = 'Asia/Riyadh';
+        $sellers = User::where(function($q){
+          $q->where('rule','business developement sales');
+          $q->orWhere('rule','business developement leader');
+        })
+        ->where('time_zone','like','%'.$whereCountry.'%')
+        ->where('active','1')
+        ->orderBy('email','asc')
+        ->get();
+
+      }        
+  
+    }else{
+      $sellers = User::where(function($q){
+        $q->where('rule','business developement sales');
+        $q->orWhere('rule','business developement leader');
+      })->where('active','1')->orderBy('email','asc')->get();
+    }
+
+  }elseif(userRole() == 'sales admin'){
+      $whereCountry = 'Asia/Riyadh';
+      $leader = auth()->user()->leader;
+      if($leader){
+        $sellers = User::where('active','1')
+        ->where('time_zone','like','%'.$whereCountry.'%')
+            ->where(function($q) use($leader){
+              $q->where('id','!=',auth()->id())
+              ->where('rule','business developement sales')
+              ->orWhere('rule','business developement leader')
+              ->orWhere('id',$leader);
+            })->orderBy('email','asc')->get();
+      }else{
+          $sellers = [];
+      }
+
+
+  }elseif(userRole() == 'sales director'){
+    $userloc=User::where('id',auth()->id())->first();
+    if($userloc->time_zone=='Asia/Dubai'){
+      $sellers = User::where('time_zone','Asia/Dubai')
+        ->where('active','1')
+        ->where(function($q){
+          $q->where('rule','business developement sales');
+          $q->orWhere('rule','business developement leader');
+        })->orderBy('email','asc')->get();
+    }else{
+      $sellers = User::where('time_zone','Asia/Riyadh')
+        ->where('active','1')
+        ->where(function($q){
+          $q->where('rule','business developement sales');
+          $q->orWhere('rule','business developement leader');
         })->orderBy('email','asc')->get();
     }
   }else {

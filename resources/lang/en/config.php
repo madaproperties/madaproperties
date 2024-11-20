@@ -132,7 +132,7 @@ return [
   ],
   'yes_no' => [
     '1' => 'Yes',
-    '0' => 'No'
+    '2' => 'No'
   ],
   'fitted' => [
     '1' => 'Fitted',
@@ -210,11 +210,25 @@ return [
     'Q4' => 'Q4',
   ],
   'activity_name' => [
-    'Food & Privilege' => 'Food & Privilege',
-    'Travel and Hospitality' => 'Travel and Hospitality',
-    'Luxury Brands' => 'Luxury Brands',
-    'Beverage Brands' => 'Beverage Brands',
-    'Logistics' => 'Logistics',
+    'Restaurants' => 'Restaurants',
+    'Clothes ' => 'Clothes ',
+    'Perfumes' => 'Perfumes',
+    'Discounted Goods' => 'Discounted Goods',
+    'Beauty & Dental Clinic' => 'Beauty & Dental Clinic',
+    'Hospital' => 'Hospital',
+    'Hotel ' => 'Hotel',
+    'Cars' => 'Cars',
+    'Candies' => 'Candies',
+    'Coffee' => 'Coffee ',
+    'Fitness' => 'Fitness',
+    'Pharmacy' => 'Pharmacy',
+    'Shoes' => 'Shoes',
+    'Bags' => 'Bags',
+    'Bank' => 'Bank',
+    'Nuts' => 'Nuts',
+    'Beauty Saloon' => 'Beauty Saloon',
+    'Lounge' => 'Lounge',
+
   ],
   'requirement_status' => [
     'pending' => 'pending',
@@ -246,6 +260,55 @@ return [
     '800' => '800',
     '900' => '900',
     '1000' => '1000',
-  ]
-
+  ],
+  // added by fazal on 09-01-23
+  'commercial_types' =>[
+  'Office Space' =>'Office Space',
+  'Retail'=>'Retail',
+  'Warehouse'=>'Warehouse',
+  'Shop'=>'Shop',
+  'Villa'=>'Villa',
+  'Show Room'=>'Show Room',
+  'Full Floor'=>'Full Floor',
+  'Half Floor'=>'Half Floor',
+  'Whole Building'=>'Whole Building',
+  'Land'=>'Land',
+  'Bulk Rent Unit'=>'Bulk Rent Unit',
+  'Factory'=>'Factory',
+  'Labor Camp'=>'Labor Camp',
+  'Staff Accommodation'=>'Staff Accommodation',
+  'Business Centre'=>'Business Centre',
+  'Co-working space'=>'Co-working space',
+  'Farm' =>'Farm',
+ ],
+ 'business_category' =>[
+  'Developer' =>'Developer',
+  'Finance'=>'Finance',
+  'Landlord'=>'Landlord',
+  'Joint Venture'=>'Joint Venture',
+  'Real Estate Agency'=>'Real Estate Agency',
+  'Construction Company'=>'Construction Company',
+  'Engineering Consultancy'=>'Engineering Consultancy',
+  
+  ],
+  'business_types' =>[
+  'Apartment' =>'Apartment',
+  'Villa'=>'Villa',
+  'Townhouse'=>'Townhouse',
+  'Penthouse'=>'Penthouse',
+  'Compound'=>'Compound',
+  'Duplex'=>'Duplex',
+  'Full Floor'=>'Full Floor',
+  'Half Floor'=>'Half Floor',
+  'Whole Building'=>'Whole Building',
+  'Bulk Rent Unit'=>'Bulk Rent Unit',
+  'Bungalow'=>'Bungalow',
+  'Hotel & Hotel Apartment' => 'Hotel & Hotel Apartment',
+  
+  ],
+   'payment_method' =>[
+  'cash' =>'Cash',
+  'installments'=>'Installments',
+  'cash,installments'=>'cash,installments',
+ ],
 ];

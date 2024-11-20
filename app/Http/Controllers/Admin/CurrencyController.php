@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Currency;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 class CurrencyController extends Controller
 {
     /**
@@ -15,6 +14,7 @@ class CurrencyController extends Controller
      */
     public function index()
     {
+   
         $rows = Currency::paginate(20);
         return view('admin.currency.index',[
           'rows' => $rows
