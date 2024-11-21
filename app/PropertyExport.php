@@ -50,7 +50,7 @@ class PropertyExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMap
         // get leader , and sellers reltedt to that leader
         $users = User::select('id','leader')
         ->where('active','1')
-        ->whereIn('leader',$leaderId)
+        ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
         ->Orwhere('id',$leaderId)
         ->get();
         $usersIds = $users->pluck('id')->toArray();
@@ -61,7 +61,8 @@ class PropertyExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMap
       }else if(userRole() == 'sales admin' || userRole() == 'assistant sales director') { // sales admin     
         $subUserId[]=auth()->id();
         if(isset(auth()->user()->leader)){
-          $subUserId = User::select('id')->where('active','1')->whereIn('leader',auth()->user()->leader);
+          $subUserId = User::select('id')->where('active','1')
+          ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) auth()->user()->leader)]);
           $subUserId = $subUserId->pluck('id')->toArray();
         }
         $property = Property::where(function ($q){
@@ -241,7 +242,9 @@ class PropertyExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMap
     // added by fazal 09-03-23
     if(Request()->has('leader') && request('leader')){
       $leaderId=request('leader');
-      $users = User::select('id','leader')->where('active','1')->whereIn('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+      $users = User::select('id','leader')->where('active','1')
+      ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
+      ->Orwhere('id',$leaderId)->get();
       $usersIds = $users->pluck('id')->toArray();
       $q->whereIn('user_id',$usersIds);
     }

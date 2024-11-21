@@ -323,7 +323,7 @@ class ContactController extends Controller
 
         if($leader)
         {
-            $leaderUsers = User::whereIn('leader',$leader)
+            $leaderUsers = User::whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leader)])
                             ->OrWhere('id', $leader)
                             ->get()->pluck('id')->toArray();
 

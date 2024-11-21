@@ -53,7 +53,7 @@ class DatabaseRecordsExport implements FromQuery, WithHeadings, ShouldAutoSize, 
         // 
         elseif(userRole() == 'leader'){
           $leaderId = auth()->id();
-          $users = User::select('id','leader')->where('active','1')->whereIn('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+          $users = User::select('id','leader')->where('active','1')->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])->Orwhere('id',$leaderId)->get();
           $usersIds = $users->pluck('id')->toArray();
 
           $deals = DatabaseRecords::whereIn('user_id',$usersIds)->where(function ($q){
@@ -71,7 +71,7 @@ class DatabaseRecordsExport implements FromQuery, WithHeadings, ShouldAutoSize, 
         // get leader group
         $leaderId = auth()->id();
         // get leader , and sellers reltedt to that leader
-        $users = User::select('id','leader')->where('active','1')->whereIn('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+        $users = User::select('id','leader')->where('active','1')->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])->Orwhere('id',$leaderId)->get();
         $usersIds = $users->pluck('id')->toArray();
         $deals = DatabaseRecords::whereIn('user_id',$usersIds)->where(function ($q){
         $this->filterPrams($q);

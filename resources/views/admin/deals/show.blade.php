@@ -649,6 +649,55 @@ input[type=radio],input[type=checkbox] {
 																		  </div>
 	                                                                    <!--end::Group-->
 
+
+																		
+																		<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																			@if(count($assistantSalesDirectors))
+																			<!--begin::Group-->
+																				<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.assistant_sales_director')}} </label>
+																				<div class="col-lg-8 col-xl-8">
+																					<select class="form-control"  name="assistant_sales_director_id">
+																					<option value="">{{ __('site.choose') }}</option>
+																					@foreach($assistantSalesDirectors as $salesDirector)
+																						<option {{$deal->assistant_sales_director_id == $salesDirector->id ? 'selected' : ''}} value="{{$salesDirector->id}}">{{$salesDirector->name}}</option>
+																					@endforeach
+																					</select>
+																				</div>
+																			@endif
+																		</div>
+																		<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.assistant_sales_director_commission_percent')}}</label>
+																			<div class="col-lg-8 col-xl-8">
+																				<input class="form-control form-control-solid form-control-lg" 	name="assistant_sales_director_commission_percent" id="assistant_sales_director_commission_percent" type="text" value="{{$deal->assistant_sales_director_commission_percent}}" placeholder="{{__('site.assistant_sales_director_commission_percent')}}" autocomplete="off">
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																		</div>
+																		<!--end::Group-->
+
+																		<!--begin::Group-->
+																		<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.assistant_sales_director_commission_amount')}}</label>
+																			<div class="col-lg-8 col-xl-8">
+																				<input class="form-control form-control-solid form-control-lg" 	name="assistant_sales_director_commission_amount" type="text" value="{{$deal->assistant_sales_director_commission_amount}}" id="assistant_sales_director_commission_amount" placeholder="{{__('site.assistant_sales_director_commission_amount')}}" readonly>
+																				<div class="fv-plugins-message-container"></div>
+																			</div>
+																		</div>
+																		<!--end::Group-->
+
+																		<!--begin::Group-->
+	                                                                     <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.assistant_sales_director_commission_received')}}</label>
+																			<div class="col-xl-1 col-2">
+																				<input class="form-control" name="assistant_sales_director_commission_received" type="radio" value="no" checked>
+																			</div>
+																			<label class="col-form-label">{{__('site.no')}}</label>
+																			<div class="col-xl-1 col-2">
+																				<input class="form-control" name="assistant_sales_director_commission_received" type="radio" value="yes">
+																			</div>
+																			<label class="col-form-label">{{__('site.yes')}}</label>
+																		  </div>
+	                                                                    <!--end::Group-->
+
 	                                                            </div>
 	                                                                <div class="col-xl-6" style="box-shadow: 0 0 12px 1px #477d8a28 !important;margin-left: -1px;">
                                                                    	<!--begin::Group-->
@@ -808,8 +857,50 @@ input[type=radio],input[type=checkbox] {
 																		<label class="col-form-label">{{__('site.yes')}}</label>
 																	</div>
 																	<!--end::Group-->
-	                                                                    <!--end::Group-->
-                                                                     
+	                                                                    
+																	<div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		@if(count($assistantSalesDirectors))
+																		<!--begin::Group-->
+																			<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.assistant_sales_director_2')}} </label>
+																			<div class="col-lg-8 col-xl-8">
+																				<select class="form-control"  name="assistant_sales_director_2_id">
+																				<option value="">{{ __('site.choose') }}</option>
+																				@foreach($assistantSalesDirectors as $salesDirector)
+																					<option {{$deal->assistant_sales_director_2_id == $salesDirector->id ? 'selected' : ''}} value="{{$salesDirector->id}}">{{$salesDirector->name}}</option>
+																				@endforeach
+																				</select>
+																			</div>
+																		@endif
+                                                                        </div>
+                                                                         <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.assistant_sales_director_2_commission_percent')}}</label>
+																		<div class="col-lg-8 col-xl-8">
+																			<input class="form-control form-control-solid form-control-lg" 	name="assistant_sales_director_2_commission_percent" id="assistant_sales_director_2_commission_percent" type="text" value="{{$deal->assistant_sales_director_2_commission_percent}}" placeholder="{{__('site.assistant_sales_director_2_commission_percent')}}" autocomplete="off">
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
+																	<!--end::Group-->
+
+																	<!--begin::Group-->
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.assistant_sales_director_2_commission_amount')}}</label>
+																		<div class="col-lg-8 col-xl-8">
+																			<input class="form-control form-control-solid form-control-lg" 	name="assistant_sales_director_2_commission_amount" type="text" value="{{$deal->assistant_sales_director_2_commission_amount}}" id="assistant_sales_director_2_commission_amount" placeholder="{{__('site.assistant_sales_director_2_commission_amount')}}" readonly>
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+                                                                        </div>
+                                                                        <div class="form-group row fv-plugins-icon-container" data-select2-id="39">
+																		<label class="col-xl-4 col-lg-4 col-form-label">{{__('site.assistant_sales_director_2_commission_received')}}</label>
+																		<div class="col-xl-1 col-2">
+																			<input class="form-control" name="assistant_sales_director_2_commission_received" type="radio" value="no" {{ $deal->assistant_sales_director_2_commission_received == 'no' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.no')}}</label>
+																		<div class="col-xl-1 col-2">
+																			<input class="form-control" name="assistant_sales_director_2_commission_received" type="radio" value="yes" {{ $deal->assistant_sales_director_2_commission_received == 'yes' ? 'checked' : '' }}>
+																		</div>
+																		<label class="col-form-label">{{__('site.yes')}}</label>
+																	</div>		
+																	<!--end::Group--> 
 	                                                                </div>
 
                                                                 </div>
@@ -1555,7 +1646,57 @@ $("#down_payment_percentage").on('input keyup keypress blur change',function(){
 			updateMadaCommission();
 		});
 
+		$("#assistant_sales_director_commission_percent").on('input keyup keypress blur change',function(){
+			if($(this).val() > 100 || $(this).val() < 0){
+				alert('Assistant sales director commission value should be greater than 0 and less than 100');
+				$("#assistant_sales_director_commission_percent").focus();
+				$(this).val(0);
+			}
+			if($("#commission_amount").val() < 0){
+				alert('Commission amount should not be 0');
+				$("#commission_amount").focus();
+				$(this).val(0);
+			}
+            //added  by fazal on 01-12-23
+			let val = $('#unit_country').val();
+			if(val==2) {
+				var comi = $(this).val();
+				var agent_commission_amount = $("#mada_commission_1").val();	
+				$("#assistant_sales_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+				updateMadaCommission2();		
+			} else {
+				var comi = $(this).val();
+				var agent_commission_amount = $("#agent_commission_amount").val();	
+				$("#assistant_sales_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+				updateMadaCommission();	
+			}
+		});		
 
+		$("#assistant_sales_director_2_commission_percent").on('input keyup keypress blur change',function(){
+			if($(this).val() > 100 || $(this).val() < 0){
+				alert('Assistant sales director commission value should be greater than 0 and less than 100');
+				$("#assistant_sales_director_2_commission_percent").focus();
+				$(this).val(0);
+			}
+			if($("#commission_amount").val() < 0){
+				alert('Commission amount should not be 0');
+				$("#commission_amount").focus();
+				$(this).val(0);
+			}
+            //added  by fazal on 01-12-23
+			let val = $('#unit_country').val();
+			if(val==2) {
+				var comi = $(this).val();
+				var agent_commission_amount = $("#mada_commission_1").val();	
+				$("#assistant_sales_director_2_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+				updateMadaCommission2();		
+			} else {
+				var comi = $(this).val();
+				var agent_commission_amount = $("#agent_commission_amount").val();	
+				$("#assistant_sales_director_2_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+				updateMadaCommission();	
+			}
+		});
 	});
 	function updateMadaCommission(){
 		var commission_amount = parseFloat($("#commission_amount").val());

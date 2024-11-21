@@ -126,7 +126,8 @@ class ContactsController extends Controller
             
             if($leader)
             {
-                $leaderUsers = User::whereIn('leader',$leader)->OrWhere('id', $leader)->get()->pluck('id')->toArray();
+                $leaderUsers = User::whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leader)])
+                ->OrWhere('id', $leader)->get()->pluck('id')->toArray();
               
                 
          $countryCode = Country::where('name_en',$contact['country'])->first();
@@ -232,12 +233,13 @@ class ContactsController extends Controller
             {
                
               $checkAssigned = User::where('id',$contact['user_id'])
-                                    ->whereIn('leader',$auth_user_id)->first();
+                                    ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $auth_user_id)])
+                                    ->first();
     
-                    if(!$checkAssigned AND $auth_user->rule == 'leader')
-                    {
-                     $this->addErorr(__('site.you are not leader for user numbers').' ['. $contact['user_id'].']');
-                    }
+              if(!$checkAssigned AND $auth_user->rule == 'leader')
+              {
+                $this->addErorr(__('site.you are not leader for user numbers').' ['. $contact['user_id'].']');
+              }
 
             }
             

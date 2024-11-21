@@ -1405,20 +1405,20 @@ input[type=radio],input[type=checkbox] {
 			}
             //added  by fazal on 01-12-23
 			let val = $('#unit_country').val();
-				if(val==2)
-				{
-					var comi = $(this).val();
-		         	var agent_commission_amount = $("#mada_commission_1").val();	
-			       $("#agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
-			        updateMadaCommission2();		
-				}
-                else
-                {
-                	var comi = $(this).val();
-					var agent_commission_amount = $("#agent_commission_amount").val();	
-			        $("#agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
-                    updateMadaCommission();	
-                }
+			if(val==2)
+			{
+				var comi = $(this).val();
+				var agent_commission_amount = $("#mada_commission_1").val();	
+				$("#agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+				updateMadaCommission2();		
+			}
+			else
+			{
+				var comi = $(this).val();
+				var agent_commission_amount = $("#agent_commission_amount").val();	
+				$("#agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+				updateMadaCommission();	
+			}
 			
 		});
 
@@ -1436,21 +1436,21 @@ input[type=radio],input[type=checkbox] {
           // added by fazal on 01-12-23
 
 			let val = $('#unit_country').val();
-				if(val==2)
-				{
-					var comi = $(this).val();
-		         	var agent_commission_amount = $("#mada_commission_5").val();	
-			       $("#listing_agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
-			        updateMadaCommission4();		
-				}
-                else
-                {
-                	var comi = $(this).val();
-					var agent_commission_amount = $("#listing_agent_commission_amount").val();	
-					$("#listing_agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
-			updateMadaCommission();
-                }
-                // 
+			if(val==2)
+			{
+				var comi = $(this).val();
+				var agent_commission_amount = $("#mada_commission_5").val();	
+				$("#listing_agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+				updateMadaCommission4();		
+			}
+			else
+			{
+				var comi = $(this).val();
+				var agent_commission_amount = $("#listing_agent_commission_amount").val();	
+				$("#listing_agent_leader_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+				updateMadaCommission();
+			}
+			// 
 		});
 
 
@@ -1495,37 +1495,37 @@ input[type=radio],input[type=checkbox] {
 				$(this).val(0);
 			}
 
-		var comi = $(this).val();
+			var comi = $(this).val();
 			var agent_commission_amount = $("#agent_commission_amount").val();	
-             // added by fazal on 01-12-23
-           let val = $('#unit_country').val();
-				if(val==2)
-				{
-					var comi = $(this).val();
-		         	var agent_commission_amount = $("#mada_commission_3").val();	
-			      $("#sales_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
-			      updateMadaCommission();		
-				}else if(val==1){
-					var comi = $(this).val();
-					var commission_amount = parseFloat($("#commission_amount").val() ? $("#commission_amount").val() : 0);	
+            // added by fazal on 01-12-23
+           	let val = $('#unit_country').val();
+			if(val==2)
+			{
+				var comi = $(this).val();
+				var agent_commission_amount = $("#mada_commission_3").val();	
+				$("#sales_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+				updateMadaCommission();		
+			}else if(val==1){
+				var comi = $(this).val();
+				var commission_amount = parseFloat($("#commission_amount").val() ? $("#commission_amount").val() : 0);	
 
-					if ($('.third_party').is(':checked')) {
-						var third_party_amount = parseFloat($("#third_party_amount").val());
-						if(third_party_amount > 0){
-							commission_amount -= third_party_amount;
-						}
+				if ($('.third_party').is(':checked')) {
+					var third_party_amount = parseFloat($("#third_party_amount").val());
+					if(third_party_amount > 0){
+						commission_amount -= third_party_amount;
 					}
-
-			        $("#sales_director_commission_amount").val((((commission_amount)*comi)/100).toFixed(2));
-			      //updateMadaCommission();		
 				}
-                else
-                {
-                	var comi = $(this).val();
-					var agent_commission_amount = $("#agent_commission_amount").val();	
-			        $("#sales_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
-			       updateMadaCommission();	
-                }
+
+				$("#sales_director_commission_amount").val((((commission_amount)*comi)/100).toFixed(2));
+				//updateMadaCommission();		
+			}
+			else
+			{
+				var comi = $(this).val();
+				var agent_commission_amount = $("#agent_commission_amount").val();	
+				$("#sales_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+				updateMadaCommission();	
+			}
 		});
 
 		$("#sales_director_2_commission_percent").on('input keyup keypress blur change',function(){
@@ -1542,31 +1542,31 @@ input[type=radio],input[type=checkbox] {
 			// added by fazal on 01-12-23
             let val = $('#unit_country').val();
 			if(val==2)
-				{
-					var comi = $(this).val();
-		         	var agent_commission_amount = $("#mada_commission_4").val();	
-			      $("#sales_director_2_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
-			      updateMadaCommission();		
-				}else if(val==1){
-					var comi = $(this).val();
-					var commission_amount = parseFloat($("#commission_amount").val() ? $("#commission_amount").val() : 0);	
+			{
+				var comi = $(this).val();
+				var agent_commission_amount = $("#mada_commission_4").val();	
+				$("#sales_director_2_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+				updateMadaCommission();		
+			}else if(val==1){
+				var comi = $(this).val();
+				var commission_amount = parseFloat($("#commission_amount").val() ? $("#commission_amount").val() : 0);	
 
-					if ($('.third_party').is(':checked')) {
-						var third_party_amount = parseFloat($("#third_party_amount").val());
-						if(third_party_amount > 0){
-							commission_amount -= third_party_amount;
-						}
+				if ($('.third_party').is(':checked')) {
+					var third_party_amount = parseFloat($("#third_party_amount").val());
+					if(third_party_amount > 0){
+						commission_amount -= third_party_amount;
 					}
-
- 			        $("#sales_director_2_commission_amount").val((((commission_amount)*comi)/100).toFixed(2));
 				}
-                else
-                {
-                	var comi = $(this).val();
-					var agent_commission_amount = $("#agent_commission_amount").val();	
-			        $("#sales_director_2_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
-			       updateMadaCommission();	
-                }
+
+				$("#sales_director_2_commission_amount").val((((commission_amount)*comi)/100).toFixed(2));
+			}
+			else
+			{
+				var comi = $(this).val();
+				var agent_commission_amount = $("#agent_commission_amount").val();	
+				$("#sales_director_2_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+				updateMadaCommission();	
+			}
 		});
 		//added by fazal
 		$("#listing_director_commission_percent").on('input keyup keypress blur change',function(){
@@ -1582,21 +1582,21 @@ input[type=radio],input[type=checkbox] {
 			}
  
        //// aded by fazal 
-          let val = $('#unit_country').val();
-				if(val==2)
-				{
-					var comi = $(this).val();
-		         	var agent_commission_amount = $("#mada_commission_6").val();	
-			      $("#listing_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
-			      updateMadaCommission();		
-				}
-                else
-                {
-                	var comi = $(this).val();
-			var agent_commission_amount = $("#listing_agent_commission_amount").val();	
-			$("#listing_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
-			updateMadaCommission();
-                }
+          	let val = $('#unit_country').val();
+			if(val==2)
+			{
+				var comi = $(this).val();
+				var agent_commission_amount = $("#mada_commission_6").val();	
+				$("#listing_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+				updateMadaCommission();		
+			}
+			else
+			{
+				var comi = $(this).val();
+				var agent_commission_amount = $("#listing_agent_commission_amount").val();	
+				$("#listing_director_commission_amount").val(((agent_commission_amount*comi)/100).toFixed(2));
+				updateMadaCommission();
+			}
 
 		});
 

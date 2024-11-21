@@ -101,7 +101,8 @@ class BusinessLeadsImport implements ToCollection, WithHeadingRow,ShouldQueue,Wi
         if($lead_data['user_id'] != auth()->id() AND userRole() != 'admin') 
         {
           $checkAssigned = User::where('id',$lead_data['user_id'])
-                              ->whereIn('leader',auth()->id())->first();
+                              ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) auth()->id())])
+                              ->first();
           if(!$checkAssigned AND $auth_user->rule == 'leader')
           {
             $this->addErorr(__('site.you are not leader for user numer').' ['. $lead_data['user_id'].']');

@@ -111,7 +111,7 @@ class AdvanceCampaignReportController extends Controller
 		// if(userRole() === 'admin' || userRole() == 'sales admin uae' || userRole() == 'sales admin saudi'){
 		// 	$users = User::all();
 		// }elseif(userRole() == 'leader'){
-		// 	$users = User::whereIn('leader',auth()->id())->OrWhere('id',auth()->id())->get();
+		// 	$users = User::whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) auth()->id())])->OrWhere('id',auth()->id())->get();
 		// }
 
 		$users = User::where('active','1');
@@ -123,7 +123,7 @@ class AdvanceCampaignReportController extends Controller
 			$users = $users->where('time_zone','like','%'.$whereCountry.'%');
 		}else if(userRole() == 'leader'){
 			/// if he is leader get his sellars and get him with them too
-			$users = $users->whereIn('leader',auth()->id());
+			$users = $users->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) auth()->id())]);
 		}
 		$users = $users->orderBy('email')->get();
 

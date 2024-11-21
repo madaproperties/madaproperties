@@ -881,7 +881,7 @@ function getSellers() {
   if(userRole() == 'leader' || userRole() == 'commercial leader' || userRole() == 'business developement leader'){ 
     $id = auth()->id();
     $sellers = User::where(function($q) use($id){
-                      $q->whereIn('leader',$id);
+                      $q->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $id)]);
                       $q->OrWhere('id',$id);
                     })->orderBy('email','asc')
                     ->where('active','1')->get();
@@ -951,7 +951,7 @@ function getSellers() {
            $id = auth()->id();
           if($leader){
           $sellers = User::where(function($q) use($leader){
-                      $q->whereIn('leader',$leader);
+                      $q->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leader)]);
                       $q->OrWhere('id',auth()->id());
                     })->orderBy('email','asc')
                     ->where('active','1')->get();
@@ -1003,7 +1003,7 @@ function getCommercialSellers() {
   if(userRole() == 'commercial leader'){
     $id = auth()->id();
     $sellers = User::where(function($q) use($id){
-                      $q->whereIn('leader',$id);
+                      $q->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $id)]);
                       $q->OrWhere('id',$id);
                     })->orderBy('email','asc')
                     ->where('active','1')->get();
@@ -1086,7 +1086,7 @@ function getBusinessSellers() {
   if(userRole() == 'business developement leader'){
     $id = auth()->id();
     $sellers = User::where(function($q) use($id){
-                      $q->whereIn('leader',$id);
+                      $q->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $id)]);
                       $q->OrWhere('id',$id);
                     })->orderBy('email','asc')
                     ->where('active','1')->get();
