@@ -113,7 +113,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         // get leader group
         $leaderId = auth()->id();
         // get leader , and sellers reltedt to that leader
-        // $users = User::select('id','leader')->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])->Orwhere('id',$leaderId)->get();
+        // $users = User::select('id','leader')->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])->Orwhere('id',$leaderId)->get();
         // $usersIds = $users->pluck('id')->toArray();
         // $contacts = Contact::query()->select($this->selectedAttruibutes)->whereIn('user_id',$usersIds)->where(function ($q){
         //   $this->filterPrams($q);
@@ -121,12 +121,12 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         
         
         $usersIds = User::select('id','leader')->where('active','1')
-        ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
+        ->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])
         ->Orwhere('id',$leaderId)
         ->pluck('id');
       
         $salesAgentIds = User::select('id')->where('active','1')
-        ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
+        ->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])
         ->pluck('id');
 
         $contacts = Contact::query()->select($this->selectedAttruibutes)
@@ -140,11 +140,38 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
   
       }else if(userRole() == 'sales admin' || userRole() == 'assistant sales director') { // sales admin
         
-        $contacts = Contact::query()->select($this->selectedAttruibutes)->where(function ($q){
-          $this->filterPrams($q);
-        })->where('created_by',auth()->id())
-          ->where('user_id',null)
-          ->orderBy('created_at','DESC');
+        // $contacts = Contact::query()->select($this->selectedAttruibutes)->where(function ($q){
+        //   $this->filterPrams($q);
+        // })->where('created_by',auth()->id())
+        //   ->where('user_id',null)
+        //   ->orderBy('created_at','DESC');
+
+        $subUserId[]=auth()->id();
+
+        if (!request()->has('my-contacts') && isset(auth()->user()->leader)) {
+            $leadersArray = json_decode(auth()->user()->leader, true); // Decode JSON into an array
+
+            if (is_array($leadersArray) && !empty($leadersArray)) { // Ensure leaders is a valid array
+                $query = User::select('id')->where('active', '1');
+                $query->where(function ($q) use ($leadersArray) {
+                  foreach ($leadersArray as $leader) {
+                      $q->orWhereRaw('JSON_CONTAINS(leader, ?)', [$leader]);
+                  }
+                });
+                $subUserId = array_merge($subUserId, $query->pluck('id')->toArray());
+            }
+        }
+    
+        $contacts = Contact::with(['country', 'project', 'creator'])
+        ->select($this->selectedAttruibutes)
+        ->where(function ($q) {
+            $this->filterPrams($q);
+        })
+        ->whereIn('user_id', $subUserId) // Use the final array of user IDs
+        ->orderBy('created_at', 'DESC');
+  
+
+
       }else if(userRole() == 'sales director') { // sales director  
         $userloc=User::where('id',auth()->id())->first();
         if($userloc->time_zone=='Asia/Dubai'){
@@ -394,7 +421,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         session()->put('start_filter_url',$uri);
         $leaderId=request('leader');
         $users = User::select('id','leader')->where('active','1')
-        ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
+        ->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])
         ->Orwhere('id',$leaderId)
         ->get();
         $usersIds = $users->pluck('id')->toArray();

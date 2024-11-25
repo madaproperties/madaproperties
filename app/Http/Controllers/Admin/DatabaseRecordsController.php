@@ -104,7 +104,7 @@ class DatabaseRecordsController extends Controller
      
       
       $users = User::select('id','leader')->where('active','1')
-      ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
+      ->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])
       ->Orwhere('id',$leaderId)
       ->get();
         $usersIds = $users->pluck('id')->toArray();
@@ -135,7 +135,7 @@ class DatabaseRecordsController extends Controller
       $leaderId = auth()->id();
       // get leader , and sellers reltedt to that leader
       $users = User::select('id','leader')->where('active','1')
-      ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
+      ->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])
       ->Orwhere('id',$leaderId)->get();
       $usersIds = $users->pluck('id')->toArray();
       $data = DatabaseRecords::whereIn('user_id',$usersIds)->where(function ($q){

@@ -121,7 +121,7 @@
     <select class="form-control"  name="sales_director_id">
     <option value="">{{ __('site.select leader') }}</option>
     @foreach($salesDirectors as $director)
-      <option {{Request('director') == $director->id ? 'selected' : ''}} value="{{$director->id}}">{{$director->name}}</option>
+      <option {{Request('sales_director_id') == $director->id ? 'selected' : ''}} value="{{$director->id}}">{{$director->name}}</option>
     @endforeach
     </select>
     </div>
@@ -150,7 +150,7 @@
     <select class="form-control"  name="leader2_id">
     <option value="">{{ __('site.select leader') }}</option>
     @foreach($leaders as $leader)
-      <option {{Request('leader_id') == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
+      <option {{Request('leader2_id') == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
     @endforeach
     </select>
     </div>
@@ -162,7 +162,7 @@
     <select class="form-control"  name="sales_director_2_id">
     <option value="">{{ __('site.select leader') }}</option>
     @foreach($salesDirectors as $director)
-      <option {{Request('director') == $director->id ? 'selected' : ''}} value="{{$director->id}}">{{$director->name}}</option>
+      <option {{Request('sales_director_2_id') == $director->id ? 'selected' : ''}} value="{{$director->id}}">{{$director->name}}</option>
     @endforeach
     </select>
     </div>
@@ -190,7 +190,7 @@
     <select class="form-control"  name="listing_leader_id">
     <option value="">{{ __('site.select leader') }}</option>
     @foreach($leaders as $leader)
-      <option {{Request('leader_id') == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
+      <option {{Request('listing_leader_id') == $leader->id ? 'selected' : ''}} value="{{$leader->id}}">{{$leader->name}}</option>
     @endforeach
     </select>
     </div>
@@ -202,7 +202,7 @@
     <select class="form-control"  name="listing_director_id">
     <option value="">{{ __('site.select leader') }}</option>
     @foreach($salesDirectors as $director)
-      <option {{Request('director') == $director->id ? 'selected' : ''}} value="{{$director->id}}">{{$director->name}}</option>
+      <option {{Request('listing_director_id') == $director->id ? 'selected' : ''}} value="{{$director->id}}">{{$director->name}}</option>
     @endforeach
     </select>
     </div>

@@ -256,12 +256,12 @@
 		function selectLeader(id) {
 			let el = $('#'+id);
 			let val = el.val();
-			if(val == 'assistant sales director') {
+			if(val == 'assistant sales director' || val == 'sales admin') {
 				el.parent('.form-group').next('.form-group').css('display','none');
 				$('.leadersArray').css('display','block');
 			} else {
 				$('.leadersArray').css('display','none');
-				if(val == 'sales' || val == 'sales admin' || val == 'commercial sales' || val == 'business developement sales') {
+				if(val == 'sales' || val == 'commercial sales' || val == 'business developement sales') {
 					el.parent('.form-group').next('.form-group').css('display','block');
 				} else {
 					el.parent('.form-group').next('.form-group').css('display','none');

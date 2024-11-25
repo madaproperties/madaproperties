@@ -122,18 +122,16 @@ class DealController extends Controller
     if(!checkLeader()){
       $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
         $q->whereIn('rule',['sales','leader','sales director']);
-      })
-    ->where('active','1')->get();
+      })->where('active','1')->get();
     }elseif(!checkLeaderUae()){
       //updated by fazal on 24-01-24
       $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
         $q->whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader']);
-      })
-    ->where('active','1')->orderBy('email')->get();
+      })->where('active','1')->orderBy('email')->get();
     }else{
        //updated by fazal on 24-01-24
       $sellers = User::whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader'])
-    ->where('active','1')->orderBy('email')->get();
+      ->where('active','1')->orderBy('email')->get();
     }
 
     if(!checkLeader()){
@@ -158,34 +156,26 @@ class DealController extends Controller
     if(userRole() == 'sales admin' || userRole() == 'assistant sales director' || userRole()=='sales director' || userRole()=='sales'|| userRole()=='sales admin saudi' || userRole()=='sales admin uae' ){
     // dd('hit'); //Added by Javed
       $user=User::where('id',auth()->id())->first();
-      if($user->time_zone=='Asia/Riyadh')
-      {
-      $projects = DealProject::where('country_id','1')->orderBy('project_name','ASC')->get();  
-      //added by fazal on 30-04-24
-       $salesDirectors = User::where(function($q){
-        $q->whereIn('rule',['sales director']);
-      })
-      ->where('active','1')->where('time_zone','Asia/Riyadh')->orderBy('email')->get();
-      }
-      else
-      {
-       $projects = DealProject::where('country_id','2')->orderBy('project_name','ASC')->get(); 
-       //added by fazal on 30-04-24
-       $salesDirectors = User::where(function($q){
-        $q->whereIn('rule',['sales director']);
-      })
-      ->where('active','1')->where('time_zone','Asia/Dubai')->orderBy('email')->get();
-      }
-    }
-      else
-      {
-        $projects = DealProject::orderBy('project_name','ASC')->get();
+      if($user->time_zone=='Asia/Riyadh'){
+        $projects = DealProject::where('country_id','1')->orderBy('project_name','ASC')->get();  
+          //added by fazal on 30-04-24
+          $salesDirectors = User::where(function($q){
+          $q->whereIn('rule',['sales director']);
+        })->where('active','1')->where('time_zone','Asia/Riyadh')->orderBy('email')->get();
+      } else {
+        $projects = DealProject::where('country_id','2')->orderBy('project_name','ASC')->get(); 
         //added by fazal on 30-04-24
-       $salesDirectors = User::where(function($q){
-        $q->whereIn('rule',['sales director']);
-      })
-      ->where('active','1')->orderBy('email')->get();
+        $salesDirectors = User::where(function($q){
+          $q->whereIn('rule',['sales director']);
+        })->where('active','1')->where('time_zone','Asia/Dubai')->orderBy('email')->get();
       }
+    } else {
+      $projects = DealProject::orderBy('project_name','ASC')->get();
+      //added by fazal on 30-04-24
+      $salesDirectors = User::where(function($q){
+        $q->whereIn('rule',['sales director']);
+      })->where('active','1')->orderBy('email')->get();
+    }
     // $projects = DealProject::get();
     $miles = LastMileConversion::where('active','1')
     ->orderBy('name_'. app()->getLocale())

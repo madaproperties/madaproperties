@@ -89,13 +89,13 @@
 											<table class="table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
 												<thead>
 													<tr class="text-left">
-				<th style="">{{__('site.ID')}}</th>
-				<th style="">{{__('site.email')}}</th>
-				<th style="">{{__('site.time_zone')}}</th>
-				<th style="">{{__('site.status')}}</th>
-				<th style="">{{__('site.Rule')}}</th>
-				<th style="">{{__('site.last login')}}</th>
-				<th class="pr-0 " style="">{{__('site.action')}}</th>
+														<th style="">{{__('site.ID')}}</th>
+														<th style="">{{__('site.email')}}</th>
+														<th style="">{{__('site.time_zone')}}</th>
+														<th style="">{{__('site.status')}}</th>
+														<th style="">{{__('site.Rule')}}</th>
+														<th style="">{{__('site.last login')}}</th>
+														<th class="pr-0 " style="">{{__('site.action')}}</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -350,12 +350,12 @@
 				{
 					let el = $('#'+id);
 					let val = el.val();
-					if(val == 'assistant sales director') {
+					if(val == 'assistant sales director' || val == 'sales admin') {
 						el.parent('.form-group').next('.form-group').css('display','none');
 						$('.leadersArray').css('display','block');
 					} else {
 						$('.leadersArray').css('display','none');
-						if(val == 'sales' || val == 'sales admin' || val == 'commercial sales' || val == 'business developement sales') {
+						if(val == 'sales' || val == 'commercial sales' || val == 'business developement sales') {
 							el.parent('.form-group').next('.form-group').css('display','block');
 						} else {
 							el.parent('.form-group').next('.form-group').css('display','none');

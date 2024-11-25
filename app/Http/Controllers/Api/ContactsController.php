@@ -126,7 +126,7 @@ class ContactsController extends Controller
             
             if($leader)
             {
-                $leaderUsers = User::whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leader)])
+                $leaderUsers = User::whereRaw('JSON_CONTAINS(leader, ?)', [$leader])
                 ->OrWhere('id', $leader)->get()->pluck('id')->toArray();
               
                 
@@ -233,7 +233,7 @@ class ContactsController extends Controller
             {
                
               $checkAssigned = User::where('id',$contact['user_id'])
-                                    ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $auth_user_id)])
+                                    ->whereRaw('JSON_CONTAINS(leader, ?)', [$auth_user_id])
                                     ->first();
     
               if(!$checkAssigned AND $auth_user->rule == 'leader')
