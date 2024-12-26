@@ -175,7 +175,7 @@ class PropertyController extends Controller
       // get leader , and sellers reltedt to that leader
       $users = User::select('id','leader')
       ->where('active','1')
-      ->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])
+      ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
       ->Orwhere('id',$leaderId)
       ->get();
       $usersIds = $users->pluck('id')->toArray();
@@ -899,7 +899,7 @@ class PropertyController extends Controller
       $leaderId = auth()->id();
       $users = User::select('id','leader')
       ->where('active','1')
-      ->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])
+      ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
       ->Orwhere('id',$leaderId)
       ->get();
       $usersIds = $users->pluck('id')->toArray();
@@ -1403,7 +1403,7 @@ class PropertyController extends Controller
       $uri = Request()->fullUrl();
       session()->put('start_filter_url',$uri);
       $leaderId=request('leader');
-      $users = User::select('id','leader')->where('active','1')->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])->Orwhere('id',$leaderId)->get();
+      $users = User::select('id','leader')->where('active','1')->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])->Orwhere('id',$leaderId)->get();
       $usersIds = $users->pluck('id')->toArray();
       $q->whereIn('user_id',$usersIds);
     }

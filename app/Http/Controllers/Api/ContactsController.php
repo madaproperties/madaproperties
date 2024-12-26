@@ -126,12 +126,12 @@ class ContactsController extends Controller
             
             if($leader)
             {
-                $leaderUsers = User::whereRaw('JSON_CONTAINS(leader, ?)', [$leader])
+                $leaderUsers = User::whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leader)])
                 ->OrWhere('id', $leader)->get()->pluck('id')->toArray();
               
                 
-         $countryCode = Country::where('name_en',$contact['country'])->first();
-        $countryCode = $countryCode ? $countryCode->id : null;
+                $countryCode = Country::where('name_en',$contact['country'])->first();
+                $countryCode = $countryCode ? $countryCode->id : null;
        
         
              if(userRole() == 'sales admin' || userRole() == 'assistant sales director')
@@ -233,7 +233,7 @@ class ContactsController extends Controller
             {
                
               $checkAssigned = User::where('id',$contact['user_id'])
-                                    ->whereRaw('JSON_CONTAINS(leader, ?)', [$auth_user_id])
+                                    ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $auth_user_id)])
                                     ->first();
     
               if(!$checkAssigned AND $auth_user->rule == 'leader')

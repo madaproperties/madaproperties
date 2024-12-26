@@ -168,7 +168,13 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal.exportDataDeals'),$expo
 									<a onclick="getDocumentByAjax('{{$deal->id}}')" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Mada comission slip documents"><i class="fa fa-file"></i></a>																						
 									@endcan
 									@can('deal-edit')
-									<a href="{{ route('admin.deal.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
+										@if(userRole() == 'sales admin saudi')
+											@if($deal->status !== 'Commission Released')
+												<a href="{{ route('admin.deal.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
+											@endif
+										@else
+											<a href="{{ route('admin.deal.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
+										@endif
 									@endcan
 									@can('print-commission-report')
 										<a href="{{ route('admin.deal.print',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Print commission report"><i class="fa fa-print"></i></a>																						

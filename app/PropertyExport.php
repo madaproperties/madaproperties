@@ -50,7 +50,7 @@ class PropertyExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMap
         // get leader , and sellers reltedt to that leader
         $users = User::select('id','leader')
         ->where('active','1')
-        ->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])
+        ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
         ->Orwhere('id',$leaderId)
         ->get();
         $usersIds = $users->pluck('id')->toArray();
@@ -243,7 +243,7 @@ class PropertyExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMap
     if(Request()->has('leader') && request('leader')){
       $leaderId=request('leader');
       $users = User::select('id','leader')->where('active','1')
-      ->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])
+      ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
       ->Orwhere('id',$leaderId)->get();
       $usersIds = $users->pluck('id')->toArray();
       $q->whereIn('user_id',$usersIds);

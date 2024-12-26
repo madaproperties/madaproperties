@@ -51,7 +51,7 @@ class HistoryController extends Controller
       $leaderId = auth()->id();
       // get leader , and sellers reltedt to that leader
       $users = User::select('id','leader')->where('active','1')
-      ->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])
+      ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
       ->Orwhere('id',$leaderId)->get();
       $usersIds = $users->pluck('id')->toArray();
       $data = History::whereIn('user_id',$usersIds)->where(function ($q){
@@ -61,7 +61,7 @@ class HistoryController extends Controller
       $data = $data->paginate(20);
 
       //Added by Javed
-      $createdBy = $createdBy->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId]);
+      $createdBy = $createdBy->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)]);
       //End
 
     }else if(userRole() == 'sales admin' || userRole() == 'assistant sales director') { // sales admin

@@ -181,51 +181,6 @@ class DealController extends Controller
     ->orderBy('name_'. app()->getLocale())
     ->get();
 
-    /*$fields = [
-      'unit_country'=>__('site.unit country'),
-      'project_id'=>__('site.project'),
-      'purpose'=>__('site.Purpose'),
-      'purpose_type'=>__('site.purpose type'),
-      'unit_name'=>__('site.unit_name'),
-      'developer_name'=>__('site.developer_name'),
-      'deal_date'=>__('site.deal_date'),
-      'source'=>__('site.source'),
-      'invoice_number'=>__('site.invoice_number'),
-      'client_name'=>__('site.client_name'),
-      'client_mobile_no'=>__('site.client_mobile_no'),
-      'client_email'=>__('site.client_email'),
-      'price'=>__('site.price'),
-      'commission_type'=>__('site.commission_type'),
-      'commission'=>__('site.commission'),
-      'commission_amount'=>__('site.commission_amount'),
-      'vat'=>__('site.vat'),
-      'vat_amount'=>__('site.vat_amount'),
-      'vat_received'=>__('site.vat_received'),
-      'total_invoice'=>__('site.total_invoice'),
-      'token'=>__('site.token'),
-      'down_payment'=>__('site.down_payment'),
-      'spa'=>__('site.spa'),
-      'expected_date'=>__('site.expected_date'),
-      'invoice_date'=>__('site.invoice_date'),
-      'agent_id'=>__('site.Agent'),
-      'agent_commission_percent'=>__('site.agent_commission_percent'),
-      'agent_commission_amount'=>__('site.agent_commission_amount'),
-      'agent_commission_received'=>__('site.agent_commission_received'),
-      'leader_id'=>__('site.Leader'),
-      'agent_leader_commission_percent'=>__('site.agent_leader_commission_percent'),
-      'agent_leader_commission_amount'=>__('site.agent_leader_commission_amount'),
-      'agent_leader_commission_received'=>__('site.agent_leader_commission_received'),
-      'third_party'=>__('site.third_party'),
-      'third_party_amount'=>__('site.third_party_amount'),
-      'third_party_name'=>__('site.third_party_name'),
-      'mada_commission'=>__('site.mada_commission'),
-      'mada_commission_received'=>__('site.mada_commission_received'),
-      'notes'=>__('site.notes'),
-      'created_at'=>__('site.created_at'),
-      'updated_at'=>__('site.updated_at'),
-    ]; */
-
-
     $fields = [
       __('site.unit country'),
       __('site.project'),
@@ -538,6 +493,17 @@ class DealController extends Controller
       ]);
 
 
+
+      // Check if a deal with the same project_id and unit_name exists
+      $existingDeal = Deal::where('project_id', $data['project_id'])
+        ->where('unit_name', $data['unit_name'])
+        ->where('status', '!=', 'Cancelled')
+        ->first();
+
+      if ($existingDeal) {
+        return redirect()->back()->with('error', 'A deal with the same project and unit name already exists.')->withInput();
+      }
+
       $data['created_at'] = Carbon::now();
 
       addHistory('Deal',0,'added',$data);   
@@ -689,6 +655,16 @@ class DealController extends Controller
       "assistant_sales_director_2_commission_received" =>"nullable",
   ]);
 
+    // Check if another deal with the same project_id and unit_name exists, excluding the current record
+    // $existingDeal = Deal::where('project_id', $data['project_id'])
+    // ->where('unit_name', $data['unit_name'])
+    // ->where('id', '!=', $id) // Exclude the current record
+    // ->first();
+
+    // if ($existingDeal) {
+    //   return redirect()->back()->with('error', 'A deal with the same project and unit name already exists.')->withInput();
+    // }  
+
     $data['updated_at'] = Carbon::now();
 
     addHistory('Deal',$id,'updated',$data,$deal);
@@ -714,6 +690,10 @@ class DealController extends Controller
   public function show($deal)
   {
     $deal = Deal::findOrFail($deal);
+
+    if(userRole() == 'sales admin saudi' && $deal->status == 'Commission Released') {
+      return redirect(route('admin.deal.index'))->with('error', 'The deal status is Commission Released. You can no longer edit it.');
+    }
 
     $currencyName = app()->getLocale() == 'en' ? 'currency' : 'currency_ar';
     $projects = Project::where('name_en','others')
@@ -1238,13 +1218,13 @@ public function topAgentsSaudi()
 
 public function topAgentsSaudiNew() {
   $sellerOffPlan = DB::table('deals')
+  ->join('users','users.id','deals.agent_id')
   ->where('unit_country',1)
   // ->where('status','Approved')// updated by fazal on 18-10-24
-  ->whereIn('status',['Approved','Pending'])
-  ->where('project_type','Primary')
+  ->whereIn('status',['Approved','Pending','Commission Released'])
+  ->where('users.department', 'Primary')
   ->whereMonth('deals.deal_date', date('m'))
   ->whereYear('deals.deal_date', date('Y'))
-  ->join('users','users.id','deals.agent_id')
   ->select(DB::raw('SUM(price) as total_sum, agent_id'),'users.name','users.user_pic','users.email')
   ->groupBy('agent_id')
   ->orderByDesc('total_sum')
@@ -1252,39 +1232,39 @@ public function topAgentsSaudiNew() {
 
   
   $managerOffPlan = DB::table('deals')
+  ->join('users','users.id','deals.leader_id')
   ->where('unit_country',1)
   // ->where('status','Approved') // updated by fazal on 18-10-24
-  ->whereIn('status',['Approved','Pending'])
-  ->where('project_type','Primary')
+  ->whereIn('status',['Approved','Pending','Commission Released'])
+  ->where('users.department', 'Primary')
   ->whereMonth('deals.deal_date', date('m'))
   ->whereYear('deals.deal_date', date('Y'))
-  ->join('users','users.id','deals.leader_id')
   ->select(DB::raw('SUM(price) as total_sum, leader_id'),'users.name','users.user_pic','users.email')
   ->groupBy('leader_id')
   ->orderByDesc('total_sum')
   ->first();
 
   $sellerSecondary = DB::table('deals')
+  ->join('users','users.id','deals.agent_id')
   ->where('unit_country',1)
   // ->where('status','Approved') added by fazal on 18-10-24
-  ->whereIn('status',['Approved','Pending'])
-  ->where('project_type','Secondary')
+  ->whereIn('status',['Approved','Pending','Commission Released'])
+  ->where('users.department', 'Secondary')
   ->whereMonth('deals.deal_date', date('m'))
   ->whereYear('deals.deal_date', date('Y'))
-  ->join('users','users.id','deals.agent_id')
   ->select(DB::raw('SUM(price) as total_sum, agent_id'),'users.name','users.user_pic','users.email')
   ->groupBy('agent_id')
   ->orderByDesc('total_sum')
   ->take(3)->get();
   
   $managerSecondary = DB::table('deals')
+  ->join('users','users.id','deals.leader_id')
   ->where('unit_country',1)
   // ->where('status','Approved') added by fazal on 18-10-24
-  ->whereIn('status',['Approved','Pending']) 
-  ->where('project_type','Secondary')
+  ->whereIn('status',['Approved','Pending','Commission Released']) 
   ->whereMonth('deals.deal_date', date('m'))
   ->whereYear('deals.deal_date', date('Y'))
-  ->join('users','users.id','deals.leader_id')
+  ->where('users.department', 'Secondary')
   ->select(DB::raw('SUM(price) as total_sum, leader_id'),'users.name','users.user_pic','users.email')
   ->groupBy('leader_id')
   ->orderByDesc('total_sum')

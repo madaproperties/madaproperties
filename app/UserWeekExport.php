@@ -42,7 +42,7 @@ class UserWeekExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMap
                     $userReport = $userReport->where('time_zone','like','%'.$whereCountry.'%');
                 }
             }else if(userRole() == 'leader'){
-                $userReport = User::where('active','1')->whereRaw('JSON_CONTAINS(leader, ?)', [auth()->id()]);
+                $userReport = User::where('active','1')->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) auth()->id())]);
             }
             if(request('users_id') > 0){
                 $userReport = $userReport->where('id',request('users_id'));

@@ -209,7 +209,7 @@ class MainController extends Controller
       // get leader group
       $leaderId = auth()->id();
       // get leader , and sellers reltedt to that leader
-    //   $users = User::select('id','leader')->where('active','1')->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])->Orwhere('id',$leaderId)->get();
+    //   $users = User::select('id','leader')->where('active','1')->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])->Orwhere('id',$leaderId)->get();
     //   $usersIds = $users->pluck('id')->toArray();
     //   $contacts = Contact::with(['country','project','creator','user','status'])
     //                     ->select($this->selectedAttruibutes)->whereIn('user_id',$usersIds)->where(function ($q){
@@ -217,13 +217,15 @@ class MainController extends Controller
     //   })->orderBy('created_at','DESC');
     
     
-        $usersIds = User::select('id','leader')->where('active','1')
-        ->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])
-        ->Orwhere('id',$leaderId)
-        ->pluck('id');
+        $usersIds = User::select('id', 'leader')
+            ->where('active', '1')
+            ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
+            ->orWhere('id', $leaderId)
+            ->pluck('id');
+
       
         $salesAgentIds = User::select('id')->where('active','1')
-        ->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])
+        ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
         ->pluck('id');
 
         $contacts = Contact::with(['country','project','creator','user','status'])
@@ -240,7 +242,7 @@ class MainController extends Controller
       $contacts = $contacts->paginate(20);
 
       //Added by Javed
-      $createdBy = $createdBy->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId]);
+      $createdBy = $createdBy->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)]);
       //End
 
     }
@@ -250,7 +252,7 @@ elseif(userRole() == 'commercial leader'){
       // get leader group
       $leaderId = auth()->id();
       // get leader , and sellers reltedt to that leader
-    //   $users = User::select('id','leader')->where('active','1')->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])->Orwhere('id',$leaderId)->get();
+    //   $users = User::select('id','leader')->where('active','1')->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])->Orwhere('id',$leaderId)->get();
     //   $usersIds = $users->pluck('id')->toArray();
     //   $contacts = Contact::with(['country','project','creator','user','status'])
     //                     ->select($this->selectedAttruibutes)->whereIn('user_id',$usersIds)->where(function ($q){
@@ -259,12 +261,12 @@ elseif(userRole() == 'commercial leader'){
     
     
         $usersIds = User::select('id','leader')->where('active','1')
-        ->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])
+        ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
         ->Orwhere('id',$leaderId)
         ->pluck('id');
       
         $salesAgentIds = User::select('id')->where('active','1')
-        ->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])
+        ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
         ->pluck('id');
 
         $contacts = Contact::with(['country','project','creator','user','status'])
@@ -281,7 +283,7 @@ elseif(userRole() == 'commercial leader'){
       $contacts = $contacts->paginate(20);
 
       //Added by Javed
-      $createdBy = $createdBy->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId]);
+      $createdBy = $createdBy->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)]);
       //End
 
     } else if(userRole() == 'sales admin' || userRole() == 'assistant sales director' || userRole() == 'assistant sales director') { // sales admin
@@ -363,7 +365,7 @@ elseif(userRole() == 'commercial leader'){
       $contactsCount = $contacts->count();
       $contacts = $contacts->paginate(20);
     }
-    
+
     $sellers= getSellers(); // Added by Lokesh on 15-11-2022
 
     $status=Cache::remember('status', $cacheTime, function () {
@@ -666,7 +668,7 @@ elseif(userRole() == 'commercial leader'){
         $uri = Request()->fullUrl();
         session()->put('start_filter_url',$uri);
         $leaderId=request('leader');
-        $users = User::select('id','leader')->where('active','1')->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])->Orwhere('id',$leaderId)->get();
+        $users = User::select('id','leader')->where('active','1')->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])->Orwhere('id',$leaderId)->get();
         $usersIds = $users->pluck('id')->toArray();
         $q->whereIn('user_id',$usersIds);
       }

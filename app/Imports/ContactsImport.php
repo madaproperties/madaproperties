@@ -133,7 +133,7 @@ class ContactsImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
             
             if($leader)
             {
-                $leaderUsers = User::whereRaw('JSON_CONTAINS(leader, ?)', [$leader])
+                $leaderUsers = User::whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leader)])
                 ->OrWhere('id', $leader)->get()->pluck('id')->toArray();
               
                 
@@ -205,7 +205,7 @@ class ContactsImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
           if($contact['user_id'] != auth()->id() AND userRole() != 'admin') 
           {
             $checkAssigned = User::where('id',$contact['user_id'])
-            ->whereRaw('JSON_CONTAINS(leader, ?)', [auth()->id()])->first();
+            ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) auth()->id())])->first();
             
                 
                     if(!$checkAssigned AND $auth_user->rule == 'leader')
