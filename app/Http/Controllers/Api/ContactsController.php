@@ -65,7 +65,7 @@ class ContactsController extends Controller
           'last_mile'           => "nullable",
           'message'           => "nullable",
           'created_by'           => "nullable",
-          'lead_category'           => "nullable",
+		  'lead_category'           => "nullable",
         ];
         
       
@@ -107,13 +107,14 @@ class ContactsController extends Controller
        
         $contact = $request->only(array_keys($this->rules));
   
-
+		//Added on 29-12-2024
         $mallStandCreatedBy = 0;
         if(!empty($contact['created_by'])){
           $mallStandCreatedBy = $contact['created_by'];
         }
-      
-
+		//End
+  
+            
         if(isset($contact['country_fromat']))
         {
             $contact['country']  =  code_to_country( $contact['country'] );
@@ -134,15 +135,14 @@ class ContactsController extends Controller
             
             if($leader)
             {
-                $leaderUsers = User::whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leader)])
-                ->OrWhere('id', $leader)->get()->pluck('id')->toArray();
+                $leaderUsers = User::where('leader',$leader)->OrWhere('id', $leader)->get()->pluck('id')->toArray();
               
                 
-                $countryCode = Country::where('name_en',$contact['country'])->first();
-                $countryCode = $countryCode ? $countryCode->id : null;
+         $countryCode = Country::where('name_en',$contact['country'])->first();
+        $countryCode = $countryCode ? $countryCode->id : null;
        
         
-             if(userRole() == 'sales admin' || userRole() == 'assistant sales director')
+             if(userRole() == 'sales admin')
              {
               
                 $checkcontact = Contact::where('phone',$contact['phone']) 
@@ -241,13 +241,12 @@ class ContactsController extends Controller
             {
                
               $checkAssigned = User::where('id',$contact['user_id'])
-                                    ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $auth_user_id)])
-                                    ->first();
+                                    ->where('leader',$auth_user_id)->first();
     
-              if(!$checkAssigned AND $auth_user->rule == 'leader')
-              {
-                $this->addErorr(__('site.you are not leader for user numbers').' ['. $contact['user_id'].']');
-              }
+                    if(!$checkAssigned AND $auth_user->rule == 'leader')
+                    {
+                     $this->addErorr(__('site.you are not leader for user numbers').' ['. $contact['user_id'].']');
+                    }
 
             }
             
@@ -319,25 +318,27 @@ class ContactsController extends Controller
             }
             //End
           
-            if(isset($contact['user_id']) && $contact['user_id'] == '28'){
-              $contact['created_by'] = '32'; // lead-admin-ksa@madaproperties.com
-            }else if(isset($contact['user_id']) && $contact['user_id'] == '68'){
-              $contact['created_by'] = '33'; // lead-admin-uae@madaproperties.com
-            }
+			if(isset($contact['user_id']) && $contact['user_id'] == '28'){
+			  $contact['created_by'] = '32'; // lead-admin-ksa@madaproperties.com
+			}else if(isset($contact['user_id']) && $contact['user_id'] == '68'){
+			  $contact['created_by'] = '33'; // lead-admin-uae@madaproperties.com
+			}
 
             // if there is assigned to will be the smae value - atherwise will be the uploder
             if(!empty($contact['assignedto'])){
-              $contact['user_id'] = $contact['assignedto'];
+                $contact['user_id'] = $contact['assignedto'];
             }
+            unset($contact['assignedto']); // remove asssigned to => replaced with user_id
 
-            // if there is created_by to will be the smae value
+			// if there is created_by to will be the smae value on 29-12-2024
             if($mallStandCreatedBy){
               $contact['created_by'] = $mallStandCreatedBy;
             }
           
-            unset($contact['assignedto']); // remove asssigned to => replaced with user_id
 
-         	  $contact = Contact::create($contact);
+			
+			
+			$contact = Contact::create($contact);
 
             $action = __('site.contact created');
             $this->newActivity($contact->id,auth('api')->id(),$action,'Contact',$contact->id,null,true);

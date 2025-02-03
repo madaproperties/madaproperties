@@ -98,23 +98,20 @@ class DatabaseRecordsController extends Controller
           }
         }
         // 
-        elseif(userRole() == 'leader'){
+         elseif(userRole() == 'leader'){
 
           $leaderId = auth()->id();
      
       
-          $users = User::select('id','leader')->where('active','1')
-          ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
-          ->Orwhere('id',$leaderId)
-          ->get();
-            $usersIds = $users->pluck('id')->toArray();
+      $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
+        $usersIds = $users->pluck('id')->toArray();
 
-          
-          $data = DatabaseRecords::whereIn('user_id',$usersIds)->where(function ($q){
-                $this->filterPrams($q);
-              })->orderBy('created_at','DESC');
-          $data_count = $data->count(); 
-          $data = $data->paginate(20);
+      
+      $data = DatabaseRecords::whereIn('user_id',$usersIds)->where(function ($q){
+            $this->filterPrams($q);
+          })->orderBy('created_at','DESC');
+      $data_count = $data->count(); 
+      $data = $data->paginate(20);
 
 
           
@@ -134,33 +131,13 @@ class DatabaseRecordsController extends Controller
       // get leader group
       $leaderId = auth()->id();
       // get leader , and sellers reltedt to that leader
-      $users = User::select('id','leader')->where('active','1')
-      ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
-      ->Orwhere('id',$leaderId)->get();
+      $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
       $usersIds = $users->pluck('id')->toArray();
       $data = DatabaseRecords::whereIn('user_id',$usersIds)->where(function ($q){
       $this->filterPrams($q);
       })->orderBy('created_at','DESC');
       $data_count = $data->count();
       $data = $data->paginate(20);
-
-    }elseif(userRole() == 'assistant sales director'){
-      $subUserId[]=auth()->id();
-      $leadersArray = json_decode(auth()->user()->leader, true); // Decode JSON into an array
-      
-      $query = User::select('id')->where('active', '1');
-      $query->where(function ($q) use ($leadersArray) {
-        foreach ($leadersArray as $leader) {
-          $q->orWhereRaw('JSON_CONTAINS(leader, ?)', [json_encode($leader)]);
-        }
-      });
-      $subUserId = array_merge($subUserId, $query->pluck('id')->toArray());
-
-      $data = DatabaseRecords::whereIn('user_id',$subUserId)->where(function ($q){
-      $this->filterPrams($q);
-      })->orderBy('created_at','DESC');
-      $data_count = $data->count();
-      $data = $data->paginate(20);      
 
     }else if(userRole() == 'sales admin') { // sales admin
       $user_data=User::where('id',auth()->id())->first();

@@ -63,7 +63,7 @@ class PropertyAvailabilityController extends Controller
       // get leader , and sellers reltedt to that leader
       $users = User::select('id','leader')
       ->where('active','1')
-      ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
+      ->where('leader',$leaderId)
       ->Orwhere('id',$leaderId)
       ->get();
       $usersIds = $users->pluck('id')->toArray();
@@ -71,11 +71,10 @@ class PropertyAvailabilityController extends Controller
         $this->filterPrams($q);
       })->whereIn('user_id',$usersIds);
 
-    }else if(userRole() == 'sales admin' || userRole() == 'assistant sales director' || userRole() == 'sales' || userRole() == 'assistant sales director') { // sales admin     
+    }else if(userRole() == 'sales admin' || userRole() == 'sales') { // sales admin     
       $subUserId[]=auth()->id();
       if(isset(auth()->user()->leader)){
-        $subUserId = User::select('id')->where('active','1')
-        ->whereRaw('JSON_CONTAINS(leader, ?)', [auth()->user()->leader]);
+        $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
         $subUserId = $subUserId->pluck('id')->toArray();
       }
       $property = Property::where(function ($q){
@@ -188,7 +187,7 @@ class PropertyAvailabilityController extends Controller
       $uri = Request()->fullUrl();
       session()->put('start_filter_url',$uri);
       $leaderId=request('leader');
-      $users = User::select('id','leader')->where('active','1')->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])->Orwhere('id',$leaderId)->get();
+      $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
       $usersIds = $users->pluck('id')->toArray();
       $q->whereIn('user_id',$usersIds);
     }

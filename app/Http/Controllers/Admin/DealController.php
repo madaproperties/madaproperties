@@ -122,16 +122,18 @@ class DealController extends Controller
     if(!checkLeader()){
       $sellers = User::where('time_zone','Asia/Riyadh')->where(function($q){
         $q->whereIn('rule',['sales','leader','sales director']);
-      })->where('active','1')->get();
+      })
+    ->where('active','1')->get();
     }elseif(!checkLeaderUae()){
       //updated by fazal on 24-01-24
       $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
         $q->whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader']);
-      })->where('active','1')->orderBy('email')->get();
+      })
+    ->where('active','1')->orderBy('email')->get();
     }else{
        //updated by fazal on 24-01-24
       $sellers = User::whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader'])
-      ->where('active','1')->orderBy('email')->get();
+    ->where('active','1')->orderBy('email')->get();
     }
 
     if(!checkLeader()){
@@ -153,29 +155,37 @@ class DealController extends Controller
       $developer = DealDeveloper::get();
     }
     // 
-    if(userRole() == 'sales admin' || userRole() == 'assistant sales director' || userRole()=='sales director' || userRole()=='sales'|| userRole()=='sales admin saudi' || userRole()=='sales admin uae' ){
+    if(userRole() == 'sales admin' || userRole()=='sales director' || userRole()=='sales'|| userRole()=='sales admin saudi' || userRole()=='sales admin uae' ){
     // dd('hit'); //Added by Javed
       $user=User::where('id',auth()->id())->first();
-      if($user->time_zone=='Asia/Riyadh'){
-        $projects = DealProject::where('country_id','1')->orderBy('project_name','ASC')->get();  
-          //added by fazal on 30-04-24
-          $salesDirectors = User::where(function($q){
-          $q->whereIn('rule',['sales director']);
-        })->where('active','1')->where('time_zone','Asia/Riyadh')->orderBy('email')->get();
-      } else {
-        $projects = DealProject::where('country_id','2')->orderBy('project_name','ASC')->get(); 
-        //added by fazal on 30-04-24
-        $salesDirectors = User::where(function($q){
-          $q->whereIn('rule',['sales director']);
-        })->where('active','1')->where('time_zone','Asia/Dubai')->orderBy('email')->get();
-      }
-    } else {
-      $projects = DealProject::orderBy('project_name','ASC')->get();
+      if($user->time_zone=='Asia/Riyadh')
+      {
+      $projects = DealProject::where('country_id','1')->orderBy('project_name','ASC')->get();  
       //added by fazal on 30-04-24
-      $salesDirectors = User::where(function($q){
+       $salesDirectors = User::where(function($q){
         $q->whereIn('rule',['sales director']);
-      })->where('active','1')->orderBy('email')->get();
+      })
+      ->where('active','1')->where('time_zone','Asia/Riyadh')->orderBy('email')->get();
+      }
+      else
+      {
+       $projects = DealProject::where('country_id','2')->orderBy('project_name','ASC')->get(); 
+       //added by fazal on 30-04-24
+       $salesDirectors = User::where(function($q){
+        $q->whereIn('rule',['sales director']);
+      })
+      ->where('active','1')->where('time_zone','Asia/Dubai')->orderBy('email')->get();
+      }
     }
+      else
+      {
+        $projects = DealProject::orderBy('project_name','ASC')->get();
+        //added by fazal on 30-04-24
+       $salesDirectors = User::where(function($q){
+        $q->whereIn('rule',['sales director']);
+      })
+      ->where('active','1')->orderBy('email')->get();
+      }
     // $projects = DealProject::get();
     $miles = LastMileConversion::where('active','1')
     ->orderBy('name_'. app()->getLocale())
@@ -251,12 +261,13 @@ class DealController extends Controller
     return view('admin.deals.index',compact('fields','projects','miles','deals','deals_count','countries','purpose','purposetype','campaigns','contents','sources','mediums','sellers','leaders','developer','salesDirectors'));
   }
 
-  public function create()
-  {
+  public function create(){
+	  
+	  
 
     $currencyName = app()->getLocale() == 'en' ? 'currency' : 'currency_ar';
 
-      $projects = Project::where('name_en','others')
+    $projects = Project::where('name_en','others')
                           ->get();
 
 
@@ -325,11 +336,6 @@ class DealController extends Controller
         $q->whereIn('rule',['sales director']);
       })
       ->where('active','1')->orderBy('email')->get();
-      
-      $assistantSalesDirectors = User::where('time_zone','Asia/Riyadh')->where(function($q){
-        $q->whereIn('rule',['assistant sales director']);
-      })
-      ->where('active','1')->orderBy('email')->get();
 
     }elseif(!checkLeaderUae()){
         $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
@@ -342,11 +348,6 @@ class DealController extends Controller
       })
       ->where('active','1')->orderBy('email')->get();
 
-      $assistantSalesDirectors = User::where('time_zone','Asia/Dubai')->where(function($q){
-        $q->whereIn('rule',['assistant sales director']);
-      })
-      ->where('active','1')->orderBy('email')->get();
-
     }else{
       //updated by fazal on 24-01-24
         $sellers = User::whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader'])
@@ -354,11 +355,6 @@ class DealController extends Controller
 
       $salesDirectors = User::where(function($q){
         $q->whereIn('rule',['sales director']);
-      })
-      ->where('active','1')->orderBy('email')->get();
-
-      $assistantSalesDirectors = User::where(function($q){
-        $q->whereIn('rule',['assistant sales director']);
       })
       ->where('active','1')->orderBy('email')->get();
 
@@ -388,7 +384,7 @@ class DealController extends Controller
 
 
       return view('admin.deals.create',
-      compact('salesDirectors','assistantSalesDirectors','projects','miles','countries','currencies','purpose','purposetype','campaigns','contents','sources','mediums','sellers','leaders','developer'));
+      compact('salesDirectors','projects','miles','countries','currencies','purpose','purposetype','campaigns','contents','sources','mediums','sellers','leaders','developer'));
   }
 
   /**
@@ -482,29 +478,21 @@ class DealController extends Controller
         "mada_commission_4" =>"nullable",
         "mada_commission_5" =>"nullable",
         "mada_commission_6" =>"nullable",  
-        "assistant_sales_director_id" => "nullable",
-        "assistant_sales_director_commission_percent" => "nullable",
-        "assistant_sales_director_commission_amount" => "nullable",
-        "assistant_sales_director_commission_received" =>"nullable",
-        "assistant_sales_director_2_id" => "nullable",
-        "assistant_sales_director_2_commission_percent" => "nullable",
-        "assistant_sales_director_2_commission_amount" => "nullable",
-        "assistant_sales_director_2_commission_received" =>"nullable",     
+     
       ]);
 
 
+	// Check if a deal with the same project_id and unit_name exists
+	$existingDeal = Deal::where('project_id', $data['project_id'])
+		->where('unit_name', $data['unit_name'])
+		->where('status', '!=', 'Cancelled')
+		->first();
 
-      // Check if a deal with the same project_id and unit_name exists
-      $existingDeal = Deal::where('project_id', $data['project_id'])
-        ->where('unit_name', $data['unit_name'])
-        ->where('status', '!=', 'Cancelled')
-        ->first();
+	if ($existingDeal) {
+		return redirect()->back()->with('error', 'A deal with the same project and unit name already exists.');
+	}
 
-      if ($existingDeal) {
-        return redirect()->back()->with('error', 'A deal with the same project and unit name already exists.')->withInput();
-      }
-
-      $data['created_at'] = Carbon::now();
+	$data['created_at'] = Carbon::now();
 
       addHistory('Deal',0,'added',$data);   
 
@@ -638,33 +626,26 @@ class DealController extends Controller
       "listing_director_commission_percent" => "nullable",
       "listing_director_commission_amount" => "nullable",
       "listing_director_commission_received" =>"nullable",
-      // added by fazal on 01-12-23
-      "mada_commission_1"  =>"nullable",  
-      "mada_commission_2" =>"nullable",
-      "mada_commission_3" =>"nullable",
-      "mada_commission_4" =>"nullable",
-      "mada_commission_5" =>"nullable",
-      "mada_commission_6" =>"nullable", 
-      "assistant_sales_director_id" => "nullable",
-      "assistant_sales_director_commission_percent" => "nullable",
-      "assistant_sales_director_commission_amount" => "nullable",
-      "assistant_sales_director_commission_received" =>"nullable",
-      "assistant_sales_director_2_id" => "nullable",
-      "assistant_sales_director_2_commission_percent" => "nullable",
-      "assistant_sales_director_2_commission_amount" => "nullable",
-      "assistant_sales_director_2_commission_received" =>"nullable",
+       // added by fazal on 01-12-23
+        "mada_commission_1"  =>"nullable",  
+        "mada_commission_2" =>"nullable",
+        "mada_commission_3" =>"nullable",
+        "mada_commission_4" =>"nullable",
+        "mada_commission_5" =>"nullable",
+        "mada_commission_6" =>"nullable", 
+
   ]);
 
-    // Check if another deal with the same project_id and unit_name exists, excluding the current record
-    // $existingDeal = Deal::where('project_id', $data['project_id'])
-    // ->where('unit_name', $data['unit_name'])
-    // ->where('id', '!=', $id) // Exclude the current record
-    // ->first();
+	// Check if another deal with the same project_id and unit_name exists, excluding the current record
+    //$existingDeal = Deal::where('project_id', $data['project_id'])
+    //->where('unit_name', $data['unit_name'])
+    //->where('id', '!=', $id) // Exclude the current record
+   // ->first();
 
-    // if ($existingDeal) {
-    //   return redirect()->back()->with('error', 'A deal with the same project and unit name already exists.')->withInput();
-    // }  
-
+    //if ($existingDeal) {
+     // return redirect()->back()->with('error', 'A deal with the same project and unit name already exists.');
+    //}  
+      
     $data['updated_at'] = Carbon::now();
 
     addHistory('Deal',$id,'updated',$data,$deal);
@@ -690,11 +671,11 @@ class DealController extends Controller
   public function show($deal)
   {
     $deal = Deal::findOrFail($deal);
-
-    if(userRole() == 'sales admin saudi' && $deal->status == 'Commission Released') {
+	
+	if(userRole() == 'sales admin saudi' && $deal->status == 'Commission Released') {
       return redirect(route('admin.deal.index'))->with('error', 'The deal status is Commission Released. You can no longer edit it.');
     }
-
+	
     $currencyName = app()->getLocale() == 'en' ? 'currency' : 'currency_ar';
     $projects = Project::where('name_en','others')
                           ->get();
@@ -752,11 +733,6 @@ class DealController extends Controller
     })
     ->where('active','1')->orderBy('email')->get();
 
-    $assistantSalesDirectors = User::where('time_zone','Asia/Riyadh')->where(function($q){
-      $q->whereIn('rule',['assistant sales director']);
-    })
-    ->where('active','1')->orderBy('email')->get();
-
   }elseif(!checkLeaderUae()){
       $sellers = User::where('time_zone','Asia/Dubai')->where(function($q){
         $q->whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader']);
@@ -768,23 +744,12 @@ class DealController extends Controller
     })
     ->where('active','1')->orderBy('email')->get();
 
-    $assistantSalesDirectors = User::where('time_zone','Asia/Dubai')->where(function($q){
-      $q->whereIn('rule',['assistant sales director']);
-    })
-    ->where('active','1')->orderBy('email')->get();
-
-
   }else{
       $sellers = User::whereIn('rule',['sales','leader','sales director','commercial leader','commercial sales','business developement sales','business developement leader'])
     ->where('active','1')->orderBy('email')->get();
 
     $salesDirectors = User::where(function($q){
       $q->whereIn('rule',['sales director']);
-    })
-    ->where('active','1')->orderBy('email')->get();
-
-    $assistantSalesDirectors = User::where(function($q){
-      $q->whereIn('rule',['assistant sales director']);
     })
     ->where('active','1')->orderBy('email')->get();
 
@@ -815,7 +780,7 @@ class DealController extends Controller
 
 
     return view('admin.deals.show',
-    compact('salesDirectors','assistantSalesDirectors','deal','projects','miles','countries','currencies','purpose','purposetype','sellers','leaders','developer','sources'));
+    compact('salesDirectors','deal','projects','miles','countries','currencies','purpose','purposetype','sellers','leaders','developer','sources'));
 
   }  
 
@@ -1217,7 +1182,7 @@ public function topAgentsSaudi()
 }
 
 public function topAgentsSaudiNew() {
-  $sellerOffPlan = DB::table('deals')
+    $sellerOffPlan = DB::table('deals')
   ->join('users','users.id','deals.agent_id')
   ->where('unit_country',1)
   // ->where('status','Approved')// updated by fazal on 18-10-24
@@ -1273,6 +1238,7 @@ public function topAgentsSaudiNew() {
   ->groupBy('leader_id')
   ->orderByDesc('total_sum')
   ->first();
+
 
   //dd($sellerOffPlan->count(), $managerOffPlan, $sellerSecondary->count(), $managerSecondary);
   return view('admin.deals.topagentsaudi_new',compact(

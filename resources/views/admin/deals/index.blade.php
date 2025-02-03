@@ -174,7 +174,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.deal.exportDataDeals'),$expo
 											@endif
 										@else
 											<a href="{{ route('admin.deal.show',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Edit details"><i class="fa fa-edit"></i></a>																						
-										@endif
+										@endif										
 									@endcan
 									@can('print-commission-report')
 										<a href="{{ route('admin.deal.print',$deal->id) }}" class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2" title="Print commission report"><i class="fa fa-print"></i></a>																						

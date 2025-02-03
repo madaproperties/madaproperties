@@ -27,9 +27,9 @@ class MainController extends Controller
                                   'id','first_name','last_name',
                                   'phone','country_id','city_id',
                                   'status_id','created_at','updated_at',
-                                  'user_id','created_by','purpose_type','source','email'];
+                                  'user_id','created_by','purpose_type','source','email','lead_category'];
 
-  private $selectedAttruibutes2 = ['id','first_name','last_name','country_id','city_id','status_id','created_at','user_id','created_by'];
+  private $selectedAttruibutes2 = ['id','first_name','last_name','country_id','city_id','status_id','created_at','user_id','created_by','lead_category'];
 
     /**
      * Display a listing of the resource.
@@ -209,7 +209,7 @@ class MainController extends Controller
       // get leader group
       $leaderId = auth()->id();
       // get leader , and sellers reltedt to that leader
-    //   $users = User::select('id','leader')->where('active','1')->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])->Orwhere('id',$leaderId)->get();
+    //   $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
     //   $usersIds = $users->pluck('id')->toArray();
     //   $contacts = Contact::with(['country','project','creator','user','status'])
     //                     ->select($this->selectedAttruibutes)->whereIn('user_id',$usersIds)->where(function ($q){
@@ -217,15 +217,13 @@ class MainController extends Controller
     //   })->orderBy('created_at','DESC');
     
     
-        $usersIds = User::select('id', 'leader')
-            ->where('active', '1')
-            ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
-            ->orWhere('id', $leaderId)
-            ->pluck('id');
-
+        $usersIds = User::select('id','leader')->where('active','1')
+        ->where('leader',$leaderId)
+        ->Orwhere('id',$leaderId)
+        ->pluck('id');
       
         $salesAgentIds = User::select('id')->where('active','1')
-        ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
+        ->where('leader',$leaderId)
         ->pluck('id');
 
         $contacts = Contact::with(['country','project','creator','user','status'])
@@ -242,7 +240,7 @@ class MainController extends Controller
       $contacts = $contacts->paginate(20);
 
       //Added by Javed
-      $createdBy = $createdBy->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)]);
+      $createdBy = $createdBy->where('leader',$leaderId);
       //End
 
     }
@@ -252,7 +250,7 @@ elseif(userRole() == 'commercial leader'){
       // get leader group
       $leaderId = auth()->id();
       // get leader , and sellers reltedt to that leader
-    //   $users = User::select('id','leader')->where('active','1')->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])->Orwhere('id',$leaderId)->get();
+    //   $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
     //   $usersIds = $users->pluck('id')->toArray();
     //   $contacts = Contact::with(['country','project','creator','user','status'])
     //                     ->select($this->selectedAttruibutes)->whereIn('user_id',$usersIds)->where(function ($q){
@@ -261,12 +259,12 @@ elseif(userRole() == 'commercial leader'){
     
     
         $usersIds = User::select('id','leader')->where('active','1')
-        ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
+        ->where('leader',$leaderId)
         ->Orwhere('id',$leaderId)
         ->pluck('id');
       
         $salesAgentIds = User::select('id')->where('active','1')
-        ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
+        ->where('leader',$leaderId)
         ->pluck('id');
 
         $contacts = Contact::with(['country','project','creator','user','status'])
@@ -283,34 +281,32 @@ elseif(userRole() == 'commercial leader'){
       $contacts = $contacts->paginate(20);
 
       //Added by Javed
-      $createdBy = $createdBy->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)]);
+      $createdBy = $createdBy->where('leader',$leaderId);
       //End
 
-    } else if(userRole() == 'sales admin' || userRole() == 'assistant sales director') { // sales admin
+    }
+    // 
+
+
+    else if(userRole() == 'sales admin') { // sales admin
       
       $subUserId[]=auth()->id();
-
-      if (!request()->has('my-contacts') && isset(auth()->user()->leader)) {
-          $leadersArray = json_decode(auth()->user()->leader, true); // Decode JSON into an array
-          
-          if (is_array($leadersArray) && !empty($leadersArray)) { // Ensure leaders is a valid array
-              $query = User::select('id')->where('active', '1');
-              $query->where(function ($q) use ($leadersArray) {
-                foreach ($leadersArray as $leader) {
-                  $q->orWhereRaw('JSON_CONTAINS(leader, ?)', [json_encode($leader)]);
-                }
-              });
-              $subUserId = array_merge($subUserId, $query->pluck('id')->toArray());
-          }
+      if(!Request()->has('my-contacts')  AND (isset(auth()->user()->leader))){
+        $subUserId = User::select('id')->where('active','1')->where('leader',auth()->user()->leader);
+         $subUserId = $subUserId->pluck('id')->toArray();
       }
+      $contacts = Contact::with(['country','project','creator'])
+                        ->select($this->selectedAttruibutes)->where(function ($q){
+        $this->filterPrams($q);
+      })->whereIn('user_id',$subUserId)
+        ->orderBy('created_at','DESC');
+    // $contacts = Contact::with(['country','project','creator','user','status'])
+    //                     ->select($this->selectedAttruibutes)->where(function ($q){
+    //   $this->filterPrams($q);
+    //   })->Where('created_by',auth()->id())
+    //         ->orderBy('created_at','DESC');
+            
     
-        $contacts = Contact::with(['country', 'project', 'creator'])
-        ->select($this->selectedAttruibutes)
-        ->where(function ($q) {
-            $this->filterPrams($q);
-        })
-        ->whereIn('user_id', $subUserId) // Use the final array of user IDs
-        ->orderBy('created_at', 'DESC');
 
       $contactsCount = $contacts->count();
       $contacts = $contacts->paginate(20);
@@ -365,7 +361,7 @@ elseif(userRole() == 'commercial leader'){
       $contactsCount = $contacts->count();
       $contacts = $contacts->paginate(20);
     }
-
+    
     $sellers= getSellers(); // Added by Lokesh on 15-11-2022
 
     $status=Cache::remember('status', $cacheTime, function () {
@@ -408,7 +404,7 @@ elseif(userRole() == 'commercial leader'){
     //   $projects = Project::where('country_id','2')->orderBy('name_en','ASC')->get();
     // }
     // // 
-    // else if(userRole() == 'sales admin' || userRole() == 'assistant sales director' || userRole()=='sales director' || userRole()=='sales' || userRole()=='leader'){
+    // else if(userRole() == 'sales admin' || userRole()=='sales director' || userRole()=='sales' || userRole()=='leader'){
     // // dd('hit'); //Added by Javed
     //   $user=User::where('id',auth()->id())->first();
     //   if($user->time_zone=='Asia/Riyadh')
@@ -454,7 +450,7 @@ elseif(userRole() == 'commercial leader'){
       $campaignCountry = '2';
     }
     // 
-    else if(userRole() == 'sales admin' || userRole() == 'assistant sales director' || userRole()=='sales director' || userRole()=='sales' || userRole()=='leader' || userRole() == 'commercial leader' || userRole() == 'assistant sales director'){
+    else if(userRole() == 'sales admin' || userRole()=='sales director' || userRole()=='sales' || userRole()=='leader' || userRole() == 'commercial leader'){
     // dd('hit'); //Added by Javed
       $user=User::where('id',auth()->id())->first();
       if($user->time_zone=='Asia/Riyadh')
@@ -504,9 +500,10 @@ elseif(userRole() == 'commercial leader'){
 
     $createdBy=$createdBy->orderBy('email')->get();
 
-    $sources=Cache::remember('sources', $cacheTime, function (){
-      return Source::where('active','1')->get();
-    });
+    // $sources=Cache::remember('sources', $cacheTime, function (){
+    //   return Source::where('active','1')->get();
+    // });
+    $sources=Source::where('active','1')->get();
 
     $purposetype=Cache::remember('purposetype', $cacheTime, function (){
       return PurposeType::orderBy('type')->get();    
@@ -668,7 +665,7 @@ elseif(userRole() == 'commercial leader'){
         $uri = Request()->fullUrl();
         session()->put('start_filter_url',$uri);
         $leaderId=request('leader');
-        $users = User::select('id','leader')->where('active','1')->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])->Orwhere('id',$leaderId)->get();
+        $users = User::select('id','leader')->where('active','1')->where('leader',$leaderId)->Orwhere('id',$leaderId)->get();
         $usersIds = $users->pluck('id')->toArray();
         $q->whereIn('user_id',$usersIds);
       }

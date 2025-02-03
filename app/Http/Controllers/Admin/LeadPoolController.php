@@ -145,7 +145,7 @@ class LeadPoolController extends Controller
       $leaderId = auth()->id();
       // get leader , and sellers reltedt to that leader
       $users = User::select('id','leader')->where('active','1')
-      ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
+      ->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])
       ->Orwhere('id',$leaderId)->get();
       $usersIds = $users->pluck('id')->toArray();
       $contacts = Contact::with(['country','project','creator','user','status'])
@@ -156,7 +156,7 @@ class LeadPoolController extends Controller
       $contacts = $contacts->paginate(20);
 
       //Added by Javed
-      $createdBy = $createdBy->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)]);
+      $createdBy = $createdBy->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId]);
       //End
 
     }else if(userRole() == 'sales admin' || userRole() == 'assistant sales director') { // sales admin
@@ -648,7 +648,7 @@ class LeadPoolController extends Controller
         session()->put('start_filter_url',$uri);
         $leaderId=request('leader');
         $users = User::select('id','leader')->where('active','1')
-        ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
+        ->whereRaw('JSON_CONTAINS(leader, ?)', [$leaderId])
         ->Orwhere('id',$leaderId)->get();
         $usersIds = $users->pluck('id')->toArray();
         $q->whereIn('user_id',$usersIds);

@@ -205,7 +205,7 @@ td.center span {
         <main id="section-to-print">
 		<table width="800" cellpadding="0" cellspacing="0" border="0" align="center" style="background-color:#FFFFFF">
 			<tr>
-		<td height="30"> <span class="date">{{date("d/M/y", strtotime($date))}},{{ $time}} </span>
+		<td height="30"> <span class="date">{{date("d-m-y", strtotime($date))}},{{ $time}} </span>
 		</td></tr>
 				<tr>
 					<!--<td height="30"> <span class="date">{{ now()->format('Y-m-d') }}</span> </td>-->
@@ -247,7 +247,14 @@ td.center span {
 									
 										<tr class="bottom-line">
 											<td style="text-align:left">Floor No</td>
-											<td class="center" valign="top"><span>{{$project->floor_no}}</span></td>
+											<td class="center" valign="top"><span>
+												@if($project->floor_no == 0)
+												Ground Floor
+												@else
+												{{$project->floor_no}}
+												@endif
+												
+											</span></td>
 											<td style="text-align:right">رقم الدور</td>
 										</tr>
                                         <tr class="bottom-line">
@@ -298,8 +305,10 @@ td.center span {
     						</tr>
     						<tr>
     							<td>IBAN </td>
-    							@if(isset($project->project) && $project->project->name=='Judya')
+								@if(isset($project->project) && ($project->project->name == 'Judya' || $project->project->name == 'Royal Residence 2'))
+
     							<td style="width: 250px;">SA6410000026100000337206</td>
+							
     						    @else
     							<td style="width: 250px;">SA9060100033795022281001</td>
     							@endif
@@ -308,8 +317,8 @@ td.center span {
     						</tr>
     						<tr>
     							<td>Bank Name</td>
-    							@if(isset($project->project) && $project->project->name=='Judya')
-    						<td>Al Ahli Bank</td>
+    							@if(isset($project->project) && ($project->project->name == 'Judya' || $project->project->name == 'Royal Residence 2'))
+    						<td>Saudi National Bank (Alahli)</td>
     							@elseif(isset($project->project) && $project->project->name=='Royal Residence')
     						<td>AlJazira Bank</td>
     							@else
@@ -425,7 +434,7 @@ td.center span {
                 							
                 						</tr>	
                 						<tr>
-                						<td> +966 55 008 8601 | +966 11 4455199</td>
+                						<td> +966 9200 22442 | +966 55 008 8601</td>
                 						<td>+971 50 377 0780 | +971 424 34 692</td>
                 						</tr>
                 						<tr>
@@ -447,6 +456,7 @@ td.center span {
                 						</td>
                 						</tr>
                 					</table>
+									</br>
         					    </td>
         					</tr>
         				</td>

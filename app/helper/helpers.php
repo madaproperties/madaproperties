@@ -881,7 +881,7 @@ function getSellers() {
   if(userRole() == 'leader' || userRole() == 'commercial leader' || userRole() == 'business developement leader'){ 
     $id = auth()->id();
     $sellers = User::where(function($q) use($id){
-                      $q->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $id)]);
+                      $q->where('leader',$id);
                       $q->OrWhere('id',$id);
                     })->orderBy('email','asc')
                     ->where('active','1')->get();
@@ -931,19 +931,30 @@ function getSellers() {
       $sellers = User::where('active','1')->orderBy('email','asc')->get();
     }
 
-  }elseif(userRole() == 'sales admin' || userRole() == 'assistant sales director'){
+  }elseif(userRole() == 'sales admin'){
+      // $whereCountry = 'Asia/Riyadh';
+      // $leader = auth()->user()->leader;
+      // if($leader){
+      //   $sellers = User::where('active','1')
+      //   ->where('time_zone','like','%'.$whereCountry.'%')
+      //       ->where(function($q) use($leader){
+      //         $q->where('id','!=',auth()->id())
+      //          ->where('rule','sales')
+      //         ->orWhere('rule','sales admin saudi')
+      //         ->orWhere('id',$leader);
+      //       })->orderBy('email','asc')->get();
+      // }else{
+      //     $sellers = [];
+      // }
     //added by fazal on 19-01-24
-      $leader = auth()->user()->leader;
-      $id = auth()->id();
-      if($leader){
-        $leader = json_decode($leader, true);
-        $sellers = User::where(function($q) use($leader){
-              foreach ($leader as $item) {
-                $q->orWhereRaw('JSON_CONTAINS(leader, ?)', [json_encode($item)]);
-              }
-                $q->OrWhere('id',auth()->id());
-              })->orderBy('email','asc')
-              ->where('active','1')->get();
+    $leader = auth()->user()->leader;
+           $id = auth()->id();
+          if($leader){
+          $sellers = User::where(function($q) use($leader){
+                      $q->where('leader',$leader);
+                      $q->OrWhere('id',auth()->id());
+                    })->orderBy('email','asc')
+                    ->where('active','1')->get();
       }else{
           $sellers = [];
       }
@@ -992,7 +1003,7 @@ function getCommercialSellers() {
   if(userRole() == 'commercial leader'){
     $id = auth()->id();
     $sellers = User::where(function($q) use($id){
-                      $q->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $id)]);
+                      $q->where('leader',$id);
                       $q->OrWhere('id',$id);
                     })->orderBy('email','asc')
                     ->where('active','1')->get();
@@ -1030,27 +1041,23 @@ function getCommercialSellers() {
       })->where('active','1')->orderBy('email','asc')->get();
     }
 
-  }elseif(userRole() == 'sales admin' || userRole() == 'assistant sales director'){
+  }elseif(userRole() == 'sales admin'){
       $whereCountry = 'Asia/Riyadh';
       $leader = auth()->user()->leader;
       if($leader){
-        $leader = json_decode($leader, true);
         $sellers = User::where('active','1')
         ->where('time_zone','like','%'.$whereCountry.'%')
-        ->where(function($q) use($leader){
-          foreach ($leader as $item) {
-            $q->orWhereRaw('JSON_CONTAINS(leader, ?)', [json_encode($item)]);
-          }
-          $q->where('id','!=',auth()->id())
-          ->where('rule','commercial sales')
-          ->orWhere('rule','commercial leader')
-          ->orWhereIn('id',$leader);
-        })->orderBy('email','asc')->get();
+            ->where(function($q) use($leader){
+              $q->where('id','!=',auth()->id())
+              ->where('rule','commercial sales')
+              ->orWhere('rule','commercial leader')
+              ->orWhere('id',$leader);
+            })->orderBy('email','asc')->get();
       }else{
           $sellers = [];
       }
 
-      
+
   }elseif(userRole() == 'sales director'){
     $userloc=User::where('id',auth()->id())->first();
     if($userloc->time_zone=='Asia/Dubai'){
@@ -1079,7 +1086,7 @@ function getBusinessSellers() {
   if(userRole() == 'business developement leader'){
     $id = auth()->id();
     $sellers = User::where(function($q) use($id){
-                      $q->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $id)]);
+                      $q->where('leader',$id);
                       $q->OrWhere('id',$id);
                     })->orderBy('email','asc')
                     ->where('active','1')->get();
@@ -1117,22 +1124,18 @@ function getBusinessSellers() {
       })->where('active','1')->orderBy('email','asc')->get();
     }
 
-  }elseif(userRole() == 'sales admin' || userRole() == 'assistant sales director'){
+  }elseif(userRole() == 'sales admin'){
       $whereCountry = 'Asia/Riyadh';
       $leader = auth()->user()->leader;
       if($leader){
-        $leader = json_decode($leader, true);
         $sellers = User::where('active','1')
         ->where('time_zone','like','%'.$whereCountry.'%')
-        ->where(function($q) use($leader){
-            foreach ($leader as $item) {
-              $q->orWhereRaw('JSON_CONTAINS(leader, ?)', [json_encode($item)]);
-            }
-          $q->where('id','!=',auth()->id())
-          ->where('rule','business developement sales')
-          ->orWhere('rule','business developement leader')
-          ->orWhereIn('id',$leader);
-        })->orderBy('email','asc')->get();
+            ->where(function($q) use($leader){
+              $q->where('id','!=',auth()->id())
+              ->where('rule','business developement sales')
+              ->orWhere('rule','business developement leader')
+              ->orWhere('id',$leader);
+            })->orderBy('email','asc')->get();
       }else{
           $sellers = [];
       }

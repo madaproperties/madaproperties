@@ -133,11 +133,11 @@ class ContactsImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
             
             if($leader)
             {
-                $leaderUsers = User::whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leader)])
+                $leaderUsers = User::where('leader',$leader)
                 ->OrWhere('id', $leader)->get()->pluck('id')->toArray();
               
                 
-             if(userRole() == 'sales admin' || userRole() == 'assistant sales director')
+             if(userRole() == 'sales admin')
              {
               
                 $checkcontact = Contact::where('phone',$contact['phone']) 
@@ -205,7 +205,7 @@ class ContactsImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
           if($contact['user_id'] != auth()->id() AND userRole() != 'admin') 
           {
             $checkAssigned = User::where('id',$contact['user_id'])
-            ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) auth()->id())])->first();
+                                ->where('leader',auth()->id())->first();
             
                 
                     if(!$checkAssigned AND $auth_user->rule == 'leader')
@@ -217,7 +217,7 @@ class ContactsImport implements ToCollection, WithHeadingRow,ShouldQueue,WithChu
           }
           
           
-          if(userRole() == 'sales admin' || userRole() == 'assistant sales director')
+          if(userRole() == 'sales admin')
         {   
             $user = User::where('id',$contact['user_id'])->first();
             $auth_user= auth()->id(); 

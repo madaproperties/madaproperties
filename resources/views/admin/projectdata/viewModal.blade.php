@@ -80,7 +80,12 @@
               <!--end-->
               <tr>
                 <td>Floor No</td>
+                <!-- added by fazal on 05-11-24 -->
+                @if($unit_name->floor_no==0)  
+                <td>Ground Floor</td>
+                @else
                 <td>{{$unit_name->floor_no}}</td>
+                @endif
               </tr>
               <tr>
                 <td>Area(BUA)</td>

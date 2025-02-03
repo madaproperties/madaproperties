@@ -250,6 +250,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 										<th>{{__('site.country')}} </th>
 										<th>{{__('site.project')}} </th>
 										<th>{{__('site.status')}}</th>
+										<th>{{__('site.type')}}</th>
 										<th>{{__('site.Created')}}</th>
 										<th>{{__('site.Last Updated')}}</th>
 										@if(userRole() != 'seller')
@@ -283,6 +284,7 @@ $exportUrl = str_replace($exportUrl[0],route('admin.contact.exportDataContact'),
 											<td>{{$contact->country ? $contact->country->name : ''}}</td>
 											<td>{{$contact->project ? $contact->project->name : ''}}</td>
 											<td>{{$contact->status?$contact->status->name : ''}}</td>
+											<td>{{$contact->lead_category}}</td>
 											<td>
 			    {{ timeZone($contact->created_at) }}
 			</td>

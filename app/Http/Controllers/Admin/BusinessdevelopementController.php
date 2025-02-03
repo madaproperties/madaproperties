@@ -59,7 +59,7 @@ class BusinessdevelopementController extends Controller
       $leaderId = auth()->id();
       // get leader , and sellers reltedt to that leader
       $usersIds = User::select('id','leader')->where('active','1')
-      ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)])
+      ->where('leader',$leaderId)
       ->orWhere('id',$leaderId)
       ->pluck('id');
 

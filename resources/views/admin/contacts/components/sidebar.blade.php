@@ -297,6 +297,13 @@
   </div>
   <hr />
   @endif
+   @if($contact->lead_category)
+  <div class="d-flex align-items-center justify-content-between mb-2">
+    <span class="font-weight-bold mr-2">{{ __('site.lead_category')}}:</span>
+    <span class="text-muted">{{ $contact->lead_category }}</span>
+  </div>
+  <hr />
+  @endif
   <!--
   @if(isset($contact->investmentcountry_id))
   <div class="d-flex align-items-center justify-content-between mb-2">

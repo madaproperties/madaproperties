@@ -209,16 +209,30 @@ return [
     'Q4' => 'Q4',
   ],
   'activity_name' => [
-    'Food & Privilege' => 'Food & Privilege',
-    'Travel and Hospitality' => 'Travel and Hospitality',
-    'Luxury Brands' => 'Luxury Brands',
-    'Beverage Brands' => 'Beverage Brands',
-    'Logistics' => 'Logistics',
+    'Restaurants' => 'مطاعم',
+    'Clothes ' => 'ملابس ',
+    'Perfumes' => 'عطور',
+    'Discounted Goods' => 'سلع مخفضة',
+    'Beauty & Dental Clinic' => 'عيادة تجميل وأسنان',
+    'Hospital' => 'مستشفى',
+    'Hotel ' => 'فندق',
+    'Cars' => 'سيارات',
+    'Candies' => 'حلويات',
+    'Coffee' => 'قهوة ',
+    'Fitness' => 'لياقة بدنية',
+    'Pharmacy' => 'صيدلية',
+    'Shoes' => 'أحذية',
+    'Bags' => 'حقائب',
+    'Bank' => 'بنك',
+    'Nuts' => 'مكسرات',
+    'Beauty Saloon' => 'صالون تجميل',
+    'Lounge' => 'صالة',
+
   ],
   'requirement_status' => [
-    'pending' => 'pending',
-    'discussed' => 'discussed',
-    'closed' => 'closed'
+    'pending' => 'قيد الانتظار',
+    'discussed' => 'تم مناقشته',
+    'closed' => 'مغلق'
   ],
   'target_size_from' => [
     '0' => '0',

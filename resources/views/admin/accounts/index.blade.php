@@ -89,13 +89,13 @@
 											<table class="table table-separate table-head-custom table-checkable table-striped" id="kt_advance_table_widget_1">
 												<thead>
 													<tr class="text-left">
-														<th style="">{{__('site.ID')}}</th>
-														<th style="">{{__('site.email')}}</th>
-														<th style="">{{__('site.time_zone')}}</th>
-														<th style="">{{__('site.status')}}</th>
-														<th style="">{{__('site.Rule')}}</th>
-														<th style="">{{__('site.last login')}}</th>
-														<th class="pr-0 " style="">{{__('site.action')}}</th>
+				<th style="">{{__('site.ID')}}</th>
+				<th style="">{{__('site.email')}}</th>
+				<th style="">{{__('site.time_zone')}}</th>
+				<th style="">{{__('site.status')}}</th>
+				<th style="">{{__('site.Rule')}}</th>
+				<th style="">{{__('site.last login')}}</th>
+				<th class="pr-0 " style="">{{__('site.action')}}</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -306,17 +306,8 @@
 
 											<div class="form-group select-leader" style="display:none">
 												<label>{{__('Leader')}}:</label>
-												<select name="leader" class="form-control form-control-lg form-control-solid mb-2 leadersOne">
+												<select name="leader" class="form-control form-control-lg form-control-solid mb-2 ">
 													<option value="" class="selcted-default-leader" selected>{{__('site.select leader')}}</option>
-													@foreach($leaders as $leader)
-														<option value="{{$leader->id}}">{{$leader->name}}</option>
-													@endforeach
-												</select>
-											</div>
-
-											<div class="form-group leadersArray" style="display:none">
-												<label>{{__('Leader')}}:</label>
-												<select name="leaders[]" class="form-control form-control-lg form-control-solid mb-2 " multiple>
 													@foreach($leaders as $leader)
 														<option value="{{$leader->id}}">{{$leader->name}}</option>
 													@endforeach
@@ -350,17 +341,12 @@
 				{
 					let el = $('#'+id);
 					let val = el.val();
-					if(val == 'assistant sales director' || val == 'sales admin') {
+					if(val == 'sales' || val == 'sales admin' || val == 'commercial sales' || val == 'business developement sales')
+					{
+						el.parent('.form-group').next('.form-group').css('display','block');
+					}else{
 						el.parent('.form-group').next('.form-group').css('display','none');
-						$('.leadersArray').css('display','block');
-					} else {
-						$('.leadersArray').css('display','none');
-						if(val == 'sales' || val == 'commercial sales' || val == 'business developement sales') {
-							el.parent('.form-group').next('.form-group').css('display','block');
-						} else {
-							el.parent('.form-group').next('.form-group').css('display','none');
-							el.find('.selcted-default-leader').attr('selected');
-						}
+						el.find('.selcted-default-leader').attr('selected');
 					}
 				}
 

@@ -86,8 +86,7 @@ class CalendarController extends Controller
 
           }else{
             $usersIds = User::select('id','rule','leader')
-                          ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) auth()->id())])
-                          ->get();
+                          ->where('leader',auth()->id())->get();
                           
             $usersIds = $usersIds->pluck('id');
             $usersIds->push(auth()->id());
@@ -107,8 +106,7 @@ class CalendarController extends Controller
         if(userRole() == 'commercial leader' || userRole() == 'commercial sales'){
           if(userRole() == 'commercial leader'){
             $usersIds = User::select('id','rule','leader')
-            ->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) auth()->id())])
-            ->get();
+            ->where('leader',auth()->id())->get();
             
             $usersIds = $usersIds->pluck('id');
             $usersIds->push(auth()->id());
