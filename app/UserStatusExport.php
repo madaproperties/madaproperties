@@ -42,6 +42,18 @@ class UserStatusExport implements FromQuery, WithHeadings, ShouldAutoSize, WithM
                 }
             }else if(userRole() == 'leader'){
                 $userReport = User::where('active','1')->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) auth()->id())]);
+            }else if(userRole() == 'sales admin' || userRole() == 'assistant sales director'){
+                $leaderData = auth()->user()->leader;
+                $id = auth()->id();
+                if($leaderData){
+                    $leaderData = json_decode($leaderData, true);
+                    $userReport = User::where(function($q) use($leaderData){
+                        foreach ($leaderData as $item) {
+                            $q->orWhereRaw('JSON_CONTAINS(leader, ?)', [json_encode($item)]);
+                        }
+                        $q->orWhere('id',auth()->id());
+                        })->where('active','1');
+                }
             }
             if(request('users_id') > 0){
                 $userReport = $userReport->where('id',request('users_id'));

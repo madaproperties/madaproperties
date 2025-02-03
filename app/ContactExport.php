@@ -155,7 +155,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
                 $query = User::select('id')->where('active', '1');
                 $query->where(function ($q) use ($leadersArray) {
                   foreach ($leadersArray as $leader) {
-                      $q->orWhereRaw('JSON_CONTAINS(leader, ?)', [$leader]);
+                    $q->orWhereRaw('JSON_CONTAINS(leader, ?)', [json_encode($leader)]);
                   }
                 });
                 $subUserId = array_merge($subUserId, $query->pluck('id')->toArray());
@@ -207,11 +207,18 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
         $project = $contact->project ? $contact->project->name : '';
         $city = $contact->city ? $contact->city->name : '';
         $status = $contact->status ? $contact->status->name : '';
+
+        $leaderName = 'N/A';
+        if(isset($contact->user->leader)){
+          $leaderName = explode('@',$contact->user->leader->name)[0];
+        }
         if(userRole() != 'seller'){
 
           $assigned_to = $contact->user ? explode('@',$contact->user->name)[0] : '';
           $created_by = $contact->creator ? explode('@',$contact->creator->name)[0] : '';
+          
           return [
+              $contact->id,
               str_replace(" ","N/A",str_replace("="," ",$contact->fullname)),
               $phone,
               $country,
@@ -223,10 +230,12 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
               $created_by,
               $contact->purpose_type,
               $contact->source,
-              $contact->email
+              $contact->email,
+              $leaderName
             ];
         }else{
           return [
+            $contact->id,
             str_replace(" ","N/A",str_replace("="," ",$contact->fullname)),
             $phone,
             $country,
@@ -235,6 +244,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
             $contact->purpose_type,
             $contact->source,
             $contact->email,
+            $leaderName,
             timeZone($contact->created_at),
             timeZone($contact->updated_at)
           ];
@@ -246,6 +256,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
     {
       if(userRole() != 'seller'){
         return array_map('ucfirst',[
+          __('site.id'),
           __('site.Name'),
           __('site.Phone'),
           __('site.country'),
@@ -258,9 +269,11 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
           __('site.purpose type'),
           __('site.source'),
           __('site.email'),
+          __('site.Leader'),
         ]);
       }else{
         return array_map('ucfirst',[
+          __('site.id'),
           __('site.Name'),
           __('site.Phone'),
           __('site.country'),
@@ -269,6 +282,7 @@ class ContactExport implements FromQuery, WithHeadings, ShouldAutoSize, WithMapp
           __('site.purpose type'),
           __('site.source'),
           __('site.email'),
+          __('site.Leader'),
           __('site.Created'),
           __('site.Last Updated')
         ]);

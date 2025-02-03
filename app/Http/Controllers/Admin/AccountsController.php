@@ -178,7 +178,7 @@ class AccountsController extends Controller
         $user->assignRole($data['rule']);
         $user->update([
           'position_types' => $request->position_types,
-          'leader' => ($data['rule'] != 'assistant sales director' ? $request->leader : $request->leaders)
+          'leader' => json_encode($data['rule'] != 'assistant sales director' ? [$request->leader] : $request->leaders)
         ]);
         try {
             //Mail::to($data['email'])->send(new SetPassword($data));
@@ -229,14 +229,15 @@ class AccountsController extends Controller
         }
         
         // set Leader To Null if rule not salles
-    
-        if($data['rule'] == 'sales' || $data['rule'] == 'assistant sales director' || $data['rule'] == 'sales admin' || $data['rule'] == 'commercial sales' || $data['rule'] == 'business developement sales')
+        
+        if($data['rule'] == 'sales' || $data['rule'] == 'sales admin' || $data['rule'] == 'commercial sales' || $data['rule'] == 'business developement sales')
         {
-            $data['leader']  = $request->leader;
-            $data['leader']  = $request->leaders;
+            $data['leader']  = json_encode([$request->leader]);
+        } elseif($data['rule'] == 'assistant sales director') {
+            $data['leader']  = json_encode($request->leaders);
         }else{
-            $data['leader']  = '0';
-         }
+            $data['leader']  = json_encode(['0']);
+        }
         if($request->file('user_pic')) {
             if($request->file('user_pic')) {
                 $file = Storage::disk('s3')->putFile('uploads/users', $request->file('user_pic'));
@@ -244,7 +245,6 @@ class AccountsController extends Controller
                 $data['user_pic'] = $path;
             }
         }
-
 
         addHistory('User',$id,'updated',$data,$user);
        

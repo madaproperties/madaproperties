@@ -1225,6 +1225,7 @@ public function topAgentsSaudiNew() {
   ->where('users.department', 'Primary')
   ->whereMonth('deals.deal_date', date('m'))
   ->whereYear('deals.deal_date', date('Y'))
+  ->whereNull('deals.deleted_at') // Check if deleted_at is NULL
   ->select(DB::raw('SUM(price) as total_sum, agent_id'),'users.name','users.user_pic','users.email')
   ->groupBy('agent_id')
   ->orderByDesc('total_sum')
@@ -1239,6 +1240,7 @@ public function topAgentsSaudiNew() {
   ->where('users.department', 'Primary')
   ->whereMonth('deals.deal_date', date('m'))
   ->whereYear('deals.deal_date', date('Y'))
+  ->whereNull('deals.deleted_at') // Check if deleted_at is NULL
   ->select(DB::raw('SUM(price) as total_sum, leader_id'),'users.name','users.user_pic','users.email')
   ->groupBy('leader_id')
   ->orderByDesc('total_sum')
@@ -1252,6 +1254,7 @@ public function topAgentsSaudiNew() {
   ->where('users.department', 'Secondary')
   ->whereMonth('deals.deal_date', date('m'))
   ->whereYear('deals.deal_date', date('Y'))
+  ->whereNull('deals.deleted_at') // Check if deleted_at is NULL
   ->select(DB::raw('SUM(price) as total_sum, agent_id'),'users.name','users.user_pic','users.email')
   ->groupBy('agent_id')
   ->orderByDesc('total_sum')
@@ -1265,6 +1268,7 @@ public function topAgentsSaudiNew() {
   ->whereMonth('deals.deal_date', date('m'))
   ->whereYear('deals.deal_date', date('Y'))
   ->where('users.department', 'Secondary')
+  ->whereNull('deals.deleted_at') // Check if deleted_at is NULL
   ->select(DB::raw('SUM(price) as total_sum, leader_id'),'users.name','users.user_pic','users.email')
   ->groupBy('leader_id')
   ->orderByDesc('total_sum')

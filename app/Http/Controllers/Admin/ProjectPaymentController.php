@@ -162,11 +162,16 @@ class ProjectPaymentController extends Controller
           }
       }*/
       
+      $amount = env('INVOICE_AMOUNT');
+
+      if(isset($unit_name->commission) && $unit_name->commission > 0){
+        $amount = $unit_name->commission;
+      }
       //Fill POST fields array
       $postFields = [
           //Fill required data
           'paymentMethodId' => $paymentMethodId,
-          'InvoiceValue'    => env('INVOICE_AMOUNT'),
+          'InvoiceValue'    => $amount,
           'CallBackUrl'     => route('projectPayment.success'),
           'ErrorUrl'        => route('projectPayment.error'), //or 'https://example.com/error.php'    
           //Fill optional data

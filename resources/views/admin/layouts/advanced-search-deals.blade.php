@@ -349,6 +349,7 @@
           <option {{ Request('status') == 'Pending' ? 'selected':  '' }} value="Pending">{{__('site.pending')}}</option>
           <option {{ Request('status') == 'Cancelled' ? 'selected':  '' }} value="Cancelled">Cancelled</option>
           <option {{ Request('status') == 'Commission Released' ? 'selected':  '' }} value="Commission Released">Commission Released</option>
+          <option {{ Request('status') == 'Under Signed' ? 'selected':  '' }} value="Under Signed">Under Signed</option>
       </select>
     </div>
     <!--  -->

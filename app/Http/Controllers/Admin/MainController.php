@@ -286,7 +286,7 @@ elseif(userRole() == 'commercial leader'){
       $createdBy = $createdBy->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $leaderId)]);
       //End
 
-    } else if(userRole() == 'sales admin' || userRole() == 'assistant sales director' || userRole() == 'assistant sales director') { // sales admin
+    } else if(userRole() == 'sales admin' || userRole() == 'assistant sales director') { // sales admin
       
       $subUserId[]=auth()->id();
 
@@ -297,7 +297,7 @@ elseif(userRole() == 'commercial leader'){
               $query = User::select('id')->where('active', '1');
               $query->where(function ($q) use ($leadersArray) {
                 foreach ($leadersArray as $leader) {
-                    $q->orWhereRaw('JSON_CONTAINS(leader, ?)', [$leader]);
+                  $q->orWhereRaw('JSON_CONTAINS(leader, ?)', [json_encode($leader)]);
                 }
               });
               $subUserId = array_merge($subUserId, $query->pluck('id')->toArray());

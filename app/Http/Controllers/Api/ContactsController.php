@@ -64,6 +64,8 @@ class ContactsController extends Controller
           'privacy_policy'           => "nullable",
           'last_mile'           => "nullable",
           'message'           => "nullable",
+          'created_by'           => "nullable",
+          'lead_category'           => "nullable",
         ];
         
       
@@ -105,7 +107,13 @@ class ContactsController extends Controller
        
         $contact = $request->only(array_keys($this->rules));
   
-            
+
+        $mallStandCreatedBy = 0;
+        if(!empty($contact['created_by'])){
+          $mallStandCreatedBy = $contact['created_by'];
+        }
+      
+
         if(isset($contact['country_fromat']))
         {
             $contact['country']  =  code_to_country( $contact['country'] );
@@ -311,19 +319,25 @@ class ContactsController extends Controller
             }
             //End
           
-			if(isset($contact['user_id']) && $contact['user_id'] == '28'){
-			  $contact['created_by'] = '32'; // lead-admin-ksa@madaproperties.com
-			}else if(isset($contact['user_id']) && $contact['user_id'] == '68'){
-			  $contact['created_by'] = '33'; // lead-admin-uae@madaproperties.com
-			}
+            if(isset($contact['user_id']) && $contact['user_id'] == '28'){
+              $contact['created_by'] = '32'; // lead-admin-ksa@madaproperties.com
+            }else if(isset($contact['user_id']) && $contact['user_id'] == '68'){
+              $contact['created_by'] = '33'; // lead-admin-uae@madaproperties.com
+            }
 
             // if there is assigned to will be the smae value - atherwise will be the uploder
             if(!empty($contact['assignedto'])){
-                $contact['user_id'] = $contact['assignedto'];
+              $contact['user_id'] = $contact['assignedto'];
             }
+
+            // if there is created_by to will be the smae value
+            if($mallStandCreatedBy){
+              $contact['created_by'] = $mallStandCreatedBy;
+            }
+          
             unset($contact['assignedto']); // remove asssigned to => replaced with user_id
 
-    	 $contact = Contact::create($contact);
+         	  $contact = Contact::create($contact);
 
             $action = __('site.contact created');
             $this->newActivity($contact->id,auth('api')->id(),$action,'Contact',$contact->id,null,true);

@@ -199,15 +199,17 @@ class ProjectDataController extends Controller
   public function brochure($id)
   {
       
-    $project = ProjectData::join('projects','projects_data.project_id','projects.id')
+    $project = ProjectData::join('projects_name','projects_data.project_id','projects_name.id')
                             ->where('projects_data.id',$id)
-                            ->first();
-                           
-                      
-       $date=Carbon::now("Asia/Riyadh");
-       $time=Carbon::now("Asia/Riyadh")->format('g:i A');
-       //dd($property->images[0]->images_link);
-      return view('admin.projectdata.brochure',compact('project','date','time'));
+                            ->first();                           
+    if(!$project) {
+      return redirect(route('admin.'))->withErrors('Project data not found.');
+    }	                                 
+                            
+    $date=Carbon::now("Asia/Riyadh");
+    $time=Carbon::now("Asia/Riyadh")->format('g:i A');
+    //dd($property->images[0]->images_link);
+    return view('admin.projectdata.brochure',compact('project','date','time'));
 
   }
 

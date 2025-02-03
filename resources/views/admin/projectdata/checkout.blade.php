@@ -308,6 +308,13 @@ div#units{padding:30px;}
 																			<div class="fv-plugins-message-container"></div>
 																		</div>
 																	</div>
+																	<div class="form-group row fv-plugins-icon-container">
+																		<label class="col-xl-4 col-lg-4">{{__('site.commission')}}</label>
+																		<div class="col-lg-8 col-xl-8">
+																			{{ $unit->commission}}
+																			<div class="fv-plugins-message-container"></div>
+																		</div>
+																	</div>
 																		<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-4 col-lg-4">{{__('site.bedroom')}}</label>
 																		<div class="col-lg-8 col-xl-8">
@@ -331,7 +338,7 @@ div#units{padding:30px;}
 																	<!--begin::Group-->
 																	<div class="form-group row fv-plugins-icon-container payment_heading">
 																	    <h3 class="w-100">Payment</h3>
-																	<p>In order to book accommodation, you need to </br><span class="green">deposit SAR 10,000 (Non Refundable)</span> of the total booking payment.</p>
+																	<p>In order to book accommodation, you need to </br><span class="green">deposit SAR {{ $unit->commission }} (Non Refundable)</span> of the total booking payment.</p>
 																	</div>
 																	<div class="form-group row fv-plugins-icon-container">
 																		<label class="col-xl-3 col-lg-4 col-form-label">{{__('site.CustomerName')}}</label>

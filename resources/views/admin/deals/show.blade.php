@@ -1087,6 +1087,7 @@ input[type=radio],input[type=checkbox] {
 																				<option {{$deal->status == 'Pending' ? 'selected' : ''}} value="Pending" >Pending</option>
                                                                                 <option {{$deal->status == 'Cancelled' ? 'selected' : ''}} value="Cancelled" >Cancelled</option>
                                                                                 <option {{$deal->status == 'Commission Released' ? 'selected' : ''}} value="Commission Released" >Commission Released</option>
+                                                                                <option {{$deal->status == 'Under Signed' ? 'selected' : ''}} value="Under Signed" >Under Signed</option>
 																			</select>
 																		</div>
 																		</div>

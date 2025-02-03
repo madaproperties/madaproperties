@@ -165,7 +165,7 @@ class ReportController extends Controller
 
 			foreach($leaders as $lead){
 				$leaderTeam = User::select('id','rule','leader')
-							->whereRaw('JSON_CONTAINS(leader, ?)', [$lead->id])
+							->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) $lead->id)])
 							->orWhere('id',$lead->id)->get();
 			
 
@@ -302,14 +302,14 @@ class ReportController extends Controller
 					/// if he is leader get his sellars and get him with them too
 					$userReport = User::where('active','1')
 					->whereRaw('JSON_CONTAINS(leader, ?)', [json_encode((string) auth()->id())]);
-				}else if(userRole() == 'assistant sales director'){
+				}else if(userRole() == 'sales admin' || userRole() == 'assistant sales director'){
 					$leaderData = auth()->user()->leader;
 					$id = auth()->id();
 					if($leaderData){
 						$leaderData = json_decode($leaderData, true);
 						$userReport = User::where(function($q) use($leaderData){
 							foreach ($leaderData as $item) {
-								$q->orWhereRaw('JSON_CONTAINS(leader, ?)', [$item]);
+								$q->orWhereRaw('JSON_CONTAINS(leader, ?)', [json_encode($item)]);
 							}
 							$q->orWhere('id',auth()->id());
 							})->where('active','1');
@@ -333,8 +333,7 @@ class ReportController extends Controller
 		}
 
 		// 07-04-2021
-		if(userRole()=='sales director')
-		{
+		if(userRole()=='sales director') {
 
 			$userdetail=User::where('id',auth()->id())->first();
 			if($userdetail->time_zone=='Asia/Riyadh'){
@@ -346,8 +345,23 @@ class ReportController extends Controller
 				$whereCountry = 'Asia/Dubai';
 				$users = $users->where('time_zone','like','%'.$whereCountry.'%');
 			}
-		}
-		else{
+		}else if(userRole() == 'sales admin' || userRole() == 'assistant sales director'){
+			//added by fazal on 19-01-24
+			$leaderData = auth()->user()->leader;
+			$id = auth()->id();
+			if($leaderData){
+				$leaderData = json_decode($leaderData, true);
+				$users = User::where(function($q) use($leaderData){
+					foreach ($leaderData as $item) {
+						$q->orWhereRaw('JSON_CONTAINS(leader, ?)', [json_encode($item)]);
+					}
+					$q->OrWhere('id',auth()->id());
+				})
+				->orderBy('email','asc')
+				->where('active','1');
+			}
+		
+		}else{
 			$users = User::where('active','1')->whereIn('rule',['sales','sales admin','leader']);
 		}
 		
@@ -368,7 +382,7 @@ class ReportController extends Controller
 				$leaderData = json_decode($leaderData, true);
 				$users = User::where(function($q) use($leaderData){
 					foreach ($leaderData as $item) {
-						$q->orWhereRaw('JSON_CONTAINS(leader, ?)', [$item]);
+						$q->orWhereRaw('JSON_CONTAINS(leader, ?)', [json_encode($item)]);
 					}
 				$q->orWhere('id',auth()->id());
 				})->where('active','1');
@@ -568,7 +582,7 @@ class ReportController extends Controller
 				$leader = json_decode($leader, true);
 				$users = User::where(function($q) use($leader){
 					foreach ($leader as $item) {
-						$q->orWhereRaw('JSON_CONTAINS(leader, ?)', [$item]);
+						$q->orWhereRaw('JSON_CONTAINS(leader, ?)', [json_encode($item)]);
 					}
 					$q->orWhere('id',auth()->id());
 					})->orderBy('email','asc')
@@ -628,7 +642,7 @@ class ReportController extends Controller
 					$leader = json_decode($leader, true);
 					$users = User::where(function($q) use($leader){
 						foreach ($leader as $item) {
-							$q->orWhereRaw('JSON_CONTAINS(leader, ?)', [$item]);
+							$q->orWhereRaw('JSON_CONTAINS(leader, ?)', [json_encode($item)]);
 						}
 						$q->orWhere('id',auth()->id());
 						})->orderBy('email','asc')

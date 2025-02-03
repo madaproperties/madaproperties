@@ -1,3 +1,6 @@
+@php
+$userRole = $user->roles->pluck('name','name')->first();
+@endphp
 <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
@@ -140,7 +143,8 @@
 											</select>
 										</div>
 										
-										<div class="form-group select-leader leadersOne" style="display:{{ $user->roles->pluck('name','name')->first() != 'assistant sales director' ? 'block' : 'none' }}">
+										@if($userRole == 'sales admin' || $userRole == 'assistant sales director' || $userRole == 'sales' || $userRole == 'commercial sales')
+										<div class="form-group select-leader leadersOne" style="display:{{ ($userRole == 'sales admin' || $userRole == 'sales' || $userRole == 'commercial sales') ? 'block' : 'none' }}">
 											<label>{{__('site.Leader')}}:</label>
 											<select name="leader" class="form-control form-control-lg form-control-solid mb-2">
 												@foreach($leaders as $leader)
@@ -158,7 +162,7 @@
 										<br>
 										</div>
 
-										<div class="form-group select-leader leadersArray" style="display:{{ $user->roles->pluck('name','name')->first() == 'assistant sales director' ? 'block' : 'none' }}">
+										<div class="form-group select-leader leadersArray" style="display:{{ $userRole == 'assistant sales director' ? 'block' : 'none' }}">
 											<label>{{__('site.Leader')}}:</label>
 											<select name="leaders[]" class="form-control form-control-lg form-control-solid mb-2 " multiple>
 												@foreach($leaders as $leader)
@@ -175,6 +179,7 @@
 											</select>
 										<br>
 										</div>
+										@endif
 										<div class="separator separator-dashed my-5"></div>
 										
 										<div class="form-group">

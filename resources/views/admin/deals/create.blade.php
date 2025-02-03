@@ -1083,6 +1083,7 @@ input[type=radio],input[type=checkbox] {
 																			    <option value="Pending">{{__('site.pending')}}</option>
                                                                                 <option value="Cancelled">{{__('site.cancelled')}}</option>
                                                                                 <option value="Commission Released">Commission Released</option>
+                                                                                <option value="Under Signed">Under Signed</option>
 																			</select>
 																		</div>
 																		</div>
