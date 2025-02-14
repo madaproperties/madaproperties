@@ -673,10 +673,10 @@ elseif(userRole() == 'commercial leader'){
      if(Request()->has('challenge_lead') && request('challenge_lead')){
         $uri = Request()->fullUrl();
         session()->put('start_filter_url',$uri);
-        return $q->whereIn('status_id', ['1','4','7'])
+        $q->whereIn('status_id', ['1','4','7'])
                   ->whereDate('updated_at', '<=', Carbon::now()->subMonths(1));
       }
-      return $q->get();
+      return $q;
     }
 
     if(Request()->has('search') AND Request()->has('my-contacts')  AND Request()->has('filter_status')){
@@ -694,7 +694,7 @@ elseif(userRole() == 'commercial leader'){
                 ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
                 ->OrWhere('source','LIKE','%'. Request('search') .'%')
                 ->OrWhere('medium','LIKE','%'. Request('search') .'%');
-          })->get();
+          });
     }
 
     if(Request()->has('filter_status') AND Request()->has('search')){
@@ -711,17 +711,17 @@ elseif(userRole() == 'commercial leader'){
             ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
             ->OrWhere('source','LIKE','%'. Request('search') .'%')
             ->OrWhere('medium','LIKE','%'. Request('search') .'%');
-      })->get();
+      });
     }
 
     if(Request()->has('campaign')){
       $uri = Request()->fullUrl();
       session()->put('start_filter_url',$uri);
       if(!request('status')){
-        return $q->where('campaign', request('campaign'))->get();
+        return $q->where('campaign', request('campaign'));
       }
       return $q->where('status_id', request('status'))
-              ->where('campaign', request('campaign'))->get();
+              ->where('campaign', request('campaign'));
     }
 
 
@@ -739,7 +739,7 @@ elseif(userRole() == 'commercial leader'){
               ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
               ->OrWhere('source','LIKE','%'. Request('search') .'%')
               ->OrWhere('medium','LIKE','%'. Request('search') .'%');
-        })->get();
+        });
     }
 
 
@@ -765,10 +765,10 @@ elseif(userRole() == 'commercial leader'){
       session()->put('start_filter_url',$uri);
       $notAssignedLevel = User::select('id','rule')
                               ->where('rule','admin')
-                              ->OrWhere('rule','sales admin')->get();
+                              ->OrWhere('rule','sales admin');
 
       return $q->where('user_id',null)
-              ->orWhereIn('user_id',$notAssignedLevel->pluck('id')->toArray())->get();
+              ->orWhereIn('user_id',$notAssignedLevel->pluck('id')->toArray());
     }
 
 
@@ -787,7 +787,7 @@ elseif(userRole() == 'commercial leader'){
 
       if($campaing)
       {
-          return $q->where('campaign',$campaing->name)->get();
+          return $q->where('campaign',$campaing->name);
       }
     }
 
@@ -802,8 +802,7 @@ elseif(userRole() == 'commercial leader'){
               ->OrWhere('scound_phone','LIKE','%'. Request('search') .'%')
               ->OrWhere('campaign','LIKE','%'. Request('search') .'%')
               ->OrWhere('source','LIKE','%'. Request('search') .'%')
-              ->OrWhere('medium','LIKE','%'. Request('search') .'%')
-              ->get();
+              ->OrWhere('medium','LIKE','%'. Request('search') .'%');
     }
   }
 
